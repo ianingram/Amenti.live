@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital HD | Modular Command OS</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #010103; font-family: 'Inter', system-ui, sans-serif; color: white; transition: background 1s ease; }
+        
+        .glass { 
+            background: rgba(10, 12, 25, 0.96); 
+            backdrop-filter: blur(40px); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 1);
+            pointer-events: auto; 
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; cursor: grab; }
+        .ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; padding: 20px; box-sizing: border-box; }
+        
+        /* MODULAR STATION ARCHITECTURE */
+        #left-stack { position: fixed; top: 20px; left: 20px; width: 320px; display: flex; flex-direction: column; gap: 15px; z-index: 50; }
+        #station-alpha { width: 320px; }
+        #station-beta { position: fixed; top: 20px; left: 355px; width: 360px; z-index: 50; transition: box-shadow 0.8s ease; }
+        #earth-ref-hud { position: fixed; top: 20px; right: 20px; width: 140px; text-align: center; }
+
+        .panel-content { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
+        .panel-open .panel-content { max-height: 850px; padding-top: 12px; }
+
+        /* INTELLIGENCE HOVER CARD */
+        #beta-intel-card {
+            position: absolute; top: 50px; right: -160px; width: 150px;
+            padding: 10px; border-radius: 8px; font-family: monospace; font-size: 8px;
+            opacity: 0; transform: translateX(-10px); transition: all 0.3s ease;
+            border-left: 3px solid #FFB300; pointer-events: none;
+        }
+        #station-beta:hover #beta-intel-card { opacity: 1; transform: translateX(0); }
+
+        /* CALENDAR */
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-top: 5px; }
+        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 10px; background: rgba(255,255,255,0.04); border-radius: 2px; cursor: pointer; border: 1px solid transparent; position: relative; }
+        .cal-day.active { background: #3b82f6; border-color: #fff; font-weight: 900; }
+        .cal-day.range { background: rgba(59, 130, 246, 0.2); }
+        .lunar-icon { font-size: 8px; position: absolute; top: 1px; right: 1px; opacity: 0.6; }
+
+        /* CHRONOMETER STYLING */
+        .dial-ring { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 1.5; }
+        .dial-tick-minor { stroke: #FFB300; stroke-width: 0.8; opacity: 0.4; }
+        .dial-tick-major { stroke: rgba(255, 255, 255, 0.3); stroke-width: 2.5; }
+        .dial-text-12 { font-size: 12px; font-weight: 900; font-family: monospace; fill: #FFFFFF; pointer-events: none; opacity: 0.9; }
+        .dial-text-24 { font-size: 8px; font-weight: 700; font-family: monospace; fill: #3b82f6; pointer-events: none; opacity: 0.4; }
+        
+        .deg-text { font-size: 6.5px; font-family: monospace; fill: #fff; font-weight: 900; cursor: pointer; transition: 0.2s; filter: drop-shadow(0 0 4px #fff); opacity: 0.9; }
+        .deg-text:hover { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 10px #fff); }
+        
+        #photonic-trail { fill: none; stroke-linecap: round; filter: url(#lume-glow); transition: stroke 1s ease; }
+        #planet-glyph { font-size: 38px; font-weight: 900; fill: rgba(255,255,255,0.12); text-anchor: middle; dominant-baseline: middle; pointer-events: none; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); transition: fill 0.8s; }
+
+        /* MANIFEST & LIFT */
+        .manifest-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); padding: 5px 8px; border-radius: 4px; margin-bottom: 4px; font-size: 9px; border-left: 3px solid #3b82f6; }
+        .btn-abort { color: #ef4444; font-weight: 900; cursor: pointer; padding: 1px 5px; border-radius: 2px; background: rgba(239, 68, 68, 0.1); }
+        .lift-strip button { padding: 4px 10px; font-size: 9px; font-weight: 900; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; cursor: pointer; color: #888; transition: 0.2s; }
+        .lift-strip button:hover { background: #3b82f6; color: white; }
+
+        /* SIDEBARS */
+        #sidebar-group { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); transition: opacity 0.4s; opacity: 0; z-index: 20; }
+        .sidebar-active #sidebar-group { opacity: 1; }
+        #sidebar-trigger { position: fixed; top: 0; left: 0; width: 40px; height: 100%; z-index: 100; pointer-events: auto; }
+        .side-card { width: 180px; padding: 12px; font-size: 9px; border-left: 3px solid #3b82f6; margin-bottom: 10px; }
+
+        .glyph-btn { font-size: 1.2rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; transition: 0.3s; margin-bottom: 8px; border: 1px solid transparent; }
+        .glyph-btn.active { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); box-shadow: 0 0 20px currentColor; }
+
+        input, select { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 4px 8px; color: white; font-size: 10px; font-weight: 700; outline: none; width: 100%; }
+        .btn-launch { background: #3b82f6; color: white; font-weight: 900; padding: 6px 14px; border-radius: 4px; font-size: 10px; cursor: pointer; transition: 0.2s; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); }
+        
+        .mission-label { position: absolute; pointer-events: none; padding: 4px 10px; background: rgba(0,0,0,0.95); border-left: 3px solid #3b82f6; font-family: monospace; font-size: 10px; color: #fff; z-index: 5; border-radius: 0 6px 6px 0; }
+
+        .phase-btn { padding: 4px 12px; font-size: 9px; font-weight: 900; border-radius: 4px; cursor: pointer; transition: 0.3s; color: #666; background: rgba(255,255,255,0.03); border: 1px solid transparent; }
+        .phase-btn.active { color: white; background: #3b82f6; border-color: rgba(255,255,255,0.2); }
+        .phase-btn.pm.active { background: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <div id="labels-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5;"></div>
+    <div id="sidebar-trigger" onmouseenter="document.body.classList.add('sidebar-active')" onmouseleave="document.body.classList.remove('sidebar-active')"></div>
+
+    <!-- STATION ALPHA: DEPLOYMENT CALENDAR -->
+    <div id="left-stack">
+        <div id="station-alpha" class="glass p-3 rounded-xl">
+            <div onclick="togglePanel('station-alpha')" class="flex justify-between items-center cursor-pointer">
+                <div class="flex flex-col">
+                    <h2 class="text-[10px] font-black tracking-widest text-white uppercase">Station Alpha</h2>
+                    <p class="text-[7px] text-blue-400 font-bold uppercase">Deployment Calendar</p>
+                </div>
+                <span class="text-xs opacity-30">&phi;</span>
+            </div>
+            <div class="panel-content">
+                <div class="flex justify-between items-center px-1 mb-2 border-b border-white/10 pb-2">
+                    <button onclick="shiftMonth(-1)" class="text-[10px] text-gray-500 hover:text-white">&lt;</button>
+                    <span id="cal-month-label" class="text-[9px] font-black text-white uppercase">JULY 2026</span>
+                    <button onclick="shiftMonth(1)" class="text-[10px] text-gray-500 hover:text-white">&gt;</button>
+                </div>
+                <div class="cal-grid" id="calendar-body"></div>
+                
+                <div class="mt-3 bg-white/5 p-3 rounded-lg border border-white/5">
+                    <span class="text-[7px] text-blue-300 font-black uppercase block mb-2">Injection Parameters</span>
+                    <input type="text" id="mission-id-input" placeholder="MISSION IDENTIFIER" class="mb-2">
+                    <div class="flex gap-2">
+                        <select id="mission-dur-input">
+                            <option value="900">15 MIN</option>
+                            <option value="3600" selected>1 HOUR</option>
+                            <option value="14400">4 HOURS</option>
+                            <option value="86400">24 HOURS</option>
+                        </select>
+                        <button onclick="commitMission()" class="btn-launch">Commit</button>
+                    </div>
+                    <div id="date-range-readout" class="text-[7px] text-gray-500 font-mono mt-2 italic">Range: Standby</div>
+                </div>
+
+                <div class="mt-3 border-t border-white/10 pt-3">
+                    <span class="text-[7px] text-gray-400 font-black uppercase mb-2 block">Manifest</span>
+                    <div id="manifest-content" class="max-h-[100px] overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATION BETA: TACTICAL CHRONOMETER -->
+    <div id="station-beta" class="glass p-3 rounded-xl">
+        <!-- Intelligence Hover Card -->
+        <div id="beta-intel-card" class="glass">
+            <div class="text-blue-400 font-black mb-1">INTEL_ARRAY_B</div>
+            <div id="intel-phase" class="text-white">PHASE: AM</div>
+            <div id="intel-illum" class="text-white">LUNAR: 0%</div>
+            <div id="intel-zenith" class="text-white">ZENITH: 0.0°</div>
+        </div>
+
+        <div onclick="togglePanel('station-beta')" class="flex justify-between items-center cursor-pointer">
+            <div class="flex flex-col">
+                <h2 class="text-[10px] font-black tracking-widest text-white uppercase">Station Beta</h2>
+                <p class="text-[7px] text-blue-400 font-bold uppercase">Tactical Chronograph</p>
+            </div>
+            <div id="lunar-phase-text" class="text-[8px] font-black text-yellow-500 uppercase">PHASE: SYNC</div>
+        </div>
+        <div class="panel-content">
+            <div class="flex justify-between items-center mb-3 pb-2 border-b border-white/10">
+                <div class="flex gap-1.5">
+                    <div id="phase-am" class="phase-btn active" onclick="setPhase('am')">AM</div>
+                    <div id="phase-pm" class="phase-btn pm" onclick="setPhase('pm')">PM</div>
+                </div>
+                <select id="cardinal-snap" class="w-full text-[8px] h-6" onchange="snapToCardinal(this.value)">
+                    <option value="" id="orbital-period-label" disabled selected>ORBITAL PERIOD: SYNCING</option>
+                    <option value="0">0&deg; Prime</option>
+                    <option value="90">90&deg; Alpha</option>
+                    <option value="180">180&deg; Nadir</option>
+                    <option value="270">270&deg; Omega</option>
+                </select>
+            </div>
+
+            <div id="chrono-dial-container" class="relative">
+                <svg viewBox="0 0 200 200" id="clock-svg" class="w-[320px] h-[320px]">
+                    <defs>
+                        <radialGradient id="face-aura" cx="50%" cy="50%" r="50%">
+                            <stop id="aura-inner" offset="0%" stop-color="rgba(59, 130, 246, 0.25)" />
+                            <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
+                        </radialGradient>
+                        <linearGradient id="trail-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="rgba(255, 255, 255, 0.1)" />
+                            <stop id="trail-stop" offset="100%" stop-color="rgba(59, 130, 246, 1)" />
+                        </linearGradient>
+                        <filter id="lume-glow">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
+                            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- ATMOSPHERIC DIFFUSE GLOW -->
+                    <circle cx="100" cy="100" r="90" fill="url(#face-aura)" />
+                    
+                    <circle cx="100" cy="100" r="95" fill="none" stroke="rgba(255,255,255,0.03)" stroke-dasharray="2 4" />
+                    
+                    <!-- PLANETARY GLYPH BACKGROUND -->
+                    <text id="planet-glyph" x="100" y="100">♁</text>
+
+                    <g id="lunar-asset-group"><circle id="lunar-asset" cx="100" cy="5" r="4" fill="#fff" filter="drop-shadow(0 0 8px #fff)" /></g>
+                    
+                    <text x="100" y="24" text-anchor="middle" class="dial-text-24">00</text>
+                    <text x="176" y="103" text-anchor="middle" class="dial-text-24">06</text>
+                    <text x="100" y="182" text-anchor="middle" class="dial-text-24">12</text>
+                    <text x="24" y="103" text-anchor="middle" class="dial-text-24">18</text>
+
+                    <!-- BEZEL DEGREES: OFFSET OUTSIDE & SMALL -->
+                    <text x="100" y="14" text-anchor="middle" class="deg-text" onclick="snapToDegree(0)">0°</text>
+                    <text x="182" y="103" text-anchor="middle" class="deg-text" onclick="snapToDegree(90)">90°</text>
+                    <text x="100" y="192" text-anchor="middle" class="deg-text" onclick="snapToDegree(180)">180°</text>
+                    <text x="18" y="103" text-anchor="middle" class="deg-text" onclick="snapToDegree(270)">270°</text>
+                    
+                    <circle cx="100" cy="100" r="82" class="dial-ring" />
+                    <g id="dial-ticks"></g>
+                    
+                    <path id="photonic-trail" d="" stroke="url(#trail-gradient)" stroke-width="3" />
+
+                    <text x="100" y="44" text-anchor="middle" class="dial-text-12">12</text>
+                    <text x="156" y="105" text-anchor="middle" class="dial-text-12">3</text>
+                    <text x="100" y="166" text-anchor="middle" class="dial-text-12">6</text>
+                    <text x="44" y="105" text-anchor="middle" class="dial-text-12">9</text>
+                    
+                    <path id="dial-active-arc" d="" fill="none" stroke="#3b82f6" stroke-width="8" opacity="0.3" />
+                    <line id="start-hand" x1="100" y1="100" x2="100" y2="25" class="dial-hand" stroke="#3b82f6" stroke-width="5" onmousedown="dragHand(event, 'start')" />
+                    
+                    <line id="lpt-h-hand" x1="100" y1="100" x2="100" y2="55" stroke="#fff" stroke-width="5" stroke-linecap="round" />
+                    <line id="lpt-m-hand" x1="100" y1="100" x2="100" y2="35" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" />
+                    
+                    <line id="lpt-zenith" x1="100" y1="100" x2="100" y2="18" stroke="#FFB300" stroke-width="1.5" filter="url(#lume-glow)" />
+                    <circle cx="100" cy="100" r="8" fill="#111" stroke="#333" stroke-width="1.5" />
+                </svg>
+                <div id="dial-readout" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-14">
+                    <span id="readout-lpt" class="text-[13px] font-black font-mono text-white tracking-widest">00:00:00 L</span>
+                    <span id="readout-angular" class="text-[8px] text-blue-400 font-mono font-black mt-1">ROT 0.0°</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EARTH REFERENCE HUD -->
+    <div id="earth-ref-hud" class="glass p-3 rounded-xl border-blue-500/20">
+        <span class="text-[8px] font-black text-blue-500 uppercase tracking-widest mb-2 block">Earth OS</span>
+        <svg viewBox="0 0 100 100" width="60" height="60" style="margin:auto">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+            <line id="earth-h-hand" x1="50" y1="50" x2="50" y2="28" stroke="#fff" stroke-width="4" stroke-linecap="round" />
+            <line id="earth-m-hand" x1="50" y1="50" x2="50" y2="18" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" />
+            <circle cx="50" cy="50" r="3" fill="#fff" />
+        </svg>
+        <div id="earth-digital" class="text-[11px] font-black font-mono text-white mt-2">00:00:00</div>
+        <div id="earth-angular" class="text-[7px] text-gray-400 font-mono font-black">ROT 0.0°</div>
+        <div id="earth-lunar-phase" class="text-[7px] text-yellow-500 font-mono font-black uppercase mt-1">PHASE: SYNCING</div>
+    </div>
+
+    <!-- RAPID LIFT STRIP -->
+    <div style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); pointer-events:auto; z-index:50;">
+        <div class="glass p-3 px-10 rounded-full flex items-center gap-8 border-b-2 border-blue-500">
+            <span class="text-[8px] text-blue-400 font-black uppercase tracking-widest">Rapid Lift:</span>
+            <div class="lift-strip flex gap-2">
+                <button onclick="scrambleLaunch(60)">1m</button>
+                <button onclick="scrambleLaunch(3600)">1h</button>
+                <button onclick="scrambleLaunch(14400)">4h</button>
+                <button onclick="scrambleLaunch(43200)">12h</button>
+                <button onclick="scrambleLaunch(86400)">24h</button>
+            </div>
+            <div class="h-4 w-[1px] bg-white/20"></div>
+            <input type="checkbox" id="time-compression" class="w-4 h-4 cursor-pointer" checked>
+            <label class="text-[9px] text-gray-500 uppercase cursor-pointer font-bold">Sim Accelerated</label>
+        </div>
+    </div>
+
+    <!-- ANALYTICS SIDEBAR -->
+    <div id="sidebar-group">
+        <div class="glass side-card">
+            <h3 class="font-black text-blue-400 mb-2 uppercase tracking-widest">Dynamics</h3>
+            <table id="chrono-table-body"></table>
+        </div>
+        <div class="glass side-card border-orange-500/30">
+            <h3 class="font-black text-orange-400 mb-2 uppercase tracking-widest">Atmosphere</h3>
+            <div id="val-atmos" class="text-[10px] italic text-blue-200 font-black">Syncing...</div>
+        </div>
+    </div>
+
+    <div style="position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 50;" class="flex flex-col gap-2 interactive glass p-2 rounded-full border-white/20">
+        <div onclick="selectPlanet('sun')" class="glyph-btn text-yellow-400" title="Sun">☉</div>
+        <div onclick="selectPlanet('earth')" class="glyph-btn active text-blue-500" title="Earth">♁</div>
+        <div onclick="selectPlanet('mars')" class="glyph-btn text-red-500" title="Mars">♂</div>
+        <div onclick="selectPlanet('jupiter')" class="glyph-btn text-orange-400" title="Jupiter">♃</div>
+        <div onclick="selectPlanet('saturn')" class="glyph-btn text-yellow-600" title="Saturn">♄</div>
+        <div onclick="selectPlanet('neptune')" class="glyph-btn text-blue-600" title="Neptune">♆</div>
+    </div>
+
+    <script>
+        const PLANETS = {
+            sun: { name: 'Sun', color: 0xffdd44, rotHours: 609, orbDays: 0, glyph: '☉', atmos: 'H / He' },
+            earth: { name: 'Earth', color: 0x1a33cc, rotHours: 23.93, orbDays: 365.25, glyph: '♁', atmos: 'N2 / O2' },
+            mars: { name: 'Mars', color: 0xcc4422, rotHours: 24.62, orbDays: 687, glyph: '♂', atmos: 'CO2 / Ar' },
+            jupiter: { name: 'Jupiter', color: 0xd3a350, rotHours: 9.92, orbDays: 4333, glyph: '♃', atmos: 'H2 / He' },
+            saturn: { name: 'Saturn', color: 0xdfbc8d, rotHours: 10.65, orbDays: 10759, hasRings: true, glyph: '♄', atmos: 'H2 / He' },
+            neptune: { name: 'Neptune', color: 0x3d5ef9, rotHours: 16.11, orbDays: 60190, glyph: '♆', atmos: 'H2 / He / CH4' }
+        };
+
+        const epochCalibration = Date.now() / 1000;
+        let scene, camera, renderer, planetGroup, planetMesh, ringMesh, navGroup, currentKey = 'earth';
+        let simulationSeconds = epochCalibration; 
+        let orbitRadius = 15, theta = 0, phi = Math.PI/2.5, isMouseDown = false, lastMousePos = { x:0, y:0 };
+        
+        let allMissions = {}; Object.keys(PLANETS).forEach(k => allMissions[k] = []);
+        let activeRockets = [], activePads = [], activeSatellites = [];
+        let startDay = null, endDay = null, calMonth = new Date().getMonth(), calYear = new Date().getFullYear();
+        let currentPhase = 'am', startMinsScale = 0;
+
+        function init3D() {
+            scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 5000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight); document.getElementById('canvas-container').appendChild(renderer.domElement);
+            scene.add(new THREE.PointLight(0xffffff, 5.0, 2000).translateZ(-500), new THREE.AmbientLight(0x555566, 1.5));
+            planetGroup = new THREE.Group(); scene.add(planetGroup);
+            navGroup = new THREE.Group(); planetGroup.add(navGroup);
+            
+            const container = document.getElementById('canvas-container');
+            container.addEventListener('mousedown', (e) => { isMouseDown = true; lastMousePos = { x: e.clientX, y: e.clientY }; });
+            window.addEventListener('mouseup', () => isMouseDown = false);
+            window.addEventListener('mousemove', (e) => {
+                if (!isMouseDown) return;
+                theta -= (e.clientX - lastMousePos.x) * 0.005; phi = Math.max(0.1, Math.min(Math.PI - 0.1, phi - (e.clientY - lastMousePos.y) * 0.005));
+                lastMousePos = { x: e.clientX, y: e.clientY }; updateCam();
+            });
+            // ZOOM ENABLED
+            container.addEventListener('wheel', (e) => { e.preventDefault(); orbitRadius = Math.max(8, Math.min(30, orbitRadius + e.deltaY * 0.01)); updateCam(); }, { passive: false });
+
+            setupPlanet(PLANETS[currentKey]); updateCam(); initTicks(); renderCalendar(); updateDialUI();
+            document.getElementById('station-alpha').classList.add('panel-open');
+            document.getElementById('station-beta').classList.add('panel-open');
+        }
+
+        function setupPlanet(data) {
+            if(planetMesh) planetGroup.remove(planetMesh); 
+            if(ringMesh) planetGroup.remove(ringMesh);
+            navGroup.clear();
+
+            const hex = '#' + data.color.toString(16).padStart(6, '0');
+            
+            // Surgical UI Updates
+            document.getElementById('aura-inner').setAttribute('stop-color', hex + '55');
+            document.getElementById('trail-stop').setAttribute('stop-color', hex);
+            document.getElementById('planet-glyph').innerText = data.glyph;
+            document.getElementById('station-beta').style.boxShadow = `0 10px 40px rgba(0, 0, 0, 1), 0 0 50px ${hex}44`;
+
+            const c = document.createElement('canvas'); c.width=512; c.height=256; const ctx=c.getContext('2d'); ctx.fillStyle=hex; ctx.fillRect(0,0,512,256);
+            planetMesh = new THREE.Mesh(new THREE.SphereGeometry(3.5,64,64), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(c), roughness:0.4 }));
+            planetGroup.add(planetMesh);
+            
+            if(data.hasRings) {
+                const rg = new THREE.RingGeometry(4.8, 11, 128);
+                ringMesh = new THREE.Mesh(rg, new THREE.MeshStandardMaterial({ color: 0x998877, side: THREE.DoubleSide, transparent: true, opacity: 0.5 }));
+                ringMesh.rotation.x = Math.PI/2; planetGroup.add(ringMesh);
+            }
+
+            // 3D NAVIGATION ASSETS: DEPTH FIX
+            const ringGeom = new THREE.RingGeometry(4.3, 4.35, 128);
+            const ringMat = new THREE.MeshBasicMaterial({ color: data.color, side: THREE.DoubleSide, transparent: true, opacity: 0.4, depthTest: false });
+            const navRing = new THREE.Mesh(ringGeom, ringMat);
+            navRing.rotation.x = Math.PI/2; navRing.renderOrder = 100;
+            navGroup.add(navRing);
+
+            const phiSprite = createTextSprite('Φ', hex, 64);
+            phiSprite.position.set(0, 4.5, 0); phiSprite.scale.set(0.8, 0.8, 0.8); phiSprite.renderOrder = 101;
+            navGroup.add(phiSprite);
+
+            [0, 90, 180, 270].forEach(deg => {
+                const rad = (deg - 90) * (Math.PI/180);
+                const marker = createTextSprite(`${deg}°`, '#fff', 48);
+                marker.position.set(Math.cos(rad) * 4.8, 0, Math.sin(rad) * 4.8);
+                marker.scale.set(0.7, 0.35, 1); marker.renderOrder = 101;
+                navGroup.add(marker);
+            });
+
+            document.getElementById('val-atmos').innerText = data.atmos;
+            document.getElementById('orbital-period-label').innerText = `ORBITAL PERIOD: ${data.orbDays} DAYS`;
+            
+            const t = document.getElementById('chrono-table-body'); t.innerHTML='';
+            [90,180,270,360].forEach(d => {
+                const ax = (Math.abs(data.rotHours)*(d/360));
+                t.innerHTML += `<tr><td style="color:${hex}; font-weight:900">${d}°</td><td>${ax<1?(ax*60).toFixed(0)+'m':ax.toFixed(1)+'h'}</td><td>${(data.orbDays*(d/360)).toFixed(1)}d</td></tr>`;
+            });
+        }
+
+        function createTextSprite(text, color, size) {
+            const canvas = document.createElement('canvas'); canvas.width = 128; canvas.height = 128;
+            const ctx = canvas.getContext('2d'); ctx.font = `bold ${size}px Inter`; ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.fillText(text, 64, 80);
+            const texture = new THREE.CanvasTexture(canvas); const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false });
+            const s = new THREE.Sprite(material); return s;
+        }
+
+        function renderCalendar() {
+            const b = document.getElementById('calendar-body'); if (!b) return; b.innerHTML = '';
+            ['m','t','w','t','f','s','s'].forEach(d => b.innerHTML += `<div class="text-[6px] text-gray-600 text-center font-bold">${d.toUpperCase()}</div>`);
+            const offset = new Date(calYear, calMonth, 1).getDay();
+            const pad = offset === 0 ? 6 : offset - 1;
+            for(let i=0; i<pad; i++) b.innerHTML += `<div class="cal-day opacity-0"></div>`;
+            for(let d=1; d<=new Date(calYear, calMonth+1, 0).getDate(); d++) {
+                const cycle = 29.53; const days = (new Date(calYear, calMonth, d).getTime() - new Date(2024,0,11).getTime())/(86400000);
+                const p = (days%cycle)/cycle; let icon = '🌑';
+                if(p>0.03&&p<0.22)icon='🌒';else if(p<0.28)icon='🌓';else if(p<0.47)icon='🌔';else if(p<0.53)icon='🌕';else if(p<0.72)icon='🌖';else if(p<0.78)icon='🌗';else icon='🌘';
+                let cls = 'cal-day' + (d===startDay||d===endDay?' active':'') + (startDay&&endDay&&d>Math.min(startDay,endDay)&&d<Math.max(startDay,endDay)?' range':'');
+                b.innerHTML += `<div class="${cls}" onclick="selectDate(${d})"><span>${d}</span><span class="lunar-icon">${icon}</span></div>`;
+            }
+            document.getElementById('cal-month-label').innerText = `${["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"][calMonth]} ${calYear}`;
+        }
+
+        function selectDate(d) {
+            if(!startDay || (startDay && endDay && startDay !== endDay)) { startDay = d; endDay = d; }
+            else if(startDay === endDay && d !== startDay) { endDay = d; }
+            else { startDay = null; endDay = null; }
+            renderCalendar();
+            document.getElementById('date-range-readout').innerText = startDay ? `Locked: ${startDay} - ${endDay}` : "Range: Standby";
+        }
+
+        function setPhase(p) { 
+            currentPhase = p; 
+            document.getElementById('phase-am').classList.toggle('active', p === 'am');
+            document.getElementById('phase-pm').classList.toggle('active', p === 'pm');
+            updateDialUI(); 
+        }
+
+        function snapToDegree(deg) { if(deg>=180){setPhase('pm'); startMinsScale=((deg-180)/180)*720;} else {setPhase('am'); startMinsScale=(deg/180)*720;} updateDialUI(); }
+        function snapToCardinal(v) { snapToDegree(parseInt(v)); }
+
+        function updateDialUI() {
+            const ang = (startMinsScale/720)*Math.PI*2;
+            const h = document.getElementById('start-hand');
+            h.setAttribute('x2', 100+75*Math.sin(ang));
+            h.setAttribute('y2', 100-75*Math.cos(ang));
+            const off = currentPhase === 'am' ? 0 : 180;
+            document.getElementById('readout-angular').innerText = `ROT ${(startMinsScale/720*180 + off).toFixed(1)}°`;
+            document.getElementById('intel-phase').innerText = `PHASE: ${currentPhase.toUpperCase()}`;
+        }
+
+        function initTicks() {
+            const g = document.getElementById('dial-ticks');
+            for(let i=0; i<60; i++){
+                const isM = i%5===0; const ang = (i/60)*Math.PI*2;
+                g.innerHTML += `<line x1="${100+82*Math.sin(ang)}" y1="${100-82*Math.cos(ang)}" x2="${100+(isM?70:76)*Math.sin(ang)}" y2="${100-(isM?70:76)*Math.cos(ang)}" class="${isM?'dial-tick-major':'dial-tick-minor'}" />`;
+            }
+        }
+
+        function commitMission() {
+            const name = document.getElementById('mission-id-input').value || "M-" + Math.floor(Math.random()*1000);
+            const dur = parseInt(document.getElementById('mission-dur-input').value);
+            const ang = (startMinsScale/720)*180 + (currentPhase==='pm'?180:0);
+            const m = { id: Date.now(), name, durS: dur, startAngle: (ang/360)*Math.PI*2, launchT: simulationSeconds + 1.5, pk: currentKey };
+            allMissions[currentKey].push(m); activePads.push(new LaunchPad(m, currentKey)); updateManifest();
+        }
+
+        function scrambleLaunch(dur) { 
+            const name = "S-" + Math.floor(Math.random()*999);
+            const m = { id: Date.now(), name, durS: dur, startAngle: 0, launchT: simulationSeconds + 1, pk: currentKey };
+            allMissions[currentKey].push(m); activePads.push(new LaunchPad(m, currentKey)); updateManifest();
+        }
+
+        function abortMission(id) {
+            allMissions[currentKey] = allMissions[currentKey].filter(m => m.id !== id);
+            activePads = activePads.filter(p => { if(p.mission.id === id) p.destroy(); return p.mission.id !== id; });
+            activeSatellites = activeSatellites.filter(s => { if(s.mission.id === id) s.destroy(); return s.mission.id !== id; });
+            updateManifest();
+        }
+
+        function updateManifest() {
+            const c = document.getElementById('manifest-content'); c.innerHTML = '';
+            if(!allMissions[currentKey].length) { c.innerHTML = '<div class="text-[8px] text-gray-600 italic">Sector Neutral</div>'; return; }
+            allMissions[currentKey].forEach(m => {
+                c.innerHTML += `<div class="manifest-item"><span><b>${m.name}</b></span><span class="btn-abort" onclick="abortMission(${m.id})">X</span></div>`;
+            });
+        }
+
+        class LaunchPad { constructor(m,pk){this.mission=m;this.pk=pk;this.mesh=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.18,0.06,12),new THREE.MeshStandardMaterial({color:0x3b82f6,emissive:0x3b82f6}));this.mesh.position.set(Math.cos(m.startAngle)*3.5,0,Math.sin(m.startAngle)*3.5);planetGroup.add(this.mesh);this.label=document.createElement('div');this.label.className='mission-label';document.getElementById('labels-layer').appendChild(this.label);} update(){const rem=this.mission.launchT-simulationSeconds;if(this.pk===currentKey&&rem>0){this.label.innerHTML=`<b>${this.mission.name}</b> T-${Math.ceil(rem)}s`;const v=this.mesh.position.clone().project(camera);this.label.style.left=`${(v.x*0.5+0.5)*window.innerWidth}px`;this.label.style.top=`${(v.y*-0.5+0.5)*window.innerHeight}px`;this.label.style.display=v.z<1?'block':'none';}else this.label.style.display='none';} destroy(){planetGroup.remove(this.mesh);this.label.remove();}}
+        class Rocket { constructor(m,pk){this.mission=m;this.pk=pk;this.group=new THREE.Group();this.group.add(new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.06,0.25),new THREE.MeshStandardMaterial({color:0xffffff})));this.prog=0;planetGroup.add(this.group);} update(dt){this.prog+=dt*0.6;const alt=3.5+this.prog;this.group.position.set(Math.cos(this.mission.startAngle)*alt,0,Math.sin(this.mission.startAngle)*alt);if(this.prog>=1){this.destroy();activeSatellites.push(new Satellite(this.mission,this.pk));return false;}return true;} destroy(){planetGroup.remove(this.group);}}
+        class Satellite { constructor(m,pk){this.mission=m;this.pk=pk;this.g=new THREE.Group();this.g.add(new THREE.Mesh(new THREE.BoxGeometry(0.14,0.14,0.14),new THREE.MeshStandardMaterial({color:0x00f2ff,emissive:0x00f2ff})));planetGroup.add(this.g);this.label=document.createElement('div');this.label.className='mission-label';document.getElementById('labels-layer').appendChild(this.label);} update(gt){if(this.pk!==currentKey){this.label.style.display='none';return true;}const el=gt-this.mission.launchT;const x=Math.cos(this.mission.startAngle+(el*0.0005))*4.5,z=Math.sin(this.mission.startAngle+(el*0.0005))*4.5;this.g.position.set(x,0,z);const v=this.g.position.clone().project(camera);this.label.innerHTML=`<b>${this.mission.name}</b> ORBIT`;this.label.style.left=`${(v.x*0.5+0.5)*window.innerWidth}px`;this.label.style.top=`${(v.y*-0.5+0.5)*window.innerHeight}px`;this.label.style.display=v.z<1?'block':'none';if(el>this.mission.durS){this.destroy();return false;}return true;} destroy(){planetGroup.remove(this.g);this.label.remove();}}
+
+        function togglePanel(id) { document.getElementById(id).classList.toggle('panel-open'); }
+        function selectPlanet(k) { currentKey=k; setupPlanet(PLANETS[k]); document.querySelectorAll('.glyph-btn').forEach(b=>b.classList.toggle('active', b.title.toLowerCase()===k)); }
+        function shiftMonth(d) { calMonth+=d; if(calMonth>11){calMonth=0;calYear++} if(calMonth<0){calMonth=11;calYear--} renderCalendar(); }
+        function updateCam() { camera.position.set(orbitRadius*Math.sin(phi)*Math.cos(theta), orbitRadius*Math.cos(phi), orbitRadius*Math.sin(phi)*Math.sin(theta)); camera.lookAt(0,0,0); }
+        function dragHand(e, type) { 
+            const dial=document.getElementById('clock-svg'); const r=dial.getBoundingClientRect(); 
+            const move=(me)=>{ 
+                const ang=Math.atan2(me.clientY-(r.top+r.height/2), me.clientX-(r.left+r.width/2))+Math.PI/2; 
+                let norm=(ang<0?ang+Math.PI*2:ang)/(Math.PI*2); 
+                if(type==='start') startMinsScale=Math.floor(norm*720); updateDialUI(); 
+            }; 
+            const up=()=>{ window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); }; 
+            window.addEventListener('mousemove', move); window.addEventListener('mouseup', up); 
+        }
+
+        const animClock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate); const dt = animClock.getDelta();
+            const scale = document.getElementById('time-compression')?.checked ? 60 : 1;
+            simulationSeconds += dt * scale; const now = new Date();
+            const rotH = Math.abs(PLANETS[currentKey].rotHours);
+            const lRatio = (simulationSeconds % (rotH * 3600)) / (rotH * 3600);
+            const lh = lRatio * 24, lm = (lh * 60) % 60, ls = (lm * 60) % 60;
+
+            document.getElementById('lpt-h-hand')?.setAttribute('transform', `rotate(${lh * 15 * 2}, 100, 100)`);
+            document.getElementById('lpt-m-hand')?.setAttribute('transform', `rotate(${lm * 6}, 100, 100)`);
+            document.getElementById('lpt-zenith')?.setAttribute('transform', `rotate(${lh * 15}, 100, 100)`);
+            
+            const rad = 82;
+            const startX = 100, startY = 100 - rad;
+            const endX = 100 + rad * Math.sin(lRatio * 2 * Math.PI);
+            const endY = 100 - rad * Math.cos(lRatio * 2 * Math.PI);
+            const largeArc = lRatio > 0.5 ? 1 : 0;
+            document.getElementById('photonic-trail')?.setAttribute('d', `M ${startX} ${startY} A ${rad} ${rad} 0 ${largeArc} 1 ${endX} ${endY}`);
+
+            document.getElementById('readout-lpt').innerText = `${Math.floor(lh).toString().padStart(2,'0')}:${Math.floor(lm).toString().padStart(2,'0')}:${Math.floor(ls).toString().padStart(2,'0')} L`;
+
+            const moonAng = (simulationSeconds / (29.53 * 86400)) * 360;
+            document.getElementById('lunar-asset-group')?.setAttribute('transform', `rotate(${moonAng}, 100, 100)`);
+            const p = (moonAng % 360) / 360;
+            const pTxt = p < 0.1 ? "PHASE: NEW" : p < 0.4 ? "PHASE: WAXING" : p < 0.6 ? "PHASE: FULL" : "PHASE: WANING";
+            document.getElementById('lunar-phase-text').innerText = pTxt;
+            document.getElementById('earth-lunar-phase').innerText = pTxt;
+
+            const illum = Math.abs(1 - 2 * p) * 100;
+            document.getElementById('intel-illum').innerText = `LUNAR: ${illum.toFixed(0)}%`;
+            document.getElementById('intel-zenith').innerText = `ZENITH: ${(lh * 15).toFixed(1)}°`;
+
+            const eRatio = (now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds()) / 86400;
+            document.getElementById('earth-h-hand')?.setAttribute('transform', `rotate(${(now.getHours()%12 + now.getMinutes()/60) * 30}, 50, 50)`);
+            document.getElementById('earth-m-hand')?.setAttribute('transform', `rotate(${now.getMinutes() * 6}, 50, 50)`);
+            document.getElementById('earth-digital').innerText = now.toLocaleTimeString([], {hour12:false});
+            document.getElementById('earth-angular').innerText = `ROT ${(eRatio * 360).toFixed(1)}°`;
+
+            activePads.forEach(p => p.update());
+            for(let i=activePads.length-1; i>=0; i--) { if(simulationSeconds >= activePads[i].mission.launchT){ activeRockets.push(new Rocket(activePads[i].mission, activePads[i].pk)); activePads[i].destroy(); activePads.splice(i,1); } }
+            for(let i=activeRockets.length-1; i>=0; i--) { if(!activeRockets[i].update(dt*scale)) activeRockets.splice(i,1); }
+            for(let i=activeSatellites.length-1; i>=0; i--) { if(!activeSatellites[i].update(simulationSeconds)) activeSatellites.splice(i,1); }
+            
+            if(planetMesh) planetMesh.rotation.y += (0.0005 * (24 / rotH));
+            if(ringMesh) ringMesh.rotation.z += 0.0001;
+            renderer.render(scene, camera);
+        }
+        window.onload = () => { init3D(); animate(); };
+    </script>
+</body>
+</html>
