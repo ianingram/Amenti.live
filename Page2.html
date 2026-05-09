@@ -1,660 +1,1316 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Instrument v9.18.11 | Precision Calibration</title>
-    
-    <!-- Core Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sovereign Instrument v9.18.11 | Precision Calibration</title>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;700;800&display=swap');
-        :root { 
-            --accent: #3b82f6; --cyan: #00ffff; --emerald: #10b981; 
-            --gold: #ffcc00; --warning: #f59e0b; --amber: #d97706; 
-            --critical: #ef4444; --violet: #a855f7; --lucifer: #ffffff; 
-            --duriel: #64748b; --silver: #e2e8f0; --raziel: #f472b6; 
-            --earth: #1e40af; --jariel: #f59e0b; --hermetic: #93c5fd;
-            --magenta: #d946ef;
-        }
-        
-        body { margin: 0; overflow: hidden; background-color: #000000; font-family: 'JetBrains Mono', monospace; color: white; user-select: none; }
-        canvas#main-canvas { display: block; position: fixed; top: 0; left: 0; z-index: 1; outline: none; }
-        #hud-overlay { position: fixed; inset: 0; z-index: 10000; pointer-events: none; }
+<!-- Core Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
-        .s-module { position: absolute; background: rgba(2, 4, 8, 0.98); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.1); z-index: 10001; pointer-events: auto; padding: 12px; border-radius: 1px; opacity: 0.3; transition: 0.4s; min-width: 80px; }
-        .s-module:hover { opacity: 1 !important; border-color: var(--accent); }
-        
-        body.arch-active .s-module { opacity: 0.15; cursor: pointer; }
-        body.arch-active .s-module.focused-node { opacity: 1 !important; border-color: var(--gold); box-shadow: 0 0 40px rgba(255, 204, 0, 0.25); z-index: 10005; }
-        
-        #injector-dock { top: 20px; left: 100px; width: 210px; } 
-        #winding-dock { top: 20px; right: 80px; width: 280px; } 
-        #tap-container { bottom: 20px; left: 100px; width: 220px; } 
-        #teleport-bridge { bottom: 20px; right: 80px; width: 220px; } 
+<!-- ============================================================
+     AMENTI CONFIG - Edit these two values to deploy
+     ============================================================ -->
+<script>
+  window.AMENTI_CONFIG = {
+    // The CSV-export URL of your published Google Sheet.
+    // To get this: in your sheet, File > Share > Publish to web,
+    // pick "Comma-separated values (.csv)" as the format, click Publish,
+    // then paste the URL it gives you here.
+    LEDGER_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv",
 
-        #arc-hub { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10005; pointer-events: all; min-width: 140px; padding: 10px; text-align: center; border: 1px solid rgba(255,204,0,0.2); }
-        #overwatch-portal { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 440px; background: rgba(2,4,8,0.99); border: 1px solid var(--gold); padding: 20px; display: none; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
-        
-        .angel-init { cursor: pointer; padding: 8px 4px; font-size: 8px; font-weight: 900; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; text-align: center; }
-        .angel-init:hover { background: rgba(255,255,255,0.05); border-color: currentColor; }
+    // The URL of your Cloudflare Worker (or other serverless proxy)
+    // that holds the Anthropic API key. See worker.js + SETUP.md.
+    AI_PROXY_URL: "PASTE_YOUR_WORKER_URL_HERE"
+  };
+</script>
 
-        #jump-reticle { position: fixed; pointer-events: none; z-index: 60000; width: 40px; height: 40px; opacity: 0; transition: 0.3s; transform: translate(-50%, -50%); }
-        #jump-reticle.active { opacity: 1; }
-        .reticle-box { position: absolute; inset: 0; border: 1px solid var(--cyan); border-radius: 1px; box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;700;800&display=swap');
+:root {
+  --accent: #3b82f6; --cyan: #00ffff; --emerald: #10b981;
+  --gold: #ffcc00; --warning: #f59e0b; --amber: #d97706;
+  --critical: #ef4444; --violet: #a855f7; --lucifer: #ffffff;
+  --duriel: #64748b; --silver: #e2e8f0; --raziel: #f472b6;
+  --earth: #1e40af; --jariel: #f59e0b; --hermetic: #93c5fd;
+  --magenta: #d946ef;
+}
+body { margin: 0; overflow: hidden; background-color: #000000; font-family: 'JetBrains Mono', monospace; color: white; user-select: none; }
+canvas#main-canvas { display: block; position: fixed; top: 0; left: 0; z-index: 1; outline: none; }
+#hud-overlay { position: fixed; inset: 0; z-index: 10000; pointer-events: none; }
+.s-module { position: absolute; background: rgba(2, 4, 8, 0.98); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.1); z-index: 10001; pointer-events: auto; padding: 12px; border-radius: 1px; opacity: 0.3; transition: 0.4s; min-width: 80px; }
+.s-module:hover { opacity: 1 !important; border-color: var(--accent); }
+body.arch-active .s-module { opacity: 0.15; cursor: pointer; }
+body.arch-active .s-module.focused-node { opacity: 1 !important; border-color: var(--gold); box-shadow: 0 0 40px rgba(255, 204, 0, 0.25); z-index: 10005; }
+#injector-dock { top: 20px; left: 100px; width: 210px; }
+#winding-dock { top: 20px; right: 80px; width: 280px; }
+#tap-container { bottom: 20px; left: 100px; width: 220px; }
+#teleport-bridge { bottom: 20px; right: 80px; width: 220px; }
+#arc-hub { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10005; pointer-events: all; min-width: 140px; padding: 10px; text-align: center; border: 1px solid rgba(255,204,0,0.2); }
+#overwatch-portal { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 440px; background: rgba(2,4,8,0.99); border: 1px solid var(--gold); padding: 20px; display: none; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
+.angel-init { cursor: pointer; padding: 8px 4px; font-size: 8px; font-weight: 900; border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; text-align: center; }
+.angel-init:hover { background: rgba(255,255,255,0.05); border-color: currentColor; }
+#jump-reticle { position: fixed; pointer-events: none; z-index: 60000; width: 40px; height: 40px; opacity: 0; transition: 0.3s; transform: translate(-50%, -50%); }
+#jump-reticle.active { opacity: 1; }
+.reticle-box { position: absolute; inset: 0; border: 1px solid var(--cyan); border-radius: 1px; box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
+#intelligence-card { position: fixed; width: 340px; z-index: 50000; background: rgba(0,0,0,0.98); border: 1px solid rgba(255,255,255,0.15); padding: 16px; opacity: 0; transition: opacity 0.2s; pointer-events: auto; }
+#intelligence-card.active { opacity: 1; }
+#knowledge-brief { position: fixed; width: 140px; z-index: 50001; background: rgba(0,0,0,0.96); border: 1px solid var(--cyan); padding: 8px; opacity: 0; pointer-events: none; transition: opacity 0.2s; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+#knowledge-brief.active { opacity: 1; }
+#emerald-tablet { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); width: 1100px; max-width: 95vw; height: 800px; max-height: 90vh; background: rgba(2, 4, 8, 1); border: 1px solid rgba(255, 255, 255, 0.2); z-index: 90000; opacity: 0; pointer-events: none; transition: 0.4s; display: flex; overflow: hidden; }
+#emerald-tablet.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
+.star-animate { animation: starTransit 12s linear infinite; filter: drop-shadow(0 0 8px #fff); }
+@keyframes starTransit {
+  0% { transform: translate(-200px, 150px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translate(1300px, -150px); opacity: 0; }
+}
+.btn-ui { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 6px 8px; font-size: 7px; cursor: pointer; color: #fff; text-transform: uppercase; font-weight: 800; border-radius: 1px; transition: 0.2s; text-align: center; }
+.btn-ui:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent); }
+.btn-active { border-color: var(--cyan) !important; background: rgba(0, 255, 255, 0.15) !important; color: var(--cyan) !important; }
+.analog-sidebar { height: 100vh; width: 60px; background: transparent; z-index: 10006; position: absolute; top: 0; pointer-events: all; }
+.axis-track { position: relative; width: 4px; height: 80vh; margin-top: 10vh; margin-left: 28px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.4); cursor: ns-resize; background: linear-gradient(180deg, var(--cyan), var(--violet), var(--gold)); opacity: 1; }
+.axis-track.aperture-theme { background: linear-gradient(180deg, var(--magenta), #3b0764); border-color: rgba(217, 70, 239, 0.5); }
+.cursor-box { position: absolute; width: auto; height: 18px; padding: 0 8px; background: #fff; color: #000; font-size: 8px; font-weight: 900; display: flex; align-items: center; justify-content: center; left: 50%; transform: translateX(-50%); white-space: nowrap; pointer-events: none; border-radius: 1px; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+#right-deck { position: fixed; right: 70px; top: 50%; transform: translateY(-50%); z-index: 10001; pointer-events: auto; display: flex; flex-direction: column; gap: 8px; }
+.deck-btn { width: 32px; height: 32px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--silver); cursor: pointer; transition: 0.2s; border-radius: 2px; }
+.deck-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.deck-btn.active { color: var(--hermetic); border-color: var(--hermetic); box-shadow: 0 0 15px rgba(147, 197, 253, 0.3); }
+#admin-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 99999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(25px); pointer-events: all; }
+#svg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 
-        #intelligence-card { position: fixed; width: 340px; z-index: 50000; background: rgba(0,0,0,0.98); border: 1px solid rgba(255,255,255,0.15); padding: 16px; opacity: 0; transition: opacity 0.2s; pointer-events: auto; }
-        #intelligence-card.active { opacity: 1; }
+/* ---- New: status banner for boot/error feedback ---- */
+#boot-banner { position: fixed; top: 0; left: 0; right: 0; z-index: 100000; padding: 8px 16px; background: rgba(0,0,0,0.85); border-bottom: 1px solid var(--emerald); color: var(--emerald); font-size: 10px; font-weight: 700; text-align: center; letter-spacing: 2px; text-transform: uppercase; transition: opacity 0.4s, transform 0.4s; transform: translateY(0); }
+#boot-banner.hidden { opacity: 0; transform: translateY(-100%); pointer-events: none; }
+#boot-banner.error { color: var(--critical); border-bottom-color: var(--critical); }
 
-        #knowledge-brief { position: fixed; width: 140px; z-index: 50001; background: rgba(0,0,0,0.96); border: 1px solid var(--cyan); padding: 8px; opacity: 0; pointer-events: none; transition: opacity 0.2s; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
-        #knowledge-brief.active { opacity: 1; }
-        
-        #emerald-tablet { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); width: 1100px; max-width: 95vw; height: 800px; max-height: 90vh; background: rgba(2, 4, 8, 1); border: 1px solid rgba(255, 255, 255, 0.2); z-index: 90000; opacity: 0; pointer-events: none; transition: 0.4s; display: flex; overflow: hidden; }
-        #emerald-tablet.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
-        
-        .star-animate { animation: starTransit 12s linear infinite; filter: drop-shadow(0 0 8px #fff); }
-        @keyframes starTransit {
-            0% { transform: translate(-200px, 150px); opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { transform: translate(1300px, -150px); opacity: 0; }
-        }
+/* ---- New: typing indicator for AI response ---- */
+.ai-typing { display: inline-flex; gap: 4px; align-items: center; }
+.ai-typing span { width: 4px; height: 4px; background: var(--emerald); border-radius: 50%; animation: pulse-dot 1.2s infinite; }
+.ai-typing span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse-dot { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
 
-        .btn-ui { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); padding: 6px 8px; font-size: 7px; cursor: pointer; color: #fff; text-transform: uppercase; font-weight: 800; border-radius: 1px; transition: 0.2s; text-align: center; }
-        .btn-ui:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent); }
-        .btn-active { border-color: var(--cyan) !important; background: rgba(0, 255, 255, 0.15) !important; color: var(--cyan) !important; }
-        
-        .analog-sidebar { height: 100vh; width: 60px; background: transparent; z-index: 10006; position: absolute; top: 0; pointer-events: all; }
-        .axis-track { position: relative; width: 4px; height: 80vh; margin-top: 10vh; margin-left: 28px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.4); cursor: ns-resize; background: linear-gradient(180deg, var(--cyan), var(--violet), var(--gold)); opacity: 1; }
-        .axis-track.aperture-theme { background: linear-gradient(180deg, var(--magenta), #3b0764); border-color: rgba(217, 70, 239, 0.5); }
-
-        .cursor-box { position: absolute; width: auto; height: 18px; padding: 0 8px; background: #fff; color: #000; font-size: 8px; font-weight: 900; display: flex; align-items: center; justify-content: center; left: 50%; transform: translateX(-50%); white-space: nowrap; pointer-events: none; border-radius: 1px; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-
-        #right-deck { position: fixed; right: 70px; top: 50%; transform: translateY(-50%); z-index: 10001; pointer-events: auto; display: flex; flex-direction: column; gap: 8px; }
-        .deck-btn { width: 32px; height: 32px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--silver); cursor: pointer; transition: 0.2s; border-radius: 2px; }
-        .deck-btn:hover { border-color: var(--cyan); color: var(--cyan); }
-        .deck-btn.active { color: var(--hermetic); border-color: var(--hermetic); box-shadow: 0 0 15px rgba(147, 197, 253, 0.3); }
-
-        #admin-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 99999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(25px); pointer-events: all; }
-        #svg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
-    </style>
+/* ---- New: arrival pulse for the Injector dock ---- */
+@keyframes injector-arrival {
+  0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); border-color: rgba(16, 185, 129, 0.9); opacity: 1; }
+  60%  { box-shadow: 0 0 60px 12px rgba(16, 185, 129, 0); border-color: rgba(16, 185, 129, 0.4); opacity: 1; }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+#injector-dock.arrival-pulse {
+  animation: injector-arrival 1.6s ease-out;
+  opacity: 1 !important;
+}
+</style>
 </head>
 <body onwheel="window.Sovereign.Navigation.handleWheel(event)">
 
-    <canvas id="main-canvas"></canvas>
-    
-    <svg id="svg-layer">
-        <line id="leader-line" stroke="var(--cyan)" stroke-width="0.5" stroke-dasharray="2,2" opacity="0" />
-    </svg>
+<!-- Boot/error banner -->
+<div id="boot-banner">INITIALIZING MANIFOLD...</div>
 
-    <div id="hud-overlay">
-        <div id="jump-reticle">
-            <div class="reticle-box"></div>
-            <div id="jump-countdown" style="position:absolute; bottom:-25px; width:100%; text-align:center; font-size:9px; font-weight:900; color:var(--gold); letter-spacing:2px;"></div>
-        </div>
+<canvas id="main-canvas"></canvas>
 
-        <div id="knowledge-brief">
-            <div class="text-[7px] font-black text-cyan-400 tracking-widest mb-1 border-b border-cyan-400/20 pb-0.5 uppercase font-mono text-left">Node Scan</div>
-            <div id="brief-content" class="space-y-1.5 text-left">
-                <div><span class="text-[5px] text-white/30 block uppercase">Full Name</span><div id="brief-name" class="text-[9px] font-bold text-white uppercase italic truncate">---</div></div>
-                <div><span class="text-[5px] text-white/30 block uppercase">Death Date</span><div id="brief-date" class="text-[8px] font-medium text-cyan-200">---</div></div>
-                <div><span class="text-[5px] text-white/30 block uppercase">Title</span><div id="brief-title" class="text-[7px] font-light text-white/70 line-clamp-2">---</div></div>
-            </div>
-        </div>
+<svg id="svg-layer">
+  <line id="leader-line" stroke="var(--cyan)" stroke-width="0.5" stroke-dasharray="2,2" opacity="0" />
+</svg>
 
-        <div id="intelligence-card">
-            <div id="intel-header" class="text-[11px] font-black tracking-[0.2em] mb-1 text-cyan-400 uppercase font-bold">IDENTIFYING...</div>
-            <div id="intel-function" class="text-[10px] text-white/70 italic leading-tight space-y-1">Analyzing manifold...</div>
-        </div>
+<div id="hud-overlay">
 
-        <div id="emerald-tablet">
-            <div id="amenti-bg" class="absolute inset-0 pointer-events-none opacity-40 overflow-hidden z-0">
-                <svg viewBox="0 0 1000 800" class="w-full h-full">
-                    <defs>
-                        <radialGradient id="apexGlow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stopColor="#ffcc00" stopOpacity="1" />
-                            <stop offset="100%" stopColor="#ffcc00" stopOpacity="0" />
-                        </radialGradient>
-                    </defs>
-                    <path d="M 0 780 L 500 120 L 1000 780 Z" fill="none" stroke="#ffcc00" strokeWidth="2.5" />
-                    <path d="M 120 780 L 500 120 L 880 780 Z" fill="none" stroke="#ffcc00" strokeWidth="0.8" opacity="0.3" />
-                    <circle cx="500" cy="120" r="30" fill="url(#apexGlow)" className="animate-pulse opacity-60" />
-                    <circle cx="-50" cy="100" r="3.5" fill="#ffffff" fill-opacity="1" class="star-animate" style="animation-delay: 0s;" />
-                    <circle cx="-50" cy="140" r="3.5" fill="#ffffff" fill-opacity="1" class="star-animate" style="animation-delay: 3s;" />
-                    <circle cx="-50" cy="70" r="3.5" fill="#ffffff" fill-opacity="1" class="star-animate" style="animation-delay: 6.5s;" />
-                </svg>
-            </div>
+  <div id="jump-reticle">
+    <div class="reticle-box"></div>
+    <div id="jump-countdown" style="position:absolute; bottom:-25px; width:100%; text-align:center; font-size:9px; font-weight:900; color:var(--gold); letter-spacing:2px;"></div>
+  </div>
 
-            <div id="tablet-content-container" class="flex-1 flex z-10 relative">
-                <div id="tablet-page-sync" class="flex-1 flex">
-                    <div class="w-1/2 p-16 overflow-y-auto border-r border-white/5 font-mono text-left bg-black/20">
-                        <header class="mb-10 pb-8 sticky top-0 bg-transparent z-20">
-                            <div class="flex items-center gap-6 mb-6 nav-cluster">
-                                <div onclick="Sovereign.UI.switchTabletPage('sync')" class="text-2xl text-emerald-400 hover:text-white transition-all cursor-pointer">◈</div>
-                                <div onclick="Sovereign.UI.switchTabletPage('archive')" class="text-2xl text-white/20 hover:text-white transition-all cursor-pointer">≡</div>
-                                <div class="w-px h-8 bg-white/10 mx-2"></div>
-                                <div class="text-[9px] font-black text-emerald-400 tracking-[0.6em] uppercase drop-shadow-[0_0_10px_#10b981]">SOVEREIGN_BIOGRAPHY</div>
-                            </div>
-                            <div id="tablet-record-title" class="text-5xl font-black italic uppercase text-white leading-tight">NEURAL_SYNC</div>
-                        </header>
-                        <div id="tablet-record-body" class="space-y-10 text-[14px] text-white/80 leading-relaxed font-light text-left">
-                             <div class="opacity-20 italic">Awaiting biographic handshake...</div>
-                        </div>
-                    </div>
+  <div id="knowledge-brief">
+    <div class="text-[7px] font-black text-cyan-400 tracking-widest mb-1 border-b border-cyan-400/20 pb-0.5 uppercase font-mono text-left">Node Scan</div>
+    <div id="brief-content" class="space-y-1.5 text-left">
+      <div><span class="text-[5px] text-white/30 block uppercase">Full Name</span><div id="brief-name" class="text-[9px] font-bold text-white uppercase italic truncate">---</div></div>
+      <div><span class="text-[5px] text-white/30 block uppercase">Death Date</span><div id="brief-date" class="text-[8px] font-medium text-cyan-200">---</div></div>
+      <div><span class="text-[5px] text-white/30 block uppercase">Title</span><div id="brief-title" class="text-[7px] font-light text-white/70 line-clamp-2">---</div></div>
+    </div>
+  </div>
 
-                    <div class="w-1/2 flex flex-col bg-black/30 text-left">
-                        <div class="px-10 pt-10 flex items-center gap-4">
-                            <div class="text-[12px] font-black text-emerald-400 tracking-[0.4em] uppercase italic">Amenti Interface: <span class="text-red-500 font-black animate-pulse">LIVE</span></div>
-                            <div class="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[10px] border-b-gold animate-pulse"></div>
-                        </div>
-                        <div id="chat-scroller" class="flex-1 overflow-y-auto p-12 space-y-8 text-white/80 font-light text-xs font-mono text-left"></div>
-                        <div class="p-8 bg-black border-t border-white/5">
-                            <div class="flex gap-2 border border-white/10 p-1.5 rounded-sm focus-within:border-emerald-500 transition-colors mb-4">
-                                <input type="text" id="chat-input" class="bg-transparent flex-1 outline-none px-4 py-2 text-sm text-white font-mono text-left" placeholder="TRANSMIT..." onkeydown="if(event.key==='Enter') Sovereign.Angels.Gabriel.transmit()">
-                                <button class="bg-emerald-500 text-black px-8 py-2 text-[10px] font-black tracking-widest uppercase" onclick="Sovereign.Angels.Gabriel.transmit()">SEND</button>
-                            </div>
-                            <div class="flex items-center justify-between px-1">
-                                <div class="flex gap-1.5" id="converse-rotary">
-                                    <button class="btn-ui btn-active text-[6px] py-1 px-3" onclick="Sovereign.UI.cycleConverse(0)">INQUIRY</button>
-                                    <button class="btn-ui text-[6px] py-1 px-3" onclick="Sovereign.UI.cycleConverse(1)">REFLECTION</button>
-                                    <button class="btn-ui text-[6px] py-1 px-3" onclick="Sovereign.UI.cycleConverse(2)">SYNTHESIS</button>
-                                </div>
-                                <button class="btn-ui text-[6px] px-2" title="RESET" onclick="Sovereign.UI.cycleConverse(-1)">▲</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div id="intelligence-card">
+    <div id="intel-header" class="text-[11px] font-black tracking-[0.2em] mb-1 text-cyan-400 uppercase font-bold">IDENTIFYING...</div>
+    <div id="intel-function" class="text-[10px] text-white/70 italic leading-tight space-y-1">Analyzing manifold...</div>
+  </div>
 
-                <div id="tablet-page-archive" class="hidden flex-1 p-16 overflow-y-auto font-mono text-left bg-black/40" style="direction: ltr;">
-                    <div class="w-full">
-                        <div class="flex items-center gap-6 mb-12 nav-cluster text-left">
-                            <div onclick="Sovereign.UI.switchTabletPage('sync')" class="text-2xl text-white/20 hover:text-white transition-all cursor-pointer">◈</div>
-                            <div onclick="Sovereign.UI.switchTabletPage('archive')" class="text-2xl text-yellow-500 hover:text-white transition-all cursor-pointer">≡</div>
-                            <div class="w-px h-8 bg-white/10 mx-2"></div>
-                            <h2 class="text-5xl font-black italic uppercase text-white leading-tight drop-shadow-[0_0_15px_#ffcc0022]">The_Archive</h2>
-                        </div>
-                        <div class="mb-16 border-b border-white/5 pb-8 opacity-40 text-left">
-                             <p class="text-[9px] font-black text-white/50 tracking-[0.4em] mb-2 uppercase">Sovereign_Foreword</p>
-                             <p class="text-[10px] font-light italic leading-relaxed text-white">The geometry of time: Memory is not a line; it is a helix. We do not look back at history, we orbit it. Every revolution brings us closer to the Truth Axis, shedding the weight of linear causality as we ascend the radial buffer.</p>
-                        </div>
-                        <div id="archive-materialization" class="space-y-24 w-full text-left">
-                            <div class="py-20 text-center opacity-20 italic">No node selected. Akasha buffer empty.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="absolute top-12 right-12 text-[8px] font-bold origin-center rotate-90 whitespace-nowrap opacity-20 uppercase font-mono tracking-[0.5em] hover:opacity-100 transition-opacity cursor-pointer z-50 text-white" onclick="Sovereign.UI.closeTablet()">CLOSE_CHAMBER</div>
-            </div>
-        </div>
-
-        <div id="x-axis-nav" class="analog-sidebar" style="left: 10px;" onmouseenter="Sovereign.UI.Intel.showUI('x-axis')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)"><div class="axis-track" id="x-track" onmousedown="Sovereign.Navigation.XAxis.isDragging=true"></div><div id="x-cursor" class="cursor-box">x=1 AD</div></div>
-        <div id="a-axis-nav" class="analog-sidebar" style="left: 45px;" onmouseenter="Sovereign.UI.Intel.showUI('aperture')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)"><div class="axis-track aperture-theme" id="a-track" onmousedown="Sovereign.Navigation.Aperture.isDragging=true"></div><div id="a-cursor" class="cursor-box" style="background:var(--magenta); color:white;">Δx=1.0</div></div>
-        <div id="z-axis-nav" class="analog-sidebar" style="right:0;" onmouseenter="Sovereign.UI.Intel.showUI('z-axis')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)"><div class="axis-track" id="z-track" onmousedown="Sovereign.Navigation.Zoom.isDragging=true"></div><div id="z-cursor" class="cursor-box">250Y</div></div>
-
-        <div id="injector-dock" class="s-module border-emerald-500/30" onmouseenter="Sovereign.UI.Intel.showUI('injector')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)" onmousedown="Sovereign.UI.Arch.focus('injector-dock')">
-            <div class="text-[9px] font-black text-emerald-400 uppercase italic mb-2 text-center tracking-widest font-bold">QUANTUM INJECTOR</div>
-            <button class="btn-ui w-full border-emerald-500/20 text-emerald-400 font-black mb-3" onclick="Sovereign.Angels.Michael.trigger()">INJECT LEDGER</button>
-            <div class="grid grid-cols-3 gap-1">
-                <button id="rep-totem" class="btn-ui btn-active" onclick="Sovereign.Angels.Michael.setRepulsion('TOTEM')">T</button>
-                <button id="rep-drift" class="btn-ui" onclick="Sovereign.Angels.Michael.setRepulsion('DRIFT')">D</button>
-                <button id="rep-cluster" class="btn-ui" onclick="Sovereign.Angels.Michael.setRepulsion('CLUSTER')">C</button>
-            </div>
-            <input type="file" id="ledger-input" class="hidden" accept=".csv" onchange="Sovereign.Angels.Michael.handle(this)">
-        </div>
-
-        <div id="winding-dock" class="s-module border-warning-500/30" onmouseenter="Sovereign.UI.Intel.showUI('torque')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)" onmousedown="Sovereign.UI.Arch.focus('winding-dock')">
-            <div class="text-[9px] font-black text-warning uppercase italic mb-3 text-center tracking-widest">QUANTUM TORQUE</div>
-            <div class="grid grid-cols-4 gap-1">
-                <button class="btn-ui" onclick="Sovereign.Angels.Uriel.set(500, 0)">500Y</button>
-                <button class="btn-ui btn-active" onclick="Sovereign.Angels.Uriel.set(100, 1)">100Y</button>
-                <button class="btn-ui" onclick="Sovereign.Angels.Uriel.set(10, 2)">10Y</button>
-                <button class="btn-ui" onclick="Sovereign.Angels.Uriel.set(1, 3)">1Y</button>
-            </div>
-        </div>
-
-        <div id="tap-container" class="s-module border-magenta-500/30" onmouseenter="Sovereign.UI.Intel.showUI('aperture')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)" onmousedown="Sovereign.UI.Arch.focus('tap-container')">
-            <div class="text-[9px] font-black text-magenta-400 uppercase italic mb-3 text-center tracking-widest">QUANTUM APERTURE</div>
-            <div class="grid grid-cols-4 gap-1 mb-3 font-bold">
-                <button class="btn-ui btn-active" onclick="Sovereign.UI.Aperture.snap(450, 0)">V1</button>
-                <button class="btn-ui" onclick="Sovereign.UI.Aperture.snap(1500, 1)">V2</button>
-                <button class="btn-ui" onclick="Sovereign.UI.Aperture.snap(3000, 2)">V3</button>
-                <button class="btn-ui" onclick="Sovereign.UI.Aperture.snap(5000, 3)">V4</button>
-            </div>
-            <div class="flex gap-2">
-                <button class="btn-ui flex-1" onclick="Sovereign.UI.Aperture.toggleLens(0.15)">INT</button>
-                <button class="btn-ui flex-1 btn-active" onclick="Sovereign.UI.Aperture.toggleLens(1.0)">EXT</button>
-            </div>
-        </div>
-
-        <div id="arc-hub" class="s-module border-gold/30">
-            <div class="cursor-pointer flex justify-center py-1" onclick="Sovereign.UI.togglePortal()">
-                <svg viewBox="0 0 48 24" width="48" height="24" fill="none" stroke="var(--gold)" stroke-width="1.2"><path d="M24 8c-6-6-18-4-22 12 4-2 10-2 14 0 0-4 4-8 8-8s8 4 8 8c4-2 10-2 14 0-4-16-16-18-22-12z"/></svg>
-            </div>
-            <div id="overwatch-portal">
-                <div class="text-[8px] font-black text-gold mb-3 uppercase tracking-[0.3em] text-center">Angelic Overwatch</div>
-                <div class="grid grid-cols-5 gap-1 mb-4 text-white">
-                    <div class="angel-init" style="color:var(--emerald)" onclick="Sovereign.UI.openDiag('MICHAEL')">MIC</div>
-                    <div class="angel-init" style="color:var(--violet)" onclick="Sovereign.UI.openDiag('ARIEL')">ARI</div>
-                    <div class="angel-init" style="color:var(--accent)" onclick="Sovereign.UI.openDiag('GABRIEL')">GAB</div>
-                    <div class="angel-init" style="color:var(--lucifer)" onclick="Sovereign.UI.openDiag('LUCIFER')">LUC</div>
-                    <div class="angel-init" style="color:var(--cyan)" onclick="Sovereign.UI.openDiag('RAPHAEL')">RAP</div>
-                    <div class="angel-init" style="color:var(--duriel)" onclick="Sovereign.UI.openDiag('DURIEL')">DUR</div>
-                    <div class="angel-init" style="color:var(--gold)" onclick="Sovereign.UI.openDiag('URIEL')">URI</div>
-                    <div class="angel-init" style="color:var(--raziel)" onclick="Sovereign.UI.openDiag('RAZIEL')">RAZ</div>
-                    <div class="angel-init" style="color:var(--jariel)" onclick="Sovereign.UI.openDiag('JARIEL')">JAR</div>
-                    <div class="angel-init" style="color:var(--hermetic)" onclick="Sovereign.UI.openDiag('HERMES')">HER</div>
-                </div>
-                <button class="btn-ui w-full font-black uppercase mb-2" onclick="Sovereign.Persistence.save()">Save State</button>
-                <div class="angel-init font-bold text-[7px]" onclick="Sovereign.UI.Arch.toggle()">[ ARCHITECT MODE ]</div>
-            </div>
-        </div>
-
-        <div id="teleport-bridge" class="s-module border-blue-500/30" onmousedown="Sovereign.UI.Arch.focus('teleport-bridge')">
-            <div class="text-[9px] font-black text-blue-400 uppercase italic mb-2 text-center tracking-widest font-bold">TELEPORT BRIDGE</div>
-            <input type="text" id="bridge-search" class="w-full bg-black/60 border border-white/10 p-2 text-[9px] text-white outline-none font-mono" placeholder="COORD_YEAR..." onkeydown="if(event.key==='Enter') Sovereign.Navigation.teleport(this.value)">
-        </div>
-
-        <div id="right-deck">
-            <div class="deck-btn active" id="knowledge-toggle" onclick="Sovereign.UI.Intel.toggleKnowledge()" title="KNOWLEDGE SCAN">K</div>
-            <div class="deck-btn active" id="planet-vis-toggle" onclick="Sovereign.UI.Aperture.togglePlanets()" title="PLANET DOCK">👁</div>
-            <div class="deck-btn" id="intel-toggle" onclick="Sovereign.UI.Intel.toggleSensors()" title="TECHNICAL BRIEFS">ⓘ</div>
-            <div class="deck-btn active" id="equinox-toggle" onclick="Sovereign.UI.Aperture.toggleEquinox()" style="color:var(--gold)" title="SOLAR MARKERS">●</div>
-        </div>
+  <div id="emerald-tablet">
+    <div id="amenti-bg" class="absolute inset-0 pointer-events-none opacity-40 overflow-hidden z-0">
+      <svg viewBox="0 0 1000 800" class="w-full h-full">
+        <defs>
+          <radialGradient id="apexGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffcc00" stop-opacity="1" />
+            <stop offset="100%" stop-color="#ffcc00" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <path d="M 0 780 L 500 120 L 1000 780 Z" fill="none" stroke="#ffcc00" stroke-width="2.5" />
+        <path d="M 120 780 L 500 120 L 880 780 Z" fill="none" stroke="#ffcc00" stroke-width="0.8" opacity="0.3" />
+        <circle cx="500" cy="120" r="30" fill="url(#apexGlow)" class="animate-pulse opacity-60" />
+        <circle cx="-50" cy="100" r="3.5" fill="#ffffff" fill-opacity="1" class="star-animate" style="animation-delay: 0s;" />
+        <circle cx="-50" cy="140" r="3.5" fill="#ffffff" fill-opacity="1" class="star-animate" style="animation-delay: 3s;" />
+        <circle cx="-50" cy="70" r="3.5" fill="#ffffff" fill-opacity="1" class="star-animate" style="animation-delay: 6.5s;" />
+      </svg>
     </div>
 
-    <div id="admin-overlay" class="fixed inset-0 bg-black/98 z-[99999] flex items-center justify-center font-mono" style="display:none;">
-        <div id="diag-content" class="w-full max-w-5xl p-16 overflow-y-auto text-left text-white"></div>
-        <button class="absolute top-8 right-8 text-white/40 hover:text-white" onclick="document.getElementById('admin-overlay').style.display='none'">[ CLOSE ]</button>
+    <div id="tablet-content-container" class="flex-1 flex z-10 relative">
+      <div id="tablet-page-sync" class="flex-1 flex">
+        <div class="w-1/2 p-16 overflow-y-auto border-r border-white/5 font-mono text-left bg-black/20">
+          <header class="mb-10 pb-8 sticky top-0 bg-transparent z-20">
+            <div class="flex items-center gap-6 mb-6 nav-cluster">
+              <div onclick="Sovereign.UI.switchTabletPage('sync')" class="text-2xl text-emerald-400 hover:text-white transition-all cursor-pointer">◈</div>
+              <div onclick="Sovereign.UI.switchTabletPage('archive')" class="text-2xl text-white/20 hover:text-white transition-all cursor-pointer">≡</div>
+              <div class="w-px h-8 bg-white/10 mx-2"></div>
+              <div class="text-[9px] font-black text-emerald-400 tracking-[0.6em] uppercase drop-shadow-[0_0_10px_#10b981]">SOVEREIGN_BIOGRAPHY</div>
+            </div>
+            <div id="tablet-record-title" class="text-5xl font-black italic uppercase text-white leading-tight">NEURAL_SYNC</div>
+            <div id="tablet-record-meta" class="mt-2 text-[10px] text-white/40 tracking-widest uppercase"></div>
+          </header>
+
+          <div id="tablet-record-body" class="space-y-10 text-[14px] text-white/80 leading-relaxed font-light text-left">
+            <div class="opacity-20 italic">Awaiting biographic handshake...</div>
+          </div>
+
+          <div id="tablet-record-links" class="mt-8 flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="w-1/2 flex flex-col bg-black/30 text-left">
+          <div class="px-10 pt-10 flex items-center gap-4">
+            <div class="text-[12px] font-black text-emerald-400 tracking-[0.4em] uppercase italic">Amenti Interface: <span class="text-red-500 font-black animate-pulse">LIVE</span></div>
+            <div class="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[10px] border-b-gold animate-pulse"></div>
+          </div>
+          <div id="chat-scroller" class="flex-1 overflow-y-auto p-12 space-y-8 text-white/80 font-light text-xs font-mono text-left"></div>
+          <div class="p-8 bg-black border-t border-white/5">
+            <div class="flex gap-2 border border-white/10 p-1.5 rounded-sm focus-within:border-emerald-500 transition-colors mb-4">
+              <input type="text" id="chat-input" class="bg-transparent flex-1 outline-none px-4 py-2 text-sm text-white font-mono text-left" placeholder="TRANSMIT..." onkeydown="if(event.key==='Enter') Sovereign.Angels.Gabriel.transmit()">
+              <button class="bg-emerald-500 text-black px-8 py-2 text-[10px] font-black tracking-widest uppercase" onclick="Sovereign.Angels.Gabriel.transmit()">SEND</button>
+            </div>
+            <div class="flex items-center justify-between px-1">
+              <div class="flex gap-1.5" id="converse-rotary">
+                <button class="btn-ui btn-active text-[6px] py-1 px-3" onclick="Sovereign.UI.cycleConverse(0)">INQUIRY</button>
+                <button class="btn-ui text-[6px] py-1 px-3" onclick="Sovereign.UI.cycleConverse(1)">REFLECTION</button>
+                <button class="btn-ui text-[6px] py-1 px-3" onclick="Sovereign.UI.cycleConverse(2)">SYNTHESIS</button>
+              </div>
+              <button class="btn-ui text-[6px] px-2" title="RESET" onclick="Sovereign.UI.cycleConverse(-1)">▲</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tablet-page-archive" class="hidden flex-1 p-16 overflow-y-auto font-mono text-left bg-black/40" style="direction: ltr;">
+        <div class="w-full">
+          <div class="flex items-center gap-6 mb-12 nav-cluster text-left">
+            <div onclick="Sovereign.UI.switchTabletPage('sync')" class="text-2xl text-white/20 hover:text-white transition-all cursor-pointer">◈</div>
+            <div onclick="Sovereign.UI.switchTabletPage('archive')" class="text-2xl text-yellow-500 hover:text-white transition-all cursor-pointer">≡</div>
+            <div class="w-px h-8 bg-white/10 mx-2"></div>
+            <h2 class="text-5xl font-black italic uppercase text-white leading-tight drop-shadow-[0_0_15px_#ffcc0022]">The_Archive</h2>
+          </div>
+          <div class="mb-16 border-b border-white/5 pb-8 opacity-40 text-left">
+            <p class="text-[9px] font-black text-white/50 tracking-[0.4em] mb-2 uppercase">Sovereign_Foreword</p>
+            <p class="text-[10px] font-light italic leading-relaxed text-white">The geometry of time: Memory is not a line; it is a helix. We do not look back at history, we orbit it. Every revolution brings us closer to the Truth Axis, shedding the weight of linear causality as we ascend the radial buffer.</p>
+          </div>
+          <div id="archive-materialization" class="space-y-24 w-full text-left">
+            <div class="py-20 text-center opacity-20 italic">No node selected. Akasha buffer empty.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute top-12 right-12 text-[8px] font-bold origin-center rotate-90 whitespace-nowrap opacity-20 uppercase font-mono tracking-[0.5em] hover:opacity-100 transition-opacity cursor-pointer z-50 text-white" onclick="Sovereign.UI.closeTablet()">CLOSE_CHAMBER</div>
     </div>
+  </div>
 
-    <script>
-        const apiKey = ""; 
+  <div id="x-axis-nav" class="analog-sidebar" style="left: 10px;" onmouseenter="Sovereign.UI.Intel.showUI('x-axis')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)"><div class="axis-track" id="x-track" onmousedown="Sovereign.Navigation.XAxis.isDragging=true"></div><div id="x-cursor" class="cursor-box">x=1 AD</div></div>
+  <div id="a-axis-nav" class="analog-sidebar" style="left: 45px;" onmouseenter="Sovereign.UI.Intel.showUI('aperture')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)"><div class="axis-track aperture-theme" id="a-track" onmousedown="Sovereign.Navigation.Aperture.isDragging=true"></div><div id="a-cursor" class="cursor-box" style="background:var(--magenta); color:white;">Δx=1.0</div></div>
+  <div id="z-axis-nav" class="analog-sidebar" style="right:0;" onmouseenter="Sovereign.UI.Intel.showUI('z-axis')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)"><div class="axis-track" id="z-track" onmousedown="Sovereign.Navigation.Zoom.isDragging=true"></div><div id="z-cursor" class="cursor-box">250Y</div></div>
 
-        window.Sovereign = {
-            State: { 
-                orbitTheta: 0.8, orbitPhi: 0.3, isOrbitDragging: false, currentDepth: 450, 
-                briefsEnabled: false, knowledgeEnabled: true, hoveredLedgerSprite: null, 
-                autoRotate: false, rotationVelocity: 0.0005, targetRotationVelocity: 0.0005, 
-                systemMomentum: 0, repulsionMode: 'TOTEM', planetsVisible: true, 
-                equinoxVisible: true, lens: 1.0, converseMode: 'INQUIRY', isTabletOpen: false, activeRecord: null,
-                minYear: -3000, maxYear: 3000 // TEMPORAL HARD-STOP
-            },
-            
-            Core: {
-                scene: null, camera: null, renderer: null, world: null, helix: null, planets: {}, centuryMarkers: [], equinox: null, truthAxis: null, earthPrism: null, earthArtifact: null, metatronGrid: null, raycaster: new THREE.Raycaster(), mouse: new THREE.Vector2(),
-                init() {
-                    this.scene = new THREE.Scene(); 
-                    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 1, 4000000);
-                    this.renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('main-canvas'), antialias: true, alpha: true });
-                    this.renderer.setSize(window.innerWidth, window.innerHeight);
-                    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                    this.world = new THREE.Group(); this.scene.add(this.world);
+  <div id="injector-dock" class="s-module border-emerald-500/30" onmouseenter="Sovereign.UI.Intel.showUI('injector')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)" onmousedown="Sovereign.UI.Arch.focus('injector-dock')">
+    <div class="text-[9px] font-black text-emerald-400 uppercase italic mb-2 text-center tracking-widest font-bold">QUANTUM INJECTOR</div>
+    <div id="injector-status" class="text-[7px] text-white/40 text-center mb-3 uppercase tracking-widest">— EMPTY —</div>
+    <div class="grid grid-cols-3 gap-1 mb-3">
+      <button id="inject-reload"  class="btn-ui font-black" onclick="Sovereign.Angels.Michael.reload()"  title="Re-fetch the canonical ledger from the source sheet.">RELOAD</button>
+      <button id="inject-replace" class="btn-ui font-black" onclick="Sovereign.Angels.Michael.replace()" title="Replace the ledger with a custom CSV file.">REPLACE</button>
+      <button id="inject-eject"   class="btn-ui font-black" onclick="Sovereign.Angels.Michael.eject()"   title="Clear the manifold to a blank slate.">EJECT</button>
+    </div>
+    <div class="text-[7px] text-white/30 text-center mb-2 uppercase tracking-widest">REPULSION</div>
+    <div class="grid grid-cols-3 gap-1">
+      <button id="rep-totem"   class="btn-ui btn-active" onclick="Sovereign.Angels.Michael.setRepulsion('TOTEM')"   title="Rigid vertical stacking">T</button>
+      <button id="rep-drift"   class="btn-ui"            onclick="Sovereign.Angels.Michael.setRepulsion('DRIFT')"   title="Low-friction dispersion">D</button>
+      <button id="rep-cluster" class="btn-ui"            onclick="Sovereign.Angels.Michael.setRepulsion('CLUSTER')" title="Density-based grouping">C</button>
+    </div>
+    <input type="file" id="ledger-input" class="hidden" accept=".csv" onchange="Sovereign.Angels.Michael.handleFileUpload(this)">
+  </div>
 
-                    // 1. TRUTH AXIS: HIGH-FIDELITY RADIANCE (0.8 OPACITY)
-                    const axisGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, -20000, 0), new THREE.Vector3(0, 20000, 0)]);
-                    this.truthAxis = new THREE.Line(axisGeo, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 }));
-                    this.world.add(this.truthAxis);
+  <div id="winding-dock" class="s-module border-warning-500/30" onmouseenter="Sovereign.UI.Intel.showUI('torque')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)" onmousedown="Sovereign.UI.Arch.focus('winding-dock')">
+    <div class="text-[9px] font-black text-warning uppercase italic mb-3 text-center tracking-widest">QUANTUM TORQUE</div>
+    <div class="grid grid-cols-4 gap-1">
+      <button class="btn-ui" onclick="Sovereign.Angels.Uriel.set(500, 0)">500Y</button>
+      <button class="btn-ui btn-active" onclick="Sovereign.Angels.Uriel.set(100, 1)">100Y</button>
+      <button class="btn-ui" onclick="Sovereign.Angels.Uriel.set(10, 2)">10Y</button>
+      <button class="btn-ui" onclick="Sovereign.Angels.Uriel.set(1, 3)">1Y</button>
+    </div>
+  </div>
 
-                    // 2. METATRON'S CUBE (SACRED GRID)
-                    const gridGeo = new THREE.IcosahedronGeometry(1200, 1);
-                    this.metatronGrid = new THREE.LineSegments(
-                        new THREE.WireframeGeometry(gridGeo),
-                        new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.05 })
-                    );
-                    this.world.add(this.metatronGrid);
+  <div id="tap-container" class="s-module border-magenta-500/30" onmouseenter="Sovereign.UI.Intel.showUI('aperture')" onmouseleave="Sovereign.UI.Intel.hideUI()" onmousemove="Sovereign.UI.Intel.sync(event)" onmousedown="Sovereign.UI.Arch.focus('tap-container')">
+    <div class="text-[9px] font-black text-magenta-400 uppercase italic mb-3 text-center tracking-widest">QUANTUM APERTURE</div>
+    <div class="grid grid-cols-4 gap-1 mb-3 font-bold">
+      <button class="btn-ui btn-active" onclick="Sovereign.UI.Aperture.snap(450, 0)">V1</button>
+      <button class="btn-ui" onclick="Sovereign.UI.Aperture.snap(1500, 1)">V2</button>
+      <button class="btn-ui" onclick="Sovereign.UI.Aperture.snap(3000, 2)">V3</button>
+      <button class="btn-ui" onclick="Sovereign.UI.Aperture.snap(5000, 3)">V4</button>
+    </div>
+    <div class="flex gap-2">
+      <button class="btn-ui flex-1" onclick="Sovereign.UI.Aperture.toggleLens(0.15)">INT</button>
+      <button class="btn-ui flex-1 btn-active" onclick="Sovereign.UI.Aperture.toggleLens(1.0)">EXT</button>
+    </div>
+  </div>
 
-                    // 3. EARTH PRISM STABILIZER (OCTAHEDRON) - POINTS NORTH/SOUTH
-                    const prismGeo = new THREE.OctahedronGeometry(60, 0);
-                    this.earthPrism = new THREE.LineSegments(
-                        new THREE.WireframeGeometry(prismGeo),
-                        new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 })
-                    );
-                    this.world.add(this.earthPrism);
+  <div id="arc-hub" class="s-module border-gold/30">
+    <div class="cursor-pointer flex justify-center py-1" onclick="Sovereign.UI.togglePortal()">
+      <svg viewBox="0 0 48 24" width="48" height="24" fill="none" stroke="var(--gold)" stroke-width="1.2"><path d="M24 8c-6-6-18-4-22 12 4-2 10-2 14 0 0-4 4-8 8-8s8 4 8 8c4-2 10-2 14 0-4-16-16-18-22-12z"/></svg>
+    </div>
+    <div id="overwatch-portal">
+      <div class="text-[8px] font-black text-gold mb-3 uppercase tracking-[0.3em] text-center">Angelic Overwatch</div>
+      <div class="grid grid-cols-5 gap-1 mb-4 text-white">
+        <div class="angel-init" style="color:var(--emerald)" onclick="Sovereign.UI.openDiag('MICHAEL')">MIC</div>
+        <div class="angel-init" style="color:var(--violet)" onclick="Sovereign.UI.openDiag('ARIEL')">ARI</div>
+        <div class="angel-init" style="color:var(--accent)" onclick="Sovereign.UI.openDiag('GABRIEL')">GAB</div>
+        <div class="angel-init" style="color:var(--lucifer)" onclick="Sovereign.UI.openDiag('LUCIFER')">LUC</div>
+        <div class="angel-init" style="color:var(--cyan)" onclick="Sovereign.UI.openDiag('RAPHAEL')">RAP</div>
+        <div class="angel-init" style="color:var(--duriel)" onclick="Sovereign.UI.openDiag('DURIEL')">DUR</div>
+        <div class="angel-init" style="color:var(--gold)" onclick="Sovereign.UI.openDiag('URIEL')">URI</div>
+        <div class="angel-init" style="color:var(--raziel)" onclick="Sovereign.UI.openDiag('RAZIEL')">RAZ</div>
+        <div class="angel-init" style="color:var(--jariel)" onclick="Sovereign.UI.openDiag('JARIEL')">JAR</div>
+        <div class="angel-init" style="color:var(--hermetic)" onclick="Sovereign.UI.openDiag('HERMES')">HER</div>
+      </div>
+      <button class="btn-ui w-full font-black uppercase mb-2" onclick="Sovereign.Persistence.save()">Save State</button>
+      <div class="angel-init font-bold text-[7px]" onclick="Sovereign.UI.Arch.toggle()">[ ARCHITECT MODE ]</div>
+    </div>
+  </div>
 
-                    this.earthArtifact = new THREE.Mesh(
-                        new THREE.SphereGeometry(25, 32, 32),
-                        new THREE.MeshPhongMaterial({ color: 0x1e40af, emissive: 0x1e40af, emissiveIntensity: 0.6, transparent: true, opacity: 0.95 })
-                    );
-                    this.world.add(this.earthArtifact);
+  <div id="teleport-bridge" class="s-module border-blue-500/30" onmousedown="Sovereign.UI.Arch.focus('teleport-bridge')">
+    <div class="text-[9px] font-black text-blue-400 uppercase italic mb-2 text-center tracking-widest font-bold">TELEPORT BRIDGE</div>
+    <input type="text" id="bridge-search" class="w-full bg-black/60 border border-white/10 p-2 text-[9px] text-white outline-none font-mono" placeholder="YEAR or NAME..." onkeydown="if(event.key==='Enter') Sovereign.Navigation.teleport(this.value)">
+  </div>
 
-                    // 4. ALPHA HELIX ENGINE: BOOSTED RADIANCE
-                    const hGeo = new THREE.BufferGeometry();
-                    hGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(40000 * 3), 3));
-                    hGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(40000 * 3), 3));
-                    this.helix = new THREE.Points(hGeo, new THREE.PointsMaterial({ size: 3.5, vertexColors: true, transparent: true, opacity: 0.8 }));
-                    this.world.add(this.helix);
+  <div id="right-deck">
+    <div class="deck-btn active" id="knowledge-toggle" onclick="Sovereign.UI.Intel.toggleKnowledge()" title="KNOWLEDGE SCAN">K</div>
+    <div class="deck-btn" id="intel-toggle" onclick="Sovereign.UI.Intel.toggleSensors()" title="TECHNICAL BRIEFS">ⓘ</div>
+    <div class="deck-btn active" id="planet-vis-toggle" onclick="Sovereign.UI.Aperture.togglePlanets()" title="PLANET DOCK">
+      <!-- Saturn glyph: planet body + tilted ring -->
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <ellipse cx="12" cy="12" rx="10.5" ry="3.2" transform="rotate(-20 12 12)" opacity="0.85"/>
+        <circle cx="12" cy="12" r="4.2" fill="currentColor" fill-opacity="0.18"/>
+      </svg>
+    </div>
+    <div class="deck-btn active" id="equinox-toggle" onclick="Sovereign.UI.Aperture.toggleEquinox()" style="color:var(--gold)" title="SOLAR MARKERS">●</div>
+  </div>
 
-                    // 5. PLANETARY KERNEL: PARENTED TO PIVOT
-                    const pData = [
-                        { name: 'moon', color: 0xcccccc, radius: 300, period: 0.08, size: 3.5 },
-                        { name: 'mercury', color: 0xff4444, radius: 450, period: 0.24, size: 4 },
-                        { name: 'venus', color: 0xffffff, radius: 650, period: 0.61, size: 6 },
-                        { name: 'earth', color: 0x1e40af, radius: 850, period: 1.0, size: 8 },
-                        { name: 'mars', color: 0xff8800, radius: 1100, period: 1.88, size: 5 },
-                        { name: 'jupiter', color: 0xff9944, radius: 2400, period: 11.8, size: 22 }
-                    ];
-                    pData.forEach(p => {
-                        const b = new THREE.Mesh(new THREE.SphereGeometry(p.size, 32, 32), new THREE.MeshPhongMaterial({ color: p.color, emissive: p.color, emissiveIntensity: 0.8 }));
-                        b.visible = true;
-                        this.planets[p.name] = { body: b, orbitRadius: p.radius, period: p.period };
-                        this.world.add(b);
-                    });
+</div>
 
-                    // 6. CENTURY RINGS: REINFORCED (MESH-WIDTH)
-                    for(let yr = -10000; yr <= 10000; yr += 100) {
-                        const m = new THREE.Mesh(new THREE.TorusGeometry(180, 1.8, 16, 100), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 }));
-                        m.rotation.x = Math.PI / 2; m.userData = { year: yr };
-                        const lCan = document.createElement('canvas'); lCan.width = 512; lCan.height = 128;
-                        const lctx = lCan.getContext('2d'); lctx.fillStyle = '#ffffff'; lctx.font = 'bold 70px JetBrains Mono'; lctx.textAlign = 'center';
-                        lctx.fillText(`${Math.abs(yr)} ${yr<0?'BC':'AD'}`, 256, 80);
-                        const lspr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(lCan), transparent: true, opacity: 0.9 }));
-                        lspr.scale.set(70, 18, 1); lspr.position.y = 190; m.add(lspr);
-                        this.centuryMarkers.push(m); this.world.add(m);
-                    }
+<div id="admin-overlay" class="fixed inset-0 bg-black/98 z-[99999] flex items-center justify-center font-mono" style="display:none;">
+  <div id="diag-content" class="w-full max-w-5xl p-16 overflow-y-auto text-left text-white"></div>
+  <button class="absolute top-8 right-8 text-white/40 hover:text-white" onclick="document.getElementById('admin-overlay').style.display='none'">[ CLOSE ]</button>
+</div>
 
-                    // 7. SOLAR SOLSTICE (EQUINOX)
-                    this.equinox = new THREE.InstancedMesh(new THREE.SphereGeometry(3, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffcc00 }), 200);
-                    this.equinox.visible = true;
-                    this.world.add(this.equinox);
+<script>
+/* ============================================================================
+   AMENTI / SOVEREIGN INSTRUMENT  ::  Page 2  ::  Patched v9.18.12
+   Changes from v9.18.11:
+     - CSV auto-loads from Google Sheet on page open
+     - Schema-aware column mapping (Full Name, Death-Date, Biography, Links)
+     - Death year is the temporal anchor on the helix
+     - Gabriel.transmit() actually calls Claude via the worker proxy
+     - Conversation history is preserved per session and per figure
+     - Links column ("google, wikipedia") is converted to real URLs
+     - Replaced xlsx (1.3MB) with PapaParse (45KB)
+     - Removed dead Raphael.target code path
+     - Boot/error banner gives the user real feedback
+   ============================================================================ */
 
-                    this.scene.add(new THREE.PointLight(0xffffff, 5), new THREE.AmbientLight(0x0a0a0a));
-                    setInterval(() => this.updateSpotlights(), 4000);
-                },
-                updateSpotlights() {
-                    const potentials = Sovereign.Angels.Michael.labelSprites.filter(s => s.visible);
-                    if(!potentials.length) return;
-                    for(let i=0; i<Math.min(potentials.length, 5); i++) {
-                        const target = potentials[Math.floor(Math.random() * potentials.length)];
-                        if(target) target.userData.spotlightEnd = Date.now() + 7000;
-                    }
-                }
-            },
+/* ---------- Small helpers ---------- */
+function setBanner(msg, isError) {
+  const b = document.getElementById('boot-banner');
+  if (!b) return;
+  b.textContent = msg;
+  b.classList.toggle('error', !!isError);
+  b.classList.remove('hidden');
+}
+function hideBanner() {
+  const b = document.getElementById('boot-banner');
+  if (b) b.classList.add('hidden');
+}
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 
-            TechnicalBriefs: {
-                'helix': { title: 'Alpha Helix // Manifold Logic', abstract: 'The primary temporal engine. $$y = (Year_{anchor} - Year_{current}) \\times Parallax$$' },
-                'torque': { title: 'Quantum Torque // Frequency', abstract: 'Governor of angular velocity $\\lambda$. $$\\theta = y \\times (\\frac{2\\pi}{\\lambda})$$' },
-                'aperture': { title: 'Quantum Aperture // Field Breadth', abstract: 'Governs lateral displacement $\\Delta x$ and lens coefficient $L$.' },
-                'z-axis': { title: 'Quantum Zoom // Windowing', abstract: 'Calibration from 25Y to 500Y for scanning.' },
-                'x-axis': { title: 'X-Axis Rail // Temporal Traversal', abstract: 'Clamped traverse: $\\pm3000$Y. Gearing: $1000Y = 2\\pi$' },
-                'injector': { title: 'Quantum Injector // Akasha', abstract: 'Materializes records into Vertical Totems with Relativistic Physics.' }
-            },
+/* ---------- Schema mapping for the Amenti ledger ---------- */
+const SCHEMA = {
+  rank:      ['Rank', 'rank', '#'],
+  name:      ['Full Name', 'Name', 'name', 'Full_Name', 'fullname'],
+  title:     ['Title', 'title', 'Role', 'Profession'],
+  birthDate: ['Birth-Date', 'Birth Date', 'BirthDate', 'birth', 'Born'],
+  deathDate: ['Death-Date', 'Death Date', 'DeathDate', 'death', 'Died'],
+  biography: ['Biography', 'Bio', 'biography', 'About', 'Description'],
+  links:     ['Links', 'links', 'Hyperlinks', 'URLs']
+};
 
-            Angels: {
-                Michael: {
-                    labelSprites: [], trigger() { document.getElementById('ledger-input').click(); },
-                    setRepulsion(mode) {
-                        Sovereign.State.repulsionMode = mode;
-                        document.querySelectorAll('#injector-dock button').forEach(b => { if(b.id?.startsWith('rep-')) b.classList.toggle('btn-active', b.id === `rep-${mode.toLowerCase()}`); });
-                    },
-                    handle(input) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
-                            const data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-                            this.createLabels(data);
-                            Sovereign.State.autoRotate = true;
-                        };
-                        reader.readAsArrayBuffer(input.files[0]);
-                    },
-                    createLabels(data) {
-                        this.labelSprites.forEach(s => Sovereign.Core.world.remove(s));
-                        this.labelSprites = data.map((rec, i) => {
-                            const nameKey = Object.keys(rec).find(k => /name|identity|full name/i.test(k));
-                            const dateKey = Object.keys(rec).find(k => /year|date|death/i.test(k));
-                            const name = rec[nameKey]?.toString().toUpperCase() || "RECORD";
-                            const yr = parseInt(rec[dateKey]) || 1;
-                            const can = document.createElement('canvas'); can.width = 2048; can.height = 256;
-                            const ctx = can.getContext('2d'); ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,2048,256);
-                            ctx.fillStyle = '#10b981'; ctx.font = 'bold 160px JetBrains Mono';
-                            ctx.fillText(`${name} [${yr}]`, 40, 185);
-                            const spr = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(can), transparent: true, depthTest: false }));
-                            spr.userData = { ...rec, year: yr, name: name, noise: Math.random()*100, spotlightEnd: 0, idx: i };
-                            spr.renderOrder = 1000; Sovereign.Core.world.add(spr);
-                            return spr;
-                        });
-                    }
-                },
-                Gabriel: { transmit() {
-                    const input = document.getElementById('chat-input');
-                    const text = input.value.trim(); if(!text) return;
-                    const scroller = document.getElementById('chat-scroller');
-                    const msg = document.createElement('div'); msg.className = "mb-4 border-l border-white/10 pl-4 animate-in fade-in slide-in-from-bottom-2 text-left";
-                    msg.innerHTML = `<div class='text-[8px] text-white/30 uppercase tracking-widest font-black'>Observer // ${Sovereign.State.converseMode}</div><div class='text-sm font-light py-2'>${text}</div>`;
-                    scroller.appendChild(msg); input.value = ''; scroller.scrollTop = scroller.scrollHeight;
-                }},
-                Raphael: {
-                    lockStart: null, target: null,
-                    update() {
-                        const ret = document.getElementById('jump-reticle');
-                        const cd = document.getElementById('jump-countdown');
-                        if(this.target && !Sovereign.State.isTabletOpen) {
-                            if(ret) ret.classList.add('active');
-                            if(!this.lockStart) this.lockStart = Date.now();
-                            const rem = Math.max(0, Math.ceil((3000 - (Date.now() - this.lockStart))/1000));
-                            if(cd) cd.innerText = rem > 0 ? `${rem}S` : "LOCKED";
-                            const p = this.target.position.clone().project(Sovereign.Core.camera);
-                            if(ret) { ret.style.left = (p.x * 0.5 + 0.5) * window.innerWidth + 'px'; ret.style.top = (p.y * -0.5 + 0.5) * window.innerHeight + 'px'; }
-                        } else { if(ret) ret.classList.remove('active'); this.lockStart = null; if(cd) cd.innerText = ""; }
-                    }
-                }
-            },
+function pickField(record, candidates) {
+  for (const key of candidates) {
+    if (record[key] !== undefined && record[key] !== null && String(record[key]).trim() !== '') {
+      return record[key];
+    }
+  }
+  return '';
+}
 
-            Navigation: {
-                XAxis: { target: 1, current: 1, isDragging: false, update() { 
-                    this.current += (this.target - this.current) * 0.08; 
-                    const cur = document.getElementById('x-cursor'); 
-                    if(cur) { 
-                        cur.innerText = `${Math.round(Math.abs(this.current))} ${this.current < 0 ? 'BC' : 'AD'}`; 
-                        const p = (this.current - Sovereign.State.minYear) / (Sovereign.State.maxYear - Sovereign.State.minYear);
-                        cur.style.top = (1 - p)*100 + "%"; 
-                    } 
-                } },
-                Zoom: { target: 250, current: 250, isDragging: false, update() { this.current += (this.target - this.current) * 0.12; const cur = document.getElementById('z-cursor'); if(cur) { cur.innerText = Math.round(this.current) + "Y"; cur.style.top = (1 - (this.current - 25)/475)*100 + "%"; } } },
-                Aperture: { target: 1.0, current: 1.0, isDragging: false, update() { this.current += (this.target - this.current) * 0.1; const cur = document.getElementById('a-cursor'); if(cur) { cur.innerText = `Δx=${this.current.toFixed(1)}`; cur.style.top = (1 - (this.current - 0.1)/4.9)*100 + "%"; } } },
-                handleWheel(e) { 
-                    if (Sovereign.State.isTabletOpen) return; 
-                    if(e.shiftKey) this.Zoom.target = THREE.MathUtils.clamp(this.Zoom.target + Math.sign(e.deltaY)*50, 25, 500); 
-                    else {
-                        this.XAxis.target = THREE.MathUtils.clamp(this.XAxis.target - Math.sign(e.deltaY)*50, Sovereign.State.minYear, Sovereign.State.maxYear); 
-                    }
-                },
-                teleport(v) { const y = parseInt(v); if(!isNaN(y)) { this.XAxis.target = THREE.MathUtils.clamp(y, Sovereign.State.minYear, Sovereign.State.maxYear); } }
-            },
+function parseYear(raw) {
+  if (raw === undefined || raw === null) return NaN;
+  const s = String(raw).trim();
+  if (!s) return NaN;
+  // Handle "1904", "1904 BC", "-1904", "c. 1904", etc.
+  const bc = /\bb\.?c\.?\b/i.test(s);
+  const m = s.match(/-?\d{1,5}/);
+  if (!m) return NaN;
+  let y = parseInt(m[0], 10);
+  if (bc && y > 0) y = -y;
+  return y;
+}
 
-            UI: {
-                Arch: { active: false, toggle() { this.active = !this.active; document.body.classList.toggle('arch-active', this.active); }, focus(id) { if (!this.active) return; document.querySelectorAll('.s-module').forEach(m => m.classList.remove('focused-node')); const el = document.getElementById(id); if(el) el.classList.add('focused-node'); } },
-                Aperture: { 
-                    snap(d, i) { Sovereign.State.currentDepth = d; document.querySelectorAll('#tap-container .grid button').forEach((b, k) => b.classList.toggle('btn-active', k === i)); },
-                    toggleLens(v) { Sovereign.State.lens = v; document.querySelectorAll('#tap-container .flex button').forEach(b => b.classList.toggle('btn-active', (v === 0.15 && b.innerText === 'INT') || (v === 1.0 && b.innerText === 'EXT'))); },
-                    togglePlanets() { Sovereign.State.planetsVisible = !Sovereign.State.planetsVisible; Object.values(Sovereign.Core.planets).forEach(p => p.body.visible = Sovereign.State.planetsVisible); document.getElementById('planet-vis-toggle').classList.toggle('active', Sovereign.State.planetsVisible); },
-                    toggleEquinox() { Sovereign.State.equinoxVisible = !Sovereign.State.equinoxVisible; if(Sovereign.Core.equinox) Sovereign.Core.equinox.visible = Sovereign.State.equinoxVisible; document.getElementById('equinox-toggle').classList.toggle('active', Sovereign.State.equinoxVisible); }
-                },
-                Intel: { 
-                    toggleKnowledge() { Sovereign.State.knowledgeEnabled = !Sovereign.State.knowledgeEnabled; document.getElementById('knowledge-toggle').classList.toggle('active', Sovereign.State.knowledgeEnabled); },
-                    toggleSensors() { Sovereign.State.briefsEnabled = !Sovereign.State.briefsEnabled; document.getElementById('intel-toggle').classList.toggle('active', Sovereign.State.briefsEnabled); },
-                    showUI(type) { 
-                        const card = document.getElementById('intelligence-card');
-                        const isSys = ['x-axis', 'aperture', 'z-axis'].includes(type.toLowerCase());
-                        if(!isSys && !Sovereign.State.briefsEnabled) return;
-                        const b = Sovereign.TechnicalBriefs[type.toLowerCase()]; if(!b) return;
-                        card.classList.add('active'); document.getElementById('intel-header').innerText = b.title; document.getElementById('intel-function').innerHTML = b.abstract;
-                        renderMathInElement(document.getElementById('intel-function'));
-                    },
-                    sync(e) {
-                        const card = document.getElementById('intelligence-card'); if(!card) return;
-                        const isR = e.clientX > window.innerWidth * 0.7; // QUADRANT PROTECTION
-                        card.style.left = e.clientX + (isR ? -360 : 20) + "px"; card.style.top = e.clientY + 20 + "px";
-                    },
-                    hideUI() { document.getElementById('intelligence-card').classList.remove('active'); }
-                },
-                togglePortal() { const p = document.getElementById('overwatch-portal'); if(p) p.style.display = p.style.display === 'block' ? 'none' : 'block'; },
-                openDiag(angel) { 
-                    const overlay = document.getElementById('admin-overlay'); overlay.style.display = 'flex';
-                    document.getElementById('diag-content').innerHTML = `<h2 class='text-6xl font-black italic mb-8'>${angel}_DOSSIER</h2><p class='text-white/60 text-xl leading-relaxed'>Syncing research telemetry for ${angel} protocols... Target Year: ${Math.round(Sovereign.Navigation.XAxis.current)}</p>`;
-                },
-                launchTablet(data) { 
-                    Sovereign.State.isTabletOpen = true; Sovereign.State.activeRecord = data;
-                    document.getElementById('emerald-tablet').classList.add('active'); 
-                    document.getElementById('tablet-record-title').innerText = data.name; 
-                    const bioKey = Object.keys(data).find(k => /bio|biography/i.test(k));
-                    const bioText = data[bioKey] || "Historical narrative stream offline. Synchronization required.";
-                    document.getElementById('tablet-record-body').innerHTML = `<div class='border-l-4 border-emerald-500/30 pl-8 py-4 bg-emerald-500/5 mb-8 text-left'><p class='text-[10px] text-white/50 font-bold uppercase tracking-widest'>Temporal Anchor: ${data.year}</p><p class='text-[8px] text-emerald-400 font-bold mt-1 uppercase'>Neural Sync: ACTIVE</p></div><p class='first-letter:text-7xl first-letter:text-emerald-400 first-letter:float-left first-letter:mr-6 first-letter:mt-2 text-left leading-relaxed font-light'>${bioText}</p>`;
-                    this.reconstituteArchive(data);
-                    this.switchTabletPage('sync');
-                },
-                async reconstituteArchive(data) {
-                    const container = document.getElementById('archive-materialization');
-                    container.innerHTML = `<div class='py-20 text-center animate-pulse text-[10px] tracking-widest uppercase opacity-40'>Neural Scanning Akasha Buffer...</div>`;
-                    setTimeout(() => {
-                        container.innerHTML = `<article class="p-16 border border-white/5 bg-white/[0.01] backdrop-blur-md relative group hover:border-yellow-500/30 transition-all duration-500 text-left w-full"><div class="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-yellow-500/40" /><span class="text-xs font-bold text-yellow-500/50 uppercase tracking-[0.4em]">Primary_Source // ${data.year}</span><h3 class="text-4xl font-black text-white my-8 uppercase leading-tight tracking-tight">Materialized Fragment: ${data.name}</h3><p class="text-white/70 font-light text-xl leading-relaxed mb-16 italic">"We orbit the Truth until we become it. The manifold does not contain us; we contain the manifold. Every node in the Alpha Helix is a station of the breath."</p><div class="pt-12 border-t border-white/5 space-y-10 text-left"><div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Neural Link Response Portal:</div><div class="flex gap-4"><input class="bg-black/60 border border-white/10 flex-1 p-5 text-sm text-white outline-none focus:border-yellow-500/60 transition-all font-mono" placeholder="Query this fragment..." /><button class="px-10 border border-yellow-500/40 text-yellow-500 text-[11px] font-black uppercase hover:bg-yellow-500 hover:text-black transition-all tracking-widest">Connect</button></div></div></article>`;
-                    }, 1200);
-                },
-                closeTablet() { Sovereign.State.isTabletOpen = false; document.getElementById('emerald-tablet').classList.remove('active'); },
-                switchTabletPage(page) { 
-                    const isArchive = page === 'archive';
-                    document.getElementById('tablet-page-sync').classList.toggle('hidden', isArchive); 
-                    document.getElementById('tablet-page-archive').classList.toggle('hidden', !isArchive); 
-                    document.querySelectorAll('.nav-cluster').forEach(nav => {
-                        nav.querySelectorAll('.text-2xl').forEach((icon, i) => {
-                            icon.classList.toggle('text-emerald-400', (i === 0 && !isArchive));
-                            icon.classList.toggle('text-yellow-500', (i === 1 && isArchive));
-                            icon.classList.toggle('text-white/20', (i === 0 && isArchive) || (i === 1 && !isArchive));
-                        });
-                    });
-                },
-                cycleConverse(index) {
-                    const modes = ['INQUIRY', 'REFLECTION', 'SYNTHESIS'];
-                    if (index === -1) { Sovereign.State.converseMode = 'NEUTRAL'; document.querySelectorAll('#converse-rotary button').forEach(b => b.classList.remove('btn-active')); }
-                    else { Sovereign.State.converseMode = modes[index]; document.querySelectorAll('#converse-rotary button').forEach((b, i) => b.classList.toggle('btn-active', i === index)); }
-                }
-            },
-            Persistence: { save() { alert("Manifold State Serialized."); } }
+function buildLinksFromKeywords(name, keywordString) {
+  if (!keywordString) return [];
+  const slug = encodeURIComponent(String(name).trim());
+  const keywords = String(keywordString).split(/[,;|]/).map(k => k.trim().toLowerCase()).filter(Boolean);
+  const builders = {
+    google:    n => ({ label: 'Google',    url: `https://www.google.com/search?q=${n}` }),
+    wikipedia: n => ({ label: 'Wikipedia', url: `https://en.wikipedia.org/wiki/Special:Search?search=${n}` }),
+    youtube:   n => ({ label: 'YouTube',   url: `https://www.youtube.com/results?search_query=${n}` }),
+    britannica:n => ({ label: 'Britannica',url: `https://www.britannica.com/search?query=${n}` }),
+    archive:   n => ({ label: 'Archive',   url: `https://archive.org/search?query=${n}` })
+  };
+  const out = [];
+  for (const k of keywords) {
+    if (builders[k]) out.push(builders[k](slug));
+    else if (/^https?:\/\//i.test(k)) out.push({ label: k.replace(/^https?:\/\//, '').slice(0, 24), url: k });
+  }
+  return out;
+}
+
+function normalizeRecord(rec, idx) {
+  const name = String(pickField(rec, SCHEMA.name) || '').trim();
+  if (!name) return null;
+  const birthYear = parseYear(pickField(rec, SCHEMA.birthDate));
+  const deathYear = parseYear(pickField(rec, SCHEMA.deathDate));
+  // Anchor: death year (per design decision). Fall back to birth if death is missing.
+  const anchorYear = !isNaN(deathYear) ? deathYear : birthYear;
+  if (isNaN(anchorYear)) return null;
+  return {
+    idx,
+    rank: pickField(rec, SCHEMA.rank),
+    name,
+    title: String(pickField(rec, SCHEMA.title) || '').trim(),
+    birthYear: isNaN(birthYear) ? null : birthYear,
+    deathYear: isNaN(deathYear) ? null : deathYear,
+    anchorYear,
+    biography: String(pickField(rec, SCHEMA.biography) || '').trim(),
+    links: buildLinksFromKeywords(name, pickField(rec, SCHEMA.links))
+  };
+}
+
+/* ============================================================================
+   SOVEREIGN NAMESPACE
+   ============================================================================ */
+window.Sovereign = {
+
+  State: {
+    orbitTheta: 0.8, orbitPhi: 0.3, isOrbitDragging: false, currentDepth: 450,
+    briefsEnabled: false, knowledgeEnabled: true, hoveredLedgerSprite: null,
+    autoRotate: false, rotationVelocity: 0.0005, targetRotationVelocity: 0.0005,
+    systemMomentum: 0, repulsionMode: 'TOTEM', planetsVisible: true,
+    equinoxVisible: true, lens: 1.0, converseMode: 'INQUIRY',
+    isTabletOpen: false, activeRecord: null,
+    minYear: -3000, maxYear: 3000,
+    // Per-figure conversation history. Key = figure name, value = [{role, content}, ...]
+    conversations: {}
+  },
+
+  Core: {
+    scene: null, camera: null, renderer: null, world: null, helix: null,
+    planets: {}, centuryMarkers: [], equinox: null, truthAxis: null,
+    earthPrism: null, earthArtifact: null, metatronGrid: null,
+    raycaster: new THREE.Raycaster(), mouse: new THREE.Vector2(),
+
+    init() {
+      this.scene = new THREE.Scene();
+      this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 1, 4000000);
+      this.renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('main-canvas'), antialias: true, alpha: true });
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this.world = new THREE.Group();
+      this.scene.add(this.world);
+
+      // Truth Axis
+      const axisGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, -20000, 0), new THREE.Vector3(0, 20000, 0)]);
+      this.truthAxis = new THREE.Line(axisGeo, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 }));
+      this.world.add(this.truthAxis);
+
+      // Metatron grid
+      const gridGeo = new THREE.IcosahedronGeometry(1200, 1);
+      this.metatronGrid = new THREE.LineSegments(
+        new THREE.WireframeGeometry(gridGeo),
+        new THREE.LineBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.05 })
+      );
+      this.world.add(this.metatronGrid);
+
+      // Earth Prism + Earth artifact
+      const prismGeo = new THREE.OctahedronGeometry(60, 0);
+      this.earthPrism = new THREE.LineSegments(
+        new THREE.WireframeGeometry(prismGeo),
+        new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 })
+      );
+      this.world.add(this.earthPrism);
+      this.earthArtifact = new THREE.Mesh(
+        new THREE.SphereGeometry(25, 32, 32),
+        new THREE.MeshPhongMaterial({ color: 0x1e40af, emissive: 0x1e40af, emissiveIntensity: 0.6, transparent: true, opacity: 0.95 })
+      );
+      this.world.add(this.earthArtifact);
+
+      // Alpha Helix
+      const hGeo = new THREE.BufferGeometry();
+      hGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(40000 * 3), 3));
+      hGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(40000 * 3), 3));
+      this.helix = new THREE.Points(hGeo, new THREE.PointsMaterial({ size: 3.5, vertexColors: true, transparent: true, opacity: 0.8 }));
+      this.world.add(this.helix);
+
+      // Planets
+      const pData = [
+        { name: 'moon',    color: 0xcccccc, radius: 300,  period: 0.08, size: 3.5 },
+        { name: 'mercury', color: 0xff4444, radius: 450,  period: 0.24, size: 4 },
+        { name: 'venus',   color: 0xffffff, radius: 650,  period: 0.61, size: 6 },
+        { name: 'earth',   color: 0x1e40af, radius: 850,  period: 1.0,  size: 8 },
+        { name: 'mars',    color: 0xff8800, radius: 1100, period: 1.88, size: 5 },
+        { name: 'jupiter', color: 0xff9944, radius: 2400, period: 11.8, size: 22 }
+      ];
+      pData.forEach(p => {
+        const b = new THREE.Mesh(new THREE.SphereGeometry(p.size, 32, 32), new THREE.MeshPhongMaterial({ color: p.color, emissive: p.color, emissiveIntensity: 0.8 }));
+        b.visible = true;
+        this.planets[p.name] = { body: b, orbitRadius: p.radius, period: p.period };
+        this.world.add(b);
+      });
+
+      // Century rings
+      for (let yr = -10000; yr <= 10000; yr += 100) {
+        const m = new THREE.Mesh(new THREE.TorusGeometry(180, 1.8, 16, 100), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 }));
+        m.rotation.x = Math.PI / 2;
+        m.userData = { year: yr };
+        const lCan = document.createElement('canvas'); lCan.width = 512; lCan.height = 128;
+        const lctx = lCan.getContext('2d');
+        lctx.fillStyle = '#ffffff'; lctx.font = 'bold 70px JetBrains Mono'; lctx.textAlign = 'center';
+        lctx.fillText(`${Math.abs(yr)} ${yr<0?'BC':'AD'}`, 256, 80);
+        // Century labels render last and skip depth-testing so they stay readable
+        // when the Earth, planets, or helix points pass in front of them.
+        const lspr = new THREE.Sprite(new THREE.SpriteMaterial({
+          map: new THREE.CanvasTexture(lCan),
+          transparent: true,
+          opacity: 0.9,
+          depthTest: false,
+          depthWrite: false
+        }));
+        // Label sits on the ring's plane (y=0 in the ring's local frame) so the
+        // marker for the active century reads at viewport center, not above it.
+        lspr.scale.set(70, 18, 1); lspr.position.y = 0;
+        lspr.renderOrder = 1500;
+        m.add(lspr);
+        this.centuryMarkers.push(m);
+        this.world.add(m);
+      }
+
+      // Equinox markers
+      this.equinox = new THREE.InstancedMesh(new THREE.SphereGeometry(3, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffcc00 }), 200);
+      this.equinox.visible = true;
+      this.world.add(this.equinox);
+
+      this.scene.add(new THREE.PointLight(0xffffff, 5), new THREE.AmbientLight(0x0a0a0a));
+      setInterval(() => this.updateSpotlights(), 4000);
+    },
+
+    updateSpotlights() {
+      const potentials = Sovereign.Angels.Michael.labelSprites.filter(s => s.visible);
+      if (!potentials.length) return;
+      for (let i = 0; i < Math.min(potentials.length, 5); i++) {
+        const target = potentials[Math.floor(Math.random() * potentials.length)];
+        if (target) target.userData.spotlightEnd = Date.now() + 7000;
+      }
+    }
+  },
+
+  TechnicalBriefs: {
+    'helix':    { title: 'Alpha Helix // Manifold Logic', abstract: 'The primary temporal engine. $$y = (Year_{anchor} - Year_{current}) \\times Parallax$$' },
+    'torque':   { title: 'Quantum Torque // Frequency',   abstract: 'Governor of angular velocity $\\lambda$. $$\\theta = y \\times (\\frac{2\\pi}{\\lambda})$$' },
+    'aperture': { title: 'Quantum Aperture // Field Breadth', abstract: 'Governs lateral displacement $\\Delta x$ and lens coefficient $L$.' },
+    'z-axis':   { title: 'Quantum Zoom // Windowing',     abstract: 'Calibration from 25Y to 500Y for scanning.' },
+    'x-axis':   { title: 'X-Axis Rail // Temporal Traversal', abstract: 'Clamped traverse: $\\pm3000$Y. Gearing: $1000Y = 2\\pi$' },
+    'injector': { title: 'Quantum Injector // Akasha',    abstract: 'RELOAD the canonical ledger, REPLACE with a custom CSV, or EJECT to a clean manifold. Auto-loads on boot.' }
+  },
+
+  Angels: {
+
+    /* ========== MICHAEL :: Ledger ingestion ==========
+       Public API:
+         Michael.reload()     - re-fetch the canonical ledger from the Google Sheet
+         Michael.replace()    - prompt the user to pick a custom CSV file
+         Michael.eject()      - clear the manifold to a clean slate
+         Michael.handleFileUpload(input)  - hidden, used by the file <input>
+    */
+    Michael: {
+      labelSprites: [],
+      records: [],
+      lastSource: 'NONE',  // 'SHEET' | 'FILE' | 'NONE'
+
+      setRepulsion(mode) {
+        Sovereign.State.repulsionMode = mode;
+        document.querySelectorAll('#injector-dock button').forEach(b => {
+          if (b.id && b.id.startsWith('rep-')) {
+            b.classList.toggle('btn-active', b.id === `rep-${mode.toLowerCase()}`);
+          }
+        });
+      },
+
+      /* ---- Public: RELOAD ---- */
+      async reload() {
+        const url = window.AMENTI_CONFIG && window.AMENTI_CONFIG.LEDGER_CSV_URL;
+        if (!url || url.indexOf('PASTE_') === 0) {
+          this.updateStatus('CONFIG MISSING', true);
+          setBanner('CONFIG MISSING: set AMENTI_CONFIG.LEDGER_CSV_URL', true);
+          return;
+        }
+        this.updateStatus('FETCHING...');
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const text = await res.text();
+          this.ingestCsvText(text);
+          this.lastSource = 'SHEET';
+          this.updateStatus(`${this.records.length} NODES :: SHEET`);
+          this.pulseArrival();
+        } catch (err) {
+          console.error('Ledger fetch failed:', err);
+          this.updateStatus('FETCH FAILED', true);
+          setBanner('LEDGER FETCH FAILED :: see console', true);
+        }
+      },
+
+      /* ---- Public: REPLACE ---- */
+      replace() {
+        document.getElementById('ledger-input').click();
+      },
+
+      /* ---- Public: EJECT ---- */
+      eject() {
+        this.labelSprites.forEach(s => {
+          if (s.material && s.material.map) s.material.map.dispose();
+          if (s.material) s.material.dispose();
+          Sovereign.Core.world.remove(s);
+        });
+        this.labelSprites = [];
+        this.records = [];
+        this.lastSource = 'NONE';
+        Sovereign.State.autoRotate = false;
+        // If a tablet was open for an ejected figure, close it cleanly.
+        if (Sovereign.State.isTabletOpen) Sovereign.UI.closeTablet();
+        this.updateStatus('— EMPTY —');
+      },
+
+      /* ---- Internal: file input change handler ---- */
+      handleFileUpload(input) {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        this.updateStatus('READING FILE...');
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.ingestCsvText(e.target.result);
+          this.lastSource = 'FILE';
+          this.updateStatus(`${this.records.length} NODES :: ${file.name.toUpperCase()}`);
+          this.pulseArrival();
+          // Allow re-uploading the same file later.
+          input.value = '';
         };
+        reader.onerror = () => {
+          this.updateStatus('FILE READ FAILED', true);
+          setBanner('FILE READ FAILED', true);
+        };
+        reader.readAsText(file);
+      },
 
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = Date.now() * 0.001;
-            Sovereign.Navigation.XAxis.update(); Sovereign.Navigation.Zoom.update(); Sovereign.Navigation.Aperture.update(); 
-            Sovereign.Angels.Raphael.update();
-            
-            // SYSTEM MOMENTUM: UNIFIED PIPELINE
-            if(!Sovereign.State.isTabletOpen) {
-                if(Sovereign.State.autoRotate) Sovereign.State.systemMomentum += Sovereign.State.rotationVelocity;
-                else Sovereign.State.systemMomentum += 0.0001; // IDLE DRIFT
-            }
+      /* ---- Internal: parse + render ---- */
+      ingestCsvText(text) {
+        const parsed = Papa.parse(text, { header: true, skipEmptyLines: true, dynamicTyping: false });
+        if (parsed.errors && parsed.errors.length) {
+          console.warn('CSV parse warnings:', parsed.errors.slice(0, 3));
+        }
+        const records = (parsed.data || [])
+          .map((rec, i) => normalizeRecord(rec, i))
+          .filter(Boolean);
+        this.records = records;
+        this.createLabels(records);
+        Sovereign.State.autoRotate = true;
+      },
 
-            const yr = Sovereign.Navigation.XAxis.current; const sp = 1500 / Sovereign.Navigation.Zoom.current;
-            const rot = (Math.PI*2)/100; const rH = 100 * Sovereign.Navigation.Aperture.current;
+      /* ---- Internal: dock status text ---- */
+      updateStatus(text, isError) {
+        const el = document.getElementById('injector-status');
+        if (!el) return;
+        el.textContent = text;
+        el.style.color = isError ? 'var(--critical)' : 'var(--emerald)';
+      },
 
-            // RELATIVISTIC GEARING: 1000yr = 1 Full Orbit (2PI)
-            const gearRatio = (2 * Math.PI) / 1000;
-            const scrollMomentum = yr * gearRatio;
+      /* ---- Internal: arrival pulse on the dock ---- */
+      pulseArrival() {
+        const dock = document.getElementById('injector-dock');
+        if (!dock) return;
+        dock.classList.remove('arrival-pulse');
+        // Force reflow so the animation can re-trigger if called again.
+        void dock.offsetWidth;
+        dock.classList.add('arrival-pulse');
+        setTimeout(() => dock.classList.remove('arrival-pulse'), 1700);
+      },
 
-            // Update Stabilizers
-            if(Sovereign.Core.earthPrism) {
-                Sovereign.Core.earthPrism.rotation.y = Sovereign.State.systemMomentum + scrollMomentum;
-                Sovereign.Core.earthPrism.rotation.x = Math.sin(time * 0.2) * 0.05;
-            }
-            if(Sovereign.Core.earthArtifact) Sovereign.Core.earthArtifact.rotation.y += 0.005;
+      createLabels(records) {
+        // Clear previous
+        this.labelSprites.forEach(s => Sovereign.Core.world.remove(s));
+        this.labelSprites = records.map((rec) => {
+          const can = document.createElement('canvas');
+          can.width = 2048; can.height = 256;
+          const ctx = can.getContext('2d');
+          ctx.fillStyle = 'rgba(0,0,0,0.6)';
+          ctx.fillRect(0, 0, 2048, 256);
+          ctx.fillStyle = '#10b981';
+          ctx.font = 'bold 160px JetBrains Mono';
+          ctx.fillText(`${rec.name.toUpperCase()} [${rec.anchorYear}]`, 40, 185);
+          const spr = new THREE.Sprite(new THREE.SpriteMaterial({
+            map: new THREE.CanvasTexture(can),
+            transparent: true,
+            depthTest: false
+          }));
+          spr.userData = {
+            ...rec,
+            year: rec.anchorYear,        // back-compat alias
+            noise: Math.random() * 100,
+            spotlightEnd: 0
+          };
+          spr.renderOrder = 1000;
+          Sovereign.Core.world.add(spr);
+          return spr;
+        });
+      }
+    },
 
-            // Update Ledger Sprites
-            Sovereign.Angels.Michael.labelSprites.forEach(s => {
-                const sYr = s.userData.year; if(Math.abs(sYr - yr) > 500) { s.visible = false; return; }
-                const isSpotlight = s.userData.spotlightEnd > Date.now();
-                let a = (sYr * rot) + Sovereign.State.systemMomentum + scrollMomentum; 
-                let r = rH + 75; let y = (sYr - yr) * sp;
-                if (isSpotlight) r += 110; 
-                s.position.set(Math.cos(a)*r, y, Math.sin(a)*r); s.visible = true; 
-                s.material.opacity = isSpotlight ? 1 : 0.5;
-                const targetScale = isSpotlight ? 140 : 75;
-                s.scale.lerp(new THREE.Vector3(targetScale, targetScale/7, 1), 0.1);
-                s.material.color.lerp(new THREE.Color(isSpotlight ? 0xffcc00 : 0x10b981), 0.2);
-            });
+    /* ========== GABRIEL :: AI bridge to Claude ========== */
+    Gabriel: {
+      isAwaitingResponse: false,
 
-            // Update Alpha Helix
-            const hPos = Sovereign.Core.helix.geometry.attributes.position.array;
-            for(let i=0; i<40000; i++) {
-                const tY = yr + (i - 20000)/100; 
-                const a = (tY * rot) + Sovereign.State.systemMomentum + scrollMomentum; 
-                const y = (tY - yr)*sp;
-                hPos[i*3] = Math.cos(a)*rH; hPos[i*3+1] = y; hPos[i*3+2] = Math.sin(a)*rH;
-            }
-            Sovereign.Core.helix.geometry.attributes.position.needsUpdate = true;
+      async transmit() {
+        if (this.isAwaitingResponse) return;
+        const input = document.getElementById('chat-input');
+        const text = (input.value || '').trim();
+        if (!text) return;
 
-            // PLANETARY GEARED PHYSICS
-            if(Sovereign.State.planetsVisible) {
-                for(let p in Sovereign.Core.planets) {
-                    const d = Sovereign.Core.planets[p]; 
-                    // RELATIVISTIC ORBIT: Angle = (Momentum + Geared Scroll) / Period
-                    const orbitAngle = ( (Sovereign.State.systemMomentum * 0.05) + (scrollMomentum) ) / d.period;
-                    d.body.position.set(Math.cos(orbitAngle)*(rH + d.orbitRadius), 0, Math.sin(orbitAngle)*(rH + d.orbitRadius));
-                    d.body.rotation.y += 0.01;
-                }
-            }
-
-            // EQUINOX / SOLSTICE UPDATE
-            if(Sovereign.State.equinoxVisible && Sovereign.Core.equinox) {
-                for(let i=0; i<200; i++) {
-                    const tY = Math.floor(yr-100)+i; 
-                    const a = (tY*rot) + Sovereign.State.systemMomentum + scrollMomentum; 
-                    const y = (tY-yr)*sp;
-                    const dummy = new THREE.Object3D(); 
-                    dummy.position.set(Math.cos(a)*(rH*1.618), y, Math.sin(a)*(rH*1.618)); 
-                    dummy.updateMatrix(); Sovereign.Core.equinox.setMatrixAt(i, dummy.matrix);
-                }
-                Sovereign.Core.equinox.instanceMatrix.needsUpdate = true;
-            }
-
-            Sovereign.Core.centuryMarkers.forEach(m => {
-                const yP = (m.userData.year - yr) * sp; 
-                if(Math.abs(yP) > 10000) { m.visible = false; } else {
-                    m.visible = true; m.position.set(0, yP, 0); m.scale.setScalar(rH/100);
-                    if(m.children[0]) m.children[0].quaternion.copy(Sovereign.Core.camera.quaternion);
-                }
-            });
-
-            const dist = Sovereign.State.currentDepth * Sovereign.State.lens;
-            Sovereign.Core.camera.position.set(Math.cos(Sovereign.State.orbitTheta)*Math.cos(Sovereign.State.orbitPhi)*dist, Math.sin(Sovereign.State.orbitPhi)*dist, Math.sin(Sovereign.State.orbitTheta)*Math.cos(Sovereign.State.orbitPhi)*dist);
-            Sovereign.Core.camera.lookAt(0,0,0); Sovereign.Core.renderer.render(Sovereign.Core.scene, Sovereign.Core.camera);
+        const record = Sovereign.State.activeRecord;
+        if (!record) {
+          this.appendSystem("No node selected. Click a name on the helix to begin a Neural Sync.");
+          return;
         }
 
-        window.onload = () => { 
-            Sovereign.Core.init(); animate(); 
-            window.addEventListener('mousedown', (e) => {
-                if(e.target.closest('.s-module') || e.target.closest('.analog-sidebar') || e.target.closest('#right-deck') || document.getElementById('emerald-tablet').classList.contains('active')) return;
-                Sovereign.State.isOrbitDragging = true;
-            });
-            window.addEventListener('mousemove', (e) => {
-                if (Sovereign.State.isOrbitDragging) { Sovereign.State.orbitTheta -= e.movementX * 0.005; Sovereign.State.orbitPhi = THREE.MathUtils.clamp(Sovereign.State.orbitPhi + e.movementY * 0.005, -1.4, 1.4); }
-                if (Sovereign.Navigation.XAxis.isDragging) {
-                    const rect = document.getElementById('x-track').getBoundingClientRect();
-                    const rawVal = Sovereign.State.minYear + (THREE.MathUtils.clamp(1 - (e.clientY - rect.top)/rect.height, 0, 1) * (Sovereign.State.maxYear - Sovereign.State.minYear));
-                    Sovereign.Navigation.XAxis.target = THREE.MathUtils.clamp(rawVal, Sovereign.State.minYear, Sovereign.State.maxYear);
-                }
-                if (Sovereign.Navigation.Zoom.isDragging) {
-                    const rect = document.getElementById('z-track').getBoundingClientRect();
-                    Sovereign.Navigation.Zoom.target = 25 + (THREE.MathUtils.clamp(1 - (e.clientY - rect.top)/rect.height, 0, 1) * 475);
-                }
-                if (Sovereign.Navigation.Aperture.isDragging) {
-                    const rect = document.getElementById('a-track').getBoundingClientRect();
-                    Sovereign.Navigation.Aperture.target = 0.1 + (THREE.MathUtils.clamp(1 - (e.clientY - rect.top)/rect.height, 0, 1) * 4.9);
-                }
-                Sovereign.UI.Intel.sync(e);
-            });
-            window.addEventListener('mouseup', () => { Sovereign.State.isOrbitDragging = false; Sovereign.Navigation.XAxis.isDragging = false; Sovereign.Navigation.Zoom.isDragging = false; Sovereign.Navigation.Aperture.isDragging = false; });
-            window.addEventListener('click', (e) => {
-                Sovereign.Core.mouse.x = (e.clientX/window.innerWidth)*2-1; Sovereign.Core.mouse.y = -(e.clientY/window.innerHeight)*2+1;
-                Sovereign.Core.raycaster.setFromCamera(Sovereign.Core.mouse, Sovereign.Core.camera);
-                const inter = Sovereign.Core.raycaster.intersectObjects(Sovereign.Angels.Michael.labelSprites);
-                if(inter.length > 0) Sovereign.UI.launchTablet(inter[0].object.userData);
-            });
+        const proxyUrl = window.AMENTI_CONFIG && window.AMENTI_CONFIG.AI_PROXY_URL;
+        if (!proxyUrl || proxyUrl.indexOf('PASTE_') === 0) {
+          this.appendSystem("AI proxy not configured. See SETUP.md to deploy the Cloudflare Worker.");
+          return;
+        }
+
+        // Echo the user's message
+        this.appendUser(text);
+        input.value = '';
+
+        // Init or extend conversation history for this figure
+        const histKey = record.name;
+        if (!Sovereign.State.conversations[histKey]) {
+          Sovereign.State.conversations[histKey] = [];
+        }
+        const history = Sovereign.State.conversations[histKey];
+        history.push({ role: 'user', content: text });
+
+        // Build the figure's persona system prompt
+        const systemPrompt = this.buildSystemPrompt(record);
+
+        // Show typing indicator
+        const typingEl = this.appendTyping();
+        this.isAwaitingResponse = true;
+
+        try {
+          const res = await fetch(proxyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              system: systemPrompt,
+              messages: history
+            })
+          });
+          if (!res.ok) {
+            const errText = await res.text().catch(() => '');
+            throw new Error(`Proxy ${res.status}: ${errText.slice(0, 200)}`);
+          }
+          const data = await res.json();
+          const reply = (data && data.reply) ? String(data.reply) : '(no reply)';
+          history.push({ role: 'assistant', content: reply });
+          typingEl.remove();
+          this.appendAssistant(reply, record.name);
+        } catch (err) {
+          console.error('Gabriel transmit failed:', err);
+          typingEl.remove();
+          this.appendSystem(`Transmission failure: ${err.message}`);
+          // Roll back the user turn so retry doesn't double-up
+          history.pop();
+        } finally {
+          this.isAwaitingResponse = false;
+        }
+      },
+
+      buildSystemPrompt(record) {
+        const mode = Sovereign.State.converseMode || 'INQUIRY';
+        const lifespan = (record.birthYear != null && record.deathYear != null)
+          ? `${record.birthYear}–${record.deathYear}`
+          : (record.deathYear != null ? `d. ${record.deathYear}` : '');
+        const modeGuidance = {
+          INQUIRY:    'The visitor wishes to ASK you questions. Answer in your own voice, drawing on what you knew, believed, and lived through.',
+          REFLECTION: 'The visitor wishes you to REFLECT — speak meditatively, weighing the meaning and consequences of your work and life.',
+          SYNTHESIS:  'The visitor wishes you to SYNTHESIZE — connect your work to broader currents of history, philosophy, and the figures who came before and after you.',
+          NEUTRAL:    'Respond naturally, neither performing inquiry nor reflection.'
+        }[mode] || '';
+
+        return [
+          `You are ${record.name} (${record.title}${lifespan ? `, ${lifespan}` : ''}), summoned through the Amenti Interface to converse with a visitor from a future age.`,
+          ``,
+          `BIOGRAPHICAL CONTEXT (treat as your lived experience, not external information):`,
+          record.biography || '(no biography on file — speak from general historical knowledge of yourself)',
+          ``,
+          `CONVERSATION MODE: ${mode}. ${modeGuidance}`,
+          ``,
+          `GUIDELINES:`,
+          `- Speak in the first person as ${record.name}. Stay in character.`,
+          `- You may acknowledge that you are speaking from beyond your own time, but do not break character to disclaim your nature as an AI.`,
+          `- Be substantive and thoughtful. Avoid modern slang unless the visitor uses it first.`,
+          `- If asked about events after your death year (${record.deathYear ?? 'unknown'}), you may reflect on them as one looking back from a vantage outside time, but mark them as such.`,
+          `- Keep responses to 2–4 short paragraphs unless the visitor explicitly asks for more.`,
+          `- Decline gracefully if asked to speak in ways that would betray your historical character (e.g., to endorse modern products, give medical advice, etc.).`
+        ].join('\n');
+      },
+
+      /* ----- Chat rendering helpers ----- */
+      appendUser(text) {
+        const scroller = document.getElementById('chat-scroller');
+        const msg = document.createElement('div');
+        msg.className = "mb-4 border-l border-white/10 pl-4 text-left";
+        msg.innerHTML = `<div class='text-[8px] text-white/30 uppercase tracking-widest font-black'>Observer // ${escapeHtml(Sovereign.State.converseMode)}</div><div class='text-sm font-light py-2'>${escapeHtml(text)}</div>`;
+        scroller.appendChild(msg);
+        scroller.scrollTop = scroller.scrollHeight;
+      },
+      appendAssistant(text, who) {
+        const scroller = document.getElementById('chat-scroller');
+        const msg = document.createElement('div');
+        msg.className = "mb-4 border-l border-emerald-500/40 pl-4 text-left";
+        msg.innerHTML = `<div class='text-[8px] text-emerald-400 uppercase tracking-widest font-black'>${escapeHtml(who)}</div><div class='text-sm font-light py-2 whitespace-pre-wrap'>${escapeHtml(text)}</div>`;
+        scroller.appendChild(msg);
+        scroller.scrollTop = scroller.scrollHeight;
+      },
+      appendSystem(text) {
+        const scroller = document.getElementById('chat-scroller');
+        const msg = document.createElement('div');
+        msg.className = "mb-4 border-l border-amber-500/40 pl-4 text-left";
+        msg.innerHTML = `<div class='text-[8px] text-amber-400 uppercase tracking-widest font-black'>System</div><div class='text-xs italic py-2 text-white/60'>${escapeHtml(text)}</div>`;
+        scroller.appendChild(msg);
+        scroller.scrollTop = scroller.scrollHeight;
+        return msg;
+      },
+      appendTyping() {
+        const scroller = document.getElementById('chat-scroller');
+        const msg = document.createElement('div');
+        msg.className = "mb-4 border-l border-emerald-500/20 pl-4 text-left";
+        msg.innerHTML = `<div class='text-[8px] text-emerald-400/60 uppercase tracking-widest font-black'>Synchronizing...</div><div class='py-2'><span class='ai-typing'><span></span><span></span><span></span></span></div>`;
+        scroller.appendChild(msg);
+        scroller.scrollTop = scroller.scrollHeight;
+        return msg;
+      }
+    },
+
+    /* ========== URIEL :: Torque control ========== */
+    Uriel: {
+      set(years, idx) {
+        // 'years' is the desired window in years per cycle; we treat this as setting the zoom target.
+        Sovereign.Navigation.Zoom.target = THREE.MathUtils.clamp(years, 25, 500);
+        const buttons = document.querySelectorAll('#winding-dock button');
+        buttons.forEach((b, k) => b.classList.toggle('btn-active', k === idx));
+      }
+    }
+  },
+
+  Navigation: {
+    XAxis: { target: 1, current: 1, isDragging: false, update() {
+      this.current += (this.target - this.current) * 0.08;
+      const cur = document.getElementById('x-cursor');
+      if (cur) {
+        cur.innerText = `${Math.round(Math.abs(this.current))} ${this.current < 0 ? 'BC' : 'AD'}`;
+        const p = (this.current - Sovereign.State.minYear) / (Sovereign.State.maxYear - Sovereign.State.minYear);
+        cur.style.top = (1 - p) * 100 + "%";
+      }
+    } },
+    Zoom:     { target: 250, current: 250, isDragging: false, update() {
+      this.current += (this.target - this.current) * 0.12;
+      const cur = document.getElementById('z-cursor');
+      if (cur) { cur.innerText = Math.round(this.current) + "Y"; cur.style.top = (1 - (this.current - 25) / 475) * 100 + "%"; }
+    } },
+    Aperture: { target: 1.0, current: 1.0, isDragging: false, update() {
+      this.current += (this.target - this.current) * 0.1;
+      const cur = document.getElementById('a-cursor');
+      if (cur) { cur.innerText = `Δx=${this.current.toFixed(1)}`; cur.style.top = (1 - (this.current - 0.1) / 4.9) * 100 + "%"; }
+    } },
+
+    handleWheel(e) {
+      if (Sovereign.State.isTabletOpen) return;
+      if (e.shiftKey) {
+        this.Zoom.target = THREE.MathUtils.clamp(this.Zoom.target + Math.sign(e.deltaY) * 50, 25, 500);
+      } else {
+        this.XAxis.target = THREE.MathUtils.clamp(this.XAxis.target - Math.sign(e.deltaY) * 50, Sovereign.State.minYear, Sovereign.State.maxYear);
+      }
+    },
+
+    teleport(value) {
+      const v = String(value || '').trim();
+      if (!v) return;
+      // Numeric? Treat as year.
+      if (/^-?\d+$/.test(v)) {
+        const y = parseInt(v, 10);
+        this.XAxis.target = THREE.MathUtils.clamp(y, Sovereign.State.minYear, Sovereign.State.maxYear);
+        return;
+      }
+      // Otherwise, treat as a name search.
+      const recs = Sovereign.Angels.Michael.records || [];
+      const needle = v.toLowerCase();
+      const match = recs.find(r => r.name.toLowerCase().includes(needle));
+      if (match) {
+        this.XAxis.target = THREE.MathUtils.clamp(match.anchorYear, Sovereign.State.minYear, Sovereign.State.maxYear);
+        setBanner(`TELEPORT :: ${match.name.toUpperCase()} (${match.anchorYear})`);
+        setTimeout(hideBanner, 1500);
+      } else {
+        setBanner(`NO MATCH FOR "${v}"`, true);
+        setTimeout(hideBanner, 1800);
+      }
+    }
+  },
+
+  UI: {
+    Arch: {
+      active: false,
+      toggle() { this.active = !this.active; document.body.classList.toggle('arch-active', this.active); },
+      focus(id) {
+        if (!this.active) return;
+        document.querySelectorAll('.s-module').forEach(m => m.classList.remove('focused-node'));
+        const el = document.getElementById(id);
+        if (el) el.classList.add('focused-node');
+      }
+    },
+
+    Aperture: {
+      snap(d, i) {
+        Sovereign.State.currentDepth = d;
+        document.querySelectorAll('#tap-container .grid button').forEach((b, k) => b.classList.toggle('btn-active', k === i));
+      },
+      toggleLens(v) {
+        Sovereign.State.lens = v;
+        document.querySelectorAll('#tap-container .flex button').forEach(b => {
+          b.classList.toggle('btn-active', (v === 0.15 && b.innerText === 'INT') || (v === 1.0 && b.innerText === 'EXT'));
+        });
+      },
+      togglePlanets() {
+        Sovereign.State.planetsVisible = !Sovereign.State.planetsVisible;
+        Object.values(Sovereign.Core.planets).forEach(p => p.body.visible = Sovereign.State.planetsVisible);
+        document.getElementById('planet-vis-toggle').classList.toggle('active', Sovereign.State.planetsVisible);
+      },
+      toggleEquinox() {
+        Sovereign.State.equinoxVisible = !Sovereign.State.equinoxVisible;
+        if (Sovereign.Core.equinox) Sovereign.Core.equinox.visible = Sovereign.State.equinoxVisible;
+        document.getElementById('equinox-toggle').classList.toggle('active', Sovereign.State.equinoxVisible);
+      }
+    },
+
+    Intel: {
+      toggleKnowledge() {
+        Sovereign.State.knowledgeEnabled = !Sovereign.State.knowledgeEnabled;
+        document.getElementById('knowledge-toggle').classList.toggle('active', Sovereign.State.knowledgeEnabled);
+      },
+      toggleSensors() {
+        Sovereign.State.briefsEnabled = !Sovereign.State.briefsEnabled;
+        document.getElementById('intel-toggle').classList.toggle('active', Sovereign.State.briefsEnabled);
+      },
+      showUI(type) {
+        const card = document.getElementById('intelligence-card');
+        const isSys = ['x-axis', 'aperture', 'z-axis'].includes(type.toLowerCase());
+        if (!isSys && !Sovereign.State.briefsEnabled) return;
+        const b = Sovereign.TechnicalBriefs[type.toLowerCase()];
+        if (!b) return;
+        card.classList.add('active');
+        document.getElementById('intel-header').innerText = b.title;
+        document.getElementById('intel-function').innerHTML = b.abstract;
+        if (window.renderMathInElement) {
+          renderMathInElement(document.getElementById('intel-function'));
+        }
+      },
+      sync(e) {
+        const card = document.getElementById('intelligence-card');
+        if (!card) return;
+        const isR = e.clientX > window.innerWidth * 0.7;
+        card.style.left = e.clientX + (isR ? -360 : 20) + "px";
+        card.style.top = e.clientY + 20 + "px";
+      },
+      hideUI() { document.getElementById('intelligence-card').classList.remove('active'); }
+    },
+
+    togglePortal() {
+      const p = document.getElementById('overwatch-portal');
+      if (p) p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    },
+
+    openDiag(angel) {
+      const overlay = document.getElementById('admin-overlay');
+      overlay.style.display = 'flex';
+      document.getElementById('diag-content').innerHTML =
+        `<h2 class='text-6xl font-black italic mb-8'>${escapeHtml(angel)}_DOSSIER</h2>` +
+        `<p class='text-white/60 text-xl leading-relaxed'>Syncing research telemetry for ${escapeHtml(angel)} protocols... ` +
+        `Target Year: ${Math.round(Sovereign.Navigation.XAxis.current)}</p>`;
+    },
+
+    launchTablet(record) {
+      Sovereign.State.isTabletOpen = true;
+      Sovereign.State.activeRecord = record;
+      document.getElementById('emerald-tablet').classList.add('active');
+      document.getElementById('tablet-record-title').innerText = record.name || 'NEURAL_SYNC';
+
+      const meta = [];
+      if (record.title) meta.push(record.title);
+      if (record.birthYear != null && record.deathYear != null) meta.push(`${record.birthYear}–${record.deathYear}`);
+      else if (record.deathYear != null) meta.push(`d. ${record.deathYear}`);
+      document.getElementById('tablet-record-meta').innerText = meta.join(' · ');
+
+      const bioText = record.biography || "Historical narrative stream offline. Synchronization required.";
+      document.getElementById('tablet-record-body').innerHTML =
+        `<div class='border-l-4 border-emerald-500/30 pl-8 py-4 bg-emerald-500/5 mb-8 text-left'>` +
+          `<p class='text-[10px] text-white/50 font-bold uppercase tracking-widest'>Temporal Anchor: ${record.anchorYear}</p>` +
+          `<p class='text-[8px] text-emerald-400 font-bold mt-1 uppercase'>Neural Sync: ACTIVE</p>` +
+        `</div>` +
+        `<p class='first-letter:text-7xl first-letter:text-emerald-400 first-letter:float-left first-letter:mr-6 first-letter:mt-2 text-left leading-relaxed font-light'>${escapeHtml(bioText)}</p>`;
+
+      // Render link buttons
+      const linksDiv = document.getElementById('tablet-record-links');
+      linksDiv.innerHTML = '';
+      (record.links || []).forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.className = 'btn-ui';
+        a.textContent = link.label;
+        linksDiv.appendChild(a);
+      });
+
+      // Hydrate chat with prior conversation if any
+      const scroller = document.getElementById('chat-scroller');
+      scroller.innerHTML = '';
+      const history = Sovereign.State.conversations[record.name] || [];
+      history.forEach(turn => {
+        if (turn.role === 'user') Sovereign.Angels.Gabriel.appendUser(turn.content);
+        else if (turn.role === 'assistant') Sovereign.Angels.Gabriel.appendAssistant(turn.content, record.name);
+      });
+      if (history.length === 0) {
+        Sovereign.Angels.Gabriel.appendSystem(`Neural Sync established with ${record.name}. Begin transmission.`);
+      }
+
+      this.reconstituteArchive(record);
+      this.switchTabletPage('sync');
+    },
+
+    reconstituteArchive(record) {
+      const container = document.getElementById('archive-materialization');
+      container.innerHTML = `<div class='py-20 text-center animate-pulse text-[10px] tracking-widest uppercase opacity-40'>Neural Scanning Akasha Buffer...</div>`;
+      setTimeout(() => {
+        const linksHtml = (record.links || []).map(l =>
+          `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer" class="btn-ui">${escapeHtml(l.label)}</a>`
+        ).join('');
+        container.innerHTML =
+          `<article class="p-16 border border-white/5 bg-white/[0.01] backdrop-blur-md relative group hover:border-yellow-500/30 transition-all duration-500 text-left w-full">` +
+            `<div class="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-yellow-500/40"></div>` +
+            `<span class="text-xs font-bold text-yellow-500/50 uppercase tracking-[0.4em]">Primary_Source // ${record.anchorYear}</span>` +
+            `<h3 class="text-4xl font-black text-white my-8 uppercase leading-tight tracking-tight">Materialized Fragment: ${escapeHtml(record.name)}</h3>` +
+            `<p class="text-white/70 font-light text-xl leading-relaxed mb-8 italic">${escapeHtml(record.biography || '(no fragment on file)')}</p>` +
+            (linksHtml ? `<div class="flex flex-wrap gap-2 mb-8">${linksHtml}</div>` : '') +
+            `<div class="pt-12 border-t border-white/5 space-y-6 text-left">` +
+              `<div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Neural Link Response Portal:</div>` +
+              `<p class="text-[11px] text-white/50 italic">To converse with this figure, return to the Sync page (◈) and transmit through the Amenti Interface.</p>` +
+            `</div>` +
+          `</article>`;
+      }, 600);
+    },
+
+    closeTablet() {
+      Sovereign.State.isTabletOpen = false;
+      document.getElementById('emerald-tablet').classList.remove('active');
+    },
+
+    switchTabletPage(page) {
+      const isArchive = page === 'archive';
+      document.getElementById('tablet-page-sync').classList.toggle('hidden', isArchive);
+      document.getElementById('tablet-page-archive').classList.toggle('hidden', !isArchive);
+      document.querySelectorAll('.nav-cluster').forEach(nav => {
+        nav.querySelectorAll('.text-2xl').forEach((icon, i) => {
+          icon.classList.toggle('text-emerald-400', (i === 0 && !isArchive));
+          icon.classList.toggle('text-yellow-500', (i === 1 && isArchive));
+          icon.classList.toggle('text-white/20', (i === 0 && isArchive) || (i === 1 && !isArchive));
+        });
+      });
+    },
+
+    cycleConverse(index) {
+      const modes = ['INQUIRY', 'REFLECTION', 'SYNTHESIS'];
+      if (index === -1) {
+        Sovereign.State.converseMode = 'NEUTRAL';
+        document.querySelectorAll('#converse-rotary button').forEach(b => b.classList.remove('btn-active'));
+      } else {
+        Sovereign.State.converseMode = modes[index];
+        document.querySelectorAll('#converse-rotary button').forEach((b, i) => b.classList.toggle('btn-active', i === index));
+      }
+    }
+  },
+
+  Persistence: {
+    save() {
+      try {
+        const snapshot = {
+          conversations: Sovereign.State.conversations,
+          activeRecord: Sovereign.State.activeRecord && Sovereign.State.activeRecord.name,
+          ts: Date.now()
         };
-    </script>
+        // Note: localStorage is intentionally avoided in some sandboxed environments.
+        // On the live site this works fine.
+        localStorage.setItem('amenti.snapshot', JSON.stringify(snapshot));
+        setBanner('MANIFOLD STATE SERIALIZED');
+        setTimeout(hideBanner, 1500);
+      } catch (e) {
+        setBanner('SAVE FAILED :: storage unavailable', true);
+        setTimeout(hideBanner, 1800);
+      }
+    }
+  }
+};
+
+/* ============================================================================
+   ANIMATION LOOP
+   ============================================================================ */
+function animate() {
+  requestAnimationFrame(animate);
+  const time = Date.now() * 0.001;
+  Sovereign.Navigation.XAxis.update();
+  Sovereign.Navigation.Zoom.update();
+  Sovereign.Navigation.Aperture.update();
+
+  if (!Sovereign.State.isTabletOpen) {
+    if (Sovereign.State.autoRotate) Sovereign.State.systemMomentum += Sovereign.State.rotationVelocity;
+    else Sovereign.State.systemMomentum += 0.0001;
+  }
+
+  const yr = Sovereign.Navigation.XAxis.current;
+  const sp = 1500 / Sovereign.Navigation.Zoom.current;
+  const rot = (Math.PI * 2) / 100;
+  const rH = 100 * Sovereign.Navigation.Aperture.current;
+  const gearRatio = (2 * Math.PI) / 1000;
+  const scrollMomentum = yr * gearRatio;
+
+  // Stabilizers
+  if (Sovereign.Core.earthPrism) {
+    Sovereign.Core.earthPrism.rotation.y = Sovereign.State.systemMomentum + scrollMomentum;
+    Sovereign.Core.earthPrism.rotation.x = Math.sin(time * 0.2) * 0.05;
+  }
+  if (Sovereign.Core.earthArtifact) Sovereign.Core.earthArtifact.rotation.y += 0.005;
+
+  // Ledger sprites — anchored on death year (rec.anchorYear)
+  Sovereign.Angels.Michael.labelSprites.forEach(s => {
+    const sYr = s.userData.anchorYear;
+    if (Math.abs(sYr - yr) > 500) { s.visible = false; return; }
+    const isSpotlight = s.userData.spotlightEnd > Date.now();
+    let a = (sYr * rot) + Sovereign.State.systemMomentum + scrollMomentum;
+    let r = rH + 75;
+    let y = (sYr - yr) * sp;
+    if (isSpotlight) r += 110;
+    s.position.set(Math.cos(a) * r, y, Math.sin(a) * r);
+    s.visible = true;
+    s.material.opacity = isSpotlight ? 1 : 0.5;
+    const targetScale = isSpotlight ? 140 : 75;
+    s.scale.lerp(new THREE.Vector3(targetScale, targetScale / 7, 1), 0.1);
+    s.material.color.lerp(new THREE.Color(isSpotlight ? 0xffcc00 : 0x10b981), 0.2);
+  });
+
+  // Helix
+  const hPos = Sovereign.Core.helix.geometry.attributes.position.array;
+  for (let i = 0; i < 40000; i++) {
+    const tY = yr + (i - 20000) / 100;
+    const a = (tY * rot) + Sovereign.State.systemMomentum + scrollMomentum;
+    const y = (tY - yr) * sp;
+    hPos[i * 3] = Math.cos(a) * rH; hPos[i * 3 + 1] = y; hPos[i * 3 + 2] = Math.sin(a) * rH;
+  }
+  Sovereign.Core.helix.geometry.attributes.position.needsUpdate = true;
+
+  // Planets
+  if (Sovereign.State.planetsVisible) {
+    for (let p in Sovereign.Core.planets) {
+      const d = Sovereign.Core.planets[p];
+      const orbitAngle = ((Sovereign.State.systemMomentum * 0.05) + scrollMomentum) / d.period;
+      d.body.position.set(Math.cos(orbitAngle) * (rH + d.orbitRadius), 0, Math.sin(orbitAngle) * (rH + d.orbitRadius));
+      d.body.rotation.y += 0.01;
+    }
+  }
+
+  // Equinox
+  if (Sovereign.State.equinoxVisible && Sovereign.Core.equinox) {
+    for (let i = 0; i < 200; i++) {
+      const tY = Math.floor(yr - 100) + i;
+      const a = (tY * rot) + Sovereign.State.systemMomentum + scrollMomentum;
+      const y = (tY - yr) * sp;
+      const dummy = new THREE.Object3D();
+      dummy.position.set(Math.cos(a) * (rH * 1.618), y, Math.sin(a) * (rH * 1.618));
+      dummy.updateMatrix();
+      Sovereign.Core.equinox.setMatrixAt(i, dummy.matrix);
+    }
+    Sovereign.Core.equinox.instanceMatrix.needsUpdate = true;
+  }
+
+  // Century markers
+  Sovereign.Core.centuryMarkers.forEach(m => {
+    const yP = (m.userData.year - yr) * sp;
+    if (Math.abs(yP) > 10000) { m.visible = false; }
+    else {
+      m.visible = true;
+      m.position.set(0, yP, 0);
+      m.scale.setScalar(rH / 100);
+      if (m.children[0]) m.children[0].quaternion.copy(Sovereign.Core.camera.quaternion);
+    }
+  });
+
+  // Camera
+  const dist = Sovereign.State.currentDepth * Sovereign.State.lens;
+  Sovereign.Core.camera.position.set(
+    Math.cos(Sovereign.State.orbitTheta) * Math.cos(Sovereign.State.orbitPhi) * dist,
+    Math.sin(Sovereign.State.orbitPhi) * dist,
+    Math.sin(Sovereign.State.orbitTheta) * Math.cos(Sovereign.State.orbitPhi) * dist
+  );
+  Sovereign.Core.camera.lookAt(0, 0, 0);
+  Sovereign.Core.renderer.render(Sovereign.Core.scene, Sovereign.Core.camera);
+}
+
+/* ============================================================================
+   BOOT
+   ============================================================================ */
+window.onload = () => {
+  try {
+    Sovereign.Core.init();
+    animate();
+  } catch (e) {
+    console.error('Core init failed:', e);
+    setBanner('CORE INIT FAILED :: see console', true);
+    return;
+  }
+
+  // The boot banner served its purpose; the Injector dock takes over from here.
+  hideBanner();
+
+  // Auto-load the ledger from the Google Sheet. The dock will show progress
+  // ("FETCHING..." -> "1000 NODES :: SHEET") and pulse on success.
+  Sovereign.Angels.Michael.reload();
+
+  // Mouse: orbit drag (only when not interacting with UI)
+  window.addEventListener('mousedown', (e) => {
+    if (e.target.closest('.s-module') ||
+        e.target.closest('.analog-sidebar') ||
+        e.target.closest('#right-deck') ||
+        e.target.closest('#emerald-tablet') ||
+        document.getElementById('emerald-tablet').classList.contains('active')) return;
+    Sovereign.State.isOrbitDragging = true;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (Sovereign.State.isOrbitDragging) {
+      Sovereign.State.orbitTheta -= e.movementX * 0.005;
+      Sovereign.State.orbitPhi = THREE.MathUtils.clamp(Sovereign.State.orbitPhi + e.movementY * 0.005, -1.4, 1.4);
+    }
+    if (Sovereign.Navigation.XAxis.isDragging) {
+      const rect = document.getElementById('x-track').getBoundingClientRect();
+      const rawVal = Sovereign.State.minYear + (THREE.MathUtils.clamp(1 - (e.clientY - rect.top) / rect.height, 0, 1) * (Sovereign.State.maxYear - Sovereign.State.minYear));
+      Sovereign.Navigation.XAxis.target = THREE.MathUtils.clamp(rawVal, Sovereign.State.minYear, Sovereign.State.maxYear);
+    }
+    if (Sovereign.Navigation.Zoom.isDragging) {
+      const rect = document.getElementById('z-track').getBoundingClientRect();
+      Sovereign.Navigation.Zoom.target = 25 + (THREE.MathUtils.clamp(1 - (e.clientY - rect.top) / rect.height, 0, 1) * 475);
+    }
+    if (Sovereign.Navigation.Aperture.isDragging) {
+      const rect = document.getElementById('a-track').getBoundingClientRect();
+      Sovereign.Navigation.Aperture.target = 0.1 + (THREE.MathUtils.clamp(1 - (e.clientY - rect.top) / rect.height, 0, 1) * 4.9);
+    }
+    Sovereign.UI.Intel.sync(e);
+  });
+
+  window.addEventListener('mouseup', () => {
+    Sovereign.State.isOrbitDragging = false;
+    Sovereign.Navigation.XAxis.isDragging = false;
+    Sovereign.Navigation.Zoom.isDragging = false;
+    Sovereign.Navigation.Aperture.isDragging = false;
+  });
+
+  // Click to open biographic tablet
+  window.addEventListener('click', (e) => {
+    // Don't intercept clicks on UI
+    if (e.target.closest('.s-module') ||
+        e.target.closest('.analog-sidebar') ||
+        e.target.closest('#right-deck') ||
+        e.target.closest('#emerald-tablet')) return;
+    Sovereign.Core.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    Sovereign.Core.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    Sovereign.Core.raycaster.setFromCamera(Sovereign.Core.mouse, Sovereign.Core.camera);
+    const inter = Sovereign.Core.raycaster.intersectObjects(Sovereign.Angels.Michael.labelSprites);
+    if (inter.length > 0) Sovereign.UI.launchTablet(inter[0].object.userData);
+  });
+
+  // Keep the renderer and camera in sync with the viewport when the user
+  // resizes the window. Without this the helix appears off-center because
+  // the camera's aspect ratio no longer matches the canvas.
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    // Debounce to avoid thrashing on drag-resizes.
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      if (Sovereign.Core.camera) {
+        Sovereign.Core.camera.aspect = w / h;
+        Sovereign.Core.camera.updateProjectionMatrix();
+      }
+      if (Sovereign.Core.renderer) {
+        Sovereign.Core.renderer.setSize(w, h);
+        Sovereign.Core.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      }
+    }, 120);
+  });
+};
+</script>
 </body>
 </html>
