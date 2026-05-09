@@ -15,25 +15,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
 <!-- ============================================================
-     AMENTI CONFIG - Edit these two values to deploy
+     AMENTI CONFIG :: Loaded from config.js (shared across all pages)
+     Edit URLs ONCE in config.js. They survive every page update.
      ============================================================ -->
-<script>
-  window.AMENTI_CONFIG = {
-    // The CSV-export URL of your published Google Sheet.
-    // To get this: in your sheet, File > Share > Publish to web,
-    // pick "Comma-separated values (.csv)" as the format, click Publish,
-    // then paste the URL it gives you here.
-    LEDGER_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv",
-
-    // The URL of your Cloudflare Worker (or other serverless proxy)
-    // that holds the Anthropic API key. See worker.js + SETUP.md.
-    AI_PROXY_URL: "PASTE_YOUR_WORKER_URL_HERE",
-
-    // The path (relative or absolute) to MANUEL.md.
-    // Default assumes MANUEL.md sits next to Page2.html in the repo root.
-    MANUEL_URL: "MANUEL.md"
-  };
-</script>
+<script src="config.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;700;800&display=swap');
@@ -1439,6 +1424,20 @@ function animate() {
    BOOT
    ============================================================================ */
 window.onload = () => {
+  // Sanity check: was config.js loaded?
+  // If the file is missing or failed to fetch, AMENTI_CONFIG won't exist.
+  // We bootstrap a minimal default so the page doesn't blow up; the user
+  // sees a clear error in the boot banner explaining the missing file.
+  if (typeof window.AMENTI_CONFIG !== 'object' || window.AMENTI_CONFIG === null) {
+    console.error('config.js did not load. Falling back to placeholder config.');
+    window.AMENTI_CONFIG = {
+      LEDGER_CSV_URL: "PASTE_YOUR_GOOGLE_SHEET_CSV_URL_HERE",
+      AI_PROXY_URL:    "PASTE_YOUR_WORKER_URL_HERE",
+      MANUEL_URL:      "MANUEL.md"
+    };
+    setBanner('CONFIG.JS NOT FOUND :: check repo root', true);
+  }
+
   try {
     Sovereign.QuantumContainer.init();
     animate();
@@ -1449,7 +1448,10 @@ window.onload = () => {
   }
 
   // The boot banner served its purpose; the Injector dock takes over from here.
-  hideBanner();
+  // (Only hide it if it's not currently displaying a config error.)
+  if (window.AMENTI_CONFIG.LEDGER_CSV_URL && window.AMENTI_CONFIG.LEDGER_CSV_URL.indexOf('PASTE_') !== 0) {
+    hideBanner();
+  }
 
   // Auto-load the ledger from the Google Sheet. The dock will show progress
   // ("FETCHING..." -> "1000 NODES :: SHEET") and pulse on success.
