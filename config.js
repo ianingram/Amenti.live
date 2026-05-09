@@ -34,4 +34,4 @@ window.AMENTI_CONFIG = {
   // ---- 3. MANUEL (the glossary) ----
   // Path to MANUEL.md, relative to the HTML page that loads it.
   // Default assumes MANUEL.md sits next to the HTML files in the repo root.
-  MANUEL_URL: "MANUEL.md"
+  MANUEL_URL: "MANUEL.md"};
