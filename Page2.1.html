@@ -10,6 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 
@@ -26,7 +27,11 @@
 
     // The URL of your Cloudflare Worker (or other serverless proxy)
     // that holds the Anthropic API key. See worker.js + SETUP.md.
-    AI_PROXY_URL: "PASTE_YOUR_WORKER_URL_HERE"
+    AI_PROXY_URL: "PASTE_YOUR_WORKER_URL_HERE",
+
+    // The path (relative or absolute) to MANUEL.md.
+    // Default assumes MANUEL.md sits next to Page2.html in the repo root.
+    MANUEL_URL: "MANUEL.md"
   };
 </script>
 
@@ -106,6 +111,147 @@ body.arch-active .s-module.focused-node { opacity: 1 !important; border-color: v
 #injector-dock.arrival-pulse {
   animation: injector-arrival 1.6s ease-out;
   opacity: 1 !important;
+}
+
+/* ---- New: Manuel reader overlay ---- */
+#manuel-overlay {
+  position: fixed; inset: 0; z-index: 99998;
+  background: rgba(0, 0, 0, 0.96);
+  backdrop-filter: blur(20px);
+  display: none; align-items: stretch; justify-content: center;
+  pointer-events: all;
+  overflow: hidden;
+}
+#manuel-overlay.active { display: flex; }
+#manuel-frame {
+  width: min(900px, 92vw);
+  max-height: 92vh;
+  margin: auto;
+  background: rgba(2, 4, 8, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+#manuel-header {
+  flex: 0 0 auto;
+  padding: 22px 36px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; justify-content: space-between; align-items: baseline;
+  background: linear-gradient(180deg, rgba(226, 232, 240, 0.04), transparent);
+}
+#manuel-header .title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 900;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--silver);
+}
+#manuel-header .subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+#manuel-close {
+  cursor: pointer; padding: 4px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; font-weight: 800;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: 0.2s;
+}
+#manuel-close:hover {
+  color: var(--silver);
+  border-color: var(--silver);
+}
+#manuel-body {
+  flex: 1 1 auto; overflow-y: auto;
+  padding: 36px 48px 56px;
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  line-height: 1.7;
+}
+#manuel-body h1 {
+  font-size: 26px; font-weight: 900; font-style: italic;
+  text-transform: uppercase;
+  color: var(--silver);
+  margin: 0 0 20px;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 16px;
+}
+#manuel-body h2 {
+  font-size: 18px; font-weight: 800;
+  text-transform: uppercase;
+  color: var(--emerald);
+  margin: 36px 0 12px;
+  letter-spacing: 0.15em;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(16, 185, 129, 0.2);
+}
+#manuel-body h3 {
+  font-size: 14px; font-weight: 800;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 28px 0 8px;
+  letter-spacing: 0.2em;
+}
+#manuel-body p { margin: 0 0 16px; }
+#manuel-body em { color: rgba(255, 255, 255, 0.55); font-style: italic; }
+#manuel-body strong { color: var(--silver); font-weight: 800; }
+#manuel-body code {
+  background: rgba(16, 185, 129, 0.08);
+  color: var(--emerald);
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+#manuel-body pre {
+  background: rgba(2, 6, 12, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 14px 18px;
+  overflow-x: auto;
+  margin: 0 0 16px;
+}
+#manuel-body pre code {
+  background: none; padding: 0; color: rgba(255, 255, 255, 0.75);
+  font-size: 11px; line-height: 1.5;
+}
+#manuel-body ul, #manuel-body ol {
+  margin: 0 0 16px; padding-left: 24px;
+}
+#manuel-body li { margin: 0 0 4px; }
+#manuel-body table {
+  width: 100%; border-collapse: collapse; margin: 16px 0;
+  font-size: 11px;
+}
+#manuel-body th, #manuel-body td {
+  padding: 8px 12px; text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+#manuel-body th {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 800;
+  border-bottom: 1px solid rgba(255, 204, 0, 0.3);
+}
+#manuel-body td { color: rgba(255, 255, 255, 0.75); }
+#manuel-body hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 32px 0;
+}
+#manuel-body a {
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(0, 255, 255, 0.4);
+}
+#manuel-body a:hover { color: #fff; border-bottom-color: #fff; }
+#manuel-error {
+  color: var(--critical);
+  font-style: italic;
+  padding: 16px 0;
 }
 </style>
 </head>
@@ -276,17 +422,14 @@ body.arch-active .s-module.focused-node { opacity: 1 !important; border-color: v
     </div>
     <div id="overwatch-portal">
       <div class="text-[8px] font-black text-gold mb-3 uppercase tracking-[0.3em] text-center">Angelic Overwatch</div>
-      <div class="grid grid-cols-5 gap-1 mb-4 text-white">
-        <div class="angel-init" style="color:var(--emerald)" onclick="Sovereign.UI.openDiag('MICHAEL')">MIC</div>
-        <div class="angel-init" style="color:var(--violet)" onclick="Sovereign.UI.openDiag('ARIEL')">ARI</div>
-        <div class="angel-init" style="color:var(--accent)" onclick="Sovereign.UI.openDiag('GABRIEL')">GAB</div>
-        <div class="angel-init" style="color:var(--lucifer)" onclick="Sovereign.UI.openDiag('LUCIFER')">LUC</div>
-        <div class="angel-init" style="color:var(--cyan)" onclick="Sovereign.UI.openDiag('RAPHAEL')">RAP</div>
-        <div class="angel-init" style="color:var(--duriel)" onclick="Sovereign.UI.openDiag('DURIEL')">DUR</div>
-        <div class="angel-init" style="color:var(--gold)" onclick="Sovereign.UI.openDiag('URIEL')">URI</div>
-        <div class="angel-init" style="color:var(--raziel)" onclick="Sovereign.UI.openDiag('RAZIEL')">RAZ</div>
-        <div class="angel-init" style="color:var(--jariel)" onclick="Sovereign.UI.openDiag('JARIEL')">JAR</div>
-        <div class="angel-init" style="color:var(--hermetic)" onclick="Sovereign.UI.openDiag('HERMES')">HER</div>
+      <!-- Four working angels. Earlier stubs (Ariel, Lucifer, Raphael, Duriel,
+           Raziel, Jariel, Hermes) were removed to keep the deck honest;
+           they can be added back as their subsystems are implemented. -->
+      <div class="grid grid-cols-4 gap-1 mb-4 text-white">
+        <div class="angel-init" style="color:var(--emerald)"  onclick="Sovereign.UI.openDiag('MICHAEL')" title="Michael — ledger ingestion">MIC</div>
+        <div class="angel-init" style="color:var(--accent)"   onclick="Sovereign.UI.openDiag('GABRIEL')" title="Gabriel — chat transmission">GAB</div>
+        <div class="angel-init" style="color:var(--gold)"     onclick="Sovereign.UI.openDiag('URIEL')"   title="Uriel — temporal torque">URI</div>
+        <div class="angel-init" style="color:var(--silver)"   onclick="Sovereign.UI.openManuel()"        title="Manuel — the manual">MAN</div>
       </div>
       <button class="btn-ui w-full font-black uppercase mb-2" onclick="Sovereign.Persistence.save()">Save State</button>
       <div class="angel-init font-bold text-[7px]" onclick="Sovereign.UI.Arch.toggle()">[ ARCHITECT MODE ]</div>
@@ -316,6 +459,22 @@ body.arch-active .s-module.focused-node { opacity: 1 !important; border-color: v
 <div id="admin-overlay" class="fixed inset-0 bg-black/98 z-[99999] flex items-center justify-center font-mono" style="display:none;">
   <div id="diag-content" class="w-full max-w-5xl p-16 overflow-y-auto text-left text-white"></div>
   <button class="absolute top-8 right-8 text-white/40 hover:text-white" onclick="document.getElementById('admin-overlay').style.display='none'">[ CLOSE ]</button>
+</div>
+
+<!-- Manuel reader overlay :: renders MANUEL.md fetched from the repo root -->
+<div id="manuel-overlay">
+  <div id="manuel-frame">
+    <div id="manuel-header">
+      <div>
+        <div class="title">Manuel</div>
+        <div class="subtitle">Scribe of the Sovereign Instrument</div>
+      </div>
+      <div id="manuel-close" onclick="Sovereign.UI.closeManuel()">[ CLOSE ]</div>
+    </div>
+    <div id="manuel-body">
+      <p style="opacity:0.4; font-style:italic;">Summoning Manuel\u2026</p>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -441,7 +600,10 @@ window.Sovereign = {
     conversations: {}
   },
 
-  Core: {
+  // QuantumContainer :: the engine substrate. Holds the Three.js scene,
+  // camera, renderer, and every visible 3D object (helix, axes, planets,
+  // century rings, equinox markers). Angels operate ON this container.
+  QuantumContainer: {
     scene: null, camera: null, renderer: null, world: null, helix: null,
     planets: {}, centuryMarkers: [], equinox: null, truthAxis: null,
     earthPrism: null, earthArtifact: null, metatronGrid: null,
@@ -485,8 +647,21 @@ window.Sovereign = {
       // Alpha Helix
       const hGeo = new THREE.BufferGeometry();
       hGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(40000 * 3), 3));
-      hGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(40000 * 3), 3));
-      this.helix = new THREE.Points(hGeo, new THREE.PointsMaterial({ size: 3.5, vertexColors: true, transparent: true, opacity: 0.8 }));
+      hGeo.setAttribute('color',    new THREE.BufferAttribute(new Float32Array(40000 * 3), 3));
+
+      // Paint every helix point terminal/emerald green (#10b981).
+      // Without this initialization the color array is all zeros — i.e. black —
+      // and the helix renders invisibly against the black background.
+      // Keeping vertexColors enabled means we can still re-color points
+      // dynamically later (e.g. by era) without touching this material.
+      const hCol = hGeo.attributes.color.array;
+      for (let i = 0; i < 40000; i++) {
+        hCol[i * 3]     = 0.063;  // R  — emerald-500 #10b981
+        hCol[i * 3 + 1] = 0.725;  // G
+        hCol[i * 3 + 2] = 0.506;  // B
+      }
+
+      this.helix = new THREE.Points(hGeo, new THREE.PointsMaterial({ size: 1.0, vertexColors: true, transparent: true, opacity: 1.0 }));
       this.world.add(this.helix);
 
       // Planets
@@ -617,7 +792,7 @@ window.Sovereign = {
         this.labelSprites.forEach(s => {
           if (s.material && s.material.map) s.material.map.dispose();
           if (s.material) s.material.dispose();
-          Sovereign.Core.world.remove(s);
+          Sovereign.QuantumContainer.world.remove(s);
         });
         this.labelSprites = [];
         this.records = [];
@@ -684,7 +859,7 @@ window.Sovereign = {
 
       createLabels(records) {
         // Clear previous
-        this.labelSprites.forEach(s => Sovereign.Core.world.remove(s));
+        this.labelSprites.forEach(s => Sovereign.QuantumContainer.world.remove(s));
         this.labelSprites = records.map((rec) => {
           const can = document.createElement('canvas');
           can.width = 2048; can.height = 256;
@@ -706,7 +881,7 @@ window.Sovereign = {
             spotlightEnd: 0
           };
           spr.renderOrder = 1000;
-          Sovereign.Core.world.add(spr);
+          Sovereign.QuantumContainer.world.add(spr);
           return spr;
         });
       }
@@ -939,12 +1114,12 @@ window.Sovereign = {
       },
       togglePlanets() {
         Sovereign.State.planetsVisible = !Sovereign.State.planetsVisible;
-        Object.values(Sovereign.Core.planets).forEach(p => p.body.visible = Sovereign.State.planetsVisible);
+        Object.values(Sovereign.QuantumContainer.planets).forEach(p => p.body.visible = Sovereign.State.planetsVisible);
         document.getElementById('planet-vis-toggle').classList.toggle('active', Sovereign.State.planetsVisible);
       },
       toggleEquinox() {
         Sovereign.State.equinoxVisible = !Sovereign.State.equinoxVisible;
-        if (Sovereign.Core.equinox) Sovereign.Core.equinox.visible = Sovereign.State.equinoxVisible;
+        if (Sovereign.QuantumContainer.equinox) Sovereign.QuantumContainer.equinox.visible = Sovereign.State.equinoxVisible;
         document.getElementById('equinox-toggle').classList.toggle('active', Sovereign.State.equinoxVisible);
       }
     },
@@ -993,6 +1168,48 @@ window.Sovereign = {
         `<h2 class='text-6xl font-black italic mb-8'>${escapeHtml(angel)}_DOSSIER</h2>` +
         `<p class='text-white/60 text-xl leading-relaxed'>Syncing research telemetry for ${escapeHtml(angel)} protocols... ` +
         `Target Year: ${Math.round(Sovereign.Navigation.XAxis.current)}</p>`;
+    },
+
+    // Manuel :: Scribe of the Sovereign Instrument.
+    // Fetches MANUEL.md from the configured URL and renders it as Markdown
+    // inside the manuel-overlay panel. Kept simple: one fetch, one render,
+    // plus a tiny in-memory cache so reopening doesn't re-fetch.
+    _manuelCache: null,
+    async openManuel() {
+      const overlay = document.getElementById('manuel-overlay');
+      const body    = document.getElementById('manuel-body');
+      overlay.classList.add('active');
+      // Use cached HTML if we have it.
+      if (this._manuelCache) {
+        body.innerHTML = this._manuelCache;
+        body.scrollTop = 0;
+        return;
+      }
+      body.innerHTML = `<p style="opacity:0.4; font-style:italic;">Summoning Manuel\u2026</p>`;
+      const url = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.MANUEL_URL) || 'MANUEL.md';
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const md = await res.text();
+        if (typeof marked === 'undefined') {
+          throw new Error('Markdown renderer not loaded');
+        }
+        const html = marked.parse(md);
+        this._manuelCache = html;
+        body.innerHTML = html;
+        body.scrollTop = 0;
+      } catch (err) {
+        console.error('Manuel fetch failed:', err);
+        body.innerHTML =
+          `<div id="manuel-error">Manuel could not be summoned. ` +
+          `(${escapeHtml(err.message)})</div>` +
+          `<p style="opacity:0.5;">Confirm <code>MANUEL.md</code> sits next to Page2.html in the repo, ` +
+          `or update <code>AMENTI_CONFIG.MANUEL_URL</code> to the correct path.</p>`;
+      }
+    },
+
+    closeManuel() {
+      document.getElementById('manuel-overlay').classList.remove('active');
     },
 
     launchTablet(record) {
@@ -1138,11 +1355,11 @@ function animate() {
   const scrollMomentum = yr * gearRatio;
 
   // Stabilizers
-  if (Sovereign.Core.earthPrism) {
-    Sovereign.Core.earthPrism.rotation.y = Sovereign.State.systemMomentum + scrollMomentum;
-    Sovereign.Core.earthPrism.rotation.x = Math.sin(time * 0.2) * 0.05;
+  if (Sovereign.QuantumContainer.earthPrism) {
+    Sovereign.QuantumContainer.earthPrism.rotation.y = Sovereign.State.systemMomentum + scrollMomentum;
+    Sovereign.QuantumContainer.earthPrism.rotation.x = Math.sin(time * 0.2) * 0.05;
   }
-  if (Sovereign.Core.earthArtifact) Sovereign.Core.earthArtifact.rotation.y += 0.005;
+  if (Sovereign.QuantumContainer.earthArtifact) Sovereign.QuantumContainer.earthArtifact.rotation.y += 0.005;
 
   // Ledger sprites — anchored on death year (rec.anchorYear)
   Sovereign.Angels.Michael.labelSprites.forEach(s => {
@@ -1162,19 +1379,19 @@ function animate() {
   });
 
   // Helix
-  const hPos = Sovereign.Core.helix.geometry.attributes.position.array;
+  const hPos = Sovereign.QuantumContainer.helix.geometry.attributes.position.array;
   for (let i = 0; i < 40000; i++) {
     const tY = yr + (i - 20000) / 100;
     const a = (tY * rot) + Sovereign.State.systemMomentum + scrollMomentum;
     const y = (tY - yr) * sp;
     hPos[i * 3] = Math.cos(a) * rH; hPos[i * 3 + 1] = y; hPos[i * 3 + 2] = Math.sin(a) * rH;
   }
-  Sovereign.Core.helix.geometry.attributes.position.needsUpdate = true;
+  Sovereign.QuantumContainer.helix.geometry.attributes.position.needsUpdate = true;
 
   // Planets
   if (Sovereign.State.planetsVisible) {
-    for (let p in Sovereign.Core.planets) {
-      const d = Sovereign.Core.planets[p];
+    for (let p in Sovereign.QuantumContainer.planets) {
+      const d = Sovereign.QuantumContainer.planets[p];
       const orbitAngle = ((Sovereign.State.systemMomentum * 0.05) + scrollMomentum) / d.period;
       d.body.position.set(Math.cos(orbitAngle) * (rH + d.orbitRadius), 0, Math.sin(orbitAngle) * (rH + d.orbitRadius));
       d.body.rotation.y += 0.01;
@@ -1182,7 +1399,7 @@ function animate() {
   }
 
   // Equinox
-  if (Sovereign.State.equinoxVisible && Sovereign.Core.equinox) {
+  if (Sovereign.State.equinoxVisible && Sovereign.QuantumContainer.equinox) {
     for (let i = 0; i < 200; i++) {
       const tY = Math.floor(yr - 100) + i;
       const a = (tY * rot) + Sovereign.State.systemMomentum + scrollMomentum;
@@ -1190,32 +1407,32 @@ function animate() {
       const dummy = new THREE.Object3D();
       dummy.position.set(Math.cos(a) * (rH * 1.618), y, Math.sin(a) * (rH * 1.618));
       dummy.updateMatrix();
-      Sovereign.Core.equinox.setMatrixAt(i, dummy.matrix);
+      Sovereign.QuantumContainer.equinox.setMatrixAt(i, dummy.matrix);
     }
-    Sovereign.Core.equinox.instanceMatrix.needsUpdate = true;
+    Sovereign.QuantumContainer.equinox.instanceMatrix.needsUpdate = true;
   }
 
   // Century markers
-  Sovereign.Core.centuryMarkers.forEach(m => {
+  Sovereign.QuantumContainer.centuryMarkers.forEach(m => {
     const yP = (m.userData.year - yr) * sp;
     if (Math.abs(yP) > 10000) { m.visible = false; }
     else {
       m.visible = true;
       m.position.set(0, yP, 0);
       m.scale.setScalar(rH / 100);
-      if (m.children[0]) m.children[0].quaternion.copy(Sovereign.Core.camera.quaternion);
+      if (m.children[0]) m.children[0].quaternion.copy(Sovereign.QuantumContainer.camera.quaternion);
     }
   });
 
   // Camera
   const dist = Sovereign.State.currentDepth * Sovereign.State.lens;
-  Sovereign.Core.camera.position.set(
+  Sovereign.QuantumContainer.camera.position.set(
     Math.cos(Sovereign.State.orbitTheta) * Math.cos(Sovereign.State.orbitPhi) * dist,
     Math.sin(Sovereign.State.orbitPhi) * dist,
     Math.sin(Sovereign.State.orbitTheta) * Math.cos(Sovereign.State.orbitPhi) * dist
   );
-  Sovereign.Core.camera.lookAt(0, 0, 0);
-  Sovereign.Core.renderer.render(Sovereign.Core.scene, Sovereign.Core.camera);
+  Sovereign.QuantumContainer.camera.lookAt(0, 0, 0);
+  Sovereign.QuantumContainer.renderer.render(Sovereign.QuantumContainer.scene, Sovereign.QuantumContainer.camera);
 }
 
 /* ============================================================================
@@ -1223,10 +1440,10 @@ function animate() {
    ============================================================================ */
 window.onload = () => {
   try {
-    Sovereign.Core.init();
+    Sovereign.QuantumContainer.init();
     animate();
   } catch (e) {
-    console.error('Core init failed:', e);
+    console.error('QuantumContainer init failed:', e);
     setBanner('CORE INIT FAILED :: see console', true);
     return;
   }
@@ -1283,10 +1500,10 @@ window.onload = () => {
         e.target.closest('.analog-sidebar') ||
         e.target.closest('#right-deck') ||
         e.target.closest('#emerald-tablet')) return;
-    Sovereign.Core.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    Sovereign.Core.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    Sovereign.Core.raycaster.setFromCamera(Sovereign.Core.mouse, Sovereign.Core.camera);
-    const inter = Sovereign.Core.raycaster.intersectObjects(Sovereign.Angels.Michael.labelSprites);
+    Sovereign.QuantumContainer.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    Sovereign.QuantumContainer.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    Sovereign.QuantumContainer.raycaster.setFromCamera(Sovereign.QuantumContainer.mouse, Sovereign.QuantumContainer.camera);
+    const inter = Sovereign.QuantumContainer.raycaster.intersectObjects(Sovereign.Angels.Michael.labelSprites);
     if (inter.length > 0) Sovereign.UI.launchTablet(inter[0].object.userData);
   });
 
@@ -1300,15 +1517,25 @@ window.onload = () => {
     resizeTimer = setTimeout(() => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      if (Sovereign.Core.camera) {
-        Sovereign.Core.camera.aspect = w / h;
-        Sovereign.Core.camera.updateProjectionMatrix();
+      if (Sovereign.QuantumContainer.camera) {
+        Sovereign.QuantumContainer.camera.aspect = w / h;
+        Sovereign.QuantumContainer.camera.updateProjectionMatrix();
       }
-      if (Sovereign.Core.renderer) {
-        Sovereign.Core.renderer.setSize(w, h);
-        Sovereign.Core.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      if (Sovereign.QuantumContainer.renderer) {
+        Sovereign.QuantumContainer.renderer.setSize(w, h);
+        Sovereign.QuantumContainer.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       }
     }, 120);
+  });
+
+  // Escape key dismisses the Manuel reader (most natural reading-overlay UX).
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const overlay = document.getElementById('manuel-overlay');
+      if (overlay && overlay.classList.contains('active')) {
+        Sovereign.UI.closeManuel();
+      }
+    }
   });
 };
 </script>
