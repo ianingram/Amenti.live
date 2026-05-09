@@ -28,7 +28,7 @@ window.AMENTI_CONFIG = {
   // Holds the Anthropic API key. Until this is deployed, the chat stays
   // inert and Gabriel will say "AI proxy not configured" â€” that's fine
   // for testing the rest of the instrument. See SETUP.md.
-  AI_PROXY_URL: "PASTE_YOUR_WORKER_URL_HERE",
+  AI_PROXY_URL: "amenti-proxy.ingram-ian.workers.dev",
 
 
   // ---- 3. MANUEL (the glossary) ----
