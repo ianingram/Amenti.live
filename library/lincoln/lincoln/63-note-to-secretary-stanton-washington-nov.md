@@ -1,0 +1,1 @@
+Dear Sir, I personally wish Jacob Freese, of New Jersey, to be appointed Colonel of a coloured regiment, and this regardless of whether he can tell the exact shade of Julius Caesar's hair.
