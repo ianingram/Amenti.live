@@ -1,0 +1,72 @@
+{
+  "key": "lincoln",
+  "name": "Abraham Lincoln",
+  "works": [
+    {
+      "id": "gettysburg",
+      "section": "Speeches & Addresses",
+      "title": "The Gettysburg Address",
+      "year": "1863",
+      "mode": "stored",
+      "source": "Bliss copy · public domain",
+      "note": "Dedication of the Soldiers' National Cemetery.",
+      "file": "lincoln/gettysburg.md"
+    },
+    {
+      "id": "second-inaugural",
+      "section": "Speeches & Addresses",
+      "title": "Second Inaugural Address",
+      "year": "1865",
+      "mode": "stored",
+      "source": "public domain",
+      "note": "\u201cWith malice toward none, with charity for all.\u201d",
+      "file": "lincoln/second-inaugural.md"
+    },
+    {
+      "id": "cooper-union",
+      "section": "Speeches & Addresses",
+      "title": "Cooper Union Address",
+      "year": "1860",
+      "mode": "link",
+      "note": "The speech that arguably made him president.",
+      "url": "https://en.wikisource.org/w/index.php?search=Lincoln+Cooper+Union+Address&fulltext=1"
+    },
+    {
+      "id": "emancipation",
+      "section": "State Papers",
+      "title": "The Emancipation Proclamation",
+      "year": "1863",
+      "mode": "stored",
+      "source": "Project Gutenberg #22082 · public domain",
+      "note": "\u201c\u2026shall be then, thenceforward, and forever free.\u201d",
+      "file": "lincoln/emancipation.md"
+    },
+    {
+      "id": "greeley-letter",
+      "section": "Letters",
+      "title": "Letter to Horace Greeley",
+      "year": "1862",
+      "mode": "stored",
+      "source": "Project Gutenberg #14721 · public domain",
+      "note": "\u201cIf I could save the Union without freeing any slave\u2026\u201d",
+      "file": "lincoln/greeley-letter.md"
+    },
+    {
+      "id": "bixby-letter",
+      "section": "Letters",
+      "title": "Letter to Mrs. Bixby",
+      "year": "1864",
+      "mode": "link",
+      "note": "Authorship long debated; consoling a bereaved mother.",
+      "url": "https://en.wikisource.org/w/index.php?search=Bixby+letter&fulltext=1"
+    },
+    {
+      "id": "collected-works",
+      "section": "The Complete Record",
+      "title": "Collected Works & Writings",
+      "mode": "link",
+      "note": "The full public-domain corpus.",
+      "url": "https://www.gutenberg.org/ebooks/search/?query=Abraham+Lincoln"
+    }
+  ]
+}
