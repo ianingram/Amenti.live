@@ -1,0 +1,41 @@
+{
+  "key": "tesla",
+  "name": "Nikola Tesla",
+  "works": [
+    {
+      "id": "01-experiments-very-high-frequency-1891",
+      "section": "The High-Frequency Lectures · 1891–1893",
+      "title": "Experiments with Alternate Currents of Very High Frequency (New York, 1891)",
+      "mode": "stored",
+      "source": "The Inventions, Researches and Writings of Nikola Tesla · ed. T. C. Martin, 1894 · Project Gutenberg #39272 · public domain",
+      "note": "Delivered at Columbia College, New York, May 1891 — his first great demonstration lecture: high-frequency currents, wireless light, and the energy of the ether.",
+      "file": "tesla/01-experiments-very-high-frequency-1891.md"
+    },
+    {
+      "id": "02-experiments-high-potential-1892",
+      "section": "The High-Frequency Lectures · 1891–1893",
+      "title": "Experiments with Alternate Currents of High Potential and High Frequency (London, 1892)",
+      "mode": "stored",
+      "source": "The Inventions, Researches and Writings of Nikola Tesla · ed. T. C. Martin, 1894 · Project Gutenberg #39272 · public domain",
+      "note": "Delivered before the Institution of Electrical Engineers, London, February 1892 — the lecture that made his reputation across Europe.",
+      "file": "tesla/02-experiments-high-potential-1892.md"
+    },
+    {
+      "id": "03-on-light-and-other-high-frequency-1893",
+      "section": "The High-Frequency Lectures · 1891–1893",
+      "title": "On Light and Other High Frequency Phenomena (Philadelphia & St. Louis, 1893)",
+      "mode": "stored",
+      "source": "The Inventions, Researches and Writings of Nikola Tesla · ed. T. C. Martin, 1894 · Project Gutenberg #39272 · public domain",
+      "note": "Delivered at the Franklin Institute and the National Electric Light Association, 1893 — his most wide-ranging lecture, from the nature of light to wireless transmission.",
+      "file": "tesla/03-on-light-and-other-high-frequency-1893.md"
+    },
+    {
+      "id": "complete",
+      "section": "The Complete Record",
+      "title": "The Inventions, Researches and Writings of Nikola Tesla — complete",
+      "mode": "link",
+      "note": "Martin’s 1894 compilation: the polyphase-motor papers and all the lectures.",
+      "url": "https://www.gutenberg.org/ebooks/39272"
+    }
+  ]
+}
