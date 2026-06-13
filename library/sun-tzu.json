@@ -1,0 +1,131 @@
+{
+  "key": "sun-tzu",
+  "name": "Sun Tzu 孫子",
+  "works": [
+    {
+      "id": "01-laying-plans",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "I. Laying Plans",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "The five constant factors and the calculations made before battle.",
+      "file": "sun-tzu/01-laying-plans.md"
+    },
+    {
+      "id": "02-waging-war",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "II. Waging War",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "The cost of war and the value of swiftness over prolonged campaigns.",
+      "file": "sun-tzu/02-waging-war.md"
+    },
+    {
+      "id": "03-attack-by-stratagem",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "III. Attack by Stratagem",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "To subdue the enemy without fighting is the acme of skill.",
+      "file": "sun-tzu/03-attack-by-stratagem.md"
+    },
+    {
+      "id": "04-tactical-dispositions",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "IV. Tactical Dispositions",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "Securing oneself against defeat before seeking to win.",
+      "file": "sun-tzu/04-tactical-dispositions.md"
+    },
+    {
+      "id": "05-energy",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "V. Energy",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "Direct and indirect methods; the force of momentum.",
+      "file": "sun-tzu/05-energy.md"
+    },
+    {
+      "id": "06-weak-points-and-strong",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "VI. Weak Points and Strong",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "Imposing your will: avoid strength, strike at weakness.",
+      "file": "sun-tzu/06-weak-points-and-strong.md"
+    },
+    {
+      "id": "07-maneuvering",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "VII. Maneuvering",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "Turning the devious into the direct, misfortune into gain.",
+      "file": "sun-tzu/07-maneuvering.md"
+    },
+    {
+      "id": "08-variation-in-tactics",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "VIII. Variation in Tactics",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "Adapting to the circumstances of the ground.",
+      "file": "sun-tzu/08-variation-in-tactics.md"
+    },
+    {
+      "id": "09-the-army-on-the-march",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "IX. The Army on the March",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "Reading terrain and the signs of the enemy.",
+      "file": "sun-tzu/09-the-army-on-the-march.md"
+    },
+    {
+      "id": "10-terrain",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "X. Terrain",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "The six kinds of ground and the six calamities of an army.",
+      "file": "sun-tzu/10-terrain.md"
+    },
+    {
+      "id": "11-the-nine-situations",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "XI. The Nine Situations",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "The nine varieties of ground and how each is used.",
+      "file": "sun-tzu/11-the-nine-situations.md"
+    },
+    {
+      "id": "12-the-attack-by-fire",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "XII. The Attack by Fire",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "The five ways of attacking with fire.",
+      "file": "sun-tzu/12-the-attack-by-fire.md"
+    },
+    {
+      "id": "13-the-use-of-spies",
+      "section": "The Art of War · c. 5th century BCE",
+      "title": "XIII. The Use of Spies",
+      "mode": "stored",
+      "source": "trans. Lionel Giles, 1910 · Project Gutenberg #17405 · public domain",
+      "note": "The five classes of spies and the value of foreknowledge.",
+      "file": "sun-tzu/13-the-use-of-spies.md"
+    },
+    {
+      "id": "annotated",
+      "section": "The Complete Record",
+      "title": "The Art of War — annotated edition",
+      "mode": "link",
+      "note": "Giles’s full 1910 edition, with his commentary and the original Chinese.",
+      "url": "https://www.gutenberg.org/ebooks/66706"
+    }
+  ]
+}
