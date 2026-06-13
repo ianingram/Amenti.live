@@ -1,0 +1,75 @@
+{
+  "key": "hannibal",
+  "name": "Hannibal Barca",
+  "works": [
+    {
+      "id": "01-the-oath",
+      "section": "Words Attributed to Hannibal",
+      "title": "The Oath of Enmity",
+      "mode": "stored",
+      "source": "Polybius, Histories · trans. E. S. Shuckburgh, 1889 · Project Gutenberg #44125 · public domain",
+      "note": "Hannibal’s own account, given years later to King Antiochus, of the oath his father made him swear at age nine — never to be a friend to Rome.",
+      "file": "hannibal/01-the-oath.md"
+    },
+    {
+      "id": "02-appeal-to-scipio-before-zama",
+      "section": "Words Attributed to Hannibal",
+      "title": "The Appeal to Scipio, before Zama",
+      "mode": "stored",
+      "source": "Livy, History of Rome · Project Gutenberg #12582 · public domain",
+      "note": "The speech Livy gives Hannibal at his parley with Scipio on the eve of Zama, 202 BCE — a plea for peace from the man who had ravaged Italy for sixteen years.",
+      "file": "hannibal/02-appeal-to-scipio-before-zama.md"
+    },
+    {
+      "id": "03-the-greatest-generals",
+      "section": "Words Attributed to Hannibal",
+      "title": "The Greatest Generals, at Ephesus",
+      "mode": "stored",
+      "source": "Livy, History of Rome · Project Gutenberg #12582 · public domain",
+      "note": "The famous exchange: asked by Scipio to name the greatest commanders, Hannibal ranks Alexander, then Pyrrhus, then himself — with a barbed compliment for the man who beat him. As reported by Livy.",
+      "file": "hannibal/03-the-greatest-generals.md"
+    },
+    {
+      "id": "04-the-crossing-of-the-alps",
+      "section": "The Campaign, in the Ancient Sources",
+      "title": "The Crossing of the Alps",
+      "mode": "stored",
+      "source": "Polybius, Histories · trans. E. S. Shuckburgh, 1889 · Project Gutenberg #44125 · public domain",
+      "note": "Polybius on the descent into Italy, 218 BCE — the snow, the precipices, and the landslip that halted the elephants.",
+      "file": "hannibal/04-the-crossing-of-the-alps.md"
+    },
+    {
+      "id": "05-the-battle-of-cannae",
+      "section": "The Campaign, in the Ancient Sources",
+      "title": "The Battle of Cannae",
+      "mode": "stored",
+      "source": "Polybius, Histories · trans. E. S. Shuckburgh, 1889 · Project Gutenberg #44125 · public domain",
+      "note": "Polybius on Hannibal’s masterpiece, 2 August 216 BCE: the double envelopment that annihilated a far larger Roman army — still studied as the perfect battle.",
+      "file": "hannibal/05-the-battle-of-cannae.md"
+    },
+    {
+      "id": "polybius",
+      "section": "The Complete Record",
+      "title": "Polybius, The Histories — Vol. I",
+      "mode": "link",
+      "note": "Shuckburgh translation. The Punic Wars, the Alps, and Cannae.",
+      "url": "https://www.gutenberg.org/ebooks/44125"
+    },
+    {
+      "id": "livy-early",
+      "section": "The Complete Record",
+      "title": "Livy, The History of Rome — Books 9–26",
+      "mode": "link",
+      "note": "The war reaches Italy: Saguntum through Cannae.",
+      "url": "https://www.gutenberg.org/ebooks/10907"
+    },
+    {
+      "id": "livy-late",
+      "section": "The Complete Record",
+      "title": "Livy, The History of Rome — Books 27–36",
+      "mode": "link",
+      "note": "Zama, the peace, and Hannibal’s years in exile.",
+      "url": "https://www.gutenberg.org/ebooks/12582"
+    }
+  ]
+}
