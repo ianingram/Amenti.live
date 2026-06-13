@@ -1,0 +1,24 @@
+**READER:** I now understand why the English hold India. I should like to know your views about the condition of our country.
+
+**EDITOR:** It is a sad condition. In thinking of it, my eyes water and my throat get parched. I have grave doubts whether I shall be able sufficiently to explain what is in my heart. It is my deliberate opinion that India is being ground down not under the English heel but under that of modern civilization. It is groaning under the monster's terrible weight. There is yet time to escape it, but every day makes it more and more difficult. Religion is dear to me, and my first complaint is that India is becoming irreligious. Here I am not thinking of the Hindu and Mahomedan or the Zoroastrian religion, but of the religion which underlies all religions. We are turning away from God.
+
+**READER:** How so?
+
+**EDITOR:** There is a charge laid against us that we are a lazy people, and that the Europeans are industrious and enterprising. We have accepted the charge and we, therefore, wish to change our condition. Hinduism, Islamism, Zoroastrianism, Christianity and all other religions teach that we should remain passive about worldly pursuits and active about godly pursuits, that we should set a limit to our worldly ambition, and that our religious ambition should be illimitable. Our activity should be directed into the latter channel.
+
+**READER:** You seem to be encouraging religious charlatanism. Many a cheat has by talking in a similar strain led the people astray.
+
+**EDITOR:** You are bringing an unlawful charge against religion. Humbug there undoubtedly is about all religions. Where there is light, there is also shadow. I am prepared to maintain that humbugs in worldly matters are far worse than the humbugs in religion. The humbug of civilization that I endeavour to show to you is not to be found in religion.
+
+**READER:** How can you say that? In the name of religion Hindus and Mahomedans fought against one another. For the same cause Christians fought Christians. Thousands of innocent men have been murdered, thousands have been burned and tortured in its name. Surely, this is much worse than any civilization.
+
+**EDITOR:** I certainly submit that the above hardships are far more bearable than those of civilization. Everybody understands that the cruelties you have named are not part of religion, although they have been practised in its name: therefore there is no aftermath to these cruelties. They will always happen so long as there are to be found ignorant and credulous people. But there is no end to the victims destroyed in the fire of civilization. Its deadly effect is that people came under its scorching flames believing it to be all good. They become utterly irreligious and, in reality, derive little advantage from the world. Civilization is like a mouse gnawing, while it is soothing us. When its full effect is realised, we will see that religious superstition is harmless compared to that of modern civilization. I am not pleading for a continuance of religious superstitions. We will certainly fight them tooth and nail, but we can never do so by disregarding religion. We can only do so by appreciating and conserving the latter.
+
+**READER:** Then you will contend that the Pax Britannica is a useless encumbrance?
+
+**EDITOR:** You may see peace if you like; I see none.
+
+**READER:** You make light of the terror that Thugs, the Pindaris, the Bhils were to the country.
+
+**EDITOR:** If you will give the matter some thought, you will see that the terror was by no means such a mighty thing. If it had been a very substantial thing, the other people would have died away before the English advent. Moreover, the present peace is only nominal, for by it we have become emasculated and cowardly. We are not to assume that the English have changed the nature of the Pindaris and the Bhils. It is, therefore, better to suffer the Pindari peril than that some one else should protect us from it, and thus render us effeminate. I should prefer to be killed by the arrow of a Bhil than to seek unmanly protection. India without such protection was an India full of valour. Macaulay betrayed gross ignorance when he libelled Indians as being practically cowards. They never merited the charge. Cowards living in a country inhabited by hardy mountaineers, infested by wolves and tigers must surely find an early grave. Have you ever visited our fields? I assure you that our agriculturists sleep fearlessly on their farms even to-day, and the English, you and I would hesitate to sleep where they sleep. Strength lies in absence of fear, not in the quantity of flesh and muscle we may have on our bodies. Moreover, I must remind you who desire Home Rule that, after all, the Bhils, the Pindaris, the Assamese and the Thugs are our own countrymen. To conquer them is your and my work. So long as we fear our own brethren, we are unfit to reach the goal.
+

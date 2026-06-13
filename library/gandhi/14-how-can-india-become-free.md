@@ -1,0 +1,22 @@
+**READER:** I appreciate your views about civilization. I will have to think over them. I cannot take in all at once. What, then, holding the views you do, would you suggest for freeing India?
+
+**EDITOR:** I do not expect my views to be accepted all of a sudden. My duty is to place them before readers like yourself. Time can be trusted to do the rest. We have already examined the conditions for freeing India, but we have done so indirectly; we will now do so directly. It is a world-known maxim that the removal of the cause of a disease results in the removal of the disease itself. Similarly, if the cause of India's slavery be removed, India can become free.
+
+**READER:** If Indian civilization is, as you say, the best of all, how do you account for India's slavery?
+
+**EDITOR:** This civilization is unquestionably the best; but it is to be observed that all civilizations have been on their trial. That civilization which is permanent outlives it. Because the sons of India were found wanting, its civilization has been placed in jeopardy. But its strength is to be seen in its ability to survive the shock. Moreover, the whole of India is not touched. Those alone who have been affected by western civilization have become enslaved. We measure the universe by our own miserable foot-rule. When we are slaves, we think that the whole universe is enslaved. Because we are in an abject condition, we think that the whole of India is in that condition. As a matter of fact, it is not so, but it is as well to impute our slavery to the whole of India. But if we bear in mind the above fact we can see that, if we become free, India is free. And in this thought you have a definition of Swaraj. It is Swaraj when we learn to rule ourselves. It is therefore in the palm of our hands. Do not consider this Swaraj to be like a dream. Hence there is no idea of sitting still. The Swaraj that I wish to picture before you and me is such that, after we have once realised it, we will endeavour to the end of our lifetime to persuade others to do likewise. But such Swaraj has to be experienced by each one for himself. One drowning man will never save another. Slaves ourselves, it would be a mere pretension to think of freeing others. Now you will have seen that it is not necessary for us to have as our goal the expulsion of the English. If the English become Indianised, we can accommodate them. If they wish to remain in India along with their civilization, there is no room for them. It lies with us to bring about such a state of things.
+
+**READER:** It is impossible that Englishmen should ever become Indianised.
+
+**EDITOR:** To say that is equivalent to saying that the English have no humanity in them. And it is really beside the point whether they become so or not. If we keep our own house in order, only those who are fit to live in it will remain. Others will leave of their own accord. Such things occur within the experience of all of us.
+
+**READER:** But it has not occurred in history!
+
+**EDITOR:** To believe that, what has not occurred in history will not occur at all, is to argue disbelief in the dignity of man. At any rate, it behoves us to try what appeals to our reason. All countries are not similarly conditioned. The condition of India is unique. Its strength is immeasurable. We need not, therefore, refer to the history of other countries. I have drawn attention to the fact that, when other civilizations have succumbed, the Indians has survived many a shock.
+
+**READER:** I cannot follow this. There seems little doubt that we shall have to expel the English by force of arms. So long as they are in the country, we cannot rest. One of our poets says that slaves cannot even dream of happiness. We are, day by day, becoming weakened owing to the presence of the English. Our greatness is gone; our people look like terrified men. The English are in the country like a blight which we must remove by every means.
+
+**EDITOR:** In your excitement, you have forgotten all we have been considering. We brought the English, and we keep them. Why do you forget that our adoption of their civilization makes their presence in India at all possible? Your hatred against them ought to be transferred to their civilization. But let us assume that we have to drive away the English by fighting; how is that to be done?
+
+**READER:** In the same way as Italy did it. What it was possible for Mazzini and Garibaldi to do, is possible for us. You cannot deny that they were very great men.
+
