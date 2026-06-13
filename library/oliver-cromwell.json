@@ -1,0 +1,93 @@
+{
+  "key": "oliver-cromwell",
+  "name": "Oliver Cromwell",
+  "works": [
+    {
+      "id": "01-letter-to-mr-storie",
+      "section": "In His Own Words — Letters",
+      "title": "Letter to Mr. Storie, 1636",
+      "mode": "stored",
+      "source": "Oliver Cromwell · The Letters and Speeches of Oliver Cromwell, ed. Carlyle (Lomas edition) · public domain",
+      "note": "Cromwell’s earliest surviving letter — urging a London friend to keep funding a Puritan lecture, and closing with the phrase that became his signature: “I beseech you… in the bowels of Christ Jesus.”",
+      "file": "oliver-cromwell/01-letter-to-mr-storie.md"
+    },
+    {
+      "id": "02-letter-to-mrs-st-john",
+      "section": "In His Own Words — Letters",
+      "title": "Letter to Mrs. St. John, 1638",
+      "mode": "stored",
+      "source": "Oliver Cromwell · The Letters and Speeches of Oliver Cromwell, ed. Carlyle (Lomas edition) · public domain",
+      "note": "A letter of spiritual self-examination to his cousin — “I live in Mesheck… in Kedar” — one of the most personal glimpses of his inner religious life before the war.",
+      "file": "oliver-cromwell/02-letter-to-mrs-st-john.md"
+    },
+    {
+      "id": "03-after-marston-moor",
+      "section": "In His Own Words — Letters",
+      "title": "After Marston Moor: Letter to Colonel Walton, 1644",
+      "mode": "stored",
+      "source": "Oliver Cromwell · The Letters and Speeches of Oliver Cromwell, ed. Carlyle (Lomas edition) · public domain",
+      "note": "His dispatch after the great victory — “God made them as stubble to our swords” — turning mid-letter to console his brother-in-law on the battlefield death of his son. One of the most moving letters in the English language.",
+      "file": "oliver-cromwell/03-after-marston-moor.md"
+    },
+    {
+      "id": "04-after-naseby",
+      "section": "In His Own Words — Letters",
+      "title": "After Naseby: Letter to the Speaker, 1645",
+      "mode": "stored",
+      "source": "Oliver Cromwell · The Letters and Speeches of Oliver Cromwell, ed. Carlyle (Lomas edition) · public domain",
+      "note": "His report to Parliament after the decisive victory at Naseby, ending with a bold plea for liberty of conscience for the men who had fought.",
+      "file": "oliver-cromwell/04-after-naseby.md"
+    },
+    {
+      "id": "05-the-dissolution-of-the-rump",
+      "section": "Cromwell, as told by David Hume",
+      "title": "The Dissolution of the Rump Parliament, 1653",
+      "mode": "stored",
+      "source": "David Hume, The History of England (Part E: From Charles I to Cromwell) · Project Gutenberg #19215 · public domain",
+      "note": "Hume’s account of the day Cromwell marched in and expelled the Long Parliament by force — preserving his own blunt words: “give place to honester men… take away this bauble.”",
+      "file": "oliver-cromwell/05-the-dissolution-of-the-rump.md"
+    },
+    {
+      "id": "06-cromwell-made-lord-protector",
+      "section": "Cromwell, as told by David Hume",
+      "title": "Cromwell Made Lord Protector, 1653",
+      "mode": "stored",
+      "source": "David Hume, The History of England (Part E: From Charles I to Cromwell) · Project Gutenberg #19215 · public domain",
+      "note": "The Instrument of Government and Cromwell’s elevation to supreme power as Lord Protector of the Commonwealth.",
+      "file": "oliver-cromwell/06-cromwell-made-lord-protector.md"
+    },
+    {
+      "id": "07-the-death-and-character-of-cromwell",
+      "section": "Cromwell, as told by David Hume",
+      "title": "The Death and Character of Cromwell, 1658",
+      "mode": "stored",
+      "source": "David Hume, The History of England (Part E: From Charles I to Cromwell) · Project Gutenberg #19215 · public domain",
+      "note": "Hume’s celebrated character sketch — the great historian’s verdict on Cromwell’s genius, ambition, and the tangle of enthusiasm and policy in his nature.",
+      "file": "oliver-cromwell/07-the-death-and-character-of-cromwell.md"
+    },
+    {
+      "id": "hume-full",
+      "section": "The Complete Record",
+      "title": "Hume, History of England — Charles I to Cromwell",
+      "mode": "link",
+      "note": "The full volume covering the Civil War and Commonwealth.",
+      "url": "https://www.gutenberg.org/ebooks/19215"
+    },
+    {
+      "id": "gardiner",
+      "section": "The Complete Record",
+      "title": "Oliver Cromwell — a Life (S. R. Gardiner)",
+      "mode": "link",
+      "note": "A standard scholarly biography.",
+      "url": "https://www.gutenberg.org/ebooks/45010"
+    },
+    {
+      "id": "roosevelt",
+      "section": "The Complete Record",
+      "title": "Oliver Cromwell (Theodore Roosevelt)",
+      "mode": "link",
+      "note": "The future U.S. president’s 1900 life of Cromwell.",
+      "url": "https://www.gutenberg.org/ebooks/63051"
+    }
+  ]
+}
