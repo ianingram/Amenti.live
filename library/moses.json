@@ -1,0 +1,94 @@
+{
+  "key": "moses",
+  "name": "Moses",
+  "works": [
+    {
+      "id": "01-the-burning-bush",
+      "section": "From the Book of Exodus",
+      "title": "The Burning Bush",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Exodus · Project Gutenberg #8002 · public domain",
+      "note": "Moses at the burning bush, where the God of Israel reveals the Name “I AM THAT I AM” and commissions him to free the Israelites. Exodus 3.",
+      "file": "moses/01-the-burning-bush.md"
+    },
+    {
+      "id": "02-the-crossing-of-the-red-sea",
+      "section": "From the Book of Exodus",
+      "title": "The Crossing of the Red Sea",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Exodus · Project Gutenberg #8002 · public domain",
+      "note": "The deliverance at the sea: Moses stretches out his hand and the waters divide. Exodus 14.",
+      "file": "moses/02-the-crossing-of-the-red-sea.md"
+    },
+    {
+      "id": "03-the-song-of-the-sea",
+      "section": "From the Book of Exodus",
+      "title": "The Song of the Sea",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Exodus · Project Gutenberg #8002 · public domain",
+      "note": "The song Moses and Israel sing after the crossing — among the oldest poetry in the Hebrew Bible. Exodus 15.",
+      "file": "moses/03-the-song-of-the-sea.md"
+    },
+    {
+      "id": "04-the-ten-commandments",
+      "section": "From the Book of Exodus",
+      "title": "The Ten Commandments",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Exodus · Project Gutenberg #8002 · public domain",
+      "note": "The Decalogue, spoken at Sinai and delivered through Moses. Exodus 20.",
+      "file": "moses/04-the-ten-commandments.md"
+    },
+    {
+      "id": "05-the-shema",
+      "section": "From the Book of Deuteronomy — the Farewell of Moses",
+      "title": "The Shema — Hear, O Israel",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Deuteronomy · Project Gutenberg #8005 · public domain",
+      "note": "The central declaration of faith, from Moses’s address to the people. Deuteronomy 6.",
+      "file": "moses/05-the-shema.md"
+    },
+    {
+      "id": "06-the-song-of-moses",
+      "section": "From the Book of Deuteronomy — the Farewell of Moses",
+      "title": "The Song of Moses",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Deuteronomy · Project Gutenberg #8005 · public domain",
+      "note": "His great poem of warning and witness, recited to all Israel near the end of his life. Deuteronomy 32.",
+      "file": "moses/06-the-song-of-moses.md"
+    },
+    {
+      "id": "07-the-blessing-of-moses",
+      "section": "From the Book of Deuteronomy — the Farewell of Moses",
+      "title": "The Blessing of Moses",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Deuteronomy · Project Gutenberg #8005 · public domain",
+      "note": "His final blessing on the twelve tribes. Deuteronomy 33.",
+      "file": "moses/07-the-blessing-of-moses.md"
+    },
+    {
+      "id": "08-the-death-of-moses",
+      "section": "From the Book of Deuteronomy — the Farewell of Moses",
+      "title": "The Death of Moses",
+      "mode": "stored",
+      "source": "The Holy Bible, King James Version · Book of Deuteronomy · Project Gutenberg #8005 · public domain",
+      "note": "The account of his death on Mount Nebo, in sight of the promised land he would not enter. Deuteronomy 34.",
+      "file": "moses/08-the-death-of-moses.md"
+    },
+    {
+      "id": "exodus",
+      "section": "The Complete Record",
+      "title": "The Book of Exodus — complete",
+      "mode": "link",
+      "note": "King James Version, the full book.",
+      "url": "https://www.gutenberg.org/ebooks/8002"
+    },
+    {
+      "id": "deuteronomy",
+      "section": "The Complete Record",
+      "title": "The Book of Deuteronomy — complete",
+      "mode": "link",
+      "note": "King James Version, the full book.",
+      "url": "https://www.gutenberg.org/ebooks/8005"
+    }
+  ]
+}
