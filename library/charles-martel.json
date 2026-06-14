@@ -1,0 +1,47 @@
+{
+  "key": "charles-martel",
+  "name": "Charles Martel",
+  "works": [
+    {
+      "id": "01-the-invasion-of-gaul",
+      "section": "The Battle of Tours — by Edward Gibbon",
+      "title": "The Invasion of Gaul",
+      "mode": "stored",
+      "source": "Edward Gibbon, The History of the Decline and Fall of the Roman Empire, Vol. V, ch. LII · Project Gutenberg #735 · public domain",
+      "note": "The “lazy” Merovingian kings, the rise of the mayors of the palace, and the Saracen tide sweeping up from Spain — ending on Gibbon’s famous vision of a Muslim Europe, where “the Koran would now be taught in the schools of Oxford.”",
+      "file": "charles-martel/01-the-invasion-of-gaul.md"
+    },
+    {
+      "id": "02-the-battle-of-tours",
+      "section": "The Battle of Tours — by Edward Gibbon",
+      "title": "The Battle of Tours",
+      "mode": "stored",
+      "source": "Edward Gibbon, The History of the Decline and Fall of the Roman Empire, Vol. V, ch. LII · Project Gutenberg #735 · public domain",
+      "note": "Christendom delivered “by the genius and fortune of one man.” Charles lets the invaders gorge on plunder, then breaks them at Tours — earning the surname Martel, the Hammer.",
+      "file": "charles-martel/02-the-battle-of-tours.md"
+    },
+    {
+      "id": "03-the-saviour-condemned",
+      "section": "The Battle of Tours — by Edward Gibbon",
+      "title": "The Saviour Condemned",
+      "mode": "stored",
+      "source": "Edward Gibbon, The History of the Decline and Fall of the Roman Empire, Vol. V, ch. LII · Project Gutenberg #735 · public domain",
+      "note": "The bitter irony: having spent church wealth to fund the defence, the saviour of Christendom was repaid by a synod declaring him damned — his soul “burning, to all eternity, in the abyss of hell.”",
+      "file": "charles-martel/03-the-saviour-condemned.md"
+    },
+    {
+      "id": "gibbon-v5",
+      "section": "The Complete Record",
+      "title": "Decline and Fall, Vol. V (ch. XLVIII–LVII) — complete",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/735"
+    },
+    {
+      "id": "gibbon-all",
+      "section": "The Complete Record",
+      "title": "The Decline and Fall of the Roman Empire — all six volumes",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/731"
+    }
+  ]
+}
