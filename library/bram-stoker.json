@@ -1,0 +1,90 @@
+{
+  "key": "bram-stoker",
+  "name": "Bram Stoker",
+  "works": [
+    {
+      "id": "01-enter-freely",
+      "section": "Dracula (1897)",
+      "title": "Enter Freely and of Your Own Free Will",
+      "mode": "stored",
+      "source": "Bram Stoker, Dracula (1897) · Project Gutenberg #345 · public domain",
+      "note": "Jonathan Harker arrives at the castle: the heavy door, the courtly welcome, the hand cold as ice — and, from the valley, the howl of wolves. “Listen to them — the children of the night. What music they make!”",
+      "file": "bram-stoker/01-enter-freely.md"
+    },
+    {
+      "id": "02-the-crawl",
+      "section": "Dracula (1897)",
+      "title": "The Thing on the Wall",
+      "mode": "stored",
+      "source": "Bram Stoker, Dracula (1897) · Project Gutenberg #345 · public domain",
+      "note": "Harker, a prisoner, looks out and sees his host emerge from a window and descend the sheer castle wall face-down, cloak spread like wings — “just as a lizard moves along a wall.”",
+      "file": "bram-stoker/02-the-crawl.md"
+    },
+    {
+      "id": "03-the-three-sisters",
+      "section": "Dracula (1897)",
+      "title": "The Three Sisters",
+      "mode": "stored",
+      "source": "Bram Stoker, Dracula (1897) · Project Gutenberg #345 · public domain",
+      "note": "The vampire brides close upon the sleeping Harker, until the Count bursts in with terrible fury: “How dare you touch him… This man belongs to me!”",
+      "file": "bram-stoker/03-the-three-sisters.md"
+    },
+    {
+      "id": "04-the-bloofer-lady",
+      "section": "Dracula (1897)",
+      "title": "The Bloofer Lady",
+      "mode": "stored",
+      "source": "Bram Stoker, Dracula (1897) · Project Gutenberg #345 · public domain",
+      "note": "A Westminster Gazette clipping: small children of Hampstead Heath stray after dark, lured by a “bloofer lady,” and return with a tiny wound at the throat.",
+      "file": "bram-stoker/04-the-bloofer-lady.md"
+    },
+    {
+      "id": "05-van-helsing-on-the-un-dead",
+      "section": "Dracula (1897)",
+      "title": "Van Helsing on the Un-Dead",
+      "mode": "stored",
+      "source": "Bram Stoker, Dracula (1897) · Project Gutenberg #345 · public domain",
+      "note": "The professor’s catalogue of the vampire’s powers and limits — the strength of many, no shadow, no mirror-image, the shapes of wolf and bat and mist — yet bound by laws he cannot break.",
+      "file": "bram-stoker/05-van-helsing-on-the-un-dead.md"
+    },
+    {
+      "id": "06-the-death-of-the-count",
+      "section": "Dracula (1897)",
+      "title": "The Death of the Count",
+      "mode": "stored",
+      "source": "Bram Stoker, Dracula (1897) · Project Gutenberg #345 · public domain",
+      "note": "The chase ends at sunset below the castle: the Kukri and the bowie knife, the body crumbling to dust — and, in that last instant, a look of peace upon the face.",
+      "file": "bram-stoker/06-the-death-of-the-count.md"
+    },
+    {
+      "id": "07-draculas-guest",
+      "section": "Dracula’s Guest (1914)",
+      "title": "Dracula’s Guest — complete",
+      "mode": "stored",
+      "source": "Bram Stoker, Dracula’s Guest and Other Weird Stories (1914) · Project Gutenberg #10150 · public domain",
+      "note": "A traveller defies his coachman’s dread of Walpurgis Night and is overtaken by storm and wolf — saved by a message from a distant Boyar. Long taken for the deleted first chapter of the novel.",
+      "file": "bram-stoker/07-draculas-guest.md"
+    },
+    {
+      "id": "full",
+      "section": "The Complete Record",
+      "title": "Dracula — the complete novel (Gutenberg)",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/345"
+    },
+    {
+      "id": "weird",
+      "section": "The Complete Record",
+      "title": "Dracula’s Guest and Other Weird Stories",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/10150"
+    },
+    {
+      "id": "jewel",
+      "section": "The Complete Record",
+      "title": "The Jewel of Seven Stars",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/3781"
+    }
+  ]
+}
