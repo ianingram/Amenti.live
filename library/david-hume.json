@@ -1,0 +1,179 @@
+{
+  "key": "david-hume",
+  "name": "David Hume",
+  "works": [
+    {
+      "id": "01-of-cause-and-effect",
+      "section": "In His Own Voice — Philosophy",
+      "title": "Enquiry — Of Cause and Effect",
+      "mode": "stored",
+      "source": "David Hume, An Enquiry Concerning Human Understanding (1748) · Project Gutenberg #9662 · public domain",
+      "note": "His “sceptical doubts” — we never observe necessary connection, only constant conjunction. The problem of induction, stated for the first time.",
+      "file": "david-hume/01-of-cause-and-effect.md"
+    },
+    {
+      "id": "02-of-miracles",
+      "section": "In His Own Voice — Philosophy",
+      "title": "Enquiry — Of Miracles",
+      "mode": "stored",
+      "source": "David Hume, An Enquiry Concerning Human Understanding (1748) · Project Gutenberg #9662 · public domain",
+      "note": "No testimony suffices to establish a miracle unless its falsehood would be more miraculous than the event it reports.",
+      "file": "david-hume/02-of-miracles.md"
+    },
+    {
+      "id": "03-dialogues-natural-religion",
+      "section": "In His Own Voice — Philosophy",
+      "title": "Dialogues Concerning Natural Religion",
+      "mode": "stored",
+      "source": "David Hume, Dialogues Concerning Natural Religion (1779) · Project Gutenberg #4583 · public domain",
+      "note": "His masterpiece on design and the problem of evil, in twelve parts. The sceptic Philo is usually taken to speak closest to Hume himself.",
+      "file": "david-hume/03-dialogues-natural-religion.md"
+    },
+    {
+      "id": "04-alfred-the-great",
+      "section": "Portraits from the History of England",
+      "title": "Alfred the Great",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part A · Project Gutenberg · public domain",
+      "note": "A prince who “may with advantage be set in opposition to any monarch the annals of any nation can present.”",
+      "file": "david-hume/04-alfred-the-great.md"
+    },
+    {
+      "id": "05-henry-i",
+      "section": "Portraits from the History of England",
+      "title": "Henry I",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part A · Project Gutenberg · public domain",
+      "note": "Beauclerc, the scholar-king — learned and able, and not above seizing his brother’s crown.",
+      "file": "david-hume/05-henry-i.md"
+    },
+    {
+      "id": "06-henry-ii",
+      "section": "Portraits from the History of England",
+      "title": "Henry II",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part A · Project Gutenberg · public domain",
+      "note": "“The greatest prince of his time for wisdom, virtue, and abilities.”",
+      "file": "david-hume/06-henry-ii.md"
+    },
+    {
+      "id": "07-richard-i",
+      "section": "Portraits from the History of England",
+      "title": "Richard I, the Lionheart",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part A · Project Gutenberg · public domain",
+      "note": "All military genius and little else — “the most shining part of this prince’s character are his military talents.”",
+      "file": "david-hume/07-richard-i.md"
+    },
+    {
+      "id": "08-king-john",
+      "section": "Portraits from the History of England",
+      "title": "King John",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part A · Project Gutenberg · public domain",
+      "note": "“Nothing but a complication of vices, equally mean and odious.”",
+      "file": "david-hume/08-king-john.md"
+    },
+    {
+      "id": "09-richard-iii",
+      "section": "Portraits from the History of England",
+      "title": "Richard III",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part B · Project Gutenberg · public domain",
+      "note": "The tyrant whose body was “in every particular no less deformed than his mind.”",
+      "file": "david-hume/09-richard-iii.md"
+    },
+    {
+      "id": "10-henry-viii",
+      "section": "Portraits from the History of England",
+      "title": "Henry VIII",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part C · Project Gutenberg · public domain",
+      "note": "“So different from himself in different parts of his reign” — a king the English admired even as he tyrannized over them.",
+      "file": "david-hume/10-henry-viii.md"
+    },
+    {
+      "id": "11-elizabeth-i",
+      "section": "Portraits from the History of England",
+      "title": "Elizabeth I",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part D · Project Gutenberg · public domain",
+      "note": "“Exposed to the calumny of enemies and the adulation of friends” — Hume weighs the great queen as sovereign and as woman.",
+      "file": "david-hume/11-elizabeth-i.md"
+    },
+    {
+      "id": "12-mary-queen-of-scots",
+      "section": "Portraits from the History of England",
+      "title": "Mary, Queen of Scots",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part D · Project Gutenberg · public domain",
+      "note": "“A woman of great accomplishments… but unfortunate in her life, and during one period very unhappy in her conduct.”",
+      "file": "david-hume/12-mary-queen-of-scots.md"
+    },
+    {
+      "id": "13-the-duke-of-buckingham",
+      "section": "Portraits from the History of England",
+      "title": "The Duke of Buckingham",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part D · Project Gutenberg · public domain",
+      "note": "How a favourite is made and spoiled — loaded with honours till he was rendered “rash, precipitate, and insolent.”",
+      "file": "david-hume/13-the-duke-of-buckingham.md"
+    },
+    {
+      "id": "14-charles-i",
+      "section": "Portraits from the History of England",
+      "title": "Charles I",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part E · Project Gutenberg · public domain",
+      "note": "Hume’s sympathetic portrait of the executed king — a prince of virtue, unsuited to his age.",
+      "file": "david-hume/14-charles-i.md"
+    },
+    {
+      "id": "15-oliver-cromwell",
+      "section": "Portraits from the History of England",
+      "title": "Oliver Cromwell",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part E · Project Gutenberg · public domain",
+      "note": "“Such violent ambition and such enraged fanaticism, with so much regard to justice and humanity.”",
+      "file": "david-hume/15-oliver-cromwell.md"
+    },
+    {
+      "id": "16-charles-ii",
+      "section": "Portraits from the History of England",
+      "title": "Charles II",
+      "mode": "stored",
+      "source": "David Hume, The History of England, Vol. I, Part F · Project Gutenberg · public domain",
+      "note": "The easy, witty, faithless king — surveyed “in the different lights” of private man and public ruler.",
+      "file": "david-hume/16-charles-ii.md"
+    },
+    {
+      "id": "enq-full",
+      "section": "The Complete Record",
+      "title": "Enquiry Concerning Human Understanding — complete",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/9662"
+    },
+    {
+      "id": "dia-full",
+      "section": "The Complete Record",
+      "title": "Dialogues Concerning Natural Religion — complete",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/4583"
+    },
+    {
+      "id": "treatise",
+      "section": "The Complete Record",
+      "title": "A Treatise of Human Nature",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/62856"
+    },
+    {
+      "id": "hist-a",
+      "section": "The Complete Record",
+      "title": "The History of England — complete (six parts, Gutenberg)",
+      "mode": "link",
+      "note": "Parts A–F, #19211–19216 — the source of every portrait above.",
+      "url": "https://www.gutenberg.org/ebooks/19211"
+    }
+  ]
+}
