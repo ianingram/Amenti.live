@@ -1,0 +1,119 @@
+{
+  "key": "marcus-aurelius",
+  "name": "Marcus Aurelius",
+  "works": [
+    {
+      "id": "book-01",
+      "section": "The Meditations",
+      "title": "Book I — Debts and Lessons",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-01.md",
+      "note": "Marcus names what he owes to each person who formed him — his grandfather, his father, his teachers, and the gods."
+    },
+    {
+      "id": "book-02",
+      "section": "The Meditations",
+      "title": "Book II",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-02.md"
+    },
+    {
+      "id": "book-03",
+      "section": "The Meditations",
+      "title": "Book III",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-03.md"
+    },
+    {
+      "id": "book-04",
+      "section": "The Meditations",
+      "title": "Book IV",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-04.md"
+    },
+    {
+      "id": "book-05",
+      "section": "The Meditations",
+      "title": "Book V",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-05.md"
+    },
+    {
+      "id": "book-06",
+      "section": "The Meditations",
+      "title": "Book VI",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-06.md"
+    },
+    {
+      "id": "book-07",
+      "section": "The Meditations",
+      "title": "Book VII",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-07.md"
+    },
+    {
+      "id": "book-08",
+      "section": "The Meditations",
+      "title": "Book VIII",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-08.md"
+    },
+    {
+      "id": "book-09",
+      "section": "The Meditations",
+      "title": "Book IX",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-09.md"
+    },
+    {
+      "id": "book-10",
+      "section": "The Meditations",
+      "title": "Book X",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-10.md"
+    },
+    {
+      "id": "book-11",
+      "section": "The Meditations",
+      "title": "Book XI",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-11.md"
+    },
+    {
+      "id": "book-12",
+      "section": "The Meditations",
+      "title": "Book XII",
+      "mode": "stored",
+      "source": "Marcus Aurelius, Meditations (trans. Meric Casaubon, 1634) · Project Gutenberg #2680 · public domain",
+      "file": "marcus-aurelius/book-12.md"
+    },
+    {
+      "id": "full",
+      "section": "The Complete Record",
+      "title": "Meditations — complete (Casaubon, 1634)",
+      "mode": "link",
+      "note": "The full text in the oldest English translation.",
+      "url": "https://www.gutenberg.org/ebooks/2680"
+    },
+    {
+      "id": "long",
+      "section": "The Complete Record",
+      "title": "The Thoughts of Marcus Aurelius (Long translation)",
+      "mode": "link",
+      "note": "George Long’s 1862 rendering — a clearer modern alternative.",
+      "url": "https://www.gutenberg.org/ebooks/15877"
+    }
+  ]
+}
