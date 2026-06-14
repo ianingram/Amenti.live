@@ -1,0 +1,93 @@
+{
+  "key": "edward-gibbon",
+  "name": "Edward Gibbon",
+  "works": [
+    {
+      "id": "01-the-age-of-the-antonines",
+      "section": "Gibbon’s Rome — In His Own Voice",
+      "title": "The Age of the Antonines",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. I · Project Gutenberg #731 · public domain",
+      "note": "The empire at its zenith — “the period in the history of the world during which the condition of the human race was most happy and prosperous” — shadowed by the knowledge that it all rested on the character of a single man.",
+      "file": "edward-gibbon/01-the-age-of-the-antonines.md"
+    },
+    {
+      "id": "02-general-observations-on-the-fall",
+      "section": "Gibbon’s Rome — In His Own Voice",
+      "title": "General Observations on the Fall",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. III · Project Gutenberg #733 · public domain",
+      "note": "His thesis on why Rome fell: “the decline of Rome was the natural and inevitable effect of immoderate greatness… we should rather be surprised that it had subsisted so long.”",
+      "file": "edward-gibbon/02-general-observations-on-the-fall.md"
+    },
+    {
+      "id": "03-julian-the-apostate",
+      "section": "The Cast of the Fall — Portraits",
+      "title": "Julian the Apostate",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. II · Project Gutenberg #732 · public domain",
+      "note": "Gibbon’s hero — the philosopher-emperor whose throne “was the seat of reason, of virtue, and perhaps of vanity,” who could pursue three trains of thought at once and begrudged every hour not given to the public good.",
+      "file": "edward-gibbon/03-julian-the-apostate.md"
+    },
+    {
+      "id": "04-attila-the-hun",
+      "section": "The Cast of the Fall — Portraits",
+      "title": "Attila the Hun",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. III · Project Gutenberg #733 · public domain",
+      "note": "The scourge of God — the eyes that fiercely rolled to enjoy the terror he inspired, and the legend of the sword of Mars that made him master of the earth.",
+      "file": "edward-gibbon/04-attila-the-hun.md"
+    },
+    {
+      "id": "05-theodora",
+      "section": "The Cast of the Fall — Portraits",
+      "title": "Theodora",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. IV · Project Gutenberg #734 · public domain",
+      "note": "The bear-keeper’s daughter who rose from the Constantinople stage to the throne of the Caesars — Gibbon’s unsparing account of her notorious beginnings.",
+      "file": "edward-gibbon/05-theodora.md"
+    },
+    {
+      "id": "06-belisarius",
+      "section": "The Cast of the Fall — Portraits",
+      "title": "Belisarius",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. IV · Project Gutenberg #734 · public domain",
+      "note": "The greatest general of the age, repaid with ingratitude — and the famous fable, which Gibbon debunks, of the blind hero begging “Give a penny to Belisarius!”",
+      "file": "edward-gibbon/06-belisarius.md"
+    },
+    {
+      "id": "07-mahomet",
+      "section": "The Cast of the Fall — Portraits",
+      "title": "Mahomet",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. V · Project Gutenberg #735 · public domain",
+      "note": "Gibbon’s measured portrait of the Prophet — his commanding presence, his eloquence, and the idea of his divine mission that “bears the stamp of an original and superior genius.”",
+      "file": "edward-gibbon/07-mahomet.md"
+    },
+    {
+      "id": "08-the-fall-of-constantinople",
+      "section": "The Cast of the Fall — Portraits",
+      "title": "The Fall of Constantinople",
+      "mode": "stored",
+      "source": "Edward Gibbon, The Decline and Fall of the Roman Empire, Vol. VI · Project Gutenberg #736 · public domain",
+      "note": "The end of the empire, 1453: the conqueror in the desolate palace of the Caesars, reciting a Persian couplet on the vanity of greatness — “the owl hath sung her watch-song on the towers of Afrasiab.”",
+      "file": "edward-gibbon/08-the-fall-of-constantinople.md"
+    },
+    {
+      "id": "vol1",
+      "section": "The Complete Record",
+      "title": "Decline and Fall, Vol. I (ch. 1–16) — complete",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/731"
+    },
+    {
+      "id": "all",
+      "section": "The Complete Record",
+      "title": "The Decline and Fall — all six volumes (Gutenberg)",
+      "mode": "link",
+      "note": "Volumes I–VI, #731–736.",
+      "url": "https://www.gutenberg.org/ebooks/author/1110"
+    }
+  ]
+}
