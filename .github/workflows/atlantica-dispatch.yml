@@ -1,1 +1,56 @@
+name: Atlantica dispatch
 
+# v1: manual trigger only. Click "Run workflow" in the Actions tab, optionally
+# typing a figure key, and review the committed dispatch. When you trust the
+# output, uncomment the `schedule` block below to publish one automatically
+# every day.
+
+on:
+  workflow_dispatch:
+    inputs:
+      figure:
+        description: "Figure key (blank = next figure without a dispatch)"
+        required: false
+        default: ""
+      dry_run:
+        description: "Dry run (no API call, writes a stub to test the plumbing)"
+        required: false
+        default: "false"
+  # schedule:
+  #   - cron: "0 11 * * *"   # 11:00 UTC daily — uncomment when ready
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Anthropic SDK
+        run: npm install @anthropic-ai/sdk
+
+      - name: Generate dispatch
+        run: node scripts/generate-dispatch.js
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FIGURE_KEY: ${{ github.event.inputs.figure }}
+          DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
+          ATLANTICA_MODEL: claude-sonnet-4-6
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "Atlantica Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add atlantica.json
+          if git diff --staged --quiet; then
+            echo "No change to commit."
+          else
+            git commit -m "Atlantica: new dispatch"
+            git push
+          fi
