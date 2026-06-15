@@ -1,1 +1,15 @@
 
+[
+  { "key": "caesar",          "name": "Julius Caesar",   "epithet": "Conqueror of Gaul",            "eventTitle": "Commentaries on the Gallic War",                          "eventYear": -58  },
+  { "key": "sun-tzu",         "name": "Sun Tzu",         "epithet": "Master of strategy",           "eventTitle": "The Art of War",                                          "eventYear": -500 },
+  { "key": "tesla",           "name": "Nikola Tesla",    "epithet": "Prophet of the electric age",  "eventTitle": "Experiments with Alternate Currents of High Frequency",   "eventYear": 1891 },
+  { "key": "oliver-cromwell", "name": "Oliver Cromwell", "epithet": "Lord Protector",               "eventTitle": "Letters & Speeches (after Naseby)",                       "eventYear": 1645 },
+  { "key": "lincoln",         "name": "Abraham Lincoln", "epithet": "The Great Emancipator",        "eventTitle": "his Speeches and Letters",                                "eventYear": 1863 },
+  { "key": "gandhi",          "name": "Mohandas Gandhi", "epithet": "Apostle of satyagraha",        "eventTitle": "Hind Swaraj",                                             "eventYear": 1909 },
+  { "key": "moses",           "name": "Moses",           "epithet": "The Lawgiver",                 "eventTitle": "The Book of Deuteronomy",                                 "eventYear": -1300 },
+  { "key": "marcus-aurelius", "name": "Marcus Aurelius", "epithet": "Philosopher-emperor",          "eventTitle": "Meditations",                                             "eventYear": 175  },
+  { "key": "tacitus",         "name": "Tacitus",         "epithet": "Chronicler of Rome",           "eventTitle": "The Annals",                                              "eventYear": 116  },
+  { "key": "david-hume",      "name": "David Hume",      "epithet": "Historian and philosopher",    "eventTitle": "The History of England",                                  "eventYear": 1754 },
+  { "key": "edward-gibbon",   "name": "Edward Gibbon",   "epithet": "Historian of Rome's fall",     "eventTitle": "The Decline and Fall of the Roman Empire",                "eventYear": 1776 },
+  { "key": "bram-stoker",     "name": "Bram Stoker",     "epithet": "Author of Dracula",            "eventTitle": "Dracula",                                                 "eventYear": 1897 }
+]
