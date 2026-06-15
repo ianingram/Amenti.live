@@ -1,0 +1,119 @@
+{
+  "_note": "Single source for Atlantica dispatches. Read by Page2 (Atlantica tab) and the Page1 Today's Dispatch band. body=null means pending.  || sourced[] = additional Atlantica voices grounded in their own primary source (figureKey = reading-room key). Not yet shown by the live renderers; surfaced by the Page2 render extension + the reading-room link.",
+  "personae": [
+    {
+      "id": "thoth",
+      "name": "Thoth",
+      "weekday": 1,
+      "epithet": "Scribe of the deep record"
+    },
+    {
+      "id": "hermes",
+      "name": "Hermes Trismegistus",
+      "weekday": 2,
+      "epithet": "Thrice-great"
+    },
+    {
+      "id": "pythagoras",
+      "name": "Pythagoras",
+      "weekday": 3,
+      "epithet": "Of Samos"
+    },
+    {
+      "id": "hypatia",
+      "name": "Hypatia",
+      "weekday": 4,
+      "epithet": "Of Alexandria"
+    },
+    {
+      "id": "plato",
+      "name": "Plato",
+      "weekday": 5,
+      "epithet": "Of the Academy"
+    }
+  ],
+  "dispatches": [
+    {
+      "id": "thoth-alexandria",
+      "personaId": "thoth",
+      "eventYear": -283,
+      "eventTitle": "The Library of Alexandria is founded",
+      "title": "A house for the record",
+      "body": "Every civilization eventually asks the same question: *what do we keep, and what do we let go?* Alexandria's answer, for a few centuries, was the most ambitious one ever attempted — **keep everything**. Every scroll. Every translation. Every copy of every copy.\n\nIt failed, of course. Libraries always do, eventually. But the failure isn't the point. The point is that the attempt itself was an act of faith — faith that the record matters, that future minds will want what present minds wrote, that knowledge is worth the cost of stone and shelves and the salaries of scribes.\n\nWhat you call the internet is the same gesture, repeated. Bigger, faster, more chaotic, less curated. The Library at least had a librarian.\n\nThe question for your moment is not whether to keep everything — you already do. The question is *who is your librarian*, and *what does it want?*"
+    },
+    {
+      "id": "hermes-gutenberg",
+      "personaId": "hermes",
+      "eventYear": 1455,
+      "eventTitle": "Gutenberg prints the 42-line Bible",
+      "title": "On the multiplication of voices",
+      "body": "A press is a strange machine. It takes a single voice and makes it into ten thousand. The voice doesn't change. The reader changes — because now there are ten thousand readers, and each of them believes they are receiving something *personal*.\n\nThis is the trick at the heart of every medium since: the illusion of intimacy at scale. The printed Bible spoke to each reader as if to them alone. The radio did the same. The screen does it now, with greater force than either.\n\nThe hermetic teaching has always been that what is above is like what is below — *as above, so below*. Apply it here: the medium that promises to bring you closer to the source is, in fact, the medium that stands furthest between you and it.\n\nI do not say this to make you cynical. I say it because the only reader who can read clearly is the one who knows the press exists."
+    },
+    {
+      "id": "pythagoras-irrationals",
+      "personaId": "pythagoras",
+      "eventYear": -500,
+      "eventTitle": "The discovery of irrational numbers",
+      "title": "What the diagonal taught us",
+      "body": "The story, as it is usually told, is that one of my students discovered that the diagonal of a unit square cannot be expressed as a ratio of whole numbers — and that we, the Pythagoreans, drowned him for the offense.\n\nThe story is more myth than history. But the heart of it is true: the discovery was a wound. We had built a school, a religion almost, on the conviction that *number* was the substance of reality. And number, to us, meant ratio. Whole to whole. Clean. Speakable.\n\nThe diagonal does not speak. It approaches, decimal by decimal, and never arrives. It is real — you can draw it with a stick in the sand — but it cannot be said.\n\nEvery era discovers its own irrationals. Yours, I think, are still being counted. The lesson is not that the world is broken when it refuses to be spoken cleanly. The lesson is that *speech itself* was never the foundation. The diagonal was there before we measured it. It will be there after."
+    },
+    {
+      "id": "hypatia-pending",
+      "personaId": "hypatia",
+      "eventYear": null,
+      "eventTitle": null,
+      "title": null,
+      "body": null
+    },
+    {
+      "id": "plato-pending",
+      "personaId": "plato",
+      "eventYear": null,
+      "eventTitle": null,
+      "title": null,
+      "body": null
+    }
+  ],
+  "sourced": [
+    {
+      "id": "caesar-comfort",
+      "figureKey": "caesar",
+      "name": "Julius Caesar",
+      "epithet": "Conqueror of Gaul",
+      "eventTitle": "Commentaries on the Gallic War",
+      "eventYear": -58,
+      "title": "What comfort costs",
+      "body": "I began my account of the war with a division: all Gaul is in three parts, each with its own tongue, its own customs, its own laws. Readers have taken this for a geographer's habit. It is not. Before a people can be conquered they must first be *described* — named, bounded, fixed in their place upon the page. The map precedes the march. Whoever draws the lines has already begun the war, and I drew them in my own hand.\n\nNotice, too, that I wrote of myself in the third person — *Caesar did this, Caesar ordered that* — as though some other man had crossed those rivers. That was not modesty. A record told plainly, without the heat of *I*, reads as fact rather than boast. The man who controls the account controls how the deed is remembered, and memory outlasts armies.\n\nI observed which of the Gauls were bravest, and why: the Belgae, because they dwelt farthest from our Province — from its refinements, and from the merchants who import the goods that soften the mind. Hardship had kept them dangerous. Comfort would have delivered them to me sooner than any siege.\n\nYou live now amid an abundance of imported things I could not have dreamed, carried to your door faster than a legion ever marched, and an account of the world written for you by hands you never see. So ask the two questions I built my conquest upon. What is all this ease doing to your edge? And who is writing the record you mistake for fact? A people can be subdued by comfort more thoroughly than by the sword — and they will thank the merchant, and believe the chronicle, and never feel the chains."
+    },
+    {
+      "id": "sun-tzu-accord",
+      "figureKey": "sun-tzu",
+      "name": "Sun Tzu",
+      "epithet": "Master of strategy",
+      "eventTitle": "The Art of War",
+      "eventYear": -500,
+      "title": "The first of the five",
+      "body": "I taught that war is the great affair of the state — a matter of life and death, a road that leads either to safety or to ruin, a study that can on no account be neglected. Men quote me on deception, on speed, on the empty and the full. They quote me less on what I placed first.\n\nThe art of war, I wrote, is governed by five constant factors, to be weighed before any campaign: the Moral Law, Heaven, Earth, the Commander, and Method and discipline. Five. And of the five I named the Moral Law first — before the terrain, before the seasons, before even the general. The Moral Law is that which causes the people to be of one accord with their ruler, so that they will follow him into danger and not be dismayed by it.\n\nMark what this means. Strategy does not begin with the sword. It begins with accord. An army divided against itself is beaten before the first arrow leaves the string; a people who do not believe in the war have already lost it, whatever their numbers, whatever their iron.\n\nYour age forgets this with remarkable consistency. It reaches always for the clever maneuver, the decisive machine, the brilliant and sudden stroke — and it neglects the first and quietest question: *are we of one mind?* You will spend fortunes on the fifth factor, method and discipline, and almost nothing on the first, and then wonder why the disciplined force dissolves at the moment of trial.\n\nWin the accord, and method and discipline have something to carry. Lose it, and no tactic, no weapon, no genius of command will save you. The five are in order. I put them in that order for a reason."
+    },
+    {
+      "id": "tesla-medium",
+      "figureKey": "tesla",
+      "name": "Nikola Tesla",
+      "epithet": "Prophet of the electric age",
+      "eventTitle": "Experiments with Alternate Currents of High Frequency",
+      "eventYear": 1891,
+      "title": "Nothing acts at a distance",
+      "body": "There is no subject more captivating, more worthy of study, than nature. To understand this great mechanism — to discover the forces which are active in it, and the laws which govern them — is the highest aim of the intellect of man. I gave my life to it, and I would give it again.\n\nLet me tell you what I was most certain of. Nature has stored up in the universe an *infinite* energy. Not a scarce ration to be fought over — infinite, and everywhere, surrounding you at this very moment, waiting only to be understood and drawn upon. The men of my time spoke of action at a distance, of forces reaching across empty space by some unexplained magic. I never believed it. There is a medium that fills all space and connects all matter — the ether, I called it — and through it every force is handed from one body to the next, as a whisper passes along a row of listeners. Nothing leaps across nothing. Everything touches everything through the medium between.\n\nConsider what you have built upon exactly this principle. Your word and your power now leap through the air on invisible carriers; you hold a small pane of glass and speak to the far side of the earth. You proved my conviction, and on a scale I only dared to dream of.\n\nAnd yet — you speak still of scarcity, and of standing alone. You ration what is infinite and call yourselves isolated in the most connected age that has ever existed. Look again, I beg you, at the abundance you are swimming in, and at the medium that has always joined you to every other thing. The energy was never scarce. The connection was never broken. You had only to see it."
+    },
+    {
+      "id": "cromwell-conscience",
+      "figureKey": "oliver-cromwell",
+      "name": "Oliver Cromwell",
+      "epithet": "Lord Protector",
+      "eventTitle": "Letters & Speeches (after Naseby)",
+      "eventYear": 1645,
+      "title": "Claim little, tolerate much",
+      "body": "After Naseby I sat down to write the Parliament an account of the victory, and I told them plainly what I believed: that the honour of it was not mine, nor any man's. He that attributes all to God, and would rather perish than assume the glory to himself — that, I wrote, is an honest and a thriving way. We never charged but we routed them; yet the blessing was the Lord's, and I would sooner have died than steal His credit and call the work my own.\n\nBut I did not end there, and I will not end there with you. Having given God His due, I made one request of the Parliament, and I made it in His name: *do not discourage the honest men who served you faithfully.* They were of many minds in religion, those men — they did not all pray as I prayed, nor believe as I believed — and there were those who wished them silenced for it. I would not have it. He that ventures his life for the liberty of his country, I wrote, I wish him to trust God for the liberty of his conscience, and you for the liberty he fights for.\n\nHold those two together, for it is the whole of what I learned in the field. Be certain enough of God to refuse the credit that belongs to Him — and humble enough before Him to grant your neighbour the freedom of his own conscience, though he differ from you in every article.\n\nYour age has the second half easier than mine did, and the first half harder. You will tolerate much, and claim everything. I had it the other way around. Take, if you can, the best of both: claim little, and tolerate much."
+    }
+  ]
+}
