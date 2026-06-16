@@ -1,0 +1,60 @@
+{
+  "key": "plato",
+  "name": "Plato",
+  "works": [
+    {
+      "id": "01-justice-and-the-stronger",
+      "section": "The Republic (c. 375 BCE)",
+      "title": "Thrasymachus: Justice Is the Interest of the Stronger",
+      "mode": "stored",
+      "source": "The Republic, Book I — Benjamin Jowett translation",
+      "note": "Thrasymachus hurls down the challenge the whole dialogue must answer: that justice is merely whatever serves the powerful.",
+      "file": "plato/01-justice-and-the-stronger.md"
+    },
+    {
+      "id": "02-the-ring-of-gyges",
+      "section": "The Republic (c. 375 BCE)",
+      "title": "The Ring of Gyges",
+      "mode": "stored",
+      "source": "The Republic, Book II — Benjamin Jowett translation",
+      "note": "Glaucon's thought experiment: would any man stay just if a ring made him invisible and unaccountable?",
+      "file": "plato/02-the-ring-of-gyges.md"
+    },
+    {
+      "id": "03-philosophers-must-be-kings",
+      "section": "The Republic (c. 375 BCE)",
+      "title": "Until Philosophers Are Kings",
+      "mode": "stored",
+      "source": "The Republic, Book V — Benjamin Jowett translation",
+      "note": "The \"third wave\" Socrates fears to utter: that no city will know rest until power and wisdom meet in the same hands.",
+      "file": "plato/03-philosophers-must-be-kings.md"
+    },
+    {
+      "id": "04-the-good-and-the-sun",
+      "section": "The Republic (c. 375 BCE)",
+      "title": "The Good and the Sun",
+      "mode": "stored",
+      "source": "The Republic, Book VI — Benjamin Jowett translation",
+      "note": "The Form of the Good is to the mind what the sun is to the eye — the source of both truth and the power to know it.",
+      "file": "plato/04-the-good-and-the-sun.md"
+    },
+    {
+      "id": "05-the-allegory-of-the-cave",
+      "section": "The Republic (c. 375 BCE)",
+      "title": "The Allegory of the Cave",
+      "mode": "stored",
+      "source": "The Republic, Book VII — Benjamin Jowett translation",
+      "note": "The most famous passage in philosophy: prisoners chained before shadows, and the pain — and danger — of being turned toward the light.",
+      "file": "plato/05-the-allegory-of-the-cave.md"
+    },
+    {
+      "id": "06-the-myth-of-er",
+      "section": "The Republic (c. 375 BCE)",
+      "title": "The Myth of Er: The Choice of Lives",
+      "mode": "stored",
+      "source": "The Republic, Book X — Benjamin Jowett translation",
+      "note": "The Republic closes with the soul choosing its next life after death — and the verdict that the blame is the chooser’s, never God’s.",
+      "file": "plato/06-the-myth-of-er.md"
+    }
+  ]
+}
