@@ -1,0 +1,60 @@
+{
+  "key": "frederick-douglass",
+  "name": "Frederick Douglass",
+  "works": [
+    {
+      "id": "01-born-into-slavery",
+      "section": "c. 1818 (Talbot County, Maryland)",
+      "title": "Born into Slavery",
+      "mode": "stored",
+      "source": "Narrative of the Life of Frederick Douglass, an American Slave (1845)",
+      "note": "His earliest deprivations: a slave child denied even the knowledge of his own age, parted from his mother in infancy, and meeting the news of her death as he would a stranger's.",
+      "file": "frederick-douglass/01-born-into-slavery.md"
+    },
+    {
+      "id": "02-the-meaning-of-the-songs",
+      "section": "Chapter II",
+      "title": "The Meaning of the Songs",
+      "mode": "stored",
+      "source": "Narrative of the Life of Frederick Douglass, an American Slave (1845)",
+      "note": "What the singing of the enslaved truly expressed — not contentment, as Northerners supposed, but the deepest sorrow of the heart.",
+      "file": "frederick-douglass/02-the-meaning-of-the-songs.md"
+    },
+    {
+      "id": "03-the-pathway-from-slavery-to-freedom",
+      "section": "Chapter VI",
+      "title": "The Pathway from Slavery to Freedom",
+      "mode": "stored",
+      "source": "Narrative of the Life of Frederick Douglass, an American Slave (1845)",
+      "note": "When his master forbade his wife to teach him, declaring that literacy would forever unfit a slave, Douglass overheard — and grasped that reading was the road out of bondage.",
+      "file": "frederick-douglass/03-the-pathway-from-slavery-to-freedom.md"
+    },
+    {
+      "id": "04-how-a-slave-was-made-a-man",
+      "section": "Chapter X",
+      "title": "How a Slave Was Made a Man",
+      "mode": "stored",
+      "source": "Narrative of the Life of Frederick Douglass, an American Slave (1845)",
+      "note": "After months under the brutal slave-breaker Edward Covey, Douglass at last fought back — the turning point at which his will to be free was reborn.",
+      "file": "frederick-douglass/04-how-a-slave-was-made-a-man.md"
+    },
+    {
+      "id": "05-the-ships-on-the-bay",
+      "section": "Chapter X",
+      "title": "The Ships on the Bay",
+      "mode": "stored",
+      "source": "Narrative of the Life of Frederick Douglass, an American Slave (1845)",
+      "note": "Watching free vessels cross Chesapeake Bay, Douglass pours out his soul's complaint in an apostrophe to the ships — and resolves to run.",
+      "file": "frederick-douglass/05-the-ships-on-the-bay.md"
+    },
+    {
+      "id": "06-the-christianity-of-this-land",
+      "section": "Appendix",
+      "title": "The Christianity of This Land",
+      "mode": "stored",
+      "source": "Narrative of the Life of Frederick Douglass, an American Slave (1845)",
+      "note": "His parting indictment: the difference between the Christianity of Christ and the slaveholding religion that claimed its name.",
+      "file": "frederick-douglass/06-the-christianity-of-this-land.md"
+    }
+  ]
+}
