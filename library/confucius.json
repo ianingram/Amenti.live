@@ -1,0 +1,60 @@
+{
+  "key": "confucius",
+  "name": "Confucius",
+  "works": [
+    {
+      "id": "01-on-learning",
+      "section": "The Analects (5th century BCE)",
+      "title": "On Learning",
+      "mode": "stored",
+      "source": "The Analects — James Legge translation",
+      "note": "The joy and discipline of study that open the Analects — and the conviction that any companion, good or bad, can be your teacher.",
+      "file": "confucius/01-on-learning.md"
+    },
+    {
+      "id": "02-humaneness",
+      "section": "The Analects (5th century BCE)",
+      "title": "Humaneness — Ren",
+      "mode": "stored",
+      "source": "The Analects — James Legge translation",
+      "note": "Ren, the central Confucian virtue: a benevolence never solitary and never far off, waiting only to be willed.",
+      "file": "confucius/02-humaneness.md"
+    },
+    {
+      "id": "03-reciprocity",
+      "section": "The Analects (5th century BCE)",
+      "title": "Reciprocity — the Golden Rule",
+      "mode": "stored",
+      "source": "The Analects — James Legge translation",
+      "note": "The single word Confucius offered as a rule for all of life — do not do to others what you would not want done to yourself — and its positive form.",
+      "file": "confucius/03-reciprocity.md"
+    },
+    {
+      "id": "04-the-superior-man",
+      "section": "The Analects (5th century BCE)",
+      "title": "The Superior Man — Junzi",
+      "mode": "stored",
+      "source": "The Analects — James Legge translation",
+      "note": "The junzi, the person of cultivated character, set against the 'mean man,' distinguished by what he seeks and where he looks for it.",
+      "file": "confucius/04-the-superior-man.md"
+    },
+    {
+      "id": "05-on-governing",
+      "section": "The Analects (5th century BCE)",
+      "title": "On Governing",
+      "mode": "stored",
+      "source": "The Analects — James Legge translation",
+      "note": "Government by virtue rather than force — the ruler who, like the pole-star, draws order to himself by the rightness of his own conduct.",
+      "file": "confucius/05-on-governing.md"
+    },
+    {
+      "id": "06-the-measure-of-a-life",
+      "section": "The Analects (5th century BCE)",
+      "title": "The Measure of a Life",
+      "mode": "stored",
+      "source": "The Analects — James Legge translation",
+      "note": "Self-examination and the long work of becoming — including the most famous self-portrait in the Analects, the stages from fifteen to seventy.",
+      "file": "confucius/06-the-measure-of-a-life.md"
+    }
+  ]
+}
