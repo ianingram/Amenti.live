@@ -1,0 +1,60 @@
+{
+  "key": "seneca",
+  "name": "Seneca the Younger",
+  "works": [
+    {
+      "id": "01-we-make-life-short",
+      "section": "On the Shortness of Life (c. 49 CE)",
+      "title": "We Are Not Given a Short Life",
+      "mode": "stored",
+      "source": "On the Shortness of Life, ch. I–II — Aubrey Stewart translation",
+      "note": "Seneca's thesis: Nature is not stingy — life is long enough if you know how to use it. We do not receive a short life; we make it one.",
+      "file": "seneca/01-we-make-life-short.md"
+    },
+    {
+      "id": "02-putting-off-life",
+      "section": "On the Shortness of Life (c. 49 CE)",
+      "title": "Putting Off Life",
+      "mode": "stored",
+      "source": "On the Shortness of Life, ch. III — Aubrey Stewart translation",
+      "note": "The folly of deferral — men promise to begin living once they reach fifty or sixty, and so postpone life until it is nearly spent.",
+      "file": "seneca/02-putting-off-life.md"
+    },
+    {
+      "id": "03-the-engrossed",
+      "section": "On the Shortness of Life (c. 49 CE)",
+      "title": "The Engrossed Have No Time to Live",
+      "mode": "stored",
+      "source": "On the Shortness of Life, ch. VII — Aubrey Stewart translation",
+      "note": "A gallery of the busy: drunkards, the over-groomed, the legacy-hunters, the restless — occupied with everything except the art of living.",
+      "file": "seneca/03-the-engrossed.md"
+    },
+    {
+      "id": "04-guarding-your-time",
+      "section": "On the Shortness of Life (c. 49 CE)",
+      "title": "The One Thing Worth Guarding",
+      "mode": "stored",
+      "source": "On the Shortness of Life, ch. VIII — Aubrey Stewart translation",
+      "note": "We defend our money and estates fiercely, yet let anyone help themselves to our time — the one possession it is honourable to be greedy with.",
+      "file": "seneca/04-guarding-your-time.md"
+    },
+    {
+      "id": "05-leisure-with-great-minds",
+      "section": "On the Shortness of Life (c. 49 CE)",
+      "title": "At Leisure with the Great Minds",
+      "mode": "stored",
+      "source": "On the Shortness of Life, ch. XIV–XV — Aubrey Stewart translation",
+      "note": "Only those who give their time to philosophy truly live; they may sit with Socrates, the Stoics, every age — and add all the centuries to their own span.",
+      "file": "seneca/05-leisure-with-great-minds.md"
+    },
+    {
+      "id": "06-past-present-future",
+      "section": "On the Shortness of Life (c. 49 CE)",
+      "title": "Past, Present, and Future",
+      "mode": "stored",
+      "source": "On the Shortness of Life, ch. XVI — Aubrey Stewart translation",
+      "note": "The busy forget the past, neglect the present, and dread the future; the past is the one secure part of time — but they have no leisure to look back on it.",
+      "file": "seneca/06-past-present-future.md"
+    }
+  ]
+}
