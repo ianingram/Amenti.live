@@ -1,0 +1,9 @@
+The Master said, 'He who exercises government by means of his virtue may be compared to the north polar star, which keeps its place and all the stars turn towards it.' (Analects 2.1)
+
+The Master said, 'If the people be led by laws, and uniformity sought to be given them by punishments, they will try to avoid the punishment, but have no sense of shame. 'If they be led by virtue, and uniformity sought to be given them by the rules of propriety, they will have the sense of shame, and moreover will become good.' (Analects 2.3)
+
+Chi K'ang asked Confucius about government, saying, 'What do you say to killing the unprincipled for the good of the principled?' Confucius replied, 'Sir, in carrying on your government, why should you use killing at all? Let your evinced desires be for what is good, and the people will be good. The relation between superiors and inferiors, is like that between the wind and the grass. The grass must bend, when the wind blows across it.' (Analects 12.19)
+
+The Master said, 'When a prince's personal conduct is correct, his government is effective without the issuing of orders. If his personal conduct is not correct, he may issue orders, but they will not be followed.' (Analects 13.6)
+
+Tsze-kung asked about government. The Master said, 'The requisites of government are that there be sufficiency of food, sufficiency of military equipment, and the confidence of the people in their ruler.' Tsze-kung said, 'If it cannot be helped, and one of these must be dispensed with, which of the three should be foregone first?' 'The military equipment,' said the Master. Tsze-kung again asked, 'If it cannot be helped, and one of the remaining two must be dispensed with, which of them should be foregone?' The Master answered, 'Part with the food. From of old, death has been the lot of all men; but if the people have no faith in their rulers, there is no standing for the state.' (Analects 12.7)
