@@ -1,0 +1,60 @@
+{
+  "key": "akhenaten",
+  "name": "Akhenaten",
+  "works": [
+    {
+      "id": "01-dawn",
+      "section": "The Great Hymn to the Aton",
+      "title": "Dawn",
+      "mode": "stored",
+      "source": "Great Hymn to the Aton — trans. A. Weigall",
+      "note": "The hymn opens with the sunrise: the Aton dawns on the horizon and fills every land with beauty — 'Though Thou art afar, Thy rays are on earth.'",
+      "file": "akhenaten/01-dawn.md"
+    },
+    {
+      "id": "02-night",
+      "section": "The Great Hymn to the Aton",
+      "title": "Night",
+      "mode": "stored",
+      "source": "Great Hymn to the Aton — trans. A. Weigall",
+      "note": "When the sun-disk sets, the world falls into a darkness 'like the dead' — the counter-image that makes the dawn a daily act of creation.",
+      "file": "akhenaten/02-night.md"
+    },
+    {
+      "id": "03-the-breath-of-life",
+      "section": "The Great Hymn to the Aton",
+      "title": "The Breath of Life",
+      "mode": "stored",
+      "source": "Great Hymn to the Aton — trans. A. Weigall",
+      "note": "The Aton as giver of life to all that breathes — the child in the womb, the chick crying in the egg-shell — one of the tenderest passages in ancient literature.",
+      "file": "akhenaten/03-the-breath-of-life.md"
+    },
+    {
+      "id": "04-how-manifold-are-thy-works",
+      "section": "The Great Hymn to the Aton",
+      "title": "How Manifold Are Thy Works",
+      "mode": "stored",
+      "source": "Great Hymn to the Aton — trans. A. Weigall",
+      "note": "The monotheist core: a single creator god who made all lands and peoples, their tongues and skins divided by his hand — 'O Thou sole God, whose powers no other possesseth.'",
+      "file": "akhenaten/04-how-manifold-are-thy-works.md"
+    },
+    {
+      "id": "05-thou-art-in-my-heart",
+      "section": "The Great Hymn to the Aton",
+      "title": "Thou Art in My Heart",
+      "mode": "stored",
+      "source": "Great Hymn to the Aton — trans. A. Weigall",
+      "note": "The hymn's close, and the heart of Atenism: the god is known to no one save his son Akhnaton, through whom alone the revelation comes — sealed in the name of the King and his queen, Nefertiti.",
+      "file": "akhenaten/05-thou-art-in-my-heart.md"
+    },
+    {
+      "id": "06-founding-the-city-of-the-horizon",
+      "section": "Boundary Stela (Year 6)",
+      "title": "The Founding of the City of the Horizon",
+      "mode": "stored",
+      "source": "Boundary Stela of Akhetaton — trans. A. Weigall",
+      "note": "Akhnaton proclaims to his nobles that the Aton himself — not any man — led him to found his new capital, Akhetaton, on ground claimed by no other god.",
+      "file": "akhenaten/06-founding-the-city-of-the-horizon.md"
+    }
+  ]
+}
