@@ -1,0 +1,60 @@
+{
+  "key": "john-milton",
+  "name": "John Milton",
+  "works": [
+    {
+      "id": "01-the-invocation",
+      "section": "Paradise Lost (1667)",
+      "title": "The Invocation",
+      "mode": "stored",
+      "source": "Paradise Lost, Book I",
+      "note": "The epic opens: Milton names his subject — the Fall — and calls on the Heavenly Muse to sing 'things unattempted yet in prose or rhyme,' and to justify the ways of God to men.",
+      "file": "john-milton/01-the-invocation.md"
+    },
+    {
+      "id": "02-the-mind-is-its-own-place",
+      "section": "Paradise Lost (1667)",
+      "title": "The Mind Is Its Own Place",
+      "mode": "stored",
+      "source": "Paradise Lost, Book I — Satan's defiance",
+      "note": "Cast into Hell, Satan refuses despair: the mind can make a Heaven of Hell, and it is 'better to reign in Hell than serve in Heaven.'",
+      "file": "john-milton/02-the-mind-is-its-own-place.md"
+    },
+    {
+      "id": "03-hail-holy-light",
+      "section": "Paradise Lost (1667)",
+      "title": "Hail, Holy Light",
+      "mode": "stored",
+      "source": "Paradise Lost, Book III — the invocation to Light",
+      "note": "Blind, Milton turns to address Light itself, mourning the sight he has lost and asking the Celestial Light to shine inward — that he may tell of things invisible to mortal sight.",
+      "file": "john-milton/03-hail-holy-light.md"
+    },
+    {
+      "id": "04-areopagitica",
+      "section": "Areopagitica (1644)",
+      "title": "On the Liberty of Books",
+      "mode": "stored",
+      "source": "Areopagitica — A Speech for the Liberty of Unlicensed Printing",
+      "note": "His foundational defense of free expression: to destroy a good book is to kill reason itself, for a book is 'the precious life-blood of a master spirit.'",
+      "file": "john-milton/04-areopagitica.md"
+    },
+    {
+      "id": "05-on-his-blindness",
+      "section": "Sonnet XIX (c. 1655)",
+      "title": "On His Blindness",
+      "mode": "stored",
+      "source": "Sonnet XIX — 'When I consider how my light is spent'",
+      "note": "Reckoning with his blindness, the poet fears his one talent now lies useless — until Patience answers that God needs no man's work: 'They also serve who only stand and wait.'",
+      "file": "john-milton/05-on-his-blindness.md"
+    },
+    {
+      "id": "06-lycidas",
+      "section": "Lycidas (1637)",
+      "title": "Fame Is the Spur",
+      "mode": "stored",
+      "source": "Lycidas — a pastoral elegy",
+      "note": "In his elegy for a drowned friend, Milton confronts the lure of fame — 'that last infirmity of noble mind' — and Phoebus's reply that true fame is judged not on earth but in Heaven.",
+      "file": "john-milton/06-lycidas.md"
+    }
+  ]
+}
