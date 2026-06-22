@@ -9279,13 +9279,18 @@ WINGS: [
         scroller.appendChild(msg);
         scroller.scrollTop = scroller.scrollHeight;
       },
-      appendAssistant(text, who) {
+     appendAssistant(text, who) {
         const scroller = document.getElementById('chat-scroller');
         const msg = document.createElement('div');
         msg.className = "mb-4 border-l border-emerald-500/40 pl-4 text-left";
         msg.innerHTML = `<div class='text-[8px] text-emerald-400 uppercase tracking-widest font-black'>${escapeHtml(who)}</div><div class='text-sm font-light py-2 whitespace-pre-wrap'>${escapeHtml(text)}</div>`;
         scroller.appendChild(msg);
         scroller.scrollTop = scroller.scrollHeight;
+        // VOICE :: if the voice toggle is on, speak this reply (Phase 1: one
+        // Gemini voice + Dialogue register; per-figure voices come in Phase 2).
+        if (window.AMENTI_VOICE_ON) {
+          Sovereign.Voice.speak(text);
+        }
       },
       appendSystem(text) {
         const scroller = document.getElementById('chat-scroller');
