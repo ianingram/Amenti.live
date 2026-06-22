@@ -16289,68 +16289,53 @@ window.onload = () => {
       }
     }
   });
-
-  // v9.18.72 :: DEV-ONLY shortcut — Shift+T toggles the Emerald Tablet
-  // open/closed without needing a Sovereign click. Useful in preview
-  // environments (chat preview pane, file:// open) where CSV fetch
-  // fails so no sprites load. Ignored when typing in any input/textarea
-  // so it doesn't fire while composing chat. Remove before final ship.
-  window.addEventListener('keydown', (e) => {
-    if (e.key !== 'T' || !e.shiftKey) return;
-    // Don't hijack typing in form fields.
-    const t = e.target;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-    const tablet = document.getElementById('emerald-tablet');
-    if (!tablet) return;
-    tablet.classList.toggle('active');
-    e.preventDefault();
-    Sovereign.Log.emit('DEV', `tablet ${tablet.classList.contains('active') ? 'opened' : 'closed'} via Shift+T`);
-  });
-
-  // v9.18.68 :: chat input caret wiring. The amenti-caret overlay only
-  // shows when the input is empty AND unfocused. We toggle a class on
-  // the wrapper as the user types so CSS can hide the caret. Focus state
-  // is handled by :focus-within in CSS, so we only need to track value.
-  (() => {
-    const input = document.getElementById('chat-input');
-    if (!input) return;
-    const wrap = input.closest('.amenti-input-wrap');
-    if (!wrap) return;
-    const sync = () => {
-      if (input.value.length > 0) {
-        wrap.classList.add('has-content');
-      } else {
-        wrap.classList.remove('has-content');
-      }
-    };
-    input.addEventListener('input', sync);
-    sync(); // initial state in case anything pre-populated it
-  })();
-};
 </script>
-<button onclick="amentiSpeakTest()" style="padding:10px 16px; font-size:16px; cursor:pointer;">▶ Voice test</button>
+     
 <script>
-async function amentiSpeakTest() {
-  try {
-    const res = await fetch("https://amenti-proxy.ingram-ian.workers.dev/speak", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        text: "We cannot escape history. We will be remembered in spite of ourselves.",
-        style: "Read slowly and clearly, in a measured, formal, dignified tone",
-        voice: "Kore"
-      })
-    });
-    if (!res.ok) {
-      const msg = await res.text();
-      alert("Voice failed (" + res.status + "): " + msg);
-      return;
+// ===== AMENTI VOICE (Phase 1: Gemini, Dialogue register) =====
+window.AMENTI_VOICE_ON = false;
+Sovereign.Voice = {
+  WORKER: "https://amenti-proxy.ingram-ian.workers.dev/speak",
+  STYLE: "Read this aloud as natural, present, conversational speech",
+  VOICE: "Kore",
+  current: null,
+  async speak(text) {
+    try {
+      const res = await fetch(this.WORKER, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, style: this.STYLE, voice: this.VOICE })
+      });
+      if (!res.ok) { console.error("Voice failed:", await res.text()); return; }
+      const blob = await res.blob();
+      if (this.current) { this.current.pause(); }
+      this.current = new Audio(URL.createObjectURL(blob));
+      this.current.play().catch(e => console.warn("playback blocked:", e));
+    } catch (err) { console.error("Voice error:", err); }
+  },
+  toggle() {
+    window.AMENTI_VOICE_ON = !window.AMENTI_VOICE_ON;
+    const btn = document.getElementById('voice-toggle');
+    if (btn) {
+      btn.textContent = window.AMENTI_VOICE_ON ? '🔊' : '🔇';
+      btn.title = window.AMENTI_VOICE_ON ? 'Voice on — replies will speak' : 'Voice off';
     }
-    const blob = await res.blob();
-    new Audio(URL.createObjectURL(blob)).play();
-  } catch (err) {
-    alert("Voice error: " + err.message);
+    if (window.AMENTI_VOICE_ON) { this.speak('Voice enabled.'); }
   }
-}
-</script></body>
+};
+(() => {
+  const composer = document.querySelector('.transmit-composer');
+  if (!composer) return;
+  const btn = document.createElement('button');
+  btn.id = 'voice-toggle';
+  btn.type = 'button';
+  btn.textContent = '🔇';
+  btn.title = 'Voice off';
+  btn.style.cssText = 'background:transparent;border:none;font-size:18px;cursor:pointer;padding:0 8px;line-height:1;';
+  btn.onclick = () => Sovereign.Voice.toggle();
+  const sendBtn = composer.querySelector('button');
+  composer.insertBefore(btn, sendBtn);
+})();
+</script>
+</body>
 </html>
