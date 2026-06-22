@@ -16323,5 +16323,29 @@ window.onload = () => {
   })();
 };
 </script>
-</body>
+<button onclick="amentiSpeakTest()" style="padding:10px 16px; font-size:16px; cursor:pointer;">▶ Voice test</button>
+<script>
+async function amentiSpeakTest() {
+  try {
+    const res = await fetch("https://amenti-proxy.ingram-ian.workers.dev/speak", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: "We cannot escape history. We will be remembered in spite of ourselves.",
+        style: "Read slowly and clearly, in a measured, formal, dignified tone",
+        voice: "Kore"
+      })
+    });
+    if (!res.ok) {
+      const msg = await res.text();
+      alert("Voice failed (" + res.status + "): " + msg);
+      return;
+    }
+    const blob = await res.blob();
+    new Audio(URL.createObjectURL(blob)).play();
+  } catch (err) {
+    alert("Voice error: " + err.message);
+  }
+}
+</script></body>
 </html>
