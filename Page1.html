@@ -1761,7 +1761,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   </div>
 </section>
 
-<!-- ATLANTICA :: Today's Dispatch — reads atlantica.json, renders full copy in place -->
+<!-- ATLANTICA :: Daily Dispatch — roster cycles one author/day, essay from the Worker (/atlantica/daily) -->
 <style>
 .dispatch-wrap{display:flex;flex-direction:column;gap:18px;}
 .dispatch-card{display:block;position:relative;text-decoration:none;color:inherit;border:1px solid rgba(120,200,190,.28);border-radius:16px;padding:30px 32px;overflow:hidden;background:radial-gradient(120% 140% at 8% 0%, rgba(80,180,170,.10), transparent 60%),linear-gradient(180deg, rgba(20,40,44,.55), rgba(12,22,26,.5));transition:border-color .25s,transform .25s,box-shadow .25s;cursor:pointer;}
@@ -1773,19 +1773,12 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 .dispatch-teaser{font:400 15px/1.65 var(--sans,inherit);color:var(--text);opacity:.78;max-width:720px;}
 .dispatch-cta{margin-top:16px;font:600 13px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;color:#79e6cf;display:inline-flex;align-items:center;gap:8px;}
 .dispatch-loading{font:400 15px/1.6 var(--sans,inherit);color:var(--text);opacity:.5;}
-.dispatch-voices{display:flex;flex-wrap:wrap;gap:8px;}
-.dispatch-voice{font:600 11px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase;color:var(--text);opacity:.55;border:1px solid rgba(120,200,190,.22);border-radius:999px;padding:7px 12px;cursor:pointer;background:transparent;}
-.dispatch-voice.is-today{color:#08171a;background:#79e6cf;border-color:#79e6cf;opacity:1;}
-.dispatch-voice.is-pending{opacity:.3;cursor:default;}
-.dispatch-voice-sourced{color:#c9a6ff;border-color:rgba(201,166,255,.35);opacity:.85;cursor:pointer;text-decoration:none;transition:opacity .15s;}
-.dispatch-voice-sourced:hover{opacity:1;}
 /* ---- In-place reader ---- */
 .dispatch-reader{border:1px solid rgba(120,200,190,.28);border-radius:16px;padding:30px 32px;background:linear-gradient(180deg, rgba(20,40,44,.55), rgba(12,22,26,.5));}
 .dispatch-back{display:inline-block;margin-bottom:24px;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.3em;text-transform:uppercase;color:rgba(121,230,207,.8);cursor:pointer;background:transparent;border:none;padding:0;}
 .dispatch-back:hover{color:#fff;}
 .dispatch-r-persona{font:600 34px/1.1 var(--serif,Georgia,serif);color:#fff;margin-bottom:4px;}
 .dispatch-r-meta{font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.3em;text-transform:uppercase;color:rgba(121,230,207,.75);margin-bottom:20px;}
-.dispatch-r-source{border-left:2px solid rgba(121,230,207,.4);padding:8px 14px;margin-bottom:24px;font:italic 400 13px/1.5 Georgia,serif;color:rgba(255,255,255,.6);}
 .dispatch-r-body{font:400 18px/1.75 var(--serif,Georgia,serif);color:rgba(255,255,255,.86);max-width:720px;}
 .dispatch-r-body p{margin:0 0 1.1em;}
 .dispatch-r-body em{color:rgba(121,230,207,.9);font-style:italic;}
@@ -1797,28 +1790,37 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 </style>
 <section id="dispatch" class="dispatch-band">
   <div class="section-header reveal">
-    <h2 class="section-title">Atlantica</h2><span class="section-tag">Dispatches · <span id="dispatch-status">Latest</span></span>
-    <span class="section-date">A weekly essay from the deep record</span>
+    <h2 class="section-title">Atlantica</h2><span class="section-tag">Dispatches · <span id="dispatch-status">Today</span></span>
+    <span class="section-date">A daily essay from the deep record</span>
   </div>
   <div class="dispatch-wrap reveal">
-    <div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read the dispatch">
-      <div class="dispatch-loading">Summoning the dispatch…</div>
+    <div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read today's dispatch">
+      <div class="dispatch-loading">Summoning today's dispatch…</div>
     </div>
-    <div class="dispatch-voices" id="dispatch-voices"></div>
   </div>
 </section>
 <script>
 (function(){
-  // Recitation voice for Atlantica copy (authored content). Shares the Worker.
-  var VOICE_WORKER='https://amenti-proxy.ingram-ian.workers.dev/speak';
-  var VOICE_STYLE='Read slowly and clearly, in a measured, formal, dignified tone';
-  var VOICE_NAME='Kore', dispatchAudio=null;
+  var WORKER_DAILY = 'https://amenti-proxy.ingram-ian.workers.dev/atlantica/daily';
+  var VOICE_WORKER = 'https://amenti-proxy.ingram-ian.workers.dev/speak';
+  var VOICE_STYLE  = 'Read slowly and clearly, in a measured, formal, dignified tone';
+  var VOICE_NAME   = 'Kore', dispatchAudio=null;
+
+  function esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
   function plainText(md){
-    return String(md||'')
-      .replace(/^#+\s*/gm,'').replace(/\*\*([^*]+)\*\*/g,'$1').replace(/__([^_]+)__/g,'$1')
-      .replace(/\*([^*]+)\*/g,'$1').replace(/_([^_]+)_/g,'$1').replace(/^\s*[-*]\s+/gm,'')
-      .replace(/\s+/g,' ').trim();
+    return String(md||'').replace(/^#+\s*/gm,'').replace(/\*\*([^*]+)\*\*/g,'$1').replace(/__([^_]+)__/g,'$1')
+      .replace(/\*([^*]+)\*/g,'$1').replace(/_([^_]+)_/g,'$1').replace(/^\s*[-*]\s+/gm,'').replace(/\s+/g,' ').trim();
   }
+  function teaser(b){ var f=(b||'').replace(/[*_#>`\[\]]/g,'').replace(/\s+/g,' ').trim(); return f.length>180?f.slice(0,180)+'…':f; }
+  function mdToHtml(src){
+    return String(src||'').replace(/\r\n?/g,'\n').trim().split(/\n\s*\n/).map(function(b){
+      var t=esc(b.replace(/\n/g,' '))
+        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<strong>$1</strong>')
+        .replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/_([^_]+)_/g,'<em>$1</em>');
+      return '<p>'+t+'</p>';
+    }).join('');
+  }
+
   function speakDispatch(text,btn){
     if(dispatchAudio){ try{dispatchAudio.pause();}catch(e){} dispatchAudio=null; }
     if(btn){ btn.textContent='… generating'; btn.disabled=true; }
@@ -1830,118 +1832,82 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
     ['catch'](function(err){ console.error('Atlantica voice failed:',err); if(btn){ btn.textContent='🔊 Read aloud'; btn.disabled=false; } });
   }
 
-  function yr(y){ if(y==null) return ''; return y<0 ? (Math.abs(y)+' BCE') : (y+' CE'); }
-  function esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
-  function teaser(b){ var f=(b||'').replace(/[*_#>`\[\]]/g,'').replace(/\s+/g,' ').trim(); return f.length>180?f.slice(0,180)+'…':f; }
-  function todayWeekday(){ var d=new Date().getDay(); return (d>=1&&d<=5)?d:null; }
+  // local date as YYYY-MM-DD
+  function todayStr(){
+    var d=new Date(); var m=String(d.getMonth()+1).padStart(2,'0'); var day=String(d.getDate()).padStart(2,'0');
+    return d.getFullYear()+'-'+m+'-'+day;
+  }
+  // days since epoch -> stable index into the roster (one author per calendar day)
+  function dayIndex(){ return Math.floor(Date.now()/86400000); }
 
-  // Minimal markdown -> HTML for the dispatch body (paragraphs + bold/italic).
-  function mdToHtml(src){
-    var blocks=String(src||'').replace(/\r\n?/g,'\n').trim().split(/\n\s*\n/);
-    return blocks.map(function(b){
-      var t=esc(b.replace(/\n/g,' '))
-        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-        .replace(/__([^_]+)__/g,'<strong>$1</strong>')
-        .replace(/\*([^*]+)\*/g,'<em>$1</em>')
-        .replace(/_([^_]+)_/g,'<em>$1</em>');
-      return '<p>'+t+'</p>';
-    }).join('');
+  // Pick today's author from the roster, by date. Title doubles as the epithet.
+  function todaysAuthor(){
+    var roster = window.AMENTI_CHARS || [];
+    if(!roster.length) return null;
+    var idx = dayIndex() % roster.length;
+    var c = roster[idx];
+    if(!c || !c.key) return null;
+    // name comes in caps in the roster (e.g. "ABRAHAM LINCOLN") — make it title-case for display
+    var nm = String(c.name||'').toLowerCase().replace(/\b\w/g,function(ch){return ch.toUpperCase();});
+    return { figure:c.key, name:nm, epithet:c.title||'' };
   }
 
-  var DATA=null;
+  var CURRENT=null;  // the loaded essay record
 
-  function personaFor(d){
-    if(!DATA) return {};
-    if(d.figureKey) return { name:d.name, epithet:d.epithet };       // sourced
-    return (DATA.personae||[]).find(function(x){return x.id===d.personaId;})||{};
-  }
-  function dispatchById(id){
-    if(!DATA) return null;
-    return (DATA.dispatches||[]).find(function(d){return d.id===id;})
-        || (DATA.sourced||[]).find(function(d){return d.id===id;}) || null;
+  function renderCard(rec){
+    var card=document.getElementById('dispatch-card'); if(!card) return;
+    card.innerHTML=
+      '<div class="dispatch-eyebrow"><span class="dispatch-glyph">≈</span> '+esc(rec.name||'')+(rec.epithet?(' · '+esc(rec.epithet)):'')+'</div>'+
+      '<div class="dispatch-headline">'+esc(rec.headline||'')+'</div>'+
+      '<div class="dispatch-teaser">'+esc(teaser(rec.body))+'</div>'+
+      '<div class="dispatch-cta">Read the dispatch →</div>';
+    var open=function(){ openReader(rec); };
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } });
   }
 
-  // Render the full essay copy IN PLACE (replaces the band contents).
-  function openReader(id){
-    var d=dispatchById(id); if(!d||!d.body) return;
-    var persona=personaFor(d);
+  function openReader(rec){
     var wrap=document.querySelector('#dispatch .dispatch-wrap'); if(!wrap) return;
-    var src=d.eventTitle ? '<div class="dispatch-r-source"><strong>Reflecting on:</strong> '+esc(d.eventTitle)+' · '+esc(yr(d.eventYear))+'</div>' : '';
     wrap.innerHTML=
       '<div class="dispatch-reader">'+
-        '<button class="dispatch-back" type="button">← Back to dispatches</button>'+
-        '<div class="dispatch-r-persona">'+esc(persona.name||'')+'</div>'+
-        '<div class="dispatch-r-meta">'+(d.figureKey?'In their own voice':'Dispatch')+(persona.epithet?(' · '+esc(persona.epithet)):'')+'</div>'+
-        src+
-        '<div class="dispatch-r-body">'+mdToHtml(d.body)+'</div>'+
+        '<button class="dispatch-back" type="button">← Back</button>'+
+        '<div class="dispatch-r-persona">'+esc(rec.name||'')+'</div>'+
+        '<div class="dispatch-r-meta">In their own voice'+(rec.epithet?(' · '+esc(rec.epithet)):'')+'</div>'+
+        '<div class="dispatch-r-body">'+mdToHtml(rec.body)+'</div>'+
         '<button class="dispatch-readaloud" type="button">🔊 Read aloud</button>'+
       '</div>';
     wrap.querySelector('.dispatch-back').addEventListener('click', restoreBand);
     var ra=wrap.querySelector('.dispatch-readaloud');
-    if(ra) ra.addEventListener('click', function(){ speakDispatch(d.body, ra); });
+    if(ra) ra.addEventListener('click', function(){ speakDispatch(rec.body, ra); });
   }
 
-  // Rebuild the band (card + voices) — used on load and on "back".
   function restoreBand(){
     if(dispatchAudio){ try{dispatchAudio.pause();}catch(e){} dispatchAudio=null; }
     var wrap=document.querySelector('#dispatch .dispatch-wrap'); if(!wrap) return;
-    wrap.innerHTML=
-      '<div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read the dispatch">'+
-        '<div class="dispatch-loading">Summoning the dispatch…</div></div>'+
-      '<div class="dispatch-voices" id="dispatch-voices"></div>';
-    render(DATA);
-  }
-
-  function render(data){
-    DATA=data;
-    var personae=(data&&data.personae)||[], dispatches=(data&&data.dispatches)||[];
-    var card=document.getElementById('dispatch-card'), voicesEl=document.getElementById('dispatch-voices'), statusEl=document.getElementById('dispatch-status');
-    if(!card) return;
-    var by={}; dispatches.forEach(function(d){ by[d.personaId]=d; });
-    var today=todayWeekday(), featured=null, isToday=false;
-    if(today){ var p=personae.find(function(x){return x.weekday===today;}); var d=p&&by[p.id]; if(d&&d.body){ featured=d; isToday=true; } }
-    if(!featured){ var written=personae.map(function(x){return by[x.id];}).filter(function(d){return d&&d.body;}); featured=written.length?written[written.length-1]:null; }
-    if(statusEl) statusEl.textContent=isToday?'Today':'Latest';
-    if(!featured){ card.innerHTML='<div class="dispatch-loading">No dispatch published yet.</div>'; }
-    else{
-      var persona=personae.find(function(x){return x.id===featured.personaId;})||{};
-      card.innerHTML=
-        '<div class="dispatch-eyebrow"><span class="dispatch-glyph">≈</span> '+esc((persona.name||'')+(persona.epithet?(' · '+persona.epithet):''))+'</div>'+
-        '<div class="dispatch-headline">'+esc(featured.title)+'</div>'+
-        (featured.eventTitle?('<div class="dispatch-source">Reflecting on '+esc(featured.eventTitle)+' · '+esc(yr(featured.eventYear))+'</div>'):'')+
-        '<div class="dispatch-teaser">'+esc(teaser(featured.body))+'</div>'+
-        '<div class="dispatch-cta">Read the dispatch →</div>';
-      var openFeatured=function(){ openReader(featured.id); };
-      card.addEventListener('click', openFeatured);
-      card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openFeatured(); } });
-    }
-    if(voicesEl){
-      var mythicChips=personae.map(function(p){
-        var d=by[p.id], pending=!d||!d.body;
-        var cls='dispatch-voice'+(pending?' is-pending':'')+((today&&p.weekday===today&&!pending)?' is-today':'');
-        return '<span class="'+cls+'" data-did="'+(d&&!pending?esc(d.id):'')+'">'+esc(p.name)+'</span>';
-      }).join('');
-      var sourcedList=(data&&data.sourced)||[];
-      var sourcedChips=sourcedList.map(function(s){
-        return '<span class="dispatch-voice dispatch-voice-sourced" data-did="'+esc(s.id)+'">\u2726 '+esc(s.name)+'</span>';
-      }).join('');
-      voicesEl.innerHTML=mythicChips+sourcedChips;
-      // chips open the reader in place (no more navigating to Page2)
-      voicesEl.querySelectorAll('.dispatch-voice[data-did]').forEach(function(chip){
-        var did=chip.getAttribute('data-did'); if(!did) return;
-        chip.addEventListener('click', function(){ openReader(did); });
-      });
-    }
+    wrap.innerHTML='<div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read today\\'s dispatch"></div>';
+    if(CURRENT) renderCard(CURRENT);
   }
 
   function load(){
-    fetch('atlantica.json',{cache:'no-store'}).then(function(r){return r.json();}).then(render)
-    .catch(function(){ var c=document.getElementById('dispatch-card'); if(c) c.innerHTML='<div class="dispatch-loading">Dispatch unavailable.</div>'; });
+    var author=todaysAuthor();
+    var card=document.getElementById('dispatch-card');
+    if(!author){ if(card) card.innerHTML='<div class="dispatch-loading">Roster loading…</div>'; 
+      // roster may not be ready yet; retry shortly
+      return setTimeout(load, 800);
+    }
+    fetch(WORKER_DAILY,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ figure:author.figure, name:author.name, epithet:author.epithet, date:todayStr() })})
+    .then(function(r){ return r.json(); })
+    .then(function(rec){
+      if(rec && rec.body){ CURRENT=rec; renderCard(rec); }
+      else { if(card) card.innerHTML='<div class="dispatch-loading">Today\\'s dispatch is being written… check back shortly.</div>'; }
+    })
+    .catch(function(){ if(card) card.innerHTML='<div class="dispatch-loading">Dispatch unavailable.</div>'; });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',load); else load();
 })();
-</script>
-
+</script>  
+  
 <!-- LEGEND ROSTER -->
 <section id="roster">
   <div class="section-header reveal">
