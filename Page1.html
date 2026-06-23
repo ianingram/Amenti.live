@@ -1900,7 +1900,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
     .then(function(r){ return r.json(); })
     .then(function(rec){
       if(rec && rec.body){ CURRENT=rec; renderCard(rec); }
-      else { if(card) card.innerHTML='<div class="dispatch-loading">Today\\'s dispatch is being written… check back shortly.</div>'; }
+      else { if(card) card.innerHTML='<div class="dispatch-loading">The dispatch is being written… check back shortly.</div>'; }
     })
     .catch(function(){ if(card) card.innerHTML='<div class="dispatch-loading">Dispatch unavailable.</div>'; });
   }
