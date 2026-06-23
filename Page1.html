@@ -1884,7 +1884,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   function restoreBand(){
     if(dispatchAudio){ try{dispatchAudio.pause();}catch(e){} dispatchAudio=null; }
     var wrap=document.querySelector('#dispatch .dispatch-wrap'); if(!wrap) return;
-    wrap.innerHTML='<div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read today\\'s dispatch"></div>';
+    wrap.innerHTML='<div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read todays dispatch"></div>';
     if(CURRENT) renderCard(CURRENT);
   }
 
