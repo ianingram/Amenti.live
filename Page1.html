@@ -6901,19 +6901,35 @@ try{
 <script src="library.js"></script>
 <script src="voiceprofiles.js"></script>
 <script>
-// ===== AMENTI VOICE — Page1 Terminal (Dialogue register) =====
+
+// ===== AMENTI VOICE — Page1 Terminal (Dialogue register, per-figure) =====
 window.AMENTI_VOICE = {
   on: false,
   WORKER: "https://amenti-proxy.ingram-ian.workers.dev/speak",
   STYLE: "Say the following in a clear, natural, conversational voice",
   VOICE: "Kore",
   current: null,
-  speak: function (text) {
+  composeStyle: function (figureKey) {
+    var base = this.STYLE;
+    try {
+      var roster = window.AMENTI_CHARS || [];
+      var fig = null;
+      for (var i = 0; i < roster.length; i++) {
+        if (roster[i] && roster[i].key === figureKey) { fig = roster[i]; break; }
+      }
+      if (fig && fig.voice && String(fig.voice).trim()) {
+        return base + ". Voice character: " + String(fig.voice).trim();
+      }
+    } catch (e) {}
+    return base;
+  },
+  speak: function (text, figureKey) {
     var self = this;
+    var style = figureKey ? this.composeStyle(figureKey) : this.STYLE;
     fetch(this.WORKER, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: text, style: this.STYLE, voice: this.VOICE })
+      body: JSON.stringify({ text: text, style: style, voice: this.VOICE })
     }).then(function (r) {
       if (!r.ok) throw new Error("voice " + r.status);
       return r.blob();
@@ -6947,7 +6963,7 @@ window.AMENTI_VOICE = {
   if (hint) { wrap.insertBefore(btn, hint); } else { wrap.appendChild(btn); }
 })();
 </script>
-
+  
  <!-- ============================================================================
      DAILY PLANET :: click-to-generate wiring
      Drop this block in just BEFORE the closing </body> of Page1.html (same place
