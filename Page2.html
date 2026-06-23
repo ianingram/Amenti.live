@@ -14975,187 +14975,190 @@ WINGS: [
   }
 };
 
+     
 /* ============================================================================
    ATLANTICA :: dispatch module for the fourth tablet page.
-   Phase 1 :: static seed content. Each dispatch is a short essay by one of
-   five historical voices, contemporary register, reflecting on an event
-   from the ledger. weekday: 1=Mon ... 5=Fri. Dispatches with body=null
-   render as "pending" cards so the week's shape is visible.
+   Phase 3 :: data-driven from the unified KV store (the Amenti publisher).
+   Reads /feed?prefix=atlantica:&details=1 — today's roster author featured,
+   the dated back-catalog beneath. Each dispatch opens with Read aloud
+   (recitation register). Preserves tablet styling + the deep-link router.
    ============================================================================ */
 Sovereign.Atlantica = {
   _rendered: false,
   _loaded: false,
 
-  // Personae + dispatches load from atlantica.json — the single source shared
-  // with the Page 1 "Today's Dispatch" band. (Phase 3: data-driven, done.)
-  personae: [],
-  dispatches: [],
+  WORKER:      'https://amenti-proxy.ingram-ian.workers.dev',
+  VOICE_STYLE: 'Read slowly and clearly, in a measured, formal, dignified tone',
+  VOICE_NAME:  'Kore',
+  _audio: null,
 
-  // Fetch the shared dispatch file once, on first need.
+  items: [],       // lightweight feed entries (no body)
+  _byKey: {},       // key -> full record cache (filled on read)
+
+  _todayStr() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  },
+  _dayIndex() { return Math.floor(Date.now()/86400000); },
+  _todaysAuthor() {
+    const roster = window.AMENTI_CHARS || [];
+    if (!roster.length) return null;
+    const c = roster[this._dayIndex() % roster.length];
+    if (!c || !c.key) return null;
+    const nm = String(c.name||'').toLowerCase().replace(/\b\w/g, ch => ch.toUpperCase());
+    return { figure: c.key, name: nm, epithet: c.title || '' };
+  },
+
+  _yearLabel(y) {
+    if (y == null) return '';
+    return y < 0 ? `${Math.abs(y)} BCE` : `${y} CE`;
+  },
+  _prettyDate(d) {
+    if (!d) return '';
+    const p = String(d).split('-'); if (p.length !== 3) return d;
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return m[(+p[1])-1] + ' ' + (+p[2]) + ', ' + p[0];
+  },
+
+  // Ensure today's dispatch exists (generate-on-read), then load the feed.
   async load() {
     if (this._loaded) return;
+    const author = this._todaysAuthor();
+    // fire today's generation (cached after first); don't block the feed on it
+    if (author) {
+      try {
+        await fetch(this.WORKER + '/atlantica/daily', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ figure: author.figure, name: author.name, epithet: author.epithet, date: this._todayStr() })
+        });
+      } catch (e) { /* feed still loads what exists */ }
+    }
     try {
-      const res = await fetch('atlantica.json', { cache: 'no-store' });
+      const res = await fetch(this.WORKER + '/feed?prefix=atlantica:&details=1');
       const data = await res.json();
-      this.personae = Array.isArray(data.personae) ? data.personae : [];
-      this.dispatches = Array.isArray(data.dispatches) ? data.dispatches : [];
-      this.sourced = Array.isArray(data.sourced) ? data.sourced : [];
+      this.items = Array.isArray(data.items) ? data.items : [];
       this._loaded = true;
     } catch (e) {
-      console.warn('[Atlantica] could not load atlantica.json', e);
+      console.warn('[Atlantica] could not load feed', e);
     }
   },
 
-  _personaById(id) { return this.personae.find(p => p.id === id); },
-  _dispatchById(id) { return this.dispatches.find(d => d.id === id) || (this.sourced || []).find(d => d.id === id); },
-
-  // Today's weekday in JS is 0=Sun..6=Sat. We use 1=Mon..5=Fri.
-  _todayWeekday() {
-    const d = new Date().getDay();
-    return (d >= 1 && d <= 5) ? d : null; // null on weekends
-  },
-
-  _weekdayLabel(n) {
-    return ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'][n] || '';
-  },
-
-  // Format a year from the ledger the same way the rest of the app does.
-  _yearLabel(y) {
-    if (y == null) return '—';
-    return y < 0 ? `${Math.abs(y)} BCE` : `${y} CE`;
+  async _fetchArticle(key) {
+    if (this._byKey[key]) return this._byKey[key];
+    const r = await fetch(this.WORKER + '/article?key=' + encodeURIComponent(key));
+    const rec = await r.json();
+    if (rec && rec.body) this._byKey[key] = rec;
+    return rec;
   },
 
   renderList() {
     const body = document.getElementById('atlantica-body');
     if (!body) return;
-    const today = this._todayWeekday();
-
-    const cards = this.personae.map(persona => {
-      const dispatch = this.dispatches.find(d => d.personaId === persona.id);
-      const isToday = today === persona.weekday;
-      const isPending = !dispatch || !dispatch.body;
-
-      const dayLabel = this._weekdayLabel(persona.weekday);
-      const statusLabel = isPending ? 'PENDING' : (isToday ? 'TODAY' : 'PUBLISHED');
-
-      const title = isPending
-        ? '<div class="atlantica-card-title">Dispatch forthcoming.</div>'
-        : `<div class="atlantica-card-title">on ${escapeHtml(dispatch.eventTitle)} · ${this._yearLabel(dispatch.eventYear)}</div>`;
-
-      // Teaser: first ~140 chars of the body, stripped of markdown punctuation.
-      let teaser = '';
-      if (!isPending && dispatch.body) {
-        const flat = dispatch.body.replace(/[*_#>`\[\]]/g, '').replace(/\s+/g, ' ').trim();
-        teaser = `<div class="atlantica-card-teaser">${escapeHtml(flat.slice(0, 160))}${flat.length > 160 ? '…' : ''}</div>`;
-      }
-
-      const clickHandler = isPending
-        ? ''
-        : `onclick="Sovereign.Atlantica.renderReader('${dispatch.id}')"`;
-
-      return `
-        <div class="atlantica-card ${isToday ? 'is-today' : ''} ${isPending ? 'is-pending' : ''}" ${clickHandler}>
-          <div class="atlantica-card-row1">
-            <span class="atlantica-card-day">${dayLabel}</span>
-            <span class="atlantica-card-status">${statusLabel}</span>
-          </div>
-          <div class="atlantica-card-persona">${escapeHtml(persona.name)}</div>
-          ${title}
-          ${teaser}
-        </div>`;
-    }).join('');
-
-    // Sourced voices :: figures from the library reflecting on their own
-    // primary source (figureKey = reading-room key). No weekday; always published.
-    const sourcedCards = (this.sourced || []).map(s => {
-      const flat = (s.body || '').replace(/[*_#>`\[\]]/g, '').replace(/\s+/g, ' ').trim();
-      const teaser = flat
-        ? `<div class="atlantica-card-teaser">${escapeHtml(flat.slice(0, 160))}${flat.length > 160 ? '…' : ''}</div>`
-        : '';
-      return `
-        <div class="atlantica-card atlantica-card-sourced" onclick="Sovereign.Atlantica.renderReader('${s.id}')">
-          <div class="atlantica-card-row1">
-            <span class="atlantica-card-day">${escapeHtml(s.epithet || 'In their own voice')}</span>
-            <span class="atlantica-card-status">PUBLISHED</span>
-          </div>
-          <div class="atlantica-card-persona">${escapeHtml(s.name)}</div>
-          <div class="atlantica-card-title">on ${escapeHtml(s.eventTitle)} · ${this._yearLabel(s.eventYear)}</div>
-          ${teaser}
-        </div>`;
-    }).join('');
-
-    const sourcedSection = sourcedCards
-      ? `<div class="atlantica-section-head" style="font-size:11px;text-transform:uppercase;letter-spacing:0.22em;opacity:0.5;margin:22px 0 10px;">In their own voice — from the library</div><div class="atlantica-list">${sourcedCards}</div>`
-      : '';
-
-    body.innerHTML = `<div class="atlantica-list">${cards}</div>${sourcedSection}`;
-  },
-
-  renderReader(dispatchId) {
-    const body = document.getElementById('atlantica-body');
-    if (!body) return;
-    const dispatch = this._dispatchById(dispatchId);
-    if (!dispatch || !dispatch.body) {
-      this.renderList();
+    if (!this.items.length) {
+      body.innerHTML = '<div class="atlantica-list" style="opacity:0.4;font-style:italic;padding:24px 0;">No dispatches yet.</div>';
       return;
     }
-    // Mythic dispatches resolve a persona from personae[]; sourced dispatches
-    // (figureKey present) carry their own name/epithet inline.
-    const isSourced = !!dispatch.figureKey;
-    const persona = isSourced
-      ? { name: dispatch.name, epithet: dispatch.epithet }
-      : this._personaById(dispatch.personaId);
-    if (!persona) return;
+    const today = this._todayStr();
+    const featured = this.items.find(it => it.date === today) || this.items[0];
+    const rest = this.items.filter(it => it.key !== featured.key);
 
-    // Render markdown body via the already-loaded `marked` library.
-    // Fallback to a simple paragraph split if marked isn't available.
+    const featuredCard = `
+      <div class="atlantica-card is-today" onclick="Sovereign.Atlantica.renderReader('${featured.key}')">
+        <div class="atlantica-card-row1">
+          <span class="atlantica-card-day">${escapeHtml(this._prettyDate(featured.date))}</span>
+          <span class="atlantica-card-status">TODAY</span>
+        </div>
+        <div class="atlantica-card-persona">${escapeHtml(featured.name || featured.figure || '')}</div>
+        <div class="atlantica-card-title">${escapeHtml(featured.headline || '')}</div>
+        ${featured.teaser ? `<div class="atlantica-card-teaser">${escapeHtml(featured.teaser)}</div>` : ''}
+      </div>`;
+
+    const restCards = rest.map(it => `
+      <div class="atlantica-card" onclick="Sovereign.Atlantica.renderReader('${it.key}')">
+        <div class="atlantica-card-row1">
+          <span class="atlantica-card-day">${escapeHtml(this._prettyDate(it.date))}</span>
+          <span class="atlantica-card-status">PUBLISHED</span>
+        </div>
+        <div class="atlantica-card-persona">${escapeHtml(it.name || it.figure || '')}</div>
+        <div class="atlantica-card-title">${escapeHtml(it.headline || '')}</div>
+        ${it.teaser ? `<div class="atlantica-card-teaser">${escapeHtml(it.teaser)}</div>` : ''}
+      </div>`).join('');
+
+    const restSection = restCards
+      ? `<div class="atlantica-section-head" style="font-size:11px;text-transform:uppercase;letter-spacing:0.22em;opacity:0.5;margin:22px 0 10px;">Recent dispatches</div><div class="atlantica-list">${restCards}</div>`
+      : '';
+
+    body.innerHTML = `<div class="atlantica-list">${featuredCard}</div>${restSection}`;
+  },
+
+  async renderReader(key) {
+    const body = document.getElementById('atlantica-body');
+    if (!body) return;
+    body.innerHTML = '<div class="atlantica-reader"><div class="atlantica-list" style="opacity:0.4;font-style:italic;padding:24px 0;">Opening…</div></div>';
+
+    let rec;
+    try { rec = await this._fetchArticle(key); } catch (e) { rec = null; }
+    if (!rec || !rec.body) { this.renderList(); return; }
+
     let bodyHtml;
     if (typeof marked !== 'undefined' && marked.parse) {
-      bodyHtml = marked.parse(dispatch.body);
+      bodyHtml = marked.parse(rec.body);
     } else {
-      bodyHtml = dispatch.body.split(/\n\n+/).map(p => `<p>${escapeHtml(p)}</p>`).join('');
+      bodyHtml = rec.body.split(/\n\n+/).map(p => `<p>${escapeHtml(p)}</p>`).join('');
     }
 
-    const sourceLine = (dispatch.eventTitle)
-      ? `<div class="r-source"><strong>Reflecting on:</strong> ${escapeHtml(dispatch.eventTitle)} · ${this._yearLabel(dispatch.eventYear)}</div>`
+    const sourceLine = rec.eventTitle
+      ? `<div class="r-source"><strong>Reflecting on:</strong> ${escapeHtml(rec.eventTitle)} · ${this._yearLabel(rec.eventYear)}</div>`
       : '';
 
     body.innerHTML = `
       <div class="atlantica-reader">
         <div class="atlantica-back" onclick="Sovereign.Atlantica.renderList()">← Back to dispatches</div>
-        <div class="r-persona">${escapeHtml(persona.name)}</div>
-        <div class="r-meta">${isSourced ? 'In their own voice' : (this._weekdayLabel(persona.weekday) + ' dispatch')} · ${escapeHtml(persona.epithet)}</div>
+        <div class="r-persona">${escapeHtml(rec.name || '')}</div>
+        <div class="r-meta">In their own voice${rec.epithet ? ' · ' + escapeHtml(rec.epithet) : ''}${rec.date ? ' · ' + escapeHtml(this._prettyDate(rec.date)) : ''}</div>
         ${sourceLine}
         <div class="r-body">${bodyHtml}</div>
-        ${(!isSourced && dispatch.eventTitle) ? `<div class="r-archive-link" onclick="Sovereign.UI.switchTabletPage('archive')">View source event in the Archive →</div>` : ''}
+        <div class="atlantica-readaloud" style="margin-top:24px;display:inline-block;font-family:var(--font-mono,ui-monospace,monospace);font-size:11px;letter-spacing:0.06em;color:#67e8f9;border:1px solid rgba(103,232,249,0.4);border-radius:7px;padding:9px 14px;cursor:pointer;background:rgba(103,232,249,0.08);" onclick="Sovereign.Atlantica.speak('${key}', this)">🔊 Read aloud</div>
       </div>`;
 
-    Sovereign.Log.emit('ATLANTICA', `dispatch opened :: ${dispatch.id}`);
+    Sovereign.Log && Sovereign.Log.emit && Sovereign.Log.emit('ATLANTICA', `dispatch opened :: ${key}`);
+  },
+
+  speak(key, btn) {
+    const rec = this._byKey[key];
+    if (!rec || !rec.body) return;
+    const txt = String(rec.body).replace(/^#+\s*/gm,'').replace(/\*\*([^*]+)\*\*/g,'$1').replace(/__([^_]+)__/g,'$1')
+      .replace(/\*([^*]+)\*/g,'$1').replace(/_([^_]+)_/g,'$1').replace(/^\s*[-*]\s+/gm,'').replace(/\s+/g,' ').trim();
+    if (this._audio) { try { this._audio.pause(); } catch(e){} this._audio = null; }
+    if (btn) { btn.textContent = '… generating'; }
+    fetch(this.WORKER + '/speak', { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ text: txt, style: this.VOICE_STYLE, voice: this.VOICE_NAME }) })
+      .then(r => { if (!r.ok) throw new Error('voice ' + r.status); return r.blob(); })
+      .then(blob => { this._audio = new Audio(URL.createObjectURL(blob)); this._audio.play().catch(()=>{});
+        if (btn) btn.textContent = '🔊 Read aloud'; })
+      .catch(err => { console.error('Atlantica voice failed:', err); if (btn) btn.textContent = '🔊 Read aloud'; });
   }
 };
 
-/* Deep-link bridge :: the Page 1 "Today's Dispatch" band links here as
-   Page2.html#atlantica or Page2.html#atlantica/{dispatchId}. Routes straight
-   to the Atlantica tablet page and opens the dispatch. The hash has no '=' so
-   it never collides with the sovereign/view permalink router. */
+/* Deep-link bridge :: Page 1 links here as Page2.html#atlantica or
+   Page2.html#atlantica/{key}. Routes to the Atlantica tablet and opens it.
+   (Keys may contain ':' — encoded in the hash; we decode here.) */
 Sovereign.Atlantica._routeHash = function (raw) {
   const h = (raw || '').replace(/^#/, '');
   if (h !== 'atlantica' && h.indexOf('atlantica/') !== 0) return;
   if (Sovereign.UI && Sovereign.UI.switchTabletPage) Sovereign.UI.switchTabletPage('atlantica');
   Sovereign.Atlantica.load().then(() => {
     Sovereign.Atlantica._rendered = true;
-    const id = h.indexOf('/') >= 0 ? h.split('/')[1] : null;
-    const d = id ? Sovereign.Atlantica._dispatchById(id) : null;
-    if (d && d.body) Sovereign.Atlantica.renderReader(id);
+    const rest = h.indexOf('/') >= 0 ? h.slice(h.indexOf('/') + 1) : null;
+    const key = rest ? decodeURIComponent(rest) : null;
+    if (key) Sovereign.Atlantica.renderReader(key);
     else Sovereign.Atlantica.renderList();
   });
 };
-// Capture the entry hash synchronously, before the permalink router's
-// replaceState can rewrite it; route once the page has loaded.
 Sovereign.Atlantica._entryHash = location.hash || '';
 window.addEventListener('load', function () { Sovereign.Atlantica._routeHash(Sovereign.Atlantica._entryHash); });
 window.addEventListener('hashchange', function () { Sovereign.Atlantica._routeHash(location.hash); });
-
+     
 /* ============================================================================
    EPHEMERIS :: heliocentric planet positions for the visible orbital ring.
    v9.18.142.
