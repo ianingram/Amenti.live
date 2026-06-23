@@ -6098,7 +6098,7 @@ input.addEventListener('keydown', async e => {
     history.push({ role:'user', content:q });
     history.push({ role:'assistant', content:reply });
     placeholder.querySelector('.term-msg-body').textContent = reply;
-  }catch(err){
+    if (window.AMENTI_VOICE && window.AMENTI_VOICE.on) window.AMENTI_VOICE.speak(reply);  }catch(err){
     placeholder.querySelector('.term-msg-body').innerHTML = `<span style="color:#f87171">[signal lost · ${err.message||err}]</span>`;
   }
   busy = false;
