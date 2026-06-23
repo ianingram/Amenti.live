@@ -6738,5 +6738,51 @@ try{
 </script>
 <script src="library.js"></script>
 <script src="voiceprofiles.js"></script>
-</body>
+<script>
+// ===== AMENTI VOICE — Page1 Terminal (Dialogue register) =====
+window.AMENTI_VOICE = {
+  on: false,
+  WORKER: "https://amenti-proxy.ingram-ian.workers.dev/speak",
+  STYLE: "Say the following in a clear, natural, conversational voice",
+  VOICE: "Kore",
+  current: null,
+  speak: function (text) {
+    var self = this;
+    fetch(this.WORKER, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text, style: this.STYLE, voice: this.VOICE })
+    }).then(function (r) {
+      if (!r.ok) throw new Error("voice " + r.status);
+      return r.blob();
+    }).then(function (blob) {
+      if (self.current) { try { self.current.pause(); } catch (e) {} }
+      self.current = new Audio(URL.createObjectURL(blob));
+      self.current.play()["catch"](function () {});
+    })["catch"](function (err) { console.error("Voice failed:", err); });
+  },
+  toggle: function () {
+    this.on = !this.on;
+    var btn = document.getElementById("term-voice-toggle");
+    if (btn) {
+      btn.textContent = this.on ? "🔊" : "🔇";
+      btn.title = this.on ? "Voice on — replies will speak" : "Voice off";
+    }
+    if (this.on) { this.speak("Voice enabled."); }
+  }
+};
+(function () {
+  var wrap = document.querySelector(".term-input-wrap");
+  if (!wrap) return;
+  var btn = document.createElement("button");
+  btn.id = "term-voice-toggle";
+  btn.type = "button";
+  btn.textContent = "🔇";
+  btn.title = "Voice off";
+  btn.style.cssText = "background:transparent;border:none;font-size:16px;cursor:pointer;padding:0 8px;line-height:1;color:#80ffc0;";
+  btn.onclick = function () { window.AMENTI_VOICE.toggle(); };
+  var hint = wrap.querySelector(".term-input-hint");
+  if (hint) { wrap.insertBefore(btn, hint); } else { wrap.appendChild(btn); }
+})();
+</script></body>
 </html>
