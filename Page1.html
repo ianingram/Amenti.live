@@ -6895,5 +6895,178 @@ window.AMENTI_VOICE = {
   var hint = wrap.querySelector(".term-input-hint");
   if (hint) { wrap.insertBefore(btn, hint); } else { wrap.appendChild(btn); }
 })();
-</script></body>
+</script>
+
+ <!-- ============================================================================
+     DAILY PLANET :: click-to-generate wiring
+     Drop this block in just BEFORE the closing </body> of Page1.html (same place
+     as the voice block). It makes every .news-card in #news clickable:
+       click -> derive figure key (from data-char + AMENTI_CHARS) + slug (from
+       headline) -> POST /article/generate -> render the article in an overlay,
+       with a journalistic Read-aloud. Generate-once, cache-forever (Worker side).
+     Additive + self-contained: opens and closes its own <script>; touches nothing.
+     ============================================================================ -->
+<style>
+.dp-reader-overlay{position:fixed;inset:0;z-index:10000;display:none;align-items:flex-start;justify-content:center;padding:6vh 16px 16px;background:rgba(6,8,16,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);overflow-y:auto;}
+.dp-reader-overlay.on{display:flex;}
+.dp-reader-panel{position:relative;width:100%;max-width:760px;margin:auto 0;background:linear-gradient(180deg,#101018,#0a0a12);border:1px solid var(--wire,#2a2f45);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden;}
+.dp-reader-top{position:sticky;top:0;z-index:2;display:flex;align-items:flex-start;gap:14px;padding:22px 24px 18px;background:linear-gradient(180deg,#101018,rgba(16,16,24,.86));border-bottom:1px solid var(--wire,#2a2f45);}
+.dp-reader-eyebrow{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold,#d4a017);opacity:.85;margin-bottom:6px;}
+.dp-reader-headline{font-family:'Inter','Helvetica Neue',sans-serif;font-weight:700;font-size:25px;line-height:1.2;color:#fff;letter-spacing:-.015em;}
+.dp-reader-close{margin-left:auto;flex-shrink:0;width:34px;height:34px;border-radius:8px;border:1px solid var(--wire,#2a2f45);background:transparent;color:#cdd3e0;font-size:17px;cursor:pointer;}
+.dp-reader-close:hover{border-color:var(--gold,#d4af37);}
+.dp-reader-scroll{padding:18px 24px 26px;}
+.dp-reader-meta{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold,#d4af37);opacity:.8;margin-bottom:18px;}
+.dp-reader-body{font-family:'Inter','Helvetica Neue',sans-serif;font-size:17px;line-height:1.72;color:#e7e9f0;max-width:64ch;}
+.dp-reader-body p{margin:0 0 1.05em;}
+.dp-reader-body em{font-style:italic;color:#cdd3e0;}
+.dp-reader-body strong{color:#fff;font-weight:600;}
+.dp-reader-status{font-family:'Inter',sans-serif;font-size:15px;color:#cdd3e0;opacity:.75;padding:30px 4px;}
+.dp-reader-readaloud{margin-top:24px;font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.04em;color:var(--gold,#d4af37);border:1px solid rgba(212,175,55,.45);border-radius:8px;padding:10px 16px;cursor:pointer;background:rgba(212,175,55,.08);}
+.dp-reader-readaloud:hover{background:rgba(212,175,55,.18);}
+.dp-reader-readaloud:disabled{opacity:.55;cursor:default;}
+.dp-reader-err{font-family:'Inter',sans-serif;font-size:14px;color:#e7a;padding:12px 0;}
+</style>
+<script>
+(function(){
+  var WORKER = "https://amenti-proxy.ingram-ian.workers.dev";
+  var VOICE_STYLE = "Read this aloud in a clear, engaging, journalistic voice";  // Daily Planet register
+  var VOICE_NAME = "Kore";
+  var dpAudio = null;
+
+  function esc(s){ return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  // Slug from headline: lowercase, drop filler words, strip punctuation, hyphenate, cap length.
+  var FILLER = {the:1,a:1,an:1,of:1,that:1,to:1,and:1,for:1,in:1,on:1,with:1,at:1,by:1};
+  function slugify(headline){
+    var words = String(headline||'').toLowerCase()
+      .replace(/[^a-z0-9\s-]/g,' ')      // strip punctuation
+      .split(/\s+/).filter(Boolean)
+      .filter(function(w){ return !FILLER[w]; });
+    var slug = words.slice(0, 7).join('-');   // cap ~7 meaningful words
+    return slug.replace(/-+/g,'-').replace(/^-|-$/g,'');
+  }
+
+  // markdown -> simple HTML (paragraphs + bold/italic)
+  function mdToHtml(src){
+    return String(src||'').replace(/\r\n?/g,'\n').trim().split(/\n\s*\n/).map(function(b){
+      var t = esc(b.replace(/\n/g,' '))
+        .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+        .replace(/__([^_]+)__/g,'<strong>$1</strong>')
+        .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+        .replace(/_([^_]+)_/g,'<em>$1</em>');
+      return '<p>'+t+'</p>';
+    }).join('');
+  }
+
+  function plainText(md){
+    return String(md||'').replace(/^#+\s*/gm,'').replace(/\*\*([^*]+)\*\*/g,'$1')
+      .replace(/__([^_]+)__/g,'$1').replace(/\*([^*]+)\*/g,'$1').replace(/_([^_]+)_/g,'$1')
+      .replace(/^\s*[-*]\s+/gm,'').replace(/\s+/g,' ').trim();
+  }
+
+  // overlay shell
+  var overlay=null, scrollEl=null, headlineEl=null, metaEl=null;
+  function ensureOverlay(){
+    if(overlay) return;
+    overlay=document.createElement('div');
+    overlay.className='dp-reader-overlay';
+    overlay.innerHTML=
+      '<div class="dp-reader-panel">'+
+        '<div class="dp-reader-top">'+
+          '<div><div class="dp-reader-eyebrow">The Daily Planet</div>'+
+          '<div class="dp-reader-headline" id="dp-reader-headline"></div></div>'+
+          '<button class="dp-reader-close" id="dp-reader-close" aria-label="Close">\u2715</button>'+
+        '</div>'+
+        '<div class="dp-reader-scroll"><div class="dp-reader-meta" id="dp-reader-meta"></div>'+
+          '<div id="dp-reader-content"></div></div>'+
+      '</div>';
+    document.body.appendChild(overlay);
+    scrollEl=overlay.querySelector('#dp-reader-content');
+    headlineEl=overlay.querySelector('#dp-reader-headline');
+    metaEl=overlay.querySelector('#dp-reader-meta');
+    overlay.addEventListener('mousedown',function(e){ if(e.target===overlay) closeReader(); });
+    overlay.querySelector('#dp-reader-close').addEventListener('click', closeReader);
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape' && overlay.classList.contains('on')) closeReader(); });
+  }
+  function openReader(){ ensureOverlay(); overlay.classList.add('on'); document.documentElement.style.overflow='hidden'; }
+  function closeReader(){
+    if(!overlay) return;
+    overlay.classList.remove('on'); document.documentElement.style.overflow='';
+    if(dpAudio){ try{dpAudio.pause();}catch(e){} dpAudio=null; }
+  }
+
+  function figureKeyFromCard(card){
+    var di = card.getAttribute('data-char');
+    var chars = window.AMENTI_CHARS || [];
+    if(di!=null && chars[+di] && chars[+di].key) return chars[+di].key;
+    return null;
+  }
+  function figureNameFromCard(card){
+    var di = card.getAttribute('data-char');
+    var chars = window.AMENTI_CHARS || [];
+    if(di!=null && chars[+di] && chars[+di].name) return chars[+di].name;
+    return '';
+  }
+
+  function speakArticle(body, btn){
+    if(dpAudio){ try{dpAudio.pause();}catch(e){} dpAudio=null; }
+    if(btn){ btn.textContent='… generating'; btn.disabled=true; }
+    fetch(WORKER+'/speak',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text:plainText(body),style:VOICE_STYLE,voice:VOICE_NAME})})
+    .then(function(r){ if(!r.ok) throw new Error('voice '+r.status); return r.blob(); })
+    .then(function(blob){ dpAudio=new Audio(URL.createObjectURL(blob)); dpAudio.play()['catch'](function(){});
+      if(btn){ btn.textContent='🔊 Read aloud'; btn.disabled=false; } })
+    ['catch'](function(err){ console.error('DP voice failed:',err); if(btn){ btn.textContent='🔊 Read aloud'; btn.disabled=false; } });
+  }
+
+  function renderArticle(rec){
+    scrollEl.innerHTML =
+      '<div class="dp-reader-body">'+mdToHtml(rec.body)+'</div>'+
+      '<button class="dp-reader-readaloud" type="button">🔊 Read aloud</button>';
+    var ra=scrollEl.querySelector('.dp-reader-readaloud');
+    if(ra) ra.addEventListener('click', function(){ speakArticle(rec.body, ra); });
+  }
+
+  function generateAndShow(card){
+    var figure = figureKeyFromCard(card);
+    var headlineEl2 = card.querySelector('.dp-headline');
+    var headline = headlineEl2 ? headlineEl2.textContent.trim() : '';
+    if(!figure || !headline) return;
+    var slug = slugify(headline);
+    var catEl = card.querySelector('.dp-cat');
+    var category = catEl ? catEl.textContent.trim() : '';
+
+    openReader();
+    headlineEl.textContent = headline;
+    metaEl.textContent = figureNameFromCard(card) + (category ? ('  ·  '+category) : '');
+    scrollEl.innerHTML = '<div class="dp-reader-status">✍️ Writing the article…</div>';
+
+    fetch(WORKER+'/article/generate',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ publication:'dailyplanet', figure:figure, slug:slug, headline:headline, register:'journalistic' })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(rec){
+      if(rec && rec.body){ renderArticle(rec); }
+      else { scrollEl.innerHTML = '<div class="dp-reader-err">Could not generate this article'+(rec&&rec.error?(' ('+esc(rec.error)+')'):'')+'.</div>'; }
+    })
+    ['catch'](function(err){
+      scrollEl.innerHTML = '<div class="dp-reader-err">Network error: '+esc(err.message)+'</div>';
+    });
+  }
+
+  // Wire every news-card in #news. (Cards exist at load; #news is static markup.)
+  function wire(){
+    var news = document.getElementById('news');
+    if(!news) return;
+    news.querySelectorAll('.news-card').forEach(function(card){
+      card.style.cursor='pointer';
+      card.addEventListener('click', function(){ generateAndShow(card); });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',wire); else wire();
+})();
+</script>   
+</body>
 </html>
