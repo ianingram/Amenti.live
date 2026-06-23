@@ -1761,7 +1761,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   </div>
 </section>
 
-<!-- ATLANTICA :: Daily Dispatch — roster cycles one author/day, essay from the Worker (/atlantica/daily) -->
+<!-- ATLANTICA :: Daily Dispatch + Feed — reads the unified KV store (/feed?details=1) -->
 <style>
 .dispatch-wrap{display:flex;flex-direction:column;gap:18px;}
 .dispatch-card{display:block;position:relative;text-decoration:none;color:inherit;border:1px solid rgba(120,200,190,.28);border-radius:16px;padding:30px 32px;overflow:hidden;background:radial-gradient(120% 140% at 8% 0%, rgba(80,180,170,.10), transparent 60%),linear-gradient(180deg, rgba(20,40,44,.55), rgba(12,22,26,.5));transition:border-color .25s,transform .25s,box-shadow .25s;cursor:pointer;}
@@ -1773,12 +1773,22 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 .dispatch-teaser{font:400 15px/1.65 var(--sans,inherit);color:var(--text);opacity:.78;max-width:720px;}
 .dispatch-cta{margin-top:16px;font:600 13px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;color:#79e6cf;display:inline-flex;align-items:center;gap:8px;}
 .dispatch-loading{font:400 15px/1.6 var(--sans,inherit);color:var(--text);opacity:.5;}
-/* ---- In-place reader ---- */
+/* feed list */
+.dispatch-feed{display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(120,200,190,.18);margin-top:4px;}
+.dispatch-feed-head{font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.28em;text-transform:uppercase;color:rgba(121,230,207,.6);padding:18px 2px 12px;}
+.dispatch-row{display:flex;align-items:baseline;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(120,200,190,.12);cursor:pointer;transition:background .15s;}
+.dispatch-row:hover{background:rgba(80,180,170,.06);}
+.dispatch-row-date{flex-shrink:0;width:96px;font:600 11px/1.3 var(--mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(121,230,207,.7);text-transform:uppercase;}
+.dispatch-row-main{min-width:0;}
+.dispatch-row-title{font:600 16px/1.3 var(--serif,Georgia,serif);color:var(--text);}
+.dispatch-row-author{font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;color:var(--text);opacity:.5;margin-top:5px;}
+/* in-place reader */
 .dispatch-reader{border:1px solid rgba(120,200,190,.28);border-radius:16px;padding:30px 32px;background:linear-gradient(180deg, rgba(20,40,44,.55), rgba(12,22,26,.5));}
 .dispatch-back{display:inline-block;margin-bottom:24px;font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.3em;text-transform:uppercase;color:rgba(121,230,207,.8);cursor:pointer;background:transparent;border:none;padding:0;}
 .dispatch-back:hover{color:#fff;}
 .dispatch-r-persona{font:600 34px/1.1 var(--serif,Georgia,serif);color:#fff;margin-bottom:4px;}
 .dispatch-r-meta{font:600 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.3em;text-transform:uppercase;color:rgba(121,230,207,.75);margin-bottom:20px;}
+.dispatch-r-source{border-left:2px solid rgba(121,230,207,.4);padding:8px 14px;margin-bottom:24px;font:italic 400 13px/1.5 Georgia,serif;color:rgba(255,255,255,.6);}
 .dispatch-r-body{font:400 18px/1.75 var(--serif,Georgia,serif);color:rgba(255,255,255,.86);max-width:720px;}
 .dispatch-r-body p{margin:0 0 1.1em;}
 .dispatch-r-body em{color:rgba(121,230,207,.9);font-style:italic;}
@@ -1786,7 +1796,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 .dispatch-readaloud{margin-top:24px;font:600 11px/1 var(--mono,ui-monospace,monospace);letter-spacing:.06em;color:#79e6cf;border:1px solid rgba(120,200,190,.4);border-radius:7px;padding:9px 14px;cursor:pointer;background:rgba(80,180,170,.08);}
 .dispatch-readaloud:hover{background:rgba(80,180,170,.18);}
 .dispatch-readaloud:disabled{opacity:.55;cursor:default;}
-@media(max-width:640px){.dispatch-headline{font-size:21px;}.dispatch-card{padding:22px 20px;}.dispatch-reader{padding:22px 20px;}.dispatch-r-persona{font-size:27px;}}
+@media(max-width:640px){.dispatch-headline{font-size:21px;}.dispatch-card{padding:22px 20px;}.dispatch-reader{padding:22px 20px;}.dispatch-r-persona{font-size:27px;}.dispatch-row-date{width:74px;}}
 </style>
 <section id="dispatch" class="dispatch-band">
   <div class="section-header reveal">
@@ -1794,15 +1804,19 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
     <span class="section-date">A daily essay from the deep record</span>
   </div>
   <div class="dispatch-wrap reveal">
-    <div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read today's dispatch">
-      <div class="dispatch-loading">Summoning today's dispatch…</div>
+    <div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read the featured dispatch">
+      <div class="dispatch-loading">Summoning the dispatch…</div>
     </div>
+    <div id="dispatch-feed" class="dispatch-feed" hidden></div>
   </div>
 </section>
 <script>
 (function(){
-  var WORKER_DAILY = 'https://amenti-proxy.ingram-ian.workers.dev/atlantica/daily';
-  var VOICE_WORKER = 'https://amenti-proxy.ingram-ian.workers.dev/speak';
+  var WORKER       = 'https://amenti-proxy.ingram-ian.workers.dev';
+  var FEED_URL     = WORKER + '/feed?prefix=atlantica:&details=1';
+  var DAILY_URL    = WORKER + '/atlantica/daily';
+  var ARTICLE_URL  = WORKER + '/article';
+  var VOICE_WORKER = WORKER + '/speak';
   var VOICE_STYLE  = 'Read slowly and clearly, in a measured, formal, dignified tone';
   var VOICE_NAME   = 'Kore', dispatchAudio=null;
 
@@ -1820,6 +1834,12 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
       return '<p>'+t+'</p>';
     }).join('');
   }
+  function prettyDate( d){
+    if(!d) return '';
+    var parts=String(d).split('-'); if(parts.length!==3) return d;
+    var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[(+parts[1])-1]+' '+(+parts[2])+', '+parts[0];
+  }
 
   function speakDispatch(text,btn){
     if(dispatchAudio){ try{dispatchAudio.pause();}catch(e){} dispatchAudio=null; }
@@ -1832,81 +1852,146 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
     ['catch'](function(err){ console.error('Atlantica voice failed:',err); if(btn){ btn.textContent='🔊 Read aloud'; btn.disabled=false; } });
   }
 
-  // local date as YYYY-MM-DD
   function todayStr(){
     var d=new Date(); var m=String(d.getMonth()+1).padStart(2,'0'); var day=String(d.getDate()).padStart(2,'0');
     return d.getFullYear()+'-'+m+'-'+day;
   }
-  // days since epoch -> stable index into the roster (one author per calendar day)
   function dayIndex(){ return Math.floor(Date.now()/86400000); }
-
-  // Pick today's author from the roster, by date. Title doubles as the epithet.
   function todaysAuthor(){
-    var roster = window.AMENTI_CHARS || [];
-    if(!roster.length) return null;
-    var idx = dayIndex() % roster.length;
-    var c = roster[idx];
-    if(!c || !c.key) return null;
-    // name comes in caps in the roster (e.g. "ABRAHAM LINCOLN") — make it title-case for display
-    var nm = String(c.name||'').toLowerCase().replace(/\b\w/g,function(ch){return ch.toUpperCase();});
+    var roster=window.AMENTI_CHARS||[]; if(!roster.length) return null;
+    var c=roster[dayIndex()%roster.length]; if(!c||!c.key) return null;
+    var nm=String(c.name||'').toLowerCase().replace(/\b\w/g,function(ch){return ch.toUpperCase();});
     return { figure:c.key, name:nm, epithet:c.title||'' };
   }
 
-  var CURRENT=null;  // the loaded essay record
+  var ITEMS=[];   // feed items (lightweight: no body)
+  var FEATURED=null;
 
-  function renderCard(rec){
+  // fetch a full article body by key (for reading)
+  function fetchArticle(key){
+    return fetch(ARTICLE_URL+'?key='+encodeURIComponent(key)).then(function(r){ return r.json(); });
+  }
+
+  function renderFeatured(rec){
     var card=document.getElementById('dispatch-card'); if(!card) return;
+    var src = rec.eventTitle ? '<div class="dispatch-source">Reflecting on '+esc(rec.eventTitle)+(rec.eventYear?(' · '+(rec.eventYear<0?(Math.abs(rec.eventYear)+' BCE'):(rec.eventYear+' CE'))):'')+'</div>' : '';
     card.innerHTML=
       '<div class="dispatch-eyebrow"><span class="dispatch-glyph">≈</span> '+esc(rec.name||'')+(rec.epithet?(' · '+esc(rec.epithet)):'')+'</div>'+
       '<div class="dispatch-headline">'+esc(rec.headline||'')+'</div>'+
-      '<div class="dispatch-teaser">'+esc(teaser(rec.body))+'</div>'+
+      src+
+      '<div class="dispatch-teaser">'+esc(teaser(rec.body||rec.teaser||''))+'</div>'+
       '<div class="dispatch-cta">Read the dispatch →</div>';
-    var open=function(){ openReader(rec); };
+    var open=function(){ openByKey(rec.key, rec); };
     card.addEventListener('click', open);
     card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } });
   }
 
-  function openReader(rec){
+  function renderFeed(items){
+    var feedEl=document.getElementById('dispatch-feed'); if(!feedEl) return;
+    if(!items.length){ feedEl.hidden=true; return; }
+    var html='<div class="dispatch-feed-head">Recent dispatches</div>';
+    items.forEach(function(it){
+      html+=
+        '<div class="dispatch-row" data-key="'+esc(it.key)+'">'+
+          '<div class="dispatch-row-date">'+esc(prettyDate(it.date))+'</div>'+
+          '<div class="dispatch-row-main">'+
+            '<div class="dispatch-row-title">'+esc(it.headline||'Untitled')+'</div>'+
+            '<div class="dispatch-row-author">'+esc(it.name||it.figure||'')+'</div>'+
+          '</div>'+
+        '</div>';
+    });
+    feedEl.innerHTML=html;
+    feedEl.hidden=false;
+    feedEl.querySelectorAll('.dispatch-row').forEach(function(row){
+      row.addEventListener('click', function(){ openByKey(row.getAttribute('data-key')); });
+    });
+  }
+
+  function openByKey(key, known){
     var wrap=document.querySelector('#dispatch .dispatch-wrap'); if(!wrap) return;
-    wrap.innerHTML=
-      '<div class="dispatch-reader">'+
-        '<button class="dispatch-back" type="button">← Back</button>'+
-        '<div class="dispatch-r-persona">'+esc(rec.name||'')+'</div>'+
-        '<div class="dispatch-r-meta">In their own voice'+(rec.epithet?(' · '+esc(rec.epithet)):'')+'</div>'+
-        '<div class="dispatch-r-body">'+mdToHtml(rec.body)+'</div>'+
-        '<button class="dispatch-readaloud" type="button">🔊 Read aloud</button>'+
-      '</div>';
-    wrap.querySelector('.dispatch-back').addEventListener('click', restoreBand);
-    var ra=wrap.querySelector('.dispatch-readaloud');
-    if(ra) ra.addEventListener('click', function(){ speakDispatch(rec.body, ra); });
+    wrap.innerHTML='<div class="dispatch-reader"><div class="dispatch-loading">Opening…</div></div>';
+    var done=function(rec){
+      if(!rec || !rec.body){ wrap.querySelector('.dispatch-reader').innerHTML='<button class="dispatch-back" type="button">← Back</button><div class="dispatch-loading">Could not open this dispatch.</div>'; wireBack(wrap); return; }
+      var src = rec.eventTitle ? '<div class="dispatch-r-source"><strong>Reflecting on:</strong> '+esc(rec.eventTitle)+(rec.eventYear?(' · '+(rec.eventYear<0?(Math.abs(rec.eventYear)+' BCE'):(rec.eventYear+' CE'))):'')+'</div>' : '';
+      wrap.innerHTML=
+        '<div class="dispatch-reader">'+
+          '<button class="dispatch-back" type="button">← Back</button>'+
+          '<div class="dispatch-r-persona">'+esc(rec.name||'')+'</div>'+
+          '<div class="dispatch-r-meta">In their own voice'+(rec.epithet?(' · '+esc(rec.epithet)):'')+(rec.date?(' · '+esc(prettyDate(rec.date))):'')+'</div>'+
+          src+
+          '<div class="dispatch-r-body">'+mdToHtml(rec.body)+'</div>'+
+          '<button class="dispatch-readaloud" type="button">🔊 Read aloud</button>'+
+        '</div>';
+      wireBack(wrap);
+      var ra=wrap.querySelector('.dispatch-readaloud');
+      if(ra) ra.addEventListener('click', function(){ speakDispatch(rec.body, ra); });
+    };
+    if(known && known.body){ done(known); }
+    else { fetchArticle(key).then(done).catch(function(){ done(null); }); }
+  }
+  function wireBack(wrap){
+    var b=wrap.querySelector('.dispatch-back');
+    if(b) b.addEventListener('click', restoreBand);
   }
 
   function restoreBand(){
     if(dispatchAudio){ try{dispatchAudio.pause();}catch(e){} dispatchAudio=null; }
     var wrap=document.querySelector('#dispatch .dispatch-wrap'); if(!wrap) return;
-    wrap.innerHTML='<div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read todays dispatch"></div>';
-    if(CURRENT) renderCard(CURRENT);
+    wrap.innerHTML=
+      '<div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read the featured dispatch"></div>'+
+      '<div id="dispatch-feed" class="dispatch-feed" hidden></div>';
+    if(FEATURED) renderFeatured(FEATURED);
+    renderFeed(ITEMS.filter(function(it){ return !FEATURED || it.key!==FEATURED.key; }));
   }
 
-  function load(){
+  // ensure today's dispatch exists (generate-on-read), then load the feed
+  function ensureTodayThenFeed(){
     var author=todaysAuthor();
-    var card=document.getElementById('dispatch-card');
-    if(!author){ if(card) card.innerHTML='<div class="dispatch-loading">Roster loading…</div>'; 
-      // roster may not be ready yet; retry shortly
-      return setTimeout(load, 800);
-    }
-    fetch(WORKER_DAILY,{method:'POST',headers:{'Content-Type':'application/json'},
+    var afterToday=function(){
+      fetch(FEED_URL).then(function(r){return r.json();}).then(function(d){
+        ITEMS=(d.items||[]);
+        var today=todayStr();
+        // feature today's dispatch if present, else the newest
+        FEATURED = ITEMS.find(function(it){ return it.date===today; }) || ITEMS[0] || null;
+        if(FEATURED){
+          // featured needs a body for the teaser → fetch it
+          fetchArticle(FEATURED.key).then(function(full){
+            FEATURED=Object.assign({}, FEATURED, full);
+            renderFeatured(FEATURED);
+            renderFeed(ITEMS.filter(function(it){ return it.key!==FEATURED.key; }));
+          }).catch(function(){
+            renderFeatured(FEATURED);
+            renderFeed(ITEMS.filter(function(it){ return it.key!==FEATURED.key; }));
+          });
+        } else {
+          var card=document.getElementById('dispatch-card');
+          if(card) card.innerHTML='<div class="dispatch-loading">No dispatches yet.</div>';
+        }
+      }).catch(function(){
+        var card=document.getElementById('dispatch-card');
+        if(card) card.innerHTML='<div class="dispatch-loading">Dispatch unavailable.</div>';
+      });
+    };
+    if(!author){ afterToday(); return; }
+    // fire today's generation (cached after first), then load feed regardless
+    fetch(DAILY_URL,{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({ figure:author.figure, name:author.name, epithet:author.epithet, date:todayStr() })})
-    .then(function(r){ return r.json(); })
-    .then(function(rec){
-      if(rec && rec.body){ CURRENT=rec; renderCard(rec); }
-      else { if(card) card.innerHTML='<div class="dispatch-loading">The dispatch is being written… check back shortly.</div>'; }
-    })
-    .catch(function(){ if(card) card.innerHTML='<div class="dispatch-loading">Dispatch unavailable.</div>'; });
+      .then(function(){ afterToday(); })
+      .catch(function(){ afterToday(); });
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',load); else load();
+
+  function start(){
+    var roster=window.AMENTI_CHARS||[];
+    if(!roster.length){ return setTimeout(start, 800); }  // wait for roster
+    ensureTodayThenFeed();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
 })();
 </script>
+
+
+
+  
   
 <!-- LEGEND ROSTER -->
 <section id="roster">
