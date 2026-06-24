@@ -9297,7 +9297,7 @@ WINGS: [
         // VOICE :: if the voice toggle is on, speak this reply (Phase 1: one
         // Gemini voice + Dialogue register; per-figure voices come in Phase 2).
         if (window.AMENTI_VOICE_ON) {
-          Sovereign.Voice.speak(text);
+          Sovereign.Voice.speak(text, Sovereign.State.activeRecord);
         }
       },
       appendSystem(text) {
