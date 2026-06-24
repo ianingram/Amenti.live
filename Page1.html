@@ -6682,7 +6682,8 @@ tune(idx>=0?idx:0);
    dossiers OVER it by name (curated always win), reassigns
    window.AMENTI_CHARS, and refreshes the Codex + Counsel. If the fetch
    fails (e.g. opened via file://, offline, or a bad URL), the curated
-   legends stay in place. */
+   legends stay in place.
+   v-voice :: now reads Gender/Dialect/Voice/Region/Location columns. */
 (function(){
   "use strict";
   var CSV_URL = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.LEDGER_CSV_URL) || './names.csv';
@@ -6719,7 +6720,12 @@ tune(idx>=0?idx:0);
       death: find('deathdate','death','died','dod'),
       bio:   find('biography','bio','description','about','summary'),
       links: find('links','link','url','source','sources','wikipedia'),
-      rank:  find('rank','rank#','no','number','order','#')
+      rank:  find('rank','rank#','no','number','order','#'),
+      gender:   find('gender','sex'),
+      dialect:  find('dialect','accent'),
+      voicecol: find('voice','manner','character'),
+      region:   find('region','area','zone'),
+      location: find('location','place','birthplace','origin')
     };
   }
 
@@ -6765,7 +6771,7 @@ tune(idx>=0?idx:0);
         era: eraLabel(birth, death),
         year: yearOf(birth),
         death: death,
-        region: '',
+        region: (H.region>=0 ? (row[H.region]||'').trim() : ''),
         glyph: grp ? grp.glyph : '◈',
         accent: grp ? grp.accent : '#d4af37',
         group: grp ? grp.id : 'legends',
@@ -6774,7 +6780,10 @@ tune(idx>=0?idx:0);
         bio: H.bio>=0 ? (row[H.bio]||'').trim() : '',
         abilities: [],
         stats: null,
-        voice: '',
+        voice: (H.voicecol>=0 ? (row[H.voicecol]||'').trim() : ''),
+        gender: (H.gender>=0 ? (row[H.gender]||'').trim().toLowerCase() : ''),
+        dialect: (H.dialect>=0 ? (row[H.dialect]||'').trim() : ''),
+        location: (H.location>=0 ? (row[H.location]||'').trim() : ''),
         links: links,
         rank: (H.rank>=0 ? (function(){ var v=parseFloat((row[H.rank]||'').trim()); return (isFinite(v)&&v>0)?v:9999; })() : 9999),
         rich: false
