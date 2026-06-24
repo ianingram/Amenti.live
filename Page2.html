@@ -6651,10 +6651,14 @@ function normalizeRecord(rec, idx) {
     anchorYear,
     isLiving,
     biography: String(pickField(rec, SCHEMA.biography) || '').trim(),
-    links: buildLinksFromKeywords(name, pickField(rec, SCHEMA.links))
+    links: buildLinksFromKeywords(name, pickField(rec, SCHEMA.links)),
+    gender: String(pickField(rec, SCHEMA.gender) || '').trim().toLowerCase(),
+    dialect: String(pickField(rec, SCHEMA.dialect) || '').trim(),
+    voice: String(pickField(rec, SCHEMA.voice) || '').trim(),
+    region: String(pickField(rec, SCHEMA.region) || '').trim(),
+    location: String(pickField(rec, SCHEMA.location) || '').trim()
   };
 }
-
 /* ============================================================================
    SOVEREIGN NAMESPACE
    ============================================================================ */
