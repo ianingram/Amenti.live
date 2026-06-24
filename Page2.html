@@ -16302,21 +16302,46 @@ window.onload = () => {
   });
 };     
 </script>
-     
 <script>
-// ===== AMENTI VOICE (Phase 1: Gemini, Dialogue register) =====
+// ===== AMENTI VOICE (Page2 tablet chat — per-figure composition) =====
 window.AMENTI_VOICE_ON = false;
+
+// Map a figure's gender to a base Gemini voice name.
+function amentiVoiceForGender(gender){
+  var g = String(gender||'').toLowerCase();
+  if (g === 'male' || g === 'm')   return 'Charon';   // deep, authoritative
+  if (g === 'female' || g === 'f') return 'Kore';     // default female
+  return 'Kore';                                       // neutral/unknown fallback
+}
+
 Sovereign.Voice = {
   WORKER: "https://amenti-proxy.ingram-ian.workers.dev/speak",
-  STYLE: "Say the following in a clear, natural, conversational voice",
+  STYLE: "Say the following in a clear, natural, conversational voice",  // base register / fallback
   VOICE: "Kore",
   current: null,
-  async speak(text) {
+
+  // Compose a per-figure style + base voice from a roster record.
+  // Returns { style, voice }. Falls back to defaults when a figure lacks data.
+  composeFor: function(rec){
+    var style = this.STYLE;
+    var voice = this.VOICE;
+    if (rec) {
+      voice = amentiVoiceForGender(rec.gender);
+      var parts = [this.STYLE];
+      if (rec.dialect && String(rec.dialect).trim()) parts.push("Accent: " + String(rec.dialect).trim());
+      if (rec.voice && String(rec.voice).trim())     parts.push("Voice character: " + String(rec.voice).trim());
+      style = parts.join(". ");
+    }
+    return { style: style, voice: voice };
+  },
+
+  async speak(text, rec) {
     try {
+      var comp = this.composeFor(rec);
       const res = await fetch(this.WORKER, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, style: this.STYLE, voice: this.VOICE })
+        body: JSON.stringify({ text, style: comp.style, voice: comp.voice })
       });
       if (!res.ok) { console.error("Voice failed:", await res.text()); return; }
       const blob = await res.blob();
@@ -16332,7 +16357,7 @@ Sovereign.Voice = {
       btn.textContent = window.AMENTI_VOICE_ON ? '🔊' : '🔇';
       btn.title = window.AMENTI_VOICE_ON ? 'Voice on — replies will speak' : 'Voice off';
     }
-    if (window.AMENTI_VOICE_ON) { this.speak('Voice enabled.'); }
+    if (window.AMENTI_VOICE_ON) { this.speak('Voice enabled.', Sovereign.State.activeRecord); }
   }
 };
 (() => {
