@@ -6563,7 +6563,6 @@ function halleyAnomalyForYear(year) {
   return solveKepler(M, 0.967);
 }
 
-/* ---------- Schema mapping for the Amenti ledger ---------- */
 const SCHEMA = {
   rank:      ['Rank', 'rank', '#'],
   name:      ['Full Name', 'Name', 'name', 'Full_Name', 'fullname'],
@@ -6571,7 +6570,12 @@ const SCHEMA = {
   birthDate: ['Birth-Date', 'Birth Date', 'BirthDate', 'birth', 'Born'],
   deathDate: ['Death-Date', 'Death Date', 'DeathDate', 'death', 'Died'],
   biography: ['Biography', 'Bio', 'biography', 'About', 'Description'],
-  links:     ['Links', 'links', 'Hyperlinks', 'URLs']
+  links:     ['Links', 'links', 'Hyperlinks', 'URLs'],
+  gender:    ['Gender', 'gender', 'Sex'],
+  dialect:   ['Dialect', 'dialect', 'Accent'],
+  voice:     ['Voice', 'voice', 'Manner', 'Character'],
+  region:    ['Region', 'region', 'Area', 'Zone'],
+  location:  ['Location', 'location', 'Place', 'Birthplace', 'Origin']
 };
 
 function pickField(record, candidates) {
