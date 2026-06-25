@@ -1,0 +1,15 @@
+{
+  "key": "ingram",
+  "name": "Ian Ingram",
+  "works": [
+    {
+      "id": "the-voice-that-carries",
+      "section": "Field Journal, Second Edition",
+      "title": "The Voice That Carries",
+      "mode": "stored",
+      "source": "Ian Ingram, Amenti Field Journal II (2026) · Ingram Manor LLC",
+      "note": "The architect's account of the build that turned a site that speaks into a studio that broadcasts — the pipeline, the archive going live, the host, and the newsroom. \u201cI built the halls so the past could answer back, in its own voice, and now that voice carries.\u201d",
+      "file": "ingram/the-voice-that-carries.md"
+    }
+  ]
+}
