@@ -1,0 +1,35 @@
+{
+  "key": "ingram",
+  "name": "Ian Ingram",
+  "works": [
+    {
+      "id": "the-voice-that-carries",
+      "section": "Field Journal, Second Edition",
+      "title": "The Voice That Carries",
+      "mode": "stored",
+      "source": "Ian Ingram, Amenti Field Journal II (2026) · Ingram Manor LLC",
+      "note": "The architect's account of the build that turned a site that speaks into a studio that broadcasts — the pipeline, the archive going live, the host, and the newsroom. \u201cI built the halls so the past could answer back, in its own voice, and now that voice carries.\u201d",
+      "file": "ingram/the-voice-that-carries.md"
+    },
+    {
+      "id": "the-mind-that-speaks",
+      "section": "Field Journal, First Edition",
+      "title": "The Mind That Speaks",
+      "mode": "stored",
+      "source": "Ian Ingram, Amenti Field Journal (2026) · Ingram Manor LLC",
+      "note": "The first field journal — how a website learned to think and speak: the sawmill dead end, the shift to thought and voice as separate faculties, and the architecture that now stands. \u201cThe brain receives content, then loads speech.\u201d",
+      "file": "ingram/the-mind-that-speaks.md"
+    },
+    {
+      "id": "built-in-the-minds-image",
+      "section": "Product Thesis",
+      "title": "Built in the Mind's Image",
+      "mode": "designed",
+      "year": "2026",
+      "type": "Designed document",
+      "url": "library/ingram/built-in-the-minds-image.html",
+      "source": "Ian Ingram, Built in the Mind's Image (2026) · Ingram Manor LLC",
+      "note": "The product thesis — the Amenti Neural Interface built in the brain's image: cognition, articulation, and memory, three faculties bound into one act. \u201cThe mind forms the thought, then gives it voice.\u201d"
+    }
+  ]
+}
