@@ -216,7 +216,11 @@
       + '</div>'
       + '<div class="aq-res">' + lines + '</div>'
       + (credited === 0 && !hasNew(r) ? '<p class="aq-hint" style="margin-top:14px">Already earned on a previous run \u2014 tokens are paid once per question.</p>' : '')
-      + '<div class="aq-center aq-row" style="justify-content:center;margin-top:20px"><button class="aq-btn" id="aqDone">Done</button></div>';
+      + '<div class="aq-center aq-row" style="justify-content:center;margin-top:20px">'
+      +   ((window.amentiReadAloud && state && state.topic) ? '<button class="aq-btn" id="aqRead">Read it aloud \u2192 +' + GLYPH + ' ET</button>' : '')
+      +   '<button class="aq-btn ghost" id="aqDone">Done</button></div>';
+    var _tid = (state && state.topic) ? state.topic.id : (r && r.topicId);
+    bind('#aqRead', 'click', function () { close(); try { window.amentiReadAloud.open(_tid); } catch (e) {} });
     bind('#aqDone', 'click', close);
     if (window.amentiAuth && typeof window.amentiAuth.refresh === 'function') { try { window.amentiAuth.refresh(); } catch (e) {} }
   }
