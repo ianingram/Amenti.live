@@ -84,7 +84,11 @@
     + '.aq-arg .meta .votes{color:#00ffe0;letter-spacing:.08em}'
     + '.aq-arg .meta a{color:#6c6c78;text-decoration:underline;cursor:pointer}'
     + '.aq-arg .meta a:hover{color:#ff5a5a}'
-    + '.aq-mine-badge{color:#d4a017}';
+    + '.aq-mine-badge{color:#d4a017}'
+    + '.aq-endorse{background:#0a0a0f;border:1px solid #00ffe0;color:#00ffe0;font-family:inherit;font-size:11px;padding:3px 10px;cursor:pointer;letter-spacing:.06em}'
+    + '.aq-endorse:hover{background:#00ffe0;color:#0a0a0f}'
+    + '.aq-endorse:disabled{opacity:.4;cursor:default;background:#0a0a0f;color:#00ffe0}'
+    + '.aq-endorsed{color:#4ade80;font-size:11px;letter-spacing:.06em}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   /* ---- overlay shell ----------------------------------------------------- */
@@ -297,27 +301,55 @@
   else wireRoster();
 
   /* ---- expose ------------------------------------------------------------ */
-  /* ---- arguments feed (Slice A: read + report; voting comes in Slice B) -- */
+  /* ---- arguments feed (Slice B: read, endorse, report) ------------------- */
   async function renderFeed(topicId, questionId) {
     renderLoading('Gathering the arguments');
     var res = await api('/arguments/feed?topic=' + encodeURIComponent(topicId) + '&question=' + encodeURIComponent(questionId));
     var feed = (res.body && res.body.feed) || [];
+    var cost = (res.body && res.body.voteCost) || 5;
     var items = feed.length ? feed.map(function (a) {
-      return '<div class="aq-arg' + (a.mine ? ' mine' : '') + '">'
-        + '<div class="body">' + esc(a.body) + (a.mine ? ' <span class="aq-mine-badge">\u2014 yours</span>' : '') + '</div>'
-        + '<div class="meta"><span class="votes">' + (a.votes || 0) + ' endorsement' + ((a.votes === 1) ? '' : 's') + '</span>'
-        + (a.mine ? '<span></span>' : '<a data-report="' + esc(a.id) + '">report</a>') + '</div></div>';
+      var right;
+      if (a.mine) right = '<span class="aq-mine-badge">yours</span>';
+      else if (a.endorsed) right = '<span class="aq-endorsed">\u2713 endorsed</span>';
+      else right = '<button class="aq-endorse" data-vote="' + esc(a.id) + '">Endorse \u25C8' + cost + '</button> '
+                 + '<a data-report="' + esc(a.id) + '">report</a>';
+      return '<div class="aq-arg' + (a.mine ? ' mine' : '') + '" data-arg="' + esc(a.id) + '">'
+        + '<div class="body">' + esc(a.body) + '</div>'
+        + '<div class="meta"><span class="votes" data-count="' + esc(a.id) + '">' + (a.votes || 0) + ' endorsement' + ((a.votes === 1) ? '' : 's') + '</span>'
+        + '<span>' + right + '</span></div></div>';
     }).join('') : '<p class="aq-msg">No arguments yet \u2014 yours may be the first. Check back in a moment.</p>';
     boxBody.innerHTML =
       '<p class="aq-eyebrow">The arguments</p>'
       + '<h2 class="aq-title" style="font-size:18px">What others made of it</h2>'
-      + '<p class="aq-sub">Endorsement voting opens soon \u2014 for now, read the room.</p>'
+      + '<p class="aq-sub">Endorse the strong ones \u2014 each costs \u25C8' + cost + ' ET, so make it count.</p>'
       + '<div class="aq-feed">' + items + '</div>'
-      + '<div class="aq-center aq-row" style="justify-content:center;margin-top:8px"><button class="aq-btn ghost" id="aqDone">Done</button></div>';
+      + '<div class="aq-center aq-row" style="justify-content:center;margin-top:8px">'
+      +   (window.amentiLeaderboard ? '<button class="aq-btn ghost" id="aqPool">This week\u2019s pool \u2192</button>' : '')
+      +   '<button class="aq-btn ghost" id="aqDone">Done</button></div>';
     bind('#aqDone', 'click', close);
+    bind('#aqPool', 'click', function () { close(); try { window.amentiLeaderboard.open(); } catch (e) {} });
+    Array.prototype.forEach.call(boxBody.querySelectorAll('[data-vote]'), function (btn) {
+      btn.addEventListener('click', function () { voteArgument(btn.getAttribute('data-vote'), btn); });
+    });
     Array.prototype.forEach.call(boxBody.querySelectorAll('[data-report]'), function (el) {
       el.addEventListener('click', function () { reportArgument(el.getAttribute('data-report'), el); });
     });
+  }
+  async function voteArgument(id, btn) {
+    btn.disabled = true; var prev = btn.textContent; btn.textContent = 'Endorsing\u2026';
+    var res = await api('/arguments/vote', { method: 'POST', body: JSON.stringify({ argumentId: id }) });
+    if (res.body && res.body.ok) {
+      var meta = btn.closest('.meta');
+      var right = meta ? meta.querySelector('span:last-child') : null;
+      if (right) right.innerHTML = '<span class="aq-endorsed">\u2713 endorsed</span>';
+      var countEl = boxBody.querySelector('[data-count="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+      if (countEl) { var m = countEl.textContent.match(/^(\d+)/); var n = (m ? parseInt(m[1], 10) : 0) + 1; countEl.textContent = n + ' endorsement' + (n === 1 ? '' : 's'); }
+      if (window.amentiAuth && typeof window.amentiAuth.refresh === 'function') { try { window.amentiAuth.refresh(); } catch (e) {} }
+    } else {
+      btn.disabled = false; btn.textContent = prev;
+      var msg = (res.body && res.body.error) || 'Could not endorse.';
+      var note = btn.parentNode; if (note) { var s2 = document.createElement('span'); s2.className = 'aq-endorsed'; s2.style.color = '#ff5a5a'; s2.textContent = ' ' + msg; note.appendChild(s2); setTimeout(function () { if (s2.parentNode) s2.parentNode.removeChild(s2); }, 3500); }
+    }
   }
   async function reportArgument(id, el) {
     try {
