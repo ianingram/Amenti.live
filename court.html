@@ -233,20 +233,52 @@
 <script>
   /* The hero slot: one variable, a series of images.
      One soul is projected per visit — fixed while you're here, different when you
-     return. The set stands in for the 1,110-figure roster; later this becomes a
-     weighted pick from live data. The series unfolds across visits, never on the
-     user. */
+     return. Names come from the live 1,110-figure roster (the "Full Name" column);
+     if that fetch ever fails, a placeholder set keeps the face alive. The series
+     unfolds across visits, never on the user. Weighted-by-activity is a later step. */
   (function () {
-    var souls = [
+    var ROSTER = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
+    var FALLBACK = [
       'Hypatia of Alexandria', 'Julius Caesar', 'Joan of Arc', 'Socrates',
       'Cleopatra', 'Marcus Aurelius', 'Toussaint Louverture', 'Ada Lovelace',
       'Miyamoto Musashi', 'Sappho of Lesbos', 'Frederick Douglass', 'Sitting Bull'
     ];
-    var name = souls[Math.floor(Math.random() * souls.length)].toUpperCase();
-    var SEP = '\u2003\u25C8\u2003';                 // em-space · diamond · em-space
-    var half = ''; for (var i = 0; i < 6; i++) half += name + SEP;
-    var track = document.getElementById('soulTrack');
-    if (track) track.textContent = half + half;     // duplicated -> seamless -50% loop
+    var SEP = '\u2003\u25C8\u2003';               // em-space · diamond · em-space
+
+    function project(name) {
+      var track = document.getElementById('soulTrack');
+      if (!track) return;
+      var unit = name.toUpperCase() + SEP, half = '';
+      for (var i = 0; i < 6; i++) half += unit;
+      track.textContent = half + half;             // duplicated -> seamless -50% loop
+    }
+
+    // parse one CSV row, respecting quoted fields (bios contain commas)
+    function firstTwoFields(line) {
+      var out = [], cur = '', q = false;
+      for (var i = 0; i < line.length; i++) {
+        var c = line[i];
+        if (c === '"') { if (q && line[i + 1] === '"') { cur += '"'; i++; } else q = !q; }
+        else if (c === ',' && !q) { out.push(cur); cur = ''; if (out.length >= 2) return out; }
+        else cur += c;
+      }
+      out.push(cur); return out;
+    }
+
+    // show a placeholder immediately, then upgrade to the real roster when it loads
+    project(FALLBACK[Math.floor(Math.random() * FALLBACK.length)]);
+
+    fetch(ROSTER).then(function (r) { return r.text(); }).then(function (text) {
+      var lines = text.split(/\r?\n/).filter(function (l) { return l.trim(); });
+      if (lines.length < 2) return;                // header only -> keep placeholder
+      var names = [];
+      for (var i = 1; i < lines.length; i++) {      // skip header row
+        var f = firstTwoFields(lines[i]);
+        var name = (f[1] || '').trim();
+        if (name) names.push(name);
+      }
+      if (names.length) project(names[Math.floor(Math.random() * names.length)]);
+    }).catch(function () { /* network/CORS: the placeholder already shows */ });
   })();
 </script>
 </body>
