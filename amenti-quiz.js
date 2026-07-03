@@ -75,7 +75,16 @@
     + '.aq-res .r .pts{color:#d4a017;white-space:nowrap}'
     + '.aq-res .r.ok .mark{color:#4ade80}.aq-res .r.no .mark{color:#ff5a5a}.aq-res .r.pend .mark{color:#9a9aa6}'
     + '.aq-msg{font-size:15px;line-height:1.6;color:#cfcfd6;text-align:center;padding:14px 0}'
-    + '.aq-load{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#00ffe0;text-align:center;padding:30px 0}';
+    + '.aq-load{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#00ffe0;text-align:center;padding:30px 0}'
+    + '.aq-feed{margin-top:6px}'
+    + '.aq-arg{border:1px solid #1b2230;border-left:2px solid #2a3444;padding:12px 14px;margin:0 0 10px;background:#0a0a0f}'
+    + '.aq-arg.mine{border-left-color:#d4a017}'
+    + '.aq-arg .body{font-size:14px;line-height:1.6;color:#e8e8ea;margin:0 0 8px}'
+    + '.aq-arg .meta{display:flex;justify-content:space-between;font-size:11px;color:#6c6c78;align-items:center}'
+    + '.aq-arg .meta .votes{color:#00ffe0;letter-spacing:.08em}'
+    + '.aq-arg .meta a{color:#6c6c78;text-decoration:underline;cursor:pointer}'
+    + '.aq-arg .meta a:hover{color:#ff5a5a}'
+    + '.aq-mine-badge{color:#d4a017}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
   /* ---- overlay shell ----------------------------------------------------- */
@@ -215,12 +224,17 @@
       + (r.mastery ? '<div class="aq-mastery">\u25C6 Mastery \u2014 clean sweep bonus</div>' : '')
       + '</div>'
       + '<div class="aq-res">' + lines + '</div>'
-      + (credited === 0 && !hasNew(r) ? '<p class="aq-hint" style="margin-top:14px">Already earned on a previous run \u2014 tokens are paid once per question.</p>' : '')
-      + '<div class="aq-center aq-row" style="justify-content:center;margin-top:20px">'
-      +   ((window.amentiReadAloud && state && state.topic) ? '<button class="aq-btn" id="aqRead">Read it aloud \u2192 +' + GLYPH + ' ET</button>' : '')
-      +   '<button class="aq-btn ghost" id="aqDone">Done</button></div>';
+      + (credited === 0 && !hasNew(r) ? '<p class="aq-hint" style="margin-top:14px">Already earned on a previous run \u2014 tokens are paid once per question.</p>' : '');
+    var philoQ = (state && state.topic) ? state.topic.questions.filter(function (q) { return q.answerType === 'philosophical' || q.answerType === 'paragraph'; })[0] : null;
     var _tid = (state && state.topic) ? state.topic.id : (r && r.topicId);
+    var _qid = philoQ ? philoQ.id : null;
+    boxBody.querySelector('.aq-res').insertAdjacentHTML('afterend',
+      '<div class="aq-center aq-row" style="justify-content:center;margin-top:20px">'
+      + ((window.amentiReadAloud && state && state.topic) ? '<button class="aq-btn" id="aqRead">Read it aloud \u2192 +' + GLYPH + ' ET</button>' : '')
+      + (_qid ? '<button class="aq-btn ghost" id="aqArgs">Read the arguments</button>' : '')
+      + '<button class="aq-btn ghost" id="aqDone">Done</button></div>');
     bind('#aqRead', 'click', function () { close(); try { window.amentiReadAloud.open(_tid); } catch (e) {} });
+    bind('#aqArgs', 'click', function () { renderFeed(_tid, _qid); });
     bind('#aqDone', 'click', close);
     if (window.amentiAuth && typeof window.amentiAuth.refresh === 'function') { try { window.amentiAuth.refresh(); } catch (e) {} }
   }
@@ -283,5 +297,38 @@
   else wireRoster();
 
   /* ---- expose ------------------------------------------------------------ */
+  /* ---- arguments feed (Slice A: read + report; voting comes in Slice B) -- */
+  async function renderFeed(topicId, questionId) {
+    renderLoading('Gathering the arguments');
+    var res = await api('/arguments/feed?topic=' + encodeURIComponent(topicId) + '&question=' + encodeURIComponent(questionId));
+    var feed = (res.body && res.body.feed) || [];
+    var items = feed.length ? feed.map(function (a) {
+      return '<div class="aq-arg' + (a.mine ? ' mine' : '') + '">'
+        + '<div class="body">' + esc(a.body) + (a.mine ? ' <span class="aq-mine-badge">\u2014 yours</span>' : '') + '</div>'
+        + '<div class="meta"><span class="votes">' + (a.votes || 0) + ' endorsement' + ((a.votes === 1) ? '' : 's') + '</span>'
+        + (a.mine ? '<span></span>' : '<a data-report="' + esc(a.id) + '">report</a>') + '</div></div>';
+    }).join('') : '<p class="aq-msg">No arguments yet \u2014 yours may be the first. Check back in a moment.</p>';
+    boxBody.innerHTML =
+      '<p class="aq-eyebrow">The arguments</p>'
+      + '<h2 class="aq-title" style="font-size:18px">What others made of it</h2>'
+      + '<p class="aq-sub">Endorsement voting opens soon \u2014 for now, read the room.</p>'
+      + '<div class="aq-feed">' + items + '</div>'
+      + '<div class="aq-center aq-row" style="justify-content:center;margin-top:8px"><button class="aq-btn ghost" id="aqDone">Done</button></div>';
+    bind('#aqDone', 'click', close);
+    Array.prototype.forEach.call(boxBody.querySelectorAll('[data-report]'), function (el) {
+      el.addEventListener('click', function () { reportArgument(el.getAttribute('data-report'), el); });
+    });
+  }
+  async function reportArgument(id, el) {
+    try {
+      var sb = window.amentiAuth && window.amentiAuth.sb; if (!sb) return;
+      var u = await sb.auth.getUser();
+      var uid = u && u.data && u.data.user ? u.data.user.id : null;
+      if (!uid) return;
+      await sb.from('argument_reports').insert({ argument_id: id, reporter_id: uid, reason: 'user_report' });
+      if (el) { el.textContent = 'reported'; el.style.pointerEvents = 'none'; el.style.color = '#6c6c78'; }
+    } catch (e) {}
+  }
+
   window.amentiQuiz = { open: open, close: close, wireRoster: wireRoster };
 })();
