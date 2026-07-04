@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,6 +74,9 @@
   .msg a{color:var(--tblue)}
   .foot{margin-top:44px;text-align:center;font-size:11px;letter-spacing:.14em;color:#3f4a57;text-transform:uppercase}
   .foot .live{color:var(--tblue)}
+  .st.live{color:var(--gold-lite,#e8c869);border-color:var(--gold,#d4a017);text-decoration:none;cursor:pointer;transition:.2s}
+  .st.live:hover{background:var(--gold,#d4a017);color:#0a0a0f}
+  .case.has-case .nm{color:var(--gold-lite,#e8c869)}
 </style>
 </head>
 <body>
@@ -92,6 +96,9 @@
   var ROSTER = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
   var listEl = document.getElementById('list'), countEl = document.getElementById('count'), searchEl = document.getElementById('search');
   var figures = [];
+  var MINT = 'https://amenti-mint.ingram-ian.workers.dev';
+  var CASES = {};   // normalized figure name -> topic id (figures with a live Weighing)
+  function nrm(s){ return String(s==null?'':s).toLowerCase().replace(/[^a-z0-9]/g,''); }
 
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function yr(v){ v = parseInt(v,10); if(isNaN(v)) return ''; return v<0 ? (Math.abs(v)+' BCE') : (v+' CE'); }
@@ -123,10 +130,14 @@
       var f = items[i];
       var life = (f.birth || f.death) ? [yr(f.birth), yr(f.death)].filter(Boolean).join(' \u2013 ') : '';
       var meta = [f.title, life, f.region].filter(Boolean).map(esc).join('  \u00b7  ');
-      html += '<div class="case"><div class="no">\u2116 ' + String(f.n).padStart(4,'0') + '</div>'
+      var cid = CASES[nrm(f.name)];
+      var st = cid
+        ? '<a class="st live" href="weighing.html?topic=' + encodeURIComponent(cid) + '">\u2696 in session</a>'
+        : '<div class="st">awaiting</div>';
+      html += '<div class="case' + (cid ? ' has-case' : '') + '"><div class="no">\u2116 ' + String(f.n).padStart(4,'0') + '</div>'
             + '<div class="who"><div class="nm">' + esc(f.name) + '</div>'
             + (meta ? '<div class="ti">' + meta + '</div>' : '') + '</div>'
-            + '<div class="st">awaiting</div></div>';
+            + st + '</div>';
     }
     listEl.innerHTML = html;
   }
@@ -156,6 +167,13 @@
     }
     applySearch();
     searchEl.addEventListener('input', applySearch);
+    // self-updating: pull live cases from the Worker; any figure with a topic becomes "in session"
+    fetch(MINT + '/quiz/topics').then(function(r){ return r.json(); }).then(function(j){
+      (j && j.topics || []).forEach(function(t){
+        ((t.facets && t.facets.figure) || []).forEach(function(fn){ CASES[nrm(fn)] = t.id; });
+      });
+      applySearch();
+    }).catch(function(){});
   }).catch(function(){
     countEl.textContent = '';
     listEl.innerHTML = '<div class="msg">The docket could not be read right now.<br>' +
