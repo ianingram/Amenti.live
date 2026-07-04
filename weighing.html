@@ -265,9 +265,11 @@
   var MINT='https://amenti-mint.ingram-ian.workers.dev';
   var CFG=window.AMENTI_CONFIG||{};
   var PROXY=CFG.AI_PROXY_URL||'https://amenti-proxy.ingram-ian.workers.dev';
-  var TOPIC='caesar-rubicon';
-  var PANS=[{id:'champion-case',side:'champion',label:'Champion of the People'},
-            {id:'tyrant-case',side:'tyrant',label:'Tyrant in a Toga'}];
+  var CASES={"caesar-rubicon": {"name": "Julius Caesar", "title": "Caesar at the Rubicon", "era": "Roman Era · 49 BC", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he a champion of the common people — or a tyrant in a toga?", "pans": [["champion-case", "champion", "Champion of the People"], ["tyrant-case", "tyrant", "Tyrant in a Toga"]], "bench": true}, "cromwell-regicide": {"name": "Oliver Cromwell", "title": "Cromwell and the King's Head", "era": "ENGLISH CIVIL WAR · 1649", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he liberator — or tyrant?", "pans": [["liberator-case", "champion", "Liberator"], ["tyrant-case", "tyrant", "Tyrant"]], "bench": false}, "akhenaten-aten": {"name": "Akhenaten", "title": "Akhenaten and the One God", "era": "BRONZE AGE · 1347 BC", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he visionary — or heretic?", "pans": [["visionary-case", "champion", "Visionary"], ["heretic-case", "tyrant", "Heretic"]], "bench": false}, "moses-calf": {"name": "Moses", "title": "Moses and the Golden Calf", "era": "BRONZE AGE · c. 1300 BC", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he liberator — or zealot?", "pans": [["liberator-case", "champion", "Liberator"], ["zealot-case", "tyrant", "Zealot"]], "bench": false}, "aurelius-commodus": {"name": "Marcus Aurelius", "title": "Aurelius and the Succession", "era": "ROMAN ERA · 177 AD", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he sage — or failure?", "pans": [["sage-case", "champion", "Sage"], ["failure-case", "tyrant", "Failure"]], "bench": false}, "seneca-nero": {"name": "Seneca the Younger", "title": "Seneca in Nero's Court", "era": "ROMAN ERA · 60 AD", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he conscience — or hypocrite?", "pans": [["conscience-case", "champion", "Conscience"], ["hypocrite-case", "tyrant", "Hypocrite"]], "bench": false}, "prometheus-fire": {"name": "Prometheus", "title": "Prometheus and the Stolen Fire", "era": "MYTHIC AGE", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he benefactor — or transgressor?", "pans": [["benefactor-case", "champion", "Benefactor"], ["transgressor-case", "tyrant", "Transgressor"]], "bench": false}, "arthur-camelot": {"name": "King Arthur", "title": "Arthur and the Round Table", "era": "POST-ROMAN BRITAIN · c. 500", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he just king — or warlord?", "pans": [["just-king-case", "champion", "Just King"], ["warlord-case", "tyrant", "Warlord"]], "bench": false}, "suntzu-concubines": {"name": "Sun Tzu", "title": "Sun Tzu and the Concubines", "era": "WARRING STATES · 512 BC", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he sage — or ruthless?", "pans": [["sage-case", "champion", "Sage"], ["ruthless-case", "tyrant", "Ruthless"]], "bench": false}, "lycurgus-sparta": {"name": "Lycurgus of Sparta", "title": "Lycurgus and the Spartan Law", "era": "ARCHAIC GREECE · 750 BC", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he lawgiver — or tyrant?", "pans": [["lawgiver-case", "champion", "Lawgiver"], ["tyrant-case", "tyrant", "Tyrant"]], "bench": false}, "odysseus-ithaca": {"name": "Odysseus", "title": "Odysseus and the Long Way Home", "era": "HEROIC AGE · c. 1200 BC", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he hero — or deceiver?", "pans": [["hero-case", "champion", "Hero"], ["deceiver-case", "tyrant", "Deceiver"]], "bench": false}, "loki-ragnarok": {"name": "Loki", "title": "Loki and the Twilight of the Gods", "era": "MYTHIC AGE", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he catalyst — or betrayer?", "pans": [["catalyst-case", "champion", "Catalyst"], ["betrayer-case", "tyrant", "Betrayer"]], "bench": false}, "gilgamesh-uruk": {"name": "Gilgamesh", "title": "Gilgamesh and the Walls of Uruk", "era": "SUMERIAN ERA · 2750 BC", "q": "His heart is brought before the court and weighed against Ma'at's feather. Was he builder — or tyrant?", "pans": [["builder-case", "champion", "Builder"], ["tyrant-case", "tyrant", "Tyrant"]], "bench": false}};
+  var _tp=(new URLSearchParams(location.search)).get('topic')||'caesar-rubicon';
+  var TOPIC=CASES[_tp]?_tp:'caesar-rubicon';
+  var CASE=CASES[TOPIC];
+  var PANS=CASE.pans.map(function(p){return {id:p[0],side:p[1],label:p[2]};});
 
   // Bench cast from figures who HAVE live voice profiles, styles composed from their real params.
   var BENCH=[
@@ -287,7 +289,7 @@
     {name:"Ma'at", role:'The feather of truth', line:'I am the measure. Truth has no weight and cannot be argued away. Lay your strongest case beside me.'},
     {name:'Thoth', role:'Records the verdict', line:'Whatever the crowd endorses, I write down. The verdict is the tally \u2014 and the tally is yours.'}
   ];
-  var ACCUSED={name:'Gaius Julius Caesar',speakName:'Julius Caesar',voice:'Charon',
+  var ACCUSED={name:CASE.name,speakName:CASE.name,voice:'Charon',
      style:'Recitation. A clear, controlled baritone; measured and unhurried, commanding with a faint vanity.',
      line:'I crossed. I came, I saw. The rest you will argue among the living. I stand to the charge, and await the weight.'};
 
@@ -349,7 +351,7 @@
   function openCompose(pan){
     if(!signedIn()){ensureAuth();return;}
     var wrap=$('#compose-'+pan.side);
-    wrap.innerHTML='<div class="compose"><label>Your case that Caesar was '+(pan.side==='champion'?'a champion of the people':'a tyrant in a toga')+' <span class="wl">(5\u201340 words)</span></label><textarea maxlength="400" rows="3" placeholder="Make the strongest case\u2026"></textarea><div class="crow"><span class="wc">0 words</span><span><button class="ghost cancel">Cancel</button><button class="submit">Enter this case</button></span></div></div>';
+    wrap.innerHTML='<div class="compose"><label>Your case that '+CASE.name+' was '+pan.label.toLowerCase()+' <span class="wl">(5\u201340 words)</span></label><textarea maxlength="400" rows="3" placeholder="Make the strongest case\u2026"></textarea><div class="crow"><span class="wc">0 words</span><span><button class="ghost cancel">Cancel</button><button class="submit">Enter this case</button></span></div></div>';
     var ta=wrap.querySelector('textarea'),wc=wrap.querySelector('.wc');
     function words(){var v=ta.value.trim();return v?v.split(/\s+/).length:0;}
     ta.addEventListener('input',function(){wc.textContent=words()+' words';});ta.focus();
@@ -408,6 +410,16 @@
   }
 
   async function boot(){
+    var _n=document.querySelector('.figure .name');if(_n)_n.textContent=CASE.name;
+    var _c=document.querySelector('.figure .case');if(_c)_c.textContent=CASE.title+' \u00b7 '+CASE.era;
+    var _q=document.querySelector('.question');if(_q)_q.textContent=CASE.q;
+    PANS.forEach(function(p){
+      var h=document.querySelector('.pan.'+p.side+' h2');
+      if(h){var g=h.querySelector('.g');h.textContent=' '+p.label;if(g)h.insertBefore(g,h.firstChild);}
+      var sub=document.querySelector('.pan.'+p.side+' .sub');if(sub)sub.textContent=(p.side==='champion'?'The case for':'The case against');
+      var ab=document.getElementById('argue-'+p.side);if(ab)ab.textContent='Enter a case for the '+p.label.toLowerCase();
+    });
+    if(!CASE.bench){var _bn=document.querySelector('.bench');if(_bn)_bn.style.display='none';}
     renderPresiders();renderBench();wireCompose();wireAccused();
     if(!REDUCE)raf=requestAnimationFrame(physics);
     await Promise.all(PANS.map(loadPan));
