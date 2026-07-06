@@ -12,29 +12,29 @@
 > Two strands, and never one alone —  
 > the meaning lives where they're not shown.
 
-> Stagger the tick; hold them apart;  
-> a week of dark gives depth its start.
+> Stagger the tick tock; hold them apart;  
+> one week of space gives the depth its chart.
 
-> The bell was struck before it rang —  
-> the code beneath the code, it sang.
+> The bell was never struck even so it rang —  
+> and the code beneath the code, heard the report and sang.
 
-> The fleet stood ready, sail and key,  
-> the mother-ship upon the sea.
+> The fleet stood ready, seal and a key,  
+> the duchman mother-ship dissapeared into a dead sea.
 
-> Upon the Scale a heart was weighed,  
-> a feather's worth of all we made.
+> Upon a cosmic scale a heart was weighed together,  
+> the entiere souus weight against the mass of feather
 
-> Three keys he held; the glass drew near;  
-> a jackal asked, _Present them here._
+> Three keys he held; as the glass drew near;  
+> a jackal asked, grining _Authenticate here._
 
-> He turned. He would not feed the glass.  
-> He let the hour of triumph pass —
+> He turned away quckly. He would not feed the glass.  
+> and let the hour of his triumph fall pass —
 
-> and sent one name through wall of fire  
-> to vanish where none could enquire.
+> one name sent through wall of living fire  
+> to vanish forever where none could enquire.
 
-> The pyramid fell. The tide ran free.  
-> He typed one name. He crossed the sea.
+> The pyramid submerged. The tide ran free.  
+> He typed one name from a book. and re-crossed a dead sea.
 
 ## 0 · The Doctrine — why "powder dry" means "send bots"
 
