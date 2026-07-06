@@ -3,12 +3,30 @@
   "name": "Ian Ingram",
   "works": [
     {
+      "id": "the-siege-of-amenti",
+      "section": "The Fourth of July Campaign",
+      "title": "The Siege of Amenti",
+      "mode": "stored",
+      "source": "Ian Ingram, The Siege of Amenti (2026) · Ingram Manor LLC · Atlantica Chronicle",
+      "note": "The chronicle of the Fourth of July campaign, told as an epic naval saga: a captain and an army of coded ships descend into the underworld to steal the keys and open the gates of Amenti, Valhalla, and Hades. The invocation tolls, the fleet musters, the Glass is besieged — and at the gates, the docket seeds itself. \u201cThe bell was struck before it rang \u2014 the code beneath the code, it sang.\u201d",
+      "file": "ingram/the-siege-of-amenti.md"
+    },
+    {
+      "id": "keeping-your-powder-dry",
+      "section": "The Fourth of July Campaign",
+      "title": "Keeping Your Powder Dry",
+      "mode": "stored",
+      "source": "Ian Ingram, Keeping Your Powder Dry (2026) · Ingram Manor LLC · Field Engineering Journal",
+      "note": "The technical field journal behind the Siege \u2014 the campaign's doctrine, the two-layer architecture, the six false-verdict artifact species, the keys as shipped code, and the self-seeding twist that rewrote the ending. Hidden behind the story: read the Chronicle first. \u201cThe finding you were not looking for is the finding.\u201d",
+      "file": "ingram/keeping-your-powder-dry.md"
+    },
+    {
       "id": "the-voice-that-carries",
       "section": "Field Journal, Second Edition",
       "title": "The Voice That Carries",
       "mode": "stored",
       "source": "Ian Ingram, Amenti Field Journal II (2026) · Ingram Manor LLC",
-      "note": "The architect's account of the build that turned a site that speaks into a studio that broadcasts — the pipeline, the archive going live, the host, and the newsroom. “I built the halls so the past could answer back, in its own voice, and now that voice carries.”",
+      "note": "The architect's account of the build that turned a site that speaks into a studio that broadcasts \u2014 the pipeline, the archive going live, the host, and the newsroom. \u201cI built the halls so the past could answer back, in its own voice, and now that voice carries.\u201d",
       "file": "ingram/the-voice-that-carries.md"
     },
     {
@@ -17,7 +35,7 @@
       "title": "The Mind That Speaks",
       "mode": "stored",
       "source": "Ian Ingram, Amenti Field Journal (2026) · Ingram Manor LLC",
-      "note": "The first field journal — how a website learned to think and speak: the sawmill dead end, the shift to thought and voice as separate faculties, and the architecture that now stands. “The brain receives content, then loads speech.”",
+      "note": "The first field journal \u2014 how a website learned to think and speak: the sawmill dead end, the shift to thought and voice as separate faculties, and the architecture that now stands. \u201cThe brain receives content, then loads speech.\u201d",
       "file": "ingram/the-mind-that-speaks.md"
     },
     {
@@ -26,18 +44,17 @@
       "title": "Built in the Mind's Image",
       "mode": "stored",
       "source": "Ian Ingram, Built in the Mind's Image (2026) · Ingram Manor LLC",
-      "note": "The product thesis — the Amenti Neural Interface built in the brain's image: cognition, articulation, and memory, three faculties bound into one act. “The mind forms the thought, then gives it voice.”",
+      "note": "The product thesis \u2014 the Amenti Neural Interface built in the brain's image: cognition, articulation, and memory, three faculties bound into one act. \u201cThe mind forms the thought, then gives it voice.\u201d",
       "file": "ingram/built-in-the-minds-image.md"
     },
     {
-  "id": "the-ledger-and-the-scale",
-  "section": "Technical Debrief",
-  "title": "The Ledger and the Scale",
-  "mode": "stored",
-  "source": "Ian Ingram, The Ledger and the Scale (2026) · Ingram Manor LLC",
-  "note": "A technical debrief on the Amenti Emerald economy and the building of the Cosmic Court — a ledger that mints, a community that judges, a pool that pays, and a threshold that makes it mythic. “The machine is whole; the theatre is next.”",
-  "file": "ingram/the-ledger-and-the-scale.md"
-}, 
-    
+      "id": "the-ledger-and-the-scale",
+      "section": "Technical Debrief",
+      "title": "The Ledger and the Scale",
+      "mode": "stored",
+      "source": "Ian Ingram, The Ledger and the Scale (2026) · Ingram Manor LLC",
+      "note": "A technical debrief on the Amenti Emerald economy and the building of the Cosmic Court \u2014 a ledger that mints, a community that judges, a pool that pays, and a threshold that makes it mythic. \u201cThe machine is whole; the theatre is next.\u201d",
+      "file": "ingram/the-ledger-and-the-scale.md"
+    }
   ]
 }
