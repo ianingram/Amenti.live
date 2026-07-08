@@ -178,24 +178,68 @@
     setMsg('');
   }
 
-  async function doSignIn() {
-    setMsg('Signing in…');
-    var res = await sb.auth.signInWithPassword({ email: emailEl.value.trim(), password: passEl.value });
-    if (res.error) return setMsg(res.error.message, 'err');
-    closeModal();
+  /* ---- hardened auth actions: snappy, guarded, never-hang ---------------- */
+  // Wraps an async auth action with: button-disable (no double-fire),
+  // a hard timeout (never stuck on "Signing in…"), try/catch (network errors
+  // surface instead of dying silently), and guaranteed re-enable in finally.
+  function runAuth(actEl, busyText, fn) {
+    if (actEl && actEl.disabled) return;              // already in flight — ignore double-tap
+    var label = actEl ? actEl.textContent : '';
+    if (actEl) { actEl.disabled = true; actEl.dataset.busy = '1'; }
+    setMsg(busyText);
+    var done = false;
+    var timer = setTimeout(function () {
+      if (done) return;
+      done = true;
+      if (actEl) { actEl.disabled = false; actEl.textContent = label; }
+      setMsg('That took too long — check your connection and try again.', 'err');
+    }, 12000);                                        // 12s ceiling; never hangs forever
+    Promise.resolve()
+      .then(fn)
+      .then(function (res) {
+        if (done) return; done = true; clearTimeout(timer);
+        if (actEl) { actEl.disabled = false; actEl.textContent = label; }
+        if (res && res.error) { setMsg(res.error.message, 'err'); return; }
+        if (typeof res === 'function') res();          // success callback (e.g. closeModal)
+      })
+      .catch(function (err) {
+        if (done) return; done = true; clearTimeout(timer);
+        if (actEl) { actEl.disabled = false; actEl.textContent = label; }
+        setMsg((err && err.message) ? err.message : 'Something went wrong — try again.', 'err');
+      });
   }
-  async function doSignUp() {
-    setMsg('Creating account…');
-    var res = await sb.auth.signUp({ email: emailEl.value.trim(), password: passEl.value });
-    if (res.error) return setMsg(res.error.message, 'err');
-    if (res.data.session) { closeModal(); }
-    else setMsg('Account made — check your email to confirm, then sign in.', 'ok');
+
+  function doSignIn() {
+    var btn = overlay.querySelector('[data-act="signin"]');
+    runAuth(btn, magic ? 'Sending link…' : 'Signing in…', async function () {
+      if (magic) {
+        var m = await sb.auth.signInWithOtp({ email: emailEl.value.trim() });
+        if (m.error) return m;
+        setMsg('Check your email for the sign-in link.', 'ok'); return {};
+      }
+      var res = await sb.auth.signInWithPassword({ email: emailEl.value.trim(), password: passEl.value });
+      if (res.error) return res;
+      return closeModal;                               // success → close the modal
+    });
   }
-  async function doMagic() {
-    setMsg('Sending link…');
-    var res = await sb.auth.signInWithOtp({ email: emailEl.value.trim() });
-    if (res.error) return setMsg(res.error.message, 'err');
-    setMsg('Check your email for the sign-in link.', 'ok');
+
+  function doSignUp() {
+    var btn = overlay.querySelector('[data-act="signup"]');
+    runAuth(btn, 'Creating account…', async function () {
+      var res = await sb.auth.signUp({ email: emailEl.value.trim(), password: passEl.value });
+      if (res.error) return res;
+      if (res.data && res.data.session) return closeModal;
+      setMsg('Account made — check your email to confirm, then sign in.', 'ok'); return {};
+    });
+  }
+
+  function doMagic() {
+    var btn = overlay.querySelector('[data-act="signin"]');
+    runAuth(btn, 'Sending link…', async function () {
+      var res = await sb.auth.signInWithOtp({ email: emailEl.value.trim() });
+      if (res.error) return res;
+      setMsg('Check your email for the sign-in link.', 'ok'); return {};
+    });
   }
 
   /* ---- boot -------------------------------------------------------------- */
