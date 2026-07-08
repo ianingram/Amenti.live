@@ -1,0 +1,38 @@
+# .github/workflows/vallhalla-send.yml
+# Manual-trigger send for the VALL-HALLA newsletter. Mirrors atlantica-dispatch.yml.
+# Click "Run workflow" in the Actions tab, choose dry-run first to preview recipients,
+# then run for real. Uncomment `schedule` once you trust it to send weekly.
+name: VALL-HALLA send
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (list recipients, send nothing)"
+        required: false
+        default: "true"
+  # schedule:
+  #   - cron: "0 12 * * 0"   # 12:00 UTC every Sunday — uncomment when ready
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Send VALL-HALLA
+        run: node scripts/vallhalla/send.js
+        env:
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          RESEND_API_KEY:       ${{ secrets.RESEND_API_KEY }}
+          VALLHALLA_FROM:       ${{ secrets.VALLHALLA_FROM }}
+          VALLHALLA_SUBJECT:    "VALL-HALLA · Issue #1"
+          VALLHALLA_HTML_PATH:  "vallhalla/issue.html"
+          UNSUB_BASE:           ${{ secrets.UNSUB_BASE }}
+          DRY_RUN:              ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
