@@ -42,7 +42,24 @@
 (function () {
   'use strict';
   var Amenti = (window.Amenti = window.Amenti || {});
-  if (Amenti.probe && Amenti.probe.__v) return;
+  var VERSION = '2026.07c';
+
+  /* ── A GUARD THAT PREVENTS ITS OWN UPGRADE IS A LOCK ON THE INSIDE ─────
+     This used to read:  if (Amenti.probe && Amenti.probe.__v) return;
+
+     Which meant: the page loads the probe from the server, and then PASTING A
+     NEWER PROBE INTO THE CONSOLE DOES NOTHING. The guard sees a probe already
+     aboard and bails. You paste, you see "ready", and you are still running the
+     old one. Silently. Forever.
+
+     An include-once guard is for a DOUBLE <script> TAG. It must never block a
+     deliberate upgrade from the console — that is the captain's own hand.
+
+     Same version: bail (a duplicate tag). Different version: TAKE THE HELM. */
+  if (Amenti.probe && Amenti.probe.__v === VERSION) return;
+  if (Amenti.probe && Amenti.probe.__v) {
+    console.log('%cAmenti.probe ' + Amenti.probe.__v + ' \u2192 ' + VERSION + '  (upgraded from the console)', 'color:#185FA5;font-weight:600');
+  }
 
   var PROXY = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.AI_PROXY_URL)
     || 'https://amenti-proxy.ingram-ian.workers.dev';
@@ -62,16 +79,30 @@
   var WN = 'color:#d97706;font-weight:600';
   var DIM = 'color:#999';
   var H = 'font-weight:700';
+  function head(t) { console.log('%c\n' + t, H); say('', ''); say('', t); }
+
+  /* ── THE CAPTAIN DOES NOT USE A MOUSE ──────────────────────────────────
+     "Probes are spent; the captain is not."
+
+     Reading this report meant selecting console text with a mouse, copying it,
+     and pasting it somewhere. That is a CAPTAIN DOING A PROBE'S JOB.
+
+     So every line is captured as plain text as it prints, and the probe hands
+     back a FILE. One click. Nothing to select. Nothing to drag.
+     ────────────────────────────────────────────────────────────────────── */
+  var LOG = [];
+  function say(kind, m) { LOG.push((kind ? '  ' + kind + '  ' : '') + m); }
 
   function Report() {
     this.pass = 0; this.fail = 0; this.warn = 0;
   }
-  Report.prototype.ok   = function (m) { console.log('%c  PASS  %c' + m, OK, ''); this.pass++; };
-  Report.prototype.bad  = function (m) { console.log('%c  FAIL  %c' + m, NO, ''); this.fail++; };
-  Report.prototype.hm   = function (m) { console.log('%c  WARN  %c' + m, WN, ''); this.warn++; };
-  Report.prototype.note = function (m) { console.log('%c  ----  %c' + m, DIM, DIM); };
+  Report.prototype.ok   = function (m) { console.log('%c  PASS  %c' + m, OK, ''); say('PASS', m); this.pass++; };
+  Report.prototype.bad  = function (m) { console.log('%c  FAIL  %c' + m, NO, ''); say('FAIL', m); this.fail++; };
+  Report.prototype.hm   = function (m) { console.log('%c  WARN  %c' + m, WN, ''); say('WARN', m); this.warn++; };
+  Report.prototype.note = function (m) { console.log('%c  ----  %c' + m, DIM, DIM); say('----', m); };
   Report.prototype.verdict = function () {
     console.log('%c' + Array(61).join('\u2500'), DIM);
+    say('', Array(61).join('-'));
     if (this.fail) {
       console.log('%c\u2717 ' + this.fail + ' FAILURE(S). Read them — a FAIL means a LEGITIMATE request was refused.',
         'font-size:14px;color:#dc2626;font-weight:700');
@@ -82,6 +113,9 @@
     } else {
       console.log('%c\u2713 all clear (' + this.pass + ' checks).', 'font-size:14px;color:#16a34a;font-weight:700');
     }
+    say('', (this.fail ? 'VERDICT: ' + this.fail + ' FAILURE(S)' :
+             this.warn ? 'VERDICT: ' + this.pass + ' passed, ' + this.warn + ' warning(s)' :
+                         'VERDICT: all clear (' + this.pass + ' checks)'));
     return { pass: this.pass, fail: this.fail, warn: this.warn };
   };
 
@@ -135,7 +169,7 @@
   /* ── STATE — free, instant, no network ─────────────────────────────────── */
   function state(R) {
     R = R || new Report();
-    console.log('%c\nWHAT THIS PAGE IS ACTUALLY RUNNING', H);
+    head('WHAT THIS PAGE IS ACTUALLY RUNNING');
     console.log('%c  page: ' + (document.body && document.body.dataset.page || location.pathname), DIM);
     console.log('%c  proxy: ' + BASE, DIM);
 
@@ -169,8 +203,38 @@
         bounded = typeof A.chat.create({ figure: { name: 'x' } })._payload === 'function';
       }
     } catch (e) {}
-    if (bounded) R.ok('THE ANCHORED WINDOW IS LIVE \u2014 the payload is bounded no matter how long the talk runs');
-    else if (A.chat) R.hm('THE ANCHORED WINDOW IS NOT LIVE \u2014 this page sends the WHOLE history every turn. Cost grows quadratically, and the Worker will refuse it past ~30 exchanges.');
+    if (bounded) R.ok('the conversation core HAS the anchored window');
+    else if (A.chat) R.hm('the conversation core does NOT have the anchored window');
+
+    /* ── THE QUESTION NOBODY ASKED ──────────────────────────────────────────
+       Every check above tests THE FILE. None of them tests THE TERMINAL.
+
+       Page1's Terminal is an IIFE that runs at parse time and asks for
+       Amenti.chat. For the life of this system the core was loaded EIGHT HUNDRED
+       LINES LATER — so it did not exist, the guard failed, and the Terminal ran
+       an INLINE FALLBACK instead. No move tags. No registers. No Turn. No
+       doctrine. NOT ONE LINE of the conversation core.
+
+       And fourteen harnesses reported green, because every one of them did this:
+
+           const c = Amenti.chat.create({...});   // <- its OWN object
+           is(typeof c._payload === 'function', 'the anchored window is live');
+
+       THAT TESTS THE FILE. IT DOES NOT TEST THE TERMINAL.
+
+       The probe stood next to the ship describing the engine, and never asked
+       whether the engine was connected to the propeller. So now it asks. */
+    if (A.terminal) {
+      var tv = A.terminal.MOVES && A.terminal.MOVES.turnhold ? ' + the Turn' : '';
+      R.ok('THE TERMINAL IS ON THE CORE \u2014 move tags, registers, doctrine' + tv +
+           (typeof A.terminal._payload === 'function' ? ', anchored window' : '') + ' all LIVE');
+    } else if (A.terminalPath === 'inline-fallback') {
+      R.bad('THE TERMINAL IS ON THE INLINE FALLBACK. amenti-chat.js is LOADED and NEVER USED. ' +
+            'No move tags, no registers, no Turn, no doctrine. The modules must load BEFORE the Terminal IIFE.');
+    } else if (A.chat) {
+      R.hm('cannot tell which path the Terminal is on \u2014 Amenti.terminal is not exposed. ' +
+           'Page1 must publish it, or this bug can hide again.');
+    }
 
     if (window.AmentiCost) {
       var c = window.AmentiCost;
@@ -184,7 +248,7 @@
   /* ── WALL — does the Worker refuse the bad and pass the good? ───────────── */
   function wall(R) {
     R = R || new Report();
-    console.log('%c\nTHE WALL  (a FAIL here means a LEGITIMATE request was refused)', H);
+    head('THE WALL  (a FAIL here means a LEGITIMATE request was refused)');
 
     return speak({ text: 'All Gaul is divided into three parts.', voice: 'Charon',
                    style: 'Read clearly, in a measured, dignified tone' })
@@ -218,7 +282,7 @@
   /* ── HISTORY — where does a real conversation break? ────────────────────── */
   function history(R) {
     R = R || new Report();
-    console.log('%c\nTHE HISTORY CAP  (only matters while the anchored window is NOT deployed)', H);
+    head('THE HISTORY CAP');
 
     return chat({ system: 'Reply with the single word: ok.', messages: [{ role: 'user', content: 'say ok' }] })
       .then(function (r) {
@@ -284,7 +348,7 @@
     var M = window.Amenti && window.Amenti.manifest;
     if (!M) { R.bad('NO MANIFEST ABOARD — load amenti-manifest.js. The probe has nothing to check against.'); return R; }
 
-    console.log('%c\nTHE MUSTER  (manifest ' + M.__v + ')', H);
+    head('THE MUSTER  (manifest ' + M.__v + ')');
 
     /* --- who answered the roll? --- */
     var aboard = 0, missing = [];
@@ -365,24 +429,89 @@
     return wall(R).then(function () { return history(R); }).then(function () { return R.verdict(); });
   }
 
+
+  /* ── THE PROBE HANDS BACK A FILE ────────────────────────────────────────
+     No selecting. No copying. No mouse. A .txt lands in Downloads, and the
+     captain drags one file into the chat.
+
+     It also lands on the clipboard, because sometimes even a drag is too much.
+     ────────────────────────────────────────────────────────────────────── */
+  function stamp() {
+    var d = new Date();
+    var p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + '-' + p(d.getHours()) + p(d.getMinutes());
+  }
+
+  function download(text, name) {
+    try {
+      var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function header() {
+    return [
+      'AMENTI · PROBE REPORT',
+      'probe    ' + Amenti.probe.__v,
+      'when     ' + new Date().toISOString(),
+      'page     ' + location.href,
+      'agent    ' + navigator.userAgent,
+      'proxy    ' + BASE,
+      Array(61).join('=')
+    ].join('\n');
+  }
+
+  /* THE ONE THE CAPTAIN CALLS. Runs everything, writes a file, copies it too. */
+  function report() {
+    LOG = [];
+    return full().then(function (v) {
+      var text = header() + '\n' + LOG.join('\n') + '\n';
+      var name = 'amenti-probe-' + stamp() + '.txt';
+
+      var wrote = download(text, name);
+      try { if (navigator.clipboard) navigator.clipboard.writeText(text); } catch (e) {}
+
+      console.log('%c\n\u2b07 ' + (wrote ? name + ' is in your Downloads' : 'download blocked — the text is on your clipboard'),
+        'font-size:14px;font-weight:700;color:#185FA5');
+      console.log('%c   (and it is on the clipboard either way \u2014 no mouse required)', DIM);
+      return v;
+    });
+  }
+
   Amenti.probe = {
-    __v: '2026.07',
+    __v: VERSION,
     state: function () { var R = state(new Report()); return R.verdict(); },
     muster: function () { var R = muster(new Report()); return R.verdict(); },
     wall:  function () { return wall(new Report()).then(function (R) { return R.verdict(); }); },
     history: function () { return history(new Report()).then(function (R) { return R.verdict(); }); },
     full: full,
+    report: report,        // <- THE ONE TO CALL. Runs everything, downloads a .txt.
+    text: function () { return header() + '\n' + LOG.join('\n') + '\n'; },
     PROXY: BASE
   };
 
   // ?probe=1 prints the FREE state check only. Nothing that costs money ever
   // runs without being asked for by name.
+  /* NO TYPING AT ALL:
+       ?probe=1        free   · state + muster, printed
+       ?probe=report   ~3c    · everything, and a .txt lands in Downloads
+     Nothing that costs money runs unless the URL asks for it BY NAME. */
   try {
-    if (/[?&]probe=1(&|$)/.test(location.search)) {
-      if (document.readyState === 'complete') Amenti.probe.state();
-      else window.addEventListener('load', function () { Amenti.probe.state(); });
-    }
+    var q = location.search;
+    var go = function (fn) {
+      if (document.readyState === 'complete') fn();
+      else window.addEventListener('load', fn);
+    };
+    if (/[?&]probe=report(&|$)/.test(q))      go(function () { Amenti.probe.report(); });
+    else if (/[?&]probe=1(&|$)/.test(q))      go(function () { Amenti.probe.state(); Amenti.probe.muster(); });
   } catch (e) {}
 
-  console.log('%cAmenti.probe ready \u2014 .state() \u00b7 .muster() free \u00b7 .wall() ~1\u00a2 \u00b7 .full() ~3\u00a2', DIM);
+  console.log('%cAmenti.probe ready \u2014 call Amenti.probe.report()  (runs everything, downloads a .txt)', DIM);
+  console.log('%c  or: ?probe=report in the URL. No typing, no mouse.', DIM);
 })();

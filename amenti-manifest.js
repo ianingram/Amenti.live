@@ -64,7 +64,15 @@
 
       { file: 'amenti-chat.js',      name: 'The Herald of Converse', global: 'Amenti.chat',
         station: 'THE CONVERSATION CORE. One brain, two surfaces — the Terminal AND the Figures.',
-        provides: ['create', '__v'], needs: [] },
+        provides: ['create', '__v'], needs: [],
+        warn: 'BEING LOADED IS NOT BEING USED. The Terminal is an IIFE that runs at PARSE TIME. ' +
+              'For the life of this system the core loaded EIGHT HUNDRED LINES LATER, so the Terminal ' +
+              'silently ran an INLINE FALLBACK instead. Check Amenti.terminalPath — it must read "core".' },
+
+      { file: 'amenti-doctrine.js',  name: 'The Standing Orders',    global: 'Amenti.doctrine',
+        station: 'EVERY CONVERSATIONAL JUDGMENT. Registers · moves · detectors · dials · the law.',
+        provides: ['REGISTERS', 'MOVES', 'DETECT', 'DIALS', '__v'],
+        note: 'Must load BEFORE the Terminal IIFE — the engine reads it at create() time.' },
 
       { file: 'amenti-listen.js',    name: 'The Ear on Deck',        global: 'Amenti.listen',
         station: 'voice-in. Capture, VAD, partials, the channel.',

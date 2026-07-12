@@ -5985,6 +5985,39 @@ window.AMENTI_ERAS = [
 }catch(e){console.error('terminal script 0 error', e);}
 })();
 </script>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     THE MODULES LOAD **BEFORE** THE TERMINAL. THEY DID NOT USED TO.
+
+     The Terminal is an IIFE — (function(){ … })() — and it runs AT PARSE TIME.
+     Inside it, at what used to be line 6124, it asks for the conversation core.
+
+     AND amenti-chat.js WAS LOADED EIGHT HUNDRED LINES LATER.
+
+     So window.Amenti.chat did not exist yet. The guard evaluated false. The
+     Terminal's chat object was NULL — and every call site (`if (termChat) … else`)
+     has been silently taking the INLINE FALLBACK for the entire life of this
+     system.
+
+     THE TERMINAL HAS NEVER RUN amenti-chat.js.
+
+     The handoff called that file "the PRIMARY PATH — always, normally… the
+     highest-leverage file in the system." It was not the primary path. It was not
+     ANY path. Session after session rebuilt a file the Terminal never loaded —
+     and every probe reported green, because the probes created their OWN chat
+     object and tested THE FILE instead of THE TERMINAL.
+
+     Classic src-tags execute in document order, synchronously, blocking the
+     parser. So these four MUST sit above the Terminal's IIFE.
+     (The tag is not written out in this comment on purpose: a parser that scans
+      for it will match the prose. That has now happened three times in one day.)
+       · none of them touches the DOM at load time (verified)
+       · throttle must precede listen, which reads Amenti.throttle at load
+       · doctrine must precede create(), which is where the engine reads its judgment
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<script src="amenti-doctrine.js"></script>
+<script src="amenti-throttle.js"></script>
+<script src="amenti-listen.js"></script>
+<script src="amenti-chat.js"></script>
 <script data-terminal="1">
 (function(){
 try{
@@ -6121,6 +6154,10 @@ function clearStream(){ if(active){ if(termChat) termChat.clear(); else history=
 // vault and dispatches will mount. Rendering stays the Terminal's own (pushUser/
 // pushBot/pushSys); the voice is the embodied AMENTI_VOICE; the state machine and
 // the conversation doctrine (drift / lead / distress / noise→exit) live in the core.
+/* EXPOSED as Amenti.terminal below. If it is null, the Terminal is running the
+   INLINE FALLBACK and NOT the conversation core: no move tags, no registers, no
+   Turn, no doctrine. That was true for the entire life of this system, and
+   nothing could see it. Now it can be seen. */
 var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
   figure: active,
   mode: mode,
@@ -6188,6 +6225,15 @@ var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
      ─────────────────────────────────────────────────────────────────────── */
   mic: { auto: false, barge: false, arrest: false, room: false },
 }) : null;
+
+/* ── THE TELL ────────────────────────────────────────────────────────────────
+   A probe can now ask which path the Terminal is actually on. The bug hid for
+   the life of the system because NOTHING COULD LOOK AT IT. */
+try {
+  window.Amenti = window.Amenti || {};
+  window.Amenti.terminal = termChat;                     // null => the fallback is live
+  window.Amenti.terminalPath = termChat ? 'core' : 'inline-fallback';
+} catch (e) {}
 
 input.addEventListener('keydown', async e => {
   if(e.key === 'Escape'){ input.value = ''; }
@@ -6920,16 +6966,12 @@ try{
 })();
 </script>
 <script src="library.js"></script>
-<script src="amenti-throttle.js"></script>
-<script src="amenti-listen.js"></script>
-<script src="amenti-chat.js"></script>
 <script src="amenti-cassiel.js"></script>
 <!-- The instrument. Ships with the code, costs nothing until called.
      Amenti.probe.state()  free  · what is this page actually running?
      Amenti.probe.wall()   ~1c   · is the Worker's wall up, and does it pass real traffic?
      Amenti.probe.full()   ~3c   · both, plus the history-cap walk.
      ?probe=1 prints state() on load. NOTHING that costs money ever auto-runs. -->
-<script src="amenti-doctrine.js"></script>
 <script src="amenti-manifest.js"></script>
 <script src="amenti-probe.js"></script>
 <!-- voiceprofiles.js is NOT loaded. It is a SPEC, not infrastructure — the target
