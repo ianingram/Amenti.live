@@ -1116,6 +1116,19 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
         throw new Error('proxy ' + res.status + (t ? ' \u00b7 ' + t.slice(0,140) : ''));
       }
       var data = await res.json();
+      // The Worker returns { reply, model, usage } — real token counts, every
+      // turn. The old client read `reply` and DISCARDED usage, so every cost
+      // figure in this project has been an estimate when a measurement was
+      // sitting right there. Keep the string return (every caller expects it),
+      // and record the truth alongside it.
+      if (data && data.usage) {
+        var u = data.usage;
+        window.AmentiCost = window.AmentiCost || { turns: 0, inputTokens: 0, outputTokens: 0, last: null };
+        window.AmentiCost.turns++;
+        window.AmentiCost.inputTokens  += (u.input_tokens  || 0);
+        window.AmentiCost.outputTokens += (u.output_tokens || 0);
+        window.AmentiCost.last = { model: data.model, usage: u, at: Date.now() };
+      }
       return (data && data.reply ? String(data.reply) : '').trim();
     }
   };
@@ -5980,7 +5993,14 @@ const list = document.getElementById('charList');
 const stream = document.getElementById('stream');
 const input = document.getElementById('input');
 let active = null;
-let history = []; // {role, content}
+let history = []; // {role, content} — the TRANSCRIPT. Never trimmed.
+// The fallback path's anchored window. Mirrors amenti-chat.js so the two paths
+// bill the same. Runs ONLY if the core failed to load — but an unguarded
+// fallback is still an open door.
+const TERM_ANCHOR = 4;    // opening messages always kept (2 exchanges)
+const TERM_WINDOW = 9;    // recent messages kept — ODD, so the window opens on
+                          // an assistant msg and the roles stay alternating
+                          // across the elision seam.
 let busy = false;
 let mode = 'character'; // 'character' | 'counsel'
 
@@ -6117,9 +6137,18 @@ var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
       };
     }
   },
-  speak: function(text, onDone){
-    if (window.AMENTI_VOICE) window.AMENTI_VOICE.speak(text, active && active.name, onDone);
+  speak: function(text, onDone, meta){
+    // meta = { move, register, recital, figure } — the figure's DECLARED move.
+    // The register makes the instrument panel audible: warm / cool / sharp /
+    // grave. Hosts that ignore meta still work; this one does not ignore it.
+    if (window.AMENTI_VOICE) window.AMENTI_VOICE.speak(text, active && active.name, onDone, meta);
     else if (onDone) onDone();
+  },
+  // The mouth's brake. Without this, the core keeps barge-in switched OFF —
+  // better inert than half-working. AMENTI_VOICE.stop() kills the audio AND
+  // orphans a /speak fetch that has not landed yet.
+  stopSpeaking: function(){
+    if (window.AMENTI_VOICE && window.AMENTI_VOICE.stop) window.AMENTI_VOICE.stop();
   },
   onState: function(st){
     var mb = document.getElementById('term-mic-toggle');
@@ -6135,7 +6164,29 @@ var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
     // Noise track only: a broken channel after repeated breakdowns. Graceful exit.
     try { if (typeof pushSys === 'function') pushSys('voice channel closed'); } catch(e){}
   },
-  mic: { auto: false }   // Terminal is push-to-talk: deliberate, not auto-armed
+  /* ── DEPLOY A — THE MICROPHONE IS UNCHANGED ────────────────────────────
+     Everything voice-IN is DARK. Not because it is unfinished — it is built and
+     it is tested (probe4, probe6, probe8, probe9) — but because it has never run
+     in a browser, and it carries one risk no harness of mine can see:
+
+         armMic() starts SpeechRecognition ALONGSIDE getUserMedia.
+         TWO CONSUMERS ON ONE MICROPHONE. They have never run together.
+
+     Two permission prompts? Two mic indicators? Chrome fighting its own echo
+     cancellation? Unknown. It is a fine thing to find out — with a browser and
+     a room and a television — and a terrible thing to find out ON THE DEPLOY
+     THAT FIXES THE MONEY.
+
+     The 30-exchange break is a PAYLOAD bug. Barge-in is a MICROPHONE bug. Ship
+     them together and a microphone problem forces you to revert the money fix.
+
+     So: barge / arrest / room stay FALSE. The mic behaves EXACTLY as it does on
+     the live site today — push-to-talk, one party at a time, no partials, no VAD
+     onset, no interruption. NOTHING about voice-in changes in this deploy.
+
+     Flip these to true in DEPLOY B, with a microphone in the room.
+     ─────────────────────────────────────────────────────────────────────── */
+  mic: { auto: false, barge: false, arrest: false, room: false },
 }) : null;
 
 input.addEventListener('keydown', async e => {
@@ -6153,7 +6204,16 @@ input.addEventListener('keydown', async e => {
     placeholder.querySelector('.term-msg-body').innerHTML = '<span style="opacity:.5">decoding<span class="term-cursor"></span></span>';
     try{
       const sys = buildSystemPrompt(active, mode);
-      const messages = [...history, { role:'user', content:q }];
+      // THE PAYLOAD is bounded. THE TRANSCRIPT (history, pushed below) is not.
+      const messages = (history.length <= TERM_ANCHOR + TERM_WINDOW)
+        ? [...history, { role:'user', content:q }]
+        : [
+            ...history.slice(0, TERM_ANCHOR),
+            { role:'user', content:'[… ' + Math.round((history.length - TERM_ANCHOR - TERM_WINDOW) / 2) +
+                                   ' further exchanges passed between us, which I will not set down again …]' },
+            ...history.slice(-TERM_WINDOW),
+            { role:'user', content:q }
+          ];
       const reply = await window.claude.complete({ system: sys, messages });
       history.push({ role:'user', content:q });
       history.push({ role:'assistant', content:reply });
@@ -6864,7 +6924,24 @@ try{
 <script src="amenti-listen.js"></script>
 <script src="amenti-chat.js"></script>
 <script src="amenti-cassiel.js"></script>
-<script src="voiceprofiles.js"></script>
+<!-- The instrument. Ships with the code, costs nothing until called.
+     Amenti.probe.state()  free  · what is this page actually running?
+     Amenti.probe.wall()   ~1c   · is the Worker's wall up, and does it pass real traffic?
+     Amenti.probe.full()   ~3c   · both, plus the history-cap walk.
+     ?probe=1 prints state() on load. NOTHING that costs money ever auto-runs. -->
+<script src="amenti-manifest.js"></script>
+<script src="amenti-probe.js"></script>
+<!-- voiceprofiles.js is NOT loaded. It is a SPEC, not infrastructure — the target
+     state for the Parler / wave-file voice-mapping work, which is not built yet.
+     The live TTS is Gemini, via /speak, composed in amenti-voice.js.
+
+     It was loaded here, in the present tense, with zero callers — and a design
+     session read it, reasonably concluded Parler was the engine, and wrote two
+     documents proposing a prosody architecture for a TTS system this project
+     does not run. That work was lost.
+
+     A future spec that reads as current infrastructure is a trap with no sign on
+     it. The sign is now on it. Re-add this tag the day the wave-mapping ships. -->
 <script>
 
 // ===== AMENTI VOICE — Page1 Terminal (Dialogue register, per-figure) =====
@@ -6879,18 +6956,46 @@ window.AMENTI_VOICE = {
   PACE: "Speak at a brisk, lively, natural pace, as a person speaking energetically \u2014 not slow or ponderous",
   VOICE_DEFAULT: "Kore",
   current: null,
-  styleFor: function (fig) {
+
+  /* ── THE INSTRUMENT PANEL ────────────────────────────────────────────────
+     Tone is not decoration. A shift in temperature is a PROBE — how a seeker
+     meets warmth, or coolness, or a sudden edge, is itself the reading. Bound
+     to the FIGURE and not the UTTERANCE, every register collapses into one
+     voice and the probe returns nothing.
+
+     /speak's cache key is sha256(model + voice + STYLE + text) — style is IN
+     the key. So varying style per utterance on the RECITAL path would miss the
+     cache on every clip and re-bill the whole archive.
+
+     This is the CONVERSATIONAL path. Its text is unique every turn and was
+     never going to hit the cache. So the register is FREE here — and forbidden
+     in amenti-throttle.js / library.js, where composeStyle() is LOCKED.
+     ──────────────────────────────────────────────────────────────────────── */
+  REGISTERS: {
+    warm:   "Speak gently, unhurried, with evident care.",
+    cool:   "Speak with clinical distance, level and unhurried.",
+    sharp:  "Speak with sudden edge — clipped, direct, harder than before.",
+    grave:  "Speak slowly and heavily, as one who has paid for what he says.",
+    danger: "Speak quietly, and let the quiet be worse than shouting.",
+    humour: "Let there be dry amusement in the voice, and something rueful under it."
+  },
+
+  styleFor: function (fig, meta) {
     var s = this.REGISTER;
     if (fig && fig.dialect) s += ". Accent and dialect: " + String(fig.dialect).trim();
     if (fig && fig.voice)   s += ". Voice character: " + String(fig.voice).trim();
     s += ". " + this.PACE;
+    var reg = meta && meta.register && this.REGISTERS[meta.register];
+    if (reg) s += " " + reg;
     return s;
   },
-  speak: function (text, figureName, onDone) {
+  speak: function (text, figureName, onDone, meta) {
     var self = this;
     var done = false;
     function finish() { if (done) return; done = true; if (typeof onDone === "function") { try { onDone(); } catch (e) {} } }
+    var mySeq = ++self._seq;                     // stale-callback guard: a stop() invalidates in-flight work
     function fire(style, voice) {
+      if (mySeq !== self._seq) { finish(); return; }
       fetch(self.WORKER, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -6899,6 +7004,7 @@ window.AMENTI_VOICE = {
         if (!r.ok) throw new Error("voice " + r.status);
         return r.blob();
       }).then(function (blob) {
+        if (mySeq !== self._seq) { finish(); return; }   // stopped while the bytes were in flight
         if (self.current) { try { self.current.pause(); } catch (e) {} }
         self.current = new Audio(URL.createObjectURL(blob));
         self.current.onended = finish;        // natural end of speech → signal
@@ -6912,14 +7018,37 @@ window.AMENTI_VOICE = {
     // joins on the figure's display name and returns { voice (Charon/Kore), figure }.
     if (figureName && window.Amenti && Amenti.throttle && Amenti.throttle.resolveVoice) {
       Amenti.throttle.resolveVoice(figureName).then(function (v) {
-        fire(self.styleFor(v && v.figure), (v && v.voice) || self.VOICE_DEFAULT);
+        fire(self.styleFor(v && v.figure, meta), (v && v.voice) || self.VOICE_DEFAULT);
       }, function () {
-        fire(self.styleFor(null), self.VOICE_DEFAULT);
+        fire(self.styleFor(null, meta), self.VOICE_DEFAULT);
       });
     } else {
-      fire(self.styleFor(null), self.VOICE_DEFAULT);
+      fire(self.styleFor(null, meta), self.VOICE_DEFAULT);
     }
   },
+
+  /* ── STOP — the figure can be interrupted ────────────────────────────────
+     This did not exist. The throttle has stopReading(); the COUNSEL never calls
+     the throttle, so in the counsel there was no code that could cut a figure
+     off mid-sentence. Barge-in had nothing to cancel.
+
+     "A conversation where one party must wait for the other to finish is a
+      transaction. Smooth turn-taking is the signature of a customer service
+      call." — the Matrix, on the Rendering.
+
+     Bumping _seq invalidates any in-flight fetch AND any blob still decoding,
+     so a stop during the pause before audio arrives is honoured too — not just
+     a stop during playback.
+     ──────────────────────────────────────────────────────────────────────── */
+  _seq: 0,
+  stop: function () {
+    this._seq++;                                        // orphan everything in flight
+    if (this.current) {
+      try { this.current.pause(); this.current.src = ""; } catch (e) {}
+      this.current = null;
+    }
+  },
+  isSpeaking: function () { return !!(this.current && !this.current.paused && !this.current.ended); },
   toggle: function () {
     this.on = !this.on;
     var btn = document.getElementById("term-voice-toggle");
@@ -6927,7 +7056,15 @@ window.AMENTI_VOICE = {
       btn.textContent = this.on ? "🔊" : "🔇";
       btn.title = this.on ? "Voice on — replies will speak" : "Voice off";
     }
-    if (this.on) { this.speak("Voice enabled."); }
+    // THE FIRST VOICE THEY EVER HEAR. speak() with no figureName resolves to the
+    // DEFAULT voice — Kore — so a seeker who has summoned CAESAR flipped the
+    // speaker on and a generic woman said "Voice enabled." to them. The most
+    // loaded two seconds in the product, and it was a system chime in the wrong
+    // mouth. It is the figure who is present. Let the figure be the one who speaks.
+    if (this.on) {
+      var who = (typeof active !== "undefined" && active) ? active.name : "";
+      this.speak(who ? "I am here." : "Voice enabled.", who, null, { register: "warm" });
+    }
   }
 };
 (function () {

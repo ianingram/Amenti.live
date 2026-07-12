@@ -1,7 +1,47 @@
 /* ============================================================================
    AMENTI :: Voice Synthesis Profiles  (v2 - Parler-ready)
-   ----------------------------------------------------------------------------
-   window.AMENTI_VOICE_PROFILES[key] -> the acoustic profile for a figure.
+   ****************************************************************************
+   *  NOT IN PRODUCTION. NOT LOADED BY ANY PAGE. ZERO CALLERS — BY DESIGN.     *
+   *                                                                          *
+   *  This is a SPEC, not infrastructure. It is the TARGET STATE for the       *
+   *  Parler / wave-file voice-mapping work, which is not built yet. The       *
+   *  voice profiles are the final polish on a TTS system that does not exist  *
+   *  in this form.                                                            *
+   *                                                                          *
+   *  THE LIVE TTS IS GEMINI. POST /speak { text, style, voice }.              *
+   *  Style composition lives in amenti-voice.js (recital + conversational     *
+   *  registers). Voice identity comes from the roster CSV, and today it is    *
+   *  chosen BY GENDER ALONE — Charon for every male figure, Kore for every    *
+   *  female. Caesar, Douglass, Moses, Seneca and Milton are literally the     *
+   *  same voice. Closing THAT gap is what this file is for.                   *
+   *                                                                          *
+   *  WHY THE WARNING IS THIS LOUD: this file was written in the present       *
+   *  tense and loaded by a <script> tag, with no callers. A design session     *
+   *  read it, reasonably concluded Parler was the engine, and produced two    *
+   *  documents proposing a prosody architecture for a TTS system this         *
+   *  project does not run. A future spec that reads as current infrastructure  *
+   *  is a trap with no sign on it. This is the sign.                          *
+   *                                                                          *
+   *  BEFORE THE MIGRATION, TWO THINGS ARE ALREADY KNOWN:                      *
+   *                                                                          *
+   *  1. THE CACHE KEY IS sha256(TTS_MODEL + voice + style + text).            *
+   *     Changing engine changes the model AND the voice names, which ORPHANS  *
+   *     THE ENTIRE R2 AUDIO ARCHIVE. Budget the re-render; do not discover    *
+   *     it. And since you are paying to re-render anyway, THAT is the moment  *
+   *     to unify the chunkers too (320 here, 700 on Page2). One migration,    *
+   *     one bill — not two.                                                   *
+   *                                                                          *
+   *  2. THREE SPEAKER-ANCHOR COLLISIONS ALREADY EXIST in the descriptions     *
+   *     below, and the header itself warns to "swap it if two figures sound   *
+   *     too alike":                                                           *
+   *         caesar / frederick-douglass  -> both "a man named James"          *
+   *         edward-gibbon / john-milton  -> both "a man named Patrick"        *
+   *         marcus-aurelius / akhenaten  -> both "a man named Will"           *
+   *     Caesar and Douglass is the loud one: both hero readings, both          *
+   *     commanding, both likely to be summoned. Free to fix while it is       *
+   *     still a spec.                                                         *
+   ****************************************************************************
+   window.AMENTI_VOICE_PROFILES[key] -> the acoustic profile a figure WILL have.
    Keys map 1:1 to window.AMENTI_CHARS[].key.
 
    Each entry:
