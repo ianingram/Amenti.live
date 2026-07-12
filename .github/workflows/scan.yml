@@ -128,12 +128,33 @@ jobs:
         run: |
           git config user.name  "fleet-scanner"
           git config user.email "scanner@amenti.live"
-          if git diff --quiet -- fleet-structure.json; then
+
+          # STAGE FIRST, THEN COMPARE.
+          #
+          # The first version did `git diff --quiet -- fleet-structure.json` on an
+          # UNTRACKED file. git diff does not look at untracked files, so it
+          # reported NO DIFFERENCE, the step announced "nothing to commit", and
+          # exited 0.
+          #
+          # THE ACTION RAN TWICE, REPORTED SUCCESS, AND COMMITTED NOTHING.
+          # A step that quietly does nothing and calls it green is the exact
+          # disease this whole workflow exists to catch. It did it to itself.
+          git add -f fleet-structure.json
+
+          if git diff --cached --quiet -- fleet-structure.json; then
             echo "structure unchanged — nothing to commit"
           else
-            git add fleet-structure.json
             git commit -m "scan: fleet-structure.json [skip ci]"
             git push
+            echo "committed the reading"
+          fi
+
+          # And SAY what happened, so a silent no-op can never look like a success.
+          if [ -f fleet-structure.json ]; then
+            echo "fleet-structure.json is $(wc -c < fleet-structure.json) bytes"
+          else
+            echo "::error::the scanner produced no fleet-structure.json"
+            exit 1
           fi
 
       # ── AND THE WHOLE POINT ─────────────────────────────────────────────
