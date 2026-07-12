@@ -1,0 +1,157 @@
+# ============================================================================
+#  .github/workflows/scan.yml  ·  THE WATCH
+# ----------------------------------------------------------------------------
+#  The scan runs itself. On every push. Forever. Nobody has to remember.
+#
+#  WHY THIS EXISTS
+#  A reading that depends on someone REMEMBERING to take it is not a reading.
+#  It is a good intention, and good intentions are how every document in this
+#  fleet came to lie:
+#
+#      "amenti-chat.js is the PRIMARY PATH"      the Terminal never loaded it
+#      "voiceprofiles assigns every soul"        zero callers
+#      "keys map 1:1 to AMENTI_CHARS"            23 sovereigns, 20 voices
+#      "historyCap — max chat turns"             it counts MESSAGES
+#      "push-to-talk: deliberate"                it was a limitation, not a choice
+#      "amenti-chat.js calls /generate"          there is no /generate route
+#      "DATA WATCH: verified ✓"                  no probe exists
+#
+#  NOT ONE of those was careless. They were all TRUE WHEN WRITTEN, and the fleet
+#  sailed. Every single one was a grep. NOT ONE required insight — only looking.
+#
+#  WHAT THIS DOES
+#    1. runs tools/scan.js against the tree that was just pushed
+#    2. commits the fresh fleet-structure.json — THE READING, never typed
+#    3. FAILS THE BUILD on a NOT WIRED finding
+#
+#  THE THIRD ONE IS THE POINT.
+#
+#      A COMMIT THAT MAKES THE MANIFEST LIE DOES NOT MERGE.
+#
+#  Page1's Terminal called Amenti.chat at line 6104. amenti-chat.js was loaded at
+#  line 6865 — SEVEN HUNDRED AND SIXTY-ONE LINES TOO LATE. The guard failed
+#  silently, the Terminal ran an inline fallback for the entire life of the
+#  system, and FOURTEEN TEST HARNESSES REPORTED GREEN — because every one of them
+#  built its own object and tested THE FILE instead of THE TERMINAL.
+#
+#  This check would have caught it in the commit that introduced it.
+#
+#  SETUP: upload this file to  .github/workflows/scan.yml  — and that is all.
+#         No Terminal. No Node. No remembering.
+# ============================================================================
+name: Fleet Scan
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:        # and a "Run workflow" button, for when you want one
+
+permissions:
+  contents: write           # so it can commit the reading back
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the fleet
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── TAKE THE READING ────────────────────────────────────────────────
+      - name: Scan the repo
+        run: node tools/scan.js > fleet-structure.json
+
+      # ── READ IT ALOUD, so the log is legible without opening the JSON ───
+      - name: Report
+        id: report
+        run: |
+          node -e '
+            const d = JSON.parse(require("fs").readFileSync("fleet-structure.json","utf8"));
+            const w = d.findings.wiring, a = d.findings.adrift;
+            const notWired = w.filter(f => f.kind === "NOT WIRED");
+            const stow     = w.filter(f => f.kind === "STOWAWAY" || f.kind === "NOT LOADED");
+
+            console.log(`\nscanned ${d.files.length} files\n`);
+
+            if (notWired.length) {
+              console.log("::group::🔴 NOT WIRED — the guard fails SILENTLY and the caller gets undefined");
+              for (const f of notWired) {
+                console.log(`  ${f.page} · ${f.global}`);
+                console.log(`     called at line ${f.calledAtLine}, LOADED at line ${f.loadedAtLine}`);
+                console.log(`     ${f.gap} LINES TOO LATE — declared in ${f.declaredIn.join(", ")}`);
+                console.log("::error file=" + f.page + ",line=" + f.calledAtLine +
+                            "::NOT WIRED — " + f.global + " is called here but loaded " + f.gap +
+                            " lines later. The Terminal bug. Move the script tag above the caller.");
+              }
+              console.log("::endgroup::");
+            } else {
+              console.log("✓ WIRING CLEAN — every global reached for at parse time is loaded first.");
+            }
+
+            for (const f of stow) {
+              console.log("::warning file=" + f.page + ",line=" + f.line +
+                          "::" + f.kind + " — " + f.global + ": " + f.note);
+            }
+            for (const x of a) {
+              console.log("::warning file=" + x.file +
+                          "::ADRIFT — declares " + x.declares.join(", ") +
+                          " and NOTHING CALLS IT. Shipped weight, and it will mislead the next reader.");
+            }
+
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              `## Fleet Scan\n\n` +
+              `| | |\n|---|---|\n` +
+              `| files scanned | ${d.files.length} |\n` +
+              `| 🔴 NOT WIRED | **${notWired.length}** |\n` +
+              `| ⚠ stowaway / not loaded | ${stow.length} |\n` +
+              `| ⚠ adrift | ${a.length} |\n\n` +
+              (notWired.length
+                ? notWired.map(f => `🔴 **${f.page} · ${f.global}** — called at ${f.calledAtLine}, loaded at ${f.loadedAtLine}. **${f.gap} lines too late.**`).join("\n\n")
+                : "✅ **Wiring clean.** Every global reached for at parse time is loaded before its caller.") +
+              (a.length ? "\n\n**Adrift** (loaded, called by nobody): " + a.map(x => "`" + x.file + "`").join(" · ") : ""));
+
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, "notwired=" + notWired.length + "\n");
+          '
+
+      # ── COMMIT THE READING ──────────────────────────────────────────────
+      # It is written by the scanner, in the repo it describes, in the commit
+      # that changed it. A human never types it. The moment a human types it,
+      # it stops being a READING and becomes a CLAIM — and it rots.
+      - name: Commit fleet-structure.json
+        if: github.event_name == 'push'
+        run: |
+          git config user.name  "fleet-scanner"
+          git config user.email "scanner@amenti.live"
+          if git diff --quiet -- fleet-structure.json; then
+            echo "structure unchanged — nothing to commit"
+          else
+            git add fleet-structure.json
+            git commit -m "scan: fleet-structure.json [skip ci]"
+            git push
+          fi
+
+      # ── AND THE WHOLE POINT ─────────────────────────────────────────────
+      - name: A commit that makes the manifest lie does not merge
+        if: steps.report.outputs.notwired != '0'
+        run: |
+          echo ""
+          echo "  ══════════════════════════════════════════════════════════"
+          echo "   NOT WIRED."
+          echo ""
+          echo "   A file is being called BEFORE it is loaded. The guard will"
+          echo "   fail silently, the caller will get undefined, and the code"
+          echo "   will quietly take a fallback path that nobody is watching."
+          echo ""
+          echo "   THIS IS THE TERMINAL BUG. It hid for the entire life of"
+          echo "   this system and fourteen test harnesses reported green."
+          echo ""
+          echo "   Move the <script src> tag ABOVE the code that calls it."
+          echo "  ══════════════════════════════════════════════════════════"
+          echo ""
+          exit 1
