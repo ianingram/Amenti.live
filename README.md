@@ -1,6 +1,7 @@
 # Amenti.live
-
-
+Before trusting any document in this repo, run node tools/scan.js.
+It found a defect that fourteen test harnesses reported green on.
+The last document that confidently described this system was wrong, and it cost a session.
 AI
 
 Amenti Interface. All Rights Reserved. Ingram Manor LLC.
