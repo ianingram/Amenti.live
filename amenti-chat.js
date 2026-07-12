@@ -1470,6 +1470,19 @@
            decoration. A switch that does not switch anything is worse than no
            switch: it makes you believe you are safe. */
         var opts = {
+          /* ── HANDS-FREE ────────────────────────────────────────────────
+             autoStop was passed ONLY on the barge path. The ordinary microphone
+             opened and NEVER CLOSED ITSELF — so silence did nothing, and the only
+             way to end a turn was to TAP THE BUTTON AGAIN.
+
+             Which means the hands-free conversation this entire project exists to
+             have HAS NEVER EXISTED. Not because anyone chose tap-to-talk — but
+             because tap-to-talk was the only thing that could work.
+
+             Silence ends the turn now. The seeker stops speaking; the figure
+             answers. Nobody touches anything. */
+          autoStop: true,
+
           onText: function (t) {
             if (self.state === 'listening') self._setState('idle');
 

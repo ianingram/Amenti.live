@@ -64,7 +64,13 @@
   var VAD_RMS       = 0.020;  // energy floor that counts as speech
   var VAD_RMS_ECHO  = 0.045;  // higher bar while the figure is audible
   var VAD_ONSET     = 3;      // consecutive loud frames (~250ms) → they ARE speaking
-  var VAD_SILENCE   = 1200;   // ms of quiet after speech → they have finished
+  /* The pause is a JUDGMENT, so it lives in amenti-doctrine.js. These are the
+     fallbacks for a surface that has not loaded it. */
+  function dial(k, fb) {
+    var d = window.Amenti && window.Amenti.doctrine && window.Amenti.doctrine.DIALS;
+    return (d && typeof d[k] === 'number') ? d[k] : fb;
+  }
+  var VAD_SILENCE   = 1200;   // ms of quiet after speech → they have finished (overridden below)
   var PREROLL       = 5;      // frames of ring buffer (~450ms) kept before onset
 
   /* ── THE MIC MUST CLOSE ITSELF ─────────────────────────────────────────
@@ -255,7 +261,7 @@
              all. Tap the button, walk away: five minutes of open microphone.
 
              THE FORGOTTEN TAB WAS THROUGH THE OTHER DOOR. */
-          if (openFor > IDLE_MS && !self._sawVoice) {
+          if (openFor > dial('idleMs', IDLE_MS) && !self._sawVoice) {
             self._emit('timeout');
             self.cancel();
             return;
@@ -281,7 +287,7 @@
           // A single turn cannot be five minutes long. Close it.
           if (openFor > SESSION_MS) { self._autoStop = false; self.stop(); return; }
           // Endpointing: they have stopped. Close the turn ourselves.
-          if (self._autoStop && self._lastVoice && (Date.now() - self._lastVoice) > VAD_SILENCE) {
+          if (self._autoStop && self._lastVoice && (Date.now() - self._lastVoice) > dial('silenceMs', VAD_SILENCE)) {
             self._autoStop = false;                // fire once
             self.stop();
           }

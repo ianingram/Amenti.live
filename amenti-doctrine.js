@@ -204,6 +204,19 @@
       maxSelfEcho:    2,    // twice, and the ear closes for the session
       handsFreeMax:  12,    // voice turns with no human keystroke → THE AUDIENCE ENDS
 
+      /* ── THE PAUSE ───────────────────────────────────────────────────
+         How long a silence means "I have finished speaking."
+
+         This is not a mechanism. IT IS A JUDGMENT — and a delicate one. Too
+         short and you cut people off mid-thought, because people pause when they
+         are about to say the true thing. Too long and the figure seems deaf.
+
+         The pause before a hard sentence is longer than the pause between easy
+         ones. If seekers report being interrupted, RAISE THIS. It costs nothing
+         to raise and it costs everything to have wrong. */
+      silenceMs:   1600,    // ms of quiet after speech → they have finished
+      idleMs:     45000,    // ms of NOTHING at all → nobody is there. Close the ear.
+
       /* THE PAYLOAD — the transcript is whole; the bill is bounded. */
       anchor:         4,
       window:        10

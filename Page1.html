@@ -6015,7 +6015,25 @@ window.AMENTI_ERAS = [
        · doctrine must precede create(), which is where the engine reads its judgment
      ═══════════════════════════════════════════════════════════════════════════ -->
 <script src="amenti-doctrine.js"></script>
-<script src="amenti-throttle.js"></script>
+<!-- DEPLOY C — ONE ENGINE.
+     amenti-voice.js publishes Amenti.throttle as a FACADE, so all 8 call sites in
+     this page keep working unchanged. It also publishes Amenti.conversation — the
+     counsel's speaker — which now has the stop() the inline copy never had.
+
+     THE ARCHIVE IS SAFE, AND IT IS PROVEN, NOT ASSERTED:
+       probe7  — the same essay, through the old engine and the new, produces
+                 BYTE-IDENTICAL R2 cache keys. composeStyle, chunkText, plainText
+                 and the chunk boundaries are copied byte-for-byte from the
+                 deployed reading room. Nothing was "improved".
+
+     VERIFY IN ONE PAGE LOAD: read a passage that has been read before and watch
+     the X-Amenti-Cache header on /speak.
+         hit   -> the archive is intact. Merge, then retire amenti-throttle.js.
+         miss  -> a byte moved. REVERT THIS TAG. Nothing else is affected.
+
+     amenti-throttle.js STAYS IN THE REPO until that header says hit. It is the
+     rollback, and nothing is deleted on the same commit that makes it unnecessary. -->
+<script src="amenti-voice.js"></script>
 <script src="amenti-listen.js"></script>
 <script src="amenti-chat.js"></script>
 <script data-terminal="1">
@@ -6193,7 +6211,7 @@ var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
       if (st === 'listening')      { mb.textContent = '⏺'; mb.title = 'Listening — tap to send'; mb.classList.add('mic-live'); }
       else if (st === 'thinking')  { mb.textContent = '⋯'; mb.title = 'Thinking…'; mb.classList.remove('mic-live'); }
       else if (st === 'speaking')  { mb.textContent = '🔊'; mb.title = 'Speaking…'; mb.classList.remove('mic-live'); }
-      else                         { mb.textContent = '🎙'; mb.title = 'Hold to speak'; mb.classList.remove('mic-live'); }
+      else                         { mb.textContent = '🎙'; mb.title = 'Tap once — then speak freely'; mb.classList.remove('mic-live'); }
     }
   },
   onNotice: function(t){ pushSys(t); },
@@ -6223,7 +6241,29 @@ var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
 
      Flip these to true in DEPLOY B, with a microphone in the room.
      ─────────────────────────────────────────────────────────────────────── */
-  mic: { auto: false, barge: false, arrest: false, room: false },
+  /* ── HANDS-FREE ─────────────────────────────────────────────────────────
+     auto:true  — after the figure finishes speaking, THE MIC RE-ARMS ITSELF.
+                  Speak. Fall silent. The figure answers. Nobody touches anything.
+
+     THIS HAS NEVER WORKED. Not because anyone chose tap-to-talk, but because
+     armMic() never passed autoStop — so the mic opened and NEVER CLOSED ITSELF,
+     and a tap was the only thing that could end a turn. The flag said
+     "push-to-talk: deliberate", and it was describing a limitation as a design.
+
+     barge / arrest / room STAY OFF. Those need SpeechRecognition running
+     ALONGSIDE getUserMedia — two consumers on one microphone, never yet tried in
+     a browser. HANDS-FREE NEEDS NEITHER. It is getUserMedia alone: ONE consumer,
+     no collision, and it is safe today.
+
+     The guards that make it safe were built for exactly this:
+       · the loop-breaker  — the figure will not reply to its own voice
+       · 12 voice turns    — then the audience ends. "The hour grows late."
+       · 45s of silence    — the ear closes itself. A forgotten tab does not listen.
+       · 5 minutes         — a hard ceiling on any single recording.
+
+     THE FIRST TURN IS STILL A HUMAN'S. The mic never opens until someone asks —
+     one tap, which is also the browser's permission gesture. Hands-free after. */
+  mic: { auto: true, barge: false, arrest: false, room: false },
 }) : null;
 
 /* ── THE TELL ────────────────────────────────────────────────────────────────
@@ -7133,7 +7173,7 @@ window.AMENTI_VOICE = {
   mic.id = "term-mic-toggle";
   mic.type = "button";
   mic.textContent = "🎙";
-  mic.title = "Hold to speak";
+  mic.title = "Tap once — then speak freely";   // it was "Hold to speak". It was never a hold.
   mic.style.cssText = "background:transparent;border:none;font-size:16px;cursor:pointer;padding:0 8px;line-height:1;color:#80ffc0;";
   mic.onclick = function () {
     var c = window.AmentiTerminal && window.AmentiTerminal.chat;
@@ -7172,7 +7212,8 @@ window.AMENTI_VOICE = {
    Amenti.throttle.speak(text, btn, figureName). One chunker, one strip, one
    style composition across every surface — so Atlantica and the Daily Planet
    share the reading room's content-addressed /speak cache instead of
-   re-rendering. Include <script src="amenti-throttle.js"> before this block.
+   re-rendering. The engine is now amenti-voice.js (Deploy C) — it publishes
+   Amenti.throttle as a facade, so this block needs no change.
    PART 2 (voice-button glow) below is unchanged.
    ============================================================================ */
 
