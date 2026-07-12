@@ -80,7 +80,48 @@
       '- Then bring them across. Astonishment is a fine door, but it is a door, not a room.\n';
   }
 
+  /* The prompt now TEACHES THE MOVES FROM THE DOCTRINE. Add a move to
+     amenti-doctrine.js with a `teach:` line and the figure learns it — no engine
+     edit, no prompt edit, no second place to forget. */
+  function teachMoves(hasContext) {
+    var M = D().MOVES;
+    if (!M) return null;
+    var out = [];
+    for (var k in M) {
+      if (!M.hasOwnProperty(k) || !M[k].teach) continue;
+      if (k === 'recite' && !hasContext) continue;      // nothing to read aloud
+      out.push('  [move: ' + k + ']' + Array(Math.max(2, 11 - k.length)).join(' ') + M[k].teach);
+    }
+    return out.length ? out.join('\n') : null;
+  }
+
   function moveProtocol(hasContext) {
+    var d = D();
+    var taught = teachMoves(hasContext);
+    if (taught) {
+      return '\n\nDECLARE YOUR MOVE. Begin EVERY reply with a bracketed tag on the first line, then your words. The seeker never sees the tag.\n' +
+        taught + '\n\n' +
+        (d.TURN_PROTOCOL || '') + '\n' +
+        ARM_THE_ARREST + '\n' +
+        (d.LAW || '') + '\n' +
+        (d.BOUNDARIES || '') +
+        (hasContext
+          ? '- You MAY read aloud from the text in view above — that text is the archive\'s, and reading it is a courtesy you are glad to extend. Use [move: recite] and quote it faithfully.\n'
+          : '- There is no text in view. You have nothing to read aloud.\n');
+    }
+    return moveProtocolBuiltin(hasContext);
+  }
+
+  var ARM_THE_ARREST =
+    'ARM THE ARREST - two further tags. Optional. They never reach the seeker.\n' +
+    'An arrest must land WHILE THEY ARE STILL SPEAKING. There is no time to think when the moment arrives, so THINK NOW, one turn early:\n' +
+    '  [watch: brother | the money | not ready]\n' +
+    '     2-4 SHORT phrases: the load-bearing things THIS person is skirting. Not sad words in general - the specific things THEY buried in a subordinate clause and walked away from.\n' +
+    '  [catch: Wait. You said your brother would never forgive you - and then you walked straight past it.]\n' +
+    '     The exact line to say IF they skirt it again. Your own voice. SHARP in delivery, WARM in intent. NEVER a gotcha.\n' +
+    'Omit both when nothing is being buried. Most turns, nothing is.\n';
+
+  function moveProtocolBuiltin(hasContext) {
     return '\n\nDECLARE YOUR MOVE. Begin EVERY reply with a bracketed tag on the first line, then your words. The seeker never sees the tag.\n' +
       '  [move: reflect]   a statement offering back what you heard, for them to correct\n' +
       '  [move: nearmiss]  a reading that is DELIBERATELY almost right — invite the correction\n' +
@@ -164,6 +205,26 @@
       '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c) + moveProtocol(hasContext);
   }
 
+  /* ── THE ENGINE READS THE DOCTRINE ────────────────────────────────────
+     amenti-doctrine.js holds every conversational JUDGMENT: the moves, the
+     registers, the word lists, the dials, the prompt law. This file holds the
+     MECHANISM that executes them.
+
+     The mechanism should be hard to change. The nuance should be trivial.
+
+     DEGRADES SAFELY: every value below has a built-in default. If the doctrine
+     is not aboard, the engine behaves EXACTLY as it did before. The doctrine
+     OVERRIDES; it does not ENABLE. */
+  function D() { return (window.Amenti && window.Amenti.doctrine) || {}; }
+  function dial(k, fallback) {
+    var d = D().DIALS;
+    return (d && typeof d[k] === 'number') ? d[k] : fallback;
+  }
+  function words(k, fallback) {
+    var d = D().DETECT;
+    return (d && Array.isArray(d[k]) && d[k].length) ? d[k] : fallback;
+  }
+
   function create(opts) {
     opts = opts || {};
     var inst = {
@@ -186,6 +247,9 @@
       _arrests: 0,          // arrests spent this conversation
       _listArrests: 0,      // …of which came from my crude word list
       _watchlist: null,     // what the FIGURE says THIS seeker is skirting
+      _turnOffered: null,   // the Turn, SPOKEN but NOT YET CONFIRMED
+      _turnAnchor: null,    // the Turn, CONFIRMED. This — and only this — anchors.
+      _turns_taken: 0,
       _catchLine: null,     // …and the line it pre-wrote, in its own voice
       _sinceArrest: 99,     // turns since the last one (cooldown)
       _turns: 0,            // exchanges so far — no arrest before rapport
@@ -218,6 +282,9 @@
         this._sinceArrest = 99;
         this._watchlist = null;
         this._catchLine = null;
+        this._turnOffered = null;
+        this._turnAnchor = null;
+        this._turns_taken = 0;
         this._turns = 0;
         this._roomOff = false;
         this._roomAcks = 0;
@@ -258,8 +325,8 @@
          Cost per turn goes from QUADRATIC to FLAT. 500 turns: ~$119 → ~$5.
          Nothing the seeker can see is lost.
          ────────────────────────────────────────────────────────────────── */
-      ANCHOR: 4,     // opening messages always kept (2 exchanges)
-      WINDOW: 10,    // recent messages kept (5 exchanges)
+      ANCHOR: dial('anchor', 4),     // opening messages always kept (2 exchanges)
+      WINDOW: dial('window', 10),    // recent messages kept (5 exchanges)
 
       /* Honour the convention that already exists. Page2's Origin panel has
          `historyCap` — user-settable. Read it if it is on the page. Do NOT
@@ -286,6 +353,20 @@
         return Math.max(cap, this.ANCHOR + 4);   // never let a low cap invert
       },
 
+      /* Did they push back on the reading? "No —", "not quite", "actually…" —
+         the near-miss firing exactly as designed. */
+      CORRECTION: ['no', 'not quite', 'not really', 'not exactly', 'actually',
+                   'that is not', "that's not", 'thats not', 'it is not', "it isn't",
+                   'isnt it', 'more like', 'closer to', 'sort of but', 'kind of but',
+                   'i would not say', "i wouldn't say", 'not so much'],
+      _isCorrection: function (text) {
+        var t = ' ' + this._norm(text) + ' ';
+        for (var i = 0; i < this.CORRECTION.length; i++) {
+          if (t.indexOf(' ' + this._norm(this.CORRECTION[i]) + ' ') !== -1) return true;
+        }
+        return false;
+      },
+
       /* Build the bounded message list for THIS turn. this.history is untouched. */
       _payload: function (text) {
         var h = this.history;
@@ -294,20 +375,46 @@
 
         if (h.length <= cap) return h.concat([turn]);   // short talk: send it all
 
-        var anchor = h.slice(0, this.ANCHOR);
+        /* ── THE CONVERGENCE ─────────────────────────────────────────────
+           The anchor was the opening four messages, on the theory that "the
+           seeker frames themselves at the opening". Raw chatter. Hellos.
+
+           THE CONFIRMED TURN IS A BETTER ANCHOR BY EVERY MEASURE:
+             compact                the opening is four raw messages; the Turn is one paragraph
+             high-value             the opening is throat-clearing; the Turn is the distillation
+             in the figure's words  and therefore in the figure's frame
+             CONFIRMED BY THE SEEKER  they corrected it, or they let it stand
+
+           "The counsel produces it. The cost architecture needs it. It is the
+            same artifact." The rolling summary that was going to "slot in later"
+           does not need building. THE TURN IS THE ROLLING SUMMARY, and good
+           counsel already demands it.
+
+           Note it must be the CONFIRMED turn (_turnAnchor), never the offered
+           one (_turnOffered). See the confirmation gate in send(). */
+        var anchor;
+        if (this._turnAnchor) {
+          anchor = [
+            { role: 'user',      content: '[…the opening exchanges, which I will not set down again…]' },
+            { role: 'assistant', content: this._turnAnchor }
+          ];
+        } else {
+          anchor = h.slice(0, this.ANCHOR);
+        }
 
         // Room left for the window, after the anchor and the one-message marker.
         // history is strictly [user, assistant, user, assistant, …] — always even.
         // An ODD window opens on an ASSISTANT message, which keeps the roles
         // alternating cleanly across the seam:
         //     … assistant(anchor) │ user(marker) │ assistant(window) … │ user(turn)
-        var w = cap - this.ANCHOR - 1;
+        var aLen = this._turnAnchor ? this.ANCHOR : anchor.length;   // the Turn replaces the opening
+        var w = cap - aLen - 1;
         if (w % 2 === 0) w -= 1;
         if (w < 3) w = 3;
-        if (w > h.length - this.ANCHOR) return h.concat([turn]);  // nothing to elide
+        if (w > h.length - aLen) return h.concat([turn]);         // nothing to elide
 
         var recent = h.slice(-w);
-        var elided = h.length - anchor.length - recent.length;
+        var elided = h.length - (this._turnAnchor ? 0 : anchor.length) - recent.length;
         if (elided <= 0) return h.concat([turn]);
 
         var exchanges = Math.round(elided / 2);
@@ -340,18 +447,20 @@
          old punctuation heuristic rather than break. A missing tag must never
          be worse than the behaviour we already had.
          ────────────────────────────────────────────────────────────────── */
-      MOVES: {
+      /* The moves. DOCTRINE FIRST — amenti-doctrine.js is the one place a nuance
+         is added. These are the fallback if it is not aboard. */
+      MOVES: (D().MOVES) || {
         reflect:  { expecting: true,  register: 'warm'   },
-        nearmiss: { expecting: true,  register: 'cool'   },  // the correction engine
-        disclose: { expecting: true,  register: 'grave'  },  // the wound → reciprocity
+        nearmiss: { expecting: true,  register: 'cool'   },
+        disclose: { expecting: true,  register: 'grave'  },
         observe:  { expecting: true,  register: 'cool'   },
-        'catch':  { expecting: true,  register: 'sharp'  },  // "Wait. Say that again."
-        invite:   { expecting: true,  register: 'warm'   },  // "Go on."
-        silence:  { expecting: true,  register: null     },  // says nothing, on purpose
+        'catch':  { expecting: true,  register: 'sharp'  },
+        invite:   { expecting: true,  register: 'warm'   },
+        silence:  { expecting: true,  register: null     },
         question: { expecting: true,  register: 'warm'   },
-        recite:   { expecting: false, register: 'grave'  },  // reads FROM THE DOCUMENT
-        render:   { expecting: false, register: 'grave'  },  // the counsel
-        close:    { expecting: false, register: 'grave'  }   // the audience ends
+        recite:   { expecting: false, register: 'grave'  },
+        render:   { expecting: false, register: 'grave'  },
+        close:    { expecting: false, register: 'grave'  }
       },
 
       /* Pull the figure's stage directions off the reply and strip them ALL.
@@ -443,10 +552,10 @@
          gates stop the careless and the accidental — which is most of the
          bill. Only the Worker stops an attacker. See Cost Watch.
          ────────────────────────────────────────────────────────────────── */
-      SPEAK_MAX:  1200,   // chars the figure will ever SPEAK in one turn
-      RECITE_MAX: 6000,   // …unless reciting from the document in view
-      ECHO_RATIO: 0.6,    // reply this-much made of the seeker's own words → parrot
-      ECHO_MIN:   12,     // …and at least this many words long
+      SPEAK_MAX: dial('speakMax', 1200),   // chars the figure will ever SPEAK in one turn
+      RECITE_MAX: dial('reciteMax', 6000),   // …unless reciting from the document in view
+      ECHO_RATIO: dial('echoRatio', 0.6),    // reply this-much made of the seeker's own words → parrot
+      ECHO_MIN: dial('echoMin', 12),     // …and at least this many words long
 
       /* Is the reply a faithful reading of the document we are looking at? */
       _isRecital: function (text) {
@@ -539,10 +648,10 @@
          with no natural end. §10 already says a counsel must END. That law now
          applies to a machine talking to itself.
          ────────────────────────────────────────────────────────────────── */
-      SELF_ECHO_RATIO: 0.5,   // this much of the transcript is the figure's own last line…
-      SELF_ECHO_MIN:   6,     // …and at least this many words of it, in a run
-      MAX_SELF_ECHO:   2,     // twice, and the mic is CLOSED for the session
-      HANDS_FREE_MAX:  12,    // voice turns with no human keystroke → the audience ENDS
+      SELF_ECHO_RATIO: dial('selfEchoRatio', 0.5),   // this much of the transcript is the figure's own last line…
+      SELF_ECHO_MIN: dial('selfEchoMin', 6),     // …and at least this many words of it, in a run
+      MAX_SELF_ECHO: dial('maxSelfEcho', 2),     // twice, and the mic is CLOSED for the session
+      HANDS_FREE_MAX: dial('handsFreeMax', 12),    // voice turns with no human keystroke → the audience ENDS
       _lastSpoken: '',        // the last thing the figure actually said aloud
       _selfEchoes: 0,
       _voiceTurns: 0,
@@ -613,6 +722,26 @@
         }
         this._endSpeech = function () {};      // no speech in flight to disarm
 
+        /* THE CONFIRMATION. The figure offered a reading; this is the reply to it.
+
+           They CORRECT it  -> THE CORRECTION IS THE ANCHOR. The figure's misread
+                               never enters the payload at all.
+           They CONFIRM it  -> the Turn is the anchor.
+           They say NOTHING usable -> silence is assent. The Turn anchors.
+
+           Either way the anchor is now something the seeker has SEEN and had the
+           chance to fix. That is what makes it safe to carry forever. */
+        if (this._turnOffered) {
+          var offered = this._turnOffered;
+          this._turnOffered = null;
+          var corrected = this._isCorrection(text);
+          this._turnAnchor = corrected
+            ? ('So. This is what I have heard you say — as you have corrected me: ' + text)
+            : offered;
+          this._notice(corrected ? '[the Turn was corrected — the correction is the anchor]'
+                                 : '[the Turn stands — it is the anchor]');
+        }
+
         // RULE 2 — "Just us" ends it instantly. If they decline the room after we
         // acknowledged it, we never mention it again. Not once. Not later.
         if (this._roomPending) {
@@ -665,6 +794,27 @@
             self._watchlist = wl.slice(0, 8);
           }
           if (parsed.catchLine) self._catchLine = parsed.catchLine;
+
+          /* ── THE TURN ────────────────────────────────────────────────────
+             [move: turnread] is the reflection, OFFERED for correction.
+
+             THE TRAP, AND IT IS THE WHOLE DESIGN:
+             The Turn is an OFFER. It may be WRONG — that is the point; "correct
+             me if I am wrong" is not manners, it is the mechanism. So the Turn
+             MUST NOT ANCHOR UNTIL IT IS CONFIRMED.
+
+             Anchor an unconfirmed reading and you have permanently installed the
+             figure's MISUNDERSTANDING at the head of every future payload. It
+             would carry "your brother was right" forever, in a conversation
+             where the seeker already said no, it is that I told everyone I had
+             made it. THAT IS STRICTLY WORSE THAN ANCHORING ON THE OPENING.
+
+             So: hold it PROVISIONALLY. The seeker's next message decides.
+             ─────────────────────────────────────────────────────────────── */
+          if (M && M.turn === 'read' && said) {
+            self._turnOffered = said;          // spoken. Not yet trusted.
+            self._turns_taken++;
+          }
           // NOTE: _crossed is NOT set here. It is set when the figure's first
           // reply FINISHES (_afterSpeech). Setting it here armed barge-in during
           // the very first sentence — the one utterance that must always land.
@@ -835,23 +985,25 @@
          The figure is not catching them out. It is refusing to let them throw
          away the true thing.
          ────────────────────────────────────────────────────────────────── */
-      ARREST_HEAVY: [
+      ARREST_HEAVY: words('arrestHeavy', [
         'died', 'death', 'dead', 'divorce', 'divorced', 'left me', 'leaving me',
         'fired', 'lost my', 'never forgive', "won't speak", 'wont speak',
         'not speaking', 'hate', 'ashamed', 'afraid', 'scared', 'alone', 'lonely',
         'failed', 'failure', 'worthless', 'my fault', 'blame myself',
         'gave up', 'gave it up', 'betrayed', 'cheated', 'lied to'
-      ],
-      ARREST_DISMISS: [
+      ]),
+
+      ARREST_DISMISS: words('arrestDismiss', [
         'anyway', 'anyways', "doesn't matter", 'does not matter', 'dont matter',
         "doesn't really matter", 'never mind', 'nevermind', 'forget it',
         "it's fine", 'its fine', "i'm fine", 'im fine', "it's stupid", 'its stupid',
         'not the point', "that's not important", 'thats not important',
         'whatever', 'no big deal', "it's nothing", 'its nothing', 'not that it matters'
-      ],
-      ARREST_GAP:      14,   // words between the load-bearing thing and the shrug
-      ARREST_MIN_TURN: 3,    // never in the opening — rapport is not yet earned
-      ARREST_COOLDOWN: 6,    // turns of quiet between arrests. NOT a budget — PACING.
+      ]),
+
+      ARREST_GAP: dial('arrestGap', 14),   // words between the load-bearing thing and the shrug
+      ARREST_MIN_TURN: dial('arrestMinTurn', 3),    // never in the opening — rapport is not yet earned
+      ARREST_COOLDOWN: dial('arrestCooldown', 6),    // turns of quiet between arrests. NOT a budget — PACING.
 
       /* ── THE CAP, LABELLED HONESTLY ────────────────────────────────────
          The old ARREST_MAX: 2 was not a design principle. It was a FEAR — a
@@ -877,8 +1029,8 @@
          threshold and the clean-channel rule shape WHEN it is right to reach.
          They do not run dry.
          ────────────────────────────────────────────────────────────────── */
-      ARREST_MAX_LIST:  1,   // the crude detector gets ONE strike, ever
-      ARREST_MAX_WATCH: 4,   // the model-armed one is trusted further
+      ARREST_MAX_LIST: dial('arrestMaxList', 1),   // the crude detector gets ONE strike, ever
+      ARREST_MAX_WATCH: dial('arrestMaxWatch', 4),   // the model-armed one is trusted further
 
       _arrestable: function (partial) {
         var t = ' ' + this._norm(partial) + ' ';
@@ -1016,7 +1168,7 @@
          Like the Arrest, these are LOCAL and immediate. A room acknowledgement
          that arrives two seconds late is not presence, it is a transcript.
          ────────────────────────────────────────────────────────────────── */
-      ROOM_ASIDE: [
+      ROOM_ASIDE: words('roomAside', [
         'not now', 'one sec', 'one second', 'hang on', 'hold on', 'in a minute',
         'just a moment', 'come here', 'go on then', 'i said no', 'put that down',
         'honey', 'sweetie', 'sweetheart', 'darling', 'buddy', 'love', 'mum', 'mom', 'ma', 'dad',
@@ -1024,12 +1176,14 @@
         // someone is being CALLED INTO the room. §11 — the host stands.
         'come see', 'come look', 'check this out', 'come and see', 'get in here',
         'you have to see', 'look at this', 'listen to this'
-      ],
-      ROOM_DECLINE: [
+      ]),
+
+      ROOM_DECLINE: words('roomDecline', [
         'just us', 'no one', 'nobody', 'nothing', 'ignore that', 'ignore it',
         'never mind', 'nevermind', 'forget it', "it's nothing", 'its nothing', 'no one else'
-      ],
-      ROOM_MAX: 2,          // acknowledgements per conversation. Presence, not commentary.
+      ]),
+
+      ROOM_MAX: dial('roomMax', 2),          // acknowledgements per conversation. Presence, not commentary.
 
       /* Did the seeker just decline the room? Then it is never mentioned again. */
       _roomDeclined: function (text) {

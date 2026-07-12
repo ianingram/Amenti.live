@@ -6929,6 +6929,7 @@ try{
      Amenti.probe.wall()   ~1c   · is the Worker's wall up, and does it pass real traffic?
      Amenti.probe.full()   ~3c   · both, plus the history-cap walk.
      ?probe=1 prints state() on load. NOTHING that costs money ever auto-runs. -->
+<script src="amenti-doctrine.js"></script>
 <script src="amenti-manifest.js"></script>
 <script src="amenti-probe.js"></script>
 <!-- voiceprofiles.js is NOT loaded. It is a SPEC, not infrastructure — the target
@@ -6971,7 +6972,11 @@ window.AMENTI_VOICE = {
      never going to hit the cache. So the register is FREE here — and forbidden
      in amenti-throttle.js / library.js, where composeStyle() is LOCKED.
      ──────────────────────────────────────────────────────────────────────── */
-  REGISTERS: {
+  /* THE REGISTERS LIVE IN amenti-doctrine.js. ONE COPY.
+     This was a SECOND hand-kept copy, byte-identical to amenti-voice.js, with
+     nothing enforcing it. Two hand-kept copies is how an archive gets
+     re-rendered. The fallback is for a surface without the doctrine. */
+  REGISTERS: (window.Amenti && window.Amenti.doctrine && window.Amenti.doctrine.REGISTERS) || {
     warm:   "Speak gently, unhurried, with evident care.",
     cool:   "Speak with clinical distance, level and unhurried.",
     sharp:  "Speak with sudden edge — clipped, direct, harder than before.",
