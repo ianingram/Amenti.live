@@ -8,15 +8,15 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T01:26:32.636Z",
-    "reading": "2026-07-13T01:26:32.537Z",
+    "merged": "2026-07-13T01:27:18.022Z",
+    "reading": "2026-07-13T01:27:17.923Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
-    "contradicted": 4,
-    "unproven": 7,
+    "contradicted": 3,
+    "unproven": 3,
     "undeclared": 5,
     "adrift": 3,
     "clean": false
@@ -100,13 +100,6 @@ window.FLEET_MANIFEST = {
       "note": "A call into the void. It has been failing silently."
     },
     {
-      "stamp": "CONTRADICTED",
-      "subject": "COST WATCH",
-      "claim": "probe: probes/probe11.mjs",
-      "reading": "THAT PROBE FILE IS NOT IN THE TREE",
-      "note": "The instrument is named and absent. That is worse than naming none."
-    },
-    {
       "stamp": "UNPROVEN",
       "subject": "TREASURY WATCH",
       "claim": "guards: The Mint Worker and the emerald ledger",
@@ -126,34 +119,6 @@ window.FLEET_MANIFEST = {
       "claim": "guards: File integrity across the fleet",
       "reading": "NO PROBE EXISTS",
       "note": "The old manifest showed DATA WATCH green for months with nothing behind it. It was manufacturing confidence that nobody had earned. A watch that reports green with no instrument is worse than no watch at all."
-    },
-    {
-      "stamp": "UNPROVEN",
-      "subject": "The Conversation Engine",
-      "claim": "The /speak cache key is sha256(model + voice + STYLE + TEXT). composeStyle, chunkText and plainText are byte-identical across every engine.",
-      "reading": "probe named but NOT IN THE TREE: probes/probe7.js  +  probes/probe17.js",
-      "note": "AN INVARIANT WITH NO PROBE IS A PRAYER. Move a byte and EVERY CLIP IN R2 BECOMES AN ORPHAN. You pay to render the archive again."
-    },
-    {
-      "stamp": "UNPROVEN",
-      "subject": "The Conversation Engine",
-      "claim": "The payload is bounded. The transcript is whole; the bill is not.",
-      "reading": "probe named but NOT IN THE TREE: probes/probe.js  +  probes/probe2.js",
-      "note": "AN INVARIANT WITH NO PROBE IS A PRAYER. $118.84 for a 500-turn conversation — the entire monthly cap, in one session."
-    },
-    {
-      "stamp": "UNPROVEN",
-      "subject": "The Conversation Engine",
-      "claim": "The mic flags gate the HARDWARE, not merely the reaction to it. With arrest:false, SpeechRecognition is never constructed.",
-      "reading": "probe named but NOT IN THE TREE: probes/probe12.js",
-      "note": "AN INVARIANT WITH NO PROBE IS A PRAYER. A switch that does not switch anything is worse than no switch: it makes you believe you are safe."
-    },
-    {
-      "stamp": "UNPROVEN",
-      "subject": "The Conversation Engine",
-      "claim": "The figure will not reply to its own voice.",
-      "reading": "probe named but NOT IN THE TREE: probes/probe13.js  +  probes/probe16.js",
-      "note": "AN INVARIANT WITH NO PROBE IS A PRAYER. An unbounded, hands-free, overnight cost loop with no human in it. Precisely the curl attack — except the attacker is the product."
     }
   ],
   "ships": [
@@ -694,7 +659,7 @@ window.FLEET_MANIFEST = {
       "threat": "Looping the open AI endpoints to run up the bill. A curl at /speak with a megabyte of text. And the one nobody saw: THE FIGURE HEARING ITSELF THROUGH THE SPEAKERS AND REPLYING TO ITSELF, ALL NIGHT.",
       "probe": "probes/probe11.mjs",
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
-      "stamp": "CONTRADICTED"
+      "stamp": "CONFIRMED"
     },
     {
       "id": "TREASURY WATCH",
@@ -788,25 +753,25 @@ window.FLEET_MANIFEST = {
           "claim": "The /speak cache key is sha256(model + voice + STYLE + TEXT). composeStyle, chunkText and plainText are byte-identical across every engine.",
           "probe": "probes/probe7.js  +  probes/probe17.js",
           "cost": "Move a byte and EVERY CLIP IN R2 BECOMES AN ORPHAN. You pay to render the archive again.",
-          "stamp": "UNPROVEN"
+          "stamp": "CONFIRMED"
         },
         {
           "claim": "The payload is bounded. The transcript is whole; the bill is not.",
           "probe": "probes/probe.js  +  probes/probe2.js",
           "cost": "$118.84 for a 500-turn conversation — the entire monthly cap, in one session.",
-          "stamp": "UNPROVEN"
+          "stamp": "CONFIRMED"
         },
         {
           "claim": "The mic flags gate the HARDWARE, not merely the reaction to it. With arrest:false, SpeechRecognition is never constructed.",
           "probe": "probes/probe12.js",
           "cost": "A switch that does not switch anything is worse than no switch: it makes you believe you are safe.",
-          "stamp": "UNPROVEN"
+          "stamp": "CONFIRMED"
         },
         {
           "claim": "The figure will not reply to its own voice.",
           "probe": "probes/probe13.js  +  probes/probe16.js",
           "cost": "An unbounded, hands-free, overnight cost loop with no human in it. Precisely the curl attack — except the attacker is the product.",
-          "stamp": "UNPROVEN"
+          "stamp": "CONFIRMED"
         }
       ],
       "guards": [
@@ -852,7 +817,7 @@ window.FLEET_MANIFEST = {
         "Base TTS latency is ~16-18s REGARDLESS OF CHUNK SIZE. The archive is why the reading room feels instant. THE COUNSEL IS NEVER CACHED."
       ],
       "stamps": [],
-      "stamp": "UNPROVEN"
+      "stamp": "CONFIRMED"
     },
     {
       "id": "game",
