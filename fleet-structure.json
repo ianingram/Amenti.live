@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-12T23:15:27.436Z",
+    "generated": "2026-07-13T00:42:58.131Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -696,6 +696,44 @@
       "tables": []
     },
     {
+      "file": "fleet-semantics.js",
+      "bytes": 24169,
+      "sha256": "3d35730ad02f0425",
+      "type": "js",
+      "declares": [
+        "FLEET_SEMANTICS"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "Amenti.chat",
+          "line": 276,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.listen",
+          "line": 277,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.voice",
+          "line": 278,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 279,
+          "when": "toplevel",
+          "own": false
+        }
+      ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "game01.html",
       "bytes": 1529275,
       "sha256": "6ad5c9d31a94cc01",
@@ -748,6 +786,19 @@
           "own": true
         }
       ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "merge.js",
+      "bytes": 12759,
+      "sha256": "169be06b79939f39",
+      "type": "js",
+      "declares": [
+        "FLEET_MANIFEST"
+      ],
+      "loads": [],
+      "calls": [],
       "endpoints": [],
       "tables": []
     },
@@ -859,6 +910,22 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "fleet-semantics.js",
+        "declares": [
+          "FLEET_SEMANTICS"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "merge.js",
+        "declares": [
+          "FLEET_MANIFEST"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "voiceprofiles.js",
