@@ -8,15 +8,15 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T04:35:14.284Z",
-    "reading": "2026-07-13T04:35:14.180Z",
+    "merged": "2026-07-13T04:36:36.067Z",
+    "reading": "2026-07-13T04:36:35.982Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
     "contradicted": 0,
-    "unproven": 3,
+    "unproven": 2,
     "undeclared": 4,
     "adrift": 3,
     "clean": true
@@ -73,24 +73,17 @@ window.FLEET_MANIFEST = {
     },
     {
       "stamp": "UNPROVEN",
-      "subject": "TREASURY WATCH",
-      "claim": "guards: The Mint Worker and the emerald ledger",
-      "reading": "NO PROBE EXISTS",
-      "note": "The old manifest showed DATA WATCH green for months with nothing behind it. It was manufacturing confidence that nobody had earned. A watch that reports green with no instrument is worse than no watch at all."
-    },
-    {
-      "stamp": "UNPROVEN",
-      "subject": "DATA WATCH",
-      "claim": "guards: The Supabase tables and their row-level wards",
-      "reading": "NO PROBE EXISTS",
-      "note": "The old manifest showed DATA WATCH green for months with nothing behind it. It was manufacturing confidence that nobody had earned. A watch that reports green with no instrument is worse than no watch at all."
+      "subject": "COST WATCH",
+      "claim": "guards: The Proxy Worker — /speak, /listen, and the chat",
+      "reading": "the probe exists, but NO PATROL HAS RUN",
+      "note": "A probe that has never run is a prayer. The old manifest showed this GREEN for months with nothing behind it — manufacturing confidence that nobody had earned."
     },
     {
       "stamp": "UNPROVEN",
       "subject": "HULL WATCH",
       "claim": "guards: File integrity across the fleet",
-      "reading": "NO PROBE EXISTS",
-      "note": "The old manifest showed DATA WATCH green for months with nothing behind it. It was manufacturing confidence that nobody had earned. A watch that reports green with no instrument is worse than no watch at all."
+      "reading": "THE PATROL COULD NOT PROVE IT: Hull integrity is checked by comparing fleet-structure.json file hashes against a committed baseline. That comparison is not yet wired. Reporting WARN, not OK — a stub that returned green would be the very lie this whole system exists to kill.",
+      "note": "The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly."
     }
   ],
   "ships": [
@@ -633,7 +626,7 @@ window.FLEET_MANIFEST = {
       "threat": "Looping the open AI endpoints to run up the bill. A curl at /speak with a megabyte of text. And the one nobody saw: THE FIGURE HEARING ITSELF THROUGH THE SPEAKERS AND REPLYING TO ITSELF, ALL NIGHT.",
       "probe": "probes/probe11.mjs",
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
-      "stamp": "CONFIRMED"
+      "stamp": "UNPROVEN"
     },
     {
       "id": "TREASURY WATCH",
@@ -646,7 +639,12 @@ window.FLEET_MANIFEST = {
       "threat": "A forged /quiz/submit minting emeralds without earning them.",
       "probe": null,
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
-      "stamp": "UNPROVEN"
+      "stamp": "CONFIRMED",
+      "patrol": {
+        "at": "2026-07-13T04:36:01.393Z",
+        "status": "OK",
+        "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
+      }
     },
     {
       "id": "DATA WATCH",
@@ -659,7 +657,12 @@ window.FLEET_MANIFEST = {
       "threat": "The public key reading private subscriber data.",
       "probe": null,
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
-      "stamp": "UNPROVEN"
+      "stamp": "CONFIRMED",
+      "patrol": {
+        "at": "2026-07-13T04:36:01.393Z",
+        "status": "OK",
+        "note": "every sealed table returned nothing to the anon key: subscribers: sealed (401) · emerald_balance: sealed (401) · argument_reports: sealed (401)"
+      }
     },
     {
       "id": "HULL WATCH",
