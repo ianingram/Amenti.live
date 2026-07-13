@@ -132,10 +132,56 @@ async function hullWatch() {
   };
 }
 
+/* ── COST WATCH ─────────────────────────────────────────────────────────────
+   THE THREAT: looping the open AI endpoints to run up the bill. A curl at
+               /speak with a megabyte of text. And the one nobody saw — THE
+               FIGURE HEARING ITSELF THROUGH THE SPEAKERS AND REPLYING TO
+               ITSELF, ALL NIGHT.
+   THE TEST:   the wall must refuse a 10,000-character payload — AND GEMINI
+               MUST NEVER BE CALLED. The wall sits in front of the money, not
+               behind it. */
+async function costWatch() {
+  const PROXY = 'https://amenti-proxy.ingram-ian.workers.dev';
+  const findings = { ok: 0, warn: [], fail: [] };
+  const notes = [];
+
+  const wall = async (body) => {
+    try {
+      const r = await fetch(PROXY + '/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Origin: 'https://amenti.live' },
+        body: JSON.stringify(body),
+      });
+      let j = {}; try { j = await r.json(); } catch (e) {}
+      return { status: r.status, reason: r.headers.get('X-Amenti-Wall') || j.error || '' };
+    } catch (e) { return { status: 0, reason: 'network: ' + e.message }; }
+  };
+
+  /* A normal chunk must still SPEAK. A cap that breaks the voice is worse than none. */
+  const good = await wall({ text: 'All Gaul is divided into three parts.', voice: 'Charon',
+                            style: 'Read clearly, in a measured, dignified tone' });
+  if (good.status === 0) findings.warn.push('/speak unreachable');
+  else if (good.status === 413) findings.fail.push('THE CAP REFUSED A NORMAL CHUNK — the voice is broken');
+  else if (good.status < 400) { findings.ok++; notes.push('a normal chunk still speaks (' + good.status + ')'); }
+  else findings.warn.push('/speak returned ' + good.status + ' on a normal chunk (upstream, not the cap)');
+
+  /* Ten thousand characters of palm tree must be REFUSED. */
+  const bad = await wall({ text: 'palm tree '.repeat(1000) });
+  if (bad.status === 0) findings.warn.push('/speak unreachable');
+  else if (bad.status === 413) { findings.ok++; notes.push('10,000 chars REFUSED by the wall (' + bad.reason + ')'); }
+  else findings.fail.push('10,000 CHARS WERE NOT REFUSED (' + bad.status + ') — THE WALL IS NOT UP. ' +
+                          'A curl can run up the bill.');
+
+  const status = findings.fail.length ? 'FAIL' : (findings.warn.length ? 'WARN' : 'OK');
+  return { id: 'COST WATCH', status, ...findings,
+    note: findings.fail.length ? findings.fail.join('; ')
+        : (findings.warn.length ? notes.concat(findings.warn).join(' · ') : notes.join(' · ')) };
+}
+
 /* ── PATROL ─────────────────────────────────────────────────────────────────
    Make the rounds. Write down what was seen. Timestamp it. */
 const watches = {};
-for (const w of [await dataWatch(), await treasuryWatch(), await hullWatch()]) {
+for (const w of [await costWatch(), await dataWatch(), await treasuryWatch(), await hullWatch()]) {
   watches[w.id] = w;
 }
 
