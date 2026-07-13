@@ -46,6 +46,19 @@ if (!fs.existsSync(STR_PATH)) {
 }
 const structure = JSON.parse(fs.readFileSync(STR_PATH, 'utf8'));
 
+/* THE PATROL READING. What the watch probe last SAW, and when.
+   A probe file that exists but has never run is a prayer — so the watches are
+   judged on THIS, not on whether probe-watches.mjs is present. Absent or stale
+   -> the watch is UNPROVEN, amber, honestly. */
+let patrol = null;
+try { patrol = JSON.parse(fs.readFileSync('fleet-patrol.json', 'utf8')); } catch (e) {}
+const PATROL_MAX_H = 26;   // a reading older than this is not a current reading
+function patrolFor(id) {
+  if (!patrol || !patrol.watches || !patrol.watches[id]) return null;
+  const ageH = (Date.now() - Date.parse(patrol.at)) / 36e5;
+  return { ...patrol.watches[id], ageH, stale: !(ageH < PATROL_MAX_H) };
+}
+
 const win = {};
 new Function('window', fs.readFileSync(SEM_PATH, 'utf8'))(win);
 const S = win.FLEET_SEMANTICS;
@@ -166,22 +179,41 @@ for (const f of (structure.findings.wiring || [])) {
 /* ── THE WATCHES. A THREAT NEEDS AN INSTRUMENT. ────────────────────────────── */
 const watches = S.watches.map(w => {
   const out = { ...w };
-  if (!w.probe) {
+  const p = patrolFor(w.id);
+
+  if (p && !p.stale && p.status === 'OK') {
+    /* A recent patrol looked, and the ward held. THIS is a proven watch. */
+    out.stamp = 'CONFIRMED';
+    out.patrol = { at: patrol.at, status: p.status, note: p.note };
+  } else if (p && !p.stale && p.status === 'FAIL') {
+    /* A recent patrol looked, and found a HOLE. Not drift — a real finding. */
+    out.stamp = 'CONTRADICTED';
+    out.patrol = { at: patrol.at, status: p.status, note: p.note };
+    push(row('CONTRADICTED', w.id,
+      `guards: ${w.guards}`,
+      'THE PATROL FOUND A HOLE: ' + p.note,
+      'This is not a documentation drift. It is a live security finding. Close it in the ship.'));
+  } else if (p && p.stale) {
+    out.stamp = 'UNPROVEN';
+    push(row('UNPROVEN', w.id,
+      `last patrol: ${Math.round(p.ageH)}h ago (status ${p.status})`,
+      'THE PATROL IS STALE',
+      'A reading older than ' + PATROL_MAX_H + 'h is not a current reading. ' +
+      '"I have a reading" and "I have a CURRENT reading" are not the same claim.'));
+  } else if (p && p.status === 'WARN') {
     out.stamp = 'UNPROVEN';
     push(row('UNPROVEN', w.id,
       `guards: ${w.guards}`,
-      'NO PROBE EXISTS',
-      'The old manifest showed DATA WATCH green for months with nothing behind it. ' +
-      'It was manufacturing confidence that nobody had earned. ' +
-      'A watch that reports green with no instrument is worse than no watch at all.'));
-  } else if (!fs.existsSync(w.probe)) {
-    out.stamp = 'CONTRADICTED';
-    push(row('CONTRADICTED', w.id,
-      `probe: ${w.probe}`,
-      'THAT PROBE FILE IS NOT IN THE TREE',
-      'The instrument is named and absent. That is worse than naming none.'));
+      'THE PATROL COULD NOT PROVE IT: ' + p.note,
+      'The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly.'));
   } else {
-    out.stamp = 'CONFIRMED';
+    /* No patrol record at all for this watch. */
+    out.stamp = 'UNPROVEN';
+    push(row('UNPROVEN', w.id,
+      `guards: ${w.guards}`,
+      w.probe ? 'the probe exists, but NO PATROL HAS RUN' : 'NO PROBE, NO PATROL',
+      'A probe that has never run is a prayer. The old manifest showed this GREEN for months ' +
+      'with nothing behind it — manufacturing confidence that nobody had earned.'));
   }
   return out;
 });
