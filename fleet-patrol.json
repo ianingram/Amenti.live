@@ -1,33 +1,6 @@
-{
-  "at": "2026-07-13T04:36:01.393Z",
-  "by": "probes/probe-watches.mjs",
-  "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
+{ "at": "2026-07-13T04:30:03Z", "by": "probes/probe-watches.mjs (seed)",
+  "note": "Seed reading. The real one is written by the scheduled patrol.",
   "watches": {
-    "DATA WATCH": {
-      "id": "DATA WATCH",
-      "status": "OK",
-      "ok": 3,
-      "warn": [],
-      "fail": [],
-      "note": "every sealed table returned nothing to the anon key: subscribers: sealed (401) · emerald_balance: sealed (401) · argument_reports: sealed (401)"
-    },
-    "TREASURY WATCH": {
-      "id": "TREASURY WATCH",
-      "status": "OK",
-      "ok": 2,
-      "warn": [],
-      "fail": [],
-      "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
-    },
-    "HULL WATCH": {
-      "id": "HULL WATCH",
-      "status": "WARN",
-      "ok": 0,
-      "warn": [
-        "instrument is a stub"
-      ],
-      "fail": [],
-      "note": "Hull integrity is checked by comparing fleet-structure.json file hashes against a committed baseline. That comparison is not yet wired. Reporting WARN, not OK — a stub that returned green would be the very lie this whole system exists to kill."
-    }
-  }
-}
+    "DATA WATCH":     { "status":"WARN", "note":"awaiting first live patrol" },
+    "TREASURY WATCH": { "status":"WARN", "note":"awaiting first live patrol" },
+    "HULL WATCH":     { "status":"WARN", "note":"instrument is a stub" } } }
