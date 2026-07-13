@@ -1,0 +1,73 @@
+# ============================================================================
+#  .github/workflows/patrol.yml  ·  THE PATROL
+# ----------------------------------------------------------------------------
+#  The watch probe makes its rounds — on a schedule, and on demand. It writes
+#  down what it saw, and the next scan/merge reads that record.
+#
+#  A PROBE THAT HAS NEVER RUN IS A PRAYER. This is what makes it run.
+#
+#    DATA WATCH     — can the anon key read private subscriber data?  (RLS)
+#    TREASURY WATCH — does /quiz leak the answer key or mint on a forgery?
+#    HULL WATCH     — file integrity (stub for now, reports amber, honestly)
+#
+#  If a watch FAILS — a real leak, a real forgery — the patrol exits 1 and the
+#  finding lands in fleet-patrol.json as status:FAIL. The next merge stamps it
+#  CONTRADICTED and refuses the commit.
+#
+#      A COMMIT THAT SHIPS A KNOWN HOLE DOES NOT MERGE.
+#
+#  SETUP:
+#    Repository secret AMENTI_ANON_KEY = the Supabase anon key (public — it
+#    already ships in every page's source; the RLS ward is the wall we test).
+#    Without it the probe uses a dummy key, every sealed table returns 401,
+#    and DATA WATCH still reads correctly as "sealed".
+# ============================================================================
+name: Fleet Patrol
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'      # every six hours, off the hour
+  workflow_dispatch:            # and a button
+  push:
+    paths:
+      - 'probes/probe-watches.mjs'
+      - '.github/workflows/patrol.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patrol:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Make the rounds
+        id: patrol
+        continue-on-error: true      # a FAIL is recorded, then fails the job at the end
+        env:
+          AMENTI_ANON_KEY: ${{ secrets.AMENTI_ANON_KEY }}
+        run: |
+          node probes/probe-watches.mjs > fleet-patrol.json
+          echo "exit=$?" >> $GITHUB_OUTPUT
+
+      - name: Commit the patrol reading
+        run: |
+          git config user.name  "fleet-patrol"
+          git config user.email "patrol@amenti.live"
+          git add -f fleet-patrol.json
+          if git diff --cached --quiet -- fleet-patrol.json; then
+            echo "patrol unchanged"
+          else
+            git commit -m "patrol: $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
+            git push
+          fi
+
+      - name: A watch that failed is a real finding
+        if: steps.patrol.outputs.exit != '0'
+        run: |
+          echo "::error::A FLEET WATCH FAILED. See fleet-patrol.json — a real leak or forgery, not a drift."
+          exit 1
