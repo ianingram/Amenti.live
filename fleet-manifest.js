@@ -8,18 +8,18 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T03:25:56.064Z",
-    "reading": "2026-07-13T03:25:55.966Z",
+    "merged": "2026-07-13T03:29:49.193Z",
+    "reading": "2026-07-13T03:29:49.106Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
-    "contradicted": 1,
+    "contradicted": 0,
     "unproven": 3,
     "undeclared": 4,
     "adrift": 3,
-    "clean": false
+    "clean": true
   },
   "drift": [
     {
@@ -28,13 +28,6 @@ window.FLEET_MANIFEST = {
       "claim": "\"The Boatswain of the Voice\" — crew",
       "reading": "loaded, and NOTHING CALLS Amenti.conversation",
       "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
-    },
-    {
-      "stamp": "CONTRADICTED",
-      "subject": "amenti-throttle.js",
-      "claim": "retired — kept as the rollback, not loaded",
-      "reading": "STILL LOADED BY weighing.html",
-      "note": ""
     },
     {
       "stamp": "ADRIFT",
@@ -236,8 +229,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 101514,
-      "sha256": "8f48ed20b745e501",
+      "bytes": 102124,
+      "sha256": "7aa09777c314d282",
       "declares": [],
       "loadedBy": []
     },
@@ -375,7 +368,8 @@ window.FLEET_MANIFEST = {
         "Amenti.voice"
       ],
       "loadedBy": [
-        "Page1.html"
+        "Page1.html",
+        "weighing.html"
       ]
     },
     {
@@ -390,7 +384,7 @@ window.FLEET_MANIFEST = {
       "retired": true,
       "group": "crew",
       "stamps": [
-        "CONTRADICTED"
+        "CONFIRMED"
       ],
       "bytes": 18097,
       "sha256": "721f848e4fb5b06a",
@@ -398,9 +392,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.throttle"
       ],
-      "loadedBy": [
-        "weighing.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-listen.js",

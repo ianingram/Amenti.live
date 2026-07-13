@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-13T03:25:55.966Z",
+    "generated": "2026-07-13T03:29:49.106Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -685,8 +685,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 30485,
-      "sha256": "3928049e118253d2",
+      "bytes": 30242,
+      "sha256": "33e1019370f0fa90",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -695,25 +695,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 738,
+          "line": 731,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 739,
+          "line": 732,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 740,
+          "line": 733,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 741,
+          "line": 734,
           "when": "toplevel",
           "own": false
         }
@@ -843,8 +843,8 @@
     },
     {
       "file": "weighing.html",
-      "bytes": 101514,
-      "sha256": "8f48ed20b745e501",
+      "bytes": 102124,
+      "sha256": "7aa09777c314d282",
       "type": "html",
       "declares": [],
       "loads": [
@@ -857,20 +857,20 @@
           "line": 259
         },
         {
-          "file": "amenti-throttle.js",
-          "line": 260
+          "file": "amenti-voice.js",
+          "line": 271
         }
       ],
       "calls": [
         {
           "global": "amentiAuth",
-          "line": 299,
+          "line": 310,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.throttle",
-          "line": 379,
+          "line": 390,
           "when": "function",
           "own": false
         }
