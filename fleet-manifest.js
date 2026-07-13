@@ -8,15 +8,15 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T23:36:43.155Z",
-    "reading": "2026-07-13T23:36:43.069Z",
+    "merged": "2026-07-13T23:38:47.122Z",
+    "reading": "2026-07-13T23:38:47.011Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
     "contradicted": 0,
-    "unproven": 1,
+    "unproven": 4,
     "undeclared": 4,
     "adrift": 3,
     "clean": true
@@ -77,8 +77,176 @@ window.FLEET_MANIFEST = {
       "claim": "guards: File integrity across the fleet",
       "reading": "THE PATROL COULD NOT PROVE IT: Hull integrity is checked by comparing fleet-structure.json file hashes against a committed baseline. That comparison is not yet wired. Reporting WARN, not OK — a stub that returned green would be the very lie this whole system exists to kill.",
       "note": "The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly."
+    },
+    {
+      "stamp": "UNPROVEN",
+      "subject": "ATLANTICA",
+      "claim": "fires daily",
+      "reading": "MISSED 2 of the last 14 days",
+      "note": "The tube is loaded and the schedule is set. It simply did not fire."
+    },
+    {
+      "stamp": "UNPROVEN",
+      "subject": "THE WEEK",
+      "claim": "a weekly (Sunday) dispatch",
+      "reading": "NOTHING HAS EVER FIRED FROM THIS TUBE",
+      "note": "THE VAL·HAL·LA WEEKLY HAS NEVER BEEN ASSEMBLED."
+    },
+    {
+      "stamp": "UNPROVEN",
+      "subject": "THE PODCAST",
+      "claim": "a weekly dispatch",
+      "reading": "NOTHING HAS EVER FIRED FROM THIS TUBE",
+      "note": "NOTHING. No podcast keys under podcast:, pod: or audio:. It is scheduled and it has never fired — or it fires somewhere nothing can see."
     }
   ],
+  "dispatch": {
+    "at": "2026-07-13T23:37:40.419Z",
+    "by": "probes/probe-ordnance.mjs",
+    "today": "2026-07-13",
+    "thisWeek": "2026-07-12",
+    "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
+    "tubes": {
+      "ATLANTICA": {
+        "id": "ATLANTICA",
+        "cadence": "daily",
+        "status": "OK",
+        "fired": 27,
+        "last": {
+          "date": "2026-07-13",
+          "figure": "plato"
+        },
+        "lastAgeDays": 0,
+        "missedLast14": [
+          "2026-06-30",
+          "2026-06-29"
+        ],
+        "recent": [
+          {
+            "figure": "plato",
+            "date": "2026-07-13",
+            "key": "atlantica:plato:2026-07-13"
+          },
+          {
+            "figure": "bram-stoker",
+            "date": "2026-07-12",
+            "key": "atlantica:bram-stoker:2026-07-12"
+          },
+          {
+            "figure": "bram-stoker",
+            "date": "2026-07-11",
+            "key": "atlantica:bram-stoker:2026-07-11"
+          },
+          {
+            "figure": "edward-gibbon",
+            "date": "2026-07-10",
+            "key": "atlantica:edward-gibbon:2026-07-10"
+          },
+          {
+            "figure": "david-hume",
+            "date": "2026-07-09",
+            "key": "atlantica:david-hume:2026-07-09"
+          },
+          {
+            "figure": "david-hume",
+            "date": "2026-07-08",
+            "key": "atlantica:david-hume:2026-07-08"
+          },
+          {
+            "figure": "tacitus",
+            "date": "2026-07-08",
+            "key": "atlantica:tacitus:2026-07-08"
+          },
+          {
+            "figure": "marcus-aurelius",
+            "date": "2026-07-07",
+            "key": "atlantica:marcus-aurelius:2026-07-07"
+          },
+          {
+            "figure": "oliver-cromwell",
+            "date": "2026-07-06",
+            "key": "atlantica:oliver-cromwell:2026-07-06"
+          },
+          {
+            "figure": "oliver-cromwell",
+            "date": "2026-07-05",
+            "key": "atlantica:oliver-cromwell:2026-07-05"
+          },
+          {
+            "figure": "sun-tzu",
+            "date": "2026-07-04",
+            "key": "atlantica:sun-tzu:2026-07-04"
+          },
+          {
+            "figure": "tesla",
+            "date": "2026-07-04",
+            "key": "atlantica:tesla:2026-07-04"
+          },
+          {
+            "figure": "cleopatra",
+            "date": "2026-07-03",
+            "key": "atlantica:cleopatra:2026-07-03"
+          },
+          {
+            "figure": "tesla",
+            "date": "2026-07-03",
+            "key": "atlantica:tesla:2026-07-03"
+          }
+        ],
+        "note": "27 dispatch(es) in the hold · last 2026-07-13 (plato) · MISSED 2 of the last 14 days"
+      },
+      "THE WEEK": {
+        "id": "THE WEEK",
+        "cadence": "weekly (Sunday)",
+        "status": "FAIL",
+        "fired": 0,
+        "thisWeek": "2026-07-12",
+        "published": false,
+        "last": null,
+        "missedLast8": [
+          "2026-07-05",
+          "2026-06-28",
+          "2026-06-21",
+          "2026-06-14",
+          "2026-06-07",
+          "2026-05-31",
+          "2026-05-24",
+          "2026-05-17"
+        ],
+        "recent": [],
+        "note": "THE VAL·HAL·LA WEEKLY HAS NEVER BEEN ASSEMBLED."
+      },
+      "THE DAILY PLANET": {
+        "id": "THE DAILY PLANET",
+        "cadence": "daily",
+        "prefix": "dailyplanet:",
+        "status": "WARN",
+        "fired": 3,
+        "last": null,
+        "lastAgeDays": null,
+        "recent": [
+          "dailyplanet:lincoln:90-minutes-made-president",
+          "dailyplanet:lincoln:lincoln-s-cooper-union-speech-90-minutes",
+          "dailyplanet:lincoln:test-article"
+        ],
+        "note": "3 piece(s) under \"dailyplanet:\""
+      },
+      "THE PODCAST": {
+        "id": "THE PODCAST",
+        "cadence": "weekly",
+        "status": "FAIL",
+        "fired": 0,
+        "note": "NOTHING. No podcast keys under podcast:, pod: or audio:. It is scheduled and it has never fired — or it fires somewhere nothing can see."
+      },
+      "THE DOCKET": {
+        "id": "THE DOCKET",
+        "cadence": "per case",
+        "status": "WARN",
+        "fired": null,
+        "note": "The docket lives in the MINT worker (/quiz/topics), not the proxy. This probe does not walk that tube yet. The first set of cases closed on 13 July 2026 WITH ZERO ARGUMENTS SUBMITTED — a fact learned because a human looked at a date, not because anything watched."
+      }
+    }
+  },
   "ships": [
     {
       "file": "Page1.html",
@@ -621,7 +789,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-13T18:50:28.485Z",
+        "at": "2026-07-13T23:37:39.639Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -639,7 +807,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-13T18:50:28.485Z",
+        "at": "2026-07-13T23:37:39.639Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -657,7 +825,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-13T18:50:28.485Z",
+        "at": "2026-07-13T23:37:39.639Z",
         "status": "OK",
         "note": "every sealed table returned nothing to the anon key: subscribers: sealed (200, 0 rows) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows)"
       }

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-13T23:36:43.069Z",
+    "generated": "2026-07-13T23:38:47.011Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -685,8 +685,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 30290,
-      "sha256": "4d3e55842adb86e1",
+      "bytes": 30102,
+      "sha256": "5cbefec23522655c",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -695,25 +695,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 726,
+          "line": 724,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 727,
+          "line": 725,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 728,
+          "line": 726,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 729,
+          "line": 727,
           "when": "toplevel",
           "own": false
         }
