@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-13T03:23:07.600Z",
+    "generated": "2026-07-13T03:25:05.494Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -189,12 +189,6 @@
           "own": false
         },
         {
-          "global": "Amenti.openPanel",
-          "line": 3184,
-          "when": "toplevel",
-          "own": false
-        },
-        {
           "global": "Sovereign.UI",
           "line": 3202,
           "when": "toplevel",
@@ -247,12 +241,6 @@
           "line": 9286,
           "when": "toplevel",
           "own": true
-        },
-        {
-          "global": "Amenti.pickPrompt",
-          "line": 9798,
-          "when": "toplevel",
-          "own": false
         },
         {
           "global": "Sovereign.TechnicalBriefs",
@@ -697,8 +685,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 30232,
-      "sha256": "bed1521e678852df",
+      "bytes": 30996,
+      "sha256": "eafbd12bf59a7163",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -908,22 +896,7 @@
     }
   ],
   "findings": {
-    "wiring": [
-      {
-        "kind": "STOWAWAY",
-        "page": "Page2.html",
-        "global": "Amenti.openPanel",
-        "line": 3184,
-        "note": "used at parse time, and NO FILE IN THE REPO DECLARES IT"
-      },
-      {
-        "kind": "STOWAWAY",
-        "page": "Page2.html",
-        "global": "Amenti.pickPrompt",
-        "line": 9798,
-        "note": "used at parse time, and NO FILE IN THE REPO DECLARES IT"
-      }
-    ],
+    "wiring": [],
     "adrift": [
       {
         "file": "amenti-cassiel.js",

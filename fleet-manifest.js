@@ -8,14 +8,14 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T03:23:07.702Z",
-    "reading": "2026-07-13T03:23:07.600Z",
+    "merged": "2026-07-13T03:25:05.590Z",
+    "reading": "2026-07-13T03:25:05.494Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
-    "contradicted": 3,
+    "contradicted": 1,
     "unproven": 3,
     "undeclared": 5,
     "adrift": 3,
@@ -84,20 +84,6 @@ window.FLEET_MANIFEST = {
       "claim": "— nothing claims it —",
       "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
-    },
-    {
-      "stamp": "CONTRADICTED",
-      "subject": "Page2.html",
-      "claim": "Amenti.openPanel is provided by something",
-      "reading": "NO FILE IN THE REPO DECLARES IT",
-      "note": "A call into the void. It has been failing silently."
-    },
-    {
-      "stamp": "CONTRADICTED",
-      "subject": "Page2.html",
-      "claim": "Amenti.pickPrompt is provided by something",
-      "reading": "NO FILE IN THE REPO DECLARES IT",
-      "note": "A call into the void. It has been failing silently."
     },
     {
       "stamp": "UNPROVEN",
