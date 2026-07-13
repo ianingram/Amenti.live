@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T05:21:57.047Z",
-    "reading": "2026-07-13T05:21:56.945Z",
+    "merged": "2026-07-13T05:22:43.096Z",
+    "reading": "2026-07-13T05:22:43.000Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -624,7 +624,7 @@ window.FLEET_MANIFEST = {
       },
       "guards": "The Proxy Worker — /speak, /listen, and the chat",
       "threat": "Looping the open AI endpoints to run up the bill. A curl at /speak with a megabyte of text. And the one nobody saw: THE FIGURE HEARING ITSELF THROUGH THE SPEAKERS AND REPLYING TO ITSELF, ALL NIGHT.",
-      "probe": "probes/probe11.mjs",
+      "probe": "probes/probe-watches.mjs",
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "UNPROVEN"
     },
@@ -637,7 +637,7 @@ window.FLEET_MANIFEST = {
       },
       "guards": "The Mint Worker and the emerald ledger",
       "threat": "A forged /quiz/submit minting emeralds without earning them.",
-      "probe": null,
+      "probe": "probes/probe-watches.mjs",
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
@@ -655,7 +655,7 @@ window.FLEET_MANIFEST = {
       },
       "guards": "The Supabase tables and their row-level wards",
       "threat": "The public key reading private subscriber data.",
-      "probe": null,
+      "probe": "probes/probe-watches.mjs",
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
@@ -673,7 +673,7 @@ window.FLEET_MANIFEST = {
       },
       "guards": "File integrity across the fleet",
       "threat": "Tampering, defacement, a malicious commit.",
-      "probe": null,
+      "probe": "probes/probe-watches.mjs",
       "note": "A baseline of file hashes was claimed. No probe file has been found in the tree.",
       "stamp": "UNPROVEN"
     }
