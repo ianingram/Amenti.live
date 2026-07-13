@@ -54,12 +54,16 @@ jobs:
           node probes/probe-watches.mjs > fleet-patrol.json
           echo "exit=$?" >> $GITHUB_OUTPUT
 
+      - name: Walk the tubes
+        continue-on-error: true
+        run: node probes/probe-ordnance.mjs > fleet-dispatch.json
+
       - name: Commit the patrol reading
         run: |
           git config user.name  "fleet-patrol"
           git config user.email "patrol@amenti.live"
-          git add -f fleet-patrol.json
-          if git diff --cached --quiet -- fleet-patrol.json; then
+          git add -f fleet-patrol.json fleet-dispatch.json
+          if git diff --cached --quiet -- fleet-patrol.json fleet-dispatch.json; then
             echo "patrol unchanged"
           else
             git commit -m "patrol: $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
