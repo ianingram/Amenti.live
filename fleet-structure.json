@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-13T02:04:40.267Z",
+    "generated": "2026-07-13T03:23:07.600Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -697,8 +697,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 30035,
-      "sha256": "799e7eb254e4cc99",
+      "bytes": 30232,
+      "sha256": "bed1521e678852df",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -707,25 +707,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 740,
+          "line": 752,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 741,
+          "line": 753,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 742,
+          "line": 754,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 743,
+          "line": 755,
           "when": "toplevel",
           "own": false
         }
@@ -735,8 +735,8 @@
     },
     {
       "file": "fleet-semantics.js",
-      "bytes": 24294,
-      "sha256": "05fbe0c9203965f3",
+      "bytes": 25233,
+      "sha256": "ae71a548877ecf38",
       "type": "js",
       "declares": [
         "FLEET_SEMANTICS"
@@ -745,25 +745,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 280,
+          "line": 290,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 281,
+          "line": 291,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 282,
+          "line": 292,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 283,
+          "line": 293,
           "when": "toplevel",
           "own": false
         }
@@ -842,8 +842,8 @@
     },
     {
       "file": "scan.js",
-      "bytes": 15026,
-      "sha256": "888a3a61a60fa581",
+      "bytes": 15592,
+      "sha256": "2714dcd07c968a51",
       "type": "js",
       "declares": [],
       "loads": [],

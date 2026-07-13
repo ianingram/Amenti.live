@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T02:04:40.392Z",
-    "reading": "2026-07-13T02:04:40.267Z",
+    "merged": "2026-07-13T03:23:07.702Z",
+    "reading": "2026-07-13T03:23:07.600Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -377,12 +377,12 @@ window.FLEET_MANIFEST = {
       "file": "amenti-voice.js",
       "name": "The Boatswain of the Voice",
       "color": 52479,
-      "role": "THE MOUTH. One engine: strip, chunk, cadence, style, schedule. Not a throttle and never was — the rests are the point. 0.16s at a comma, 0.38s at a sentence, 0.85s at a paragraph: a person taking breath.",
+      "role": "THE MOUTH — and THE THROTTLE, which is not a metaphor but the diagnosis. An engine does not run on a tank of fuel dumped into the cylinder at once: it FLOODS. The HTTP 524 was a flood. Chunking is METERING — admitting the charge in measured amounts, at the moment the engine is ready to burn it. And the rests are the timing: 0.16s at a comma, 0.38s at a sentence, 0.85s at a paragraph. THE TEXT'S OWN PUNCTUATION BECOMES ITS SCORE.",
       "board": {
         "col": 5,
         "row": 2
       },
-      "note": "Consolidated from four copies. The name \"throttle\" misled everyone, including the machines.",
+      "note": "CONSOLIDATED from four copies — NOT redesigned. chunkText, restFor, plainText and composeStyle are copied BYTE FOR BYTE from amenti-throttle.js. Not improved. Not tidied. Not reformatted — a prettier space changes the /speak cache key and orphans the entire audio archive. probe7 and probe17 exist to prove every hash is identical. THE THROTTLING ARCHITECTURE IS NOT RETIRED. A FILENAME WAS. The engine still meters its own fuel; it simply has one carburettor now instead of four.",
       "group": "crew",
       "stamps": [
         "ADRIFT"
@@ -401,9 +401,9 @@ window.FLEET_MANIFEST = {
     },
     {
       "file": "amenti-throttle.js",
-      "name": "The Retired Boatswain",
+      "name": "The Elder Boatswain",
       "color": 5596791,
-      "role": "The former mouth. Superseded by amenti-voice.js. KEPT AS THE ROLLBACK — nothing is deleted on the same commit that makes it unnecessary.",
+      "role": "WHERE THE THROTTLE WAS FIRST CUT. Its architecture — the metering, the measures, the rests — lives on unchanged inside amenti-voice.js, byte for byte. This file is superseded, not repudiated. KEPT AS THE ROLLBACK: nothing is deleted on the same commit that makes it unnecessary.",
       "board": {
         "col": 5,
         "row": 3
