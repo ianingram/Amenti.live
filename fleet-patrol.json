@@ -1,8 +1,16 @@
 {
-  "at": "2026-07-13T05:03:10.513Z",
+  "at": "2026-07-13T07:27:15.528Z",
   "by": "probes/probe-watches.mjs",
   "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
   "watches": {
+    "COST WATCH": {
+      "id": "COST WATCH",
+      "status": "OK",
+      "ok": 2,
+      "warn": [],
+      "fail": [],
+      "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
+    },
     "DATA WATCH": {
       "id": "DATA WATCH",
       "status": "OK",
