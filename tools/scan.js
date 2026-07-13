@@ -187,6 +187,15 @@ function scanFile(file) {
     const g = m[1];
     const tail = code.slice(m.index + m[0].length, m.index + m[0].length + 4);
     if (/^\s*=[^=]/.test(tail)) continue;                    // an assignment, not a use
+
+    /* NOT A MEMBER OF SOMETHING ELSE.
+       Page2 calls `Sovereign.Angels.Amenti.openPanel()`. The regex matched the
+       `Amenti.openPanel` SUBSTRING inside that longer path and reported it as a
+       global that nothing declares — TWO FALSE RED ROWS on a healthy ship.
+       If a dot precedes the match and it is not `window.`, this is a member of
+       somebody else's namespace and it is none of our business. */
+    const before = code.slice(Math.max(0, m.index - 9), m.index);
+    if (/\.\s*$/.test(before) && !/window\.\s*$/.test(before)) continue;
     const when = enclosing(code, m.index);
     const line = lineOf(code, m.index);
     const own  = rec.declares.includes(g);
