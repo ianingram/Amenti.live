@@ -119,6 +119,46 @@ jobs:
             require("fs").appendFileSync(process.env.GITHUB_OUTPUT, "notwired=" + notWired.length + "\n");
           '
 
+      # ── RECONCILE ───────────────────────────────────────────────────────
+      # The claim meets the reading. The DIFF is the finding.
+      # exit 1 on a CONTRADICTION — a commit that makes the manifest lie does
+      # not merge. This step is ALLOWED to fail the build; that is its job.
+      - name: Merge — claims vs reading
+        id: merge
+        continue-on-error: true
+        run: |
+          node tools/merge.js fleet-semantics.js fleet-structure.json
+          echo "merge_exit=$?" >> $GITHUB_OUTPUT
+
+      # ── THE GLASS GATE ──────────────────────────────────────────────────
+      # Publish the reconciliation into the mirror. ONE DIRECTION. NEVER BACK.
+      #
+      #   REQUIRES a repository secret named FLEET_TOKEN:
+      #     a fine-grained PAT with Contents:write on ianingram/Fleet-Documents
+      #     Settings -> Secrets and variables -> Actions -> New repository secret
+      #
+      # Without it this step is SKIPPED — and the mirror will show the
+      # EMPTY-GLASS BOX rather than a stale fleet. That is the correct failure.
+      - name: Publish through the Glass Gate
+        if: github.event_name == 'push' && env.FLEET_TOKEN != ''
+        env:
+          FLEET_TOKEN: ${{ secrets.FLEET_TOKEN }}
+        run: |
+          git clone --depth 1 \
+            "https://x-access-token:${FLEET_TOKEN}@github.com/ianingram/Fleet-Documents.git" mirror
+          cp fleet-manifest.js mirror/fleet-manifest.js
+          cd mirror
+          git config user.name  "glass-gate"
+          git config user.email "gate@amenti.live"
+          git add -f fleet-manifest.js
+          if git diff --cached --quiet -- fleet-manifest.js; then
+            echo "the reflection is unchanged"
+          else
+            git commit -m "gate: reflect ${GITHUB_SHA::7}"
+            git push
+            echo "reflected ${GITHUB_SHA::7} through the gate"
+          fi
+
       # ── COMMIT THE READING ──────────────────────────────────────────────
       # It is written by the scanner, in the repo it describes, in the commit
       # that changed it. A human never types it. The moment a human types it,
@@ -139,12 +179,12 @@ jobs:
           # THE ACTION RAN TWICE, REPORTED SUCCESS, AND COMMITTED NOTHING.
           # A step that quietly does nothing and calls it green is the exact
           # disease this whole workflow exists to catch. It did it to itself.
-          git add -f fleet-structure.json
+          git add -f fleet-structure.json fleet-manifest.js
 
-          if git diff --cached --quiet -- fleet-structure.json; then
+          if git diff --cached --quiet -- fleet-structure.json fleet-manifest.js; then
             echo "structure unchanged — nothing to commit"
           else
-            git commit -m "scan: fleet-structure.json [skip ci]"
+            git commit -m "scan: fleet-structure + manifest [skip ci]"
             git push
             echo "committed the reading"
           fi
@@ -159,7 +199,7 @@ jobs:
 
       # ── AND THE WHOLE POINT ─────────────────────────────────────────────
       - name: A commit that makes the manifest lie does not merge
-        if: steps.report.outputs.notwired != '0'
+        if: steps.report.outputs.notwired != '0' || steps.merge.outcome == 'failure'
         run: |
           echo ""
           echo "  ══════════════════════════════════════════════════════════"
