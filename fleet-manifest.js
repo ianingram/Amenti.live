@@ -8,15 +8,15 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T04:36:36.067Z",
-    "reading": "2026-07-13T04:36:35.982Z",
+    "merged": "2026-07-13T04:37:21.879Z",
+    "reading": "2026-07-13T04:37:21.773Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
     "contradicted": 0,
-    "unproven": 2,
+    "unproven": 4,
     "undeclared": 4,
     "adrift": 3,
     "clean": true
@@ -80,9 +80,23 @@ window.FLEET_MANIFEST = {
     },
     {
       "stamp": "UNPROVEN",
+      "subject": "TREASURY WATCH",
+      "claim": "guards: The Mint Worker and the emerald ledger",
+      "reading": "THE PATROL COULD NOT PROVE IT: awaiting first live patrol",
+      "note": "The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly."
+    },
+    {
+      "stamp": "UNPROVEN",
+      "subject": "DATA WATCH",
+      "claim": "guards: The Supabase tables and their row-level wards",
+      "reading": "THE PATROL COULD NOT PROVE IT: awaiting first live patrol",
+      "note": "The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly."
+    },
+    {
+      "stamp": "UNPROVEN",
       "subject": "HULL WATCH",
       "claim": "guards: File integrity across the fleet",
-      "reading": "THE PATROL COULD NOT PROVE IT: Hull integrity is checked by comparing fleet-structure.json file hashes against a committed baseline. That comparison is not yet wired. Reporting WARN, not OK — a stub that returned green would be the very lie this whole system exists to kill.",
+      "reading": "THE PATROL COULD NOT PROVE IT: instrument is a stub",
       "note": "The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly."
     }
   ],
@@ -639,12 +653,7 @@ window.FLEET_MANIFEST = {
       "threat": "A forged /quiz/submit minting emeralds without earning them.",
       "probe": null,
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
-      "stamp": "CONFIRMED",
-      "patrol": {
-        "at": "2026-07-13T04:36:01.393Z",
-        "status": "OK",
-        "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
-      }
+      "stamp": "UNPROVEN"
     },
     {
       "id": "DATA WATCH",
@@ -657,12 +666,7 @@ window.FLEET_MANIFEST = {
       "threat": "The public key reading private subscriber data.",
       "probe": null,
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
-      "stamp": "CONFIRMED",
-      "patrol": {
-        "at": "2026-07-13T04:36:01.393Z",
-        "status": "OK",
-        "note": "every sealed table returned nothing to the anon key: subscribers: sealed (401) · emerald_balance: sealed (401) · argument_reports: sealed (401)"
-      }
+      "stamp": "UNPROVEN"
     },
     {
       "id": "HULL WATCH",
