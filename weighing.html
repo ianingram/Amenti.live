@@ -257,7 +257,18 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="amenti-auth.js"></script>
-<script src="amenti-throttle.js"></script>
+<!-- DEPLOY C — ONE ENGINE.
+     This page called Amenti.throttle.speak() to give the ghost on the stage its
+     voice. amenti-voice.js publishes Amenti.throttle as a FACADE, so that call
+     works unchanged — and the /speak cache keys are byte-identical (probe7,
+     probe17), so nothing re-renders and nothing re-bills.
+
+     The manifest caught this. We retired the throttle from Page1 and NEVER
+     LOOKED AT THIS PAGE. The claim said "retired, not loaded"; the reading said
+     "STILL LOADED BY weighing.html". The merge refused the commit.
+
+     We fixed the ship. We did not paint the mirror. -->
+<script src="amenti-voice.js"></script>
 <script>
 
 (function () {
