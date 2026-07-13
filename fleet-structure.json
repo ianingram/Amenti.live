@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-13T00:51:42.885Z",
+    "generated": "2026-07-13T01:14:18.079Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -696,6 +696,44 @@
       "tables": []
     },
     {
+      "file": "fleet-manifest.js",
+      "bytes": 32043,
+      "sha256": "a173ac22157a980a",
+      "type": "js",
+      "declares": [
+        "FLEET_MANIFEST"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "Amenti.chat",
+          "line": 775,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.listen",
+          "line": 776,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.voice",
+          "line": 777,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 778,
+          "when": "toplevel",
+          "own": false
+        }
+      ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "fleet-semantics.js",
       "bytes": 24169,
       "sha256": "3d35730ad02f0425",
@@ -910,6 +948,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "fleet-manifest.js",
+        "declares": [
+          "FLEET_MANIFEST"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "fleet-semantics.js",
