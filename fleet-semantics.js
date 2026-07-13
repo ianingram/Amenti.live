@@ -204,6 +204,7 @@ window.FLEET_SEMANTICS = {
      ──────────────────────────────────────────────────────────────────────── */
   watches: [
     { id: 'COST WATCH',     color: 0x57b6ff, corner: 'tr',
+      board: { edge: 'right' },
       guards: 'The Proxy Worker — /speak, /listen, and the chat',
       threat: 'Looping the open AI endpoints to run up the bill. A curl at /speak with a megabyte of text. ' +
               'And the one nobody saw: THE FIGURE HEARING ITSELF THROUGH THE SPEAKERS AND REPLYING TO ITSELF, ALL NIGHT.',
@@ -212,6 +213,7 @@ window.FLEET_SEMANTICS = {
               'The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.' },
 
     { id: 'TREASURY WATCH', color: 0x57b6ff, corner: 'tl',
+      board: { edge: 'front' },
       guards: 'The Mint Worker and the emerald ledger',
       threat: 'A forged /quiz/submit minting emeralds without earning them.',
       probe:  null,
@@ -222,6 +224,7 @@ window.FLEET_SEMANTICS = {
               'BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.' },
 
     { id: 'DATA WATCH',     color: 0x57b6ff, corner: 'bl',
+      board: { edge: 'left' },
       guards: 'The Supabase tables and their row-level wards',
       threat: 'The public key reading private subscriber data.',
       probe:  null,
@@ -229,6 +232,7 @@ window.FLEET_SEMANTICS = {
               'It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.' },
 
     { id: 'HULL WATCH',     color: 0x57b6ff, corner: 'br',
+      board: { edge: 'far' },
       guards: 'File integrity across the fleet',
       threat: 'Tampering, defacement, a malicious commit.',
       probe:  null,
