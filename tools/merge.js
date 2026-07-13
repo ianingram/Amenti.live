@@ -52,6 +52,15 @@ const structure = JSON.parse(fs.readFileSync(STR_PATH, 'utf8'));
    -> the watch is UNPROVEN, amber, honestly. */
 let patrol = null;
 try { patrol = JSON.parse(fs.readFileSync('fleet-patrol.json', 'utf8')); } catch (e) {}
+
+/* THE FIRING LOG. What the fleet has actually PUBLISHED — read from the Worker's
+   own KV by probes/probe-ordnance.mjs.
+
+   A schedule that nobody checks is a promise nobody keeps. The Docket proclaimed
+   itself on time, to a harbour that was not listening — and the only reason
+   anybody knows is that a human happened to look at the date. */
+let dispatch = null;
+try { dispatch = JSON.parse(fs.readFileSync('fleet-dispatch.json', 'utf8')); } catch (e) {}
 const PATROL_MAX_H = 26;   // a reading older than this is not a current reading
 function patrolFor(id) {
   if (!patrol || !patrol.watches || !patrol.watches[id]) return null;
@@ -250,6 +259,33 @@ const engines = S.engines.map(e => {
   return out;
 });
 
+/* ── THE TUBES. A schedule that never fires is a promise nobody keeps. ─────── */
+if (dispatch && dispatch.tubes) {
+  for (const t of Object.values(dispatch.tubes)) {
+    if (t.status === 'FAIL') {
+      push(row('UNPROVEN', t.id,
+        `a ${t.cadence || 'scheduled'} dispatch`,
+        'NOTHING HAS EVER FIRED FROM THIS TUBE',
+        t.note || ''));
+    } else if (t.missedLast14 && t.missedLast14.length) {
+      push(row('UNPROVEN', t.id,
+        `fires ${t.cadence}`,
+        `MISSED ${t.missedLast14.length} of the last 14 days`,
+        'The tube is loaded and the schedule is set. It simply did not fire.'));
+    } else if (t.missedLast8 && t.missedLast8.length) {
+      push(row('UNPROVEN', t.id,
+        `fires ${t.cadence}`,
+        `MISSED ${t.missedLast8.length} of the last 8 weeks`, ''));
+    }
+  }
+} else {
+  push(row('UNPROVEN', 'THE ORDNANCE BAY',
+    'four tubes publish from this ship',
+    'NOBODY HAS WALKED THE TUBES',
+    'No firing log. What went out, what is loaded, and what was MISSED — all unknown. ' +
+    'Run probes/probe-ordnance.mjs.'));
+}
+
 /* ── EMIT ─────────────────────────────────────────────────────────────────── */
 const counts = drift.reduce((a, d) => (a[d.stamp] = (a[d.stamp] || 0) + 1, a), {});
 const contradicted = counts.CONTRADICTED || 0;
@@ -272,6 +308,7 @@ const manifest = {
     clean:      contradicted === 0,
   },
   drift,
+  dispatch,                       // the firing log — null if nothing has walked the tubes
   ships, crew, watches, engines,
   satellites: S.satellites,
   doctrine: S.doctrine,
