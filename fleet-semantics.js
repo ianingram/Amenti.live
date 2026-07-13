@@ -218,7 +218,7 @@ window.FLEET_SEMANTICS = {
       guards: 'The Proxy Worker — /speak, /listen, and the chat',
       threat: 'Looping the open AI endpoints to run up the bill. A curl at /speak with a megabyte of text. ' +
               'And the one nobody saw: THE FIGURE HEARING ITSELF THROUGH THE SPEAKERS AND REPLYING TO ITSELF, ALL NIGHT.',
-      probe:  'probes/probe11.mjs',
+      probe:  'probes/probe-watches.mjs',
       note:   'Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. ' +
               'The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.' },
 
@@ -226,7 +226,7 @@ window.FLEET_SEMANTICS = {
       board: { edge: 'front' },
       guards: 'The Mint Worker and the emerald ledger',
       threat: 'A forged /quiz/submit minting emeralds without earning them.',
-      probe:  null,
+      probe:  'probes/probe-watches.mjs',
       note:   'READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, ' +
               'the clock is server-authoritative, minting is idempotent per (user, topic, question). ' +
               'ONE SOFT SPOT: /readaloud/complete TRUSTS the client\'s coverage number — bounded by a decaying ' +
@@ -237,7 +237,7 @@ window.FLEET_SEMANTICS = {
       board: { edge: 'left' },
       guards: 'The Supabase tables and their row-level wards',
       threat: 'The public key reading private subscriber data.',
-      probe:  null,
+      probe:  'probes/probe-watches.mjs',
       note:   'THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. ' +
               'It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.' },
 
@@ -245,7 +245,7 @@ window.FLEET_SEMANTICS = {
       board: { edge: 'far' },
       guards: 'File integrity across the fleet',
       threat: 'Tampering, defacement, a malicious commit.',
-      probe:  null,
+      probe:  'probes/probe-watches.mjs',
       note:   'A baseline of file hashes was claimed. No probe file has been found in the tree.' },
   ],
 
