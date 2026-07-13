@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-13T01:27:17.923Z",
+    "generated": "2026-07-13T02:04:40.267Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -697,8 +697,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 32043,
-      "sha256": "3795da961b916803",
+      "bytes": 30035,
+      "sha256": "799e7eb254e4cc99",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -707,25 +707,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 775,
+          "line": 740,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 776,
+          "line": 741,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 777,
+          "line": 742,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 778,
+          "line": 743,
           "when": "toplevel",
           "own": false
         }
@@ -735,8 +735,8 @@
     },
     {
       "file": "fleet-semantics.js",
-      "bytes": 24169,
-      "sha256": "3d35730ad02f0425",
+      "bytes": 24294,
+      "sha256": "05fbe0c9203965f3",
       "type": "js",
       "declares": [
         "FLEET_SEMANTICS"
@@ -745,25 +745,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 276,
+          "line": 280,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 277,
+          "line": 281,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 278,
+          "line": 282,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 279,
+          "line": 283,
           "when": "toplevel",
           "own": false
         }

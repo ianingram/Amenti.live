@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-13T01:27:18.022Z",
-    "reading": "2026-07-13T01:27:17.923Z",
+    "merged": "2026-07-13T02:04:40.392Z",
+    "reading": "2026-07-13T02:04:40.267Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -655,6 +655,9 @@ window.FLEET_MANIFEST = {
       "id": "COST WATCH",
       "color": 5748479,
       "corner": "tr",
+      "board": {
+        "edge": "right"
+      },
       "guards": "The Proxy Worker — /speak, /listen, and the chat",
       "threat": "Looping the open AI endpoints to run up the bill. A curl at /speak with a megabyte of text. And the one nobody saw: THE FIGURE HEARING ITSELF THROUGH THE SPEAKERS AND REPLYING TO ITSELF, ALL NIGHT.",
       "probe": "probes/probe11.mjs",
@@ -665,6 +668,9 @@ window.FLEET_MANIFEST = {
       "id": "TREASURY WATCH",
       "color": 5748479,
       "corner": "tl",
+      "board": {
+        "edge": "front"
+      },
       "guards": "The Mint Worker and the emerald ledger",
       "threat": "A forged /quiz/submit minting emeralds without earning them.",
       "probe": null,
@@ -675,6 +681,9 @@ window.FLEET_MANIFEST = {
       "id": "DATA WATCH",
       "color": 5748479,
       "corner": "bl",
+      "board": {
+        "edge": "left"
+      },
       "guards": "The Supabase tables and their row-level wards",
       "threat": "The public key reading private subscriber data.",
       "probe": null,
@@ -685,6 +694,9 @@ window.FLEET_MANIFEST = {
       "id": "HULL WATCH",
       "color": 5748479,
       "corner": "br",
+      "board": {
+        "edge": "far"
+      },
       "guards": "File integrity across the fleet",
       "threat": "Tampering, defacement, a malicious commit.",
       "probe": null,
