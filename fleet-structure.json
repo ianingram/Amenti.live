@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-14T03:57:53.666Z",
+    "generated": "2026-07-14T04:11:58.818Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -302,22 +302,15 @@
     },
     {
       "file": "amenti-canonical.js",
-      "bytes": 12513,
-      "sha256": "cb7c1e95eb5bb8aa",
+      "bytes": 14691,
+      "sha256": "df5746c34ae51fea",
       "type": "js",
       "declares": [
         "Amenti",
         "Amenti.canonical"
       ],
       "loads": [],
-      "calls": [
-        {
-          "global": "Amenti.canonical",
-          "line": 227,
-          "when": "iife",
-          "own": true
-        }
-      ],
+      "calls": [],
       "endpoints": [],
       "tables": []
     },
@@ -710,8 +703,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 35506,
-      "sha256": "f4d099bb8a062ee9",
+      "bytes": 35900,
+      "sha256": "e8b6c5df219fc4ef",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -720,25 +713,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 892,
+          "line": 906,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 893,
+          "line": 907,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 894,
+          "line": 908,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 895,
+          "line": 909,
           "when": "toplevel",
           "own": false
         }
@@ -912,6 +905,14 @@
   "findings": {
     "wiring": [],
     "adrift": [
+      {
+        "file": "amenti-canonical.js",
+        "declares": [
+          "Amenti.canonical"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
       {
         "file": "amenti-cassiel.js",
         "declares": [
