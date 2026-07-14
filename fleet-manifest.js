@@ -8,15 +8,15 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-14T08:21:35.220Z",
-    "reading": "2026-07-14T08:21:35.138Z",
+    "merged": "2026-07-14T08:31:18.274Z",
+    "reading": "2026-07-14T08:31:18.175Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
     "contradicted": 0,
-    "unproven": 7,
+    "unproven": 6,
     "undeclared": 5,
     "adrift": 3,
     "clean": true
@@ -87,13 +87,6 @@ window.FLEET_MANIFEST = {
     },
     {
       "stamp": "UNPROVEN",
-      "subject": "ARCHIVE WATCH",
-      "claim": "guards: The R2 audio archive — and the cache key inside a Worker nobody can read",
-      "reading": "the probe exists, but NO PATROL HAS RUN",
-      "note": "A probe that has never run is a prayer. The old manifest showed this GREEN for months with nothing behind it — manufacturing confidence that nobody had earned."
-    },
-    {
-      "stamp": "UNPROVEN",
       "subject": "The Conversation Engine",
       "claim": "The canonical passage (933 chars, sha 27e9c5af, LOCKED) is a CACHE HIT on all six wires — 4 measures at recital/320 and 2 at gabriel/700. Every hit is free; a MISS means the cache key has moved and the archive has forked.",
       "reading": "probe named but NOT IN THE TREE: probes/probe-watches.mjs  ->  ARCHIVE WATCH  (every 6h)",
@@ -129,14 +122,14 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-07-14T07:00:15.746Z",
+    "at": "2026-07-14T08:24:59.921Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 49,
+      "count": 47,
       "prefixes": {
         "atlantica:": 41,
         "dailyplanet:": 3,
-        "watch:": 5
+        "watch:": 3
       }
     },
     "today": "2026-07-14",
@@ -827,7 +820,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T07:00:14.731Z",
+        "at": "2026-07-14T08:24:58.872Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -845,7 +838,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T07:00:14.731Z",
+        "at": "2026-07-14T08:24:58.872Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -863,7 +856,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T07:00:14.731Z",
+        "at": "2026-07-14T08:24:58.872Z",
         "status": "OK",
         "note": "every sealed table returned nothing to the anon key: subscribers: sealed (200, 0 rows) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows)"
       }
@@ -892,7 +885,12 @@ window.FLEET_MANIFEST = {
       "threat": "A silent byte moving in the model string, VOICE_REGISTER, composeStyle, chunkText, or a chunk PROFILE — orphaning every clip in R2 and re-billing the entire archive. Field Journal II records that the model string HAS silently reverted before.",
       "probe": "probes/probe-watches.mjs  ->  archiveWatch()",
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
-      "stamp": "UNPROVEN"
+      "stamp": "CONFIRMED",
+      "patrol": {
+        "at": "2026-07-14T08:24:58.872Z",
+        "status": "OK",
+        "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
+      }
     }
   ],
   "engines": [
