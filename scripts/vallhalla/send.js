@@ -29,6 +29,39 @@ const {
 const BATCH = 100;                 // Resend batch API: up to 100 per call
 const dry = DRY_RUN === '1';
 
+/* ── THE RIVET ──────────────────────────────────────────────────────────────
+   THIS PIPE HAD NO IDEMPOTENCY. It read every active subscriber and mailed
+   them. Fire it twice — a retry, a re-run, a hand on the dispatch button — and
+   EVERY SUBSCRIBER GETS IT TWICE.
+
+   The Siege put a rivet of iron law through the Seal for exactly this:
+
+       "UNIQUE(topic_id, week_of)  =>  a re-fired cron CANNOT double-seal."
+
+   The herald never got one. It has one now.
+
+       IDEMPOTENCY IS A CONSTRAINT, NOT A PROMISE.
+
+   vallhalla/sent.json is the ledger. It is committed by the workflow. A week
+   already in it is NEVER sent again — and that is not an error. It is the
+   correct outcome, and it exits 0 so a double-fire is quiet, not alarming.
+   ────────────────────────────────────────────────────────────────────────── */
+const SENT_PATH = 'vallhalla/sent.json';
+const META_PATH = 'vallhalla/meta.json';
+
+function readSent() {
+  try { return JSON.parse(fs.readFileSync(SENT_PATH, 'utf8')); }
+  catch (e) { return { note: 'Weeks VALL-HALLA has been delivered. A week in this list is NEVER sent again.', weeks: [] }; }
+}
+function markSent(week, count) {
+  const led = readSent();
+  led.weeks = led.weeks || [];
+  if (!led.weeks.some(w => (w.week_of || w) === week)) {
+    led.weeks.push({ week_of: week, at: new Date().toISOString(), inboxes: count });
+  }
+  fs.writeFileSync(SENT_PATH, JSON.stringify(led, null, 2) + '\n');
+}
+
 function need(name, val) { if (!val) { console.error('Missing env: ' + name); process.exit(1); } }
 
 async function sbSelect() {
@@ -64,7 +97,27 @@ async function sendBatch(items, html, subject) {
   need('SUPABASE_SERVICE_KEY', SUPABASE_SERVICE_KEY);
   if (!dry) { need('RESEND_API_KEY', RESEND_API_KEY); need('VALLHALLA_FROM', VALLHALLA_FROM); }
 
-  const subject = VALLHALLA_SUBJECT || 'VALL-HALLA';
+  /* THE ASSEMBLER WROTE THIS. If it is not here, nothing was assembled — and a
+     send pipe with nothing to send must not invent something. */
+  let meta;
+  try { meta = JSON.parse(fs.readFileSync(META_PATH, 'utf8')); }
+  catch (e) {
+    console.error('✗ NO ISSUE WAS ASSEMBLED. vallhalla/meta.json is absent.');
+    console.error('  Run scripts/vallhalla/assemble.js first. NOTHING WAS SENT.');
+    process.exit(1);
+  }
+  const week = meta.week_of;
+  const subject = VALLHALLA_SUBJECT || meta.subject || 'VALL-HALLA';
+
+  /* ── THE RIVET HOLDS HERE ─────────────────────────────────────────────── */
+  const led = readSent();
+  if ((led.weeks || []).some(w => (w.week_of || w) === week)) {
+    console.log('✓ The week of ' + week + ' HAS ALREADY BEEN DELIVERED.');
+    console.log('  Nothing sent. This is not an error — it is the rivet doing its job.');
+    console.log('  A re-fired cron CANNOT double-mail. See vallhalla/sent.json.');
+    return;
+  }
+
   const html = fs.readFileSync(VALLHALLA_HTML_PATH, 'utf8');
   if (!/{{UNSUB_URL}}/.test(html)) {
     console.warn('⚠ newsletter HTML has no {{UNSUB_URL}} placeholder — unsubscribe link will be missing.');
@@ -75,8 +128,16 @@ async function sendBatch(items, html, subject) {
   if (list.length === 0) { console.log('Nobody to send to. Done.'); return; }
 
   if (dry) {
-    console.log('DRY_RUN — would send to:');
-    list.forEach(s => console.log('  ' + s.email));
+    console.log('');
+    console.log('DRY_RUN — NOTHING WILL BE SENT.');
+    console.log('  week_of : ' + week);
+    console.log('  subject : ' + subject);
+    console.log('  issue   : ' + VALLHALLA_HTML_PATH + ' (' + html.length + ' bytes)');
+    console.log('  unsub   : ' + (/{{UNSUB_URL}}/.test(html) ? 'placeholder present ✓' : 'MISSING <<<'));
+    console.log('  would send to ' + list.length + ' inbox(es):');
+    list.forEach(s => console.log('    ' + s.email));
+    console.log('');
+    console.log('  The ledger would then record ' + week + ' and REFUSE to send it again.');
     return;
   }
 
@@ -87,5 +148,7 @@ async function sendBatch(items, html, subject) {
     sent += chunk.length;
     console.log(`  batch ${i / BATCH + 1}: ${chunk.length} sent (${sent}/${list.length})`);
   }
+  markSent(week, sent);
   console.log(`✅ VALL-HALLA delivered to ${sent} inboxes.`);
+  console.log(`   ${week} written to ${SENT_PATH}. IT WILL NEVER BE SENT AGAIN.`);
 })().catch(e => { console.error(e); process.exit(1); });
