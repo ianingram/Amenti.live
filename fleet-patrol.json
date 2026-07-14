@@ -1,5 +1,5 @@
 {
-  "at": "2026-07-14T18:41:55.375Z",
+  "at": "2026-07-14T21:37:14.794Z",
   "by": "probes/probe-watches.mjs",
   "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
   "watches": {
@@ -13,13 +13,11 @@
     },
     "DATA WATCH": {
       "id": "DATA WATCH",
-      "status": "FAIL",
-      "ok": 3,
+      "status": "OK",
+      "ok": 4,
       "warn": [],
-      "fail": [
-        "THE ANON KEY MAY WRITE TO `subscribers` (204). The \"unsub by token\" policy uses `using (true)` and never checks the token. Nothing was changed by this probe — the nil UUID matches no row — BUT A REAL FILTER WOULD HAVE GONE THROUGH. With the public key alone, anyone can unsubscribe your entire list, or REWRITE EVERY SUBSCRIBER EMAIL and redirect the newsletter. DROP THAT POLICY. Do the unsubscribe through a SECURITY DEFINER function that takes the token and can do nothing else."
-      ],
-      "note": "AN OPEN DOOR. THE ANON KEY MAY WRITE TO `subscribers` (204). The \"unsub by token\" policy uses `using (true)` and never checks the token. Nothing was changed by this probe — the nil UUID matches no row — BUT A REAL FILTER WOULD HAVE GONE THROUGH. With the public key alone, anyone can unsubscribe your entire list, or REWRITE EVERY SUBSCRIBER EMAIL and redirect the newsletter. DROP THAT POLICY. Do the unsubscribe through a SECURITY DEFINER function that takes the token and can do nothing else."
+      "fail": [],
+      "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
     },
     "TREASURY WATCH": {
       "id": "TREASURY WATCH",
