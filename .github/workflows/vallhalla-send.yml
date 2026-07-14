@@ -1,30 +1,89 @@
-# .github/workflows/vallhalla-send.yml
-# Manual-trigger send for the VALL-HALLA newsletter. Mirrors atlantica-dispatch.yml.
-# Click "Run workflow" in the Actions tab, choose dry-run first to preview recipients,
-# then run for real. Uncomment `schedule` once you trust it to send weekly.
+# ============================================================================
+#  .github/workflows/vallhalla-send.yml   ·   THE HERALD
+# ----------------------------------------------------------------------------
+#  WHY THIS TUBE NEVER FIRED
+#
+#  The manifest said it plainly for months: "THE WEEK — NOTHING HAS EVER FIRED
+#  FROM THIS TUBE." The handoff blamed a missing [triggers] crons block in the
+#  Worker's wrangler.toml. It was never a Worker cron. It was this file, and the
+#  schedule was COMMENTED OUT with an honest note: "uncomment when ready."
+#
+#  It was not ready. Two things were missing, and both would have hurt people:
+#
+#    1. THERE WAS NOTHING TO SEND.
+#       send.js reads a finished HTML document off the disk. NOTHING PRODUCED
+#       THAT DOCUMENT. vallhalla/issue.html did not exist. Uncommenting the cron
+#       would have crashed the job — or, worse, mailed the same static file every
+#       Sunday, forever, with the subject hardcoded to "Issue #1".
+#
+#    2. THERE WAS NO RIVET.
+#       No week_of. No ledger. No idempotency of any kind. A retry, a re-run, or
+#       a stray click on the dispatch button and EVERY SUBSCRIBER GETS IT TWICE.
+#       The Siege put iron law through the Seal for exactly this reason —
+#       "UNIQUE(topic_id, week_of) => a re-fired cron CANNOT double-seal" — and
+#       the herald was never given one.
+#
+#  Both are fixed. assemble.js builds the issue from the fleet's LIVE state and
+#  REFUSES to produce an empty one. send.js reads vallhalla/sent.json and will
+#  NEVER mail a week twice.
+#
+#  THE CRON IS STILL COMMENTED. ON PURPOSE.
+#  An email cannot be unsent. Before you uncomment it:
+#
+#      1. Run this workflow with dry_run = true.
+#      2. Read what it would send, and to whom.
+#      3. Run it for real, once, by hand.
+#      4. Confirm vallhalla/sent.json recorded the week.
+#      5. THEN uncomment the schedule below.
+#
+#  THE STAGGER — do not change the hour without reading this.
+#    The bell (settle/seal) rings Monday at midnight. The herald speaks Sunday
+#    at noon — SIX DAYS BEHIND IT. It reports a hall that sealed long ago. It
+#    cannot read a half-open one. That six-day trail is the whole reason the
+#    captain refused to let the two share an instant:
+#
+#      "Synching the two would cause massive upheaval in temporal distortion...
+#       The solution is to stagger them appropriately."
+#
+#    Two strands must never occupy one rung.
+# ============================================================================
 name: VALL-HALLA send
 
 on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Dry run (list recipients, send nothing)"
+        description: "Dry run (assemble + list recipients, send nothing)"
         required: false
         default: "true"
+
+  # ── UNCOMMENT ONLY AFTER A CLEAN DRY RUN AND ONE SUCCESSFUL MANUAL SEND ──
   # schedule:
-  #   - cron: "0 12 * * 0"   # 12:00 UTC every Sunday — uncomment when ready
+  #   - cron: "0 12 * * 0"   # Sunday 12:00 UTC — six days behind the bell
 
 permissions:
-  contents: read
+  contents: write            # so the ledger can be committed back
 
 jobs:
-  send:
+  herald:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+
+      # ── 1 · ASSEMBLE ──────────────────────────────────────────────────────
+      #  Reads the docket, the standings and the week's dispatches from the
+      #  PUBLIC Worker endpoints. No secret. Exits 2 if the hall is silent —
+      #  and then the send step never runs. A herald that speaks with nothing to
+      #  say spends the only thing it owns: the right to be opened next week.
+      - name: Assemble the week
+        run: node scripts/vallhalla/assemble.js
+
+      # ── 2 · SEND ──────────────────────────────────────────────────────────
+      #  Refuses a week already in vallhalla/sent.json. That refusal is a
+      #  SUCCESS, not a failure — a double-fire must be quiet, not alarming.
       - name: Send VALL-HALLA
         run: node scripts/vallhalla/send.js
         env:
@@ -32,7 +91,20 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           RESEND_API_KEY:       ${{ secrets.RESEND_API_KEY }}
           VALLHALLA_FROM:       ${{ secrets.VALLHALLA_FROM }}
-          VALLHALLA_SUBJECT:    "VALL-HALLA · Issue #1"
           VALLHALLA_HTML_PATH:  "vallhalla/issue.html"
           UNSUB_BASE:           ${{ secrets.UNSUB_BASE }}
           DRY_RUN:              ${{ github.event.inputs.dry_run == 'true' && '1' || '' }}
+          # VALLHALLA_SUBJECT is no longer hardcoded. The assembler writes it
+          # into vallhalla/meta.json, dated to the week. "Issue #1" forever was
+          # a promise the herald could not keep.
+
+      # ── 3 · THE LEDGER ────────────────────────────────────────────────────
+      #  The rivet is only iron if it survives the runner. Commit it.
+      - name: Commit the ledger
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name  "amenti-herald"
+          git config user.email "herald@amenti.live"
+          git add vallhalla/sent.json vallhalla/issue.html vallhalla/meta.json || true
+          git diff --cached --quiet || git commit -m "vallhalla: delivered [skip ci]"
+          git push || true

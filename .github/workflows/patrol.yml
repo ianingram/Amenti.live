@@ -57,6 +57,14 @@ jobs:
       - name: Walk the tubes
         continue-on-error: true
         run: node probes/probe-ordnance.mjs > fleet-dispatch.json
+        env:
+          # THE LOAD, NOT THE ROLL. Used ONLY for a HEAD + count=exact request —
+          # a number and no rows. No address can reach fleet-dispatch.json, and
+          # fleet-dispatch.json is rendered on a PUBLIC page. DATA WATCH exists to
+          # prove that table is sealed; the instrument that reports on it must not
+          # be the thing that opens it.
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
 
       - name: Commit the patrol reading
         run: |
