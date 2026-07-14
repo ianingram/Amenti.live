@@ -275,7 +275,7 @@ window.FLEET_SEMANTICS = {
       threat: 'A silent byte moving in the model string, VOICE_REGISTER, composeStyle, chunkText, ' +
               'or a chunk PROFILE — orphaning every clip in R2 and re-billing the entire archive. ' +
               'Field Journal II records that the model string HAS silently reverted before.',
-      probe:  'probes/probe-watches.mjs  ->  archiveWatch()',
+      probe:  'probes/probe-watches.mjs',
       note:   'The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. ' +
               '6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. ' +
               'A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. ' +
@@ -349,7 +349,7 @@ window.FLEET_SEMANTICS = {
         { claim: 'The canonical passage (933 chars, sha 27e9c5af, LOCKED) is a CACHE HIT on all six ' +
                  'wires — 4 measures at recital/320 and 2 at gabriel/700. Every hit is free; a MISS ' +
                  'means the cache key has moved and the archive has forked.',
-          probe: 'probes/probe-watches.mjs  ->  ARCHIVE WATCH  (every 6h)',
+          probe: 'probes/probe-watches.mjs',   /* -> archiveWatch(), on the 6-hourly patrol */
           cost:  'The archive is six weeks of R2 and the whole cost story of the business. ' +
                  'A silent revert of the model string orphans ALL OF IT — and Field Journal II ' +
                  'records that the model string HAS silently reverted before. ' +
@@ -366,7 +366,7 @@ window.FLEET_SEMANTICS = {
            never was" all happened. THE CODE CANNOT TELL YOU THE INTENT. */
         { claim: 'PROFILES.recital === 320 and PROFILES.gabriel === 700. They are SEPARATE CACHE ' +
                  'NAMESPACES and they do NOT share an archive. THIS IS INTENDED. The bill is the reason.',
-          probe: 'probes/probe7.js  +  probes/probe17.js  +  ARCHIVE WATCH',
+          probe: 'probes/probe7.js  +  probes/probe17.js  +  probes/probe-watches.mjs',
           cost:  'Unify them and Page2\'s entire archive is orphaned and re-rendered. ' +
                  'A commit that moves either number must argue with the Gate first — which means ' +
                  'a human has to MEAN it.' },
@@ -375,7 +375,9 @@ window.FLEET_SEMANTICS = {
            The same law as the register table, applied to chunk size. */
         { claim: 'CONV_FIRST_MAX (110) is reached ONLY from register:conversational. Every recital ' +
                  'path passes firstMax = 0 and calls the LOCKED chunker unchanged.',
-          probe: 'probes/probe21 (phase 2)  +  ARCHIVE WATCH',
+          probe: 'probes/probe-watches.mjs',   /* ARCHIVE WATCH proves it: if the opener ever
+                                                  reached the recital path, the four 320 keys
+                                                  would MISS and the watch would go red. */
           cost:  'The counsel is never cached, so its boundaries are free to move. The recital\'s ' +
                  'boundaries ARE THE CACHE KEY. Let the opener touch the recital path and the ' +
                  'archive forks. Not "shouldn\'t" — CANNOT. Keep it that way.' },
