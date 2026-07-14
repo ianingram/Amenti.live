@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-14T06:33:27.099Z",
-    "reading": "2026-07-14T06:33:27.002Z",
+    "merged": "2026-07-14T07:17:15.435Z",
+    "reading": "2026-07-14T07:17:15.331Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -108,14 +108,14 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-07-14T00:51:01.495Z",
+    "at": "2026-07-14T07:00:15.746Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 46,
+      "count": 49,
       "prefixes": {
-        "atlantica:": 40,
+        "atlantica:": 41,
         "dailyplanet:": 3,
-        "watch:": 3
+        "watch:": 5
       }
     },
     "today": "2026-07-14",
@@ -126,16 +126,21 @@ window.FLEET_MANIFEST = {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 27,
+        "fired": 28,
         "last": {
-          "date": "2026-07-13",
-          "figure": "plato"
+          "date": "2026-07-14",
+          "figure": "seneca"
         },
-        "lastAgeDays": 1,
+        "lastAgeDays": 0,
         "missedLast14": [
           "2026-06-30"
         ],
         "recent": [
+          {
+            "figure": "seneca",
+            "date": "2026-07-14",
+            "key": "atlantica:seneca:2026-07-14"
+          },
           {
             "figure": "plato",
             "date": "2026-07-13",
@@ -200,14 +205,9 @@ window.FLEET_MANIFEST = {
             "figure": "cleopatra",
             "date": "2026-07-03",
             "key": "atlantica:cleopatra:2026-07-03"
-          },
-          {
-            "figure": "tesla",
-            "date": "2026-07-03",
-            "key": "atlantica:tesla:2026-07-03"
           }
         ],
-        "note": "27 dispatch(es) in the hold · last 2026-07-13 (plato) · MISSED 1 of the last 14 days"
+        "note": "28 dispatch(es) in the hold · last 2026-07-14 (seneca) · MISSED 1 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -280,8 +280,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 1579903,
-      "sha256": "066b7323836514c6",
+      "bytes": 1585404,
+      "sha256": "5d383b5c78f6ac7a",
       "declares": [
         "AMENTI_CHARS",
         "AMENTI_ERAS",
@@ -290,6 +290,7 @@ window.FLEET_MANIFEST = {
         "AMENTI_SVG",
         "AMENTI_VOICE",
         "Amenti",
+        "Amenti.micLamp",
         "Amenti.terminal",
         "Amenti.terminalPath",
         "AmentiBrowseRefresh",
@@ -803,7 +804,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T00:51:00.196Z",
+        "at": "2026-07-14T07:00:14.731Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -821,7 +822,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T00:51:00.196Z",
+        "at": "2026-07-14T07:00:14.731Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -839,7 +840,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T00:51:00.196Z",
+        "at": "2026-07-14T07:00:14.731Z",
         "status": "OK",
         "note": "every sealed table returned nothing to the anon key: subscribers: sealed (200, 0 rows) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows)"
       }
