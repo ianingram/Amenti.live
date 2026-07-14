@@ -1,7 +1,15 @@
 {
-  "at": "2026-07-13T23:43:32.855Z",
+  "at": "2026-07-14T00:15:26.409Z",
   "by": "probes/probe-ordnance.mjs",
-  "today": "2026-07-13",
+  "hold": {
+    "count": 46,
+    "prefixes": {
+      "atlantica:": 40,
+      "dailyplanet:": 3,
+      "watch:": 3
+    }
+  },
+  "today": "2026-07-14",
   "thisWeek": "2026-07-12",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -14,10 +22,9 @@
         "date": "2026-07-13",
         "figure": "plato"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
-        "2026-06-30",
-        "2026-06-29"
+        "2026-06-30"
       ],
       "recent": [
         {
@@ -91,7 +98,7 @@
           "key": "atlantica:tesla:2026-07-03"
         }
       ],
-      "note": "27 dispatch(es) in the hold · last 2026-07-13 (plato) · MISSED 2 of the last 14 days"
+      "note": "27 dispatch(es) in the hold · last 2026-07-13 (plato) · MISSED 1 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
