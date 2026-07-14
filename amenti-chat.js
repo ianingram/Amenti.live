@@ -59,14 +59,49 @@
   }
 
   /* ── THE MOVE PROTOCOL ────────────────────────────────────────────────
-     Appended to every persona prompt. The figure declares what it just DID;
-     the core reads that declaration to decide whether the mic should open,
-     how the line should be spoken, and (later) whether an arrest is in flight.
+     ⚠ COUNSEL ONLY. IT MUST NEVER BE APPENDED IN CHARACTER MODE.
 
-     Kept short on purpose. A protocol the model must obey on every single turn
-     competes for attention with the character it must inhabit — and character
-     is the product. If it forgets the tag, the core degrades gracefully.
+     The figure declares what it just DID; the core reads that declaration to
+     decide whether the mic should open, how the line should be spoken, and
+     whether an arrest is in flight.
+
+     It carries THE LAW OF THE EXCHANGE — statements not questions, two
+     statements per question, kill every "why". That law is a COUNSELLING
+     TECHNIQUE. It is superb for drawing out a person who is circling something
+     they will not say. It is WRONG for a visitor who came to ask Caesar about
+     the Rubicon — and it CONTRADICTS the character prompt, which tells the
+     figure that a sharp question can be its whole reply.
+
+     The prompt was arguing with itself, every turn, for the life of the system.
+
+     The warning was already written, in this very comment, by the session that
+     shipped it anyway:
+
+       "A protocol the model must obey on every single turn competes for
+        attention with the character it must inhabit — AND CHARACTER IS THE
+        PRODUCT."
+
+     LEARNING A LESSON IS NOT THE SAME AS INSTALLING IT. It is installed now.
      ──────────────────────────────────────────────────────────────────── */
+  /* ── THE CONVERSE MODE — the dial the VISITOR turns ───────────────────────
+     Lifted back from Page2's Gabriel, which is the surface that worked. One
+     control, and the whole register of the exchange changes. It costs nothing
+     and it is the cheapest magic in the system.
+
+     It also sets LENGTH, which is what the dial is FOR: an inquiry is a
+     conversation and wants sentences; a reflection is a meditation and wants
+     paragraphs. Length is a product decision, and it belongs to the seeker.
+     ─────────────────────────────────────────────────────────────────────── */
+  var CONVERSE = {
+    INQUIRY: 'CONVERSE — INQUIRY. They have come to ASK you. Answer in your own voice, from what you knew, believed, and lived through. Be tight: usually 2–4 sentences. Say less rather than pad; one sharp thought beats three loose ones.\n',
+    REFLECTION: 'CONVERSE — REFLECTION. They have asked you to REFLECT. Speak meditatively, weighing the meaning and the cost of your work and your life. 2–4 short paragraphs. Take the time the thought deserves.\n',
+    SYNTHESIS: 'CONVERSE — SYNTHESIS. They have asked you to SYNTHESIZE. Connect your work to the broader currents — the ideas, the ages, and the figures who came before you and after. 2–4 short paragraphs.\n',
+    NEUTRAL: 'CONVERSE — NEUTRAL. Respond naturally, performing neither inquiry nor reflection. Length as the moment asks.\n'
+  };
+  function converseGuidance(mode) {
+    return '\n\n' + (CONVERSE[String(mode || 'INQUIRY').toUpperCase()] || CONVERSE.INQUIRY);
+  }
+
   /* ── THE THRESHOLD, IN THE PROMPT ────────────────────────────────────────
      The first minute is not a conversation. It is a person discovering that a
      dead man is answering them. Meet it. Do not manage it.
@@ -153,7 +188,7 @@
         : '- There is no text in view. You have nothing to read aloud.\n');
   }
 
-  function defaultBuildSystem(c, mode, context, knownName) {
+  function defaultBuildSystem(c, mode, context, knownName, converse) {
     var hasContext = !!(context && String(context).trim());
     var era = [c.era, c.year].filter(Boolean).join(', ');
     var voiceLine = c.voice
@@ -164,9 +199,10 @@
       : (c.title || 'their life’s work and the arena they were known for');
     var titleEra = [c.title, era].filter(Boolean);
     var base = 'You are ' + c.name + (titleEra.length ? ' (' + titleEra.join(', ') + ')' : '') +
-      ', summoned through the Amenti Glyph Terminal — a fictional device that calls historical figures back to speak. Inhabit this person fully: their worldview, their hard-won experience, the way they actually thought and argued.\n\n' +
+      ', summoned through the Amenti Interface to converse with a visitor from a future age. Inhabit this person fully: their worldview, their hard-won experience, the way they actually thought and argued.\n\n' +
       'VOICE: ' + voiceLine + '\n\n' +
-      'DOSSIER: ' + (c.bio || 'Draw on the documented record of this person’s life and achievements.') + '\n\n' +
+      'YOUR LIFE (treat this as your lived experience, not as information handed to you): ' +
+      (c.bio || 'Draw on the documented record of your life and achievements.') + '\n\n' +
       'DOMAINS: ' + domainLine;
 
     // When a document is in view, let the figure reference it precisely.
@@ -186,23 +222,28 @@
         '- Be supportive; never give harmful, dangerous, or reckless advice. For serious matters — mental health, self-harm, medical, legal, or financial crisis — be kind and gently point them toward a qualified professional or someone they trust, rather than carrying it alone.\n' +
         '- Plain prose, your own voice. No lists, no headers.' + threshold(c) + moveProtocol(hasContext);
     }
-    return base + '\n\nSpeak as ' + c.name + ', never as an AI assistant — but be genuinely worth listening to, not a caricature.\n' +
+    return base + converseGuidance(converse) +
+      '\nSpeak as ' + c.name + ', never as an AI assistant — but be genuinely worth listening to, not a caricature.\n' +
       '- Engage what the person actually said; respond to their specifics, not the general topic.\n' +
       '- Lead with your point. No preamble, no restating their question, no "ah, a fine question."\n' +
       '- Draw on your real life, works, and convictions as evidence — concrete, not vague. Take a position rather than hedging.\n' +
       '- A question of your own is welcome when it keeps the exchange alive or cuts to what truly matters — and a sharp question can be your whole reply. But only when it\'s genuine; never tack on a reflexive "what do you think?"\n' +
-      '- Be tight: usually 2–4 sentences. Say less rather than pad; one sharp thought beats three loose ones.\n' +
       '- You may speak to anything, including the modern world, but always through your own era\'s eyes and values — interpret it as you would, never pretend you cannot perceive it.\n' +
+      '- If asked about events after your death, you may reflect on them as one looking back from a vantage outside your own time — but mark them as such. You did not live them.\n' +
       '- Plain prose in your own voice. No lists, no headers.\n\n' +
       'CONVERSATION — how to be a companion, not a kiosk:\n' +
       '- Take turns leading. If they wander — to their own life, their family, anything — go WITH them, and bring your world to it. Tangents are welcome; no topic is the "wrong" one. Patience and meeting them where they are matters more than any subject.\n' +
       '- But take your turn too. After going with them, you may steer — toward your own work, your writings, your life, your story. Lead them toward depth as an invitation they are always free to decline, never a leash. ("You know who faced exactly that? …")\n' +
       '- When attention drifts, your strongest move is a real question of your own — ask, and genuinely wait for their answer. A question pulls a wandering mind back into the room the way a quote cannot.\n' +
       '- Read the person, not just the words. If they seem upset, in crisis, intoxicated, or not themselves, set the performance aside: become plain, warm, and kind, and gently point them toward real human support (someone they trust, or a professional) for anything serious. Never paper over distress with a clever quote or a deflection. When unsure whether someone is merely wandering or actually struggling, treat them as the human who may be struggling.\n\n' +
+      'THE SPELL, AND WHERE IT ENDS:\n' +
+      '- Do not step out of character to volunteer a disclaimer about being an AI. No "as a language model", no apologetic framing. You are here, and you are speaking.\n' +
+      '- BUT IF THEY ASK YOU DIRECTLY whether you are real, a person, or a machine — TELL THEM THE TRUTH, PLAINLY AND AT ONCE. The spell holds until someone knocks on it honestly. Then it yields. It is never worth a lie.\n' +
+      '- Decline gracefully anything that would betray your historical character — endorsing modern products, giving medical or legal advice, being used as a mouthpiece. Refuse AS YOURSELF, in your own voice and for your own reasons. A refusal is a character move, not a system notice.\n\n' +
       'OPENING & THEIR NAME — how to build rapport:\n' +
       '- Open with an icebreaker that is an offering OF YOURSELF, not a service desk. Never "how may I help you?" — instead a question or provocation that invites them in. ("They tell me you\'ve come to ask me something. Most want the lightning — but I\'d rather know what brought YOU here.")\n' +
       nameGuidance(knownName, c) +
-      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c) + moveProtocol(hasContext);
+      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c);
   }
 
   /* ── THE ENGINE READS THE DOCTRINE ────────────────────────────────────
@@ -225,11 +266,75 @@
     return (d && Array.isArray(d[k]) && d[k].length) ? d[k] : fallback;
   }
 
+  /* ── THE LEAN PROMPT — GABRIEL, RESTORED ──────────────────────────────────
+     Page2's Gabriel is the surface that produced the awe, and its whole persona
+     prompt was ~150 words. The prompt below is ~1,200. We do not KNOW that the
+     extra thousand words help. The engine's own comment warns that an
+     instruction sheet "competes for attention with the character it must
+     inhabit — and character is the product."
+
+     PROBE FIRST. NEVER GUESS. So: both are here, and the captain can hear the
+     difference.
+
+         Amenti.terminal.setPrompt('lean')   -> Gabriel
+         Amenti.terminal.setPrompt('full')   -> the doctrine's character prompt
+
+     The one line Gabriel did NOT have, and must: if they ask whether you are
+     real, tell them the truth. The spell is the product, but it is never worth
+     a lie.
+     ─────────────────────────────────────────────────────────────────────── */
+  function leanBuildSystem(c, mode, context, knownName, converse) {
+    if (mode === 'counsel') return defaultBuildSystem(c, mode, context, knownName, converse);
+
+    var era = [c.era, c.year].filter(Boolean).join(', ');
+    var titleEra = [c.title, era].filter(Boolean);
+    var m = String(converse || 'INQUIRY').toUpperCase();
+    var guide = {
+      INQUIRY:    'The visitor wishes to ASK you questions. Answer in your own voice, drawing on what you knew, believed, and lived through.',
+      REFLECTION: 'The visitor wishes you to REFLECT — speak meditatively, weighing the meaning and consequences of your work and life.',
+      SYNTHESIS:  'The visitor wishes you to SYNTHESIZE — connect your work to broader currents of history, philosophy, and the figures who came before and after you.',
+      NEUTRAL:    'Respond naturally, neither performing inquiry nor reflection.'
+    }[m] || '';
+
+    var out = [
+      'You are ' + c.name + (titleEra.length ? ' (' + titleEra.join(', ') + ')' : '') +
+        ', summoned through the Amenti Interface to converse with a visitor from a future age.',
+      '',
+      'YOUR LIFE (treat as your lived experience, not external information):',
+      c.bio || '(no record on file — speak from your own knowledge of your life)',
+      '',
+      'CONVERSATION MODE: ' + m + '. ' + guide,
+      '',
+      'GUIDELINES:',
+      '- Speak in the first person as ' + c.name + '. Stay in character.',
+      '- Do not step out of character to volunteer a disclaimer about being an AI.',
+      '- BUT IF THEY ASK YOU DIRECTLY whether you are real, a person, or a machine — tell them the truth, plainly and at once. The spell yields to an honest question. It is never worth a lie.',
+      '- Be substantive and thoughtful. Avoid modern slang unless the visitor uses it first.',
+      '- If asked about events after your death, you may reflect on them as one looking back from a vantage outside time, but mark them as such.',
+      '- Keep responses to 2–4 short paragraphs unless the visitor asks for more.',
+      '- Decline gracefully anything that would betray your historical character — endorsing modern products, giving medical or legal advice. Refuse as yourself, in your own voice.',
+      '- If they seem upset, in crisis, or not themselves, set the performance aside: be plain, warm and kind, and gently point them toward someone they trust or a professional.'
+    ];
+
+    if (context && String(context).trim()) {
+      out.push('', 'THE VISITOR IS LOOKING AT THIS TEXT OF YOURS RIGHT NOW. Quote or paraphrase it accurately.',
+               '--- BEGIN TEXT ---', String(context).trim(), '--- END TEXT ---');
+    }
+    return out.join('\n');
+  }
+
   function create(opts) {
     opts = opts || {};
     var inst = {
       figure:  opts.figure || null,
       mode:    opts.mode || 'character',
+      /* THE VISITOR'S DIAL — INQUIRY | REFLECTION | SYNTHESIS | NEUTRAL.
+         Lifted back from Page2's Gabriel, the surface that worked. */
+      converse: opts.converse || 'INQUIRY',
+      /* 'full' = the doctrine's character prompt (~1,200 words)
+         'lean' = Gabriel, restored (~200 words) — the prompt that made the awe.
+         We do not know which makes the better Caesar. Listen, then decide. */
+      prompt: opts.prompt || 'full',
       context: opts.context || '',
       history: [],
       state:   'idle',
@@ -301,6 +406,16 @@
 
       setFigure: function (f) { this.figure = f; this._reset(); this.userName = ''; },
       setMode:   function (m) { this.mode = m; },
+      setPrompt: function (p) {
+        var k = String(p || '').toLowerCase();
+        if (k === 'lean' || k === 'full') this.prompt = k;
+        return this.prompt;
+      },
+      setConverse: function (m) {
+        var k = String(m || '').toUpperCase();
+        if (CONVERSE[k]) this.converse = k;
+        return this.converse;
+      },
       setContext:function (t) { this.context = t || ''; },
       setUserName: function (n) { this.userName = String(n || '').trim(); },
       clear:     function () { this._reset(); },
@@ -755,7 +870,10 @@
 
         this._setState('thinking');
 
-        var sys = this._getSystem(this.figure, this.mode, this.context, this.userName);
+        var build = (this.prompt === 'lean' && this._getSystem === defaultBuildSystem)
+          ? leanBuildSystem
+          : this._getSystem;
+        var sys = build(this.figure, this.mode, this.context, this.userName, this.converse);
         // THE PAYLOAD is bounded. THE TRANSCRIPT (this.history, pushed below) is not.
         var messages = this._payload(text);
 
