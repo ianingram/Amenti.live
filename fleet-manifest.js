@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-14T09:41:52.796Z",
-    "reading": "2026-07-14T09:41:52.694Z",
+    "merged": "2026-07-14T09:50:39.942Z",
+    "reading": "2026-07-14T09:50:39.861Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -95,9 +95,9 @@ window.FLEET_MANIFEST = {
     {
       "stamp": "UNPROVEN",
       "subject": "THE WEEK",
-      "claim": "a weekly (Sunday) dispatch",
+      "claim": "a weekly (Sunday 12:00 UTC) dispatch",
       "reading": "NOTHING HAS EVER FIRED FROM THIS TUBE",
-      "note": "THE VAL·HAL·LA WEEKLY HAS NEVER BEEN ASSEMBLED."
+      "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. load unknown AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
     {
       "stamp": "UNPROVEN",
@@ -108,7 +108,7 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-07-14T08:24:59.921Z",
+    "at": "2026-07-14T09:42:30.101Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
       "count": 47,
@@ -211,12 +211,26 @@ window.FLEET_MANIFEST = {
       },
       "THE WEEK": {
         "id": "THE WEEK",
-        "cadence": "weekly (Sunday)",
+        "cadence": "weekly (Sunday 12:00 UTC)",
         "status": "FAIL",
+        "ordnance": {
+          "loaded": null,
+          "rounds": 0,
+          "packages": 0,
+          "summary": "LOAD UNKNOWN · 0 FIRED · 0 DELIVERED",
+          "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
+        },
         "fired": 0,
         "thisWeek": "2026-07-12",
-        "published": false,
-        "last": null,
+        "assembled": false,
+        "delivered": false,
+        "schedule": {
+          "armed": false,
+          "cron": "0 12 * * 0",
+          "note": "COMMENTED OUT. IT WILL NOT FIRE. Dry-run it, send once by hand, confirm the ledger, THEN uncomment."
+        },
+        "lastDelivery": null,
+        "recent": [],
         "missedLast8": [
           "2026-07-05",
           "2026-06-28",
@@ -227,8 +241,7 @@ window.FLEET_MANIFEST = {
           "2026-05-24",
           "2026-05-17"
         ],
-        "recent": [],
-        "note": "THE VAL·HAL·LA WEEKLY HAS NEVER BEEN ASSEMBLED."
+        "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. load unknown AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
       },
       "THE DAILY PLANET": {
         "id": "THE DAILY PLANET",
@@ -806,7 +819,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T08:24:58.872Z",
+        "at": "2026-07-14T09:42:29.234Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -824,7 +837,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T08:24:58.872Z",
+        "at": "2026-07-14T09:42:29.234Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -842,7 +855,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T08:24:58.872Z",
+        "at": "2026-07-14T09:42:29.234Z",
         "status": "OK",
         "note": "every sealed table returned nothing to the anon key: subscribers: sealed (200, 0 rows) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows)"
       }
@@ -873,7 +886,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-14T08:24:58.872Z",
+        "at": "2026-07-14T09:42:29.234Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
