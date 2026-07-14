@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-14T00:14:24.746Z",
+    "generated": "2026-07-14T03:57:53.666Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -8,8 +8,8 @@
   "files": [
     {
       "file": "Page1.html",
-      "bytes": 1582525,
-      "sha256": "423573c879f46dbf",
+      "bytes": 1582939,
+      "sha256": "707bb34189fc3128",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -69,24 +69,28 @@
           "line": 7016
         },
         {
+          "file": "amenti-canonical.js",
+          "line": 7022
+        },
+        {
           "file": "amenti-auth.js",
-          "line": 7552
+          "line": 7558
         },
         {
           "file": "amenti-quiz.js",
-          "line": 7553
+          "line": 7559
         },
         {
           "file": "amenti-leaderboard.js",
-          "line": 7554
+          "line": 7560
         },
         {
           "file": "amenti-readaloud.js",
-          "line": 7555
+          "line": 7561
         },
         {
           "file": "amenti-vallhalla-signup.js",
-          "line": 7558
+          "line": 7564
         }
       ],
       "calls": [
@@ -140,7 +144,7 @@
         },
         {
           "global": "Amenti.doctrine",
-          "line": 7061,
+          "line": 7067,
           "when": "toplevel",
           "own": false
         }
@@ -293,6 +297,27 @@
       ],
       "loads": [],
       "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-canonical.js",
+      "bytes": 12513,
+      "sha256": "cb7c1e95eb5bb8aa",
+      "type": "js",
+      "declares": [
+        "Amenti",
+        "Amenti.canonical"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "Amenti.canonical",
+          "line": 227,
+          "when": "iife",
+          "own": true
+        }
+      ],
       "endpoints": [],
       "tables": []
     },
@@ -686,7 +711,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 35506,
-      "sha256": "46348aa123e37a74",
+      "sha256": "f4d099bb8a062ee9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"

@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-14T00:14:24.851Z",
-    "reading": "2026-07-14T00:14:24.746Z",
+    "merged": "2026-07-14T03:57:53.775Z",
+    "reading": "2026-07-14T03:57:53.666Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -17,7 +17,7 @@ window.FLEET_MANIFEST = {
   "health": {
     "contradicted": 0,
     "unproven": 4,
-    "undeclared": 4,
+    "undeclared": 5,
     "adrift": 3,
     "clean": true
   },
@@ -42,6 +42,13 @@ window.FLEET_MANIFEST = {
       "claim": "\"The Trial-Master\" — crew",
       "reading": "loaded, and NOTHING CALLS amentiQuiz",
       "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
+    },
+    {
+      "stamp": "UNDECLARED",
+      "subject": "amenti-canonical.js",
+      "claim": "— nothing claims it —",
+      "reading": "in the repo, LOADED by Page1.html",
+      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
@@ -82,7 +89,7 @@ window.FLEET_MANIFEST = {
       "stamp": "UNPROVEN",
       "subject": "ATLANTICA",
       "claim": "fires daily",
-      "reading": "MISSED 2 of the last 14 days",
+      "reading": "MISSED 1 of the last 14 days",
       "note": "The tube is loaded and the schedule is set. It simply did not fire."
     },
     {
@@ -101,9 +108,17 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-07-13T23:43:32.855Z",
+    "at": "2026-07-14T00:51:01.495Z",
     "by": "probes/probe-ordnance.mjs",
-    "today": "2026-07-13",
+    "hold": {
+      "count": 46,
+      "prefixes": {
+        "atlantica:": 40,
+        "dailyplanet:": 3,
+        "watch:": 3
+      }
+    },
+    "today": "2026-07-14",
     "thisWeek": "2026-07-12",
     "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
     "tubes": {
@@ -116,10 +131,9 @@ window.FLEET_MANIFEST = {
           "date": "2026-07-13",
           "figure": "plato"
         },
-        "lastAgeDays": 0,
+        "lastAgeDays": 1,
         "missedLast14": [
-          "2026-06-30",
-          "2026-06-29"
+          "2026-06-30"
         ],
         "recent": [
           {
@@ -193,7 +207,7 @@ window.FLEET_MANIFEST = {
             "key": "atlantica:tesla:2026-07-03"
           }
         ],
-        "note": "27 dispatch(es) in the hold · last 2026-07-13 (plato) · MISSED 2 of the last 14 days"
+        "note": "27 dispatch(es) in the hold · last 2026-07-13 (plato) · MISSED 1 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -266,8 +280,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 1582525,
-      "sha256": "423573c879f46dbf",
+      "bytes": 1582939,
+      "sha256": "707bb34189fc3128",
       "declares": [
         "AMENTI_CHARS",
         "AMENTI_ERAS",
@@ -789,7 +803,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-13T23:43:31.835Z",
+        "at": "2026-07-14T00:51:00.196Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -807,7 +821,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-13T23:43:31.835Z",
+        "at": "2026-07-14T00:51:00.196Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -825,7 +839,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-13T23:43:31.835Z",
+        "at": "2026-07-14T00:51:00.196Z",
         "status": "OK",
         "note": "every sealed table returned nothing to the anon key: subscribers: sealed (200, 0 rows) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows)"
       }
