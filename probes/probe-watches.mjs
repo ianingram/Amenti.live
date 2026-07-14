@@ -31,6 +31,9 @@
 
 /* Public by design — these ship in every page's source. The anon key is not a
    secret; the row-level security policy is the wall, and we are testing the wall. */
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+
 const SUPABASE_URL = 'https://bhgnkfsatmcnhqksybpa.supabase.co';
 const ANON_KEY = process.env.AMENTI_ANON_KEY ||
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';   // overridden in CI; the real one is in the page
@@ -178,10 +181,139 @@ async function costWatch() {
         : (findings.warn.length ? notes.concat(findings.warn).join(' · ') : notes.join(' · ')) };
 }
 
+/* ── ARCHIVE WATCH ──────────────────────────────────────────────────────────
+   THE WORKER LIVES IN CLOUDFLARE. It is not in this repository. No scanner can
+   read its source, and the audio cache key
+
+       audioKey = sha256(TTS_MODEL + voice + STYLE + TEXT)
+
+   therefore CANNOT BE VERIFIED BY LOOKING. It can only be verified by SPEAKING
+   A KNOWN THING AND ASKING WHETHER THE ENGINE REMEMBERS IT.
+
+   That is the canonical passage. 933 chars, frozen, sha 27e9c5af. Fired through
+   both live chunk profiles — six measures, six keys, six wires:
+
+       recital  320  ->  4 measures   the reading room, Page1, the archive
+       gabriel  700  ->  2 measures   Page2's profile
+
+   THE MISS PATTERN IS THE DIAGNOSIS
+       all six ......... TTS_MODEL or VOICE_REGISTER moved
+       the four 320s ... the recital chunker moved
+       the two 700s .... Page2's profile moved
+       one measure ..... splitSentences or plainText moved
+
+   IT USES THE REAL ENGINE. amenti-voice.js is loaded and asked to chunk. A
+   second copy of the chunker in this file is EXACTLY how an archive forks.
+
+   THE COST CIRCUIT BREAKER — read this before you touch it:
+     Every hit is free. But a MISS RENDERS. If the archive ever drifts and this
+     probe fired all six wires every six hours, it would re-render six clips,
+     four times a day, forever — a cost loop with a light on it, built by the
+     instrument that exists to prevent one.
+
+         SO IT ABORTS ON THE FIRST MISS. One render, then it stops and screams.
+
+   FAILS SAFE: unreachable is WARN (amber), never FAIL. Only a CONFIRMED miss is
+   a FAIL. A network hiccup must not turn the manifest red.
+   ─────────────────────────────────────────────────────────────────────────── */
+async function archiveWatch() {
+  const findings = { ok: 0, warn: [], fail: [] };
+  const notes = [];
+
+  let V, C;
+  try {
+    /* Load the SHIP'S OWN engine. Not a re-implementation of it. */
+    globalThis.window = globalThis;
+    const root = new URL('../', import.meta.url);
+    new Function(readFileSync(new URL('amenti-voice.js', root), 'utf8'))();
+    new Function(readFileSync(new URL('amenti-canonical.js', root), 'utf8'))();
+    V = globalThis.Amenti && globalThis.Amenti.voice;
+    C = globalThis.Amenti && globalThis.Amenti.canonical;
+    if (!V || !C) throw new Error('engine or canonical did not mount');
+  } catch (e) {
+    return { id: 'ARCHIVE WATCH', status: 'WARN', ok: 0, warn: ['could not load the engine: ' + e.message], fail: [],
+      note: 'THE INSTRUMENT COULD NOT BE ARMED: ' + e.message + ' — amber, honestly.' };
+  }
+
+  /* The lock. If the passage moved, every key moved with it. */
+  const sha = createHash('sha256').update(C.TEXT, 'utf8').digest('hex');
+  if (sha !== C.SHA256) {
+    return { id: 'ARCHIVE WATCH', status: 'FAIL', ok: 0, warn: [], fail: ['THE CANONICAL PASSAGE HAS BEEN EDITED'],
+      note: 'THE PASSAGE MOVED. declared ' + C.SHA256.slice(0, 12) + ', actual ' + sha.slice(0, 12) + '. ' +
+            'Six clips are now orphaned in R2 and the only instrument that can see the cache key is BLIND. ' +
+            'Restore the text, or re-render deliberately and re-lock the hash.' };
+  }
+
+  /* The style and voice, resolved by the ENGINE. Figure '' -> Kore + the locked
+     register, whether or not the roster loads — map[''] is undefined either way,
+     so the key is identical in Node and in the browser. */
+  const res = await V.resolveVoice('').catch(() => null);
+  const voice = (res && res.voice) || 'Kore';
+  const style = (res && res.style) || '';
+  if (!style) findings.warn.push('the engine returned no style — the key may not match the browser');
+
+  const textOf = (c) => (c && c.text != null) ? c.text : c;
+  const jobs = [];
+  for (const p of C.WIRES) {
+    const ms = (C.measures(p) || []).map(textOf);
+    ms.forEach((text, i) => jobs.push({ profile: p, m: (i + 1) + '/' + ms.length, text }));
+  }
+  if (jobs.length !== 6) findings.warn.push('expected 6 wires, the engine cut ' + jobs.length);
+
+  let hits = 0, rendered = 0;
+  for (const j of jobs) {
+    let r;
+    try {
+      r = await fetch(C.VOICE_WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Origin: 'https://amenti.live' },
+        body: JSON.stringify({ text: j.text, style, voice }),
+      });
+    } catch (e) {
+      findings.warn.push('/speak unreachable: ' + e.message);
+      break;                                   /* unreachable is amber, never red */
+    }
+
+    if (!r.ok) { findings.warn.push('/speak ' + r.status + ' on ' + j.profile + ' ' + j.m); break; }
+
+    const hdr = (r.headers.get('x-amenti-cache') || '').toLowerCase();
+    try { await r.arrayBuffer(); } catch (e) {}
+
+    if (!hdr) { findings.warn.push('x-amenti-cache not exposed — cannot judge the archive'); break; }
+
+    if (hdr === 'hit') { hits++; continue; }
+
+    /* ── A MISS. THE CACHE KEY HAS MOVED. STOP. ────────────────────────────
+       Do NOT fire the other wires. One render is a finding; six renders every
+       six hours is a bill. */
+    rendered++;
+    findings.fail.push('DRIFT at ' + j.profile + ' ' + j.m + ' (' + j.text.length + 'ch) — cache said "' + hdr + '"');
+    break;
+  }
+
+  if (findings.fail.length) {
+    return { id: 'ARCHIVE WATCH', status: 'FAIL', ok: hits, warn: findings.warn, fail: findings.fail,
+      note: 'THE ARCHIVE HAS FORKED. ' + hits + '/6 hit, then ' + findings.fail[0] + '. ' +
+            'ABORTED after 1 render — the remaining wires were NOT fired, because a drifting archive ' +
+            'that keeps firing is a cost loop. Something moved the cache key: the model string, ' +
+            'VOICE_REGISTER, composeStyle, chunkText, or a chunk PROFILE. Find it before the next render.' };
+  }
+
+  if (hits === jobs.length && jobs.length === 6) {
+    findings.ok = 6;
+    notes.push('6/6 HIT · 0 renders · $0.00 · passage ' + C.SHA256.slice(0, 12));
+    notes.push('the model string, the voice, the style string and BOTH chunkers are unchanged');
+    return { id: 'ARCHIVE WATCH', status: 'OK', ...findings, note: notes.join(' · ') };
+  }
+
+  return { id: 'ARCHIVE WATCH', status: 'WARN', ok: hits, warn: findings.warn, fail: [],
+    note: 'COULD NOT PROVE IT: ' + hits + '/6 hit — ' + (findings.warn.join(' · ') || 'incomplete') + '. Amber, honestly.' };
+}
+
 /* ── PATROL ─────────────────────────────────────────────────────────────────
    Make the rounds. Write down what was seen. Timestamp it. */
 const watches = {};
-for (const w of [await costWatch(), await dataWatch(), await treasuryWatch(), await hullWatch()]) {
+for (const w of [await costWatch(), await dataWatch(), await treasuryWatch(), await hullWatch(), await archiveWatch()]) {
   watches[w.id] = w;
 }
 
