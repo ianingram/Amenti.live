@@ -6208,10 +6208,24 @@ var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
   onState: function(st){
     var mb = document.getElementById('term-mic-toggle');
     if (mb) {
-      if (st === 'listening')      { mb.textContent = '⏺'; mb.title = 'Listening — tap to send'; mb.classList.add('mic-live'); }
-      else if (st === 'thinking')  { mb.textContent = '⋯'; mb.title = 'Thinking…'; mb.classList.remove('mic-live'); }
-      else if (st === 'speaking')  { mb.textContent = '🔊'; mb.title = 'Speaking…'; mb.classList.remove('mic-live'); }
-      else                         { mb.textContent = '🎙'; mb.title = 'Tap once — then speak freely'; mb.classList.remove('mic-live'); }
+      /* ── THE MIC BUTTON WEARS ITS OWN FACE ──────────────────────────────
+         It used to show 🔊 while the FIGURE was speaking — the speaker's
+         glyph, on the microphone. Two 🔊 side by side, one glowing, and no
+         way to tell which one was listening to the room.
+
+         GREEN = the figure is speaking.   AMBER = the room is being heard.
+         Two colours. Two truths. Never the same face.
+
+         And note the class: .mic-armed is INTENT — the state machine wants to
+         listen. It is NOT the hardware. The lamp below decides what is
+         actually hot. A microphone light that reports intent instead of the
+         live audio stream is a lie with a light on it, and the microphone is
+         the only untrusted input path in this fleet.
+         ──────────────────────────────────────────────────────────────────── */
+      if (st === 'listening')      { mb.textContent = '⏺'; mb.title = 'Listening — tap to send'; mb.classList.add('mic-armed'); }
+      else if (st === 'thinking')  { mb.textContent = '⋯'; mb.title = 'Thinking…'; mb.classList.remove('mic-armed'); }
+      else if (st === 'speaking')  { mb.textContent = '🎙'; mb.title = 'The figure is speaking'; mb.classList.remove('mic-armed'); }
+      else                         { mb.textContent = '🎙'; mb.title = 'Tap once — then speak freely'; mb.classList.remove('mic-armed'); }
     }
   },
   onNotice: function(t){ pushSys(t); },
@@ -7246,9 +7260,34 @@ window.AMENTI_VOICE = {
       '#voice-toggle.amenti-voice-live{',
         '--avg:#67E8F9;',
       '}',
+      /* ── THE MICROPHONE — AMBER ─────────────────────────────────────────
+         GREEN is the figure speaking. AMBER is the room being heard. Amber is
+         already this fleet's word for "live, and you should know" — Ramiel and
+         Cassiel: green whole, amber degraded, red broken. An open microphone is
+         exactly that state.
+
+         .mic-armed  the state machine WANTS to listen. Steady. Intent only.
+         .mic-live   THE HARDWARE IS HOT. Pulsing. This is the truth.
+
+         .mic-live is set by the LAMP below, from the live MediaStream tracks —
+         never from the UI. If the stream is open and the UI thinks it is not,
+         THE LIGHT STAYS ON AND SAYS SO. That is the whole point of it. */
+      '#term-mic-toggle.mic-armed{',
+        '--avg:#FFB300;',
+        'filter:drop-shadow(0 0 4px var(--avg));',
+      '}',
+      '#term-mic-toggle.mic-live{',
+        '--avg:#FFB300;',
+        'animation:amentiVoicePulse 1.5s ease-in-out infinite;',
+      '}',
+      /* the stream is hot and NOBODY ASKED FOR IT. A leak. Red, and loud. */
+      '#term-mic-toggle.mic-leak{',
+        '--avg:#FF5252;',
+        'animation:amentiVoicePulse 0.7s ease-in-out infinite;',
+      '}',
       /* accessibility — keep it luminous, drop the motion */
       '@media (prefers-reduced-motion: reduce){',
-        '.amenti-voice-live{',
+        '.amenti-voice-live,#term-mic-toggle.mic-live,#term-mic-toggle.mic-leak{',
           'animation:none;transform:none;',
           'filter:drop-shadow(0 0 7px var(--avg)) drop-shadow(0 0 14px var(--avg));',
         '}',
@@ -7337,6 +7376,90 @@ window.AMENTI_VOICE = {
       });
       bodyMo.observe(document.body || document.documentElement, { childList: true, subtree: true });
     } catch (e) {}
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+
+/* ============================================================================
+   AMENTI.LIVE — THE MIC LAMP
+   ----------------------------------------------------------------------------
+   THE SPEAKER'S HALO MAY FOLLOW THE UI. THE MICROPHONE'S MUST FOLLOW THE
+   HARDWARE.
+
+   The glow module above is a GLYPH-WATCHER: it reads textContent and reacts.
+   That is fine for the speaker — the glyph IS the truth. It is WRONG for a
+   microphone. An indicator that reflects INTENT rather than the live audio
+   stream is a lie with a light on it, and this is the only untrusted input path
+   in the fleet: the one that can hear the room, and the one that can run a cost
+   loop all night on your key.
+
+   A MIC LAMP MUST BE ABLE TO SAY A THING THE UI DOES NOT WANT TO SAY:
+   "THE STREAM IS STILL OPEN."
+
+   So this lamp does not ask the state machine. It asks the tracks.
+
+       .mic-armed   the state machine WANTS to listen        (steady amber)
+       .mic-live    a MediaStream track is LIVE               (pulsing amber)
+       .mic-leak    the stream is hot and NOBODY ASKED FOR IT (pulsing red)
+
+   The last one is the sabotage loop, made visible. It costs one interval and
+   it can save an overnight bill.
+   ============================================================================ */
+(function () {
+  'use strict';
+  var TICK = 500;
+  var leaked = false;
+
+  /* THE HARDWARE, ASKED DIRECTLY. Never the UI. */
+  function hot() {
+    try {
+      var L = window.Amenti && window.Amenti.listen;
+      var s = L && L._stream;
+      if (!s || typeof s.getTracks !== 'function') return false;
+      var ts = s.getTracks();
+      for (var i = 0; i < ts.length; i++) {
+        if (ts[i].readyState === 'live' && !ts[i].muted) return true;
+      }
+      return false;
+    } catch (e) { return false; }
+  }
+
+  function tick() {
+    var mb = document.getElementById('term-mic-toggle');
+    if (!mb) return;
+
+    var live  = hot();
+    var armed = mb.classList.contains('mic-armed');
+
+    mb.classList.toggle('mic-live', live && armed);
+
+    /* HOT, AND NOBODY ASKED. The stream outlived the intent. */
+    var leak = live && !armed;
+    mb.classList.toggle('mic-leak', leak);
+
+    if (leak && !leaked) {
+      leaked = true;
+      mb.title = 'MICROPHONE STILL OPEN — the stream outlived the request';
+      console.error('%c[MIC LAMP] THE MICROPHONE IS LIVE AND NOTHING ASKED FOR IT. ' +
+        'A MediaStream track is open while the terminal is not listening. ' +
+        'This is the shape of an unbounded, hands-free cost loop. ' +
+        'Amenti.listen._stream is not being stopped.', 'color:#FF5252;font-weight:bold');
+    } else if (!leak && leaked) {
+      leaked = false;
+    }
+  }
+
+  function boot() {
+    tick();
+    setInterval(tick, TICK);
+    /* the lamp answers to a probe, not only to an eye */
+    window.Amenti = window.Amenti || {};
+    window.Amenti.micLamp = { hot: hot, tick: tick, TICK: TICK };
   }
 
   if (document.readyState === 'loading') {
