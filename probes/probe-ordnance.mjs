@@ -27,6 +27,8 @@
    Usage:  node probes/probe-ordnance.mjs > fleet-dispatch.json
    ============================================================================ */
 
+import { readFileSync } from 'node:fs';
+
 const PROXY = 'https://amenti-proxy.ingram-ian.workers.dev';
 const H = { Origin: 'https://amenti.live' };
 
@@ -115,18 +117,89 @@ async function atlantica() {
   };
 }
 
-/* ── THE WEEK · VAL·HAL·LA ──────────────────────────────────────────────── */
+/* ── THE WEEK · VAL·HAL·LA ────────────────────────────────────────────────
+   THE TUBE HAS TWO HALVES AND THEY WERE NEVER CONNECTED.
+
+     ASSEMBLED  the issue is built            vallhalla/meta.json
+     DELIVERED  the mail actually went out    vallhalla/sent.json
+
+   This probe used to judge the tube by looking for week:{sunday} keys in the
+   Worker's KV. THE HERALD DOES NOT WRITE THOSE KEYS. It writes a ledger in the
+   repo. So VAL·HAL·LA could have gone out to every subscriber on Sunday and on
+   Monday this bay would still have reported:
+
+       "NOTHING HAS EVER FIRED FROM THIS TUBE."
+
+   The instrument would have been looking in the wrong hold. It looks in both now.
+
+   ⚠ THE LOAD IS A COUNT, NEVER A ROLL.
+   The Fleet-Documents mirror is a PUBLIC page. DATA WATCH exists precisely to
+   prove the subscribers table is sealed from the anon key — so rendering an
+   address into the bay would be the exact breach that watch was built to catch,
+   committed by the instrument that reports on it.
+
+   So the count is taken with a HEAD request and Prefer: count=exact. It returns
+   a NUMBER AND NO ROWS. Not "we are careful not to print the emails" —
+   THE REQUEST CANNOT RETURN THEM. Make the wrong thing impossible, not merely
+   discouraged. */
+function readJSON(p) {
+  try { return JSON.parse(readFileSync(p, 'utf8')); } catch (e) { return null; }
+}
+
+/* Is the schedule armed, or still commented out with "uncomment when ready"? */
+function cronArmed() {
+  try {
+    const y = readFileSync('.github/workflows/vallhalla-send.yml', 'utf8');
+    const m = /^\s*schedule:/m.test(y) && /^\s*-\s*cron:/m.test(y);
+    return !!m;
+  } catch (e) { return null; }
+}
+
+/* THE LOAD. A number. Never a roll. */
+async function inboxesArmed() {
+  const URL = process.env.SUPABASE_URL, KEY = process.env.SUPABASE_SERVICE_KEY;
+  if (!URL || !KEY) return { count: null, why: 'no service key in this run' };
+  try {
+    const r = await fetch(URL + '/rest/v1/subscribers?select=id&status=eq.active', {
+      method: 'HEAD',                                  /* <- no body. no rows. no emails. */
+      headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, Prefer: 'count=exact' },
+    });
+    if (!r.ok) return { count: null, why: 'supabase ' + r.status };
+    const cr = r.headers.get('content-range') || '';   /* "0-11/12" */
+    const n = parseInt((cr.split('/')[1] || ''), 10);
+    return { count: isNaN(n) ? null : n, why: null };
+  } catch (e) { return { count: null, why: 'unreachable' }; }
+}
+
 async function theWeek() {
-  const keys = await listKeys('week:');
-  if (keys === null) return { id: 'THE WEEK', status: 'WARN', note: 'the feed did not answer — cannot see the tube' };
-
-  const weeks = keys.map(k => (/^week:(\d{4}-\d{2}-\d{2})$/.exec(k) || [])[1]).filter(Boolean).sort().reverse();
   const thisWeek = sundayOf(today);
-  const lastWeek = sundayOf(new Date(Date.parse(thisWeek) - 7 * 864e5));
 
-  /* What does THIS week's manifest actually contain? */
-  const cur = await GET('/week');
-  const exists = !!(cur.ok && cur.body && cur.body.exists !== false);
+  const meta = readJSON('vallhalla/meta.json');
+  const sent = readJSON('vallhalla/sent.json');
+  const rows = ((sent && sent.weeks) || []).filter(Boolean)
+    .map(w => (typeof w === 'string' ? { week_of: w } : w));
+
+  const weeks = rows.map(r => r.week_of).filter(Boolean).sort().reverse();
+
+  /* ── THE ORDNANCE. Rounds loaded, rounds fired. ──────────────────────────
+     THIS IS THE WHOLE ANSWER TO "who is on the list", AND IT NEVER ASKS.
+
+       LOADED    how many inboxes are armed and waiting     (a count)
+       FIRED     how many weeks have gone out               (a count)
+       PACKAGES  how many pieces of mail have been delivered, ever
+                 = the sum of the inboxes of every week fired
+
+     A god-view of the subscriber ROLL would have meant editing amenti-mint —
+     the one component with no diff, no history and no rollback. It is not
+     needed. A tube reports its LOAD and its ROUNDS FIRED. It does not read the
+     names off the shells. */
+  const packages = rows.reduce((n, r) => n + (Number(r.inboxes) || 0), 0);
+  const last = rows.length ? rows[rows.length - 1] : null;
+
+  const assembled = !!(meta && meta.week_of === thisWeek);
+  const delivered = weeks.includes(thisWeek);
+  const armed = cronArmed();
+  const load = await inboxesArmed();
 
   const missed = [];
   for (let i = 1; i <= 8; i++) {
@@ -134,18 +207,60 @@ async function theWeek() {
     if (!weeks.includes(w)) missed.push(w);
   }
 
+  const loaded = load.count;
+  const loadedTxt = loaded == null ? 'load unknown' : loaded + ' inbox(es) LOADED';
+
+  let status, note;
+  if (delivered) {
+    status = 'OK';
+    note = 'DELIVERED ' + thisWeek +
+           (last && last.inboxes != null ? ' to ' + last.inboxes + ' inbox(es)' : '') +
+           ' · ' + weeks.length + ' round(s) fired · ' + packages + ' package(s) delivered, all time' +
+           ' · ' + loadedTxt + ' · a re-fire CANNOT double-mail';
+  } else if (!weeks.length) {
+    status = 'FAIL';
+    note = 'NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. ' + loadedTxt + ' AND WAITING. ' +
+           (armed === false ? 'THE CRON IS COMMENTED OUT — IT WILL NOT FIRE.' : '');
+  } else {
+    status = 'WARN';
+    note = 'THIS WEEK (' + thisWeek + ') IS NOT DELIVERED' +
+           (assembled ? ' — but it IS assembled and ready to fire' : ' and is NOT assembled') +
+           ' · last round ' + weeks[0] +
+           ' · ' + weeks.length + ' fired · ' + packages + ' package(s), all time · ' + loadedTxt +
+           (missed.length ? ' · missed ' + missed.length + ' of the last 8' : '');
+  }
+
   return {
-    id: 'THE WEEK', cadence: 'weekly (Sunday)',
-    status: !weeks.length ? 'FAIL' : (exists ? 'OK' : 'WARN'),
+    id: 'THE WEEK', cadence: 'weekly (Sunday 12:00 UTC)',
+    status,
+
+    /* ── THE BAY, IN THREE NUMBERS. Tangible, and it cannot leak. ── */
+    ordnance: {
+      loaded: loaded,                 // inboxes armed and waiting
+      rounds: weeks.length,           // weeks fired
+      packages: packages,             // pieces of mail delivered, all time
+      summary: (loaded == null ? 'LOAD UNKNOWN' : loaded + ' LOADED') +
+               ' · ' + weeks.length + ' FIRED · ' + packages + ' DELIVERED',
+      privacy: 'COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a ' +
+               'number and NO ROWS. No address can reach this file, and this file is PUBLIC. ' +
+               'A tube reports its load and its rounds fired. It does not read the names off the shells.',
+    },
+
     fired: weeks.length,
-    thisWeek, published: exists,
-    last: weeks[0] || null,
-    missedLast8: missed,
+    thisWeek,
+    assembled,
+    delivered,
+    schedule: {
+      armed,
+      cron: '0 12 * * 0',
+      note: armed === null ? 'could not read the workflow'
+          : (armed ? 'ARMED — Sunday 12:00 UTC, six days behind the bell'
+                   : 'COMMENTED OUT. IT WILL NOT FIRE. Dry-run it, send once by hand, confirm the ledger, THEN uncomment.'),
+    },
+    lastDelivery: last,
     recent: weeks.slice(0, 8),
-    note: !weeks.length ? 'THE VAL·HAL·LA WEEKLY HAS NEVER BEEN ASSEMBLED.'
-        : (exists ? `this week (${thisWeek}) is assembled · ${weeks.length} week(s) on file`
-                  : `THIS WEEK (${thisWeek}) IS NOT YET ASSEMBLED · last was ${weeks[0]}`) +
-          (missed.length ? ` · MISSED ${missed.length} of the last 8 weeks` : ''),
+    missedLast8: missed,
+    note,
   };
 }
 
