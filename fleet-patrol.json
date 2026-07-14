@@ -1,5 +1,5 @@
 {
-  "at": "2026-07-14T07:00:14.731Z",
+  "at": "2026-07-14T08:24:58.872Z",
   "by": "probes/probe-watches.mjs",
   "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
   "watches": {
@@ -36,6 +36,14 @@
       ],
       "fail": [],
       "note": "Hull integrity is checked by comparing fleet-structure.json file hashes against a committed baseline. That comparison is not yet wired. Reporting WARN, not OK — a stub that returned green would be the very lie this whole system exists to kill."
+    },
+    "ARCHIVE WATCH": {
+      "id": "ARCHIVE WATCH",
+      "status": "OK",
+      "ok": 6,
+      "warn": [],
+      "fail": [],
+      "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
     }
   }
 }
