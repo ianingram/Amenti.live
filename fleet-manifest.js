@@ -8,15 +8,15 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-14T08:21:11.653Z",
-    "reading": "2026-07-14T08:21:11.570Z",
+    "merged": "2026-07-14T08:21:35.220Z",
+    "reading": "2026-07-14T08:21:35.138Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
     "contradicted": 0,
-    "unproven": 4,
+    "unproven": 7,
     "undeclared": 5,
     "adrift": 3,
     "clean": true
@@ -84,6 +84,27 @@ window.FLEET_MANIFEST = {
       "claim": "guards: File integrity across the fleet",
       "reading": "THE PATROL COULD NOT PROVE IT: Hull integrity is checked by comparing fleet-structure.json file hashes against a committed baseline. That comparison is not yet wired. Reporting WARN, not OK — a stub that returned green would be the very lie this whole system exists to kill.",
       "note": "The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly."
+    },
+    {
+      "stamp": "UNPROVEN",
+      "subject": "ARCHIVE WATCH",
+      "claim": "guards: The R2 audio archive — and the cache key inside a Worker nobody can read",
+      "reading": "the probe exists, but NO PATROL HAS RUN",
+      "note": "A probe that has never run is a prayer. The old manifest showed this GREEN for months with nothing behind it — manufacturing confidence that nobody had earned."
+    },
+    {
+      "stamp": "UNPROVEN",
+      "subject": "The Conversation Engine",
+      "claim": "The canonical passage (933 chars, sha 27e9c5af, LOCKED) is a CACHE HIT on all six wires — 4 measures at recital/320 and 2 at gabriel/700. Every hit is free; a MISS means the cache key has moved and the archive has forked.",
+      "reading": "probe named but NOT IN THE TREE: probes/probe-watches.mjs  ->  ARCHIVE WATCH  (every 6h)",
+      "note": "AN INVARIANT WITH NO PROBE IS A PRAYER. The archive is six weeks of R2 and the whole cost story of the business. A silent revert of the model string orphans ALL OF IT — and Field Journal II records that the model string HAS silently reverted before. DO NOT EDIT amenti-canonical.js. Not one byte. The hash is the lock."
+    },
+    {
+      "stamp": "UNPROVEN",
+      "subject": "The Conversation Engine",
+      "claim": "CONV_FIRST_MAX (110) is reached ONLY from register:conversational. Every recital path passes firstMax = 0 and calls the LOCKED chunker unchanged.",
+      "reading": "probe named but NOT IN THE TREE: probes/probe21 (phase 2)  +  ARCHIVE WATCH",
+      "note": "AN INVARIANT WITH NO PROBE IS A PRAYER. The counsel is never cached, so its boundaries are free to move. The recital's boundaries ARE THE CACHE KEY. Let the opener touch the recital path and the archive forks. Not \"shouldn't\" — CANNOT. Keep it that way."
     },
     {
       "stamp": "UNPROVEN",
@@ -859,6 +880,19 @@ window.FLEET_MANIFEST = {
       "probe": "probes/probe-watches.mjs",
       "note": "A baseline of file hashes was claimed. No probe file has been found in the tree.",
       "stamp": "UNPROVEN"
+    },
+    {
+      "id": "ARCHIVE WATCH",
+      "color": 5748479,
+      "corner": "tc",
+      "board": {
+        "edge": "back"
+      },
+      "guards": "The R2 audio archive — and the cache key inside a Worker nobody can read",
+      "threat": "A silent byte moving in the model string, VOICE_REGISTER, composeStyle, chunkText, or a chunk PROFILE — orphaning every clip in R2 and re-billing the entire archive. Field Journal II records that the model string HAS silently reverted before.",
+      "probe": "probes/probe-watches.mjs  ->  archiveWatch()",
+      "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
+      "stamp": "UNPROVEN"
     }
   ],
   "engines": [
@@ -925,6 +959,24 @@ window.FLEET_MANIFEST = {
           "stamp": "CONFIRMED"
         },
         {
+          "claim": "The canonical passage (933 chars, sha 27e9c5af, LOCKED) is a CACHE HIT on all six wires — 4 measures at recital/320 and 2 at gabriel/700. Every hit is free; a MISS means the cache key has moved and the archive has forked.",
+          "probe": "probes/probe-watches.mjs  ->  ARCHIVE WATCH  (every 6h)",
+          "cost": "The archive is six weeks of R2 and the whole cost story of the business. A silent revert of the model string orphans ALL OF IT — and Field Journal II records that the model string HAS silently reverted before. DO NOT EDIT amenti-canonical.js. Not one byte. The hash is the lock.",
+          "stamp": "UNPROVEN"
+        },
+        {
+          "claim": "PROFILES.recital === 320 and PROFILES.gabriel === 700. They are SEPARATE CACHE NAMESPACES and they do NOT share an archive. THIS IS INTENDED. The bill is the reason.",
+          "probe": "probes/probe7.js  +  probes/probe17.js  +  ARCHIVE WATCH",
+          "cost": "Unify them and Page2's entire archive is orphaned and re-rendered. A commit that moves either number must argue with the Gate first — which means a human has to MEAN it.",
+          "stamp": "CONFIRMED"
+        },
+        {
+          "claim": "CONV_FIRST_MAX (110) is reached ONLY from register:conversational. Every recital path passes firstMax = 0 and calls the LOCKED chunker unchanged.",
+          "probe": "probes/probe21 (phase 2)  +  ARCHIVE WATCH",
+          "cost": "The counsel is never cached, so its boundaries are free to move. The recital's boundaries ARE THE CACHE KEY. Let the opener touch the recital path and the archive forks. Not \"shouldn't\" — CANNOT. Keep it that way.",
+          "stamp": "UNPROVEN"
+        },
+        {
           "claim": "The payload is bounded. The transcript is whole; the bill is not.",
           "probe": "probes/probe.js  +  probes/probe2.js",
           "cost": "$118.84 for a 500-turn conversation — the entire monthly cap, in one session.",
@@ -983,10 +1035,12 @@ window.FLEET_MANIFEST = {
         "historyCap says \"turns\" and counts MESSAGES. Read the CODE, not the comment.",
         "\"push-to-talk: deliberate\" was a LIMITATION described as a design. armMic never passed autoStop.",
         "The microphone is not a keyboard. A keyboard is DELIBERATE; a microphone is AMBIENT, and it is untrusted.",
-        "Base TTS latency is ~16-18s REGARDLESS OF CHUNK SIZE. The archive is why the reading room feels instant. THE COUNSEL IS NEVER CACHED."
+        "TTS RENDER TIME, MEASURED (probe20, live): render_ms = 7510 + 18.25 x chars. THE FLOOR IS 7.5 SECONDS — the irreducible cost of ANY render, at any length. A 500-char monolith is ~16.7s to first sound; chunked with a 110-char opener, ~8.9s. THE COUNSEL IS NEVER CACHED — its text is unique every turn, so it NEVER hits the archive and always pays the floor. The reading room feels instant because the archive HITS.",
+        "A DELIBERATE FORK THAT IS NOT DECLARED LOOKS EXACTLY LIKE A BUG. The throttle (\"not a throttle and never was\"), the stowaway (AMENTI_VOICE), and gabriel:700 are three instances of one error: a machine read the code, could not see the intent, and concluded the intent was absent. THE CODE CANNOT TELL YOU THE INTENT. Declare it, or lose it.",
+        "THE WORKER IS NOT IN VERSION CONTROL. amenti-proxy lives in Cloudflare. No diff, no history, no rollback, and the Glass Gate cannot see it. It holds /speak, the cache key, and the model string — and the model string HAS silently reverted before. ARCHIVE WATCH is the only instrument that can see any of it, and it can only see it by FIRING AT IT."
       ],
       "stamps": [],
-      "stamp": "CONFIRMED"
+      "stamp": "UNPROVEN"
     },
     {
       "id": "game",
