@@ -1032,6 +1032,28 @@ nav.amenti-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;backg
 .term-msg.user .term-msg-prompt{color:#00ff80;}
 .term-msg.bot .term-msg-prompt{color:var(--gold);}
 .term-msg.sys .term-msg-prompt{color:#80ffc0;opacity:.5;}
+
+/* ── THE HALL DOOR ────────────────────────────────────────────────────────
+   The only element in this interface that points AWAY from the conversation
+   and INTO the library. It appears only when the roster resolved the name. */
+.hall-door{
+  display:flex;align-items:center;gap:10px;width:100%;margin:10px 0 2px;
+  background:linear-gradient(90deg,rgba(147,197,253,.07),rgba(147,197,253,0));
+  border:1px solid rgba(147,197,253,.28);border-left:2px solid #93c5fd;
+  border-radius:6px;padding:9px 12px;cursor:pointer;text-align:left;
+  font-family:inherit;color:#cdd8ff;transition:background .18s,border-color .18s,transform .12s;
+}
+.hall-door:hover{
+  background:linear-gradient(90deg,rgba(147,197,253,.16),rgba(147,197,253,.02));
+  border-color:rgba(147,197,253,.6);transform:translateX(2px);
+}
+.hall-door .hd-glyph{font-size:15px;color:#93c5fd;line-height:1;}
+.hall-door .hd-body{display:flex;flex-direction:column;flex:1;min-width:0;}
+.hall-door .hd-name{font-size:11px;letter-spacing:.11em;font-weight:700;color:#dbeafe;}
+.hall-door .hd-sub{font-size:9px;letter-spacing:.06em;color:#7f8ea3;margin-top:2px;}
+.hall-door .hd-go{font-size:9px;letter-spacing:.12em;color:#93c5fd;opacity:.75;white-space:nowrap;}
+.hall-door:hover .hd-go{opacity:1;}
+
 .term-msg-body{flex:1;}
 .term-msg.user .term-msg-body{color:#fff;font-family:var(--font-mono);}
 .term-msg.bot .term-msg-body{color:#e8e0d0;font-family:var(--font-script);font-size:18px;line-height:1.5;}
@@ -6179,6 +6201,91 @@ function clearStream(){ if(active){ if(termChat) termChat.clear(); else history=
 var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
   figure: active,
   mode: mode,
+  /* ── THE HALL — THE HOST RESOLVES THE NAME ─────────────────────────────
+     The figure PROPOSES a name. THE ROSTER DISPOSES.
+
+     The model will get names slightly wrong — "Peter Petrovich" for Peter the
+     Great; the famous Brutus instead of LUCIUS JUNIUS Brutus, who is the one
+     who actually had his own sons executed. The prospectus sells exactly this
+     difference:  "ungrounded; invent quotes"  vs  "verified primary-source
+     grounding."  So a summon that invents a man is a shot at the moat.
+
+     THE NAME IS JOINED AGAINST AMENTI_CHARS. If it does not resolve, NO DOOR
+     APPEARS and the prose still reads. The figure's story stands. Only the
+     promise is withdrawn — quietly, and without a broken link.
+     ────────────────────────────────────────────────────────────────────── */
+  onSummon: function (name, ctx) {
+    var nm = function (x) { return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); };
+    var R = window.AMENTI_CHARS || [];
+    var want = nm(name);
+    if (!want) return;
+
+    /* Known variants the hall will accept. Deliberate, one at a time, by hand.
+       NOT a fuzzy matcher. Every entry here is a decision someone made. */
+    var ALIAS = {
+      'caesar': 'julius caesar',
+      'augustus': 'augustus caesar',
+      'aurelius': 'marcus aurelius',
+      'cromwell': 'oliver cromwell',
+      'peter i': 'peter the great',
+      'lucius junius brutus': 'brutus'
+    };
+    if (ALIAS[want]) want = ALIAS[want];
+
+    /* ⚠ EXACT MATCH ONLY. A PREFIX JOIN OPENS THE WRONG DOOR.
+       The first build accepted a prefix, and the test caught it in one line:
+
+           "Aristotle Onassis"  ->  ARISTOTLE
+
+       The shipping magnate resolved to the philosopher. "John Lennon" would
+       have reached John. "Peter Parker" would have reached Peter. A loose
+       validator is a hallucination machine wearing a validator's coat — and it
+       is aimed at the one thing the prospectus sells: verified grounding.
+
+       A SAFE MISS IS FINE. A WRONG DOOR IS NOT. */
+    var idx = -1;
+    for (var i = 0; i < R.length; i++) { if (nm(R[i].name) === want) { idx = i; break; } }
+
+    if (idx < 0) {
+      console.warn('%c[THE HALL] "' + name + '" IS NOT IN THE ROSTER. No door opened. ' +
+        'The figure told the story; the interface did not promise a man it does not have.',
+        'color:#FFB300');
+      return;
+    }
+
+    var fig = R[idx];
+    if (!fig || (active && nm(active.name) === nm(fig.name))) return;   // never summon yourself
+
+    var last = stream && stream.querySelector('.term-msg.bot:last-child');
+    if (!last || last.querySelector('.hall-door')) return;
+
+    var from = (ctx && ctx.from) || (active && active.name) || '';
+    var carried = (ctx && ctx.asked) || '';
+
+    var d = document.createElement('button');
+    d.className = 'hall-door';
+    d.type = 'button';
+    d.innerHTML =
+      '<span class="hd-glyph">' + (fig.glyph || '\u25C8') + '</span>' +
+      '<span class="hd-body">' +
+        '<span class="hd-name">' + String(fig.name).toUpperCase() + '</span>' +
+        '<span class="hd-sub">is in this hall' + (from ? ' \u00b7 sent by ' + String(from).split(' ').slice(-1)[0] : '') + '</span>' +
+      '</span>' +
+      '<span class="hd-go">ASK HIM \u2192</span>';
+
+    d.onclick = function () {
+      tune(idx);
+      if (typeof termChat !== 'undefined' && termChat && termChat.setSummonedBy) {
+        termChat.setSummonedBy(from);          // the summoned figure KNOWS why they were called
+      }
+      pushSys('\u25C8 ' + (from ? String(from).toUpperCase() + ' SENT YOU TO ' : 'YOU CROSSED THE HALL TO ') +
+              String(fig.name).toUpperCase());
+      /* Carry the seeker's own question across. They arrive with it in hand —
+         one keystroke, and they are not made to explain themselves twice. */
+      if (carried && input) { input.value = carried; input.focus(); }
+    };
+    last.appendChild(d);
+  },
   render: {
     user: function(t){ pushUser(t); },
     sys:  function(t){ pushSys(t); },

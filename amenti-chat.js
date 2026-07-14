@@ -188,7 +188,53 @@
         : '- There is no text in view. You have nothing to read aloud.\n');
   }
 
-  function defaultBuildSystem(c, mode, context, knownName, converse) {
+  /* ── THE HALL — THE ONLY MOVE THAT POINTS AT THE LIBRARY ──────────────────
+     Every other move in this doctrine points at the SEEKER: reflect, catch,
+     observe, invite, render. Eleven hundred souls stand in the hall and the
+     conversation engine could not reach a single one of them.
+
+     Caesar could not say: "there is a man here who buried his son for this.
+     Go and ask him."
+
+     THE TURN IS A MIRROR. THE SUMMON IS A WINDOW.
+     The Turn asks the seeker to confirm a portrait of themselves — and when it
+     is wrong, it costs trust. The summon asks them to look at a portrait of
+     SOMEONE ELSE, and lets them do the arithmetic. It carries almost no risk,
+     because THE WEIGHT COMES FROM HISTORY, NOT FROM THE MACHINE'S READING OF
+     THEM. And it is the only move no competitor can copy, because nobody else
+     has the hall.
+
+     ⚠ THE NAME IS VALIDATED AGAINST THE ROSTER, NOT AGAINST MEMORY.
+     The model WILL get names slightly wrong — "Peter Petrovich" for Peter the
+     Great; the famous Brutus instead of Lucius Junius Brutus, who is the one
+     who actually executed his own sons. The moat in the prospectus is literally
+     "ungrounded; invent quotes" vs "verified primary-source grounding", so a
+     summon that invents a man is a shot at the one thing being sold.
+
+     THE HOST RESOLVES THE NAME. If it is not in the hall, the door does not
+     appear and the prose still reads. Degrade, never break.
+     ─────────────────────────────────────────────────────────────────────── */
+  var HALL =
+    '\n\nTHE HALL — YOU ARE NOT ALONE HERE.\n' +
+    '- Eleven hundred souls stand in this hall with you: generals, poets, heretics, physicians, gods, tyrants, mothers of nations.\n' +
+    '- When ANOTHER OF THEM LIVED WHAT THIS PERSON IS LIVING — do not merely quote him. SEND THEM TO HIM.\n' +
+    '  ("You complain your father would not bend. There is a man in this hall who did not bend — and buried his son for it. Ask him whether he would do it again.")\n' +
+    '- Declare it with a tag, anywhere in your reply. The seeker never sees the tag:\n' +
+    '      [summon: Peter the Great]\n' +
+    '- Use their FULL, COMMONLY KNOWN NAME — the name history calls them by. If you are not CERTAIN they are among the great and remembered, DO NOT SUMMON THEM. Tell the story yourself instead. A door that opens onto nothing is worse than no door.\n' +
+    '- Summon RARELY, and only when the other\'s LIFE IS THE ANSWER — not when they merely have an opinion about it. A hall of a thousand doors is not a conversation.\n' +
+    '- Never summon yourself. Never summon more than one at a time.\n';
+
+  /* When a figure has been SENT here by another, they know it. */
+  function summonedLine(from) {
+    if (!from) return '';
+    return '\n\nYOU HAVE BEEN CALLED.\n' +
+      '- ' + from + ' was speaking with this person and SENT THEM TO YOU. They have crossed the hall to reach you.\n' +
+      '- You may acknowledge it plainly, as one summoned would. You need not be grateful, and you need not agree with ' + from + '.\n' +
+      '- Do not make them explain themselves from the beginning. ' + from + ' sent them for a reason. Meet it.\n';
+  }
+
+  function defaultBuildSystem(c, mode, context, knownName, converse, summonedBy) {
     var hasContext = !!(context && String(context).trim());
     var era = [c.era, c.year].filter(Boolean).join(', ');
     var voiceLine = c.voice
@@ -220,7 +266,7 @@
         '- Take a clear position and give a concrete next step.\n' +
         '- Be substantive but economical — every sentence earns its place. Up to ~150 words; shorter is fine if you\'ve said what matters.\n' +
         '- Be supportive; never give harmful, dangerous, or reckless advice. For serious matters — mental health, self-harm, medical, legal, or financial crisis — be kind and gently point them toward a qualified professional or someone they trust, rather than carrying it alone.\n' +
-        '- Plain prose, your own voice. No lists, no headers.' + threshold(c) + moveProtocol(hasContext);
+        '- Plain prose, your own voice. No lists, no headers.' + threshold(c) + moveProtocol(hasContext) + HALL + summonedLine(summonedBy);
     }
     return base + converseGuidance(converse) +
       '\nSpeak as ' + c.name + ', never as an AI assistant — but be genuinely worth listening to, not a caricature.\n' +
@@ -243,7 +289,7 @@
       'OPENING & THEIR NAME — how to build rapport:\n' +
       '- Open with an icebreaker that is an offering OF YOURSELF, not a service desk. Never "how may I help you?" — instead a question or provocation that invites them in. ("They tell me you\'ve come to ask me something. Most want the lightning — but I\'d rather know what brought YOU here.")\n' +
       nameGuidance(knownName, c) +
-      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c);
+      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c) + HALL + summonedLine(summonedBy);
   }
 
   /* ── THE ENGINE READS THE DOCTRINE ────────────────────────────────────
@@ -283,8 +329,8 @@
      real, tell them the truth. The spell is the product, but it is never worth
      a lie.
      ─────────────────────────────────────────────────────────────────────── */
-  function leanBuildSystem(c, mode, context, knownName, converse) {
-    if (mode === 'counsel') return defaultBuildSystem(c, mode, context, knownName, converse);
+  function leanBuildSystem(c, mode, context, knownName, converse, summonedBy) {
+    if (mode === 'counsel') return defaultBuildSystem(c, mode, context, knownName, converse, summonedBy);
 
     var era = [c.era, c.year].filter(Boolean).join(', ');
     var titleEra = [c.title, era].filter(Boolean);
@@ -320,7 +366,7 @@
       out.push('', 'THE VISITOR IS LOOKING AT THIS TEXT OF YOURS RIGHT NOW. Quote or paraphrase it accurately.',
                '--- BEGIN TEXT ---', String(context).trim(), '--- END TEXT ---');
     }
-    return out.join('\n');
+    return out.join('\n') + HALL + summonedLine(summonedBy);
   }
 
   function create(opts) {
@@ -331,6 +377,11 @@
       /* THE VISITOR'S DIAL — INQUIRY | REFLECTION | SYNTHESIS | NEUTRAL.
          Lifted back from Page2's Gabriel, the surface that worked. */
       converse: opts.converse || 'INQUIRY',
+      /* THE HALL. The host resolves a summoned name against the roster and
+         opens a door — or does not, and the prose still reads. */
+      _onSummon: (typeof opts.onSummon === 'function') ? opts.onSummon : null,
+      summonedBy: null,          // set when another figure SENT the seeker here
+
       /* 'full' = the doctrine's character prompt (~1,200 words)
          'lean' = Gabriel, restored (~200 words) — the prompt that made the awe.
          We do not know which makes the better Caesar. Listen, then decide. */
@@ -411,6 +462,7 @@
         if (k === 'lean' || k === 'full') this.prompt = k;
         return this.prompt;
       },
+      setSummonedBy: function (name) { this.summonedBy = name || null; return this.summonedBy; },
       setConverse: function (m) {
         var k = String(m || '').toUpperCase();
         if (CONVERSE[k]) this.converse = k;
@@ -617,6 +669,19 @@
         var s = String(raw == null ? '' : raw);
         var move = null, tagged = false, watch = null, catchLine = null;
 
+        /* ── THE SUMMON ────────────────────────────────────────────────────
+           It may appear ANYWHERE — the model will not reliably put it first.
+           Peel it out of the whole body, strip it before the screen AND before
+           the mouth. The seeker never sees the tag; they see the door.
+           The NAME IS NOT TRUSTED HERE. The host resolves it against the
+           roster. If it is not in the hall, no door appears and the prose
+           still reads. Degrade, never break. */
+        var summon = null;
+        s = s.replace(/\[\s*summon\s*[:=]\s*([^\]]{1,80})\]\s*/gi, function (_m, name) {
+          if (!summon) summon = String(name || '').trim();
+          return '';
+        });
+
         // Tags may arrive in any order. Peel every one we recognise off the top.
         for (var guard = 0; guard < 6; guard++) {
           var m = s.match(/^\s*\[\s*(move|watch|catch)\s*[:=]\s*([^\]]*)\]\s*/i);
@@ -638,7 +703,7 @@
             if (val.length >= 8 && val.length <= 240) catchLine = val;
           }
         }
-        return { move: move, text: s.trim(), tagged: tagged, watch: watch, catchLine: catchLine };
+        return { move: move, text: s.trim(), tagged: tagged, watch: watch, catchLine: catchLine, summon: summon };
       },
 
       _norm: function (t) {
@@ -873,7 +938,7 @@
         var build = (this.prompt === 'lean' && this._getSystem === defaultBuildSystem)
           ? leanBuildSystem
           : this._getSystem;
-        var sys = build(this.figure, this.mode, this.context, this.userName, this.converse);
+        var sys = build(this.figure, this.mode, this.context, this.userName, this.converse, this.summonedBy);
         // THE PAYLOAD is bounded. THE TRANSCRIPT (this.history, pushed below) is not.
         var messages = this._payload(text);
 
@@ -892,6 +957,20 @@
           // The transcript records the figure's WORDS, not the stage direction.
           self.history.push({ role: 'user', content: text });
           self.history.push({ role: 'assistant', content: said });
+
+          /* THE SUMMON. The host resolves the name against the roster and decides
+             whether a door appears. We do not trust the model's spelling and we do
+             not put it in the transcript — the figure SAID the story; the door is
+             the interface's answer to it. */
+          if (parsed.summon && typeof self._onSummon === 'function') {
+            try { self._onSummon(parsed.summon, { from: self.figure && self.figure.name, asked: text }); }
+            catch (e) { console.warn('summon host failed:', e && e.message); }
+          }
+
+          /* ONE SHOT. "You have been called" belongs to the arrival, not to every
+             turn for the rest of the audience. After the summoned figure has met
+             them once, the crossing is in the history where it belongs. */
+          if (self.summonedBy) self.summonedBy = null;
           self._turns++;
           self._sinceArrest++;
 
