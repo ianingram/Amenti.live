@@ -81,11 +81,16 @@
   function api() { return (root.Amenti && root.Amenti.voice) || null; }
 
   /* The measures, cut by the REAL engine. Never re-implemented here — a second
-     copy of the chunker is exactly how the archive forks. */
+     copy of the chunker is exactly how the archive forks.
+     chunkText returns OBJECTS: { text, rest, rate }. The engine unwraps with
+     this exact guard before it posts. Copied verbatim, not invented. A local
+     re-implementation of this line is what produced six 400s on the first fire. */
+  function textOf(chunk) { return (chunk && chunk.text != null) ? chunk.text : chunk; }
+
   function measures(profile) {
     var v = api();
     if (!v || typeof v.chunk !== 'function') return null;
-    return v.chunk(TEXT, profile);
+    return v.chunk(TEXT, profile).map(textOf);
   }
 
   /* ---- THE WARD: fetch only. No audio. No AudioContext. ---- */
@@ -93,7 +98,8 @@
     var v = api();
     if (!v) return Promise.reject(new Error('engine absent: Amenti.voice not loaded'));
 
-    var report = { passage: TEXT_SHA256, chars: TEXT.length, wires: [], renders: 0, hits: 0, signal: null };
+    var report = { passage: TEXT_SHA256, chars: TEXT.length, wires: [],
+                   hits: 0, renders: 0, errors: 0, signal: null, intact: false };
     var jobs = [];
 
     WIRES.forEach(function (profile) {
@@ -117,25 +123,55 @@
             body: JSON.stringify({ text: job.text, style: style, voice: voice })
           }).then(function (r) {
             var t1 = (root.performance && performance.now) ? performance.now() : Date.now();
-            var ms = Math.round(t1 - t0);
+            var took = Math.round(t1 - t0);
             var hdr = null;
             try { hdr = r.headers.get('x-amenti-cache'); } catch (e) { hdr = null; }
             var signal = hdr ? 'header' : 'latency';
-            var hit = hdr ? (hdr.toLowerCase() === 'hit') : (ms < HIT_MS);
-            report.signal = report.signal || signal;
-            if (hit) report.hits++; else report.renders++;
+
+            /* A RESPONSE THAT IS NOT OK IS NEVER A HIT. The first build of this
+               file judged hit purely on latency — and a 400 comes back fast, so
+               six rejections reported as three hits. A probe that reports green
+               without looking is worse than no probe. */
+            var hit = false;
+            if (r.ok) hit = hdr ? (hdr.toLowerCase() === 'hit') : (took < HIT_MS);
+
+            if (!r.ok) report.errors++;
+            else if (hit) report.hits++;
+            else report.renders++;
+            if (r.ok) report.signal = report.signal || signal;
+
             var line = {
               profile: job.profile, max: job.max, m: job.i + '/' + job.n,
-              chars: job.text.length, ms: ms, hit: hit, via: signal, ok: r.ok, status: r.status
+              chars: job.text.length, ms: took,
+              ok: r.ok, status: r.status,
+              state: r.ok ? (hit ? 'HIT' : 'RENDER') : ('ERR ' + r.status),
+              via: r.ok ? signal : null, error: null
             };
+
+            var emit = function () {
+              report.wires.push(line);
+              if (typeof onLine === 'function') { try { onLine(line); } catch (e) {} }
+            };
+
+            if (!r.ok) {
+              /* Surface WHAT the Worker objected to, not just that it did. */
+              return r.json().then(function (j) { line.error = (j && j.error) || null; emit(); },
+                                   function () { emit(); });
+            }
+            return r.arrayBuffer().then(function () { emit(); }, function () { emit(); });
+          }, function (e) {
+            report.errors++;
+            var line = { profile: job.profile, max: job.max, m: job.i + '/' + job.n,
+                         chars: job.text.length, ms: null, ok: false, status: 0,
+                         state: 'NETWORK', via: null, error: (e && e.message) || 'fetch failed' };
             report.wires.push(line);
-            if (typeof onLine === 'function') { try { onLine(line); } catch (e) {} }
-            return r.arrayBuffer().then(function () {}, function () {});
+            if (typeof onLine === 'function') { try { onLine(line); } catch (e2) {} }
           });
         });
       }, Promise.resolve()).then(function () {
-        report.intact = (report.wires.length > 0) && report.wires.every(function (w) { return w.ok && w.hit; });
         report.total = report.wires.length;
+        report.intact = report.total > 0 && report.errors === 0 &&
+                        report.wires.every(function (w) { return w.ok && w.state === 'HIT'; });
         return report;
       });
     });
@@ -160,6 +196,7 @@
 
   var API = {
     __v: 1,
+    BUILD: 2,          /* 2 = unwraps the chunk object; a non-ok response is never a hit */
     TEXT: TEXT,
     SHA256: TEXT_SHA256,
     CHARS: TEXT_CHARS,
@@ -215,16 +252,23 @@
       bWard.disabled = true;
       log.textContent = 'firing six wires \u2014 fetch only, no audio \u2026';
       calibrate(function (w) {
-        line('  ' + w.profile.padEnd(8) + String(w.max).padStart(3) + '  m' + w.m +
-             '  ' + String(w.chars).padStart(3) + 'ch  ' + (w.hit ? 'HIT ' : 'MISS') +
-             '  ' + String(w.ms).padStart(6) + 'ms  via:' + w.via);
+        line('  ' + w.profile + '  ' + String(w.max).padStart(3) +
+             '  m' + w.m + '  ' + String(w.chars).padStart(3) + 'ch  ' +
+             w.state + '  ' + (w.ms == null ? '  --' : String(w.ms).padStart(6) + 'ms') +
+             (w.via ? '  via:' + w.via : '') +
+             (w.error ? '  \u2190 ' + w.error : ''));
       }).then(function (r) {
         line('');
-        line(r.intact
-          ? 'ARCHIVE INTACT \u00b7 ' + r.hits + '/' + r.total + ' \u00b7 ' + r.renders + ' renders'
-          : 'DRIFT \u00b7 ' + r.hits + '/' + r.total + ' hit \u00b7 ' + r.renders + ' RENDERED');
+        if (r.errors) {
+          line('REFUSED \u00b7 ' + r.errors + '/' + r.total + ' rejected by the Worker.');
+          line('No render. No spend. Read the error above.');
+        } else if (r.intact) {
+          line('ARCHIVE INTACT \u00b7 ' + r.hits + '/' + r.total + ' HIT \u00b7 0 renders \u00b7 $0.00');
+        } else {
+          line('DRIFT \u00b7 ' + r.hits + '/' + r.total + ' hit \u00b7 ' + r.renders + ' RENDERED');
+          line('If this is the first fire, that is correct. Press again.');
+        }
         if (r.signal === 'latency') line('note: header unreadable (CORS) \u2014 judged on latency.');
-        line('report: Amenti.canonical.calibrate() for the object.');
         console.log('[calibration]', r);
         bWard.disabled = false;
       }, function (e) {
