@@ -247,6 +247,40 @@ window.FLEET_SEMANTICS = {
       threat: 'Tampering, defacement, a malicious commit.',
       probe:  'probes/probe-watches.mjs',
       note:   'A baseline of file hashes was claimed. No probe file has been found in the tree.' },
+
+    /* ── THE FIFTH TOWER ────────────────────────────────────────────────────
+       Every other watch guards something the fleet CAN READ. This one guards the
+       only thing it cannot.
+
+       The Worker lives in Cloudflare. Its source is not in this repository — no
+       diff, no history, no rollback, and the Glass Gate is blind to it. And it
+       holds the audio cache key:
+
+           sha256(TTS_MODEL + voice + STYLE + TEXT)
+
+       That key cannot be verified by LOOKING. It can only be verified by
+       SPEAKING A KNOWN THING AND ASKING WHETHER THE ENGINE REMEMBERS IT.
+
+       So: one frozen passage. 933 chars. Six measures, six keys, six wires,
+       across both live chunk profiles. Fired every six hours. EVERY HIT IS FREE
+       — that property is not luck, it is the entire reason the text is locked.
+
+       AND IT ABORTS ON THE FIRST MISS. A drifting archive that keeps firing all
+       six wires, four times a day, forever, is a cost loop built by the very
+       instrument that exists to prevent one.
+       ──────────────────────────────────────────────────────────────────────── */
+    { id: 'ARCHIVE WATCH',  color: 0x57b6ff, corner: 'tc',
+      board: { edge: 'back' },
+      guards: 'The R2 audio archive — and the cache key inside a Worker nobody can read',
+      threat: 'A silent byte moving in the model string, VOICE_REGISTER, composeStyle, chunkText, ' +
+              'or a chunk PROFILE — orphaning every clip in R2 and re-billing the entire archive. ' +
+              'Field Journal II records that the model string HAS silently reverted before.',
+      probe:  'probes/probe-watches.mjs  ->  archiveWatch()',
+      note:   'The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. ' +
+              '6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. ' +
+              'A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. ' +
+              'THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = ' +
+              'the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.' },
   ],
 
   /* ── THE ENGINES ────────────────────────────────────────────────────────
@@ -305,6 +339,47 @@ window.FLEET_SEMANTICS = {
           probe: 'probes/probe7.js  +  probes/probe17.js',
           cost:  'Move a byte and EVERY CLIP IN R2 BECOMES AN ORPHAN. You pay to render the archive again.' },
 
+        /* ── THE ONLY INSTRUMENT THAT CAN SEE THE CACHE KEY ─────────────────
+           The Worker lives in Cloudflare. It is NOT in this repository. Its
+           source cannot be read, cannot be diffed, cannot be rolled back, and
+           the Glass Gate cannot see it. So the key above cannot be verified by
+           LOOKING. It can only be verified by SPEAKING A KNOWN THING AND ASKING
+           WHETHER THE ENGINE REMEMBERS IT.
+           That is the canonical passage, and this is its watch. */
+        { claim: 'The canonical passage (933 chars, sha 27e9c5af, LOCKED) is a CACHE HIT on all six ' +
+                 'wires — 4 measures at recital/320 and 2 at gabriel/700. Every hit is free; a MISS ' +
+                 'means the cache key has moved and the archive has forked.',
+          probe: 'probes/probe-watches.mjs  ->  ARCHIVE WATCH  (every 6h)',
+          cost:  'The archive is six weeks of R2 and the whole cost story of the business. ' +
+                 'A silent revert of the model string orphans ALL OF IT — and Field Journal II ' +
+                 'records that the model string HAS silently reverted before. ' +
+                 'DO NOT EDIT amenti-canonical.js. Not one byte. The hash is the lock.' },
+
+        /* ── THE FORK IS DELIBERATE. DO NOT "FIX" IT. ───────────────────────
+           gabriel:700 sitting beside recital:320 reads, to a fresh session, as
+           an inconsistency someone forgot to clean up. It is not. It is Page2's
+           deployed boundary, and unifying it RE-RENDERS PAGE2'S ARCHIVE AND
+           RE-BILLS IT. The captain ruled: keep the fork.
+
+           A DELIBERATE FORK THAT IS NOT DECLARED LOOKS EXACTLY LIKE A BUG —
+           which is how the throttle, the stowaway, and the "not a throttle and
+           never was" all happened. THE CODE CANNOT TELL YOU THE INTENT. */
+        { claim: 'PROFILES.recital === 320 and PROFILES.gabriel === 700. They are SEPARATE CACHE ' +
+                 'NAMESPACES and they do NOT share an archive. THIS IS INTENDED. The bill is the reason.',
+          probe: 'probes/probe7.js  +  probes/probe17.js  +  ARCHIVE WATCH',
+          cost:  'Unify them and Page2\'s entire archive is orphaned and re-rendered. ' +
+                 'A commit that moves either number must argue with the Gate first — which means ' +
+                 'a human has to MEAN it.' },
+
+        /* ── THE FAST OPENER — FREE HERE, FORBIDDEN THERE ───────────────────
+           The same law as the register table, applied to chunk size. */
+        { claim: 'CONV_FIRST_MAX (110) is reached ONLY from register:conversational. Every recital ' +
+                 'path passes firstMax = 0 and calls the LOCKED chunker unchanged.',
+          probe: 'probes/probe21 (phase 2)  +  ARCHIVE WATCH',
+          cost:  'The counsel is never cached, so its boundaries are free to move. The recital\'s ' +
+                 'boundaries ARE THE CACHE KEY. Let the opener touch the recital path and the ' +
+                 'archive forks. Not "shouldn\'t" — CANNOT. Keep it that way.' },
+
         { claim: 'The payload is bounded. The transcript is whole; the bill is not.',
           probe: 'probes/probe.js  +  probes/probe2.js',
           cost:  '$118.84 for a 500-turn conversation — the entire monthly cap, in one session.' },
@@ -338,7 +413,30 @@ window.FLEET_SEMANTICS = {
         'historyCap says "turns" and counts MESSAGES. Read the CODE, not the comment.',
         '"push-to-talk: deliberate" was a LIMITATION described as a design. armMic never passed autoStop.',
         'The microphone is not a keyboard. A keyboard is DELIBERATE; a microphone is AMBIENT, and it is untrusted.',
-        'Base TTS latency is ~16-18s REGARDLESS OF CHUNK SIZE. The archive is why the reading room feels instant. THE COUNSEL IS NEVER CACHED.',
+
+        /* ⚠ THIS TRAP REPLACES A LIE THAT LIVED HERE.
+           The old line read: "Base TTS latency is ~16-18s REGARDLESS OF CHUNK SIZE."
+           It was AUTHORED, never measured — and it was WRONG, for a reason nobody
+           could have guessed from the code: THE COUNSEL WAS NOT CHUNKING AT ALL.
+           It posted the whole reply in one monolithic call. A previous session
+           measured a MONOLITH, concluded chunking does not help, and wrote that
+           conclusion into the one file that is supposed to be true.
+           probe20 fired the real engine at real hardware and got the curve. */
+        'TTS RENDER TIME, MEASURED (probe20, live): render_ms = 7510 + 18.25 x chars. ' +
+        'THE FLOOR IS 7.5 SECONDS — the irreducible cost of ANY render, at any length. ' +
+        'A 500-char monolith is ~16.7s to first sound; chunked with a 110-char opener, ~8.9s. ' +
+        'THE COUNSEL IS NEVER CACHED — its text is unique every turn, so it NEVER hits the archive ' +
+        'and always pays the floor. The reading room feels instant because the archive HITS.',
+
+        'A DELIBERATE FORK THAT IS NOT DECLARED LOOKS EXACTLY LIKE A BUG. ' +
+        'The throttle ("not a throttle and never was"), the stowaway (AMENTI_VOICE), and gabriel:700 ' +
+        'are three instances of one error: a machine read the code, could not see the intent, and ' +
+        'concluded the intent was absent. THE CODE CANNOT TELL YOU THE INTENT. Declare it, or lose it.',
+
+        'THE WORKER IS NOT IN VERSION CONTROL. amenti-proxy lives in Cloudflare. No diff, no history, ' +
+        'no rollback, and the Glass Gate cannot see it. It holds /speak, the cache key, and the model ' +
+        'string — and the model string HAS silently reverted before. ARCHIVE WATCH is the only ' +
+        'instrument that can see any of it, and it can only see it by FIRING AT IT.',
       ],
     },
 
