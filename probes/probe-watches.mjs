@@ -75,12 +75,72 @@ async function dataWatch() {
     }
   }
 
+  /* ── THE WRITE DOOR ──────────────────────────────────────────────────────
+     DATA WATCH TESTED THE READ DOOR FOR MONTHS. IT NEVER TESTED THE WRITE DOOR.
+
+     "subscribers: sealed (200, 0 rows)" is TRUE — and it is guarding a door
+     nobody was trying. That is the Signed-Out Phantom in a new costume: zero
+     rows looked exactly like safety.
+
+     The table ships with this policy:
+
+         create policy "unsub by token" on public.subscribers
+           for update to anon
+           using (true)                                    <- ANY ROW
+           with check (status in ('active','unsubscribed'))  <- constrains STATUS ONLY
+
+     USING gates which rows you may touch. WITH CHECK gates what the row may
+     become. That check says NOTHING about `email`. If this policy is live, the
+     anon key — WHICH SHIPS IN EVERY PAGE'S SOURCE — can rewrite the email
+     address of every subscriber on the list, and the next VAL·HAL·LA goes to
+     whoever they choose.
+
+     I READ THAT IN A FILE AND CALLED IT A HOLE. That is inferring intent from
+     code, which is the error this entire fleet exists to prevent. So this does
+     not assume. IT KNOCKS.
+
+     ⚠ NON-DESTRUCTIVE BY CONSTRUCTION.
+     The filter targets an id that CANNOT EXIST — the nil UUID. Zero rows match,
+     so zero rows change, no matter what RLS decides. We are not testing whether
+     the update WORKS. We are testing whether RLS LETS US TRY.
+
+         401 / 403  -> RLS refused the write. The door is shut.
+         204 / 200  -> RLS PERMITTED IT. Nothing changed (no row matched) —
+                       BUT A REAL FILTER WOULD HAVE GONE THROUGH.
+     ──────────────────────────────────────────────────────────────────────── */
+  const NIL = '00000000-0000-0000-0000-000000000000';
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/subscribers?id=eq.${NIL}`, {
+      method: 'PATCH',
+      headers: { ...H, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify({ status: 'active' }),   /* a no-op value, on a row that cannot exist */
+    });
+
+    if (r.status === 401 || r.status === 403 || r.status === 404) {
+      findings.ok++;
+      notes.push(`subscribers: WRITE-SEALED (${r.status})`);
+    } else if (r.status === 204 || r.status === 200) {
+      findings.fail.push(
+        'THE ANON KEY MAY WRITE TO `subscribers` (' + r.status + '). ' +
+        'The "unsub by token" policy uses `using (true)` and never checks the token. ' +
+        'Nothing was changed by this probe — the nil UUID matches no row — BUT A REAL ' +
+        'FILTER WOULD HAVE GONE THROUGH. With the public key alone, anyone can ' +
+        'unsubscribe your entire list, or REWRITE EVERY SUBSCRIBER EMAIL and redirect ' +
+        'the newsletter. DROP THAT POLICY. Do the unsubscribe through a SECURITY ' +
+        'DEFINER function that takes the token and can do nothing else.');
+    } else {
+      findings.warn.push(`subscribers: write door returned ${r.status} — cannot judge`);
+    }
+  } catch (e) {
+    findings.warn.push('subscribers: write door unreachable (' + e.message + ')');
+  }
+
   const status = findings.fail.length ? 'FAIL' : (findings.warn.length ? 'WARN' : 'OK');
   return { id: 'DATA WATCH', status, ...findings,
     note: findings.fail.length
-      ? 'ANON CAN READ PRIVATE DATA. ' + findings.fail.join('; ')
+      ? 'AN OPEN DOOR. ' + findings.fail.join('; ')
       : (findings.warn.length ? notes.concat(findings.warn).join(' · ')
-                              : 'every sealed table returned nothing to the anon key: ' + notes.join(' · ')) };
+                              : 'the anon key can neither READ nor WRITE the sealed tables: ' + notes.join(' · ')) };
 }
 
 /* ── TREASURY WATCH ─────────────────────────────────────────────────────────
