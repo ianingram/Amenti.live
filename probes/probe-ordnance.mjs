@@ -56,6 +56,30 @@ async function listKeys(prefix) {
   return r.body.keys;
 }
 
+/* ── AND THE THING THAT STOPS THE PROBE GUESSING ────────────────────────────
+   The first walk reported: 3 keys under `dailyplanet:` and ZERO under `week:`.
+
+   THAT SHOULD BE IMPOSSIBLE. publishWeek() writes week:{sunday} as its FIRST
+   ACT, and it is the ONLY thing that ever constructs a dailyplanet: key. If
+   three of the latter exist, the former must too.
+
+   So either the week: keys were written and later purged — or THE PROBE IS
+   GUESSING PREFIXES AND READING TEA LEAVES.
+
+   Do not guess. ASK WHAT IS ACTUALLY IN THE HOLD. An empty prefix lists every
+   key the Worker has ever written. Then GROUP them, and let the shape of the
+   data tell us what the tubes are — instead of a list of names I invented. */
+async function everyKey() {
+  const all = await listKeys('');
+  if (!all) return null;
+  const groups = {};
+  for (const k of all) {
+    const p = (k.split(':')[0] || '(no prefix)') + ':';
+    (groups[p] = groups[p] || []).push(k);
+  }
+  return { count: all.length, groups, sample: all.slice(0, 40) };
+}
+
 /* ── ATLANTICA ───────────────────────────────────────────────────────────── */
 async function atlantica() {
   const keys = await listKeys('atlantica:');
@@ -175,9 +199,15 @@ for (const t of [await atlantica(), await theWeek(), await planet(), await podca
   tubes[t.id] = t;
 }
 
+const hold = await everyKey();
+
 const dispatch = {
   at: new Date().toISOString(),
   by: 'probes/probe-ordnance.mjs',
+  /* THE HOLD. Every key the Worker has ever written, grouped by prefix. This is
+     the ground truth. If a tube below disagrees with this, THE TUBE IS WRONG. */
+  hold: hold ? { count: hold.count, prefixes: Object.fromEntries(
+      Object.entries(hold.groups).map(([p, ks]) => [p, ks.length])) } : null,
   today: iso(today),
   thisWeek: sundayOf(today),
   note: 'THE FIRING LOG. What the fleet has actually published, read from the Worker\'s own KV. ' +
