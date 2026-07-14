@@ -7572,6 +7572,177 @@ window.AMENTI_VOICE = {
     boot();
   }
 })();
+
+/* ============================================================================
+   AMENTI.LIVE — THE GATEWAY
+   ----------------------------------------------------------------------------
+   The microphone is not a control. IT IS A THRESHOLD — the passage between the
+   seeker's room and the hall. So it is not drawn as a button. It is drawn as
+   THE GATE, and the gate is the pyramid this whole interface already is.
+
+     Ascension, Fig. V:
+       "PEOPLE STAND AT THE BASE; the shared engines carry them;
+        THE PROXY IS THE LIT CAPSTONE; the powers beyond sit above."
+
+   Which gives the pulse its direction, and the direction gives the turn:
+
+     ^ AMBER    the wave RISES from the base — the seeker's voice, climbing.
+                Its speed and brightness ride the REAL RMS. It moves because you
+                are speaking, not because a flag says you might be.
+
+       CAPSTONE the capstone burns and NOTHING FLOWS — thinking. The 7.5s render
+       LIT      floor stops being dead air and becomes a mind visibly at work.
+
+     v GREEN    the wave DESCENDS from the capstone — Amenti speaks. The same
+                green as the voice glow. The answer comes down to the people.
+
+       BLUE     the capstone breathes — the gate is open, nothing is heard.
+
+       RED      A LEAK. The stream is hot and nobody asked. AND THE GATE WILL
+                NOT CLOSE. You cannot dismiss it. Better than a console warning
+                you will never read.
+
+   IT NEVER EATS A CLICK. pointer-events:none, always. It is a HUD, not a modal.
+   ALL MOTION IS CSS. The only JS per frame is one custom property.
+   ============================================================================ */
+(function () {
+  'use strict';
+  var HZ = 33;                     /* ~30Hz. Cheap — and idle unless the gate is open. */
+  var el = null, wave = null;
+
+  function css() {
+    if (document.getElementById('amenti-gateway-css')) return;
+    var s = document.createElement('style');
+    s.id = 'amenti-gateway-css';
+    s.textContent = [
+      '@keyframes amGateUp{from{transform:translateY(0)}to{transform:translateY(-320px)}}',
+      '@keyframes amGateCap{0%,100%{opacity:.30}50%{opacity:.95}}',
+      '@keyframes amGateThink{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:1;transform:scale(1.9)}}',
+      '#amenti-gateway{',
+        'position:fixed;inset:0;pointer-events:none;z-index:40;',
+        'opacity:0;transition:opacity .55s ease;',
+        '--lvl:0;--gc:#93c5fd;',
+      '}',
+      '#amenti-gateway.on{opacity:calc(.26 + var(--lvl) * .5);}',
+      '#amenti-gateway svg{width:100%;height:100%;display:block;color:var(--gc);}',
+      '#amenti-gateway .g-l{fill:none;stroke:var(--gc);stroke-linecap:round;stroke-linejoin:round;',
+        'vector-effect:non-scaling-stroke;stroke-width:1;}',
+      '#amenti-gateway .g-base{stroke-width:.7;opacity:.4;}',
+      '#amenti-gateway .g-spine{opacity:.18;}',
+      '#amenti-gateway .g-cap-dot{fill:var(--gc);}',
+      '#amenti-gateway .g-wave{opacity:0;transition:opacity .3s;}',
+      '#amenti-gateway #g-body{transform-origin:50% 88%;transition:transform .09s ease-out;}',
+      '#amenti-gateway.up{--gc:#FFB300;}',
+      '#amenti-gateway.up .g-wave{opacity:1;animation:amGateUp var(--wdur,1.2s) linear infinite;}',
+      '#amenti-gateway.up .g-cap-dot{opacity:.4;}',
+      '#amenti-gateway.think{--gc:#dbeafe;}',
+      '#amenti-gateway.think .g-cap-dot{animation:amGateThink 1.15s ease-in-out infinite;',
+        'transform-origin:center;transform-box:fill-box;}',
+      '#amenti-gateway.down{--gc:#7CFFC4;}',
+      '#amenti-gateway.down .g-wave{opacity:1;animation:amGateUp 1.7s linear infinite reverse;}',
+      '#amenti-gateway.down .g-cap-dot{opacity:1;}',
+      '#amenti-gateway.idle .g-cap-dot{animation:amGateCap 4.2s ease-in-out infinite;}',
+      '#amenti-gateway.leak{--gc:#FF5252;opacity:.55 !important;}',
+      '#amenti-gateway.leak .g-wave{opacity:1;animation:amGateUp .8s linear infinite;}',
+      '@media (prefers-reduced-motion: reduce){',
+        '#amenti-gateway .g-wave,#amenti-gateway .g-cap-dot{animation:none !important;}',
+        '#amenti-gateway #g-body{transform:none !important;}',
+      '}'
+    ].join('');
+    (document.head || document.documentElement).appendChild(s);
+  }
+
+  function mount() {
+    if (document.getElementById('amenti-gateway') || !document.body) return;
+    css();
+    el = document.createElement('div');
+    el.id = 'amenti-gateway';
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML =
+      '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">' +
+        '<defs>' +
+          '<clipPath id="am-pyr"><path d="M200 40 L26 266 L374 266 Z"/></clipPath>' +
+          '<linearGradient id="am-wg" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0%" stop-color="currentColor" stop-opacity="0"/>' +
+            '<stop offset="50%" stop-color="currentColor" stop-opacity="0.5"/>' +
+            '<stop offset="100%" stop-color="currentColor" stop-opacity="0"/>' +
+          '</linearGradient>' +
+        '</defs>' +
+        '<g id="g-body">' +
+          '<g clip-path="url(#am-pyr)">' +
+            '<rect class="g-wave" x="0" y="250" width="400" height="100" fill="url(#am-wg)"/>' +
+          '</g>' +
+          '<path class="g-l" d="M200 40 L26 266 L374 266 Z"/>' +
+          '<path class="g-l" d="M166 84 L234 84"/>' +
+          '<path class="g-l g-spine" d="M200 40 L200 266"/>' +
+          '<path class="g-l g-base" d="M4 266 L396 266"/>' +
+          '<circle class="g-cap-dot" cx="200" cy="55" r="4"/>' +
+        '</g>' +
+      '</svg>';
+    document.body.appendChild(el);
+    wave = el.querySelector('.g-wave');
+  }
+
+  function state() {
+    var A = window.Amenti || {};
+    var mb = document.getElementById('term-mic-toggle');
+
+    if (mb && mb.classList.contains('mic-leak')) return 'leak';
+
+    var st = (A.terminal && A.terminal.state) || null;
+    if (st === 'thinking') return 'think';
+    if (st === 'speaking') return 'down';
+    try { if (A.micLamp && A.micLamp.speaking()) return 'down'; } catch (e) {}
+
+    try {
+      if (A.listen && A.listen.isRecording && A.listen.isRecording()) return 'up';
+    } catch (e) {}
+
+    if (mb && mb.classList.contains('mic-armed')) return 'idle';
+
+    return null;                          /* the channel is quiet. No gate. */
+  }
+
+  function tick() {
+    if (!el) { mount(); if (!el) return; }
+
+    /* the gate belongs to the terminal. It does not follow you around the site. */
+    var onTerminal = (document.body && document.body.dataset && document.body.dataset.page === 'terminal');
+    var s = onTerminal ? state() : null;
+
+    if (!s) {
+      if (el.className) { el.className = ''; el.style.setProperty('--lvl', 0); }
+      return;
+    }
+
+    var A = window.Amenti || {};
+    var lvl = 0;
+    try { if (s === 'up' && A.listen && A.listen.level) lvl = A.listen.level() || 0; } catch (e) {}
+
+    el.className = 'on ' + s;
+    el.style.setProperty('--lvl', lvl.toFixed(3));
+
+    /* louder = faster climb. The wave IS the voice, not a metronome. */
+    if (s === 'up') el.style.setProperty('--wdur', (1.45 - lvl * 0.95).toFixed(2) + 's');
+
+    var body = el.querySelector('#g-body');
+    if (body) body.style.transform = 'scale(' + (1 + (s === 'up' ? lvl * 0.05 : 0)).toFixed(4) + ')';
+  }
+
+  function boot() {
+    mount();
+    tick();
+    setInterval(tick, HZ);
+    window.Amenti = window.Amenti || {};
+    window.Amenti.gateway = { tick: tick, state: state, HZ: HZ };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
 </script>
   
  <!-- ============================================================================

@@ -115,6 +115,7 @@
     LISTEN_URL: DEFAULT_LISTEN,
     recording: false,
     _ctx: null, _stream: null, _node: null, _src: null,
+    _rms: 0,               // the live level. Written every frame. Read by the gateway.
     _chunks: null, _cb: null, _onState: null, _btn: null, _cancelled: false,
     _monitor: false, _echoy: false, _onVoice: null, _autoStop: false,
     _ring: null, _loud: 0, _lastVoice: 0,
@@ -142,6 +143,19 @@
     _peak: 0,              // max RMS this turn
 
     isRecording: function () { return this.recording; },
+
+    /* THE LEVEL — 0..1, the seeker's live voice, normalised against the VAD's
+       own speech floor. Returns 0 when the mic is shut. A HUD driven by THIS
+       says "I am hearing you, right now." A HUD driven by a state flag only
+       says "I believe I might be." One of those is an instrument. */
+    level: function () {
+      if (!this.recording) return 0;
+      var r = this._rms || 0;
+      var span = 0.14;                       // ~conversational speech ceiling
+      var v = (r - VAD_RMS * 0.5) / span;    // below half the VAD floor reads as silence
+      return v < 0 ? 0 : (v > 1 ? 1 : v);
+    },
+    rms: function () { return this.recording ? (this._rms || 0) : 0; },
     isMonitoring: function () { return this.recording && this._monitor; },
 
     toggle: function (opts) { if (this.recording) this.stop(); else this.start(opts); },
@@ -237,6 +251,13 @@
           var frame = new Float32Array(ev.inputBuffer.getChannelData(0));
           var r = rmsOf(frame);
           var loud = r >= (self._echoy ? VAD_RMS_ECHO : VAD_RMS);
+
+          /* THE FRAMES WERE ALWAYS HERE. The VAD has computed this number every
+             frame for the life of the system, and nothing outside this closure
+             could see it. One assignment, and the gateway can breathe with the
+             seeker's actual voice — instead of guessing from a state flag.
+             No second consumer. No new audio graph. Just: let it be seen. */
+          self._rms = r;
 
           // The room's own voice is the quietest thing in it.
           if (r < self._floor) self._floor = r;
@@ -394,6 +415,7 @@
       try { this._stream && this._stream.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {}
       try { this._ctx && this._ctx.close(); } catch (e) {}
       this._node = this._src = this._stream = this._ctx = null;
+      this._rms = 0;         // a shut mic has no level. The gateway must not lie.
     },
 
     _emit: function (state) { if (this._onState) { try { this._onState(state); } catch (e) {} } },
