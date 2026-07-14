@@ -1,1 +1,4 @@
-.
+{
+  "note": "THE RIVET. Weeks VALL-HALLA has been delivered. A week in this list is NEVER sent again — a retry, a re-run, or a stray click on the dispatch button cannot double-mail. Idempotency is a constraint, not a promise.",
+  "weeks": []
+}
