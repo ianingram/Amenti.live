@@ -7035,125 +7035,85 @@ try{
 
 // ===== AMENTI VOICE — Page1 Terminal (Dialogue register, per-figure) =====
 window.AMENTI_VOICE = {
-  on: false,
-  WORKER: "https://amenti-proxy.ingram-ian.workers.dev/speak",
-  // Conversational register: the Terminal talks WITH you, it does not recite AT
-  // you. The figure's *identity* (Charon/Kore base + accent + voice character) is
-  // resolved from the shared roster — the same lookup the reading room uses — so
-  // it's the same person across surfaces; only the delivery is conversational.
-  REGISTER: "Say the following in a clear, natural, conversational voice",
-  PACE: "Speak at a brisk, lively, natural pace, as a person speaking energetically \u2014 not slow or ponderous",
-  VOICE_DEFAULT: "Kore",
-  current: null,
+  /* ── THE DOOR, NOT THE ENGINE ─────────────────────────────────────────────
+     This WAS a complete second speech engine, inline, 130 lines, with its own
+     Worker URL, its own register, its own style composer — and one monolithic
+     fetch that posted the ENTIRE reply in a single call and waited for all of
+     it before a word was heard.
 
-  /* ── THE INSTRUMENT PANEL ────────────────────────────────────────────────
-     Tone is not decoration. A shift in temperature is a PROBE — how a seeker
-     meets warmth, or coolness, or a sudden edge, is itself the reading. Bound
-     to the FIGURE and not the UTTERANCE, every register collapses into one
-     voice and the probe returns nothing.
+     That was the FLOOD. The Voice That Carries, Ch. I: an engine does not run
+     on a tank of fuel dumped into the cylinder all at once. The cure — metering
+     — was built in amenti-voice.js as Amenti.conversation: chunked, streaming,
+     cancellable. It was tested by 316 assertions. It had `on: false`, no toggle,
+     and NOT ONE CALLER. It sat on the dock for the life of the system.
 
-     /speak's cache key is sha256(model + voice + STYLE + text) — style is IN
-     the key. So varying style per utterance on the RECITAL path would miss the
-     cache on every clip and re-bill the whole archive.
+         BEING LOADED IS NOT BEING USED.
 
-     This is the CONVERSATIONAL path. Its text is unique every turn and was
-     never going to hit the cache. So the register is FREE here — and forbidden
-     in amenti-throttle.js / library.js, where composeStyle() is LOCKED.
+     probe20 measured the cost of the flood on live hardware:
+
+         render_ms = 7510 + 18.25 x chars
+
+         a 500-char reply, as a monolith .......... 16.7 s to first sound
+         the same reply, chunked, short opener ..... 8.9 s
+
+     So this is now a FACADE. Every call site below is unchanged — speak, stop,
+     isSpeaking, toggle, on — they simply open onto the real engine now. The
+     conversational path is NEVER cached (unique text every turn), so its chunk
+     boundaries are free to move. On the recital path they are the cache key and
+     they have not moved by one byte. See fleet-semantics.
+
+     DO NOT re-implement speech here. That is what forked the archive twice.
      ──────────────────────────────────────────────────────────────────────── */
-  /* THE REGISTERS LIVE IN amenti-doctrine.js. ONE COPY.
-     This was a SECOND hand-kept copy, byte-identical to amenti-voice.js, with
-     nothing enforcing it. Two hand-kept copies is how an archive gets
-     re-rendered. The fallback is for a surface without the doctrine. */
-  REGISTERS: (window.Amenti && window.Amenti.doctrine && window.Amenti.doctrine.REGISTERS) || {
-    warm:   "Speak gently, unhurried, with evident care.",
-    cool:   "Speak with clinical distance, level and unhurried.",
-    sharp:  "Speak with sudden edge — clipped, direct, harder than before.",
-    grave:  "Speak slowly and heavily, as one who has paid for what he says.",
-    danger: "Speak quietly, and let the quiet be worse than shouting.",
-    humour: "Let there be dry amusement in the voice, and something rueful under it."
+  get on()  { var c = window.Amenti && window.Amenti.conversation; return !!(c && c.on); },
+  set on(v) { var c = window.Amenti && window.Amenti.conversation; if (c) c.on = !!v; },
+
+  get REGISTERS() {
+    var A = window.Amenti;
+    return (A && A.doctrine && A.doctrine.REGISTERS) || {};
   },
 
   styleFor: function (fig, meta) {
-    var s = this.REGISTER;
-    if (fig && fig.dialect) s += ". Accent and dialect: " + String(fig.dialect).trim();
-    if (fig && fig.voice)   s += ". Voice character: " + String(fig.voice).trim();
-    s += ". " + this.PACE;
-    var reg = meta && meta.register && this.REGISTERS[meta.register];
-    if (reg) s += " " + reg;
-    return s;
+    var c = window.Amenti && window.Amenti.conversation;
+    return (c && c.styleFor) ? c.styleFor(fig, meta && meta.register) : '';
   },
+
   speak: function (text, figureName, onDone, meta) {
-    var self = this;
-    var done = false;
-    function finish() { if (done) return; done = true; if (typeof onDone === "function") { try { onDone(); } catch (e) {} } }
-    var mySeq = ++self._seq;                     // stale-callback guard: a stop() invalidates in-flight work
-    function fire(style, voice) {
-      if (mySeq !== self._seq) { finish(); return; }
-      fetch(self.WORKER, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text, style: style, voice: voice })
-      }).then(function (r) {
-        if (!r.ok) throw new Error("voice " + r.status);
-        return r.blob();
-      }).then(function (blob) {
-        if (mySeq !== self._seq) { finish(); return; }   // stopped while the bytes were in flight
-        if (self.current) { try { self.current.pause(); } catch (e) {} }
-        self.current = new Audio(URL.createObjectURL(blob));
-        self.current.onended = finish;        // natural end of speech → signal
-        self.current.onerror = finish;
-        self.current.play()["catch"](function () { finish(); });
-      })["catch"](function (err) { console.error("Voice failed:", err); finish(); });
+    var c = window.Amenti && window.Amenti.conversation;
+    if (!c) {
+      // Degrade, never break. The text still lands; the figure is simply mute.
+      console.error('AMENTI_VOICE: amenti-voice.js is not loaded. The figure cannot speak.');
+      if (typeof onDone === 'function') { try { onDone(); } catch (e) {} }
+      return;
     }
-    // If voice is off, there is no speech to wait on — signal immediately.
-    if (!self.on) { finish(); return; }
-    // Resolve embodiment the same way every long-form surface does. resolveVoice
-    // joins on the figure's display name and returns { voice (Charon/Kore), figure }.
-    if (figureName && window.Amenti && Amenti.throttle && Amenti.throttle.resolveVoice) {
-      Amenti.throttle.resolveVoice(figureName).then(function (v) {
-        fire(self.styleFor(v && v.figure, meta), (v && v.voice) || self.VOICE_DEFAULT);
-      }, function () {
-        fire(self.styleFor(null, meta), self.VOICE_DEFAULT);
-      });
-    } else {
-      fire(self.styleFor(null, meta), self.VOICE_DEFAULT);
-    }
+    return c.speak(text, figureName, onDone, meta);
   },
 
-  /* ── STOP — the figure can be interrupted ────────────────────────────────
-     This did not exist. The throttle has stopReading(); the COUNSEL never calls
-     the throttle, so in the counsel there was no code that could cut a figure
-     off mid-sentence. Barge-in had nothing to cancel.
-
-     "A conversation where one party must wait for the other to finish is a
-      transaction. Smooth turn-taking is the signature of a customer service
-      call." — the Matrix, on the Rendering.
-
-     Bumping _seq invalidates any in-flight fetch AND any blob still decoding,
-     so a stop during the pause before audio arrives is honoured too — not just
-     a stop during playback.
-     ──────────────────────────────────────────────────────────────────────── */
-  _seq: 0,
   stop: function () {
-    this._seq++;                                        // orphan everything in flight
-    if (this.current) {
-      try { this.current.pause(); this.current.src = ""; } catch (e) {}
-      this.current = null;
-    }
+    var c = window.Amenti && window.Amenti.conversation;
+    if (c) c.stop();
   },
-  isSpeaking: function () { return !!(this.current && !this.current.paused && !this.current.ended); },
+
+  isSpeaking: function () {
+    var c = window.Amenti && window.Amenti.conversation;
+    return !!(c && c.isSpeaking());
+  },
+
   toggle: function () {
     this.on = !this.on;
     var btn = document.getElementById("term-voice-toggle");
     if (btn) {
-      btn.textContent = this.on ? "🔊" : "🔇";
-      btn.title = this.on ? "Voice on — replies will speak" : "Voice off";
+      btn.textContent = this.on ? "\ud83d\udd0a" : "\ud83d\udd07";
+      btn.title = this.on ? "Voice on \u2014 replies will speak" : "Voice off";
     }
     // THE FIRST VOICE THEY EVER HEAR. speak() with no figureName resolves to the
-    // DEFAULT voice — Kore — so a seeker who has summoned CAESAR flipped the
+    // DEFAULT voice — Kore — so a seeker who had summoned CAESAR flipped the
     // speaker on and a generic woman said "Voice enabled." to them. The most
     // loaded two seconds in the product, and it was a system chime in the wrong
     // mouth. It is the figure who is present. Let the figure be the one who speaks.
+    //
+    // "I am here." is a FIXED string. Same text, same voice, same style, same key
+    // — so after the first seeker meets a figure, it is a permanent cache hit and
+    // it arrives fast. The greeting pre-renders itself, for free, forever.
     if (this.on) {
       var who = (typeof active !== "undefined" && active) ? active.name : "";
       this.speak(who ? "I am here." : "Voice enabled.", who, null, { register: "warm" });

@@ -63,6 +63,34 @@
   var CHUNK_TIMEOUT   = 60000;
   var START_TIMEOUT   = 40000;
 
+  /* ── THE FAST OPENING MEASURE ─────────────────────────────────────────────
+     CONVERSATIONAL ONLY. FORBIDDEN ON THE RECITAL PATH.
+
+     The counsel's text is unique every turn and NEVER hits the archive, so its
+     chunk boundaries are FREE to move. The recital's boundaries ARE the cache
+     key — move them and every clip in R2 is orphaned. Same law as the register:
+     free here, forbidden there.
+
+     probe20 measured the engine on live hardware:
+
+         render_ms  =  7510  +  18.25 x chars          (R2 miss, one measure)
+
+     So the mouth opens sooner if the FIRST measure is short:
+
+         320-char opener ....... 13.0 s
+         110-char opener ........ 9.5 s
+          80-char opener ........ 9.0 s
+           the floor ............ 7.5 s
+
+     It cannot go arbitrarily small. Measure 2 (320 chars) lands at ~13.3s, and
+     an opener of C chars plays for roughly C/15 seconds. Below ~70 chars the
+     opener finishes speaking before measure 2 arrives and the voice STUTTERS.
+     110 is the floor plus margin.
+
+     Do not "unify" this with CHUNK_MAX. It is a different register with a
+     different bill. See fleet-semantics. */
+  var CONV_FIRST_MAX = 110;
+
   var RATE_FAST = 1.0;
   var RATE_SLOW = 1.0;
   var REST_SOFT     = 0.16;
@@ -280,6 +308,42 @@
     return chunks;
   }
 
+  /* ⚠ CONVERSATIONAL ONLY. Never call this for the archive.
+     It does not re-implement the chunker — it CALLS the locked one and re-cuts
+     ONLY the opening measure. chunkText below is untouched, byte for byte,
+     because its boundaries are the cache key. A second copy of a chunker is how
+     an archive forks.
+
+     ONLY THE OPENER IS SHORT. Every measure pays the same ~7.5s render floor,
+     so cutting the whole reply into small pieces would buy a fast start and then
+     pay the floor over and over — more requests, more cost, and a voice that can
+     run dry between them. So: one short opener, then the remainder rejoined, then
+     the rest of the reply at its normal 320. */
+  function chunkConversational(text, maxChars, firstMax) {
+    var all = chunkText(text, maxChars);
+    if (!all.length || !firstMax || firstMax >= maxChars) return all;
+
+    var head = all[0];
+    if (head.text.length <= firstMax) return all;      // already short enough
+
+    var cut = chunkText(head.text, firstMax);
+    if (cut.length < 2) return all;                    // one sentence, too long to cut
+
+    var opener = cut[0];
+    var remainder = [];
+    for (var i = 1; i < cut.length; i++) remainder.push(cut[i].text);
+
+    /* The opener ends a breath, not a paragraph. chunkText would have given the
+       last piece a full paragraph rest; that would put a long silence in the
+       middle of the figure's first sentence. */
+    opener.rest = restFor(opener.text, false);
+    opener.rate = RATE_FAST;
+
+    var rejoined = { text: remainder.join(' '), rest: head.rest, rate: head.rate };
+
+    return [opener, rejoined].concat(all.slice(1));
+  }
+
   /* ---- engine: fetch, schedule, watchdog (verbatim) ------------------------ */
   function fetchChunkBytes(chunk, style, voice, signal) {
     var attempts = 0;
@@ -347,7 +411,7 @@
     if (p.btn) { p.btn.textContent = READ_RETRY; p.btn.disabled = false; }
   }
 
-  function startReading(text, btn, style, voice, onDone, max) {
+  function startReading(text, btn, style, voice, onDone, max, firstMax) {
     max = max || CHUNK_MAX;      // the surface's chunk PROFILE — part of its cache key
     var ctx;
     try { ctx = getAudioCtx(); }
@@ -356,7 +420,12 @@
       if (btn) { btn.textContent = READ_RETRY; btn.disabled = false; }
       return;
     }
-    var chunks = chunkText(plainText(text), max);
+    /* firstMax is set ONLY on the conversational path. The recital path calls the
+       locked chunker exactly as it always has — byte-identical boundaries,
+       byte-identical keys, the archive untouched. */
+    var chunks = firstMax
+      ? chunkConversational(plainText(text), max, firstMax)
+      : chunkText(plainText(text), max);
     if (!chunks.length) { if (btn) { btn.textContent = READ_ALOUD; btn.disabled = false; } return; }
 
     var useStyle = style || composeStyle(null);
@@ -487,6 +556,7 @@
     opts = opts || {};
     var conversational = (opts.register === 'conversational');
     var max = PROFILES[opts.profile] || (conversational ? PROFILES.counsel : CHUNK_MAX);
+    var firstMax = conversational ? CONV_FIRST_MAX : 0;   // 0 on the recital path. Always.
     var btn = opts.btn || null;
 
     try {
@@ -503,10 +573,10 @@
         var style = conversational
           ? composeConversational(v && v.figure, opts.move)     // varies freely — never cached
           : (v && v.style);                                     // LOCKED — the archive
-        startReading(text, btn, style, (v && v.voice) || VOICE_NAME_DEFAULT, opts.onDone, max);
+        startReading(text, btn, style, (v && v.voice) || VOICE_NAME_DEFAULT, opts.onDone, max, firstMax);
       }, function () {
         var style = conversational ? composeConversational(null, opts.move) : composeStyle(null);
-        startReading(text, btn, style, VOICE_NAME_DEFAULT, opts.onDone, max);
+        startReading(text, btn, style, VOICE_NAME_DEFAULT, opts.onDone, max, firstMax);
       });
     } catch (e) {
       console.error('Voice start failed:', e && e.message);
@@ -516,16 +586,18 @@
   }
 
   Amenti.voice = {
-    __v: 1,
+    __v: 2,        /* 2 = the conversational fast opener. Recital boundaries UNCHANGED. */
     speak: speak,
     stop: stopReading,
     isSpeaking: function () { return !!voicePlayer; },
     attach: attach,
     chunk: function (t, profile) { return chunkText(plainText(t), PROFILES[profile] || CHUNK_MAX); },
+    chunkConv: function (t) { return chunkConversational(plainText(t), PROFILES.counsel, CONV_FIRST_MAX); },
     plainText: plainText,
     resolveVoice: resolveVoice,
     REGISTERS: REG(),
     PROFILES: PROFILES,
+    CONV_FIRST_MAX: CONV_FIRST_MAX,
     CHUNK_MAX: CHUNK_MAX
   };
 
