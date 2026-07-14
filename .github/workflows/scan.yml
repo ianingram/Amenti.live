@@ -47,6 +47,28 @@ on:
   pull_request:
   workflow_dispatch:        # and a "Run workflow" button, for when you want one
 
+  # ── THE HERALD TRAILS THE BELL ────────────────────────────────────────────
+  #  The patrol rings at :17 every six hours and commits the reading with
+  #  [skip ci] — deliberately, so it cannot start a loop. But that also meant
+  #  THE SCAN NEVER WOKE. The manifest only ever reflected the PREVIOUS patrol,
+  #  and it only caught up when a human happened to push something unrelated.
+  #
+  #  ARCHIVE WATCH could find the archive forked at 2am and the manifest would
+  #  stay green until the next commit. The Action fails loudly — that is the
+  #  alarm — but THE MANIFEST IS THE RECORD, AND THE GATE READS THE RECORD.
+  #
+  #  The Siege wrote this law before the fault existed:
+  #
+  #    "the herald was set to TRAIL THE BELL, NOT RACE IT: the bell rings and
+  #     the cron does its work — and only AFTER, a full turn later, does the
+  #     herald read the settled state and announce what has already, safely,
+  #     happened."
+  #
+  #  The bell is :17. The herald is :27. Ten minutes is the stagger.
+  #  Two strands must never occupy one rung.
+  schedule:
+    - cron: '27 */6 * * *'
+
 permissions:
   contents: write           # so it can commit the reading back
 
