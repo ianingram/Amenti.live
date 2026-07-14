@@ -6225,8 +6225,10 @@ var termChat = (window.Amenti && Amenti.chat) ? Amenti.chat.create({
       if (st === 'listening')      { mb.textContent = '⏺'; mb.title = 'Listening — tap to send'; mb.classList.add('mic-armed'); }
       else if (st === 'thinking')  { mb.textContent = '⋯'; mb.title = 'Thinking…'; mb.classList.remove('mic-armed'); }
       else if (st === 'speaking')  { mb.textContent = '🎙'; mb.title = 'The figure is speaking'; mb.classList.remove('mic-armed'); }
-      else                         { mb.textContent = '🎙'; mb.title = 'Tap once — then speak freely'; mb.classList.remove('mic-armed'); }
+      else                         { mb.textContent = '🎙'; mb.title = 'Microphone ready — tap once, then speak'; mb.classList.remove('mic-armed'); }
     }
+    /* the panic button lights only when there is something to panic about */
+    if (window.Amenti && window.Amenti.micLamp) { try { window.Amenti.micLamp.tick(); } catch(e){} }
   },
   onNotice: function(t){ pushSys(t); },
   onDisconnect: function(){
@@ -7260,34 +7262,62 @@ window.AMENTI_VOICE = {
       '#voice-toggle.amenti-voice-live{',
         '--avg:#67E8F9;',
       '}',
-      /* ── THE MICROPHONE — AMBER ─────────────────────────────────────────
-         GREEN is the figure speaking. AMBER is the room being heard. Amber is
-         already this fleet's word for "live, and you should know" — Ramiel and
-         Cassiel: green whole, amber degraded, red broken. An open microphone is
-         exactly that state.
+      /* ── THE MICROPHONE — FOUR STATES, FOUR TRUTHS ──────────────────────
+         BLUE   the ear is aboard and idle. Waiting. Nothing is being heard.
+         AMBER  the room IS being heard.
+         RED    the stream is hot and NOBODY ASKED FOR IT.
+         (GREEN belongs to the speaker. The mic never wears it.)
 
-         .mic-armed  the state machine WANTS to listen. Steady. Intent only.
-         .mic-live   THE HARDWARE IS HOT. Pulsing. This is the truth.
+         Amber is already this fleet's word for "live, and you should know" —
+         Ramiel and Cassiel: green whole, amber degraded, red broken. An open
+         microphone is exactly that state.
 
-         .mic-live is set by the LAMP below, from the live MediaStream tracks —
-         never from the UI. If the stream is open and the UI thinks it is not,
-         THE LIGHT STAYS ON AND SAYS SO. That is the whole point of it. */
+         .mic-ready  the ear is loaded and idle          (steady terminal blue)
+         .mic-armed  the state machine WANTS to listen   (set by onState — INTENT)
+         .mic-live   A TRACK IS LIVE                     (pulsing amber — HARDWARE)
+         .mic-leak   live, and nothing asked             (pulsing red — A LEAK)
+
+         .mic-live and .mic-leak are set by the LAMP below, from the live
+         MediaStream tracks — never from the UI. If the stream is open and the UI
+         thinks it is not, THE LIGHT STAYS ON AND SAYS SO. That is the point. */
+      '#term-mic-toggle.mic-ready{',
+        '--avg:#93c5fd;',                                  /* terminal blue */
+        'color:#93c5fd;',
+        'filter:drop-shadow(0 0 3px var(--avg));',
+      '}',
       '#term-mic-toggle.mic-armed{',
         '--avg:#FFB300;',
+        'color:#FFB300;',
         'filter:drop-shadow(0 0 4px var(--avg));',
       '}',
       '#term-mic-toggle.mic-live{',
         '--avg:#FFB300;',
+        'color:#FFB300;',
         'animation:amentiVoicePulse 1.5s ease-in-out infinite;',
       '}',
       /* the stream is hot and NOBODY ASKED FOR IT. A leak. Red, and loud. */
       '#term-mic-toggle.mic-leak{',
         '--avg:#FF5252;',
+        'color:#FF5252;',
         'animation:amentiVoicePulse 0.7s ease-in-out infinite;',
+      '}',
+      /* ── THE PANIC BUTTON ───────────────────────────────────────────────
+         Dim and quiet when there is nothing to silence. The moment ANYTHING is
+         speaking or listening, it goes red and breathes — so it is a status
+         light and a kill switch at once, and you never have to hunt for it. */
+      '#term-panic{',
+        'opacity:.35;transition:opacity .2s;',
+      '}',
+      '#term-panic:hover{opacity:1;}',
+      '#term-panic.panic-hot{',
+        '--avg:#FF5252;',
+        'color:#FF5252;',
+        'opacity:1;',
+        'animation:amentiVoicePulse 1.1s ease-in-out infinite;',
       '}',
       /* accessibility — keep it luminous, drop the motion */
       '@media (prefers-reduced-motion: reduce){',
-        '.amenti-voice-live,#term-mic-toggle.mic-live,#term-mic-toggle.mic-leak{',
+        '.amenti-voice-live,#term-mic-toggle.mic-live,#term-mic-toggle.mic-leak,#term-panic.panic-hot{',
           'animation:none;transform:none;',
           'filter:drop-shadow(0 0 7px var(--avg)) drop-shadow(0 0 14px var(--avg));',
         '}',
@@ -7429,37 +7459,111 @@ window.AMENTI_VOICE = {
     } catch (e) { return false; }
   }
 
+  function speaking() {
+    try {
+      var A = window.Amenti;
+      if (A && A.voice && typeof A.voice.isSpeaking === 'function') return !!A.voice.isSpeaking();
+    } catch (e) {}
+    return false;
+  }
+
   function tick() {
     var mb = document.getElementById('term-mic-toggle');
-    if (!mb) return;
+    var pb = document.getElementById('term-panic');
 
-    var live  = hot();
-    var armed = mb.classList.contains('mic-armed');
+    if (mb) {
+      var hasEar = !!(window.Amenti && window.Amenti.listen);
+      var live   = hot();
+      var armed  = mb.classList.contains('mic-armed');   /* INTENT, set by onState */
 
-    mb.classList.toggle('mic-live', live && armed);
+      /* ONE PLACE DECIDES WHAT THE LIGHT SAYS. */
+      mb.classList.toggle('mic-live',  live && armed);
+      mb.classList.toggle('mic-leak',  live && !armed);
+      mb.classList.toggle('mic-ready', hasEar && !live && !armed);
 
-    /* HOT, AND NOBODY ASKED. The stream outlived the intent. */
-    var leak = live && !armed;
-    mb.classList.toggle('mic-leak', leak);
-
-    if (leak && !leaked) {
-      leaked = true;
-      mb.title = 'MICROPHONE STILL OPEN — the stream outlived the request';
-      console.error('%c[MIC LAMP] THE MICROPHONE IS LIVE AND NOTHING ASKED FOR IT. ' +
-        'A MediaStream track is open while the terminal is not listening. ' +
-        'This is the shape of an unbounded, hands-free cost loop. ' +
-        'Amenti.listen._stream is not being stopped.', 'color:#FF5252;font-weight:bold');
-    } else if (!leak && leaked) {
-      leaked = false;
+      if (live && !armed && !leaked) {
+        leaked = true;
+        mb.title = 'MICROPHONE STILL OPEN — the stream outlived the request';
+        console.error('%c[MIC LAMP] THE MICROPHONE IS LIVE AND NOTHING ASKED FOR IT. ' +
+          'A MediaStream track is open while the terminal is not listening. This is the ' +
+          'shape of an unbounded, hands-free cost loop. Amenti.listen is not being stopped. ' +
+          'Press the panic button, or call Amenti.silence().', 'color:#FF5252;font-weight:bold');
+      } else if (!(live && !armed) && leaked) {
+        leaked = false;
+      }
     }
+
+    /* the panic button is a status light AND a kill switch */
+    if (pb) pb.classList.toggle('panic-hot', hot() || speaking());
+  }
+
+  /* ── SILENCE. THE HUMAN'S HAND ON THE THROAT OF THE MACHINE. ─────────────
+     It does not ask the state machine. It closes the doors:
+
+       1. the mouth   — Amenti.voice.stop() kills playback AND orphans any
+                        /speak fetch still in flight
+       2. the ear     — Amenti.listen.cancel() ABORTS WITHOUT TRANSCRIBING.
+                        Whatever it heard is discarded, not sent.
+       3. the switch  — the voice is turned OFF, so the next reply is silent too.
+                        A panic button that lets the machine start talking again
+                        thirty seconds later is not a panic button.
+
+     Idempotent. Never throws. Every step guarded, because the one moment this
+     runs is the one moment it must not fail. */
+  function silence() {
+    var done = [];
+    try { if (window.Amenti && window.Amenti.voice && window.Amenti.voice.stop) { window.Amenti.voice.stop(); done.push('mouth'); } } catch (e) {}
+    try { if (window.AMENTI_VOICE && window.AMENTI_VOICE.stop) { window.AMENTI_VOICE.stop(); } } catch (e) {}
+    try { if (window.Amenti && window.Amenti.listen && window.Amenti.listen.cancel) { window.Amenti.listen.cancel(); done.push('ear'); } } catch (e) {}
+    try {
+      if (window.AMENTI_VOICE && window.AMENTI_VOICE.on) {
+        window.AMENTI_VOICE.on = false;
+        var vb = document.getElementById('term-voice-toggle');
+        if (vb) { vb.textContent = '\uD83D\uDD07'; vb.title = 'Voice off'; }
+        done.push('switch');
+      }
+    } catch (e) {}
+    try {
+      var mb = document.getElementById('term-mic-toggle');
+      if (mb) { mb.classList.remove('mic-armed'); mb.textContent = '\uD83C\uDF99'; mb.title = 'Microphone ready — tap once, then speak'; }
+    } catch (e) {}
+    try { tick(); } catch (e) {}
+    try { if (typeof pushSys === 'function') pushSys('silenced — voice off, microphone released'); } catch (e) {}
+    console.log('%c[SILENCE] ' + (done.length ? done.join(' · ') + ' closed' : 'nothing was running'), 'color:#FF5252');
+    return done;
+  }
+
+  function mount() {
+    var wrap = document.querySelector('.term-input-wrap');
+    if (!wrap || document.getElementById('term-panic')) return;
+    var pb = document.createElement('button');
+    pb.id = 'term-panic';
+    pb.type = 'button';
+    pb.textContent = '\u23F9';                       /* ⏹ — stop. Never a speaker, never a mic. */
+    pb.title = 'Silence everything  (Esc)';
+    pb.setAttribute('aria-label', 'Silence everything');
+    pb.style.cssText = 'background:transparent;border:none;font-size:16px;cursor:pointer;' +
+                       'padding:0 8px;line-height:1;color:#e0e0e0;';
+    pb.onclick = silence;
+    var hint = wrap.querySelector('.term-input-hint');
+    if (hint) { wrap.insertBefore(pb, hint); } else { wrap.appendChild(pb); }
   }
 
   function boot() {
+    mount();
     tick();
-    setInterval(tick, TICK);
-    /* the lamp answers to a probe, not only to an eye */
+    setInterval(function () { mount(); tick(); }, TICK);
+
+    /* Esc — the reflex. Works wherever you are on the page. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.keyCode === 27) {
+        if (hot() || speaking()) { silence(); }
+      }
+    });
+
     window.Amenti = window.Amenti || {};
-    window.Amenti.micLamp = { hot: hot, tick: tick, TICK: TICK };
+    window.Amenti.micLamp = { hot: hot, speaking: speaking, tick: tick, TICK: TICK };
+    window.Amenti.silence = silence;      /* a probe can pull the cord too */
   }
 
   if (document.readyState === 'loading') {
