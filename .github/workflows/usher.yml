@@ -1,0 +1,77 @@
+# ============================================================================
+#  THE USHER · weekly podcast pipeline
+#  ----------------------------------------------------------------------------
+#  compose -> render -> stitch -> commit, entirely in CI. NO WORKER TOUCHED.
+#  ffmpeg is installed on the runner; /speak is called for the usher segments
+#  only (conversational register — the recital archive is never touched).
+#
+#  ⚠ THE CRON IS COMMENTED until a manual run proves an episode end to end.
+#    render-episode.js SPENDS (it calls /speak). Run it by hand first, listen
+#    to the episode, THEN arm the schedule.
+# ============================================================================
+name: The Usher — weekly episode
+
+on:
+  workflow_dispatch:          # run by hand: Actions -> The Usher -> Run workflow
+    inputs:
+      skip_render:
+        description: 'Compose only (no audio, no spend)'
+        type: boolean
+        default: false
+  # schedule:
+  #   - cron: '0 13 * * 0'    # Sundays 13:00 UTC — one hour after the newsletter.
+  #                            # ARM ONLY after a clean manual episode.
+
+permissions:
+  contents: write
+
+jobs:
+  usher:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Compose the episode script
+        run: node scripts/vallhalla/compose-episode.js
+        env:
+          PROXY_URL: https://amenti-proxy.ingram-ian.workers.dev
+          MINT_URL:  https://amenti-mint.ingram-ian.workers.dev
+          OUT_DIR:   vallhalla
+
+      - name: Render the usher's voice
+        if: ${{ !inputs.skip_render }}
+        run: node scripts/vallhalla/render-episode.js
+        env:
+          PROXY_URL: https://amenti-proxy.ingram-ian.workers.dev
+          OUT_DIR:   vallhalla
+
+      - name: Stitch the edition
+        if: ${{ !inputs.skip_render }}
+        run: node scripts/vallhalla/stitch-episode.js
+        env:
+          OUT_DIR:      vallhalla
+          # READING_BASE: (optional) public base URL for archived recital clips,
+          # so the writer's reading is appended into the episode. If unset, the
+          # episode is the usher segments and the reading is appended at serve time.
+
+      - name: Commit the episode
+        run: |
+          git config user.name  "the-usher"
+          git config user.email "usher@amenti.live"
+          git add vallhalla/episode-script.json vallhalla/episode-transcript.txt \
+                  vallhalla/episode-manifest.json vallhalla/episodes || true
+          # do NOT commit the raw per-segment audio — only the finished edition
+          git reset vallhalla/audio 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "no episode changes to commit"
+          else
+            git commit -m "the usher: episode [skip ci]"
+            git push
+          fi
