@@ -1,5 +1,5 @@
 {
-  "at": "2026-07-14T21:37:16.009Z",
+  "at": "2026-07-15T00:48:55.452Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 46,
@@ -9,7 +9,7 @@
       "watch:": 2
     }
   },
-  "today": "2026-07-14",
+  "today": "2026-07-15",
   "thisWeek": "2026-07-12",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -22,10 +22,8 @@
         "date": "2026-07-14",
         "figure": "seneca"
       },
-      "lastAgeDays": 0,
-      "missedLast14": [
-        "2026-06-30"
-      ],
+      "lastAgeDays": 1,
+      "missedLast14": [],
       "recent": [
         {
           "figure": "seneca",
@@ -98,7 +96,7 @@
           "key": "atlantica:cleopatra:2026-07-03"
         }
       ],
-      "note": "28 dispatch(es) in the hold · last 2026-07-14 (seneca) · MISSED 1 of the last 14 days"
+      "note": "28 dispatch(es) in the hold · last 2026-07-14 (seneca) · no gaps in 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
