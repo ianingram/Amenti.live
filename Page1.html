@@ -1835,6 +1835,39 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
     <h2 class="section-title">Atlantica</h2><span class="section-tag">Dispatches · <span id="dispatch-status">Today</span></span>
     <span class="section-date">A daily essay from the deep record</span>
   </div>
+<a id="broadcast-door-1" href="https://ianingram.github.io/Fleet-Documents/broadcast.html"
+       style="display:block;text-decoration:none;color:inherit;margin:0 0 18px;
+              border:1px solid rgba(140,230,215,.32);border-left:3px solid #79e6cf;border-radius:8px;
+              padding:16px 18px;background:linear-gradient(90deg,rgba(80,180,170,.08),transparent);
+              transition:border-color .2s,transform .2s;">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:18px;line-height:1;color:#79e6cf;">&#9835;</span>
+        <span style="font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em;
+                     text-transform:uppercase;color:#79e6cf;">The Broadcast &middot; the weekly podcast</span>
+      </div>
+      <div id="bd1-line" style="font:400 15px/1.55 Georgia,serif;color:inherit;opacity:.85;margin:9px 0 10px;">
+        A voice from the hall opens the gates &mdash; the week&rsquo;s dispatches, spoken, and a reading to close.
+      </div>
+      <span style="font:600 12px/1 ui-monospace,Menlo,monospace;letter-spacing:.12em;color:#79e6cf;">
+        &#9654;&nbsp; LISTEN TO THE BROADCAST &rarr;</span>
+    </a>
+    <script>
+    (function () {
+      var IDX = 'https://ianingram.github.io/Amenti.live/vallhalla/episodes/index.json';
+      fetch(IDX, { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (idx) {
+          var latest = idx && idx.episodes && idx.episodes[0];
+          if (!latest || !latest.host) return;
+          var l1 = document.getElementById('bd1-line');
+          if (l1) l1.innerHTML = '<b style="opacity:1;color:#79e6cf;font-weight:600;">' + latest.host +
+            '</b> opens the hall this week &mdash; the dispatches spoken, and ' +
+            (latest.reading_by ? latest.reading_by + '\u2019s' : 'this week\u2019s') + ' reading to close.';
+        })
+        .catch(function () {});
+    })();
+    </script>
+
   <div class="dispatch-wrap reveal">
     <div id="dispatch-card" class="dispatch-card" role="button" tabindex="0" aria-label="Read the featured dispatch">
       <div class="dispatch-loading">Summoning the dispatch…</div>
