@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-15T21:02:44.656Z",
+    "generated": "2026-07-15T22:12:32.858Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -8,8 +8,8 @@
   "files": [
     {
       "file": "Page1.html",
-      "bytes": 1603838,
-      "sha256": "83a924027024d72b",
+      "bytes": 1605835,
+      "sha256": "2a4eef81fa2f4171",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -41,59 +41,59 @@
         },
         {
           "file": "amenti-doctrine.js",
-          "line": 6039
+          "line": 6072
         },
         {
           "file": "amenti-voice.js",
-          "line": 6058
+          "line": 6091
         },
         {
           "file": "amenti-listen.js",
-          "line": 6059
+          "line": 6092
         },
         {
           "file": "amenti-chat.js",
-          "line": 6060
+          "line": 6093
         },
         {
           "file": "library.js",
-          "line": 7131
+          "line": 7164
         },
         {
           "file": "amenti-cassiel.js",
-          "line": 7132
+          "line": 7165
         },
         {
           "file": "amenti-manifest.js",
-          "line": 7138
+          "line": 7171
         },
         {
           "file": "amenti-probe.js",
-          "line": 7139
+          "line": 7172
         },
         {
           "file": "amenti-canonical.js",
-          "line": 7145
+          "line": 7178
         },
         {
           "file": "amenti-auth.js",
-          "line": 8023
+          "line": 8056
         },
         {
           "file": "amenti-quiz.js",
-          "line": 8024
+          "line": 8057
         },
         {
           "file": "amenti-leaderboard.js",
-          "line": 8025
+          "line": 8058
         },
         {
           "file": "amenti-readaloud.js",
-          "line": 8026
+          "line": 8059
         },
         {
           "file": "amenti-vallhalla-signup.js",
-          "line": 8029
+          "line": 8062
         }
       ],
       "calls": [
@@ -111,61 +111,61 @@
         },
         {
           "global": "Amenti.throttle",
-          "line": 1888,
+          "line": 1921,
           "when": "function",
           "own": false
         },
         {
           "global": "AmentiTerminal",
-          "line": 2571,
+          "line": 2604,
           "when": "function",
           "own": true
         },
         {
           "global": "AMENTI_CHARS",
-          "line": 5470,
+          "line": 5503,
           "when": "iife",
           "own": true
         },
         {
           "global": "AMENTI_ERAS",
-          "line": 5740,
+          "line": 5773,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.chat",
-          "line": 6201,
+          "line": 6234,
           "when": "iife",
           "own": false
         },
         {
           "global": "AMENTI_VOICE",
-          "line": 6306,
+          "line": 6339,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.micLamp",
-          "line": 6338,
+          "line": 6371,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.silence",
-          "line": 7597,
+          "line": 7630,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.voice",
-          "line": 7622,
+          "line": 7655,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 7624,
+          "line": 7657,
           "when": "function",
           "own": false
         }
@@ -725,7 +725,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 40518,
-      "sha256": "ba4ef4c38758b9a7",
+      "sha256": "eb33a9c3b6ad00f0",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
