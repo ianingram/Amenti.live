@@ -3049,16 +3049,10 @@ if (nd) nd.textContent = new Date().toLocaleDateString('en-US',{weekday:'long',y
 })();
 
 // ── NEWSLETTER FORM ──
-(function(){
-  const form = document.getElementById('nl-form');
-  if (!form) return;
-  const success = document.getElementById('nl-success');
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    form.style.display = 'none';
-    if (success) success.classList.add('show');
-  });
-})();
+// Handled by amenti-vallhalla-signup.js, which does the real Supabase insert
+// into `subscribers` and shows #nl-success. The old inline handler here only
+// faked success (hid the form, saved nothing) and blocked the real insert.
+// Removed so genuine signups are actually recorded.
 
 // ── BOOKSTORE TABS ──
 document.querySelectorAll('.bs-tab').forEach(t => {
@@ -8061,4 +8055,4 @@ window.AMENTI_VOICE = {
 </script>
 <script src="amenti-vallhalla-signup.js"></script>     
 </body>
-</html>  
+</html>
