@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-16T00:34:00.245Z",
+    "generated": "2026-07-16T21:02:45.321Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -180,8 +180,8 @@
     },
     {
       "file": "Page2.html",
-      "bytes": 1499894,
-      "sha256": "86a437d35403a3c9",
+      "bytes": 1499623,
+      "sha256": "1b84a2d18a5dbaee",
       "type": "html",
       "declares": [
         "AMENTI_CONFIG",
@@ -221,73 +221,73 @@
         },
         {
           "global": "Sovereign.Log",
-          "line": 3782,
+          "line": 3751,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Sovereign.Cosmetics",
-          "line": 3788,
+          "line": 3757,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Sovereign.Search",
-          "line": 3884,
+          "line": 3853,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "AMENTI_CONFIG",
-          "line": 8296,
+          "line": 8265,
           "when": "toplevel",
           "own": true
         },
         {
           "global": "Sovereign.QuantumContainer",
-          "line": 8311,
+          "line": 8280,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Sovereign.State",
-          "line": 8313,
+          "line": 8282,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Sovereign.Bookmarks",
-          "line": 8669,
+          "line": 8638,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Sovereign.Voice",
-          "line": 9317,
+          "line": 9286,
           "when": "toplevel",
           "own": true
         },
         {
           "global": "Sovereign.TechnicalBriefs",
-          "line": 11277,
+          "line": 11246,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Sovereign.Atlantica",
-          "line": 15395,
+          "line": 15364,
           "when": "toplevel",
           "own": true
         },
         {
           "global": "AmentiAudio",
-          "line": 15502,
+          "line": 15471,
           "when": "toplevel",
           "own": true
         },
         {
           "global": "Sovereign.Ephemeris",
-          "line": 16285,
+          "line": 16254,
           "when": "function",
           "own": true
         }
@@ -738,8 +738,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 40518,
-      "sha256": "5e4874e293cfde16",
+      "bytes": 40765,
+      "sha256": "b0e677338664ebcc",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -748,25 +748,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 931,
+          "line": 938,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 932,
+          "line": 939,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 933,
+          "line": 940,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 934,
+          "line": 941,
           "when": "toplevel",
           "own": false
         }
