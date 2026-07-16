@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-16T21:04:41.330Z",
+    "generated": "2026-07-16T23:49:22.066Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -8,8 +8,8 @@
   "files": [
     {
       "file": "Page1.html",
-      "bytes": 1605835,
-      "sha256": "2a4eef81fa2f4171",
+      "bytes": 1605818,
+      "sha256": "1da9e57744a63d5f",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -41,59 +41,59 @@
         },
         {
           "file": "amenti-doctrine.js",
-          "line": 6072
+          "line": 6066
         },
         {
           "file": "amenti-voice.js",
-          "line": 6091
+          "line": 6085
         },
         {
           "file": "amenti-listen.js",
-          "line": 6092
+          "line": 6086
         },
         {
           "file": "amenti-chat.js",
-          "line": 6093
+          "line": 6087
         },
         {
           "file": "library.js",
-          "line": 7164
+          "line": 7158
         },
         {
           "file": "amenti-cassiel.js",
-          "line": 7165
+          "line": 7159
         },
         {
           "file": "amenti-manifest.js",
-          "line": 7171
+          "line": 7165
         },
         {
           "file": "amenti-probe.js",
-          "line": 7172
+          "line": 7166
         },
         {
           "file": "amenti-canonical.js",
-          "line": 7178
+          "line": 7172
         },
         {
           "file": "amenti-auth.js",
-          "line": 8056
+          "line": 8050
         },
         {
           "file": "amenti-quiz.js",
-          "line": 8057
+          "line": 8051
         },
         {
           "file": "amenti-leaderboard.js",
-          "line": 8058
+          "line": 8052
         },
         {
           "file": "amenti-readaloud.js",
-          "line": 8059
+          "line": 8053
         },
         {
           "file": "amenti-vallhalla-signup.js",
-          "line": 8062
+          "line": 8056
         }
       ],
       "calls": [
@@ -123,49 +123,49 @@
         },
         {
           "global": "AMENTI_CHARS",
-          "line": 5503,
+          "line": 5497,
           "when": "iife",
           "own": true
         },
         {
           "global": "AMENTI_ERAS",
-          "line": 5773,
+          "line": 5767,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.chat",
-          "line": 6234,
+          "line": 6228,
           "when": "iife",
           "own": false
         },
         {
           "global": "AMENTI_VOICE",
-          "line": 6339,
+          "line": 6333,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.micLamp",
-          "line": 6371,
+          "line": 6365,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.silence",
-          "line": 7630,
+          "line": 7624,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.voice",
-          "line": 7655,
+          "line": 7649,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 7657,
+          "line": 7651,
           "when": "function",
           "own": false
         }
@@ -739,7 +739,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 41082,
-      "sha256": "a0bf04e7ad9deeda",
+      "sha256": "c3f0234fa4c4015d",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
