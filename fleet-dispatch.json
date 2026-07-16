@@ -1,12 +1,12 @@
 {
-  "at": "2026-07-16T07:07:52.661Z",
+  "at": "2026-07-16T12:51:19.178Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 45,
+    "count": 47,
     "prefixes": {
-      "atlantica:": 41,
+      "atlantica:": 42,
       "dailyplanet:": 3,
-      "watch:": 1
+      "watch:": 2
     }
   },
   "today": "2026-07-16",
@@ -17,16 +17,21 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 28,
+      "fired": 29,
       "last": {
-        "date": "2026-07-14",
-        "figure": "seneca"
+        "date": "2026-07-16",
+        "figure": "frederick-douglass"
       },
-      "lastAgeDays": 2,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-15"
       ],
       "recent": [
+        {
+          "figure": "frederick-douglass",
+          "date": "2026-07-16",
+          "key": "atlantica:frederick-douglass:2026-07-16"
+        },
         {
           "figure": "seneca",
           "date": "2026-07-14",
@@ -91,14 +96,9 @@
           "figure": "tesla",
           "date": "2026-07-04",
           "key": "atlantica:tesla:2026-07-04"
-        },
-        {
-          "figure": "cleopatra",
-          "date": "2026-07-03",
-          "key": "atlantica:cleopatra:2026-07-03"
         }
       ],
-      "note": "28 dispatch(es) in the hold · last 2026-07-14 (seneca) · MISSED 1 of the last 14 days"
+      "note": "29 dispatch(es) in the hold · last 2026-07-16 (frederick-douglass) · MISSED 1 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
