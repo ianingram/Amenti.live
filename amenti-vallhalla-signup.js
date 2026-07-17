@@ -46,6 +46,10 @@
 
         form.style.display = 'none';
         if (success) success.style.display = 'block';
+        // Fire the one-time on-boarding flourish (guarded to play once per user).
+        if (window.amentiFlourish && typeof window.amentiFlourish.play === 'function') {
+          window.amentiFlourish.play();
+        }
       } catch (err) {
         if (btn) { btn.disabled = false; btn.textContent = label; }
         // soft, non-alarming inline failure
