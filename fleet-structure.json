@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-17T00:47:09.678Z",
+    "generated": "2026-07-17T00:47:50.047Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -546,6 +546,26 @@
       "tables": []
     },
     {
+      "file": "amenti-profile.js",
+      "bytes": 10605,
+      "sha256": "c44f82526f915430",
+      "type": "js",
+      "declares": [
+        "amentiProfile"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "amentiAuth",
+          "line": 115,
+          "when": "function",
+          "own": false
+        }
+      ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-quiz.js",
       "bytes": 24221,
       "sha256": "465f751f796ae81c",
@@ -743,7 +763,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 41082,
-      "sha256": "4d9d3653ef1279cd",
+      "sha256": "d255b1461350adc0",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -956,6 +976,14 @@
         "file": "amenti-cassiel.js",
         "declares": [
           "Amenti.cassiel"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-profile.js",
+        "declares": [
+          "amentiProfile"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
