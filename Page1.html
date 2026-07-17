@@ -452,7 +452,7 @@ body.gw-locked{overflow:hidden;height:100vh;}
 .gw-doorway-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.32em;color:#f5c542;text-shadow:0 0 12px rgba(245,197,66,.55);opacity:.92;}
 .gw-doorway:hover .gw-doorway-label{opacity:1;}
 @keyframes doorwayPulse{0%,100%{filter:drop-shadow(0 0 18px rgba(245,197,66,.6)) drop-shadow(0 0 42px rgba(245,197,66,.35));}50%{filter:drop-shadow(0 0 26px rgba(245,197,66,.9)) drop-shadow(0 0 60px rgba(245,197,66,.5));}}
-.gw-doorway-svg{animation:doorwayPulse 3.6s ease-in-out infinite;}
+/* doorwayPulse removed — steady glow, no flashing */
 .gw-cta{display:inline-flex;align-items:center;gap:12px;padding:16px 28px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.18em;cursor:pointer;border:none;background:transparent;color:#fff;transition:all .25s cubic-bezier(.2,.7,.2,1);position:relative;overflow:hidden;}
 .gw-cta-primary{background:linear-gradient(135deg,var(--gold-bright) 0%,var(--gold-deep) 100%);color:#0a0608;font-weight:bold;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);box-shadow:0 0 30px rgba(245,197,66,.45),inset 0 1px 0 rgba(255,255,255,.3);}
 .gw-cta-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(245,197,66,.7),inset 0 1px 0 rgba(255,255,255,.4);}
@@ -1236,7 +1236,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
         <span><span class="gw-eyebrow-hi">AI: AMENTI INTERFACE</span>: A LIBRARY OF LEGENDS POWERED BY AI&nbsp;&nbsp;·&nbsp;&nbsp;<span class="gw-eyebrow-hi">AI: AMENTI INTERFACE</span>: A LIBRARY OF LEGENDS POWERED BY AI&nbsp;&nbsp;·&nbsp;&nbsp;</span>
       </div>
     </div>
-    <h1 class="gw-title" style="font-family: 'Amenti Display', 'Special Elite', serif">AMENTI<span class="gw-dot">.</span>AI</h1>
+    <h1 class="gw-title" style="font-family: 'Amenti Display', 'Special Elite', serif">AMENTI<span class="gw-dot">-</span>AI</h1>
     <div class="gw-divider"><span></span><span class="gw-divider-glyph"><svg viewBox="0 0 20 16" width="14" height="12" style="vertical-align:-1px;"><polygon points="10,2 18,14 2,14" fill="#f5c542"/></svg></span><span></span></div>
     <p class="gw-tagline">Awaken the greatest minds of history.<br>Listen. Question. Earn. Learn.</p>
     <!-- CTA row removed; primary entry is the golden A-doorway at the base of the pyramid -->
