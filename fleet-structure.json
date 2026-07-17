@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-17T06:34:46.132Z",
+    "generated": "2026-07-17T06:37:21.865Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -425,6 +425,19 @@
       "tables": []
     },
     {
+      "file": "amenti-flourish.js",
+      "bytes": 37046,
+      "sha256": "2d0fd86674a0e371",
+      "type": "js",
+      "declares": [
+        "amentiFlourish"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-leaderboard.js",
       "bytes": 10857,
       "sha256": "33bc8cf90ffee319",
@@ -663,8 +676,8 @@
     },
     {
       "file": "amenti-vallhalla-signup.js",
-      "bytes": 2384,
-      "sha256": "b07f622ad5fbc5ce",
+      "bytes": 2606,
+      "sha256": "74fd0eec8fbc1783",
       "type": "js",
       "declares": [],
       "loads": [],
@@ -766,8 +779,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 41357,
-      "sha256": "45ef8deaaa689f66",
+      "bytes": 41362,
+      "sha256": "5717c4baa8b6157c",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -980,6 +993,14 @@
         "file": "amenti-cassiel.js",
         "declares": [
           "Amenti.cassiel"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-flourish.js",
+        "declares": [
+          "amentiFlourish"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
