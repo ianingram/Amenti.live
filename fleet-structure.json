@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-17T07:08:40.673Z",
+    "generated": "2026-07-17T07:10:46.155Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -532,6 +532,19 @@
       "tables": []
     },
     {
+      "file": "amenti-mascot.js",
+      "bytes": 5575,
+      "sha256": "855eb490f6329e91",
+      "type": "js",
+      "declares": [
+        "amentiMascot"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-probe.js",
       "bytes": 25076,
       "sha256": "329ed0acbf877885",
@@ -783,8 +796,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 41638,
-      "sha256": "ebfbb860f0c713a8",
+      "bytes": 41644,
+      "sha256": "62b9c0d6c0289bfc",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1005,6 +1018,14 @@
         "file": "amenti-flourish.js",
         "declares": [
           "amentiFlourish"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-mascot.js",
+        "declares": [
+          "amentiMascot"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
