@@ -1,5 +1,5 @@
 {
-  "at": "2026-07-16T18:42:11.087Z",
+  "at": "2026-07-17T00:55:12.604Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 47,
@@ -9,7 +9,7 @@
       "watch:": 2
     }
   },
-  "today": "2026-07-16",
+  "today": "2026-07-17",
   "thisWeek": "2026-07-12",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -22,7 +22,7 @@
         "date": "2026-07-16",
         "figure": "frederick-douglass"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-07-15"
       ],
@@ -105,10 +105,10 @@
       "cadence": "weekly (Sunday 12:00 UTC)",
       "status": "FAIL",
       "ordnance": {
-        "loaded": null,
+        "loaded": 1,
         "rounds": 0,
         "packages": 0,
-        "summary": "LOAD UNKNOWN · 0 FIRED · 0 DELIVERED",
+        "summary": "1 LOADED · 0 FIRED · 0 DELIVERED",
         "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
       },
       "fired": 0,
@@ -132,7 +132,7 @@
         "2026-05-24",
         "2026-05-17"
       ],
-      "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. load unknown AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
+      "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 1 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
     "THE DAILY PLANET": {
       "id": "THE DAILY PLANET",
