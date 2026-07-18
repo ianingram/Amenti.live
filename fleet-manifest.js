@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-17T23:08:32.839Z",
-    "reading": "2026-07-17T23:08:32.724Z",
+    "merged": "2026-07-18T22:35:19.457Z",
+    "reading": "2026-07-18T22:35:19.361Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -136,17 +136,16 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-07-17T18:38:45.683Z",
+    "at": "2026-07-18T18:36:09.978Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 48,
+      "count": 49,
       "prefixes": {
-        "atlantica:": 44,
-        "dailyplanet:": 3,
-        "watch:": 1
+        "atlantica:": 46,
+        "dailyplanet:": 3
       }
     },
-    "today": "2026-07-17",
+    "today": "2026-07-18",
     "thisWeek": "2026-07-12",
     "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
     "tubes": {
@@ -154,16 +153,26 @@ window.FLEET_MANIFEST = {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 31,
+        "fired": 33,
         "last": {
-          "date": "2026-07-17",
-          "figure": "john-milton"
+          "date": "2026-07-18",
+          "figure": "akhenaten"
         },
         "lastAgeDays": 0,
         "missedLast14": [
           "2026-07-15"
         ],
         "recent": [
+          {
+            "figure": "akhenaten",
+            "date": "2026-07-18",
+            "key": "atlantica:akhenaten:2026-07-18"
+          },
+          {
+            "figure": "akhenaten",
+            "date": "2026-07-17",
+            "key": "atlantica:akhenaten:2026-07-17"
+          },
           {
             "figure": "john-milton",
             "date": "2026-07-17",
@@ -223,19 +232,9 @@ window.FLEET_MANIFEST = {
             "figure": "marcus-aurelius",
             "date": "2026-07-07",
             "key": "atlantica:marcus-aurelius:2026-07-07"
-          },
-          {
-            "figure": "oliver-cromwell",
-            "date": "2026-07-06",
-            "key": "atlantica:oliver-cromwell:2026-07-06"
-          },
-          {
-            "figure": "oliver-cromwell",
-            "date": "2026-07-05",
-            "key": "atlantica:oliver-cromwell:2026-07-05"
           }
         ],
-        "note": "31 dispatch(es) in the hold · last 2026-07-17 (john-milton) · MISSED 1 of the last 14 days"
+        "note": "33 dispatch(es) in the hold · last 2026-07-18 (akhenaten) · MISSED 1 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -321,8 +320,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 1613630,
-      "sha256": "bab688ae78d8d182",
+      "bytes": 1613746,
+      "sha256": "c87317ce70778f62",
       "declares": [
         "AMENTI_CHARS",
         "AMENTI_ERAS",
@@ -779,8 +778,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "ADRIFT"
       ],
-      "bytes": 24221,
-      "sha256": "465f751f796ae81c",
+      "bytes": 27228,
+      "sha256": "0855947f2256b303",
       "declares": [
         "amentiQuiz"
       ],
@@ -847,7 +846,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-17T18:38:44.091Z",
+        "at": "2026-07-18T18:36:08.503Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -865,7 +864,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-17T18:38:44.091Z",
+        "at": "2026-07-18T18:36:08.503Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -883,7 +882,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-17T18:38:44.091Z",
+        "at": "2026-07-18T18:36:08.503Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -914,7 +913,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-07-17T18:38:44.091Z",
+        "at": "2026-07-18T18:36:08.503Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
