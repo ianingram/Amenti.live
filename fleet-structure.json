@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-18T22:35:19.361Z",
+    "generated": "2026-07-18T22:57:28.034Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -797,8 +797,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 41918,
-      "sha256": "45b003500c52af9a",
+      "bytes": 41869,
+      "sha256": "dc16f4f612ef8350",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -807,25 +807,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 968,
+          "line": 967,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 969,
+          "line": 968,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 970,
+          "line": 969,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 971,
+          "line": 970,
           "when": "toplevel",
           "own": false
         }
@@ -938,6 +938,20 @@
       "loads": [],
       "calls": [],
       "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "quizzard-bridge.html",
+      "bytes": 11792,
+      "sha256": "87def14f80c53f1b",
+      "type": "html",
+      "declares": [],
+      "loads": [],
+      "calls": [],
+      "endpoints": [
+        "/quizzard/ping",
+        "/quizzard/run"
+      ],
       "tables": []
     },
     {
