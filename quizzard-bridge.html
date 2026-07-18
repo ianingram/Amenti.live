@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE QUIZZARD · Bridge</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Special+Elite&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- ============================================================================
+     quizzard-bridge.html  ·  A TOOL, NOT A PANE
+     ----------------------------------------------------------------------------
+     Puts one name to the engine and shows exactly what comes back — the quiz,
+     the sources it rested on, the searches it ran, and the cost.
+     Open locally. The admin secret is held in memory only. Do not commit.
+     ============================================================================ -->
+<style>
+:root{
+  --gold:#d4a017; --gold-b:#f5c542; --neon:#00ffe0; --term:#80ffc0; --violet:#c4a5ff;
+  --ink:#08090e; --granite:#11131c; --slate:#232838; --wire:#343b52;
+  --text:#c8ccdc; --dim:#8f95ab; --red:#f87171; --amber:#fbbf24;
+  --mono:'Share Tech Mono',monospace; --body:'Rajdhani',sans-serif; --elite:'Special Elite',cursive;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);font-weight:300;font-size:17px;line-height:1.6}
+main{max-width:940px;margin:0 auto;padding:38px 22px 90px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--neon);text-transform:uppercase;margin:0 0 8px}
+h1{font-family:var(--elite);font-size:clamp(26px,5vw,40px);color:var(--gold-b);margin:0 0 4px}
+.sub{font-style:italic;color:var(--dim);margin:0 0 24px}
+.card{border:1px solid var(--slate);border-radius:10px;background:var(--granite);padding:18px 20px;margin:14px 0}
+label{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px}
+input[type=text],input[type=password]{width:100%;font-family:var(--mono);font-size:15px;color:#fff;background:#0a0b11;
+  border:1px solid var(--wire);padding:11px 12px;border-radius:4px}
+input:focus{outline:none;border-color:var(--gold)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+button{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;border:none;
+  padding:12px 18px;border-radius:4px;cursor:pointer;transition:.15s}
+.go{background:var(--gold);color:#08090e} .go:hover{background:var(--gold-b)}
+.ghost{background:transparent;color:var(--term);border:1px solid var(--term)}
+.ghost:hover{background:rgba(128,255,192,.1)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.chk{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--dim)}
+.verdict{font-family:var(--mono);font-size:13.5px;letter-spacing:.04em;padding:13px 15px;border-radius:6px;margin-top:14px;display:none;line-height:1.7}
+.verdict.ok{display:block;background:rgba(128,255,192,.08);border:1px solid var(--term);color:var(--term)}
+.verdict.halt{display:block;background:rgba(251,191,36,.08);border:1px solid var(--amber);color:var(--amber)}
+.verdict.bad{display:block;background:rgba(248,113,113,.08);border:1px solid var(--red);color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:12px;display:none}
+.stats.on{display:grid}
+.st{border:1px solid var(--wire);border-radius:5px;background:#0a0b11;padding:9px 10px;text-align:center}
+.st .n{font-family:var(--elite);font-size:19px;color:var(--gold-b)}
+.st .l{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-top:3px}
+.quiz{display:none;margin-top:16px}
+.quiz.on{display:block}
+.qhead{border-bottom:1px solid var(--slate);padding-bottom:12px;margin-bottom:12px}
+.qtitle{font-family:var(--elite);font-size:22px;color:var(--gold-b)}
+.qmeta{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-top:4px}
+.qpass{font-size:15px;line-height:1.7;border-left:2px solid var(--gold);padding-left:14px;margin:12px 0;color:var(--text)}
+.q{border-top:1px solid #171d29;padding:12px 0}
+.qb{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+.b{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--wire);border-radius:9px;color:var(--dim)}
+.b.t{border-color:var(--neon);color:var(--neon)} .b.e{border-color:var(--violet);color:var(--violet)}
+.qp{font-size:15.5px;color:#fff;margin-bottom:8px}
+.o{font-size:13.5px;color:var(--text);background:#0a0b11;border:1px solid var(--wire);padding:8px 10px;border-radius:3px;margin-bottom:5px}
+.o.key{border-color:var(--term);box-shadow:inset 2px 0 0 var(--term);color:#fff}
+.acc{font-family:var(--mono);font-size:10px;color:var(--term)}
+.src{font-family:var(--mono);font-size:11px;color:var(--neon);word-break:break-all;padding:3px 0}
+pre{background:#0a0b11;border:1px solid var(--wire);border-radius:6px;padding:12px;overflow-x:auto;
+  font-family:var(--mono);font-size:11.5px;color:#d3dcf0;white-space:pre-wrap;word-break:break-word;max-height:340px}
+details{margin-top:12px} summary{cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--dim)}
+.warn{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--amber);margin-top:12px;line-height:1.7}
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Amenti · The Engine</p>
+  <h1>Quizzard Bridge</h1>
+  <p class="sub">One name in. A verified quiz, or an honest refusal, out.</p>
+
+  <div class="card">
+    <label for="pw">Admin secret</label>
+    <input id="pw" type="password" placeholder="held in memory only" autocomplete="off">
+    <div class="row"><button class="ghost" id="btnPing">Ping the engine</button></div>
+  </div>
+
+  <div class="card">
+    <label for="fig">Figure</label>
+    <input id="fig" type="text" placeholder="e.g. Nikola Tesla" autocomplete="off">
+    <div class="row">
+      <button class="go" id="btnRun">▸ Run</button>
+      <label class="chk"><input type="checkbox" id="commit"> write to table as staged</label>
+    </div>
+    <div class="verdict" id="verdict"></div>
+    <div class="stats" id="stats"></div>
+    <div class="quiz" id="quiz"></div>
+    <details><summary>raw response</summary><pre id="raw">—</pre></details>
+    <p class="warn">Each run costs money and takes 30–90 seconds while it searches.<br>
+    Leave "write to table" unticked until you trust what comes back.</p>
+  </div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var ENGINE = 'https://amenti-quizzard.ingram-ian.workers.dev';
+  var $ = function (id) { return document.getElementById(id); };
+  var verdict = $('verdict'), stats = $('stats'), quizEl = $('quiz'), raw = $('raw');
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+  function say(kind, msg) { verdict.className = 'verdict ' + kind; verdict.innerHTML = msg; }
+  function secret() { var s = $('pw').value.trim(); if (!s) { say('bad', 'Enter the admin secret first.'); return null; } return s; }
+  function busy(b) { $('btnRun').disabled = b; $('btnPing').disabled = b; }
+
+  $('btnPing').addEventListener('click', function () {
+    var s = secret(); if (!s) return;
+    busy(true); say('ok', 'pinging…');
+    fetch(ENGINE + '/quizzard/ping', { headers: { 'x-admin-secret': s } })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        raw.textContent = JSON.stringify(d, null, 2);
+        if (d.ok) say('ok', 'Engine answers. Model: ' + esc(d.model) + ' — reply: "' + esc(d.reply) + '"');
+        else say('bad', 'Engine reached but the model refused: ' + esc(d.error));
+      })
+      .catch(function (e) { say('bad', 'Could not reach the engine. ' + esc(e)); })
+      .finally(function () { busy(false); });
+  });
+
+  $('btnRun').addEventListener('click', function () {
+    var s = secret(); if (!s) return;
+    var figure = $('fig').value.trim();
+    if (!figure) { say('bad', 'Enter a figure.'); return; }
+    busy(true); stats.className = 'stats'; quizEl.className = 'quiz';
+    say('ok', 'Researching ' + esc(figure) + ' — searching, verifying, composing. This takes a while.');
+    var t0 = Date.now();
+    fetch(ENGINE + '/quizzard/run', {
+      method: 'POST',
+      headers: { 'x-admin-secret': s, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ figure: figure, commit: $('commit').checked })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { raw.textContent = JSON.stringify(d, null, 2); render(d, Date.now() - t0); })
+    .catch(function (e) { say('bad', 'Request failed: ' + esc(e)); })
+    .finally(function () { busy(false); });
+  });
+
+  function render(d, ms) {
+    var u = d.usage || {};
+    var cells = [
+      ['searches', d.searches != null ? d.searches : '—'],
+      ['in tokens', u.input_tokens != null ? u.input_tokens : '—'],
+      ['out tokens', u.output_tokens != null ? u.output_tokens : '—'],
+      ['attempt', d.attempt || '—'],
+      ['seconds', Math.round(ms / 1000)]
+    ];
+    stats.innerHTML = cells.map(function (c) {
+      return '<div class="st"><div class="n">' + esc(c[1]) + '</div><div class="l">' + c[0] + '</div></div>';
+    }).join('');
+    stats.className = 'stats on';
+
+    if (d.status === 'halted') {
+      say('halt', '<strong>HALTED — ' + esc(d.reason) + '</strong><br>' + esc(d.note || '')
+        + (d.errors ? '<br><br>' + d.errors.map(esc).join('<br>') : '')
+        + '<br><br>A halt is the engine working. It refused rather than invent.');
+      return;
+    }
+    if (d.status !== 'done') { say('bad', 'Unexpected: ' + esc(d.error || d.status)); return; }
+
+    say('ok', '<strong>' + esc(d.topic_id) + '</strong> — passed the validator.'
+      + (d.alreadyExists ? '<br>Already in the table; not written.' : '')
+      + (d.committed ? '<br>Written to the table as <strong>staged</strong>.' : '<br>Not written (tick the box to commit).'));
+
+    var p = d.payload, f = p.facets || {};
+    var html = '<div class="qhead"><div class="qtitle">' + esc(p.title) + '</div>'
+      + '<div class="qmeta">' + esc(p.era) + ' · ' + esc((f.motif || [])[0] || '') + ' · ' + esc(f.sourceType || '') + '</div></div>'
+      + '<div style="font-style:italic;color:#8f95ab">' + esc(p.intro) + '</div>'
+      + '<div class="qpass">' + esc(p.passage) + '</div>';
+
+    (p.questions || []).forEach(function (q) {
+      var badges = '<span class="b' + (q.cognitive === 'evaluate' ? ' e' : '') + '">' + esc(q.cognitive) + '</span>'
+        + '<span class="b">' + esc(q.difficulty) + '</span><span class="b">' + esc(q.answerType) + '</span>'
+        + (q.timed ? '<span class="b t">timed</span>' : '');
+      html += '<div class="q"><div class="qb">' + badges + '</div><div class="qp">' + esc(q.prompt) + '</div>';
+      if (q.answerType === 'mc') {
+        html += (q.options || []).map(function (o, i) {
+          return '<div class="o' + (i === q.correct ? ' key' : '') + '">' + esc(o) + '</div>'; }).join('');
+      } else if (q.answerType === 'cloze') {
+        html += '<div class="acc">accepted → ' + esc((q.accepted || []).join(' · ')) + '</div>';
+      }
+      html += '</div>';
+    });
+
+    if ((d.sources || []).length) {
+      html += '<div class="q"><div class="qb"><span class="b">sources</span></div>'
+        + d.sources.map(function (s) { return '<div class="src">' + esc(s) + '</div>'; }).join('') + '</div>';
+    }
+    quizEl.innerHTML = html; quizEl.className = 'quiz on';
+  }
+
+  $('fig').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('btnRun').click(); });
+})();
+</script>
+</body>
+</html>
