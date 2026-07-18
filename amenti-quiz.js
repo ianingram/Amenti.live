@@ -32,6 +32,12 @@
 
   /* ---- styles (scoped aq-*, matches the gold/neon register) -------------- */
   var css = ''
+    + '.aq-picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:14px}'
+    + '.aq-pick{display:flex;flex-direction:column;gap:3px;text-align:left;background:#0d0f17;border:1px solid #343b52;'
+    +   'border-radius:6px;padding:11px 13px;cursor:pointer;transition:.15s;font-family:inherit}'
+    + '.aq-pick:hover{border-color:#d4a017;background:#12141d}'
+    + '.aq-pick-fig{font-size:15px;color:#f5c542}'
+    + '.aq-pick-title{font-size:12.5px;color:#8f95ab;line-height:1.35}'
     + '.aq-overlay{position:fixed;inset:0;z-index:3000;display:none;align-items:center;justify-content:center;padding:24px;'
     +   'background:rgba(5,5,10,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:"Share Tech Mono",ui-monospace,monospace}'
     + '.aq-overlay.on{display:flex}'
@@ -127,7 +133,7 @@
 
   /* ---- open a topic ------------------------------------------------------ */
   async function open(topicId) {
-    topicId = topicId || DEFAULT_TOPIC;
+    if (!topicId) { open2(); return renderNoQuiz(''); }   // never open a stranger's quiz
     open2(); renderLoading('Opening the gateway');
     var token = await getToken();
     if (!token) return renderSignIn();
@@ -135,6 +141,46 @@
     if (!res.ok || !res.body || !res.body.topic) return renderError((res.body && res.body.error) || 'Could not start this quiz.');
     state = { session: res.body.session, topic: res.body.topic, idx: 0, answers: {}, timings: {}, qStart: 0 };
     renderGateway();
+  }
+
+  /* ---- the honest empty state -------------------------------------------
+     A figure with no quiz says so. It does NOT open someone else's quiz.
+     The Glass Gate, applied to the roster: the real thing or an empty box. */
+  function renderNoQuiz(figure) {
+    var who = figure ? esc(figure) : 'This figure';
+    boxBody.innerHTML =
+      '<p class="aq-eyebrow">No quiz yet</p>'
+      + '<div class="aq-msg"><strong>' + who + '</strong> has not been set for trial.<br>'
+      + 'The library holds a quiz for some figures and not yet for others. Rather than open '
+      + 'a different figure\u2019s quiz, the gate stays shut.</div>'
+      + '<div class="aq-center aq-row" style="justify-content:center;margin-top:16px">'
+      + '<button class="aq-btn" id="aqPick">See who is ready \u2192</button>'
+      + '<button class="aq-btn ghost" id="aqClose">Close</button></div>';
+    bind('#aqClose', 'click', close);
+    bind('#aqPick', 'click', renderPicker);
+  }
+
+  /* ---- the picker: every quiz actually in the library --------------------- */
+  async function renderPicker() {
+    renderLoading('Reading the library');
+    var res = await api('/quiz/topics');
+    var list = (res.body && res.body.topics) || [];
+    if (!list.length) return renderError('The library could not be read.');
+    var items = list.map(function (t) {
+      var fig = (t.facets && t.facets.figure && t.facets.figure[0]) || prettyId(t.id);
+      return '<button class="aq-pick" data-open="' + esc(t.id) + '">'
+           + '<span class="aq-pick-fig">' + esc(fig) + '</span>'
+           + '<span class="aq-pick-title">' + esc(t.title) + '</span></button>';
+    }).join('');
+    boxBody.innerHTML =
+      '<p class="aq-eyebrow">' + list.length + ' ready</p>'
+      + '<div class="aq-picks">' + items + '</div>'
+      + '<div class="aq-center" style="margin-top:14px">'
+      + '<button class="aq-btn ghost" id="aqClose">Close</button></div>';
+    bind('#aqClose', 'click', close);
+    Array.prototype.forEach.call(boxBody.querySelectorAll('[data-open]'), function (b) {
+      b.addEventListener('click', function () { open(b.getAttribute('data-open')); });
+    });
   }
 
   /* ---- screens ----------------------------------------------------------- */
@@ -291,8 +337,12 @@
     Array.prototype.forEach.call(cards, function (card) {
       card.addEventListener('click', function (e) {
         var host = card.closest ? (card.closest('.roster-card') || card) : card;
-        var topic = host.getAttribute('data-topic') || DEFAULT_TOPIC;
+        var topic = host.getAttribute('data-topic');   // no substitution: a card
+        var figure = host.getAttribute('data-figure')      // with no quiz says so
+                  || (host.querySelector('.rc-name, .rc-title, h3, h4') || {}).textContent
+                  || '';
         e.preventDefault(); e.stopPropagation();
+        if (!topic) { open2(); renderNoQuiz(String(figure).trim()); return; }
         open(topic);
       }, true); // capture -> beats the old handler
     });
