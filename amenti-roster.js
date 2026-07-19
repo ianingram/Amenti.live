@@ -129,33 +129,78 @@
   }
 
   /* THE PORTRAITS.
-     Six figures have hand-drawn SVG artwork, living in the hero carousel as
-     .char-slide[data-idx]. populateMiniPortraits() clones that art into any
-     card carrying a matching data-char. Lose data-char and you lose the face.
+     I first believed only six figures were drawn, because populateMiniPortraits()
+     reads .char-slide .char-art — the six hero-carousel slides. That is one
+     shelf, not the library.
 
-     This map is the hero slide order — it is the ONLY link between a card and
-     its portrait, so it is written out plainly rather than guessed at from a
-     name lookup. Figures without art simply wear their badge. */
-  var PORTRAIT = {
-    'Abraham Lincoln': 0,
-    'Miyamoto Musashi': 1,
-    'Julius Caesar': 2,
-    'Mahatma Gandhi': 3,
-    'Moses': 4,
-    'Hannibal Barca': 5
-  };
-  function charIndexFor(figure) {
-    var i = PORTRAIT[figure];
-    return (i === undefined) ? null : i;
+     The library is window.AMENTI_SVG: twenty-one hand-drawn character SVGs
+     keyed by codex key (lincoln, musashi, sun-tzu, marcus-aurelius, akhenaten
+     ...). Twelve of the current quiz figures have one. So the card asks the
+     library directly rather than borrowing from the carousel.
+
+     Figures with no drawing keep the gradient panel and their badge. Nothing
+     is substituted — a stand-in face would be a lie about who this is. */
+  function artFor(figure) {
+    var lib = window.AMENTI_SVG;
+    if (!lib) return null;
+    var rec = codexFor(figure);
+    var key = rec && rec.key;
+    if (!key || typeof lib[key] !== 'function') return null;
+    try { return lib[key](); } catch (e) { return null; }
+  }
+
+  /* The hero art is drawn for a 320x560 stage; the card panel is 160px tall.
+     Strip the backdrop rects so it sits on the card's own gradient, exactly as
+     populateMiniPortraits does for the six it knows about. */
+  function fitArt(html) {
+    var wrap = document.createElement('div');
+    wrap.innerHTML = html;
+    var svg = wrap.querySelector('svg');
+    if (!svg) return null;
+    svg.removeAttribute('class');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMax meet');
+    svg.setAttribute('style', 'position:absolute;left:50%;bottom:0;transform:translateX(-50%);'
+      + 'height:100%;width:auto;pointer-events:none');
+    var rects = svg.querySelectorAll('rect');
+    for (var i = 0; i < rects.length; i++) {
+      if (rects[i].getAttribute('width') === '320') { rects[i].remove(); }
+    }
+    return svg;
+  }
+
+  /* Applied after render, and retried: AMENTI_CHARS is rebuilt asynchronously
+     from the roster CSV, so the library may not be ready on the first pass. */
+  function paintPortraits(host, tries) {
+    tries = tries || 0;
+    var painted = 0;
+    var cards = host.querySelectorAll('.roster-card');
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      if (c.getAttribute('data-art') === '1') { painted++; continue; }
+      var fig = c.getAttribute('data-figure');
+      var html = artFor(fig);
+      if (!html) continue;
+      var svg = fitArt(html);
+      if (!svg) continue;
+      var panel = c.querySelector('.rc-img');
+      if (!panel) continue;
+      panel.appendChild(svg);
+      c.setAttribute('data-art', '1');
+      painted++;
+    }
+    if (painted < cards.length && tries < 6) {
+      setTimeout(function () { paintPortraits(host, tries + 1); }, 400);
+    }
   }
 
   function card(t) {
     var fig = (t.facets && t.facets.figure && t.facets.figure[0]) || t.title;
     var era = t.era || ((t.facets && t.facets.era && t.facets.era[0]) || '');
     var n = t.questions || 0;
-    var ci = charIndexFor(fig);
+    var rec = codexFor(fig);
     return '<div class="roster-card"'
-      + (ci !== null ? ' data-char="' + ci + '"' : '')
+      + (rec && rec.id !== undefined ? ' data-char="' + rec.id + '"' : '')
+      + ' data-figure="' + esc(fig) + '"'
       + ' data-topic="' + esc(t.id) + '">'
       + '<div class="rc-prize">EARN \u25C8</div>'
       + '<div class="rc-img"><div class="rc-img-grid"></div>'
@@ -186,9 +231,9 @@
        that observer may never fire and the cards would never appear. We do not
        depend on it: having rendered, we reveal our own host. */
     host.classList.add('in');
-    /* populateMiniPortraits() runs at page load, long before these cards exist,
-       so the six with artwork would come up blank. Call it again now. */
-    try { if (typeof window.populateMiniPortraits === 'function') window.populateMiniPortraits(); } catch (e) {}
+    /* Draw the faces from the art library — twelve of the current figures have
+       one. Retried, because the character list rebuilds asynchronously. */
+    paintPortraits(host, 0);
     try { if (window.amentiQuiz && window.amentiQuiz.wireRoster) window.amentiQuiz.wireRoster(); } catch (e) {}
     host.setAttribute('data-count', head.length + tail.length);
   }
