@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-19T06:59:41.306Z",
+    "generated": "2026-07-19T07:00:02.606Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -846,8 +846,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 42637,
-      "sha256": "3e38cddffeb410d1",
+      "bytes": 42394,
+      "sha256": "985945b413a5f52f",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -856,25 +856,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 988,
+          "line": 981,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 989,
+          "line": 982,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 990,
+          "line": 983,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 991,
+          "line": 984,
           "when": "toplevel",
           "own": false
         }
@@ -1059,6 +1059,127 @@
       "tables": []
     }
   ],
+  "probes": {
+    "dir": "probes/",
+    "present": true,
+    "count": 19,
+    "files": [
+      {
+        "file": "probe-ordnance.mjs",
+        "title": "THE ORDNANCE PROBE",
+        "guards": null,
+        "bytes": 16341
+      },
+      {
+        "file": "probe-watches.mjs",
+        "title": "THE WATCH PROBE",
+        "guards": null,
+        "bytes": 21892
+      },
+      {
+        "file": "probe.js",
+        "title": null,
+        "guards": "Probe the anchored window. Never trust an edit you haven't run.",
+        "bytes": 3231
+      },
+      {
+        "file": "probe10.js",
+        "title": "THE WATCHLIST",
+        "guards": "the model arms the fast path; the trigger stays instant. */",
+        "bytes": 8088
+      },
+      {
+        "file": "probe11.mjs",
+        "title": null,
+        "guards": "Attack the REAL Worker, through its REAL router.",
+        "bytes": 8890
+      },
+      {
+        "file": "probe12.js",
+        "title": "DEPLOY A",
+        "guards": "the claim is: \"the microphone behaves EXACTLY as it does today.\"",
+        "bytes": 5461
+      },
+      {
+        "file": "probe13.js",
+        "title": null,
+        "guards": null,
+        "bytes": 7496
+      },
+      {
+        "file": "probe14.js",
+        "title": "THE DOCTRINE FILE · THE TURN · AND THE TRAP",
+        "guards": null,
+        "bytes": 6473
+      },
+      {
+        "file": "probe15.js",
+        "title": "THE TERMINAL IS ON THE CORE",
+        "guards": null,
+        "bytes": 8069
+      },
+      {
+        "file": "probe16.js",
+        "title": "HANDS-FREE",
+        "guards": null,
+        "bytes": 7961
+      },
+      {
+        "file": "probe17.js",
+        "title": "DEPLOY C · ONE ENGINE",
+        "guards": null,
+        "bytes": 6946
+      },
+      {
+        "file": "probe18.js",
+        "title": "THE GLASS GATE",
+        "guards": "If a line could be falsified by a grep, it does not belong in the claims.",
+        "bytes": 8254
+      },
+      {
+        "file": "probe2.js",
+        "title": null,
+        "guards": "Probe the pass. Every claim gets exercised or it isn't a claim.",
+        "bytes": 7171
+      },
+      {
+        "file": "probe3.js",
+        "title": null,
+        "guards": null,
+        "bytes": 5561
+      },
+      {
+        "file": "probe4.js",
+        "title": null,
+        "guards": null,
+        "bytes": 5727
+      },
+      {
+        "file": "probe6.js",
+        "title": null,
+        "guards": null,
+        "bytes": 8487
+      },
+      {
+        "file": "probe7.js",
+        "title": "THE CACHE-KEY INVARIANT",
+        "guards": null,
+        "bytes": 8152
+      },
+      {
+        "file": "probe8.js",
+        "title": null,
+        "guards": null,
+        "bytes": 7860
+      },
+      {
+        "file": "probe9.js",
+        "title": "THE THRESHOLD · THE EAR · THE BRIDGE",
+        "guards": "The speaker's onDone is a real setTimeout.",
+        "bytes": 9555
+      }
+    ]
+  },
   "findings": {
     "wiring": [],
     "adrift": [
