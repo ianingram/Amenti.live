@@ -302,6 +302,64 @@ if (!pages.length) {
 }
 console.error(`scanning ${files.length} files (${pages.length} pages) in ${path.resolve(ROOT)}`);
 
+/* ── THE CORPS COUNTS ITSELF ──────────────────────────────────────────────
+   The scanner excluded probes by name and never walked probes/ at all, so the
+   manifest listed ONE probe while nineteen sat on disk — and the Probe Corps
+   pane meanwhile claimed twenty, typed by hand. The unit whose entire purpose
+   is cross-examining claims against the living system was the one thing in the
+   fleet nothing was checking.
+
+   An instrument sworn to accuse itself before it will lie to its captain
+   cannot be exempt from its own reading. */
+function catalogueProbes() {
+  const dir = path.join(ROOT, 'probes');
+  let names;
+  try { names = fs.readdirSync(dir); }
+  catch (e) { return { dir: 'probes/', present: false, count: 0, files: [], note: 'probes/ not found from ' + path.resolve(ROOT) }; }
+  const files = names.filter(n => /\.(js|mjs)$/.test(n)).sort();
+  return {
+    dir: 'probes/',
+    present: true,
+    count: files.length,
+    files: files.map(function (n) {
+      const abs = path.join(dir, n);
+      const head = fs.readFileSync(abs, 'utf8').slice(0, 1600);
+      /* The codename appears in three shapes across the corps, so read all
+         three rather than one and call the rest nameless:
+             /* THE WATCHLIST — the model arms the fast path.  (probe10)
+             probe18 — THE GLASS GATE                         (probe18)
+             probes/probe-watches.mjs   ·   THE WATCH PROBE   (probe-watches)
+         A null title means THIS SCANNER COULD NOT READ ONE — not that the probe
+         is unnamed. Blindness is reported as blindness. */
+      let title = null, guards = null;
+      let m = head.match(/^\s*\/\*+\s*([A-Z][A-Z0-9 §'&\-]{3,44})\s*[—\-]\s*(.+)$/m);
+      if (m) { title = m[1].trim(); guards = m[2].trim(); }
+      if (!title) {
+        m = head.match(/^[\s*\/]*(?:probes\/)?[\w.\-]*\s*[—·\-]\s*([A-Z][A-Z0-9 ·§'&\-]{3,50})\s*$/m);
+        if (m) title = m[1].trim();
+      }
+      if (!title) {
+        m = head.match(/^[\s*\/]*([A-Z][A-Z0-9 ·§'&\-]{5,50})\s*$/m);
+        if (m) title = m[1].trim();
+      }
+      if (!guards) {
+        const g = head.match(/GUARDS\s+(.+)/);
+        if (g) guards = g[1].trim();
+        else {
+          const d = head.match(/^\s*\/\*+\s*([A-Z][a-z].{18,120}\.)/m);
+          if (d) guards = d[1].trim();
+        }
+      }
+      return {
+        file: n,
+        title: title,
+        guards: guards ? guards.slice(0, 150) : null,
+        bytes: fs.statSync(abs).size
+      };
+    })
+  };
+}
+
 const scanned = files.map(scanFile);
 const out = {
   meta: {
@@ -311,6 +369,7 @@ const out = {
     note: 'OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG.',
   },
   files: scanned,
+  probes: catalogueProbes(),
   findings: {
     wiring: wiring(scanned),
     adrift: adrift(scanned),
