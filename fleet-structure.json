@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-19T05:37:30.796Z",
+    "generated": "2026-07-19T05:43:23.978Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -778,8 +778,8 @@
     },
     {
       "file": "art-batch1-douglass-keller.js",
-      "bytes": 12489,
-      "sha256": "4d136f307f93ac1a",
+      "bytes": 28072,
+      "sha256": "54017abfd626d8ca",
       "type": "js",
       "declares": [],
       "loads": [],
@@ -840,8 +840,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 42121,
-      "sha256": "ca6923f818401352",
+      "bytes": 42386,
+      "sha256": "8b41259e3f3348df",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -850,25 +850,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 974,
+          "line": 981,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 975,
+          "line": 982,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 976,
+          "line": 983,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 977,
+          "line": 984,
           "when": "toplevel",
           "own": false
         }
