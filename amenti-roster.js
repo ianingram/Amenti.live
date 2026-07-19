@@ -102,6 +102,59 @@
     return null;
   }
 
+  /* ── THE GATES · the marks on a card ──────────────────────────────────
+     Four emerald hearts for questions answered correctly, two quills for
+     cases filed. Six slots, two kinds of mark, and the gate opens when all
+     six are struck.
+
+     They are two kinds because a six-question quiz is only FOUR auto-scored;
+     the two philosophical questions are never marked right or wrong, they are
+     filed to the docket. Calling all six hearts would claim the cases had been
+     marked correct, and nothing marks them at all.
+
+     A SIGNED-OUT VISITOR SEES THE SLOTS, HOLLOW. Hiding them would make the
+     arena look emptier to a stranger than to the captain — and the stranger is
+     the one being persuaded. An empty set of slots is an invitation; nothing
+     at all is just a card. */
+  var PROGRESS = null;      // topic -> { hearts, heartsOf, quills, quillsOf, gateOpen }
+  var SIGNED_IN = false;
+
+  function heartMark(filled) {
+    return '<svg class="rc-mark" viewBox="0 0 24 24" aria-hidden="true">'
+      + '<path d="M12 21 C4 14 1 10 4.6 6.2 C7 3.6 10.4 4.6 12 7.4 C13.6 4.6 17 3.6 19.4 6.2 C23 10 20 14 12 21 Z"'
+      +   (filled ? ' fill="#57c98a" stroke="#d4a017" stroke-width="1.3"/>'
+                  : ' fill="none" stroke="#3a4550" stroke-width="1.3" stroke-dasharray="2.5 2.5"/>')
+      + '</svg>';
+  }
+  function quillMark(filled) {
+    return '<svg class="rc-mark" viewBox="0 0 24 24" aria-hidden="true">'
+      + '<path d="M20 4 C13 5 7.5 9.5 5.5 16 C9.5 15 14.5 12 17 8"'
+      +   (filled ? ' fill="#c4a5ff" fill-opacity=".28" stroke="#c4a5ff" stroke-width="1.4"/>'
+                  : ' fill="none" stroke="#3a4550" stroke-width="1.3" stroke-dasharray="2.5 2.5"/>')
+      + '<path d="M5.5 16 L3.5 20"'
+      +   (filled ? ' stroke="#c4a5ff"' : ' stroke="#3a4550"')
+      + ' stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>';
+  }
+
+  function marksFor(topicId, questionCount) {
+    var p = PROGRESS && PROGRESS[topicId];
+    /* slot counts come from the quiz when we know them, and from a sensible
+       reading of the question count when we do not — never from an assumption
+       that every quiz has six. */
+    var hOf = p ? p.heartsOf : Math.max(0, (questionCount || 0) - 2);
+    var wOf = p ? p.quillsOf : (questionCount >= 6 ? 2 : 0);
+    if (!hOf && !wOf) return '';
+    var h = p ? p.hearts.length : 0;
+    var w = p ? p.quills.length : 0;
+    var out = '';
+    for (var i = 0; i < hOf; i++) out += heartMark(i < h);
+    for (var j = 0; j < wOf; j++) out += quillMark(j < w);
+    var cls = 'rc-marks' + (p && p.gateOpen ? ' open' : '') + (SIGNED_IN ? '' : ' out');
+    var note = !SIGNED_IN ? 'sign in to begin'
+             : (p && p.gateOpen ? 'gate open' : (h + w) + ' of ' + (hOf + wOf));
+    return '<div class="' + cls + '">' + out + '<span class="rc-marks-n">' + note + '</span></div>';
+  }
+
   var STAT_LABEL = { strategy: 'STR', charisma: 'CHA', foresight: 'FOR', combat: 'CBT' };
   function statBars(c) {
     if (!c || !c.stats) return '';
@@ -209,6 +262,7 @@
       +   '<div class="rc-name">' + esc(fig) + '</div>'
       +   '<div class="rc-era">' + esc(era) + '</div>'
       +   statBars(codexFor(fig))
+      +   marksFor(t.id, n)
       +   '<div class="rc-stats">'
       +     '<span class="rc-stat">' + (n ? n + ' QUESTIONS' : 'QUIZ') + '</span>'
       +     '<span class="rc-stat">BIO REWARD</span>'
@@ -263,12 +317,33 @@
     document.head.appendChild(st);
   }
 
+  /* the seeker's own marks. Read-only, and it fails quietly: a card with no
+     progress is a card with hollow slots, which is exactly what a new seeker
+     should see anyway. */
+  async function loadProgress() {
+    try {
+      var a = window.amentiAuth;
+      if (!a || !a.sb) return;
+      var res = await a.sb.auth.getSession();
+      var token = res && res.data && res.data.session ? res.data.session.access_token : null;
+      if (!token) return;
+      SIGNED_IN = true;
+      var r = await fetch(MINT + '/quiz/progress', { headers: { Authorization: 'Bearer ' + token } });
+      if (!r.ok) return;
+      var d = await r.json();
+      if (d && d.ok && d.progress) PROGRESS = d.progress;
+    } catch (e) { /* hollow slots are a correct answer to not knowing */ }
+  }
+
   function boot() {
     injectCss();
     var host = document.getElementById('amenti-roster');
     if (!host) return;
-    fetch(MINT + '/quiz/topics')
-      .then(function (r) { return r.ok ? r.json() : Promise.reject('http ' + r.status); })
+    Promise.all([
+      fetch(MINT + '/quiz/topics').then(function (r) { return r.ok ? r.json() : Promise.reject('http ' + r.status); }),
+      loadProgress()
+    ])
+      .then(function (both) { return both[0]; })
       .then(function (d) {
         var list = (d && d.topics) || [];
         if (!list.length) return empty(host, 'The library returned no quizzes.');
