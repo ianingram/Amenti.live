@@ -1,10 +1,10 @@
 {
-  "at": "2026-07-19T00:56:56.917Z",
+  "at": "2026-07-19T07:10:03.400Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 49,
+    "count": 51,
     "prefixes": {
-      "atlantica:": 46,
+      "atlantica:": 48,
       "dailyplanet:": 3
     }
   },
@@ -16,20 +16,30 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 33,
+      "fired": 35,
       "last": {
-        "date": "2026-07-18",
-        "figure": "akhenaten"
+        "date": "2026-07-19",
+        "figure": "gilgamesh"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-15"
       ],
       "recent": [
         {
+          "figure": "gilgamesh",
+          "date": "2026-07-19",
+          "key": "atlantica:gilgamesh:2026-07-19"
+        },
+        {
           "figure": "akhenaten",
           "date": "2026-07-18",
           "key": "atlantica:akhenaten:2026-07-18"
+        },
+        {
+          "figure": "ingram",
+          "date": "2026-07-18",
+          "key": "atlantica:ingram:2026-07-18"
         },
         {
           "figure": "akhenaten",
@@ -85,19 +95,9 @@
           "figure": "david-hume",
           "date": "2026-07-08",
           "key": "atlantica:david-hume:2026-07-08"
-        },
-        {
-          "figure": "tacitus",
-          "date": "2026-07-08",
-          "key": "atlantica:tacitus:2026-07-08"
-        },
-        {
-          "figure": "marcus-aurelius",
-          "date": "2026-07-07",
-          "key": "atlantica:marcus-aurelius:2026-07-07"
         }
       ],
-      "note": "33 dispatch(es) in the hold · last 2026-07-18 (akhenaten) · MISSED 1 of the last 14 days"
+      "note": "35 dispatch(es) in the hold · last 2026-07-19 (gilgamesh) · MISSED 1 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
