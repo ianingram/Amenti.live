@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-19T00:30:49.146Z",
-    "reading": "2026-07-19T00:30:49.028Z",
+    "merged": "2026-07-19T00:53:46.941Z",
+    "reading": "2026-07-19T00:53:46.822Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -17,8 +17,8 @@ window.FLEET_MANIFEST = {
   "health": {
     "contradicted": 0,
     "unproven": 4,
-    "undeclared": 10,
-    "adrift": 3,
+    "undeclared": 11,
+    "adrift": 2,
     "clean": true
   },
   "drift": [
@@ -34,13 +34,6 @@ window.FLEET_MANIFEST = {
       "subject": "amenti-cassiel.js",
       "claim": "\"Cassiel, Reader of Names\" — crew",
       "reading": "loaded, and NOTHING CALLS Amenti.cassiel",
-      "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
-    },
-    {
-      "stamp": "ADRIFT",
-      "subject": "amenti-quiz.js",
-      "claim": "\"The Trial-Master\" — crew",
-      "reading": "loaded, and NOTHING CALLS amentiQuiz",
       "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
     },
     {
@@ -76,6 +69,13 @@ window.FLEET_MANIFEST = {
       "subject": "amenti-profile.js",
       "claim": "— nothing claims it —",
       "reading": "in the repo, LOADED by Page1.html",
+      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
+    },
+    {
+      "stamp": "UNDECLARED",
+      "subject": "amenti-roster.js",
+      "claim": "— nothing claims it —",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
@@ -783,7 +783,7 @@ window.FLEET_MANIFEST = {
       },
       "group": "crew",
       "stamps": [
-        "ADRIFT"
+        "CONFIRMED"
       ],
       "bytes": 29576,
       "sha256": "1e539b8ea07a27b5",
