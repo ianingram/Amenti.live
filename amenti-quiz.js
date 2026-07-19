@@ -32,8 +32,18 @@
 
   /* ---- styles (scoped aq-*, matches the gold/neon register) -------------- */
   var css = ''
+    + '.aq-cite{display:flex;flex-direction:column;gap:3px;margin:-6px 0 14px;padding:10px 0 0;border-top:1px solid #232838}'
+    + '.aq-cite-k{font-family:var(--mono,monospace);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#b87333}'
+    + '.aq-cite-w{font-size:14px;color:#c8ccdc;font-style:italic}'
+    + '.aq-cite-s{font-family:var(--mono,monospace);font-size:10px;color:#8f95ab;line-height:1.5}'
+    + '.aq-cite-a{font-family:var(--mono,monospace);font-size:10px;letter-spacing:.08em;color:#00ffe0;'
+    +   'text-decoration:none;margin-top:5px;background:none;border:1px solid #1d4a44;border-radius:3px;'
+    +   'padding:6px 10px;cursor:pointer;align-self:flex-start}'
+    + '.aq-cite-a:hover{color:#80ffc0}'
     + '.aq-beat{border-top:1px solid #232838;margin-top:22px;padding-top:18px}'
     + '.aq-beat.last{border-top:1px solid #d4a017}'
+    + '.aq-beat.room{border-top:1px solid #b87333}'
+    + '.aq-beat.room .aq-beat-k{color:#b87333}'
     + '.aq-beat-k{font-family:inherit;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#00ffe0;margin:0 0 5px}'
     + '.aq-beat.last .aq-beat-k{color:#d4a017}'
     + '.aq-beat-t{font-size:19px;color:#fff;margin:0 0 5px}'
@@ -213,9 +223,30 @@
       + '<p class="aq-sub">The read \u00b7 then ' + t.questions.length + ' questions</p>'
       + (t.intro ? '<p class="aq-intro">' + esc(t.intro) + '</p>' : '')
       + (t.passage ? '<p class="aq-passage">' + esc(t.passage) + '</p>' : '')
-      + '<p class="aq-hint">Read it once \u2014 the answers are in the passage.</p>'
+      /* SOURCE MODE. When the passage is the figure's own writing rather than a
+         summary of his life, say so. The words are public domain, which makes
+         quoting them lawful — it does not make them anonymous. It is also the
+         door to the reading room: a seeker who learns this is Tesla's 1892
+         lecture learns there are five hundred kilobytes more of him. */
+      + (t.attribution
+          ? '<p class="aq-cite">'
+            + '<span class="aq-cite-k">His own words</span>'
+            + (t.attribution.work ? '<span class="aq-cite-w">' + esc(t.attribution.work) + '</span>' : '')
+            + (t.attribution.source ? '<span class="aq-cite-s">' + esc(t.attribution.source) + '</span>' : '')
+            /* CITATION ONLY, HERE. Attribution belongs beside the quotation —
+               a seeker should know these are Tesla's words before reading them,
+               not after. The DOOR to the reading room is deliberately NOT on
+               this screen: a button offering to leave, placed before a single
+               question has been answered, is an exit sign at the entrance.
+               It waits for the end, where going deeper is the natural next act. */
+            + '</p>'
+          : '')
+      + '<p class="aq-hint">' + (t.attribution
+          ? 'Read it once \u2014 the answers are in his words.'
+          : 'Read it once \u2014 the answers are in the passage.') + '</p>'
       + '<div class="aq-center aq-row" style="justify-content:flex-start"><button class="aq-btn" id="aqBegin">Begin</button></div>';
     bind('#aqBegin', 'click', function () { state.idx = 0; renderQuestion(); });
+
   }
 
   function renderQuestion() {
@@ -323,12 +354,38 @@
         + '</div>';
     }
 
+    /* THE ROOM — the last beat of all, and only for a source quiz.
+       By now the seeker has read his paragraph, answered on it, argued about it
+       and heard it aloud. THAT is the moment to say there are five hundred
+       kilobytes more of him, and that the room reads it in his own voice. */
+    var attr = state && state.topic && state.topic.attribution;
+    if (attr && attr.room) {
+      tail +=
+        '<div class="aq-beat room">'
+        + '<p class="aq-beat-k">The whole work</p>'
+        + '<p class="aq-beat-t">' + esc(attr.work || 'The full text') + '</p>'
+        + '<p class="aq-beat-d">You have read one paragraph of it. '
+        +   'The reading room holds the whole lecture, and reads it aloud in '
+        +   (figure ? esc(figure) + '\u2019s' : 'his') + ' own voice.<br>'
+        +   '<span class="aq-cite-s">' + esc(attr.source || '') + '</span></p>'
+        + '<button class="aq-btn ghost" id="aqRoom">Enter the reading room \u2192</button>'
+        + '</div>';
+    }
+
     tail += '<div class="aq-center" style="margin-top:18px">'
          +  '<a class="aq-done" id="aqDone">Close</a></div>';
 
     boxBody.querySelector('.aq-res').insertAdjacentHTML('afterend', tail);
     bind('#aqRead', 'click', function () { close(); try { window.amentiReadAloud.open(_tid); } catch (e) {} });
     bind('#aqArgs', 'click', function () { renderFeed(_tid, _qid); });
+    bind('#aqRoom', 'click', function () {
+      var a = state && state.topic && state.topic.attribution;
+      if (!a) return;
+      if (window.Amenti && typeof window.Amenti.openReadingRoom === 'function') {
+        close();
+        try { window.Amenti.openReadingRoom(a.room); } catch (e) {}
+      } else if (a.url) { window.open(a.url, '_blank', 'noopener'); }
+    });
     bind('#aqDone', 'click', close);
     if (window.amentiAuth && typeof window.amentiAuth.refresh === 'function') { try { window.amentiAuth.refresh(); } catch (e) {} }
   }
