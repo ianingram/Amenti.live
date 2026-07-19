@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-19T01:03:12.004Z",
+    "generated": "2026-07-19T01:55:30.919Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -677,11 +677,12 @@
     },
     {
       "file": "amenti-roster.js",
-      "bytes": 7951,
-      "sha256": "b905867de2c1289b",
+      "bytes": 11491,
+      "sha256": "42a895dc3db8a060",
       "type": "js",
       "declares": [
-        "amentiRoster"
+        "amentiRoster",
+        "populateMiniPortraits"
       ],
       "loads": [],
       "calls": [
@@ -693,7 +694,7 @@
         },
         {
           "global": "amentiQuiz",
-          "line": 136,
+          "line": 192,
           "when": "function",
           "own": false
         }
@@ -830,7 +831,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 42121,
-      "sha256": "3bf2906e4029cc80",
+      "sha256": "5814c2540fea5948",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1088,7 +1089,8 @@
       {
         "file": "amenti-roster.js",
         "declares": [
-          "amentiRoster"
+          "amentiRoster",
+          "populateMiniPortraits"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
