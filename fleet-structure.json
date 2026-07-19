@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-19T04:59:03.724Z",
+    "generated": "2026-07-19T05:37:30.796Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -777,6 +777,17 @@
       "tables": []
     },
     {
+      "file": "art-batch1-douglass-keller.js",
+      "bytes": 12489,
+      "sha256": "4d136f307f93ac1a",
+      "type": "js",
+      "declares": [],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "assemble.js",
       "bytes": 17976,
       "sha256": "e9dab4947a14724e",
@@ -830,7 +841,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 42121,
-      "sha256": "aa36398340d8e822",
+      "sha256": "ca6923f818401352",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
