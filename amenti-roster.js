@@ -128,11 +128,17 @@
     list.forEach(function (t) { (FIRST.indexOf(t.id) === -1 ? tail : head).push(t); });
     head.sort(function (a, b) { return FIRST.indexOf(a.id) - FIRST.indexOf(b.id); });
     host.innerHTML = head.concat(tail).map(card).join('');
+    /* The grid carries .reveal-stagger, whose children sit at opacity:0 until the
+       parent gains .in from a scroll observer. An EMPTY grid has no height, so
+       that observer may never fire and the cards would never appear. We do not
+       depend on it: having rendered, we reveal our own host. */
+    host.classList.add('in');
     try { if (window.amentiQuiz && window.amentiQuiz.wireRoster) window.amentiQuiz.wireRoster(); } catch (e) {}
     host.setAttribute('data-count', head.length + tail.length);
   }
 
   function empty(host, msg) {
+    host.classList.add('in');
     host.innerHTML = '<div class="roster-empty" style="grid-column:1/-1;border:1px solid #3a3a52;'
       + 'border-radius:8px;padding:26px;text-align:center;color:#8f95ab">'
       + '<div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#f87171">Library unreachable</div>'
