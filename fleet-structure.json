@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-19T05:54:05.069Z",
+    "generated": "2026-07-19T05:54:39.560Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -319,6 +319,19 @@
       "sha256": "bac1afe0ec80e50b",
       "type": "html",
       "declares": [],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-art-2.js",
+      "bytes": 42003,
+      "sha256": "791cac4295f6b9e8",
+      "type": "js",
+      "declares": [
+        "AMENTI_SVG"
+      ],
       "loads": [],
       "calls": [],
       "endpoints": [],
@@ -829,8 +842,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 42386,
-      "sha256": "3d40a28e5ecddace",
+      "bytes": 42121,
+      "sha256": "b21b46e7bf477c83",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -839,25 +852,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 981,
+          "line": 974,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 982,
+          "line": 975,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 983,
+          "line": 976,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 984,
+          "line": 977,
           "when": "toplevel",
           "own": false
         }
@@ -1045,6 +1058,14 @@
   "findings": {
     "wiring": [],
     "adrift": [
+      {
+        "file": "amenti-art-2.js",
+        "declares": [
+          "AMENTI_SVG"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
       {
         "file": "amenti-canonical.js",
         "declares": [
