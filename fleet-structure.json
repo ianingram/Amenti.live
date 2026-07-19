@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-19T06:55:32.798Z",
+    "generated": "2026-07-19T06:59:41.306Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -847,7 +847,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 42637,
-      "sha256": "2497aff04c1ac9a7",
+      "sha256": "3e38cddffeb410d1",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1001,17 +1001,6 @@
         "/quizzard/ping",
         "/quizzard/run"
       ],
-      "tables": []
-    },
-    {
-      "file": "scan.js",
-      "bytes": 18216,
-      "sha256": "406966a125b543c4",
-      "type": "js",
-      "declares": [],
-      "loads": [],
-      "calls": [],
-      "endpoints": [],
       "tables": []
     },
     {

@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-19T06:55:32.915Z",
-    "reading": "2026-07-19T06:55:32.798Z",
+    "merged": "2026-07-19T06:59:41.434Z",
+    "reading": "2026-07-19T06:59:41.306Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -17,7 +17,7 @@ window.FLEET_MANIFEST = {
   "health": {
     "contradicted": 0,
     "unproven": 4,
-    "undeclared": 13,
+    "undeclared": 12,
     "adrift": 2,
     "clean": true
   },
@@ -116,13 +116,6 @@ window.FLEET_MANIFEST = {
     {
       "stamp": "UNDECLARED",
       "subject": "quizzard-bridge.html",
-      "claim": "— nothing claims it —",
-      "reading": "in the repo",
-      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
-    },
-    {
-      "stamp": "UNDECLARED",
-      "subject": "scan.js",
       "claim": "— nothing claims it —",
       "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
