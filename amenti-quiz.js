@@ -32,6 +32,14 @@
 
   /* ---- styles (scoped aq-*, matches the gold/neon register) -------------- */
   var css = ''
+    + '.aq-beat{border-top:1px solid #232838;margin-top:22px;padding-top:18px}'
+    + '.aq-beat.last{border-top:1px solid #d4a017}'
+    + '.aq-beat-k{font-family:inherit;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#00ffe0;margin:0 0 5px}'
+    + '.aq-beat.last .aq-beat-k{color:#d4a017}'
+    + '.aq-beat-t{font-size:19px;color:#fff;margin:0 0 5px}'
+    + '.aq-beat-d{font-size:14.5px;color:#8f95ab;line-height:1.55;margin:0 0 12px;max-width:52ch}'
+    + '.aq-done{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:#5c6274;cursor:pointer;text-decoration:none}'
+    + '.aq-done:hover{color:#8f95ab}'
     + '.aq-picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:14px}'
     + '.aq-pick{display:flex;flex-direction:column;gap:3px;text-align:left;background:#0d0f17;border:1px solid #343b52;'
     +   'border-radius:6px;padding:11px 13px;cursor:pointer;transition:.15s;font-family:inherit}'
@@ -278,11 +286,47 @@
     var philoQ = (state && state.topic) ? state.topic.questions.filter(function (q) { return q.answerType === 'philosophical' || q.answerType === 'paragraph'; })[0] : null;
     var _tid = (state && state.topic) ? state.topic.id : (r && r.topicId);
     var _qid = philoQ ? philoQ.id : null;
-    boxBody.querySelector('.aq-res').insertAdjacentHTML('afterend',
-      '<div class="aq-center aq-row" style="justify-content:center;margin-top:20px">'
-      + ((window.amentiReadAloud && state && state.topic) ? '<button class="aq-btn" id="aqRead">Read it aloud \u2192 +' + GLYPH + ' ET</button>' : '')
-      + (_qid ? '<button class="aq-btn ghost" id="aqArgs">Read the arguments</button>' : '')
-      + '<button class="aq-btn ghost" id="aqDone">Done</button></div>');
+    /* ---- THE CLOSING BEATS --------------------------------------------------
+       Read -> Answer -> ARGUE -> SPEAK. The two cases and the reading are not
+       options competing with Done; they are the last two movements of the arc.
+       The cases went onto the docket a moment ago — say so, and give them a
+       face. Then the passage returns, and it means something different now
+       that the seeker has argued about the person in it. -------------------- */
+    var published = (r.results || []).filter(function (x) { return x.published; }).length;
+    var figure = (state && state.topic && state.topic.facets && state.topic.facets.figure)
+                 ? state.topic.facets.figure[0] : null;
+    var tail = '';
+
+    if (published > 0 && _qid) {
+      tail +=
+        '<div class="aq-beat">'
+        + '<p class="aq-beat-k">On the docket</p>'
+        + '<p class="aq-beat-t">' + (published === 2 ? 'Both of your cases are filed.' : 'Your case is filed.') + '</p>'
+        + '<p class="aq-beat-d">'
+        +   (figure ? esc(figure) + ' is now argued by what you wrote. ' : '')
+        +   'Other seekers will read it, weigh it, and spend ' + GLYPH + ' to endorse it. '
+        +   'The strongest case takes the weekly pool.</p>'
+        + '<button class="aq-btn ghost" id="aqArgs">See how it stands \u2192</button>'
+        + '</div>';
+    }
+
+    if (window.amentiReadAloud && state && state.topic) {
+      tail +=
+        '<div class="aq-beat last">'
+        + '<p class="aq-beat-k">The last word</p>'
+        + '<p class="aq-beat-t">Now read it aloud.</p>'
+        + '<p class="aq-beat-d">You came to this passage looking for answers. '
+        +   'Read it again, out loud, now that you know what '
+        +   (figure ? esc(figure) : 'he') + ' did \u2014 and what can be said against '
+        +   (figure ? 'him' : 'him') + '.</p>'
+        + '<button class="aq-btn" id="aqRead">Read it aloud \u2192 +' + GLYPH + ' ET</button>'
+        + '</div>';
+    }
+
+    tail += '<div class="aq-center" style="margin-top:18px">'
+         +  '<a class="aq-done" id="aqDone">Close</a></div>';
+
+    boxBody.querySelector('.aq-res').insertAdjacentHTML('afterend', tail);
     bind('#aqRead', 'click', function () { close(); try { window.amentiReadAloud.open(_tid); } catch (e) {} });
     bind('#aqArgs', 'click', function () { renderFeed(_tid, _qid); });
     bind('#aqDone', 'click', close);
