@@ -607,6 +607,357 @@
 
     <ellipse cx="160" cy="550" rx="96" ry="14" fill="#b03030" opacity=".34"/>
   </svg>`;
+  // ────────────────────────────────────────────────────────────────────
+  // IAN INGRAM — the founder, in the present tense
+  //   Everyone else in this library is dead and dressed for their century.
+  //   He is not, so he is not drawn in a robe. Black, a cap, sneakers, and
+  //   the token at his throat — the same faceted emerald heart that sits on
+  //   the scale in the weighing hall and in the auth pill. The cape is the
+  //   only concession to the company he keeps.
+  F['ingram'] = () => `
+<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+  ${defs('ig','#7CFFC4','#0a2a20')}
+  <ellipse cx="160" cy="340" rx="160" ry="240" fill="url(#ig-bg)"/>
+
+  <!-- THE CAPE — behind everything, emerald-lined -->
+  <path d="M126 196 Q78 250 66 356 Q58 440 74 500 L118 500 Q104 420 112 340 Q120 258 138 208 Z" fill="#101a18"/>
+  <path d="M194 196 Q242 250 254 356 Q262 440 246 500 L202 500 Q216 420 208 340 Q200 258 182 208 Z" fill="#101a18"/>
+  <path d="M130 200 Q92 254 82 356 Q76 434 90 494 L108 494 Q96 418 104 342 Q112 262 138 210 Z" fill="#12332a" opacity=".85"/>
+  <path d="M190 200 Q228 254 238 356 Q244 434 230 494 L212 494 Q224 418 216 342 Q208 262 182 210 Z" fill="#12332a" opacity=".85"/>
+
+  <!-- NECK --><rect x="150" y="142" width="20" height="26" fill="url(#ig-skin)"/>
+  <!-- HEAD --><ellipse cx="160" cy="116" rx="29" ry="33" fill="url(#ig-skin)"/>
+
+  <!-- hair at the sides, under the cap -->
+  <path d="M131 116 Q129 100 134 92 Q133 106 137 122 Z" fill="#2e2820"/>
+  <path d="M189 116 Q191 100 186 92 Q187 106 183 122 Z" fill="#2e2820"/>
+
+  <!-- BASEBALL CAP — crown, seam, and a brim that reads from the front -->
+  <path d="M131 100 Q132 74 160 70 Q188 74 189 100 Q184 88 160 86 Q136 88 131 100 Z" fill="#16181c"/>
+  <path d="M160 70 L160 96" stroke="#22262c" stroke-width="1.4"/>
+  <path d="M144 74 Q152 90 150 98" stroke="#22262c" stroke-width="1.2" fill="none"/>
+  <path d="M176 74 Q168 90 170 98" stroke="#22262c" stroke-width="1.2" fill="none"/>
+  <circle cx="160" cy="70" r="2.6" fill="#22262c"/>
+  <!-- brim -->
+  <path d="M128 99 Q160 92 192 99 Q196 108 190 112 Q160 104 130 112 Q124 108 128 99 Z" fill="#101216"/>
+  <path d="M130 104 Q160 98 190 104" stroke="#22262c" stroke-width="1" fill="none" opacity=".8"/>
+  <!-- the mark on the cap -->
+  <path d="M160 78 l4 5 -4 5 -4 -5 Z" fill="#7CFFC4"/>
+
+  <!-- REFLECTING SUNGLASSES — one bar, two lenses, a hard streak of light -->
+  <path d="M134 112 Q160 108 186 112 L186 116 Q160 112 134 116 Z" fill="#16181c"/>
+  <path d="M134 114 Q136 130 150 130 Q160 130 159 118 Q160 114 134 114 Z" fill="#0e1a18"/>
+  <path d="M186 114 Q184 130 170 130 Q160 130 161 118 Q160 114 186 114 Z" fill="#0e1a18"/>
+  <path d="M138 118 L150 127" stroke="#7CFFC4" stroke-width="2.2" opacity=".8" stroke-linecap="round"/>
+  <path d="M166 118 L178 127" stroke="#7CFFC4" stroke-width="2.2" opacity=".8" stroke-linecap="round"/>
+  <path d="M143 116 L148 120" stroke="#d8fff0" stroke-width="1.2" opacity=".55" stroke-linecap="round"/>
+  <path d="M171 116 L176 120" stroke="#d8fff0" stroke-width="1.2" opacity=".55" stroke-linecap="round"/>
+  <path d="M134 114 L128 118" stroke="#16181c" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M186 114 L192 118" stroke="#16181c" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- nose + mouth, what is left of the face -->
+  <path d="M159 134 Q157 140 155 144 Q160 147 165 144 Q163 140 161 134" fill="#9c6f4c" opacity=".4"/>
+  <path d="M152 154 Q160 157 168 154" stroke="#7a5236" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+  <!-- close beard -->
+  <path d="M138 138 Q137 160 152 176 Q160 183 168 176 Q183 160 182 138 Q175 154 160 156 Q145 154 138 138 Z" fill="#2e2820" opacity=".75"/>
+
+  <!-- BODY — black, plain -->
+  <path d="M160 186 Q128 196 120 230 L114 372 L206 372 L200 230 Q192 196 160 186 Z" fill="#16181c"/>
+  <path d="M160 190 L160 372" stroke="#101216" stroke-width="1.4"/>
+  <!-- shoulders -->
+  <path d="M160 186 Q134 196 126 224 Q142 208 160 202 Z" fill="#1d2126"/>
+  <path d="M160 186 Q186 196 194 224 Q178 208 160 202 Z" fill="#1d2126"/>
+
+  <!-- CAPE CLASP AT THE THROAT — and the token set into it -->
+  <path d="M138 194 Q160 186 182 194" stroke="#0d1a16" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <circle cx="160" cy="200" r="15" fill="#0d1a16" stroke="#d4a017" stroke-width="1.8"/>
+  <!-- the emerald heart, faceted, gold-etched: the same token as the ledger -->
+  <g transform="translate(160,201) scale(0.30)">
+    <polygon points="0,-26 14,-32 26,-20 30,-4 22,14 0,34 -22,14 -30,-4 -26,-20 -14,-32"
+             fill="#0c4a2e" stroke="#d4a017" stroke-width="1.6" stroke-linejoin="round"/>
+    <polygon points="0,-26 14,-32 20,-16 0,-8" fill="#57c98a" stroke="#d4a017" stroke-width="1" stroke-opacity=".5"/>
+    <polygon points="0,-26 -14,-32 -20,-16 0,-8" fill="#4ab77c" stroke="#d4a017" stroke-width="1" stroke-opacity=".5"/>
+    <polygon points="20,-16 30,-4 18,10 0,-8" fill="#57c98a" stroke="#d4a017" stroke-width="1" stroke-opacity=".4"/>
+    <polygon points="-20,-16 -30,-4 -18,10 0,-8" fill="#3fa46c" stroke="#d4a017" stroke-width="1" stroke-opacity=".4"/>
+    <polygon points="0,-8 18,10 0,34 -18,10" fill="#4ab77c" stroke="#d4a017" stroke-width="1" stroke-opacity=".45"/>
+    <polygon points="0,-8 8,6 0,20 -8,6" fill="#6fdc9c" opacity=".9"/>
+  </g>
+
+  <!-- BELT + BUCKLE -->
+  <path d="M114 366 L206 366" stroke="#0d0f12" stroke-width="12"/>
+  <rect x="146" y="358" width="28" height="17" rx="3" fill="#c8a02a" stroke="#8a6b16" stroke-width="1.4"/>
+  <path d="M160 362 l3.4 4.2 -3.4 4.2 -3.4 -4.2 Z" fill="#0d1a16"/>
+
+  <!-- BLACK PANTS -->
+  <path d="M120 375 L126 500 L154 500 L157 375 Z" fill="#111318"/>
+  <path d="M200 375 L194 500 L166 500 L163 375 Z" fill="#111318"/>
+  <path d="M138 380 L134 496" stroke="#1a1d23" stroke-width="1.2"/>
+  <path d="M182 380 L186 496" stroke="#1a1d23" stroke-width="1.2"/>
+
+  <!-- WHITE SNEAKERS -->
+  <path d="M120 500 Q118 520 124 526 L158 526 Q160 512 156 500 Z" fill="#f2f2ee"/>
+  <path d="M200 500 Q202 520 196 526 L162 526 Q160 512 164 500 Z" fill="#f2f2ee"/>
+  <path d="M118 520 L158 520 M162 520 L202 520" stroke="#cfcfc8" stroke-width="3"/>
+  <path d="M128 506 L150 506 M128 512 L150 512" stroke="#d8d8d2" stroke-width="1.2"/>
+  <path d="M170 506 L192 506 M170 512 L192 512" stroke="#d8d8d2" stroke-width="1.2"/>
+  <path d="M126 526 L156 526 M164 526 L194 526" stroke="#7CFFC4" stroke-width="1.6" opacity=".55"/>
+
+  <!-- HANDS -->
+  <ellipse cx="116" cy="330" rx="10" ry="13" fill="url(#ig-skin)" transform="rotate(-8 116 330)"/>
+  <ellipse cx="204" cy="330" rx="10" ry="13" fill="url(#ig-skin)" transform="rotate(8 204 330)"/>
+
+  <ellipse cx="160" cy="546" rx="92" ry="14" fill="#7CFFC4" opacity=".30"/>
+</svg>`;
+
+  // ────────────────────────────────────────────────────────────────────
+  // MARCUS MANLIUS CAPITOLINUS — the geese, and the rock
+  //   90 combat, 56 foresight: he could hold a wall and could not see a trial
+  //   coming. Drawn on the Capitol at night, the moment he is still a hero —
+  //   with the Tarpeian Rock already at his shoulder, because it is the same
+  //   hill. The geese are behind him. They saw it first.
+  F['manlius'] = () => `
+<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+  ${defs('mn','#d4a017','#2a2008')}
+  <ellipse cx="160" cy="340" rx="160" ry="240" fill="url(#mn-bg)"/>
+
+  <!-- THE CLIFF — the same rock he was thrown from -->
+  <path d="M246 560 L238 236 Q256 210 284 206 L306 214 L306 560 Z" fill="#26231c" opacity=".9"/>
+  <path d="M252 300 L300 292 M250 356 L302 348 M248 412 L304 404" stroke="#1d1a15" stroke-width="1.6" opacity=".7"/>
+  <!-- the drop -->
+  <path d="M238 236 Q244 260 240 300" stroke="#d4a017" stroke-width="1" fill="none" opacity=".2"/>
+
+  <!-- THE GEESE — behind him, and they woke first -->
+  <ellipse cx="52" cy="452" rx="17" ry="12" fill="#e8e4d8" opacity=".9"/>
+  <path d="M60 444 Q66 424 62 412 Q56 424 56 442 Z" fill="#e8e4d8" opacity=".9"/>
+  <circle cx="62" cy="410" r="5" fill="#eeeae0"/>
+  <path d="M66 410 L74 412" stroke="#d4a017" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="64" cy="408" r="1" fill="#2a2118"/>
+  <ellipse cx="88" cy="470" rx="14" ry="10" fill="#dcd8cc" opacity=".7"/>
+  <path d="M94 464 Q99 448 96 438 Q91 448 91 462 Z" fill="#dcd8cc" opacity=".7"/>
+  <circle cx="96" cy="436" r="4" fill="#e4e0d4" opacity=".8"/>
+  <path d="M46 434 Q40 424 44 418" stroke="#e8e4d8" stroke-width="2" fill="none" opacity=".5"/>
+
+  <!-- BACK HAIR -->
+  <path d="M128 118 Q114 88 132 66 Q124 98 132 124 Q120 146 128 168 Q112 142 128 118 Z" fill="#3a2c1c"/>
+  <path d="M192 118 Q206 88 188 66 Q196 98 188 124 Q200 146 192 168 Q208 142 192 118 Z" fill="#3a2c1c"/>
+
+  <!-- NECK --><rect x="150" y="142" width="20" height="26" fill="url(#mn-skin)"/>
+  <!-- HEAD --><ellipse cx="160" cy="116" rx="29" ry="33" fill="url(#mn-skin)"/>
+
+  <!-- HAIR — Roman, short, forward -->
+  <path d="M131 102 Q132 76 160 70 Q188 76 189 102 Q184 88 174 86 Q176 82 164 84 Q168 80 160 82 Q152 80 156 84 Q144 82 146 86 Q136 88 131 102 Z" fill="#4a3a24"/>
+  <path d="M129 106 Q126 80 140 68 Q132 94 136 122 Q130 114 129 106 Z" fill="#3a2c1c"/>
+  <path d="M191 106 Q194 80 180 68 Q188 94 184 122 Q190 114 191 106 Z" fill="#3a2c1c"/>
+
+  <!-- BROWS · EYES — blunt, aggrieved -->
+  <path d="M140 108 Q149 102 158 108" stroke="#2e2216" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M162 108 Q171 102 180 108" stroke="#2e2216" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <ellipse cx="149" cy="119" rx="4.8" ry="3.1" fill="#f4eede" opacity=".92"/>
+  <ellipse cx="171" cy="119" rx="4.8" ry="3.1" fill="#f4eede" opacity=".92"/>
+  <circle cx="150" cy="120" r="2.2" fill="#2a2118"/><circle cx="170" cy="120" r="2.2" fill="#2a2118"/>
+  <path d="M159 123 Q157 133 155 140 Q160 143 165 140 Q163 133 161 123" fill="#9c6f4c" opacity=".42"/>
+  <path d="M150 152 L170 152" stroke="#7a5236" stroke-width="1.9" stroke-linecap="round"/>
+  <!-- a scar from the wall -->
+  <path d="M182 108 L188 124" stroke="#a8624a" stroke-width="1.6" opacity=".6" stroke-linecap="round"/>
+
+  <!-- LORICA — muscled cuirass -->
+  <path d="M160 186 Q124 198 114 234 L108 384 Q114 420 128 436 L192 436 Q206 420 212 384 L206 234 Q196 198 160 186 Z" fill="#8a7038"/>
+  <path d="M160 200 L160 384" stroke="#6e5828" stroke-width="1.6"/>
+  <path d="M132 240 Q146 254 148 276 M188 240 Q174 254 172 276" stroke="#6e5828" stroke-width="2.2" fill="none"/>
+  <path d="M118 300 Q160 314 202 300" stroke="#6e5828" stroke-width="2.4" fill="none"/>
+  <path d="M114 340 Q160 354 206 340" stroke="#6e5828" stroke-width="2" fill="none" opacity=".8"/>
+  <!-- pteruges -->
+  <path d="M116 436 L114 476 L132 476 L133 436 Z" fill="#7a6230"/>
+  <path d="M140 436 L139 480 L157 480 L157 436 Z" fill="#8a7038"/>
+  <path d="M163 436 L163 480 L181 480 L182 436 Z" fill="#8a7038"/>
+  <path d="M187 436 L188 476 L206 476 L204 436 Z" fill="#7a6230"/>
+
+  <!-- RED CLOAK on one shoulder -->
+  <path d="M160 188 Q198 198 208 228 L216 330 Q202 272 184 224 Z" fill="#9c2f24"/>
+  <circle cx="196" cy="212" r="6" fill="none" stroke="#d4a017" stroke-width="2.2"/>
+
+  <!-- LEGS -->
+  <path d="M136 480 L130 526 L154 526 L156 480 Z" fill="url(#mn-skin)"/>
+  <path d="M184 480 L190 526 L166 526 L164 480 Z" fill="url(#mn-skin)"/>
+  <path d="M130 512 L154 512 M166 512 L190 512" stroke="#6a4a2c" stroke-width="3"/>
+
+  <!-- ARMS + THE SHIELD HE HELD THE WALL WITH -->
+  <path d="M118 232 L98 322" stroke="#9c6f4c" stroke-width="17" stroke-linecap="round"/>
+  <path d="M202 232 L222 322" stroke="#9c6f4c" stroke-width="17" stroke-linecap="round"/>
+  <ellipse cx="224" cy="336" rx="11" ry="14" fill="url(#mn-skin)"/>
+  <ellipse cx="98" cy="330" rx="34" ry="44" fill="#7a2b22" stroke="#d4a017" stroke-width="2.6"/>
+  <path d="M98 296 L98 364 M74 330 L122 330" stroke="#d4a017" stroke-width="2" opacity=".8"/>
+  <circle cx="98" cy="330" r="8" fill="#d4a017" opacity=".9"/>
+
+  <ellipse cx="160" cy="548" rx="98" ry="14" fill="#d4a017" opacity=".34"/>
+</svg>`;
+
+  // ────────────────────────────────────────────────────────────────────
+  // AYN RAND — the smallest fighter in the set, and none of it is physical
+  //   14 combat. So: no weapon, no armour, a cigarette holder and a manuscript,
+  //   and behind her the skyline she spent a life arguing was a moral object.
+  //   The dollar sign is hers — she had it on her funeral wreath.
+  F['ayn-rand'] = () => `
+<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+  ${defs('ar','#c04a3a','#2a1210')}
+  <ellipse cx="160" cy="340" rx="160" ry="240" fill="url(#ar-bg)"/>
+
+  <!-- THE SKYLINE — the argument, in the background -->
+  <path d="M18 560 L18 300 L44 300 L44 560 Z" fill="#241a18" opacity=".75"/>
+  <path d="M50 560 L50 250 L72 250 L72 560 Z" fill="#2c201d" opacity=".8"/>
+  <path d="M78 560 L78 330 L96 330 L96 560 Z" fill="#241a18" opacity=".7"/>
+  <path d="M228 560 L228 268 L250 268 L250 560 Z" fill="#2c201d" opacity=".8"/>
+  <path d="M256 560 L256 316 L278 316 L278 560 Z" fill="#241a18" opacity=".7"/>
+  <path d="M284 560 L284 236 L302 236 L302 560 Z" fill="#2c201d" opacity=".78"/>
+  <path d="M56 262 L66 262 M56 286 L66 286 M56 310 L66 310" stroke="#c04a3a" stroke-width="1.6" opacity=".35"/>
+  <path d="M290 250 L298 250 M290 274 L298 274 M290 298 L298 298" stroke="#c04a3a" stroke-width="1.6" opacity=".3"/>
+
+  <!-- BACK HAIR — the blunt bob she wore -->
+  <path d="M126 116 Q118 90 134 74 Q126 98 132 122 Q124 140 128 158 Q116 138 126 116 Z" fill="#2a2018"/>
+  <path d="M194 116 Q202 90 186 74 Q194 98 188 122 Q196 140 192 158 Q204 138 194 116 Z" fill="#2a2018"/>
+
+  <!-- NECK --><rect x="150" y="142" width="20" height="26" fill="url(#ar-skin)"/>
+  <!-- HEAD --><ellipse cx="160" cy="116" rx="29" ry="33" fill="url(#ar-skin)"/>
+
+  <!-- HAIR — short, severe, side-parted -->
+  <path d="M130 104 Q130 76 160 70 Q190 76 190 104 Q184 84 158 80 Q136 82 130 104 Z" fill="#332720"/>
+  <path d="M146 78 Q166 72 186 84" stroke="#2a2018" stroke-width="1.6" fill="none" opacity=".8"/>
+  <path d="M128 110 Q125 82 138 72 Q130 96 134 126 Q129 118 128 110 Z" fill="#2a2018"/>
+  <path d="M192 110 Q195 82 182 72 Q190 96 186 126 Q191 118 192 110 Z" fill="#2a2018"/>
+
+  <!-- BROWS · EYES — the famous unblinking stare, very wide -->
+  <path d="M140 105 Q149 100 158 105" stroke="#241c14" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <path d="M162 105 Q171 100 180 105" stroke="#241c14" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="149" cy="118" rx="5.4" ry="4.2" fill="#f6ece6" opacity=".95"/>
+  <ellipse cx="171" cy="118" rx="5.4" ry="4.2" fill="#f6ece6" opacity=".95"/>
+  <circle cx="150" cy="119" r="2.6" fill="#2a1c14"/><circle cx="170" cy="119" r="2.6" fill="#2a1c14"/>
+  <circle cx="151" cy="117.5" r=".9" fill="#fff" opacity=".8"/><circle cx="171" cy="117.5" r=".9" fill="#fff" opacity=".8"/>
+  <path d="M159 122 Q157 132 155 139 Q160 142 165 139 Q163 132 161 122" fill="#9c6f4c" opacity=".4"/>
+  <path d="M152 152 Q160 154 168 151" stroke="#a03c30" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- DRESS — dark, plain, buttoned to the throat -->
+  <path d="M160 184 Q126 194 116 230 L106 428 Q112 474 126 494 L194 494 Q208 474 214 428 L204 230 Q194 194 160 184 Z" fill="#241c22"/>
+  <path d="M160 184 L160 494" stroke="#1a1418" stroke-width="1.4"/>
+  <circle cx="160" cy="228" r="2.4" fill="#c04a3a" opacity=".85"/>
+  <circle cx="160" cy="262" r="2.4" fill="#c04a3a" opacity=".85"/>
+  <circle cx="160" cy="296" r="2.4" fill="#c04a3a" opacity=".85"/>
+  <!-- collar -->
+  <path d="M146 170 L160 186 L174 170 L180 178 L160 194 L140 178 Z" fill="#3a2e34"/>
+  <!-- the brooch: a dollar sign, which she meant -->
+  <circle cx="160" cy="206" r="9" fill="#1a1418" stroke="#c8a02a" stroke-width="1.6"/>
+  <path d="M160 200 L160 212" stroke="#c8a02a" stroke-width="1.6"/>
+  <path d="M163 202 Q156 202 156 205 Q156 208 164 208 Q164 211 157 211" stroke="#c8a02a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+
+  <!-- THE CIGARETTE HOLDER — the one prop she is never without -->
+  <ellipse cx="212" cy="300" rx="10" ry="13" fill="url(#ar-skin)" transform="rotate(12 212 300)"/>
+  <path d="M216 290 L246 258" stroke="#1a1418" stroke-width="3" stroke-linecap="round"/>
+  <path d="M246 258 L254 250" stroke="#e8e2d8" stroke-width="3.4" stroke-linecap="round"/>
+  <circle cx="256" cy="248" r="2" fill="#ff8a5a" opacity=".9"/>
+  <path d="M258 244 Q266 232 262 222" stroke="#c8bcb4" stroke-width="1.2" fill="none" opacity=".45"/>
+  <path d="M262 222 Q256 210 262 200" stroke="#c8bcb4" stroke-width="1" fill="none" opacity=".3"/>
+
+  <!-- THE MANUSCRIPT — held, not displayed -->
+  <ellipse cx="108" cy="348" rx="10" ry="13" fill="url(#ar-skin)" transform="rotate(-10 108 348)"/>
+  <path d="M88 322 L126 316 L132 384 L94 390 Z" fill="#efe9db" opacity=".93"/>
+  <path d="M96 334 L122 330 M96 344 L124 340 M96 354 L120 350 M96 364 L123 360"
+        stroke="#8d8177" stroke-width="1.1" opacity=".7"/>
+  <path d="M98 372 L116 369" stroke="#c04a3a" stroke-width="1.4" opacity=".8"/>
+
+  <ellipse cx="160" cy="550" rx="92" ry="14" fill="#c04a3a" opacity=".32"/>
+</svg>`;
+
+  // ────────────────────────────────────────────────────────────────────
+  // LEIF ERIKSON — the one with no reading room, who proved the pipeline
+  //   88 foresight, 76 combat: a navigator first. So he is drawn reading the
+  //   water, not raising an axe. Vinland's grapes are on the shore behind him,
+  //   the prow of the knarr beside him, and the ice he read to get there.
+  F['leif-erikson'] = () => `
+<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+  ${defs('le','#4a8f7b','#0a2822')}
+  <ellipse cx="160" cy="340" rx="160" ry="240" fill="url(#le-bg)"/>
+
+  <!-- THE PROW — a knarr, drawn up on the shore -->
+  <path d="M232 500 Q244 430 268 392 Q286 364 288 340 Q276 356 262 372" fill="none" stroke="#4a3a28" stroke-width="9" stroke-linecap="round"/>
+  <path d="M288 340 Q296 326 290 314 Q282 324 284 338 Z" fill="#5c4a34"/>
+  <path d="M240 470 Q262 452 276 424" stroke="#3a2c1e" stroke-width="3" fill="none" opacity=".8"/>
+  <!-- shields on the rail -->
+  <circle cx="248" cy="452" r="10" fill="#7a3028" stroke="#c8a02a" stroke-width="1.4" opacity=".85"/>
+  <circle cx="262" cy="424" r="9" fill="#2c4a5c" stroke="#c8a02a" stroke-width="1.4" opacity=".8"/>
+
+  <!-- VINLAND — grapes, the thing he named it for -->
+  <path d="M40 300 Q52 316 48 340" stroke="#3d6b4a" stroke-width="2" fill="none" opacity=".7"/>
+  <circle cx="42" cy="348" r="5" fill="#5c3a6a" opacity=".8"/><circle cx="52" cy="352" r="5" fill="#6a4278" opacity=".8"/>
+  <circle cx="47" cy="360" r="5" fill="#5c3a6a" opacity=".8"/><circle cx="57" cy="364" r="4.4" fill="#6a4278" opacity=".7"/>
+  <circle cx="50" cy="372" r="4.4" fill="#553468" opacity=".7"/>
+  <path d="M36 330 Q26 336 28 348 Q38 342 40 332 Z" fill="#3d6b4a" opacity=".6"/>
+
+  <!-- BACK HAIR — long, fair, wind-blown -->
+  <path d="M126 118 Q110 86 130 62 Q120 98 128 126 Q114 152 124 178 Q104 148 126 118 Z" fill="#8a7040"/>
+  <path d="M194 118 Q210 86 190 62 Q200 98 192 126 Q206 152 196 178 Q216 148 194 118 Z" fill="#8a7040"/>
+
+  <!-- NECK --><rect x="150" y="142" width="20" height="26" fill="url(#le-skin)"/>
+  <!-- HEAD --><ellipse cx="160" cy="116" rx="29" ry="33" fill="url(#le-skin)"/>
+
+  <!-- HAIR — fair, pushed back off the brow -->
+  <path d="M130 100 Q131 74 160 68 Q189 74 190 100 Q182 82 160 78 Q138 82 130 100 Z" fill="#a08850"/>
+  <path d="M128 106 Q124 78 139 64 Q130 92 134 124 Q129 114 128 106 Z" fill="#8a7040"/>
+  <path d="M192 106 Q196 78 181 64 Q190 92 186 124 Q191 114 192 106 Z" fill="#8a7040"/>
+  <!-- a single braid at the temple -->
+  <circle cx="134" cy="124" r="3.2" fill="#8a7040"/><circle cx="133" cy="132" r="3" fill="#98803f"/>
+  <circle cx="133" cy="140" r="2.8" fill="#8a7040"/>
+
+  <!-- BROWS · EYES — reading the horizon, not meeting yours -->
+  <path d="M140 107 Q149 102 157 107" stroke="#6a5630" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+  <path d="M163 107 Q171 102 180 107" stroke="#6a5630" stroke-width="2.3" fill="none" stroke-linecap="round"/>
+  <ellipse cx="149" cy="118" rx="4.8" ry="3" fill="#e6f2ee" opacity=".92"/>
+  <ellipse cx="171" cy="118" rx="4.8" ry="3" fill="#e6f2ee" opacity=".92"/>
+  <circle cx="152" cy="119" r="2.2" fill="#4a8f7b"/><circle cx="172" cy="119" r="2.2" fill="#4a8f7b"/>
+  <path d="M159 122 Q157 132 155 139 Q160 142 165 139 Q163 132 161 122" fill="#9c6f4c" opacity=".42"/>
+  <path d="M151 151 Q160 153 169 151" stroke="#7a5236" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+  <!-- BEARD — fair, short, salt-stiff -->
+  <path d="M136 138 Q135 166 152 182 Q160 190 168 182 Q185 166 184 138 Q176 156 160 158 Q144 156 136 138 Z" fill="#a08850"/>
+  <circle cx="145" cy="152" r="4.2" fill="#8a7040"/><circle cx="160" cy="170" r="4.6" fill="#98803f"/>
+  <circle cx="175" cy="152" r="4.2" fill="#8a7040"/>
+
+  <!-- TUNIC + FUR-TRIMMED CLOAK -->
+  <path d="M160 186 Q126 198 116 234 L108 424 Q114 470 128 490 L192 490 Q206 470 212 424 L204 234 Q194 198 160 186 Z" fill="#3d5a52"/>
+  <path d="M160 186 Q128 198 118 238 L112 428 L160 438 Z" fill="#456459"/>
+  <path d="M118 236 Q160 250 202 236" stroke="#2e463f" stroke-width="2.2" fill="none"/>
+  <path d="M114 330 Q160 344 206 330" stroke="#2e463f" stroke-width="2" fill="none" opacity=".8"/>
+  <!-- fur collar -->
+  <path d="M136 190 Q160 182 184 190 Q176 204 160 206 Q144 204 136 190 Z" fill="#6e6254"/>
+  <circle cx="144" cy="194" r="4" fill="#7e7264"/><circle cx="154" cy="198" r="4.4" fill="#8a7e70"/>
+  <circle cx="166" cy="198" r="4.4" fill="#8a7e70"/><circle cx="176" cy="194" r="4" fill="#7e7264"/>
+  <!-- cloak pin -->
+  <circle cx="196" cy="216" r="7" fill="none" stroke="#c8a02a" stroke-width="2.2"/>
+  <path d="M190 216 L202 216" stroke="#c8a02a" stroke-width="1.8"/>
+
+  <!-- BELT -->
+  <path d="M112 340 L208 340" stroke="#3a2c1e" stroke-width="8"/>
+  <rect x="150" y="333" width="20" height="15" rx="2.5" fill="#c8a02a"/>
+
+  <!-- LEGS + BOOTS -->
+  <path d="M134 490 L128 526 L154 526 L156 490 Z" fill="#33463f"/>
+  <path d="M186 490 L192 526 L166 526 L164 490 Z" fill="#33463f"/>
+  <path d="M126 522 L156 522 M164 522 L194 522" stroke="#4a3a28" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- HANDS — one shading the eyes, one on the rail -->
+  <path d="M120 240 L104 200" stroke="#9c6f4c" stroke-width="15" stroke-linecap="round"/>
+  <ellipse cx="112" cy="152" rx="12" ry="9" fill="url(#le-skin)" transform="rotate(-24 112 152)"/>
+  <path d="M104 190 L108 166" stroke="#9c6f4c" stroke-width="13" stroke-linecap="round"/>
+  <ellipse cx="212" cy="352" rx="11" ry="14" fill="url(#le-skin)" transform="rotate(10 212 352)"/>
+
+  <!-- THE ICE HE READ TO GET THERE -->
+  <path d="M18 452 L44 440 L66 452 L40 462 Z" fill="#8fb8c8" opacity=".28"/>
+  <path d="M262 494 L292 482 L312 494 L284 504 Z" fill="#8fb8c8" opacity=".22"/>
+
+  <!-- THE SEA -->
+  <path d="M14 522 Q56 514 98 522 T182 522 T266 522 T310 522" stroke="#4a8f7b" stroke-width="1.6" fill="none" opacity=".38"/>
+  <path d="M14 536 Q60 528 106 536 T198 536 T290 536" stroke="#4a8f7b" stroke-width="1.2" fill="none" opacity=".24"/>
+
+  <ellipse cx="160" cy="548" rx="94" ry="14" fill="#4a8f7b" opacity=".32"/>
+</svg>`;
+
   /* the roster repaints when the library grows */
   try { if (window.amentiRoster && window.amentiRoster.refresh) window.amentiRoster.refresh(); } catch (e) {}
 })();
