@@ -1,5 +1,5 @@
 {
-  "at": "2026-07-18T18:36:09.978Z",
+  "at": "2026-07-19T00:56:56.917Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 49,
@@ -8,8 +8,8 @@
       "dailyplanet:": 3
     }
   },
-  "today": "2026-07-18",
-  "thisWeek": "2026-07-12",
+  "today": "2026-07-19",
+  "thisWeek": "2026-07-19",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
     "ATLANTICA": {
@@ -21,7 +21,7 @@
         "date": "2026-07-18",
         "figure": "akhenaten"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-07-15"
       ],
@@ -111,7 +111,7 @@
         "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
       },
       "fired": 0,
-      "thisWeek": "2026-07-12",
+      "thisWeek": "2026-07-19",
       "assembled": false,
       "delivered": false,
       "schedule": {
@@ -122,14 +122,14 @@
       "lastDelivery": null,
       "recent": [],
       "missedLast8": [
+        "2026-07-12",
         "2026-07-05",
         "2026-06-28",
         "2026-06-21",
         "2026-06-14",
         "2026-06-07",
         "2026-05-31",
-        "2026-05-24",
-        "2026-05-17"
+        "2026-05-24"
       ],
       "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 2 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
