@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-19T07:00:02.606Z",
+    "generated": "2026-07-19T07:04:17.326Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -847,7 +847,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 42394,
-      "sha256": "985945b413a5f52f",
+      "sha256": "75615e47320cc735",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1062,7 +1062,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 19,
+    "count": 20,
     "files": [
       {
         "file": "probe-ordnance.mjs",
@@ -1135,6 +1135,12 @@
         "title": "THE GLASS GATE",
         "guards": "If a line could be falsified by a grep, it does not belong in the claims.",
         "bytes": 8254
+      },
+      {
+        "file": "probe19.js",
+        "title": "THE BRIDGE",
+        "guards": "the Quizzard bridge — the only surface that drives the engine",
+        "bytes": 11072
       },
       {
         "file": "probe2.js",
