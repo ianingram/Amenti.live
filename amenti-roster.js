@@ -73,6 +73,49 @@
     'Science & Invention': '\u269B\uFE0F'
   };
 
+  /* THE ATTRIBUTES.
+     window.AMENTI_CHARS holds a codex record per character: a bio, abilities,
+     a voice, and four scores — strategy, charisma, foresight, combat. Twelve of
+     the quiz figures have one; the rest do not, and NOTHING IS INVENTED for
+     them. A card with no record simply carries no bars.
+
+     Matching is deliberately strict. A loose first-name match would hand
+     Marcus MANLIUS the stats of Marcus AURELIUS — a quiet, plausible lie of
+     exactly the kind this whole system exists to prevent. So a record is
+     claimed only when the LAST name agrees, or one full name contains the
+     other ("Moses" inside "Moses ben Amram"). */
+  function words(x) {
+    return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
+  }
+  function codexFor(figure) {
+    var chars = window.AMENTI_CHARS;
+    if (!Array.isArray(chars) || !figure) return null;
+    var f = words(figure); if (!f.length) return null;
+    var fs = f.join(' ');
+    for (var i = 0; i < chars.length; i++) {
+      var c = chars[i]; if (!c || !c.name) continue;
+      var n = words(c.name); if (!n.length) continue;
+      var ns = n.join(' ');
+      if (f[f.length - 1] === n[n.length - 1]) return c;
+      if (fs.indexOf(ns) !== -1 || ns.indexOf(fs) !== -1) return c;
+    }
+    return null;
+  }
+
+  var STAT_LABEL = { strategy: 'STR', charisma: 'CHA', foresight: 'FOR', combat: 'CBT' };
+  function statBars(c) {
+    if (!c || !c.stats) return '';
+    var rows = ['strategy', 'charisma', 'foresight', 'combat'].map(function (k) {
+      var v = Number(c.stats[k]);
+      if (!isFinite(v)) return '';
+      return '<div class="rc-attr">'
+        + '<span class="rc-attr-k">' + STAT_LABEL[k] + '</span>'
+        + '<span class="rc-attr-bar"><i style="width:' + Math.max(0, Math.min(100, v)) + '%"></i></span>'
+        + '<span class="rc-attr-v">' + v + '</span></div>';
+    }).join('');
+    return rows ? '<div class="rc-attrs">' + rows + '</div>' : '';
+  }
+
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
       return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c];
@@ -85,16 +128,25 @@
     return DOMAIN_ICON[dom] || '\u25C8';
   }
 
-  /* Where a figure also exists as a summonable character, keep the index so the
-     voice and chat systems still recognise the card. Absent is fine. */
+  /* THE PORTRAITS.
+     Six figures have hand-drawn SVG artwork, living in the hero carousel as
+     .char-slide[data-idx]. populateMiniPortraits() clones that art into any
+     card carrying a matching data-char. Lose data-char and you lose the face.
+
+     This map is the hero slide order — it is the ONLY link between a card and
+     its portrait, so it is written out plainly rather than guessed at from a
+     name lookup. Figures without art simply wear their badge. */
+  var PORTRAIT = {
+    'Abraham Lincoln': 0,
+    'Miyamoto Musashi': 1,
+    'Julius Caesar': 2,
+    'Mahatma Gandhi': 3,
+    'Moses': 4,
+    'Hannibal Barca': 5
+  };
   function charIndexFor(figure) {
-    var chars = window.AMENTI_CHARS;
-    if (!Array.isArray(chars)) return null;
-    for (var i = 0; i < chars.length; i++) {
-      var n = chars[i] && (chars[i].name || chars[i].fullName);
-      if (n && String(n).toLowerCase() === String(figure).toLowerCase()) return i;
-    }
-    return null;
+    var i = PORTRAIT[figure];
+    return (i === undefined) ? null : i;
   }
 
   function card(t) {
@@ -111,6 +163,7 @@
       + '<div class="rc-info">'
       +   '<div class="rc-name">' + esc(fig) + '</div>'
       +   '<div class="rc-era">' + esc(era) + '</div>'
+      +   statBars(codexFor(fig))
       +   '<div class="rc-stats">'
       +     '<span class="rc-stat">' + (n ? n + ' QUESTIONS' : 'QUIZ') + '</span>'
       +     '<span class="rc-stat">BIO REWARD</span>'
@@ -133,6 +186,9 @@
        that observer may never fire and the cards would never appear. We do not
        depend on it: having rendered, we reveal our own host. */
     host.classList.add('in');
+    /* populateMiniPortraits() runs at page load, long before these cards exist,
+       so the six with artwork would come up blank. Call it again now. */
+    try { if (typeof window.populateMiniPortraits === 'function') window.populateMiniPortraits(); } catch (e) {}
     try { if (window.amentiQuiz && window.amentiQuiz.wireRoster) window.amentiQuiz.wireRoster(); } catch (e) {}
     host.setAttribute('data-count', head.length + tail.length);
   }
@@ -146,7 +202,24 @@
       + '<div style="margin-top:6px;font-size:13px;opacity:.7">The arena shows what is real or it shows nothing.</div></div>';
   }
 
+  /* Injected here rather than added to Page1, so the roster stays one file. */
+  function injectCss() {
+    if (document.getElementById('amenti-roster-css')) return;
+    var st = document.createElement('style');
+    st.id = 'amenti-roster-css';
+    st.textContent =
+      '.rc-attrs{margin:7px 0 2px;display:flex;flex-direction:column;gap:3px}'
+    + '.rc-attr{display:grid;grid-template-columns:26px 1fr 22px;align-items:center;gap:6px}'
+    + '.rc-attr-k{font-family:var(--mono,monospace);font-size:8px;letter-spacing:.1em;color:#6b7180}'
+    + '.rc-attr-v{font-family:var(--mono,monospace);font-size:8.5px;color:#8f95ab;text-align:right}'
+    + '.rc-attr-bar{position:relative;height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}'
+    + '.rc-attr-bar > i{position:absolute;left:0;top:0;bottom:0;display:block;'
+    +   'background:linear-gradient(90deg,#8a6510,#d4a017);border-radius:2px}';
+    document.head.appendChild(st);
+  }
+
   function boot() {
+    injectCss();
     var host = document.getElementById('amenti-roster');
     if (!host) return;
     fetch(MINT + '/quiz/topics')
