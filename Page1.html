@@ -3500,6 +3500,122 @@ window.AMENTI_CHARS = [
     voice:"Contemporary American English, warm and measured — a builder thinking aloud. Unhurried and precise, given to metaphor drawn from systems, architecture, and the mind.",
     gender:"male", dialect:"contemporary American English, warm and measured"
   }
+/* ===========================================================================
+   AMENTI · TEN NEW CODEX RECORDS
+   ---------------------------------------------------------------------------
+   WHERE THIS GOES — in Page1.html:
+
+     Search for:   key:'ingram'
+
+     That is the LAST record in window.AMENTI_CHARS. Scroll to the end of that
+     record — the line reading  }  followed by  ];
+
+     Paste this whole block on the blank line just BEFORE the  ];
+     It OPENS WITH A COMMA, which closes the ingram record cleanly — do not add
+     one yourself.
+
+   WHAT IT DOES
+     Gives a character sheet to the ten quiz figures that had none: stats,
+     abilities, a bio, a voice, a quote, a glyph and an accent colour. Their
+     arena cards will then carry attribute bars like the other twelve.
+
+   ON THE STATS
+     These are game values, not measurements — a card abstraction, the same
+     kind already written for the other twenty-three. They are argued from the
+     record rather than invented at random: Odysseus is the highest strategist
+     in the set because the tradition is built on his cunning; Gandhi's combat
+     of 8 has its answer in Keller's 10; Gilgamesh's 96 combat sits against a
+     foresight of 66, which is the whole point of his story.
+
+   ON THE QUOTES
+     The existing records mix real quotations (Confucius) with card flavour
+     lines (Lincoln's "Tactician of unity" is not something Lincoln said).
+     Below, anything in quotation marks attributed to a text is genuine;
+     the mythic figures carry flavour lines, not invented sayings.
+
+   IDS: numbered 23-32 to follow ingram. mergeCuratedOver() reassigns ids after
+   the roster CSV loads, so these only need to be unique here.
+   =========================================================================== */
+
+  ,{ id:23, key:'prometheus', name:"PROMETHEUS", title:"Titan · The Fire-Bringer", era:"MYTHIC AGE", year:"—", region:"Greek Myth", glyph:"🔥", accent:"#ff6a3d",
+    quote:'"Forethought, who paid for every gift he gave."',
+    bio:"Titan of Greek myth whose name means forethought. Against the will of Zeus he carried fire to mankind and with it the arts of craft, medicine, writing and number, lifting humanity out of the dark. For the theft he was bound to a rock in the Caucasus, where an eagle tore at him each day. Zeus answered the gift on earth with Pandora, whose opened jar loosed every evil into the world. He is the pattern for every benefactor who is punished for the giving.",
+    abilities:["The Stolen Fire","Gift of Craft","Foreknowledge","Endurance of the Rock"],
+    stats:{strategy:86,charisma:64,foresight:99,combat:38},
+    voice:"Grave and unbroken. Speaks in long view and hard consequence, without self-pity and without apology for what he did."
+  },
+
+  { id:24, key:'king-arthur', name:"KING ARTHUR", title:"War-Leader · The Once and Future King", era:"POST-ROMAN BRITAIN", year:"~500 CE", region:"Britain", glyph:"🗡️", accent:"#3f7fd0",
+    quote:'"A table with no head, so that no man sits above another."',
+    bio:"Legendary king of the Britons, said to have united the island's warring kings after Rome withdrew and driven back the Saxon invasion. His court at Camelot and his Round Table, where none sat above another, gave the West its lasting picture of just kingship and fellowship among equals. Whether a historical war-leader stands behind the legend is disputed; what is certain is that the ideal outlived any man who might have held it.",
+    abilities:["The Round Table","Rally the Kings","Excalibur","The Fellowship"],
+    stats:{strategy:84,charisma:93,foresight:70,combat:88},
+    voice:"Formal and measured, courteous even to enemies. Speaks of duty, of the realm before the man, and of oaths as if they were physical objects."
+  },
+
+  { id:25, key:'lycurgus', name:"LYCURGUS OF SPARTA", title:"Lawgiver · Architect of the Spartan Order", era:"ARCHAIC GREECE", year:"~750 BCE", region:"Sparta", glyph:"🛡️", accent:"#b03030",
+    quote:'"Iron money, that no man may hoard what he cannot carry."',
+    bio:"The lawgiver credited with the constitution that made Sparta: land held in equal portions, common messes at which king and citizen ate the same fare, iron currency too heavy to hoard, and the agoge that took every boy at seven and returned a soldier. For centuries Greece admired Sparta as the model of order and civic equality. That order rested on the helots, a subjugated people held down by terror, whom Spartan youths were licensed to kill.",
+    abilities:["The Rhetra","The Agoge","Iron Currency","Equality Among Equals"],
+    stats:{strategy:92,charisma:68,foresight:86,combat:74},
+    voice:"Spare to the point of severity. Answers in the fewest words that will carry the meaning, and treats explanation itself as a kind of softness."
+  },
+
+  { id:26, key:'odysseus', name:"ODYSSEUS", title:"King of Ithaca · The Man of Many Turns", era:"HEROIC AGE", year:"~1200 BCE", region:"Ithaca", glyph:"⛵", accent:"#1f8ba0",
+    quote:'"Nobody — that is the name my mother and father gave me."',
+    bio:"King of Ithaca and the cleverest of the Greeks at Troy, deviser of the wooden horse that ended a ten-year siege. His return took another ten years, through the Cyclops, Circe and the Sirens, and he won it by wit where strength would have failed. The same restless cunning cost him everything he was bringing home: he provoked the blinded Cyclops into a curse, lingered where he should have fled, and of all the men who sailed under him not one reached Ithaca alive.",
+    abilities:["The Wooden Horse","Nobody","Silver Tongue","Endurance"],
+    stats:{strategy:97,charisma:86,foresight:80,combat:78},
+    voice:"Warm, quick and disarming; tells stories that flatter the listener while giving nothing away. Never quite answers the first question asked."
+  },
+
+  { id:27, key:'loki', name:"LOKI", title:"Trickster · Blood-Brother of Odin", era:"MYTHIC AGE", year:"—", region:"Norse Myth", glyph:"🐍", accent:"#7a4fd0",
+    quote:'"The one who makes the trouble, and the only one who can undo it."',
+    bio:"Shape-shifting trickster of Norse myth and blood-brother to Odin. His cunning repeatedly saved the gods — recovering Thor's hammer, walling Asgard, winning them their greatest treasures — and his mischief was for a long while the engine that kept their world in motion. Then it curdled: he engineered the death of the beloved Baldr, and at Ragnarök he led the giants and the dead against the gods, and gods and world alike were consumed.",
+    abilities:["Shape-Shift","The Bargain","Kinslayer's Counsel","Ragnarök"],
+    stats:{strategy:94,charisma:88,foresight:74,combat:58},
+    voice:"Playful, fast and needling. Finds the joke in every solemnity and the weak seam in every argument; charming right up to the moment it turns."
+  },
+
+  { id:28, key:'gilgamesh', name:"GILGAMESH", title:"King of Uruk · Two Parts God", era:"SUMERIAN ERA", year:"~2750 BCE", region:"Uruk", glyph:"🏰", accent:"#c8901f",
+    quote:'"Look at its walls. Was there ever brickwork finer?"',
+    bio:"King of Uruk, two-thirds god, and so overbearing that his own people prayed to be delivered from him; the gods answered by making Enkidu to match him. Their friendship, and Enkidu's death, sent him on a desperate search for immortality that he failed to win. He came home humbled, and the great walls of Uruk — which the epic offers as his true monument — outlasted him by millennia. The oldest surviving story is about a tyrant who learned he would die.",
+    abilities:["Two Parts God","The Bond with Enkidu","Quest for Immortality","The Walls of Uruk"],
+    stats:{strategy:78,charisma:84,foresight:66,combat:96},
+    voice:"Imperious and enormous, then abruptly quiet. Boasts like a king and grieves like a man, often within the same breath."
+  },
+
+  { id:29, key:'manlius', name:"MARCUS MANLIUS CAPITOLINUS", title:"Consul · Savior of the Capitol", era:"ROMAN REPUBLIC", year:"384 BCE", region:"Rome", glyph:"🦢", accent:"#d4a017",
+    quote:'"Saved the citadel, and was thrown from the rock beside it."',
+    bio:"Roman patrician and former consul who, when the Gauls sacked Rome in 390 BCE, was woken by the cackling of Juno's sacred geese and hurled the first climber back from the Capitol's wall, saving the citadel. For it he was named Capitolinus. In the years after he took up the people's cause, paying debtors out of bondage from his own purse and accusing the Senate of hoarding public money. Charged with seeking to make himself king, he was condemned by an assembly moved outside the walls, where the Capitol he had saved could not be seen, and thrown to his death from the Tarpeian Rock.",
+    abilities:["The Geese of Juno","Debt-Breaker","Champion of the Plebs","The Tarpeian Fall"],
+    stats:{strategy:72,charisma:88,foresight:56,combat:90},
+    voice:"Blunt, aggrieved and physical. Reaches for what he did rather than what he meant, and cannot understand why the deed is not answer enough."
+  },
+
+  { id:30, key:'helen-keller', name:"HELEN KELLER", title:"Author · Radical", era:"MODERN", year:"1880–1968", region:"United States", glyph:"💧", accent:"#3fa9c8",
+    quote:'"Yours for the revolution."',
+    bio:"Left blind and deaf by fever at nineteen months, she was sealed off from language until 1887, when her teacher Anne Sullivan spelled w-a-t-e-r into her hand beneath a running pump. She became the first deafblind person to earn a college degree, graduating from Radcliffe in 1904, and a prolific author. The child at the pump grew into a radical the popular story forgets: a card-carrying socialist, a member of the Industrial Workers of the World, a co-founder of the ACLU, and a suffragist who tied blindness itself to the greed of employers.",
+    abilities:["The Word at the Pump","Radcliffe","Agitator","The Erased Half"],
+    stats:{strategy:76,charisma:94,foresight:92,combat:10},
+    voice:"Direct, unsentimental and impatient with being made an inspiration. Turns admiration back toward the conditions that make people poor and blind."
+  },
+
+  { id:31, key:'ayn-rand', name:"AYN RAND", title:"Novelist · Founder of Objectivism", era:"MODERN", year:"1905–1982", region:"United States", glyph:"🏗️", accent:"#c04a3a",
+    quote:'"The Virtue of Selfishness."',
+    bio:"Born Alisa Rosenbaum in St. Petersburg, she was a teenager when the Bolshevik Revolution swept away her family's world and the state seized her father's pharmacy. She fled to America at twenty-one, scraped by as a Hollywood screenwriter, and wrote two novels that made her famous: The Fountainhead and, in 1957, Atlas Shrugged, in which the world's creators go on strike and let a parasitic society collapse. From them she built Objectivism — reason as the only path to truth, one's own happiness as the highest moral purpose, laissez-faire capitalism as the only just system.",
+    abilities:["Atlas Shrugged","Objectivism","The Virtue of Selfishness","Who Is John Galt?"],
+    stats:{strategy:80,charisma:82,foresight:72,combat:14},
+    voice:"Absolute and unhedged. Answers in principles rather than cases, treats compromise as a category error, and does not soften anything for the room."
+  },
+
+  { id:32, key:'leif-erikson', name:"LEIF ERIKSON", title:"Explorer · Leif the Lucky", era:"VIKING AGE", year:"~970–1020", region:"Greenland & Vinland", glyph:"🧭", accent:"#4a8f7b",
+    quote:'"Wine Land — timber, salmon, and grapes growing wild."',
+    bio:"Norse explorer, son of Erik the Red who founded the Greenland colony. Around the year 1000 he sailed west and reached a land of timber, salmon and wild grapes which he named Vinland — the first European known to set foot on continental North America, some five centuries before Columbus. The sagas disagree over whether he sought it deliberately or was blown off course, and the name Leif the Lucky stuck. The settlement did not last; for centuries the story survived only as saga, dismissed as legend, until a Norse site was unearthed at L'Anse aux Meadows in 1960 and proved it true.",
+    abilities:["Westward Crossing","Leif the Lucky","Vinland","Read the Ice"],
+    stats:{strategy:80,charisma:72,foresight:88,combat:76},
+    voice:"Plain, weather-worn and understated. Describes a crossing that took months the way another man describes a walk, and does not claim more than he saw."
+  }  
 ];
 
 window.AMENTI_ERAS = [
