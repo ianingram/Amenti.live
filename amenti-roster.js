@@ -119,25 +119,62 @@
   var PROGRESS = null;      // topic -> { hearts, heartsOf, quills, quillsOf, gateOpen }
   var SIGNED_IN = false;
 
-  function heartMark(filled) {
-    return '<svg class="rc-mark" viewBox="0 0 24 24" aria-hidden="true">'
-      + '<path d="M12 21 C4 14 1 10 4.6 6.2 C7 3.6 10.4 4.6 12 7.4 C13.6 4.6 17 3.6 19.4 6.2 C23 10 20 14 12 21 Z"'
-      +   (filled ? ' fill="#57c98a" stroke="#d4a017" stroke-width="1.3"/>'
-                  : ' fill="none" stroke="#3a4550" stroke-width="1.3" stroke-dasharray="2.5 2.5"/>')
-      + '</svg>';
-  }
-  function quillMark(filled) {
-    return '<svg class="rc-mark" viewBox="0 0 24 24" aria-hidden="true">'
-      + '<path d="M20 4 C13 5 7.5 9.5 5.5 16 C9.5 15 14.5 12 17 8"'
-      +   (filled ? ' fill="#c4a5ff" fill-opacity=".28" stroke="#c4a5ff" stroke-width="1.4"/>'
-                  : ' fill="none" stroke="#3a4550" stroke-width="1.3" stroke-dasharray="2.5 2.5"/>')
-      + '<path d="M5.5 16 L3.5 20"'
-      +   (filled ? ' stroke="#c4a5ff"' : ' stroke="#3a4550"')
-      + ' stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>';
+  /* THE MARKS.
+     Two faults in the first version, both worth recording.
+
+     The SVGs carried no width or height — only a CSS class, and the CSS never
+     injected because the rule I tried to append to begins the string rather
+     than continuing it. An unsized inline SVG defaults to roughly 300x150, so
+     the cards showed enormous hearts. The size is now ON THE ELEMENT: a style
+     attribute cannot fail to load.
+
+     And the heart was the wrong object. The ship's token is not a green heart —
+     it is a FACETED emerald with red at its core, the same jewel that sits on
+     the scale in the weighing hall and at Ingram's throat. Eighteen light
+     emerald facets, fourteen deep, and eight of salmon where the red shows
+     through. Drawn small, but drawn as itself. */
+  var MARK_PX = 12;
+
+  function markSvg(inner) {
+    return '<svg class="rc-mark" viewBox="0 0 24 26" width="' + MARK_PX + '" height="'
+      + Math.round(MARK_PX * 26 / 24) + '" style="width:' + MARK_PX + 'px;height:'
+      + Math.round(MARK_PX * 26 / 24) + 'px;display:block;flex:0 0 auto;background:none;overflow:visible" '
+      + 'aria-hidden="true">' + inner + '</svg>';
   }
 
-  /* superseded by gateRow(): a card now shows a row per gate rather than one
-     row of marks. Kept because nothing else should break if it is called. */
+  function heartMark(filled) {
+    if (!filled) {
+      return markSvg(
+        '<path d="M12 24 C3 16 1 10 5 6 C8 3 11 4.5 12 7 C13 4.5 16 3 19 6 C23 10 21 16 12 24 Z"'
+        + ' fill="none" stroke="#39434f" stroke-width="1.4" stroke-dasharray="2 2.4"/>');
+    }
+    /* the token, faceted — deep emerald body, light emerald crown, red core */
+    return markSvg(
+        '<path d="M12 24 C3 16 1 10 5 6 C8 3 11 4.5 12 7 C13 4.5 16 3 19 6 C23 10 21 16 12 24 Z"'
+      +   ' fill="#0c4a2e" stroke="#d4a017" stroke-width="1.1" stroke-linejoin="round"/>'
+      + '<path d="M12 7 C11 4.5 8 3 5 6 L12 11 Z" fill="#57c98a"/>'
+      + '<path d="M12 7 C13 4.5 16 3 19 6 L12 11 Z" fill="#4ab77c"/>'
+      + '<path d="M5 6 C1 10 3 16 12 24 L12 11 Z" fill="#0f5c39"/>'
+      + '<path d="M19 6 C23 10 21 16 12 24 L12 11 Z" fill="#0a4128"/>'
+      + '<path d="M12 11 L16 15 L12 20 L8 15 Z" fill="#e0563a"/>'
+      + '<path d="M12 11 L16 15 L12 20 Z" fill="#f2896a"/>'
+      + '<path d="M12 13.5 L14 15 L12 17.5 L10 15 Z" fill="#6e140f" opacity=".55"/>');
+  }
+
+  function quillMark(filled) {
+    if (!filled) {
+      return markSvg(
+        '<path d="M19 4 C12 6 7 11 5 18 C10 16 15 12 18 8"'
+        + ' fill="none" stroke="#39434f" stroke-width="1.4" stroke-dasharray="2 2.4"/>'
+        + '<path d="M5 18 L3 23" stroke="#39434f" stroke-width="1.3" stroke-linecap="round" fill="none"/>');
+    }
+    return markSvg(
+        '<path d="M19 4 C12 6 7 11 5 18 C10 16 15 12 18 8 Z" fill="#c4a5ff" fill-opacity=".22"'
+      +   ' stroke="#c4a5ff" stroke-width="1.3" stroke-linejoin="round"/>'
+      + '<path d="M17 6 C12 9 8.5 13 6.6 17.4" stroke="#c4a5ff" stroke-width=".8" fill="none" opacity=".7"/>'
+      + '<path d="M5 18 L3 23" stroke="#c4a5ff" stroke-width="1.4" stroke-linecap="round" fill="none"/>');
+  }
+
   function marksFor(topicId, questionCount) {
     var p = PROGRESS && PROGRESS[topicId];
     /* slot counts come from the quiz when we know them, and from a sensible
@@ -274,7 +311,20 @@
     for (var i = 0; i < hOf; i++) marks += heartMark(i < h);
     for (var j = 0; j < wOf; j++) marks += quillMark(j < w);
     var label = (t.title || t.id).replace(/^[^:]*(?:and|at|the)\s+/i, '');
+    /* THE ESSENTIALS ARE INLINE, NOT ONLY IN THE STYLESHEET.
+       A <button> with no CSS gets the browser's default chrome — light grey,
+       raised, system font. Several per card and the whole arena washes white,
+       which is exactly what happened when the stylesheet failed to inject.
+
+       A card must never depend on a stylesheet arriving to avoid looking
+       broken. The class still carries hover, transitions and the state colours;
+       these four properties carry the difference between a dark card and a
+       page full of grey boxes. */
+    var base = 'background:#0a0b11;border:1px solid ' +
+      (state === 'passed' ? '#2f6b4c' : state === 'current' ? '#8a6510' : '#232838') +
+      ';color:#8f95ab;font-family:inherit';
     return '<button class="rc-gate ' + state + '" data-topic="' + esc(t.id) + '"'
+         + ' style="' + base + '"'
          + (state === 'locked' ? ' disabled' : '')
          + ' title="' + esc(t.title || t.id) + '">'
          +   '<span class="rc-gate-d">d' + (t.depth || 1) + '</span>'
@@ -386,7 +436,29 @@
     var st = document.createElement('style');
     st.id = 'amenti-roster-css';
     st.textContent =
-      '.rc-attrs{margin:7px 0 2px;display:flex;flex-direction:column;gap:3px}'
+      '.rc-gates{display:flex;flex-direction:column;gap:3px;margin:7px 0 5px}'
+    + '.rc-gate{display:grid;grid-template-columns:15px auto 1fr auto;align-items:center;gap:6px;'
+    +   'background:#0a0b11;border:1px solid #232838;border-radius:4px;padding:4px 7px;'
+    +   'cursor:pointer;text-align:left;font-family:inherit;width:100%;transition:.15s}'
+    + '.rc-gate:hover:not(:disabled){border-color:#d4a017;background:#12141d}'
+    + '.rc-gate:disabled{cursor:default;opacity:.4}'
+    + '.rc-gate.passed{border-color:#2f6b4c}'
+    + '.rc-gate.current{border-color:#8a6510}'
+    + '.rc-gate-d{font-family:var(--mono,monospace);font-size:7.5px;color:#6b7180}'
+    + '.rc-gate-m{display:flex;gap:2px;align-items:center;line-height:0}'
+    + '.rc-gate-t{font-size:10.5px;color:#8f95ab;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
+    + '.rc-gate.current .rc-gate-t{color:#c8ccdc}'
+    + '.rc-gate-s{font-family:var(--mono,monospace);font-size:7.5px;letter-spacing:.06em;'
+    +   'text-transform:uppercase;color:#6b7180}'
+    + '.rc-gate.passed .rc-gate-s{color:#57c98a}'
+    + '.rc-gate.current .rc-gate-s{color:#f5c542}'
+    + '.rc-mark{display:block;flex:0 0 auto;background:none}'
+    + '.rc-marks{display:flex;align-items:center;gap:2px;margin:7px 0 4px;flex-wrap:wrap;line-height:0}'
+    + '.rc-marks.out{opacity:.45}'
+    + '.rc-marks-n{font-family:var(--mono,monospace);font-size:7.5px;letter-spacing:.1em;'
+    +   'text-transform:uppercase;color:#6b7180;margin-left:5px;line-height:1}'
+    + '.rc-marks.open .rc-marks-n{color:#57c98a}'
+    + '.rc-attrs{margin:7px 0 2px;display:flex;flex-direction:column;gap:3px}'
     + '.rc-attr{display:grid;grid-template-columns:26px 1fr 22px;align-items:center;gap:6px}'
     + '.rc-attr-k{font-family:var(--mono,monospace);font-size:8px;letter-spacing:.1em;color:#6b7180}'
     + '.rc-attr-v{font-family:var(--mono,monospace);font-size:8.5px;color:#8f95ab;text-align:right}'
