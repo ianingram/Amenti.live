@@ -486,13 +486,70 @@
     } catch (e) { /* hollow slots are a correct answer to not knowing */ }
   }
 
+  /* ── THE THIRD SOURCE ─────────────────────────────────────────────────
+     Page1 built AMENTI_CHARS and AMENTI_SVG by hand. amenti-art-2.js already
+     merges twelve more portraits into the same library at runtime, and nothing
+     downstream cares which file a face came from.
+
+     This is a third file that happens to arrive over the network.
+
+     THE HAND-MADE ONE ALWAYS WINS. A row whose key already exists is IGNORED,
+     not applied — no configuration, no precedence rules, no flag. It was made
+     deliberately; this was not.
+
+     And it fails to nothing. If the endpoint is unreachable the arena is
+     exactly what it is today, which is why this could be added without putting
+     a single existing card at risk. */
+  async function mergeCharacters() {
+    let rows = [];
+    try {
+      const r = await fetch(MINT + '/characters', { cache: 'no-store' });
+      if (!r.ok) return 0;
+      const d = await r.json();
+      if (!d || !d.ok || !Array.isArray(d.characters)) return 0;
+      rows = d.characters;
+    } catch (e) { return 0; }
+    if (!rows.length) return 0;
+
+    const chars = window.AMENTI_CHARS = window.AMENTI_CHARS || [];
+    const art   = window.AMENTI_SVG   = window.AMENTI_SVG   || {};
+    const held  = {};
+    chars.forEach(function (c) { if (c && c.key) held[c.key] = true; });
+
+    let added = 0, skipped = 0;
+    rows.forEach(function (row) {
+      if (!row || !row.key) return;
+
+      /* the sheet — only if no hand-made record holds that key */
+      if (row.sheet && !held[row.key]) {
+        const rec = Object.assign({ key: row.key, name: row.name }, row.sheet);
+        rec.id = chars.length;
+        chars.push(rec);
+        held[row.key] = true;
+        added++;
+      } else if (row.sheet) { skipped++; }
+
+      /* the portrait — same rule, and the art library is the arbiter */
+      if (row.portrait && !art[row.key]) {
+        const svg = row.portrait;
+        art[row.key] = function () { return svg; };
+      }
+    });
+    if (added) { try { window.AMENTI_CHARS = chars; } catch (e) {} }
+    return added;
+  }
+
   function boot() {
     injectCss();
     var host = document.getElementById('amenti-roster');
     if (!host) return;
     Promise.all([
       fetch(MINT + '/quiz/topics').then(function (r) { return r.ok ? r.json() : Promise.reject('http ' + r.status); }),
-      loadProgress()
+      loadProgress(),
+      /* the third source, merged before the first card is drawn so a machine-made
+         figure arrives with its face and its bars rather than acquiring them a
+         moment later */
+      mergeCharacters()
     ])
       .then(function (both) { return both[0]; })
       .then(function (d) {
