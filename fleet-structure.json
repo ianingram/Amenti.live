@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-20T07:30:49.580Z",
+    "generated": "2026-07-20T23:18:48.218Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -700,10 +700,12 @@
     },
     {
       "file": "amenti-roster.js",
-      "bytes": 25217,
-      "sha256": "b436e511e2dc9b9c",
+      "bytes": 27609,
+      "sha256": "fea5f356bf8583ee",
       "type": "js",
       "declares": [
+        "AMENTI_CHARS",
+        "AMENTI_SVG",
         "amentiRoster"
       ],
       "loads": [],
@@ -853,8 +855,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 42380,
-      "sha256": "3e845cc9d23eafa2",
+      "bytes": 42374,
+      "sha256": "7a7f701b1e121ac1",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1247,6 +1249,7 @@
       {
         "file": "amenti-roster.js",
         "declares": [
+          "AMENTI_SVG",
           "amentiRoster"
         ],
         "loadedByAPage": true,
