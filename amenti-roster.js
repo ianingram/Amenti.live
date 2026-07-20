@@ -136,6 +136,8 @@
       + ' stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>';
   }
 
+  /* superseded by gateRow(): a card now shows a row per gate rather than one
+     row of marks. Kept because nothing else should break if it is called. */
   function marksFor(topicId, questionCount) {
     var p = PROGRESS && PROGRESS[topicId];
     /* slot counts come from the quiz when we know them, and from a sensible
@@ -246,50 +248,127 @@
     }
   }
 
-  function card(t) {
-    var fig = (t.facets && t.facets.figure && t.facets.figure[0]) || t.title;
-    var era = t.era || ((t.facets && t.facets.era && t.facets.era[0]) || '');
-    var n = t.questions || 0;
-    var rec = codexFor(fig);
+  /* ── THE STACK · one card per FIGURE, several gates behind it ──────────
+     The roster used to build a card per quiz. The moment a figure held two,
+     the arena showed the same man twice — same face, same stat line, standing
+     beside himself. Caesar has two now: the Rubicon at depth 1 and the
+     disputed last words at depth 3.
+
+     So a card takes a LIST. The face, era and stat bars belong to the figure
+     and never varied across a stack anyway. What changes is beneath them: a
+     row per gate, each with its own marks and its own state.
+
+     LOCKED GATES ARE SHOWN, NEVER HIDDEN. A seeker should be able to see that
+     Caesar holds a second charge before they have earned the right to open it.
+     That is the invitation. A hidden gate persuades nobody. */
+
+  var DEPTH_NAME = { 1: 'the entry', 2: 'another charge', 3: 'the contested' };
+
+  function gateRow(t, state) {
+    var p = PROGRESS && PROGRESS[t.id];
+    var hOf = p ? p.heartsOf : Math.max(0, (t.questions || 0) - 2);
+    var wOf = p ? p.quillsOf : ((t.questions || 0) >= 6 ? 2 : 0);
+    var h = p ? p.hearts.length : 0;
+    var w = p ? p.quills.length : 0;
+    var marks = '';
+    for (var i = 0; i < hOf; i++) marks += heartMark(i < h);
+    for (var j = 0; j < wOf; j++) marks += quillMark(j < w);
+    var label = (t.title || t.id).replace(/^[^:]*(?:and|at|the)\s+/i, '');
+    return '<button class="rc-gate ' + state + '" data-topic="' + esc(t.id) + '"'
+         + (state === 'locked' ? ' disabled' : '')
+         + ' title="' + esc(t.title || t.id) + '">'
+         +   '<span class="rc-gate-d">d' + (t.depth || 1) + '</span>'
+         +   '<span class="rc-gate-m">' + marks + '</span>'
+         +   '<span class="rc-gate-t">' + esc(label) + '</span>'
+         +   '<span class="rc-gate-s">'
+         +     (state === 'passed' ? 'passed' : state === 'locked' ? 'locked'
+                : (h + w) + '/' + (hOf + wOf))
+         +   '</span>'
+         + '</button>';
+  }
+
+  function card(stack) {
+    /* the shallowest quiz speaks for the figure: its era, its icon, its face */
+    var lead = stack[0];
+    var fig  = lead.figure || (lead.facets && lead.facets.figure && lead.facets.figure[0]) || lead.title;
+    var era  = lead.era || ((lead.facets && lead.facets.era && lead.facets.era[0]) || '');
+    var rec  = codexFor(fig);
+
+    /* a gate opens when the one before it does. The first is always open. */
+    var rows = '', firstOpen = null, opened = true;
+    stack.forEach(function (t, i) {
+      var p = PROGRESS && PROGRESS[t.id];
+      var passed = !!(p && p.gateOpen);
+      var state = passed ? 'passed' : (opened ? 'current' : 'locked');
+      if (state === 'current' && !firstOpen) firstOpen = t.id;
+      rows += gateRow(t, state);
+      /* the next gate is reachable only once this one is complete */
+      if (!passed) opened = false;
+    });
+    var cta = firstOpen ? firstOpen : stack[0].id;
+
     return '<div class="roster-card"'
       + (rec && rec.id !== undefined ? ' data-char="' + rec.id + '"' : '')
       + ' data-figure="' + esc(fig) + '"'
-      + ' data-topic="' + esc(t.id) + '">'
+      + ' data-topic="' + esc(cta) + '">'
       + '<div class="rc-prize">EARN \u25C8</div>'
       + '<div class="rc-img"><div class="rc-img-grid"></div>'
-      +   '<div class="rc-icon-badge">' + iconFor(t) + '</div></div>'
+      +   '<div class="rc-icon-badge">' + iconFor(lead) + '</div></div>'
       + '<div class="rc-info">'
       +   '<div class="rc-name">' + esc(fig) + '</div>'
       +   '<div class="rc-era">' + esc(era) + '</div>'
-      +   statBars(codexFor(fig))
-      +   marksFor(t.id, n)
-      +   '<div class="rc-stats">'
-      +     '<span class="rc-stat">' + (n ? n + ' QUESTIONS' : 'QUIZ') + '</span>'
-      +     '<span class="rc-stat">BIO REWARD</span>'
-      +   '</div>'
+      +   statBars(rec)
+      +   '<div class="rc-gates">' + rows + '</div>'
+      +   (stack.length > 1
+            ? '<div class="rc-stats"><span class="rc-stat">' + stack.length + ' GATES</span>'
+              + '<span class="rc-stat">BIO REWARD</span></div>'
+            : '<div class="rc-stats"><span class="rc-stat">'
+              + ((lead.questions || 0) ? lead.questions + ' QUESTIONS' : 'QUIZ') + '</span>'
+              + '<span class="rc-stat">BIO REWARD</span></div>')
       + '</div>'
-      + '<div class="rc-cta">\u25B6 START QUIZ</div></div>';
+      + '<div class="rc-cta">\u25B6 ' + (firstOpen ? 'START QUIZ' : 'REVIEW') + '</div></div>';
   }
 
   function render(host, list) {
-    /* Figures that already have a card in the arena lead; the rest follow in
-       library order. Nothing is hidden — every quiz gets a door. */
-    var FIRST = ['lincoln-emancipation', 'musashi-ganryu', 'caesar-rubicon',
-                 'gandhi-salt', 'moses-calf', 'hannibal-cannae'];
+    /* GROUP BY FIGURE. This is the change: the list arrives as one entry per
+       quiz, and leaves as one entry per person. Without it Caesar appears
+       twice — the Rubicon and the last words, side by side, identical faces. */
+    var byFigure = {}, order = [];
+    list.forEach(function (t) {
+      var f = t.figure || (t.facets && t.facets.figure && t.facets.figure[0]) || t.title;
+      if (!byFigure[f]) { byFigure[f] = []; order.push(f); }
+      byFigure[f].push(t);
+    });
+    /* within a figure, shallow first — the entry before the contested */
+    order.forEach(function (f) {
+      byFigure[f].sort(function (a, b) {
+        return (a.depth || 1) - (b.depth || 1) || String(a.id).localeCompare(String(b.id));
+      });
+    });
+
+    /* the six that had hand-built cards still lead the arena */
+    var FIRST = ['Abraham Lincoln', 'Miyamoto Musashi', 'Julius Caesar',
+                 'Mahatma Gandhi', 'Moses', 'Hannibal Barca'];
     var head = [], tail = [];
-    list.forEach(function (t) { (FIRST.indexOf(t.id) === -1 ? tail : head).push(t); });
-    head.sort(function (a, b) { return FIRST.indexOf(a.id) - FIRST.indexOf(b.id); });
-    host.innerHTML = head.concat(tail).map(card).join('');
-    /* The grid carries .reveal-stagger, whose children sit at opacity:0 until the
-       parent gains .in from a scroll observer. An EMPTY grid has no height, so
-       that observer may never fire and the cards would never appear. We do not
-       depend on it: having rendered, we reveal our own host. */
+    order.forEach(function (f) { (FIRST.indexOf(f) === -1 ? tail : head).push(f); });
+    head.sort(function (a, b) { return FIRST.indexOf(a) - FIRST.indexOf(b); });
+
+    host.innerHTML = head.concat(tail).map(function (f) { return card(byFigure[f]); }).join('');
     host.classList.add('in');
-    /* Draw the faces from the art library — twelve of the current figures have
-       one. Retried, because the character list rebuilds asynchronously. */
     paintPortraits(host, 0);
     try { if (window.amentiQuiz && window.amentiQuiz.wireRoster) window.amentiQuiz.wireRoster(); } catch (e) {}
-    host.setAttribute('data-count', head.length + tail.length);
+
+    /* a gate button opens ITS quiz, not the card's default */
+    Array.prototype.forEach.call(host.querySelectorAll('.rc-gate[data-topic]'), function (b) {
+      b.addEventListener('click', function (ev) {
+        ev.preventDefault(); ev.stopPropagation();
+        var id = b.getAttribute('data-topic');
+        try { if (window.amentiQuiz && window.amentiQuiz.open) window.amentiQuiz.open(id); } catch (e) {}
+      });
+    });
+
+    host.setAttribute('data-count', order.length);
+    host.setAttribute('data-quizzes', list.length);
   }
 
   function empty(host, msg) {
