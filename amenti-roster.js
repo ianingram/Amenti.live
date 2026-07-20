@@ -513,20 +513,30 @@
 
     const chars = window.AMENTI_CHARS = window.AMENTI_CHARS || [];
     const art   = window.AMENTI_SVG   = window.AMENTI_SVG   || {};
-    const held  = {};
-    chars.forEach(function (c) { if (c && c.key) held[c.key] = true; });
 
+    /* THE COLLISION USES THE MATCHER THE ROSTER ALREADY HAS.
+       Two earlier attempts were wrong. Comparing KEYS missed it, because the
+       hand-made records use shortened keys — 'caesar' against 'julius-caesar'.
+       Comparing NAMES exactly missed it too, because the hand-made names are
+       full forms: "GAIUS JULIUS CAESAR" against a queue that says "Julius
+       Caesar", "MOSES BEN AMRAM" against "Moses".
+
+       codexFor() already resolves a figure to a record — last-name match, then
+       containment either way. It is what the card uses to find its stat bars,
+       so it is by definition the right test for "do we already have this
+       person". Writing a third name-matching scheme beside it would have been
+       the fault this evening kept finding. */
     let added = 0, skipped = 0;
+
     rows.forEach(function (row) {
       if (!row || !row.key) return;
 
-      /* the sheet — only if no hand-made record holds that key */
-      if (row.sheet && !held[row.key]) {
+      /* the sheet — only if the roster's own matcher finds nobody already */
+      if (row.sheet && !codexFor(row.name) && !codexFor(row.figure || row.name)) {
         const rec = Object.assign({ key: row.key, name: row.name }, row.sheet);
         rec.id = chars.length;
-        chars.push(rec);
-        held[row.key] = true;
-        added++;
+        chars.push(rec);      // pushed BEFORE the next row is tested, so two
+        added++;              // rows for the same person cannot both land
       } else if (row.sheet) { skipped++; }
 
       /* the portrait — same rule, and the art library is the arbiter */
