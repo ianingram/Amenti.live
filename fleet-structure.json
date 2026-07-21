@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-20T23:32:37.532Z",
+    "generated": "2026-07-21T05:13:51.273Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -700,33 +700,22 @@
     },
     {
       "file": "amenti-roster.js",
-      "bytes": 28437,
-      "sha256": "ca02a74f573a215a",
+      "bytes": 13587,
+      "sha256": "b6e51a0ba0f33713",
       "type": "js",
       "declares": [
-        "AMENTI_CHARS",
-        "AMENTI_SVG",
-        "amentiRoster"
+        "amentiRosterView"
       ],
       "loads": [],
       "calls": [
         {
           "global": "AMENTI_CONFIG",
-          "line": 34,
+          "line": 32,
           "when": "iife",
-          "own": false
-        },
-        {
-          "global": "amentiQuiz",
-          "line": 409,
-          "when": "function",
           "own": false
         }
       ],
-      "endpoints": [
-        "/quiz/progress",
-        "/quiz/topics"
-      ],
+      "endpoints": [],
       "tables": []
     },
     {
@@ -856,7 +845,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 42374,
-      "sha256": "cf3dbc3705de565c",
+      "sha256": "5479aa77812b88a9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1247,10 +1236,17 @@
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
+        "file": "amenti-quiz.js",
+        "declares": [
+          "amentiQuiz"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
         "file": "amenti-roster.js",
         "declares": [
-          "AMENTI_SVG",
-          "amentiRoster"
+          "amentiRosterView"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
