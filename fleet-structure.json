@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-21T06:18:31.485Z",
+    "generated": "2026-07-21T06:40:41.791Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -8,8 +8,8 @@
   "files": [
     {
       "file": "Page1.html",
-      "bytes": 1581251,
-      "sha256": "f15bc1b588617abe",
+      "bytes": 1581295,
+      "sha256": "5de8e355f0909b6d",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -92,32 +92,36 @@
           "line": 7838
         },
         {
-          "file": "amenti-art-2.js",
+          "file": "amenti-bay.js",
           "line": 7839
         },
         {
-          "file": "amenti-leaderboard.js",
+          "file": "amenti-art-2.js",
           "line": 7840
         },
         {
-          "file": "amenti-readaloud.js",
+          "file": "amenti-leaderboard.js",
           "line": 7841
         },
         {
-          "file": "amenti-vallhalla-signup.js",
-          "line": 7844
+          "file": "amenti-readaloud.js",
+          "line": 7842
         },
         {
-          "file": "amenti-flourish.js",
+          "file": "amenti-vallhalla-signup.js",
           "line": 7845
         },
         {
-          "file": "amenti-mascot.js",
+          "file": "amenti-flourish.js",
           "line": 7846
         },
         {
-          "file": "amenti-profile.js",
+          "file": "amenti-mascot.js",
           "line": 7847
+        },
+        {
+          "file": "amenti-profile.js",
+          "line": 7848
         }
       ],
       "calls": [
@@ -355,6 +359,32 @@
       ],
       "loads": [],
       "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-bay.js",
+      "bytes": 12932,
+      "sha256": "356454963326f9aa",
+      "type": "js",
+      "declares": [
+        "amentiBay"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "AMENTI_SVG",
+          "line": 111,
+          "when": "function",
+          "own": false
+        },
+        {
+          "global": "amentiQuiz",
+          "line": 165,
+          "when": "function",
+          "own": false
+        }
+      ],
       "endpoints": [],
       "tables": []
     },
@@ -724,11 +754,13 @@
     },
     {
       "file": "amenti-roster.js",
-      "bytes": 29890,
-      "sha256": "974254b309fbaec2",
+      "bytes": 32339,
+      "sha256": "e5e932e248333bde",
       "type": "js",
       "declares": [
         "AMENTI_CHARS",
+        "AMENTI_PROGRESS",
+        "AMENTI_STACKS",
         "AMENTI_SVG",
         "amentiRoster"
       ],
@@ -742,7 +774,7 @@
         },
         {
           "global": "amentiQuiz",
-          "line": 439,
+          "line": 481,
           "when": "function",
           "own": false
         }
@@ -880,7 +912,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 42677,
-      "sha256": "191cf4918786a385",
+      "sha256": "0bdb9ca179571980",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1223,9 +1255,9 @@
     "wiring": [],
     "adrift": [
       {
-        "file": "amenti-art-2.js",
+        "file": "amenti-bay.js",
         "declares": [
-          "AMENTI_SVG"
+          "amentiBay"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
@@ -1281,7 +1313,8 @@
       {
         "file": "amenti-roster.js",
         "declares": [
-          "AMENTI_SVG",
+          "AMENTI_PROGRESS",
+          "AMENTI_STACKS",
           "amentiRoster"
         ],
         "loadedByAPage": true,
