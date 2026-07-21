@@ -367,6 +367,38 @@
          + '</button>';
   }
 
+  /* ONE LINE INSTEAD OF SEVEN ROWS.
+     It carries the same three facts the rows carried — how many gates, how
+     many are passed, and whether there is anything to do — without growing
+     with the stack. A figure with twelve quizzes takes exactly the same space
+     as a figure with one. */
+  function gateSummary(stack) {
+    var passed = 0, marks = 0, slots = 0;
+    stack.forEach(function (t) {
+      var p = PROGRESS && PROGRESS[t.id];
+      if (p) {
+        if (p.gateOpen) passed++;
+        marks += p.hearts.length + p.quills.length;
+        slots += p.heartsOf + p.quillsOf;
+      } else {
+        slots += (t.questions || 0);
+      }
+    });
+    var n = stack.length;
+    var pct = slots ? Math.round(marks / slots * 100) : 0;
+    var word = passed === n && n > 0 ? 'all weighed'
+             : passed ? passed + ' of ' + n + ' passed'
+             : (n > 1 ? n + ' charges' : 'not yet weighed');
+    return '<div class="rc-sum" style="display:flex;align-items:center;gap:7px;margin:7px 0 5px">'
+      +   '<span class="rc-sum-bar" style="flex:1;height:3px;border-radius:2px;background:#161c27;'
+      +     'overflow:hidden"><i style="display:block;height:100%;width:' + pct + '%;'
+      +     'background:linear-gradient(90deg,#2f6b4c,#57c98a)"></i></span>'
+      +   '<span class="rc-sum-n" style="font-family:var(--mono,monospace);font-size:8px;'
+      +     'letter-spacing:.1em;text-transform:uppercase;color:'
+      +     (passed === n && n > 0 ? '#57c98a' : '#6b7180') + '">' + word + '</span>'
+      + '</div>';
+  }
+
   function card(stack) {
     /* the shallowest quiz speaks for the figure: its era, its icon, its face */
     var lead = stack[0];
@@ -398,15 +430,25 @@
       +   '<div class="rc-name">' + esc(fig) + '</div>'
       +   '<div class="rc-era">' + esc(era) + '</div>'
       +   statBars(rec)
-      +   '<div class="rc-gates">' + rows + '</div>'
-      +   (stack.length > 1
-            ? '<div class="rc-stats"><span class="rc-stat">' + stack.length + ' GATES</span>'
-              + '<span class="rc-stat">BIO REWARD</span></div>'
-            : '<div class="rc-stats"><span class="rc-stat">'
-              + ((lead.questions || 0) ? lead.questions + ' QUESTIONS' : 'QUIZ') + '</span>'
-              + '<span class="rc-stat">BIO REWARD</span></div>')
+      /* THE CARD STAYS A CARD.
+         Gate rows lived here and were right when a figure held two. At five
+         they are two hundred pixels of list on a tile that was two hundred
+         tall, and the arena becomes a column of cards at wildly different
+         heights — the one thing a grid cannot survive.
+
+         So the depth moves off the card and into a bay behind it. What stays
+         is the COUNT, which is what a seeker needs to know before deciding to
+         open anything: how much of this life is here. */
+      +   gateSummary(stack)
+      +   '<div class="rc-stats"><span class="rc-stat">'
+      +     (stack.length > 1
+              ? stack.length + ' GATES'
+              : ((lead.questions || 0) ? lead.questions + ' QUESTIONS' : 'QUIZ'))
+      +   '</span><span class="rc-stat">BIO REWARD</span></div>'
       + '</div>'
-      + '<div class="rc-cta">\u25B6 ' + (firstOpen ? 'START QUIZ' : 'REVIEW') + '</div></div>';
+      + '<div class="rc-cta">\u25B6 '
+      +   (stack.length > 1 ? 'OPEN THE BAY' : (firstOpen ? 'START QUIZ' : 'REVIEW'))
+      + '</div></div>';
   }
 
   function render(host, list) {
@@ -449,6 +491,15 @@
 
     host.setAttribute('data-count', order.length);
     host.setAttribute('data-quizzes', list.length);
+
+    /* THE BAY READS FROM HERE.
+       The roster has already done the grouping, the depth ordering and the
+       progress lookup. A second surface that re-derived any of that would be a
+       second source of truth for the same fact — the fault this build keeps
+       finding. It gets the same objects. */
+    window.AMENTI_STACKS = byFigure;
+    window.AMENTI_PROGRESS = PROGRESS;
+    try { document.dispatchEvent(new CustomEvent('amenti:stacks')); } catch (e) {}
   }
 
   function empty(host, msg) {
