@@ -301,6 +301,25 @@
 
   var DEPTH_NAME = { 1: 'the entry', 2: 'another charge', 3: 'the contested' };
 
+  function deriveLabel(title, figure) {
+    var t = String(title || '').trim();
+    var f = String(figure || '').trim();
+    t = t.replace(/^the\s+/i, '');
+    if (f) {
+      var esc2 = function (x) { return x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
+      var parts = f.split(/\s+/);
+      /* whole name, then LAST word, then FIRST — Frederick Douglass is titled
+         "Douglass", Galileo Galilei is titled "Galileo". Both must strip. */
+      [f, parts[parts.length - 1], parts[0]].forEach(function (cand) {
+        if (cand && cand.length > 2)
+          t = t.replace(new RegExp('^' + esc2(cand) + '\\b', 'i'), '');
+      });
+    }
+    t = t.replace(/^\s*(and|at|on|in|before|against|of|with)\s+/i, '');
+    t = t.split(':')[0].trim();
+    return t || String(title || '');
+  }
+
   function gateRow(t, state) {
     var p = PROGRESS && PROGRESS[t.id];
     var hOf = p ? p.heartsOf : Math.max(0, (t.questions || 0) - 2);
@@ -310,7 +329,18 @@
     var marks = '';
     for (var i = 0; i < hOf; i++) marks += heartMark(i < h);
     for (var j = 0; j < wOf; j++) marks += quillMark(j < w);
-    var label = (t.title || t.id).replace(/^[^:]*(?:and|at|the)\s+/i, '');
+    /* THE ROW NAMES THE MOMENT, NOT THE QUIZ.
+       A card already says "JULIUS CAESAR" above the portrait. A row that
+       repeats it and adds the title reads as a duplicate; a row that says
+       "the Rubicon" and "the last words" reads as a stack.
+
+       The engine now writes a label. Fifty-four quizzes predate it, so one is
+       derived — and the derivation is only sound because it knows the FIGURE.
+       The first attempt did not: it stripped a leading "and|at|the" from the
+       title and turned "the War of the Currents" into "Currents", left
+       "Tesla on Brush Discharge" untouched, and carried a colon subtitle
+       across the whole row. */
+    var label = t.label || deriveLabel(t.title || t.id, t.figure);
     /* THE ESSENTIALS ARE INLINE, NOT ONLY IN THE STYLESHEET.
        A <button> with no CSS gets the browser's default chrome — light grey,
        raised, system font. Several per card and the whole arena washes white,
