@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-21T05:42:32.284Z",
+    "generated": "2026-07-21T05:43:46.216Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -724,22 +724,33 @@
     },
     {
       "file": "amenti-roster.js",
-      "bytes": 13587,
-      "sha256": "b6e51a0ba0f33713",
+      "bytes": 28437,
+      "sha256": "ca02a74f573a215a",
       "type": "js",
       "declares": [
-        "amentiRosterView"
+        "AMENTI_CHARS",
+        "AMENTI_SVG",
+        "amentiRoster"
       ],
       "loads": [],
       "calls": [
         {
           "global": "AMENTI_CONFIG",
-          "line": 32,
+          "line": 34,
           "when": "iife",
+          "own": false
+        },
+        {
+          "global": "amentiQuiz",
+          "line": 409,
+          "when": "function",
           "own": false
         }
       ],
-      "endpoints": [],
+      "endpoints": [
+        "/quiz/progress",
+        "/quiz/topics"
+      ],
       "tables": []
     },
     {
@@ -869,7 +880,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 42956,
-      "sha256": "edd9f705c7121a51",
+      "sha256": "e21d81852122d5ee",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1260,14 +1271,6 @@
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
-        "file": "amenti-quiz.js",
-        "declares": [
-          "amentiQuiz"
-        ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
-      },
-      {
         "file": "amenti-roster-view.js",
         "declares": [
           "amentiRosterView"
@@ -1278,7 +1281,8 @@
       {
         "file": "amenti-roster.js",
         "declares": [
-          "amentiRosterView"
+          "AMENTI_SVG",
+          "amentiRoster"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
