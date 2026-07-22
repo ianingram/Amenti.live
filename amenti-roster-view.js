@@ -67,97 +67,98 @@
       + 'display:block;flex:0 0 auto;background:none" aria-hidden="true">' + body + '</svg>';
   }
 
-  /* ---- one figure ------------------------------------------------------- */
-  function row(f, i) {
-    var state = f.awaiting ? 'awaiting' : (f.weighed ? 'weighed' : 'open');
-    var mark  = f.awaiting ? '' : heart(f.weighed);
-    var note  = f.awaiting ? 'not yet set for trial'
-              : (f.weighed ? 'weighed'
-                 : f.quizzes + (f.quizzes === 1 ? ' gate' : ' gates'));
-    return '<div class="rv-row ' + state + '" data-figure="' + esc(f.figure) + '"'
-      + ' style="background:#0a0b11;border:1px solid '
-      + (state === 'weighed' ? '#2f6b4c' : state === 'awaiting' ? '#232838' : '#8a6510')
-      + ';color:#8f95ab">'
-      +   '<span class="rv-n">' + (i + 1) + '</span>'
-      +   '<span class="rv-m">' + mark + '</span>'
-      +   '<span class="rv-f">' + esc(f.figure) + '</span>'
-      +   '<span class="rv-s">' + note + '</span>'
-      /* THE CHROME IS INLINE, NOT ONLY IN THE STYLESHEET.
-         A <button> with no CSS gets the browser's default appearance — grey,
-         raised, system font. Twenty-five of them down a panel and the whole
-         thing washes white, which is exactly what happened to the arena
-         earlier today when a stylesheet failed to inject. The class still
-         carries hover and colour; these four properties carry the difference
-         between a dark panel and a page of grey boxes. */
-      +   '<button class="rv-x" data-drop="' + esc(f.figure) + '"'
-      +     ' style="background:none;border:none;color:#39434f;font-family:inherit;'
-      +     'font-size:15px;line-height:1;padding:0;cursor:pointer"'
-      +     ' title="Remove from this roster">&#215;</button>'
-      + '</div>';
+  /* ── THE ROSTER FILTERS THE ARENA. IT DOES NOT LIST BESIDE IT. ───────
+     The first version rendered twenty-five names in a panel above the cards —
+     and every one of those names was already on screen as a card. Two Teslas.
+     Two Lincolns. A second surface showing the same figures, which is the
+     duplicate the additive characters table was carefully built to avoid, made
+     again one layer up.
+
+     A roster is not another view of the library. It is a NARROWING of it. So
+     the panel is one line: the name, the count, and a switch. Turn it on and
+     the arena becomes your twenty-five. Turn it off and it is everything.
+
+     One surface. One card per figure. Always. */
+
+  var filtering = false;
+
+  function apply() {
+    var host = document.getElementById('amenti-roster');
+    if (!host) return;
+    var r = data && data[Math.min(active, data.length - 1)];
+    var keep = {};
+    if (r) r.figures.forEach(function (f) { keep[norm(f.figure)] = true; });
+
+    var shown = 0, total = 0;
+    Array.prototype.forEach.call(host.querySelectorAll('.roster-card'), function (c) {
+      total++;
+      var f = norm(c.getAttribute('data-figure'));
+      var on = !filtering || keep[f];
+      c.style.display = on ? '' : 'none';
+      if (on) shown++;
+    });
+    return { shown: shown, total: total };
   }
 
-  /* ---- the panel -------------------------------------------------------- */
+  function norm(x) {
+    return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
   function draw() {
     if (!host) return;
     if (!data || !data.length) {
-      host.innerHTML = '<div class="rv-dark"><b>No roster yet.</b><br>'
+      host.innerHTML = '<div class="rv-dark"><b>No roster yet.</b> '
         + 'Sign in and one will be waiting &mdash; twenty-five to begin with, '
         + 'and every one of them yours to remove.</div>';
       return;
     }
     var r = data[Math.min(active, data.length - 1)];
-
-    /* UNWEIGHED FIRST. That is the useful order — a study set should open on
-       the work rather than the trophies — and the header says so, because a
-       list that reorders itself without saying is a list you cannot trust. */
-    var figs = r.figures.slice().sort(function (a, b) {
-      var ra = a.weighed ? 2 : (a.awaiting ? 1 : 0);
-      var rb = b.weighed ? 2 : (b.awaiting ? 1 : 0);
-      return ra - rb;
-    });
-
-    var tabs = data.map(function (x, i) {
-      return '<button class="rv-tab' + (i === active ? ' on' : '') + '" data-tab="' + i + '"'
-        + ' style="background:#0a0b11;border:1px solid '
-        + (i === active ? '#d4a017' : '#232838')
-        + ';color:' + (i === active ? '#f5c542' : '#8f95ab')
-        + ';font-family:inherit;border-radius:12px;padding:4px 11px;cursor:pointer">'
-        + esc(x.name) + '</button>';
-    }).join('');
-
     var pct = r.count ? Math.round(r.weighed / r.count * 100) : 0;
 
+    var tabs = data.length > 1 ? data.map(function (x, i) {
+      return '<button class="rv-tab' + (i === active ? ' on' : '') + '" data-tab="' + i + '"'
+        + ' style="background:#0a0b11;border:1px solid ' + (i === active ? '#d4a017' : '#232838')
+        + ';color:' + (i === active ? '#f5c542' : '#8f95ab') + ';font-family:inherit;'
+        + 'border-radius:12px;padding:3px 10px;cursor:pointer">' + esc(x.name) + '</button>';
+    }).join('') : '<span class="rv-name">' + esc(r.name) + '</span>';
+
     host.innerHTML =
-        '<div class="rv-head">'
+        '<div class="rv-bar-row">'
       +   '<div class="rv-tabs">' + tabs + '</div>'
-      +   '<div class="rv-count"><b>' + r.weighed + '</b> of ' + r.count + ' weighed</div>'
+      +   '<button class="rv-toggle' + (filtering ? ' on' : '') + '"'
+      +     ' style="background:' + (filtering ? '#1a1509' : '#0a0b11') + ';border:1px solid '
+      +     (filtering ? '#d4a017' : '#232838') + ';color:' + (filtering ? '#f5c542' : '#8f95ab')
+      +     ';font-family:inherit;border-radius:12px;padding:4px 13px;cursor:pointer">'
+      +     (filtering ? '&#10003; showing your twenty-five' : 'show only my roster') + '</button>'
+      +   '<span class="rv-count"><b>' + r.weighed + '</b> of ' + r.count + ' weighed</span>'
       + '</div>'
-      + '<div class="rv-bar"><i style="width:' + pct + '%"></i></div>'
-      + '<p class="rv-note">Unweighed first. ' + (r.count) + ' of ' + r.of + ' places filled.</p>'
-      + '<div class="rv-list">' + figs.map(row).join('') + '</div>'
-      + '<p class="rv-foot">A roster holds twenty-five. It is meant to be a choice.</p>';
+      + '<div class="rv-bar"><i style="width:' + pct + '%"></i></div>';
 
     Array.prototype.forEach.call(host.querySelectorAll('.rv-tab'), function (b) {
-      b.addEventListener('click', function () { active = +b.getAttribute('data-tab'); draw(); });
-    });
-    Array.prototype.forEach.call(host.querySelectorAll('.rv-x'), function (b) {
-      b.addEventListener('click', function (e) {
-        e.stopPropagation();
-        drop(r.id, b.getAttribute('data-drop'));
+      b.addEventListener('click', function () {
+        active = +b.getAttribute('data-tab'); draw(); apply();
       });
     });
-    Array.prototype.forEach.call(host.querySelectorAll('.rv-row'), function (el) {
-      el.addEventListener('click', function () {
-        var f = el.getAttribute('data-figure');
-        try {
-          var card = document.querySelector('.roster-card[data-figure="' + f.replace(/"/g, '') + '"]');
-          if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.classList.add('rv-lit');
-                      setTimeout(function () { card.classList.remove('rv-lit'); }, 1600); }
-        } catch (e) {}
-      });
+    var t = host.querySelector('.rv-toggle');
+    if (t) t.addEventListener('click', function () {
+      filtering = !filtering;
+      var res = apply();
+      draw();
+      /* SAY WHAT WAS HIDDEN. A grid that silently loses two thirds of itself
+         is a grid the seeker will think is broken. */
+      if (filtering && res) {
+        var note = document.createElement('p');
+        note.className = 'rv-note';
+        note.textContent = res.shown + ' of ' + res.total + ' cards shown \u2014 the rest are '
+          + 'still in the library.';
+        host.appendChild(note);
+      }
     });
   }
 
+  /* still exposed, because a CARD should be able to drop a figure — that is
+     where the seeker is looking, and it is the only place they should have to
+     be to change what they are studying. */
   async function drop(rosterId, figure) {
     var t = await token(); if (!t) return;
     try {
@@ -216,39 +217,22 @@
     var st = document.createElement('style');
     st.id = 'amenti-rv-css';
     st.textContent =
-      '#amenti-roster-view{max-width:760px;margin:34px auto;padding:0 18px;font-family:var(--body,sans-serif)}'
-    + '.rv-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:9px}'
+      '#amenti-roster-view{max-width:1100px;margin:26px auto 8px;padding:0 18px;'
+    +   'font-family:var(--body,sans-serif)}'
+    + '.rv-bar-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:7px}'
     + '.rv-tabs{display:flex;gap:6px;flex-wrap:wrap}'
-    + '.rv-tab{font-family:var(--mono,monospace);font-size:10px;letter-spacing:.14em;text-transform:uppercase;'
-    +   'background:#0a0b11;border:1px solid #232838;color:#8f95ab;border-radius:12px;padding:4px 11px;cursor:pointer}'
-    + '.rv-tab.on{border-color:#d4a017;color:#f5c542}'
-    + '.rv-count{margin-left:auto;font-family:var(--mono,monospace);font-size:11px;'
+    + '.rv-name{font-family:var(--mono,monospace);font-size:10px;letter-spacing:.18em;'
+    +   'text-transform:uppercase;color:#8f95ab}'
+    + '.rv-count{margin-left:auto;font-family:var(--mono,monospace);font-size:10.5px;'
     +   'letter-spacing:.12em;text-transform:uppercase;color:#8f95ab}'
-    + '.rv-count b{color:#57c98a;font-size:15px}'
+    + '.rv-count b{color:#57c98a;font-size:14px}'
     + '.rv-bar{height:3px;background:#161c27;border-radius:2px;overflow:hidden}'
     + '.rv-bar i{display:block;height:100%;background:linear-gradient(90deg,#2f6b4c,#57c98a)}'
-    + '.rv-note{font-family:var(--mono,monospace);font-size:9.5px;letter-spacing:.1em;'
-    +   'text-transform:uppercase;color:#6b7180;margin:7px 0 12px}'
-    + '.rv-list{display:flex;flex-direction:column;gap:3px}'
-    + '.rv-row{display:grid;grid-template-columns:20px 14px 1fr auto 22px;align-items:center;gap:9px;'
-    +   'border-radius:4px;padding:6px 9px;cursor:pointer;transition:.15s}'
-    + '.rv-row:hover{border-color:#d4a017 !important;background:#12141d !important}'
-    + '.rv-row.weighed .rv-f{color:#6b7180}'
-    + '.rv-row.awaiting{opacity:.62}'
-    + '.rv-n{font-family:var(--mono,monospace);font-size:8.5px;color:#4a5260;text-align:right}'
-    + '.rv-m{display:flex;align-items:center;line-height:0}'
-    + '.rv-f{font-size:14px;color:#c8ccdc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
-    + '.rv-s{font-family:var(--mono,monospace);font-size:8.5px;letter-spacing:.09em;'
-    +   'text-transform:uppercase;color:#6b7180}'
-    + '.rv-row.weighed .rv-s{color:#57c98a}'
-    + '.rv-x{background:none;border:none;color:#39434f;font-size:15px;cursor:pointer;line-height:1;padding:0}'
-    + '.rv-x:hover{color:#f87171}'
-    + '.rv-foot{font-family:var(--mono,monospace);font-size:9px;letter-spacing:.12em;'
-    +   'text-transform:uppercase;color:#4a5260;text-align:center;margin-top:14px}'
+    + '.rv-note{font-family:var(--mono,monospace);font-size:9px;letter-spacing:.1em;'
+    +   'text-transform:uppercase;color:#6b7180;margin:7px 0 0}'
     + '.rv-dark{border:1px solid rgba(248,113,113,.36);background:rgba(248,113,113,.05);'
-    +   'border-radius:8px;padding:16px 18px;color:#c8ccdc;font-size:15px;line-height:1.6}'
-    + '.rv-dark b{color:#e08060}'
-    + '.roster-card.rv-lit{outline:1px solid #d4a017;outline-offset:3px}';
+    +   'border-radius:8px;padding:14px 16px;color:#c8ccdc;font-size:15px;line-height:1.6}'
+    + '.rv-dark b{color:#e08060}';
     document.head.appendChild(st);
   }
 
@@ -264,6 +248,8 @@
       arena.parentNode.insertBefore(host, arena);
     }
     load();
+    /* the arena repaints on its own schedule; the filter must survive that */
+    document.addEventListener('amenti:stacks', function () { apply(); });
     try {
       var a = window.amentiAuth;
       if (a && a.sb && a.sb.auth && a.sb.auth.onAuthStateChange)
