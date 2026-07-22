@@ -1,10 +1,10 @@
 {
-  "at": "2026-07-22T00:53:40.729Z",
+  "at": "2026-07-22T07:12:25.881Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 53,
+    "count": 54,
     "prefixes": {
-      "atlantica:": 50,
+      "atlantica:": 51,
       "dailyplanet:": 3
     }
   },
@@ -16,17 +16,22 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 37,
+      "fired": 38,
       "last": {
-        "date": "2026-07-21",
+        "date": "2026-07-22",
         "figure": "ayn-rand"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-20",
         "2026-07-15"
       ],
       "recent": [
+        {
+          "figure": "ayn-rand",
+          "date": "2026-07-22",
+          "key": "atlantica:ayn-rand:2026-07-22"
+        },
         {
           "figure": "ayn-rand",
           "date": "2026-07-21",
@@ -91,14 +96,9 @@
           "figure": "bram-stoker",
           "date": "2026-07-11",
           "key": "atlantica:bram-stoker:2026-07-11"
-        },
-        {
-          "figure": "edward-gibbon",
-          "date": "2026-07-10",
-          "key": "atlantica:edward-gibbon:2026-07-10"
         }
       ],
-      "note": "37 dispatch(es) in the hold · last 2026-07-21 (ayn-rand) · MISSED 2 of the last 14 days"
+      "note": "38 dispatch(es) in the hold · last 2026-07-22 (ayn-rand) · MISSED 2 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
