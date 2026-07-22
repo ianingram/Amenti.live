@@ -87,19 +87,39 @@
   function words(x) {
     return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
   }
+  /* A NAME ON A LIST IS NOT A CHARACTER.
+     window.AMENTI_CHARS is not the thirty-four curated records. At line 6848
+     Page1 replaces it with mergeCuratedOver(csvFigs) — the curated set FIRST,
+     then roughly a thousand thin rows from the roster sheet, each carrying a
+     name and a rank and nothing else. The console says so on every load:
+     "roster: 1108 figures".
+
+     codexFor returned the FIRST match in that array. Caesar is curated, so he
+     was found rich and his bars drew. Louis Pasteur is not, so it found his
+     CSV row — no stats — and statBars correctly refused it. Every machine-made
+     character showed a face and no reading, and the face only appeared because
+     the art library is keyed separately.
+
+     So: rich first, thin second. A curated or machine-made record wins over a
+     row that is only a name, wherever it sits in the array. */
   function codexFor(figure) {
     var chars = window.AMENTI_CHARS;
     if (!Array.isArray(chars) || !figure) return null;
     var f = words(figure); if (!f.length) return null;
     var fs = f.join(' ');
-    for (var i = 0; i < chars.length; i++) {
-      var c = chars[i]; if (!c || !c.name) continue;
-      var n = words(c.name); if (!n.length) continue;
-      var ns = n.join(' ');
-      if (f[f.length - 1] === n[n.length - 1]) return c;
-      if (fs.indexOf(ns) !== -1 || ns.indexOf(fs) !== -1) return c;
+
+    function hunt(richOnly) {
+      for (var i = 0; i < chars.length; i++) {
+        var c = chars[i]; if (!c || !c.name) continue;
+        if (richOnly && !(c.rich || c.stats)) continue;
+        var n = words(c.name); if (!n.length) continue;
+        var ns = n.join(' ');
+        if (f[f.length - 1] === n[n.length - 1]) return c;
+        if (fs.indexOf(ns) !== -1 || ns.indexOf(fs) !== -1) return c;
+      }
+      return null;
     }
-    return null;
+    return hunt(true) || hunt(false);
   }
 
   /* ── THE GATES · the marks on a card ──────────────────────────────────
@@ -612,9 +632,17 @@
     rows.forEach(function (row) {
       if (!row || !row.key) return;
 
-      /* the sheet — only if the roster's own matcher finds nobody already */
-      if (row.sheet && !codexFor(row.name) && !codexFor(row.figure || row.name)) {
+      /* THE COLLISION IS WITH A CHARACTER, NOT WITH A NAME.
+         codexFor now prefers a rich record, so this asks whether a REAL one
+         already exists. Before the fix a machine-made sheet was skipped because
+         a thin CSV row of the same name counted as a clash — and the portrait
+         was applied anyway, because the art library is keyed separately. That
+         is precisely how a card came to have a face and no reading. */
+      var existing = codexFor(row.name) || codexFor(row.figure || row.name);
+      var clash = existing && (existing.rich || existing.stats);
+      if (row.sheet && !clash) {
         const rec = Object.assign({ key: row.key, name: row.name }, row.sheet);
+        rec.rich = true;          /* it is a character, not a name on a list */
         rec.id = chars.length;
         chars.push(rec);      // pushed BEFORE the next row is tested, so two
         added++;              // rows for the same person cannot both land
