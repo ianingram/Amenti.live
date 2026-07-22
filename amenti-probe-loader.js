@@ -49,6 +49,18 @@
   try { q = new URLSearchParams(location.search).get('probe'); } catch (e) {}
   if (!q) return;                       /* the whole cost of this file, unasked */
 
+  /* THIS SHIP ALREADY HAD A PROBE, AND IT OWNS TWO KEYWORDS.
+     amenti-probe.js answers ?probe=report and ?probe=1 — it musters the fleet
+     against its manifest and downloads a .txt. It has announced itself in the
+     console on every page load for weeks, and this loader was built without
+     reading it, which is the same fault as working from a stale list instead
+     of from the ship.
+
+     They are not duplicates: that one probes the FLEET, this one runs the
+     twenty files in probes/ that were catalogued and unrunnable. But the
+     keywords are its, and a second thing answering them is noise. */
+  if (q === 'report' || q === '1') return;
+
   var BASE  = 'probes/';
   var INDEX = 'fleet-structure.json';   /* written by the scan; the one source */
 
@@ -92,7 +104,31 @@
     });
   }
 
+  var TRANSCRIPT = [
+    'AMENTI · THE PROBE CORPS',
+    'fired ' + new Date().toISOString(),
+    'page  ' + (typeof location !== 'undefined' ? location.href : '?'),
+    ''
+  ];
+
+  function download(text) {
+    try {
+      var stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
+      var blob = new Blob([text], { type: 'text/plain' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'amenti-probes-' + stamp + '.txt';
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 800);
+      say('', ''); say('a .txt has landed in Downloads.', 'dim');
+    } catch (e) {
+      say('could not write the file — the transcript is in the console.', 'warn');
+    }
+  }
+
   function say(text, kind) {
+    TRANSCRIPT.push((kind && kind !== 'dim' && kind !== 'head'
+      ? kind.toUpperCase().padEnd(5) + ' ' : '') + text);
     if (!log) return;
     var d = document.createElement('div');
     d.className = 'l ' + (kind || '');
@@ -141,7 +177,13 @@
       var r = await fetch(INDEX, { cache: 'no-store' });
       if (!r.ok) throw new Error('http ' + r.status);
       var txt = await r.text();
-      var names = txt.match(/probe[\w.-]*\.(?:js|mjs)/g) || [];
+      /* MATCH THE PATH, NOT A SUBSTRING.
+         The first version matched /probe[\w.-]*\.(js|mjs)/ anywhere, which
+         found "probe-loader.js" INSIDE "amenti-probe-loader.js" and then tried
+         to fetch a file that does not exist. ?probe=all reported a 404 on a
+         ghost. Anchor to the folder. */
+      var names = (txt.match(/probes\/[\w.-]+\.(?:js|mjs)/g) || [])
+        .map(function (p) { return p.replace(/^probes\//, ''); });
       var seen = {}, out = [];
       names.forEach(function (n) { if (!seen[n]) { seen[n] = 1; out.push(n); } });
       return out;
@@ -213,6 +255,14 @@
     say('', ''); say('── ' + want.length + ' probe(s) fired ' + '─'.repeat(22), 'head');
     say('A probe that could not look says so. Read the warns as carefully as the fails.', 'dim');
     restore();
+
+    /* A .TXT LANDS IN DOWNLOADS.
+       The captain asked for this repeatedly while being handed console
+       one-liners to copy by hand. Reading a result off a screen and pasting it
+       somewhere is not a workflow; a file is. amenti-probe.js has done this for
+       weeks and this did not, which is the whole reason it kept being asked
+       for. */
+    download(TRANSCRIPT.join('\n'));
   })();
 
   window.amentiProbes = { run: run, catalogue: catalogue };
