@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-22T04:56:11.847Z",
+    "generated": "2026-07-22T05:14:30.510Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -745,6 +745,28 @@
       "tables": []
     },
     {
+      "file": "amenti-quizzard-worker.js",
+      "bytes": 127974,
+      "sha256": "0261b78db38e0fa1",
+      "type": "js",
+      "declares": [],
+      "loads": [],
+      "calls": [],
+      "endpoints": [
+        "/quiz/topics",
+        "/quizzard/character",
+        "/quizzard/patrol",
+        "/quizzard/ping",
+        "/quizzard/queue",
+        "/quizzard/run"
+      ],
+      "tables": [
+        "characters",
+        "quizzard_queue",
+        "topics"
+      ]
+    },
+    {
       "file": "amenti-readaloud.js",
       "bytes": 13628,
       "sha256": "13d1942342f5d937",
@@ -775,8 +797,8 @@
     },
     {
       "file": "amenti-roster-view.js",
-      "bytes": 13587,
-      "sha256": "b6e51a0ba0f33713",
+      "bytes": 11936,
+      "sha256": "e61a22213494e09a",
       "type": "js",
       "declares": [
         "amentiRosterView"
@@ -953,7 +975,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 43496,
-      "sha256": "ada5302e6e81b9df",
+      "sha256": "5cbfd34d4d3dd0f9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
