@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-22T01:39:21.216Z",
+    "generated": "2026-07-22T01:40:28.449Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -604,6 +604,19 @@
       "tables": []
     },
     {
+      "file": "amenti-motion.js",
+      "bytes": 8972,
+      "sha256": "dec0113a7f119f4c",
+      "type": "js",
+      "declares": [
+        "amentiMotion"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-probe.js",
       "bytes": 25076,
       "sha256": "329ed0acbf877885",
@@ -915,8 +928,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 41745,
-      "sha256": "c56ab87974cb2b06",
+      "bytes": 42942,
+      "sha256": "bcc899bdd8a3a882",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -925,25 +938,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 949,
+          "line": 996,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 950,
+          "line": 997,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 951,
+          "line": 998,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 952,
+          "line": 999,
           "when": "toplevel",
           "own": false
         }
@@ -1294,6 +1307,14 @@
         "file": "amenti-mascot.js",
         "declares": [
           "amentiMascot"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-motion.js",
+        "declares": [
+          "amentiMotion"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
