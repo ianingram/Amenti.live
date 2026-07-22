@@ -157,10 +157,18 @@
             : /PROBE \d+|·\s*$/.test(s) ? 'head' : '';
       say(s, k);
     };
-    console.warn  = function () { real.warn.apply(console, arguments);
-      say(Array.prototype.slice.call(arguments).map(stringify).join(' '), 'warn'); };
-    console.error = function () { real.error.apply(console, arguments);
-      say(Array.prototype.slice.call(arguments).map(stringify).join(' '), 'fail'); };
+    /* warn and error carry %c styling too — the CAS check does — and the first
+       version only stripped it from console.log, so the panel printed raw
+       format strings and colour declarations. */
+    console.warn  = function () { real.warn.apply(console, arguments); say(clean(arguments), 'warn'); };
+    console.error = function () { real.error.apply(console, arguments); say(clean(arguments), 'fail'); };
+  }
+  function clean(args) {
+    return Array.prototype.slice.call(args)
+      .filter(function (x) { return !(typeof x === 'string'
+        && (x.indexOf('color:') !== -1 || x.indexOf('background:') !== -1)); })
+      .map(function (x) { return typeof x === 'string' ? x.replace(/%c/g, '') : stringify(x); })
+      .join(' ').trim();
   }
   function restore() { console.log = real.log; console.warn = real.warn; console.error = real.error; }
   function stringify(x) {
@@ -177,13 +185,21 @@
       var r = await fetch(INDEX, { cache: 'no-store' });
       if (!r.ok) throw new Error('http ' + r.status);
       var txt = await r.text();
-      /* MATCH THE PATH, NOT A SUBSTRING.
-         The first version matched /probe[\w.-]*\.(js|mjs)/ anywhere, which
-         found "probe-loader.js" INSIDE "amenti-probe-loader.js" and then tried
-         to fetch a file that does not exist. ?probe=all reported a 404 on a
-         ghost. Anchor to the folder. */
-      var names = (txt.match(/probes\/[\w.-]+\.(?:js|mjs)/g) || [])
-        .map(function (p) { return p.replace(/^probes\//, ''); });
+      /* TWO WRONG VERSIONS BEFORE THIS ONE, AND BOTH ARE INSTRUCTIVE.
+         The first matched /probe[\w.-]*\.(js|mjs)/ anywhere, which found
+         "probe-loader.js" INSIDE "amenti-probe-loader.js" and chased a file
+         that does not exist.
+
+         The second anchored to "probes/" — and fleet-structure.json lists BARE
+         FILENAMES, so it matched nothing at all and the loader reported zero
+         probes aboard. A fix that turns a wrong answer into no answer is not a
+         fix.
+
+         This one requires the character BEFORE the name to be a delimiter, so
+         a filename embedded in a longer filename cannot match. */
+      var names = [];
+      var re = /(?:^|["'\s\[,:\/])(probe[\w.-]*\.(?:js|mjs))/g, mm;
+      while ((mm = re.exec(txt))) names.push(mm[1]);
       var seen = {}, out = [];
       names.forEach(function (n) { if (!seen[n]) { seen[n] = 1; out.push(n); } });
       return out;
@@ -233,18 +249,31 @@
     mount(); capture();
     say('reading the catalogue…', 'dim');
 
-    var list = await catalogue();
-    if (!list) {
-      say('COULD NOT READ ' + INDEX + '. The Corps cannot be enumerated, so nothing was '
-        + 'run — rather than running a guess.', 'fail');
-      restore(); return;
+    /* A NAMED PROBE DOES NOT NEED THE CATALOGUE.
+       ?probe=21 means probes/probe21.js. Asking the catalogue first put a
+       second thing between the captain and the probe, and when the catalogue
+       was misread the probe became unreachable even though the file was right
+       there. Only ?probe=all needs an index, because only ?probe=all needs to
+       know what exists. */
+    var want = null;
+    if (q !== 'all' && /^\d+$/.test(q)) {
+      want = ['probe' + q + '.js'];
+      say('firing probes/' + want[0] + ' directly', 'dim');
     }
-    say(list.length + ' probe(s) in the ship', 'dim');
 
-    var want = (q === 'all') ? list.filter(function (f) { return /\.js$/.test(f); }) : match(list, q);
-    if (!want.length) {
-      say('no probe matches "' + q + '". The ship holds: ' + list.join(', '), 'warn');
-      restore(); return;
+    if (!want) {
+      var list = await catalogue();
+      if (!list || !list.length) {
+        say('COULD NOT ENUMERATE THE CORPS from ' + INDEX + '. Nothing was run — rather '
+          + 'than running a guess. A probe can still be fired by number: ?probe=21', 'fail');
+        restore(); return;
+      }
+      say(list.length + ' probe(s) in the ship', 'dim');
+      want = (q === 'all') ? list.filter(function (f) { return /\.js$/.test(f); }) : match(list, q);
+      if (!want.length) {
+        say('no probe matches "' + q + '". The ship holds: ' + list.join(', '), 'warn');
+        restore(); return;
+      }
     }
 
     panel.querySelector('#probe-n').textContent = want.length + ' to fire';
