@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-22T01:40:28.449Z",
+    "generated": "2026-07-22T03:14:55.049Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -617,6 +617,19 @@
       "tables": []
     },
     {
+      "file": "amenti-probe-loader.js",
+      "bytes": 9914,
+      "sha256": "fd94b2fc2b2caec5",
+      "type": "js",
+      "declares": [
+        "amentiProbes"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-probe.js",
       "bytes": 25076,
       "sha256": "329ed0acbf877885",
@@ -928,8 +941,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 42942,
-      "sha256": "bcc899bdd8a3a882",
+      "bytes": 43216,
+      "sha256": "77a3a6100cac39fc",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -938,25 +951,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 996,
+          "line": 1003,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 997,
+          "line": 1004,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 998,
+          "line": 1005,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 999,
+          "line": 1006,
           "when": "toplevel",
           "own": false
         }
@@ -1318,6 +1331,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-probe-loader.js",
+        "declares": [
+          "amentiProbes"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-profile.js",
