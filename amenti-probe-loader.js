@@ -1,359 +1,265 @@
 /* ===========================================================================
-   amenti-probe-loader.js — THE CORPS, MADE FIREABLE
+   amenti-roster-view.js — TWENTY-FIVE
    ---------------------------------------------------------------------------
-   BUILT      2026-07-20 · 15:10 UTC
+   BUILT      2026-07-20 · 10:40 UTC
    AMENTI.LIVE · Ingram Manor LLC
 
-   In Page1.html, last of the scripts:
-       <script src="amenti-probe-loader.js" defer></script>
-
    WHAT THIS IS
-     Twenty probes sit in probes/. The scan catalogues them, the Corps pane
-     lists them, and fleet-structure.json names every one. They are part of the
-     ship in every sense except the one that matters: RUNNING one still means
-     copying text out of a document and pasting it into a console.
+     A seeker's roster, rendered. Twenty-five figures they chose, each with the
+     marks they hold, headed with the only number that matters: how many they
+     have actually weighed.
 
-     This closes that. A probe becomes a URL.
+   IN Page1.html, add one line after amenti-roster.js:
+       <script src="amenti-roster-view.js" defer></script>
 
-         Page1.html?probe=21
-         Page1.html?probe=complete-card
-         Page1.html?probe=all
+   WHY THE ARENA IS NOT ENOUGH
+     Fifty-four cards is a library. Twenty-five a seeker CHOSE is a study set,
+     and the difference is that the second one has a shape: a front, a back,
+     and a gap you can close. The arena answers "what is here". This answers
+     "where am I".
 
-   WHY THE LOADER LIVES HERE AND NOT ON THE CORPS PANE
-     A browser probe must run on the page it probes. Probe 21 counts cards in
-     the arena; fired from the Corps pane it would find none and report a
-     truthful, useless zero. So the Corps LISTS and DISPATCHES, and the loader
-     sits on the target and does the firing.
-
-   WHAT IT DOES NOT DO
-     It does not run anything unasked. With no ?probe= in the address this file
-     costs one string comparison and then does nothing at all. A seeker never
-     meets it, and no probe fires because a page was visited.
-
-     That is deliberate beyond politeness. A probe that runs unattended and
-     reports green while blind is worse than no probe — probe19 exists because
-     of exactly that. Automatic firing raises the stakes on the WARN
-     discipline, and until every probe is audited for it, firing stays an act.
-
-   ON EXPOSURE
-     The address is public and anyone may append ?probe=21. That is acceptable
-     because THE CORPS IS READ-ONLY BY DOCTRINE: a probe changes nothing and
-     reveals nothing a signed-out visitor could not already see. Any probe that
-     needs a seeker's session gets a null token and reports that it could not
-     look — which is the correct answer rather than a leak.
+   THREE THINGS IT REFUSES TO DO
+     · It never shows a number it did not read. If the endpoint fails, the
+       panel says so and shows nothing — the Glass Gate, same as everywhere.
+     · It never calls a figure with no quiz a failure. It is AWAITING, and
+       that is a fact about the library rather than about the seeker.
+     · It never reorders silently. Unweighed figures come forward because that
+       is the useful order, and the panel says that is what it has done.
    =========================================================================== */
 (function () {
   'use strict';
 
-  var q = null;
-  try { q = new URLSearchParams(location.search).get('probe'); } catch (e) {}
-  if (!q) return;                       /* the whole cost of this file, unasked */
+  var MINT = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.MINT_URL)
+          || 'https://amenti-mint.ingram-ian.workers.dev';
 
-  /* THIS SHIP ALREADY HAD A PROBE, AND IT OWNS TWO KEYWORDS.
-     amenti-probe.js answers ?probe=report and ?probe=1 — it musters the fleet
-     against its manifest and downloads a .txt. It has announced itself in the
-     console on every page load for weeks, and this loader was built without
-     reading it, which is the same fault as working from a stale list instead
-     of from the ship.
+  var host = null, data = null, active = 0;
 
-     They are not duplicates: that one probes the FLEET, this one runs the
-     twenty files in probes/ that were catalogued and unrunnable. But the
-     keywords are its, and a second thing answering them is noise. */
-  if (q === 'report' || q === '1') return;
-
-  var BASE  = 'probes/';
-  var INDEX = 'fleet-structure.json';   /* written by the scan; the one source */
-
-  var panel, log, running = 0;
-
-  /* ---- the panel ------------------------------------------------------- */
-  function mount() {
-    if (panel) return;
-    var css = document.createElement('style');
-    css.textContent =
-      '#probe-panel{position:fixed;right:0;bottom:0;width:min(560px,100vw);max-height:64vh;'
-    +   'z-index:99999;background:#06070b;border-top:1px solid #d4a017;border-left:1px solid #232838;'
-    +   'font-family:"Share Tech Mono",monospace;font-size:11.5px;color:#c8ccdc;display:flex;'
-    +   'flex-direction:column}'
-    + '#probe-panel .ph{display:flex;align-items:center;gap:10px;padding:8px 12px;'
-    +   'border-bottom:1px solid #232838;background:#0a0b11}'
-    + '#probe-panel .pt{letter-spacing:.2em;text-transform:uppercase;color:#f5c542;font-size:10px}'
-    + '#probe-panel .pn{margin-left:auto;color:#6b7180;font-size:10px}'
-    + '#probe-panel .px{background:none;border:none;color:#6b7180;font-size:18px;cursor:pointer;'
-    +   'line-height:1;padding:0;font-family:inherit}'
-    + '#probe-panel .pb{overflow-y:auto;padding:10px 12px;line-height:1.65}'
-    + '#probe-panel .l{white-space:pre-wrap;word-break:break-word}'
-    + '#probe-panel .l.pass{color:#80ffc0}'
-    + '#probe-panel .l.warn{color:#fbbf24}'
-    + '#probe-panel .l.fail{color:#f87171}'
-    + '#probe-panel .l.head{color:#f5c542;letter-spacing:.1em;margin:8px 0 4px}'
-    + '#probe-panel .l.dim{color:#6b7180}';
-    document.head.appendChild(css);
-
-    panel = document.createElement('div');
-    panel.id = 'probe-panel';
-    panel.innerHTML =
-        '<div class="ph"><span class="pt">The Probe Corps</span>'
-      + '<span class="pn" id="probe-n"></span>'
-      + '<button class="px" title="close">&#215;</button></div>'
-      + '<div class="pb" id="probe-log"></div>';
-    document.body.appendChild(panel);
-    log = panel.querySelector('#probe-log');
-    panel.querySelector('.px').addEventListener('click', function () {
-      panel.remove(); panel = null; restore();
+  function $(id) { return document.getElementById(id); }
+  function esc(x) {
+    return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) {
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' })[c];
     });
   }
 
-  var TRANSCRIPT = [
-    'AMENTI · THE PROBE CORPS',
-    'fired ' + new Date().toISOString(),
-    'page  ' + (typeof location !== 'undefined' ? location.href : '?'),
-    ''
-  ];
-
-  function download(text) {
+  /* ---- the token, or nothing ------------------------------------------- */
+  async function token() {
     try {
-      var stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
-      var blob = new Blob([text], { type: 'text/plain' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'amenti-probes-' + stamp + '.txt';
-      document.body.appendChild(a); a.click();
-      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 800);
-      say('', ''); say('a .txt has landed in Downloads.', 'dim');
-    } catch (e) {
-      say('could not write the file — the transcript is in the console.', 'warn');
-    }
-  }
-
-  function say(text, kind) {
-    TRANSCRIPT.push((kind && kind !== 'dim' && kind !== 'head'
-      ? kind.toUpperCase().padEnd(5) + ' ' : '') + text);
-    if (!log) return;
-    var d = document.createElement('div');
-    d.className = 'l ' + (kind || '');
-    d.textContent = text;
-    log.appendChild(d);
-    log.scrollTop = log.scrollHeight;
-  }
-
-  /* ---- catch what a probe prints, without taking it away ---------------
-     The console still gets everything. This mirrors it into the panel so the
-     result is visible on the page rather than only in a drawer the captain
-     may not have open. */
-  var real = { log: console.log, warn: console.warn, error: console.error };
-  function capture() {
-    console.log = function () {
-      real.log.apply(console, arguments);
-      var a = Array.prototype.slice.call(arguments);
-      /* strip the %c formatting probes use for colour */
-      var s = a.filter(function (x) { return typeof x !== 'string' || x.indexOf('color:') === -1
-        && x.indexOf('background:') === -1; })
-        .map(function (x) { return typeof x === 'string' ? x.replace(/%c/g, '') : stringify(x); })
-        .join(' ').trim();
-      if (!s) return;
-      var k = /^\s*PASS/.test(s) ? 'pass' : /^\s*WARN/.test(s) ? 'warn'
-            : /^\s*FAIL|✗/.test(s) ? 'fail'
-            : /PROBE \d+|·\s*$/.test(s) ? 'head' : '';
-      say(s, k);
-    };
-    /* warn and error carry %c styling too — the CAS check does — and the first
-       version only stripped it from console.log, so the panel printed raw
-       format strings and colour declarations. */
-    console.warn  = function () { real.warn.apply(console, arguments); say(clean(arguments), 'warn'); };
-    console.error = function () { real.error.apply(console, arguments); say(clean(arguments), 'fail'); };
-  }
-  function clean(args) {
-    return Array.prototype.slice.call(args)
-      .filter(function (x) { return !(typeof x === 'string'
-        && (x.indexOf('color:') !== -1 || x.indexOf('background:') !== -1)); })
-      .map(function (x) { return typeof x === 'string' ? x.replace(/%c/g, '') : stringify(x); })
-      .join(' ').trim();
-  }
-  function restore() { console.log = real.log; console.warn = real.warn; console.error = real.error; }
-  function stringify(x) {
-    if (typeof x === 'string') return x;
-    try { return JSON.stringify(x); } catch (e) { return String(x); }
-  }
-
-  /* ---- find the probes the ship actually holds -------------------------
-     From fleet-structure.json, which the scan regenerates from the folder. NOT
-     from a hand-written list: fleet-manifest.js names ten of the twenty that
-     exist, and a loader trusting it would silently refuse half the Corps. */
-  async function catalogue() {
-    try {
-      var r = await fetch(INDEX, { cache: 'no-store' });
-      if (!r.ok) throw new Error('http ' + r.status);
-      var txt = await r.text();
-      /* TWO WRONG VERSIONS BEFORE THIS ONE, AND BOTH ARE INSTRUCTIVE.
-         The first matched /probe[\w.-]*\.(js|mjs)/ anywhere, which found
-         "probe-loader.js" INSIDE "amenti-probe-loader.js" and chased a file
-         that does not exist.
-
-         The second anchored to "probes/" — and fleet-structure.json lists BARE
-         FILENAMES, so it matched nothing at all and the loader reported zero
-         probes aboard. A fix that turns a wrong answer into no answer is not a
-         fix.
-
-         This one requires the character BEFORE the name to be a delimiter, so
-         a filename embedded in a longer filename cannot match. */
-      var names = [];
-      var re = /(?:^|["'\s\[,:\/])(probe[\w.-]*\.(?:js|mjs))/g, mm;
-      while ((mm = re.exec(txt))) names.push(mm[1]);
-      var seen = {}, out = [];
-      names.forEach(function (n) { if (!seen[n]) { seen[n] = 1; out.push(n); } });
-      return out;
+      var a = window.amentiAuth;
+      if (!a || !a.sb) return null;
+      var r = await a.sb.auth.getSession();
+      return r && r.data && r.data.session ? r.data.session.access_token : null;
     } catch (e) { return null; }
   }
 
-  /* A NUMBER MEANS THAT NUMBER, OR NOTHING.
-     The first version fell through to substring matching when a bare number
-     found no exact file — so ?probe=1 fired probe10 through probe19, ten
-     probes the captain did not ask for. A fuzzy fallback that quietly does
-     something nobody requested is the same fault this build keeps finding.
-     A number is now exact or it is a miss, and a miss says so. */
-  function match(list, want) {
-    var w = String(want).toLowerCase().trim();
-    if (/^\d+$/.test(w)) {
-      return list.filter(function (f) {
-        return f.toLowerCase() === 'probe' + w + '.js'
-            || f.toLowerCase() === 'probe' + w + '.mjs';
-      });
-    }
-    return list.filter(function (f) { return f.toLowerCase().indexOf(w) !== -1; });
+  /* ---- the marks, drawn small ------------------------------------------ */
+  function heart(filled) {
+    var body = filled
+      ? '<path d="M12 24 C3 16 1 10 5 6 C8 3 11 4.5 12 7 C13 4.5 16 3 19 6 C23 10 21 16 12 24 Z"'
+        + ' fill="#0c4a2e" stroke="#d4a017" stroke-width="1.1"/>'
+        + '<path d="M12 7 C11 4.5 8 3 5 6 L12 11 Z" fill="#57c98a"/>'
+        + '<path d="M12 7 C13 4.5 16 3 19 6 L12 11 Z" fill="#4ab77c"/>'
+        + '<path d="M12 11 L16 15 L12 20 L8 15 Z" fill="#e0563a"/>'
+      : '<path d="M12 24 C3 16 1 10 5 6 C8 3 11 4.5 12 7 C13 4.5 16 3 19 6 C23 10 21 16 12 24 Z"'
+        + ' fill="none" stroke="#39434f" stroke-width="1.4" stroke-dasharray="2 2.4"/>';
+    /* size on the element, never only in CSS — a stylesheet that fails to
+       load must not be able to produce a three-hundred-pixel heart */
+    return '<svg viewBox="0 0 24 26" width="11" height="12" style="width:11px;height:12px;'
+      + 'display:block;flex:0 0 auto;background:none" aria-hidden="true">' + body + '</svg>';
   }
 
-  async function run(file) {
-    return new Promise(function (resolve) {
-      say('', ''); say('── ' + file + ' ' + '─'.repeat(Math.max(0, 40 - file.length)), 'head');
-      if (/\.mjs$/.test(file)) {
-        say('a server probe — it does not run in a browser. Run it with node, or '
-          + 'let the scheduled workflow fire it.', 'dim');
-        return resolve();
+  /* ── THE ROSTER FILTERS THE ARENA. IT DOES NOT LIST BESIDE IT. ───────
+     The first version rendered twenty-five names in a panel above the cards —
+     and every one of those names was already on screen as a card. Two Teslas.
+     Two Lincolns. A second surface showing the same figures, which is the
+     duplicate the additive characters table was carefully built to avoid, made
+     again one layer up.
+
+     A roster is not another view of the library. It is a NARROWING of it. So
+     the panel is one line: the name, the count, and a switch. Turn it on and
+     the arena becomes your twenty-five. Turn it off and it is everything.
+
+     One surface. One card per figure. Always. */
+
+  var filtering = false;
+
+  function apply() {
+    var host = document.getElementById('amenti-roster');
+    if (!host) return;
+    var r = data && data[Math.min(active, data.length - 1)];
+    var keep = {};
+    if (r) r.figures.forEach(function (f) { keep[norm(f.figure)] = true; });
+
+    var shown = 0, total = 0;
+    Array.prototype.forEach.call(host.querySelectorAll('.roster-card'), function (c) {
+      total++;
+      var f = norm(c.getAttribute('data-figure'));
+      var on = !filtering || keep[f];
+      c.style.display = on ? '' : 'none';
+      if (on) shown++;
+    });
+    return { shown: shown, total: total };
+  }
+
+  function norm(x) {
+    return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function draw() {
+    if (!host) return;
+    if (!data || !data.length) {
+      host.innerHTML = '<div class="rv-dark"><b>No roster yet.</b> '
+        + 'Sign in and one will be waiting &mdash; twenty-five to begin with, '
+        + 'and every one of them yours to remove.</div>';
+      return;
+    }
+    var r = data[Math.min(active, data.length - 1)];
+    var pct = r.count ? Math.round(r.weighed / r.count * 100) : 0;
+
+    var tabs = data.length > 1 ? data.map(function (x, i) {
+      return '<button class="rv-tab' + (i === active ? ' on' : '') + '" data-tab="' + i + '"'
+        + ' style="background:#0a0b11;border:1px solid ' + (i === active ? '#d4a017' : '#232838')
+        + ';color:' + (i === active ? '#f5c542' : '#8f95ab') + ';font-family:inherit;'
+        + 'border-radius:12px;padding:3px 10px;cursor:pointer">' + esc(x.name) + '</button>';
+    }).join('') : '<span class="rv-name">' + esc(r.name) + '</span>';
+
+    host.innerHTML =
+        '<div class="rv-bar-row">'
+      +   '<div class="rv-tabs">' + tabs + '</div>'
+      +   '<button class="rv-toggle' + (filtering ? ' on' : '') + '"'
+      +     ' style="background:' + (filtering ? '#1a1509' : '#0a0b11') + ';border:1px solid '
+      +     (filtering ? '#d4a017' : '#232838') + ';color:' + (filtering ? '#f5c542' : '#8f95ab')
+      +     ';font-family:inherit;border-radius:12px;padding:4px 13px;cursor:pointer">'
+      +     (filtering ? '&#10003; showing your twenty-five' : 'show only my roster') + '</button>'
+      +   '<span class="rv-count"><b>' + r.weighed + '</b> of ' + r.count + ' weighed</span>'
+      + '</div>'
+      + '<div class="rv-bar"><i style="width:' + pct + '%"></i></div>';
+
+    Array.prototype.forEach.call(host.querySelectorAll('.rv-tab'), function (b) {
+      b.addEventListener('click', function () {
+        active = +b.getAttribute('data-tab'); draw(); apply();
+      });
+    });
+    var t = host.querySelector('.rv-toggle');
+    if (t) t.addEventListener('click', function () {
+      filtering = !filtering;
+      var res = apply();
+      draw();
+      /* SAY WHAT WAS HIDDEN. A grid that silently loses two thirds of itself
+         is a grid the seeker will think is broken. */
+      if (filtering && res) {
+        var note = document.createElement('p');
+        note.className = 'rv-note';
+        note.textContent = res.shown + ' of ' + res.total + ' cards shown \u2014 the rest are '
+          + 'still in the library.';
+        host.appendChild(note);
       }
-      /* ONLOAD IS NOT DONE.
-         script.onload fires when the FILE has loaded, not when an async probe
-         has finished speaking. Probe 21 makes two fetches; the first version of
-         this loader resolved on onload, restored the console, and moved on
-         before the probe had said a word — so its findings went to the real
-         console and the panel showed an empty section under its name.
-
-         A loader that reports "1 probe fired" and shows nothing has told the
-         captain something false. So it now waits for QUIET: the probe is done
-         when it has stopped talking, not when its file arrived. */
-      var s = document.createElement('script');
-      s.src = BASE + file + '?t=' + Date.now();
-
-      var settled = false;
-      function done(why) {
-        if (settled) return; settled = true;
-        try { s.remove(); } catch (e) {}
-        if (why) say(why, 'warn');
-        resolve();
-      }
-
-      s.onerror = function () {
-        done(null);
-        say('could not load ' + BASE + file + ' — it is catalogued but not reachable. '
-          + 'That is a finding about the ship, not about the probe.', 'fail');
-      };
-
-      s.onload = function () {
-        /* A QUIET DETECTOR WITH NO FLOOR TREATS "HAS NOT STARTED" AS "HAS
-           FINISHED", AND THAT IS EXACTLY WHAT THE FIRST VERSION DID.
-
-           Probe 21 makes two fetches before it prints a word. The loader saw
-           900ms of silence, concluded the probe was done, restored the console
-           and reported "1 probe fired" over an empty section — a false report
-           about a probe, which is the one thing a probe loader must never
-           produce.
-
-           So there are two clocks. Nothing resolves before the FLOOR, however
-           silent it is. After that, quiet means done. */
-        var FLOOR = 4000;               /* no probe is finished before this */
-        var QUIET = 1200;               /* silence after it last spoke */
-        var CEIL  = 20000;              /* and never hang */
-
-        var mark = TRANSCRIPT.length;
-        var spoke = false;
-        var quiet = 0, waited = 0;
-
-        var tick = setInterval(function () {
-          waited += 150;
-          if (TRANSCRIPT.length > mark) { mark = TRANSCRIPT.length; quiet = 0; spoke = true; }
-          else quiet += 150;
-
-          if (waited < FLOOR) return;                    /* the floor holds */
-          if (quiet >= QUIET || waited >= CEIL) {
-            clearInterval(tick);
-            if (waited >= CEIL && quiet < QUIET) {
-              done('gave up after ' + (CEIL / 1000) + 's — the probe may still be running, and '
-                 + 'anything it says from here lands in the console rather than this panel');
-            } else if (!spoke) {
-              /* IT LOADED AND SAID NOTHING. That is a finding, not a pass. */
-              done('the file loaded and printed nothing in ' + (waited / 1000) + 's. Either it '
-                 + 'is not a self-firing probe, or it threw before speaking — check the console '
-                 + 'for an error. This loader will not report a silent probe as a clean one.');
-            } else {
-              done(null);
-            }
-          }
-        }, 150);
-      };
-
-      document.head.appendChild(s);
     });
   }
 
-  /* ---- go ---------------------------------------------------------------- */
-  (async function () {
-    mount(); capture();
-    say('reading the catalogue…', 'dim');
+  /* still exposed, because a CARD should be able to drop a figure — that is
+     where the seeker is looking, and it is the only place they should have to
+     be to change what they are studying. */
+  async function drop(rosterId, figure) {
+    var t = await token(); if (!t) return;
+    try {
+      await fetch(MINT + '/roster/remove', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + t, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rosterId: rosterId, figure: figure })
+      });
+    } catch (e) { return; }
+    await load();
+  }
 
-    /* A NAMED PROBE DOES NOT NEED THE CATALOGUE.
-       ?probe=21 means probes/probe21.js. Asking the catalogue first put a
-       second thing between the captain and the probe, and when the catalogue
-       was misread the probe became unreachable even though the file was right
-       there. Only ?probe=all needs an index, because only ?probe=all needs to
-       know what exists. */
-    var want = null;
-    if (q !== 'all' && /^\d+$/.test(q)) {
-      want = ['probe' + q + '.js'];
-      say('firing probes/' + want[0] + ' directly', 'dim');
+  /* the add path is exposed so a card can call it */
+  async function add(figure) {
+    var t = await token(); if (!t) return { ok: false, signedOut: true };
+    var r = data && data[active];
+    try {
+      var res = await fetch(MINT + '/roster/add', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + t, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rosterId: r ? r.id : null, figure: figure })
+      });
+      var d = await res.json();
+      if (d && d.full) return { ok: false, full: true, note: d.note };
+      await load();
+      return { ok: true };
+    } catch (e) { return { ok: false }; }
+  }
+
+  async function load() {
+    var t = await token();
+    if (!t) { data = null; draw(); return; }
+    try {
+      var r = await fetch(MINT + '/roster', { headers: { Authorization: 'Bearer ' + t } });
+      if (!r.ok) throw new Error('http ' + r.status);
+      var d = await r.json();
+      /* A 503 from the roster route means the LIBRARY could not be read, not
+         that the seeker has no roster. Those look identical if you only check
+         for rows, and one of them is a lie. */
+      if (!d || !d.ok) throw new Error(d && d.note ? d.note : 'no reading');
+      data = d.rosters || [];
+    } catch (e) {
+      /* THE GLASS GATE. No number is shown that was not read. */
+      if (host) host.innerHTML = '<div class="rv-dark"><b>THE ROSTER CANNOT BE READ.</b><br>'
+        + esc(e && e.message ? e.message : 'The library did not answer.')
+        + '<br><span style="opacity:.7">Nothing is shown rather than a count from a '
+        + 'moment ago \u2014 and rather than a roster that would call every figure '
+        + '&ldquo;not yet set for trial&rdquo; because a fetch failed.</span></div>';
+      return;
     }
+    draw();
+  }
 
-    if (!want) {
-      var list = await catalogue();
-      if (!list || !list.length) {
-        say('COULD NOT ENUMERATE THE CORPS from ' + INDEX + '. Nothing was run — rather '
-          + 'than running a guess. A probe can still be fired by number: ?probe=21', 'fail');
-        restore(); return;
-      }
-      say(list.length + ' probe(s) in the ship', 'dim');
-      want = (q === 'all') ? list.filter(function (f) { return /\.js$/.test(f); }) : match(list, q);
-      if (!want.length) {
-        say('no probe matches "' + q + '". The ship holds: ' + list.join(', '), 'warn');
-        restore(); return;
-      }
+  function css() {
+    if (document.getElementById('amenti-rv-css')) return;
+    var st = document.createElement('style');
+    st.id = 'amenti-rv-css';
+    st.textContent =
+      '#amenti-roster-view{max-width:1100px;margin:26px auto 8px;padding:0 18px;'
+    +   'font-family:var(--body,sans-serif)}'
+    + '.rv-bar-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:7px}'
+    + '.rv-tabs{display:flex;gap:6px;flex-wrap:wrap}'
+    + '.rv-name{font-family:var(--mono,monospace);font-size:10px;letter-spacing:.18em;'
+    +   'text-transform:uppercase;color:#8f95ab}'
+    + '.rv-count{margin-left:auto;font-family:var(--mono,monospace);font-size:10.5px;'
+    +   'letter-spacing:.12em;text-transform:uppercase;color:#8f95ab}'
+    + '.rv-count b{color:#57c98a;font-size:14px}'
+    + '.rv-bar{height:3px;background:#161c27;border-radius:2px;overflow:hidden}'
+    + '.rv-bar i{display:block;height:100%;background:linear-gradient(90deg,#2f6b4c,#57c98a)}'
+    + '.rv-note{font-family:var(--mono,monospace);font-size:9px;letter-spacing:.1em;'
+    +   'text-transform:uppercase;color:#6b7180;margin:7px 0 0}'
+    + '.rv-dark{border:1px solid rgba(248,113,113,.36);background:rgba(248,113,113,.05);'
+    +   'border-radius:8px;padding:14px 16px;color:#c8ccdc;font-size:15px;line-height:1.6}'
+    + '.rv-dark b{color:#e08060}';
+    document.head.appendChild(st);
+  }
+
+  function mount() {
+    css();
+    host = $('amenti-roster-view');
+    if (!host) {
+      /* no slot on the page — place it above the arena rather than nowhere */
+      var arena = document.getElementById('amenti-roster') || document.querySelector('.roster-grid');
+      if (!arena || !arena.parentNode) return;
+      host = document.createElement('section');
+      host.id = 'amenti-roster-view';
+      arena.parentNode.insertBefore(host, arena);
     }
+    load();
+    /* the arena repaints on its own schedule; the filter must survive that */
+    document.addEventListener('amenti:stacks', function () { apply(); });
+    try {
+      var a = window.amentiAuth;
+      if (a && a.sb && a.sb.auth && a.sb.auth.onAuthStateChange)
+        a.sb.auth.onAuthStateChange(function () { load(); });
+    } catch (e) {}
+  }
 
-    panel.querySelector('#probe-n').textContent = want.length + ' to fire';
-    for (var i = 0; i < want.length; i++) {
-      panel.querySelector('#probe-n').textContent = (i + 1) + ' of ' + want.length;
-      await run(want[i]);
-    }
-    say('', ''); say('── ' + want.length + ' probe(s) fired ' + '─'.repeat(22), 'head');
-    say('A probe that could not look says so. Read the warns as carefully as the fails.', 'dim');
-    restore();
+  window.amentiRosterView = { reload: load, add: add };
 
-    /* A .TXT LANDS IN DOWNLOADS.
-       The captain asked for this repeatedly while being handed console
-       one-liners to copy by hand. Reading a result off a screen and pasting it
-       somewhere is not a workflow; a file is. amenti-probe.js has done this for
-       weeks and this did not, which is the whole reason it kept being asked
-       for. */
-    download(TRANSCRIPT.join('\n'));
-  })();
-
-  window.amentiProbes = { run: run, catalogue: catalogue };
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', mount);
+  else mount();
 })();
