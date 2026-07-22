@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-22T03:17:29.500Z",
+    "generated": "2026-07-22T03:22:42.644Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -945,8 +945,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 42255,
-      "sha256": "19f136bac888a3f7",
+      "bytes": 43496,
+      "sha256": "17c1971565760ef2",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -955,25 +955,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 963,
+          "line": 1010,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 964,
+          "line": 1011,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 965,
+          "line": 1012,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 966,
+          "line": 1013,
           "when": "toplevel",
           "own": false
         }
@@ -1161,7 +1161,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 20,
+    "count": 21,
     "files": [
       {
         "file": "probe-ordnance.mjs",
@@ -1246,6 +1246,12 @@
         "title": null,
         "guards": "Probe the pass. Every claim gets exercised or it isn't a claim.",
         "bytes": 7171
+      },
+      {
+        "file": "probe21.js",
+        "title": "PROBE 21 · THE COMPLETE CARD",
+        "guards": null,
+        "bytes": 9091
       },
       {
         "file": "probe3.js",
