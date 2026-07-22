@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-22T04:12:03.350Z",
+    "generated": "2026-07-22T04:28:10.638Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -622,8 +622,8 @@
     },
     {
       "file": "amenti-probe-loader.js",
-      "bytes": 12286,
-      "sha256": "cd66da9322b3b6f7",
+      "bytes": 13718,
+      "sha256": "0132b58ba887341b",
       "type": "js",
       "declares": [
         "amentiProbes"
@@ -946,7 +946,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 43496,
-      "sha256": "dc3de854e536faf8",
+      "sha256": "a435829d63da1f7a",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
