@@ -1,14 +1,14 @@
 {
-  "at": "2026-07-21T18:45:58.136Z",
+  "at": "2026-07-22T00:53:40.729Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 52,
+    "count": 53,
     "prefixes": {
-      "atlantica:": 49,
+      "atlantica:": 50,
       "dailyplanet:": 3
     }
   },
-  "today": "2026-07-21",
+  "today": "2026-07-22",
   "thisWeek": "2026-07-19",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -16,17 +16,22 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 36,
+      "fired": 37,
       "last": {
-        "date": "2026-07-19",
-        "figure": "gilgamesh"
+        "date": "2026-07-21",
+        "figure": "ayn-rand"
       },
-      "lastAgeDays": 2,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-07-20",
         "2026-07-15"
       ],
       "recent": [
+        {
+          "figure": "ayn-rand",
+          "date": "2026-07-21",
+          "key": "atlantica:ayn-rand:2026-07-21"
+        },
         {
           "figure": "gilgamesh",
           "date": "2026-07-19",
@@ -91,14 +96,9 @@
           "figure": "edward-gibbon",
           "date": "2026-07-10",
           "key": "atlantica:edward-gibbon:2026-07-10"
-        },
-        {
-          "figure": "david-hume",
-          "date": "2026-07-09",
-          "key": "atlantica:david-hume:2026-07-09"
         }
       ],
-      "note": "36 dispatch(es) in the hold · last 2026-07-19 (gilgamesh) · MISSED 2 of the last 14 days"
+      "note": "37 dispatch(es) in the hold · last 2026-07-21 (ayn-rand) · MISSED 2 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
