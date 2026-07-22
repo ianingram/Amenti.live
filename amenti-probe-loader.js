@@ -259,19 +259,44 @@
       };
 
       s.onload = function () {
+        /* A QUIET DETECTOR WITH NO FLOOR TREATS "HAS NOT STARTED" AS "HAS
+           FINISHED", AND THAT IS EXACTLY WHAT THE FIRST VERSION DID.
+
+           Probe 21 makes two fetches before it prints a word. The loader saw
+           900ms of silence, concluded the probe was done, restored the console
+           and reported "1 probe fired" over an empty section — a false report
+           about a probe, which is the one thing a probe loader must never
+           produce.
+
+           So there are two clocks. Nothing resolves before the FLOOR, however
+           silent it is. After that, quiet means done. */
+        var FLOOR = 4000;               /* no probe is finished before this */
+        var QUIET = 1200;               /* silence after it last spoke */
+        var CEIL  = 20000;              /* and never hang */
+
         var mark = TRANSCRIPT.length;
+        var spoke = false;
         var quiet = 0, waited = 0;
+
         var tick = setInterval(function () {
           waited += 150;
-          if (TRANSCRIPT.length > mark) { mark = TRANSCRIPT.length; quiet = 0; }
+          if (TRANSCRIPT.length > mark) { mark = TRANSCRIPT.length; quiet = 0; spoke = true; }
           else quiet += 150;
-          /* 900ms of silence after it last spoke, or 12s in total */
-          if (quiet >= 900 || waited >= 12000) {
+
+          if (waited < FLOOR) return;                    /* the floor holds */
+          if (quiet >= QUIET || waited >= CEIL) {
             clearInterval(tick);
-            done(waited >= 12000 && quiet < 900
-              ? 'gave up waiting after 12s — the probe may still be running, and '
-                + 'anything it says from here lands in the console rather than this panel'
-              : null);
+            if (waited >= CEIL && quiet < QUIET) {
+              done('gave up after ' + (CEIL / 1000) + 's — the probe may still be running, and '
+                 + 'anything it says from here lands in the console rather than this panel');
+            } else if (!spoke) {
+              /* IT LOADED AND SAID NOTHING. That is a finding, not a pass. */
+              done('the file loaded and printed nothing in ' + (waited / 1000) + 's. Either it '
+                 + 'is not a self-firing probe, or it threw before speaking — check the console '
+                 + 'for an error. This loader will not report a silent probe as a clean one.');
+            } else {
+              done(null);
+            }
           }
         }, 150);
       };
