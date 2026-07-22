@@ -231,15 +231,51 @@
           + 'let the scheduled workflow fire it.', 'dim');
         return resolve();
       }
+      /* ONLOAD IS NOT DONE.
+         script.onload fires when the FILE has loaded, not when an async probe
+         has finished speaking. Probe 21 makes two fetches; the first version of
+         this loader resolved on onload, restored the console, and moved on
+         before the probe had said a word — so its findings went to the real
+         console and the panel showed an empty section under its name.
+
+         A loader that reports "1 probe fired" and shows nothing has told the
+         captain something false. So it now waits for QUIET: the probe is done
+         when it has stopped talking, not when its file arrived. */
       var s = document.createElement('script');
       s.src = BASE + file + '?t=' + Date.now();
-      s.onload  = function () { s.remove(); resolve(); };
+
+      var settled = false;
+      function done(why) {
+        if (settled) return; settled = true;
+        try { s.remove(); } catch (e) {}
+        if (why) say(why, 'warn');
+        resolve();
+      }
+
       s.onerror = function () {
-        s.remove();
+        done(null);
         say('could not load ' + BASE + file + ' — it is catalogued but not reachable. '
           + 'That is a finding about the ship, not about the probe.', 'fail');
-        resolve();
       };
+
+      s.onload = function () {
+        var mark = TRANSCRIPT.length;
+        var quiet = 0, waited = 0;
+        var tick = setInterval(function () {
+          waited += 150;
+          if (TRANSCRIPT.length > mark) { mark = TRANSCRIPT.length; quiet = 0; }
+          else quiet += 150;
+          /* 900ms of silence after it last spoke, or 12s in total */
+          if (quiet >= 900 || waited >= 12000) {
+            clearInterval(tick);
+            done(waited >= 12000 && quiet < 900
+              ? 'gave up waiting after 12s — the probe may still be running, and '
+                + 'anything it says from here lands in the console rather than this panel'
+              : null);
+          }
+        }, 150);
+      };
+
       document.head.appendChild(s);
     });
   }
