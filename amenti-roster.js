@@ -27,6 +27,14 @@
    USAGE in Page1.html — replace the six static .roster-card divs with:
        <div id="amenti-roster"></div>
    and load this file after amenti-quiz.js.
+
+   REQUIRED, AND IT MUST LOAD FIRST:  amenti-resolve.js
+     This file no longer decides for itself whether two names are the same
+     person. It asks the resolver. Load order is
+         config.js -> csv-loader -> amenti-resolve.js -> amenti-roster.js
+     so the ledger is in AMENTI_CHARS before the resolver builds its index.
+     If the resolver is absent, cards render with a badge and no stat bars
+     rather than with a guess. See codexFor below.
    =========================================================================== */
 (function () {
   'use strict';
@@ -73,53 +81,57 @@
     'Science & Invention': '\u269B\uFE0F'
   };
 
-  /* THE ATTRIBUTES.
+  /* ── THE ATTRIBUTES ───────────────────────────────────────────────────
      window.AMENTI_CHARS holds a codex record per character: a bio, abilities,
-     a voice, and four scores — strategy, charisma, foresight, combat. Twelve of
+     a voice, and four scores — strategy, charisma, foresight, combat. Some of
      the quiz figures have one; the rest do not, and NOTHING IS INVENTED for
      them. A card with no record simply carries no bars.
 
-     Matching is deliberately strict. A loose first-name match would hand
-     Marcus MANLIUS the stats of Marcus AURELIUS — a quiet, plausible lie of
-     exactly the kind this whole system exists to prevent. So a record is
-     claimed only when the LAST name agrees, or one full name contains the
-     other ("Moses" inside "Moses ben Amram"). */
-  function words(x) {
-    return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
-  }
-  /* A NAME ON A LIST IS NOT A CHARACTER.
-     window.AMENTI_CHARS is not the thirty-four curated records. At line 6848
-     Page1 replaces it with mergeCuratedOver(csvFigs) — the curated set FIRST,
-     then roughly a thousand thin rows from the roster sheet, each carrying a
-     name and a rank and nothing else. The console says so on every load:
-     "roster: 1108 figures".
+     WHAT USED TO BE HERE, AND WHY IT IS GONE
 
-     codexFor returned the FIRST match in that array. Caesar is curated, so he
-     was found rich and his bars drew. Louis Pasteur is not, so it found his
-     CSV row — no stats — and statBars correctly refused it. Every machine-made
-     character showed a face and no reading, and the face only appeared because
-     the art library is keyed separately.
+     This file carried its own matcher. It resolved a figure by LAST NAME, and
+     failing that by CONTAINMENT either way. It was written to be strict — the
+     comment said so, and named the Marcus Manlius / Marcus Aurelius trap it
+     was meant to prevent. It did prevent that one. It caused seventeen others.
 
-     So: rich first, thin second. A curated or machine-made record wins over a
-     row that is only a name, wherever it sits in the array. */
+     Measured on the live page, against every person in the roster:
+       191 of 319 people sharing a surname resolved to the WRONG human.
+       Pope Clement VII      -> cleopatra        (matched on the numeral VII)
+       Lao Tzu               -> sun-tzu          (matched on "tzu")
+       Indira Gandhi         -> gandhi           (Mohandas)
+       Augustus Caesar       -> caesar           (Julius)
+       Marshall McLuhan      -> mars             (contained "Mars")
+       Alexander the Great   -> constantine-the-great
+       Catherine the Great   -> constantine-the-great   ...and five more Greats
+       Enkidu                -> enki
+       Jupiter               -> diana-daughter-of-jupiter
+
+     Every one was confident, plausible, and wrong, and the arena looked
+     perfectly well the entire time. A matcher that GUESSES will eventually
+     hand a card another person's face and another person's stat line.
+
+     So the question "are these the same person?" is no longer answered here.
+     It is answered once, in amenti-resolve.js, by exact match against a table
+     of names and aliases — or not answered at all. An unknown figure returns
+     null and the card shows its badge, which is the honest outcome.
+
+     THE FUNCTION KEEPS ITS NAME so that every call site below is unchanged. */
   function codexFor(figure) {
-    var chars = window.AMENTI_CHARS;
-    if (!Array.isArray(chars) || !figure) return null;
-    var f = words(figure); if (!f.length) return null;
-    var fs = f.join(' ');
-
-    function hunt(richOnly) {
-      for (var i = 0; i < chars.length; i++) {
-        var c = chars[i]; if (!c || !c.name) continue;
-        if (richOnly && !(c.rich || c.stats)) continue;
-        var n = words(c.name); if (!n.length) continue;
-        var ns = n.join(' ');
-        if (f[f.length - 1] === n[n.length - 1]) return c;
-        if (fs.indexOf(ns) !== -1 || ns.indexOf(fs) !== -1) return c;
+    var R = window.AmentiResolve;
+    if (!R) {
+      /* The arena shows what is real or it shows nothing. Rather than fall
+         back to the matcher that was just removed, say so once and render
+         badges. A missing script is a deploy problem and should look like one. */
+      if (!codexFor._warned) {
+        codexFor._warned = true;
+        try {
+          console.warn('[Amenti] amenti-resolve.js is not loaded — cards will '
+            + 'render without portraits or stat bars. Load it BEFORE amenti-roster.js.');
+        } catch (e) {}
       }
       return null;
     }
-    return hunt(true) || hunt(false);
+    return R.record(figure);
   }
 
   /* ── THE GATES · the marks on a card ──────────────────────────────────
@@ -245,13 +257,15 @@
      reads .char-slide .char-art — the six hero-carousel slides. That is one
      shelf, not the library.
 
-     The library is window.AMENTI_SVG: twenty-one hand-drawn character SVGs
-     keyed by codex key (lincoln, musashi, sun-tzu, marcus-aurelius, akhenaten
-     ...). Twelve of the current quiz figures have one. So the card asks the
-     library directly rather than borrowing from the carousel.
+     The library is window.AMENTI_SVG: hand-drawn character SVGs keyed by codex
+     key (lincoln, musashi, sun-tzu, marcus-aurelius, akhenaten ...). So the
+     card asks the library directly rather than borrowing from the carousel.
 
      Figures with no drawing keep the gradient panel and their badge. Nothing
-     is substituted — a stand-in face would be a lie about who this is. */
+     is substituted — a stand-in face would be a lie about who this is. And
+     since codexFor is now exact, a face can no longer be borrowed by accident:
+     before the resolver, asking for Augustus Caesar returned Julius, and the
+     card would have worn the wrong man's portrait. */
   function artFor(figure) {
     var lib = window.AMENTI_SVG;
     if (!lib) return null;
@@ -281,7 +295,8 @@
   }
 
   /* Applied after render, and retried: AMENTI_CHARS is rebuilt asynchronously
-     from the roster CSV, so the library may not be ready on the first pass. */
+     from the roster CSV, so the library may not be ready on the first pass.
+     The resolver rebuilds with it — see the retry note in amenti-resolve.js. */
   function paintPortraits(host, tries) {
     tries = tries || 0;
     var painted = 0;
@@ -441,6 +456,7 @@
 
     return '<div class="roster-card"'
       + (rec && rec.id !== undefined ? ' data-char="' + rec.id + '"' : '')
+      + (rec && rec.key ? ' data-char-key="' + esc(rec.key) + '"' : '')
       + ' data-figure="' + esc(fig) + '"'
       + ' data-topic="' + esc(cta) + '">'
       + '<div class="rc-prize">EARN \u25C8</div>'
@@ -474,7 +490,14 @@
   function render(host, list) {
     /* GROUP BY FIGURE. This is the change: the list arrives as one entry per
        quiz, and leaves as one entry per person. Without it Caesar appears
-       twice — the Rubicon and the last words, side by side, identical faces. */
+       twice — the Rubicon and the last words, side by side, identical faces.
+
+       STILL KEYED BY THE FIGURE STRING, DELIBERATELY. Grouping through the
+       resolver would be more robust — two spellings of one man would collapse
+       into one card — but window.AMENTI_STACKS is published from here and the
+       bay reads it by figure name. Changing the key shape is a separate move
+       with its own probe run. Measured today: 53 figure strings resolve to 53
+       distinct people, so nothing is currently split. */
     var byFigure = {}, order = [];
     list.forEach(function (t) {
       var f = t.figure || (t.facets && t.facets.figure && t.facets.figure[0]) || t.title;
@@ -615,29 +638,27 @@
     const chars = window.AMENTI_CHARS = window.AMENTI_CHARS || [];
     const art   = window.AMENTI_SVG   = window.AMENTI_SVG   || {};
 
-    /* THE COLLISION USES THE MATCHER THE ROSTER ALREADY HAS.
-       Two earlier attempts were wrong. Comparing KEYS missed it, because the
+    /* THE COLLISION TEST IS NOW THE RESOLVER, AND THAT IS A REAL FIX.
+       Three earlier attempts were wrong. Comparing KEYS missed it, because the
        hand-made records use shortened keys — 'caesar' against 'julius-caesar'.
        Comparing NAMES exactly missed it too, because the hand-made names are
        full forms: "GAIUS JULIUS CAESAR" against a queue that says "Julius
-       Caesar", "MOSES BEN AMRAM" against "Moses".
+       Caesar". The third was codexFor's surname match, which caught those but
+       ALSO reported a clash that did not exist: an engine sheet for AUGUSTUS
+       Caesar was discarded as a duplicate of JULIUS, and a researched
+       character was thrown away with the tokens that paid for it.
 
-       codexFor() already resolves a figure to a record — last-name match, then
-       containment either way. It is what the card uses to find its stat bars,
-       so it is by definition the right test for "do we already have this
-       person". Writing a third name-matching scheme beside it would have been
-       the fault this evening kept finding. */
+       The resolver answers exactly. Julius resolves to the hand-made record
+       and is correctly skipped; Augustus resolves to himself and is correctly
+       added. */
     let added = 0, skipped = 0;
 
     rows.forEach(function (row) {
       if (!row || !row.key) return;
 
       /* THE COLLISION IS WITH A CHARACTER, NOT WITH A NAME.
-         codexFor now prefers a rich record, so this asks whether a REAL one
-         already exists. Before the fix a machine-made sheet was skipped because
-         a thin CSV row of the same name counted as a clash — and the portrait
-         was applied anyway, because the art library is keyed separately. That
-         is precisely how a card came to have a face and no reading. */
+         A thin ledger row of the same name is not a clash — it is a name on a
+         list. Only a RICH record means the person is already held. */
       var existing = codexFor(row.name) || codexFor(row.figure || row.name);
       var clash = existing && (existing.rich || existing.stats);
       if (row.sheet && !clash) {
@@ -654,7 +675,12 @@
         art[row.key] = function () { return svg; };
       }
     });
-    if (added) { try { window.AMENTI_CHARS = chars; } catch (e) {} }
+    /* the roster grew, so the resolver's index is stale — rebuild it before
+       the first card asks a question of it */
+    if (added) {
+      try { window.AMENTI_CHARS = chars; } catch (e) {}
+      try { if (window.AmentiResolve) window.AmentiResolve.build(chars); } catch (e) {}
+    }
     return added;
   }
 
@@ -672,6 +698,10 @@
     ])
       .then(function (both) { return both[0]; })
       .then(function (d) {
+        /* the ledger may have landed after the resolver built its index — the
+           csv-loader replaces AMENTI_CHARS wholesale on arrival. Rebuild once
+           here so every card resolves against the full roster. */
+        try { if (window.AmentiResolve) window.AmentiResolve.build(); } catch (e) {}
         var list = (d && d.topics) || [];
         if (!list.length) return empty(host, 'The library returned no quizzes.');
         render(host, list);
