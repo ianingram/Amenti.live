@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-23T07:40:38.278Z",
+    "generated": "2026-07-23T07:56:38.596Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -796,6 +796,28 @@
       "tables": []
     },
     {
+      "file": "amenti-resolve.js",
+      "bytes": 20711,
+      "sha256": "366736e2f5dcf2d4",
+      "type": "js",
+      "declares": [
+        "AmentiResolve"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "AMENTI_CONFIG",
+          "line": 326,
+          "when": "function",
+          "own": false
+        }
+      ],
+      "endpoints": [
+        "/quiz/topics"
+      ],
+      "tables": []
+    },
+    {
       "file": "amenti-roster-view.js",
       "bytes": 11936,
       "sha256": "e61a22213494e09a",
@@ -974,8 +996,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 43747,
-      "sha256": "056f95b6604cf777",
+      "bytes": 43759,
+      "sha256": "a7066247272341d5",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1386,6 +1408,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-resolve.js",
+        "declares": [
+          "AmentiResolve"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-roster-view.js",
