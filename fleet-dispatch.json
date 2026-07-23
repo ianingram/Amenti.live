@@ -1,5 +1,5 @@
 {
-  "at": "2026-07-22T18:42:37.129Z",
+  "at": "2026-07-23T00:55:54.809Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 54,
@@ -8,7 +8,7 @@
       "dailyplanet:": 3
     }
   },
-  "today": "2026-07-22",
+  "today": "2026-07-23",
   "thisWeek": "2026-07-19",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -21,7 +21,7 @@
         "date": "2026-07-22",
         "figure": "ayn-rand"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-07-20",
         "2026-07-15"
