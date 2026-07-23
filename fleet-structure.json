@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-23T07:01:46.247Z",
+    "generated": "2026-07-23T07:02:55.120Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -936,6 +936,19 @@
       "tables": []
     },
     {
+      "file": "config.js",
+      "bytes": 2933,
+      "sha256": "773d59e321d4ff41",
+      "type": "js",
+      "declares": [
+        "AMENTI_CONFIG"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "court.html",
       "bytes": 67279,
       "sha256": "d6fe3e35385c8d03",
@@ -961,8 +974,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 43747,
-      "sha256": "0461ec84f867ee17",
+      "bytes": 44069,
+      "sha256": "2e034129df27e7a3",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -971,25 +984,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1017,
+          "line": 1021,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1018,
+          "line": 1022,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1019,
+          "line": 1023,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1020,
+          "line": 1024,
           "when": "toplevel",
           "own": false
         }
@@ -1308,18 +1321,7 @@
     ]
   },
   "findings": {
-    "wiring": [
-      {
-        "kind": "NOT LOADED",
-        "page": "Page1.html",
-        "global": "AMENTI_CONFIG",
-        "line": 1109,
-        "declaredIn": [
-          "Page2.html"
-        ],
-        "note": "called at parse time, and the page never loads its file"
-      }
-    ],
+    "wiring": [],
     "adrift": [
       {
         "file": "amenti-bay.js",
