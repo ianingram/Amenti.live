@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-23T07:02:55.120Z",
+    "generated": "2026-07-23T07:40:38.278Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -817,8 +817,8 @@
     },
     {
       "file": "amenti-roster.js",
-      "bytes": 33918,
-      "sha256": "de8d9dc30ee28fd1",
+      "bytes": 35927,
+      "sha256": "3b174fda42b3415d",
       "type": "js",
       "declares": [
         "AMENTI_CHARS",
@@ -831,13 +831,13 @@
       "calls": [
         {
           "global": "AMENTI_CONFIG",
-          "line": 34,
+          "line": 42,
           "when": "iife",
           "own": false
         },
         {
           "global": "amentiQuiz",
-          "line": 501,
+          "line": 524,
           "when": "function",
           "own": false
         }
@@ -974,8 +974,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 44069,
-      "sha256": "2e034129df27e7a3",
+      "bytes": 43747,
+      "sha256": "056f95b6604cf777",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -984,25 +984,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1021,
+          "line": 1017,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1022,
+          "line": 1018,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1023,
+          "line": 1019,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1024,
+          "line": 1020,
           "when": "toplevel",
           "own": false
         }
