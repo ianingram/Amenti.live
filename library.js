@@ -122,7 +122,7 @@
   //   style  = register + ". Accent and dialect: <dialect>. Voice character: <voice>"
   // A room resolves its figure by catalog.name (NOT catalog.key — the catalog key
   // is a short slug like "ingram", but the roster keys by full name "ian ingram").
-  var LEDGER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
+  var LEDGER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1598709533&single=true&output=csv
   var rosterPromise = null;   // Promise -> { lowercasedName: figure }
 
   function baseVoiceFor(gender) {
