@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-23T07:00:56.966Z",
+    "generated": "2026-07-23T07:01:46.247Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -936,19 +936,6 @@
       "tables": []
     },
     {
-      "file": "config.js",
-      "bytes": 2933,
-      "sha256": "773d59e321d4ff41",
-      "type": "js",
-      "declares": [
-        "AMENTI_CONFIG"
-      ],
-      "loads": [],
-      "calls": [],
-      "endpoints": [],
-      "tables": []
-    },
-    {
       "file": "court.html",
       "bytes": 67279,
       "sha256": "d6fe3e35385c8d03",
@@ -975,7 +962,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 43747,
-      "sha256": "627c5f86d9775f80",
+      "sha256": "0461ec84f867ee17",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1321,7 +1308,18 @@
     ]
   },
   "findings": {
-    "wiring": [],
+    "wiring": [
+      {
+        "kind": "NOT LOADED",
+        "page": "Page1.html",
+        "global": "AMENTI_CONFIG",
+        "line": 1109,
+        "declaredIn": [
+          "Page2.html"
+        ],
+        "note": "called at parse time, and the page never loads its file"
+      }
+    ],
     "adrift": [
       {
         "file": "amenti-bay.js",
