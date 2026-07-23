@@ -21,8 +21,7 @@ window.AMENTI_CONFIG = {
   // In your Google Sheet:  File > Share > Publish to web
   // Format: "Comma-separated values (.csv)"
   // Paste the resulting URL here. It must end in `output=csv`.
-  LEDGER_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv",
-
+  LEDGER_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1598709533&single=true&output=csv
 
   // ---- 2. AI PROXY (Cloudflare Worker) ----
   // Holds the Anthropic API key. Until this is deployed, the chat stays
