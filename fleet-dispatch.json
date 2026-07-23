@@ -1,10 +1,10 @@
 {
-  "at": "2026-07-23T00:55:54.809Z",
+  "at": "2026-07-23T07:10:27.950Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 54,
+    "count": 56,
     "prefixes": {
-      "atlantica:": 51,
+      "atlantica:": 53,
       "dailyplanet:": 3
     }
   },
@@ -16,21 +16,31 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 38,
+      "fired": 40,
       "last": {
-        "date": "2026-07-22",
-        "figure": "ayn-rand"
+        "date": "2026-07-23",
+        "figure": "leif-erikson"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-20",
         "2026-07-15"
       ],
       "recent": [
         {
+          "figure": "leif-erikson",
+          "date": "2026-07-23",
+          "key": "atlantica:leif-erikson:2026-07-23"
+        },
+        {
           "figure": "ayn-rand",
           "date": "2026-07-22",
           "key": "atlantica:ayn-rand:2026-07-22"
+        },
+        {
+          "figure": "leif-erikson",
+          "date": "2026-07-22",
+          "key": "atlantica:leif-erikson:2026-07-22"
         },
         {
           "figure": "ayn-rand",
@@ -86,19 +96,9 @@
           "figure": "plato",
           "date": "2026-07-13",
           "key": "atlantica:plato:2026-07-13"
-        },
-        {
-          "figure": "bram-stoker",
-          "date": "2026-07-12",
-          "key": "atlantica:bram-stoker:2026-07-12"
-        },
-        {
-          "figure": "bram-stoker",
-          "date": "2026-07-11",
-          "key": "atlantica:bram-stoker:2026-07-11"
         }
       ],
-      "note": "38 dispatch(es) in the hold · last 2026-07-22 (ayn-rand) · MISSED 2 of the last 14 days"
+      "note": "40 dispatch(es) in the hold · last 2026-07-23 (leif-erikson) · MISSED 2 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
