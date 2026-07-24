@@ -120,9 +120,18 @@
   // voice + style the same way the Worker does:
   //   gender -> base voice (male:Charon, female:Kore, default Kore)
   //   style  = register + ". Accent and dialect: <dialect>. Voice character: <voice>"
-  // A room resolves its figure by catalog.name (NOT catalog.key — the catalog key
-  // is a short slug like "ingram", but the roster keys by full name "ian ingram").
-  var LEDGER_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1598709533&single=true&output=csv
+  // A room resolves its figure by catalog.name, and failing that by canonical
+  // key through the resolver — so the short slug "ingram" and the roster's
+  // "ian ingram" reach the same voice instead of missing each other.
+  //
+  // ONE ADDRESS, NOT TWO. This line used to hardcode the ledger URL outright.
+  // On 23 July the sheet was re-imported, the gid changed, and the replacement
+  // was pasted in WITHOUT ITS CLOSING QUOTE OR SEMICOLON — so the whole file
+  // failed to parse and every reading room went silent, with nothing on screen
+  // to say so. Config wins now; the literal is only a fallback for pages that
+  // do not load config.js.
+  var LEDGER_CSV_URL = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.LEDGER_CSV_URL)
+    || "https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1598709533&single=true&output=csv";
   var rosterPromise = null;   // Promise -> { lowercasedName: figure }
 
   function baseVoiceFor(gender) {
@@ -187,7 +196,17 @@
       .then(function (r) { if (!r.ok) throw new Error('roster CSV ' + r.status); return r.text(); })
       .then(function (text) {
         var map = {};
-        parseCsv(text).forEach(function (row) { var f = rowToFigure(row); if (f) map[f.key] = f; });
+        parseCsv(text).forEach(function (row) {
+          var f = rowToFigure(row); if (!f) return;
+          map[f.key] = f;                       // as before: lowercased full name
+          // AND by canonical key, so a room asking under any other spelling still
+          // finds the voice. The codex calls him "GAIUS JULIUS CAESAR"; the ledger
+          // row says "Julius Caesar". Before this, that mismatch cast him to the
+          // neutral default without a word. Prefixed, because a canonical key and
+          // a lowercased name can be the same string — "moses" is both.
+          var k = resolveKey(f.name);
+          if (k && !map['@' + k]) map['@' + k] = f;
+        });
         return map;
       })['catch'](function (err) {
         console.warn('Reading voice: roster unavailable, using neutral voice:', err && err.message);
@@ -195,10 +214,22 @@
       });
     return rosterPromise;
   }
+  // The fleet's one answer to "are these the same person?" — exact match or null,
+  // see amenti-resolve.js. Absent, this file behaves exactly as it did before.
+  function resolveKey(name) {
+    try { return (window.AmentiResolve && window.AmentiResolve.resolve(name)) || null; }
+    catch (e) { return null; }
+  }
+
   // Resolve a figure by display name -> { voice, style }. Always resolves.
+  // Name first: exact, free, and unchanged, so no figure who already speaks
+  // gets a new style string — and therefore no cached audio is orphaned.
+  // Key second, for the figures whose codex name and ledger name differ. Those
+  // were reading in the neutral voice; now they read as themselves.
   function resolveVoice(name) {
     return loadRoster().then(function (map) {
       var fig = map[String(name || '').toLowerCase().trim()];
+      if (!fig) { var k = resolveKey(name); if (k) fig = map['@' + k]; }
       return { voice: baseVoiceFor(fig && fig.gender), style: composeStyle(fig), figure: fig || null };
     });
   }
