@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-24T23:51:30.698Z",
+    "generated": "2026-07-24T23:52:27.242Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -356,17 +356,6 @@
       "declares": [
         "AMENTI_SVG"
       ],
-      "loads": [],
-      "calls": [],
-      "endpoints": [],
-      "tables": []
-    },
-    {
-      "file": "amenti-art-3.js",
-      "bytes": 4996,
-      "sha256": "208d30384488216a",
-      "type": "js",
-      "declares": [],
       "loads": [],
       "calls": [],
       "endpoints": [],
@@ -1064,7 +1053,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 44595,
-      "sha256": "722154bc5bd9fabb",
+      "sha256": "26953cb15d1f3a8f",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
