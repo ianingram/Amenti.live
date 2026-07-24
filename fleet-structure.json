@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-23T08:15:57.630Z",
+    "generated": "2026-07-24T00:50:14.429Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1001,7 +1001,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 44034,
-      "sha256": "e798e0b52eeb74af",
+      "sha256": "f4de647959576223",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1104,8 +1104,8 @@
     },
     {
       "file": "library.js",
-      "bytes": 45400,
-      "sha256": "8235d05b79e890b6",
+      "bytes": 47246,
+      "sha256": "5abd3619e2b4a41b",
       "type": "js",
       "declares": [
         "Amenti",
@@ -1115,14 +1115,20 @@
       "loads": [],
       "calls": [
         {
+          "global": "AMENTI_CONFIG",
+          "line": 133,
+          "when": "iife",
+          "own": false
+        },
+        {
           "global": "Amenti.closeReadingRoom",
-          "line": 693,
+          "line": 724,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.openReadingRoom",
-          "line": 917,
+          "line": 948,
           "when": "function",
           "own": true
         }
