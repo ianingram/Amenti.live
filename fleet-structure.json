@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-24T01:02:55.887Z",
+    "generated": "2026-07-24T02:01:27.298Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -612,6 +612,34 @@
       "tables": []
     },
     {
+      "file": "amenti-migration-audit.js",
+      "bytes": 28320,
+      "sha256": "46ca0adf63e98cd1",
+      "type": "js",
+      "declares": [
+        "AmentiMigrationAudit"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "AMENTI_CONFIG",
+          "line": 54,
+          "when": "iife",
+          "own": false
+        },
+        {
+          "global": "AMENTI_CHARS",
+          "line": 227,
+          "when": "iife",
+          "own": false
+        }
+      ],
+      "endpoints": [
+        "/quiz/topics"
+      ],
+      "tables": []
+    },
+    {
       "file": "amenti-motion.js",
       "bytes": 8972,
       "sha256": "dec0113a7f119f4c",
@@ -1000,8 +1028,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 42771,
-      "sha256": "4604f67d3e12023e",
+      "bytes": 44034,
+      "sha256": "fb6b0f354deee712",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1010,25 +1038,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 977,
+          "line": 1024,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 978,
+          "line": 1025,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 979,
+          "line": 1026,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 980,
+          "line": 1027,
           "when": "toplevel",
           "own": false
         }
@@ -1394,6 +1422,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-migration-audit.js",
+        "declares": [
+          "AmentiMigrationAudit"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-motion.js",
