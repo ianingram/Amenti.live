@@ -100,6 +100,7 @@
 
   @media(max-width:640px){.nameplate{top:36%}.foot{bottom:6vh}}
 </style>
+  <script src="config.js"></script>
 </head>
 <body>
 <div class="stage">
@@ -237,7 +238,14 @@
      if that fetch ever fails, a placeholder set keeps the face alive. The series
      unfolds across visits, never on the user. Weighted-by-activity is a later step. */
   (function () {
-    var ROSTER = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
+    /* THE LEDGER ADDRESS LIVES IN ONE PLACE.
+       This was a hardcoded URL carrying the OLD sheet tab id — one that
+       stopped publishing on 23 July when the sheet was re-imported. The fetch
+       below returned 400 and the page fell back to its short hardcoded list,
+       silently, with a thousand figures unreachable.
+       Config wins; the literal is only for pages loaded without config.js. */
+    var ROSTER = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.LEDGER_CSV_URL)
+      || 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1598709533&single=true&output=csv';
     var FALLBACK = [
       'Hypatia of Alexandria', 'Julius Caesar', 'Joan of Arc', 'Socrates',
       'Cleopatra', 'Marcus Aurelius', 'Toussaint Louverture', 'Ada Lovelace',
