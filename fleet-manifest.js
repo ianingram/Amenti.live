@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-24T02:01:27.412Z",
-    "reading": "2026-07-24T02:01:27.298Z",
+    "merged": "2026-07-24T02:02:24.393Z",
+    "reading": "2026-07-24T02:02:24.289Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -482,8 +482,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 67279,
-      "sha256": "d6fe3e35385c8d03",
+      "bytes": 67797,
+      "sha256": "0347f95cc31917b6",
       "declares": [],
       "loadedBy": []
     },
@@ -526,8 +526,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 61604,
-      "sha256": "ad5837191ec4d3bc",
+      "bytes": 62122,
+      "sha256": "6898884d78fc231f",
       "declares": [],
       "loadedBy": []
     },
@@ -593,6 +593,8 @@ window.FLEET_MANIFEST = {
       "loadedBy": [
         "Page1.html",
         "Page2.html",
+        "court.html",
+        "docket.html",
         "weighing.html"
       ]
     },
