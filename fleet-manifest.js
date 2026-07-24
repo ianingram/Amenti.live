@@ -8,27 +8,20 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-07-24T02:06:00.763Z",
-    "reading": "2026-07-24T02:06:00.547Z",
+    "merged": "2026-07-24T02:07:33.065Z",
+    "reading": "2026-07-24T02:07:32.952Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
-    "contradicted": 1,
+    "contradicted": 0,
     "unproven": 4,
     "undeclared": 19,
     "adrift": 2,
-    "clean": false
+    "clean": true
   },
   "drift": [
-    {
-      "stamp": "CONTRADICTED",
-      "subject": "Page2.html",
-      "claim": "declared as \"The Sovereign Instrument\"",
-      "reading": "NOT IN THE REPO",
-      "note": "A ship on the roll that never sailed. amenti-worker-listen.js was on the old manifest for months."
-    },
     {
       "stamp": "ADRIFT",
       "subject": "amenti-voice.js",
@@ -433,8 +426,22 @@ window.FLEET_MANIFEST = {
       },
       "group": "ships",
       "stamps": [
-        "CONTRADICTED"
-      ]
+        "CONFIRMED"
+      ],
+      "bytes": 1499623,
+      "sha256": "c1451e5245d354d7",
+      "declares": [
+        "AMENTI_CONFIG",
+        "AMENTI_VOICE_ON",
+        "AmentiAudio",
+        "Sovereign",
+        "Sovereign.Atlantica",
+        "Sovereign.Ephemeris",
+        "Sovereign.Voice",
+        "__canvasGuardWarned",
+        "inspectReticles"
+      ],
+      "loadedBy": []
     },
     {
       "file": "Page3.html",
@@ -585,6 +592,7 @@ window.FLEET_MANIFEST = {
       ],
       "loadedBy": [
         "Page1.html",
+        "Page2.html",
         "court.html",
         "docket.html",
         "weighing.html"
