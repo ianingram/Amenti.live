@@ -1,10 +1,10 @@
 {
-  "at": "2026-07-25T00:55:55.469Z",
+  "at": "2026-07-25T07:04:22.271Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 59,
+    "count": 60,
     "prefixes": {
-      "atlantica:": 56,
+      "atlantica:": 57,
       "dailyplanet:": 3
     }
   },
@@ -16,17 +16,22 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 43,
+      "fired": 44,
       "last": {
-        "date": "2026-07-24",
-        "figure": "lincoln"
+        "date": "2026-07-25",
+        "figure": "musashi"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-20",
         "2026-07-15"
       ],
       "recent": [
+        {
+          "figure": "musashi",
+          "date": "2026-07-25",
+          "key": "atlantica:musashi:2026-07-25"
+        },
         {
           "figure": "lincoln",
           "date": "2026-07-24",
@@ -91,14 +96,9 @@
           "figure": "john-milton",
           "date": "2026-07-17",
           "key": "atlantica:john-milton:2026-07-17"
-        },
-        {
-          "figure": "frederick-douglass",
-          "date": "2026-07-16",
-          "key": "atlantica:frederick-douglass:2026-07-16"
         }
       ],
-      "note": "43 dispatch(es) in the hold · last 2026-07-24 (lincoln) · MISSED 2 of the last 14 days"
+      "note": "44 dispatch(es) in the hold · last 2026-07-25 (musashi) · MISSED 2 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
