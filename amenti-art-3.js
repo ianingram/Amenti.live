@@ -1,10 +1,17 @@
 /* ===========================================================================
-   amenti-art-3.js  v2 - THE DISPLAY LAYER
+   amenti-art-3.js  v3 - THE DISPLAY LAYER
    ---------------------------------------------------------------------------
    ONE JOB. Fetch live renderings from the mint worker and put them where
    card art belongs.
 
-   WHAT v2 FIXES - the three ways v1 could deliver nothing
+   WHAT v3 FIXES over v2
+      v2 matched on data-figure, which amenti-roster.js fills with the card's
+      DISPLAY NAME (rc-name uses the same string). The key lives in
+      data-char-key, written from the resolver's characters row - the same
+      key space scene_key uses. v3 matches data-char-key first and falls
+      back to the normalized display name.
+
+   WHAT v2 FIXED - the three ways v1 could deliver nothing
 
    1. TIMING. The roster is built by other scripts after load, and this page
       routes by hash (#arena/...). v1 ran once at DOMContentLoaded and
@@ -118,13 +125,20 @@
     catch (e) { console.warn('[amenti-art-3] renderings unavailable:', e.message); return; }
 
     var cards = [];
-    document.querySelectorAll('[data-figure]:not([data-art3])').forEach(function (el) {
-      cards.push({ el: el, key: norm(el.getAttribute('data-figure')) });
-    });
+    document.querySelectorAll('[data-char-key]:not([data-art3]), [data-figure]:not([data-art3])')
+      .forEach(function (el) {
+        /* data-char-key is the resolver's key - the same key space the scenes
+           use. data-figure is the DISPLAY NAME printed on the card; it is only
+           a fallback, and names like "Julius Caesar" will not match "caesar".
+           That mismatch is exactly why v2 decorated nothing. */
+        var key = el.getAttribute('data-char-key') || el.getAttribute('data-figure');
+        cards.push({ el: el, key: norm(key),
+                     alt: norm(el.getAttribute('data-figure')) });
+      });
 
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
-      var row = byFigure[c.key];
+      var row = byFigure[c.key] || (c.alt && byFigure[c.alt]);
       if (!row) {
         state.unmatchedCards[c.key] = (state.unmatchedCards[c.key] || 0) + 1;
         continue;
@@ -201,8 +215,8 @@
         for (var j = 0; j < m.addedNodes.length; j++) {
           var n = m.addedNodes[j];
           if (n.nodeType === 1 &&
-              (n.hasAttribute && n.hasAttribute('data-figure')
-               || (n.querySelector && n.querySelector('[data-figure]')))) {
+              (n.hasAttribute && (n.hasAttribute('data-figure') || n.hasAttribute('data-char-key'))
+               || (n.querySelector && n.querySelector('[data-figure],[data-char-key]')))) {
             pass();
             return;
           }
