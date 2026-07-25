@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-07-24T23:57:34.039Z",
+    "generated": "2026-07-25T00:04:20.268Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -367,8 +367,8 @@
     },
     {
       "file": "amenti-art-3.js",
-      "bytes": 4996,
-      "sha256": "208d30384488216a",
+      "bytes": 8953,
+      "sha256": "8ebfa042f56042b3",
       "type": "js",
       "declares": [],
       "loads": [],
@@ -1067,8 +1067,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 44595,
-      "sha256": "4d5a7ad3c4b20302",
+      "bytes": 44617,
+      "sha256": "da78c6a0c9effdb5",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
