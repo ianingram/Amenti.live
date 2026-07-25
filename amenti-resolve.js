@@ -448,7 +448,33 @@
     report: null
   };
 
-  function boot() { setTimeout(function () { verify().then(emit); }, 2500); }
-  if (document.readyState === 'complete') boot();
-  else window.addEventListener('load', boot);
+  /* THE DRY-RUN IS DELIBERATE, NOT AMBIENT.
+     This used to auto-fire 2.5s after every load, for every visitor, and
+     download a report each time. Two problems, both real on the live site:
+     a report per refresh, and a run whose index depends on whether the CSV
+     ledger had landed yet - the 38-record report against the 1,006-record
+     report was the same probe sampling two moments of the same race.
+     It now runs only when asked:
+       - console:  AmentiResolve.verify()
+       - URL flag: any page loaded with ?resolvereport=1
+     The flagged run WAITS for the ledger: it delays until AMENTI_CHARS is
+     populated (or 20s, whichever comes first), so the report is the
+     full-index run - the only one that licenses wiring. */
+  function ledgerReady() {
+    return new Promise(function (res) {
+      var t0 = Date.now();
+      (function poll() {
+        var n = (window.AMENTI_CHARS && window.AMENTI_CHARS.length) || 0;
+        if (n > 100 || Date.now() - t0 > 20000) return res(n);
+        setTimeout(poll, 400);
+      })();
+    });
+  }
+  if (/[?&]resolvereport=1/.test(location.search)) {
+    var kick = function () {
+      ledgerReady().then(function () { verify().then(emit); });
+    };
+    if (document.readyState === 'complete') kick();
+    else window.addEventListener('load', kick);
+  }
 })();
