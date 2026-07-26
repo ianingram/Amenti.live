@@ -1,10 +1,10 @@
 {
-  "at": "2026-07-26T00:59:36.203Z",
+  "at": "2026-07-26T07:12:03.511Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 60,
+    "count": 61,
     "prefixes": {
-      "atlantica:": 57,
+      "atlantica:": 58,
       "dailyplanet:": 3
     }
   },
@@ -16,10 +16,10 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 44,
+      "fired": 45,
       "last": {
         "date": "2026-07-25",
-        "figure": "musashi"
+        "figure": "caesar"
       },
       "lastAgeDays": 1,
       "missedLast14": [
@@ -27,6 +27,11 @@
         "2026-07-15"
       ],
       "recent": [
+        {
+          "figure": "caesar",
+          "date": "2026-07-25",
+          "key": "atlantica:caesar:2026-07-25"
+        },
         {
           "figure": "musashi",
           "date": "2026-07-25",
@@ -91,14 +96,9 @@
           "figure": "akhenaten",
           "date": "2026-07-17",
           "key": "atlantica:akhenaten:2026-07-17"
-        },
-        {
-          "figure": "john-milton",
-          "date": "2026-07-17",
-          "key": "atlantica:john-milton:2026-07-17"
         }
       ],
-      "note": "44 dispatch(es) in the hold · last 2026-07-25 (musashi) · MISSED 2 of the last 14 days"
+      "note": "45 dispatch(es) in the hold · last 2026-07-25 (caesar) · MISSED 2 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
