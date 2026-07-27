@@ -1,5 +1,5 @@
 {
-  "at": "2026-07-26T18:38:28.341Z",
+  "at": "2026-07-27T00:59:48.142Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 61,
@@ -8,7 +8,7 @@
       "dailyplanet:": 3
     }
   },
-  "today": "2026-07-26",
+  "today": "2026-07-27",
   "thisWeek": "2026-07-26",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -21,8 +21,9 @@
         "date": "2026-07-25",
         "figure": "caesar"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 2,
       "missedLast14": [
+        "2026-07-26",
         "2026-07-20",
         "2026-07-15"
       ],
@@ -98,7 +99,7 @@
           "key": "atlantica:akhenaten:2026-07-17"
         }
       ],
-      "note": "45 dispatch(es) in the hold · last 2026-07-25 (caesar) · MISSED 2 of the last 14 days"
+      "note": "45 dispatch(es) in the hold · last 2026-07-25 (caesar) · MISSED 3 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
