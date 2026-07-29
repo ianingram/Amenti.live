@@ -1,10 +1,10 @@
 {
-  "at": "2026-07-29T00:53:41.174Z",
+  "at": "2026-07-29T07:14:20.112Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 61,
+    "count": 62,
     "prefixes": {
-      "atlantica:": 58,
+      "atlantica:": 59,
       "dailyplanet:": 3
     }
   },
@@ -15,13 +15,13 @@
     "ATLANTICA": {
       "id": "ATLANTICA",
       "cadence": "daily",
-      "status": "WARN",
-      "fired": 45,
+      "status": "OK",
+      "fired": 46,
       "last": {
-        "date": "2026-07-25",
-        "figure": "caesar"
+        "date": "2026-07-29",
+        "figure": "hannibal"
       },
-      "lastAgeDays": 4,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
@@ -30,6 +30,11 @@
         "2026-07-15"
       ],
       "recent": [
+        {
+          "figure": "hannibal",
+          "date": "2026-07-29",
+          "key": "atlantica:hannibal:2026-07-29"
+        },
         {
           "figure": "caesar",
           "date": "2026-07-25",
@@ -94,14 +99,9 @@
           "figure": "ingram",
           "date": "2026-07-18",
           "key": "atlantica:ingram:2026-07-18"
-        },
-        {
-          "figure": "akhenaten",
-          "date": "2026-07-17",
-          "key": "atlantica:akhenaten:2026-07-17"
         }
       ],
-      "note": "45 dispatch(es) in the hold · last 2026-07-25 (caesar) · MISSED 5 of the last 14 days"
+      "note": "46 dispatch(es) in the hold · last 2026-07-29 (hannibal) · MISSED 5 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
