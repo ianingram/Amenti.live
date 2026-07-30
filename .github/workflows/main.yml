@@ -1,0 +1,100 @@
+# ============================================================================
+#  .github/workflows/apply-art-session.yml  ·  APPLY AN ART SESSION
+# ----------------------------------------------------------------------------
+#  A SCRIPT IN THE REPO IS NOT A SCRIPT THAT HAS RUN. This is what makes it run.
+#
+#  apply_art_session.py was uploaded and sat there. Uploading a script does not
+#  execute it — nothing changed on the site because nothing had happened yet.
+#  This workflow runs it here, in the repo, so no local clone and no terminal
+#  are needed. Click "Run workflow" in the Actions tab.
+#
+#  WHAT IT DOES — one idempotent pass, safe to run twice:
+#    renames the seven plates -reading.jpg -> -terminal.jpg with `git mv`
+#    patches Page1.html in place (carousel back to SVG, terminal plate CSS in,
+#      reading-room banner out, amenti-art-photo.js loaded before art-3)
+#    writes amenti-art-photo.js, ingest.py, audit2.py, provenance.py,
+#      goldleaf2.py, img/grades.css, img/MANIFEST.json, HANDOFF.md, PIPELINE.md
+#    verifies itself and prints a pass/fail report
+#
+#  RUN IT WITH dry_run: true FIRST. Nothing is written and the log shows every
+#  operation it would perform. Note that the verify section reports FAILs on a
+#  dry run — that is correct, since nothing was written and it is checking the
+#  unmodified file. Read the "would ..." lines above it.
+#
+#  The script needs only the Python standard library. No pip install.
+# ============================================================================
+name: Apply art session
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (writes nothing, just shows what would change)"
+        required: false
+        default: "true"
+      script:
+        description: "Script to run"
+        required: false
+        default: "apply_art_session.py"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # git mv wants real history
+
+      - name: Confirm the script is here
+        run: |
+          if [ ! -f "${{ github.event.inputs.script }}" ]; then
+            echo "::error::${{ github.event.inputs.script }} not found in the repo root."
+            exit 1
+          fi
+          python3 --version
+
+      - name: Identify the committer
+        run: |
+          git config user.name "Amenti Art Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Run it
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python3 "${{ github.event.inputs.script }}" --dry-run
+          else
+            python3 "${{ github.event.inputs.script }}"
+          fi
+
+      - name: Discard the backups
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          # the script writes Page1.html.bak-<timestamp> before patching.
+          # Git history is the backup here, so these are noise in a commit.
+          rm -f Page1.html.bak-* || true
+
+      - name: Commit what changed
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "Nothing changed — the session was already applied."
+          else
+            git commit -m "Art session: plates to -terminal, carousel back to SVG, photo layer in"
+            git push
+            echo "Committed. Review the diff on the commit page."
+          fi
+
+      - name: What to look at
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          echo "Pushed. Now LOOK AT IT — none of this has been seen in a browser:"
+          echo "  codex detail   .cdx-art at 340x560, the only container that fits the plates"
+          echo "  terminal       the plate behind the chat stream, opacity solved per plate"
+          echo "  carousel       SVG puppets again, no photographic rectangles"
+          echo "  roster card    .rc-img filled from {key}-card.jpg"
+          echo ""
+          echo "GitHub Pages can take a minute, and a hard refresh may be needed."
