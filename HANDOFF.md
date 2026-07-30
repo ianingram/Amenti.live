@@ -55,6 +55,36 @@ So the delivery mechanism here is a **GitHub Action**:
 run. Same discipline, correct venue.
 
 A SCRIPT IN THE REPO IS NOT A SCRIPT THAT HAS RUN.
+### AND VERIFY WHAT YOU DID **NOT** BREAK
+
+The first real run of `apply_art_session.py` destroyed the page. One line:
+
+    s = re.sub(r'\n?\{display:none;\}', '', s)      # no anchor
+
+It was meant to remove the body of the carousel rule after its selector had
+been deleted. It removed `{display:none;}` from **every rule in the file**:
+
+    .page-section{display:none;}     <- what hides each section until active
+    .term-ctx{display:none;}
+    .term-roster{display:none;}
+    .mn-signin{display:none;}        <- which then swallowed .mn-logo
+
+The page lost its architecture and showed two JPEGs and a row of tabs. The
+script reported all eleven checks green, because every check tested whether it
+had done what it INTENDED. None tested whether it had broken something else.
+
+**Three rules from this, and they are not optional:**
+
+1. **Never strip a declaration block without anchoring it to its own selector.**
+   Match the whole rule — selector list and body — in one pattern.
+2. **Assert invariants.** The script now holds a list of load-bearing strings
+   and ABORTS without writing if the patch loses one.
+3. **Bound the blast radius.** It also aborts if the patch removes more than
+   3% of the file. A patch that eats more than it should is doing something
+   unintended, whatever its own checks say.
+
+A self-verifying script that only verifies its intentions is not self-verifying.
+
 
 ---
 
