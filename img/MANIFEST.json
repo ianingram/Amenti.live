@@ -141,34 +141,6 @@
       "key": "sun-tzu",
       "surface_slug": "card"
     },
-    "miyamoto-musashi-card.jpg": {
-      "figure": "Miyamoto Musashi",
-      "surface": "hero/arena",
-      "grammar": "presented",
-      "prompt_file": "PROMPT_musashi_card_v2.txt",
-      "source": "openart-sample_1785283529256_fe1ead07.png",
-      "crop": "trimmed to 0.571",
-      "seed": null,
-      "note": "v2 prompt \u2014 temple, mountains, rain, jingasa. Passed all four rules first run.",
-      "model": "flux.2-pro",
-      "service": "OpenArt",
-      "aspect": "9:16",
-      "resolution": "2K",
-      "polish": true,
-      "date": "2026-07-28",
-      "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "audit": {
-        "aspect": 0.571,
-        "key_strength": 0.31,
-        "value_span": 225.333,
-        "accent_sat": 0.078,
-        "tile_contrast": 86.108
-      },
-      "art_sat": 1.0,
-      "file": "miyamoto-musashi-card.jpg",
-      "key": "miyamoto-musashi",
-      "surface_slug": "card"
-    },
     "marcus-aurelius-card.jpg": {
       "file": "marcus-aurelius-card.jpg",
       "key": "marcus-aurelius",
@@ -329,26 +301,6 @@
       "surface_slug": "terminal",
       "term_opacity": 0.4
     },
-    "miyamoto-musashi-terminal.jpg": {
-      "file": "miyamoto-musashi-terminal.jpg",
-      "key": "miyamoto-musashi",
-      "surface": "terminal",
-      "surface_slug": "terminal",
-      "grammar": "absorbed",
-      "source": "openart-sample_1785291446425_c72fbd2e.png",
-      "note": "veranda of a castle keep; best key strength in the set at 0.428 | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
-      "model": "flux.2-pro",
-      "service": "OpenArt",
-      "aspect": "9:16",
-      "resolution": "2K",
-      "polish": true,
-      "seed": null,
-      "date": "2026-07-29",
-      "stored_saturation": 0.002,
-      "art_sat": 1.0,
-      "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "term_opacity": 0.32
-    },
     "marcus-aurelius-terminal.jpg": {
       "file": "marcus-aurelius-terminal.jpg",
       "key": "marcus-aurelius",
@@ -368,6 +320,54 @@
       "art_sat": 0.373,
       "colour_note": "stored at full colour; graded in CSS via --art-sat",
       "term_opacity": 0.35
+    },
+    "musashi-card.jpg": {
+      "figure": "Miyamoto Musashi",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_musashi_card_v2.txt",
+      "source": "openart-sample_1785283529256_fe1ead07.png",
+      "crop": "trimmed to 0.571",
+      "seed": null,
+      "note": "v2 prompt \u2014 temple, mountains, rain, jingasa. Passed all four rules first run. | key is 'musashi' per the roster record, NOT 'miyamoto-musashi'. He has no library/ file, so the key was inferred from the frederick-douglass pattern and inferred wrong.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.31,
+        "value_span": 225.333,
+        "accent_sat": 0.078,
+        "tile_contrast": 86.108
+      },
+      "art_sat": 1.0,
+      "file": "musashi-card.jpg",
+      "key": "musashi",
+      "surface_slug": "card"
+    },
+    "musashi-terminal.jpg": {
+      "file": "musashi-terminal.jpg",
+      "key": "musashi",
+      "surface": "terminal",
+      "surface_slug": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785291446425_c72fbd2e.png",
+      "note": "veranda of a castle keep; best key strength in the set at 0.428 | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image. | key is 'musashi' per the roster record, NOT 'miyamoto-musashi'. He has no library/ file, so the key was inferred from the frederick-douglass pattern and inferred wrong.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "seed": null,
+      "date": "2026-07-29",
+      "stored_saturation": 0.002,
+      "art_sat": 1.0,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "term_opacity": 0.32
     }
   }
 }

@@ -133,19 +133,22 @@
   function passTerminal() {
     var main = document.querySelector('.term-main');
     if (!main) return;
-    var row = document.querySelector('.term-char.active') ||
-              document.querySelector('.term-char');
-    var nm  = row && row.querySelector('.term-char-name');
-    var bar = document.querySelector('.term-bar-name');
-    var text = (nm && nm.textContent) || (bar && bar.textContent) || '';
-    var key = norm(text).replace(/[^a-z0-9-]/g, '-')
-                        .replace(/-+/g, '-').replace(/^-|-$/g, '');
-    if (!key || main.getAttribute('data-fig') === key) return;
+    // Resolve from data-id against AMENTI_CHARS, exactly as the codex does.
+    // The previous version slugged the DISPLAYED NAME, which fails wherever the
+    // name and the key differ: "MIYAMOTO MUSASHI" slugs to miyamoto-musashi but
+    // the key is musashi; "MOHANDAS GANDHI" slugs to mohandas-gandhi but the key
+    // is gandhi. The probe 404s and the surface stays empty, silently.
+    var row = document.querySelector('.term-char.active');
+    var key = '';
+    if (row && window.AMENTI_CHARS) {
+      var rec = window.AMENTI_CHARS[+row.getAttribute('data-id')];
+      if (rec && rec.key) key = norm(rec.key);
+    }
+    if (!key) { main.removeAttribute('data-fig'); return; }
+    if (main.getAttribute('data-fig') === key) return;
     var src = BASE + key + '-terminal.jpg';
     var probe = new Image();
-    probe.onload = function () {
-      main.setAttribute('data-fig', key);   /* grades.css supplies image+opacity */
-    };
+    probe.onload  = function () { main.setAttribute('data-fig', key); };
     probe.onerror = function () { main.removeAttribute('data-fig'); };
     probe.src = src;
   }

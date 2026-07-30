@@ -15,9 +15,9 @@
 .rc-img[data-fig="marcus-aurelius"],.nc-thumb[data-fig="marcus-aurelius"],.mkt-thumb[data-fig="marcus-aurelius"],.cdx-art[data-fig="marcus-aurelius"][data-art-photo="card"]{filter:saturate(0.312);}
 .cdx-art[data-fig="marcus-aurelius"][data-art-photo="terminal"]{filter:saturate(0.373);}
 .term-main[data-fig="marcus-aurelius"]::before{background-image:url("img/marcus-aurelius-terminal.jpg");opacity:0.35;filter:saturate(0.373);}
-.rc-img[data-fig="miyamoto-musashi"],.nc-thumb[data-fig="miyamoto-musashi"],.mkt-thumb[data-fig="miyamoto-musashi"],.cdx-art[data-fig="miyamoto-musashi"][data-art-photo="card"]{filter:saturate(1.0);}
-.cdx-art[data-fig="miyamoto-musashi"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="miyamoto-musashi"]::before{background-image:url("img/miyamoto-musashi-terminal.jpg");opacity:0.32;filter:saturate(1.0);}
+.rc-img[data-fig="musashi"],.nc-thumb[data-fig="musashi"],.mkt-thumb[data-fig="musashi"],.cdx-art[data-fig="musashi"][data-art-photo="card"]{filter:saturate(1.0);}
+.cdx-art[data-fig="musashi"][data-art-photo="terminal"]{filter:saturate(1.0);}
+.term-main[data-fig="musashi"]::before{background-image:url("img/musashi-terminal.jpg");opacity:0.32;filter:saturate(1.0);}
 .rc-img[data-fig="sun-tzu"],.nc-thumb[data-fig="sun-tzu"],.mkt-thumb[data-fig="sun-tzu"],.cdx-art[data-fig="sun-tzu"][data-art-photo="card"]{filter:saturate(1.0);}
 .cdx-art[data-fig="sun-tzu"][data-art-photo="terminal"]{filter:saturate(1.0);}
 .term-main[data-fig="sun-tzu"]::before{background-image:url("img/sun-tzu-terminal.jpg");opacity:0.4;filter:saturate(1.0);}
