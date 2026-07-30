@@ -1,10 +1,10 @@
 {
-  "at": "2026-07-30T00:51:07.501Z",
+  "at": "2026-07-30T07:12:57.310Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 63,
+    "count": 64,
     "prefixes": {
-      "atlantica:": 60,
+      "atlantica:": 61,
       "dailyplanet:": 3
     }
   },
@@ -16,12 +16,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 47,
+      "fired": 48,
       "last": {
-        "date": "2026-07-29",
+        "date": "2026-07-30",
         "figure": "cleopatra"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
@@ -29,6 +29,11 @@
         "2026-07-20"
       ],
       "recent": [
+        {
+          "figure": "cleopatra",
+          "date": "2026-07-30",
+          "key": "atlantica:cleopatra:2026-07-30"
+        },
         {
           "figure": "cleopatra",
           "date": "2026-07-29",
@@ -93,14 +98,9 @@
           "figure": "manlius",
           "date": "2026-07-19",
           "key": "atlantica:manlius:2026-07-19"
-        },
-        {
-          "figure": "akhenaten",
-          "date": "2026-07-18",
-          "key": "atlantica:akhenaten:2026-07-18"
         }
       ],
-      "note": "47 dispatch(es) in the hold · last 2026-07-29 (cleopatra) · MISSED 4 of the last 14 days"
+      "note": "48 dispatch(es) in the hold · last 2026-07-30 (cleopatra) · MISSED 4 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
