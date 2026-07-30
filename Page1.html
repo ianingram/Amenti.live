@@ -95,9 +95,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:rgba(
 #hero-bg{position:absolute;inset:0;z-index:1;background:url('img/hero-bg.webp') center 55%/cover no-repeat;background-color:#06060e;}
 #hero-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%, transparent 0%, rgba(6,6,14,0.15) 55%, rgba(6,6,14,0.55) 100%);pointer-events:none;}
 /* legacy pyramid container — hidden, kept so JS doesn't error */
-#pyramid-bg{display:none;}
+#pyramid-bg
 /* PLANETS — disabled (starfield is in background image) */
-.planets-layer{display:none;}
+.planets-layer
 .planet{position:absolute;border-radius:50%;will-change:transform,opacity,filter;}
 .planet-trail{position:absolute;border-radius:50%;pointer-events:none;will-change:transform,opacity;}
 @keyframes planetTrack{0%{transform:translate(0,0);opacity:0;}6%{opacity:var(--p-op,1);}38%{opacity:var(--p-op,1);}44%{opacity:calc(var(--p-op,1) * 0.06);filter:blur(1.4px) brightness(0.35);}54%{opacity:calc(var(--p-op,1) * 0.03);filter:blur(1.6px) brightness(0.25);}64%{opacity:calc(var(--p-op,1) * 0.18);filter:blur(0.8px) brightness(0.6);}72%{opacity:var(--p-op,1);filter:none;}94%{opacity:var(--p-op,1);}100%{transform:translate(var(--p-tx),var(--p-ty));opacity:0;}}
@@ -114,7 +114,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:rgba(
 .horizon-haze{position:absolute;left:0;right:0;top:55%;height:120px;z-index:1;background:linear-gradient(180deg,transparent 0%,rgba(40,30,60,0.35) 40%,rgba(20,15,30,0.45) 70%,transparent 100%);pointer-events:none;}
 .horizon-line{position:absolute;left:0;right:0;top:62%;height:1px;z-index:2;background:linear-gradient(90deg,transparent 0%,rgba(212,160,23,0.18) 20%,rgba(212,160,23,0.32) 50%,rgba(212,160,23,0.18) 80%,transparent 100%);pointer-events:none;}
 /* Atmospheric distance fog — disabled (image has its own depth) */
-.distance-fog{display:none;}
+.distance-fog
 /* Light rays from pyramid apex */
 @keyframes rayPulse{0%,100%{opacity:.18}50%{opacity:.32}}
 .light-rays{position:absolute;left:50%;top:30%;transform:translateX(-50%);width:90vw;height:80vh;z-index:2;pointer-events:none;animation:rayPulse 6s ease-in-out infinite;}
@@ -428,7 +428,7 @@ body.gw-locked{overflow:hidden;height:100vh;}
 .gw-noise{position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");pointer-events:none;}
 
 .gw-content{position:relative;z-index:5;text-align:center;max-width:880px;padding:0 32px;}
-.gw-brandmark{display:none;}
+.gw-brandmark
 @keyframes gwFadeIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
 @keyframes gwDoorRise{from{opacity:0;transform:translateX(-50%) translateY(-8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 .gw-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--gold-bright);letter-spacing:0.42em;margin-bottom:18px;opacity:0;animation:gwFadeIn .9s ease-out .3s forwards;text-shadow:0 0 18px rgba(245,197,66,.5);}
@@ -444,7 +444,7 @@ body.gw-locked{overflow:hidden;height:100vh;}
 .gw-divider-glyph{color:var(--gold-bright);font-size:14px;text-shadow:0 0 12px rgba(245,197,66,.8);}
 .gw-tagline{text-transform:uppercase;font-family:'Amenti Display','Inter',sans-serif;font-size:clamp(18px,1.8vw,22px);font-weight:300;color:rgba(255,255,255,0.92);letter-spacing:0.01em;line-height:1.5;margin:0 0 44px;opacity:0;animation:gwFadeIn 1s ease-out 1s forwards;text-shadow:0 2px 20px rgba(0,0,0,.7);}
 
-.gw-cta-row{display:none;}
+.gw-cta-row
 /* GOLDEN A-DOORWAY — pyramid-shaped entrance at the base of the main pyramid */
 .gw-doorway{position:absolute;left:50%;bottom:2vh;transform:translateX(-50%);z-index:6;cursor:pointer;border:none;background:transparent;padding:0;opacity:0;animation:gwDoorRise 1.1s ease-out 1.25s forwards;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .gw-doorway-svg{width:clamp(84px,9.8vw,126px);height:auto;filter:drop-shadow(0 0 18px rgba(245,197,66,.6)) drop-shadow(0 0 42px rgba(245,197,66,.35));transition:transform .3s cubic-bezier(.5,1.6,.5,1), filter .3s ease;}
@@ -468,7 +468,7 @@ body.gw-locked{overflow:hidden;height:100vh;}
 .gw-meta-lbl{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,0.55);letter-spacing:0.18em;}.gw-meta-court{gap:6px;}.gw-meta-emerald{gap:5px;}.gw-emerald{margin-top:4px;filter:drop-shadow(0 0 8px rgba(87,201,138,.55));opacity:.95;}.gw-meta-sub{font-family:var(--font-mono);font-size:9px;letter-spacing:0.28em;color:#f5c542;text-shadow:0 0 10px rgba(245,197,66,.5);margin-top:2px;opacity:.9;}.gw-scales{margin-top:4px;filter:drop-shadow(0 0 8px rgba(245,197,66,.45));opacity:.92;}
 .gw-meta-sep{width:1px;height:32px;background:rgba(245,197,66,0.25);}
 
-.gw-scroll-hint{display:none;}
+.gw-scroll-hint
 .gw-scroll-line{width:1px;height:48px;background:linear-gradient(180deg,transparent,var(--gold-bright));position:relative;overflow:hidden;}
 .gw-scroll-line:after{content:"";position:absolute;top:-20px;left:0;right:0;height:20px;background:var(--gold-bright);animation:gwScrollDot 2s ease-in-out infinite;}
 @keyframes gwScrollDot{0%{top:-20px;}100%{top:48px;}}
@@ -483,7 +483,7 @@ body.gw-locked{overflow:hidden;height:100vh;}
 
 @media (max-width:760px){
   .gw-meta{gap:18px;}
-  .gw-meta-sep{display:none;}
+  .gw-meta-sep
   .gw-corner{width:28px;height:28px;}
 }
 
@@ -723,8 +723,6 @@ nav.amenti-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;backg
 .btn-ghost{border:1px solid var(--wire);color:var(--text);background:transparent;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 16px;cursor:pointer;}
 .btn-ghost:hover{border-color:var(--neon);color:var(--neon);}
 
-
-
 .codex-shell{display:grid;grid-template-columns:300px 1fr;gap:0;border:1px solid var(--wire);background:linear-gradient(180deg,rgba(20,20,30,0.6),rgba(10,10,15,0.6));min-height:78vh;}
 
 /* SIDEBAR */
@@ -851,8 +849,6 @@ nav.amenti-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;backg
 .btn-secondary:hover{background:var(--neon-dim);}
 .btn-ghost{border:1px solid var(--wire);color:var(--text);background:transparent;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 16px;cursor:pointer;}
 .btn-ghost:hover{border-color:var(--neon);color:var(--neon);}
-
-
 
 .tl-stage{position:relative;width:100%;height:78vh;min-height:640px;border:1px solid var(--wire);background:radial-gradient(ellipse at 50% 50%,rgba(20,20,40,0.6) 0%,rgba(6,6,14,0.95) 80%);overflow:hidden;}
 .tl-stage::before{content:"";position:absolute;inset:0;background:
@@ -987,8 +983,6 @@ nav.amenti-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;backg
 .btn-ghost{border:1px solid var(--wire);color:var(--text);background:transparent;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 16px;cursor:pointer;}
 .btn-ghost:hover{border-color:var(--neon);color:var(--neon);}
 
-
-
 .term-shell{display:grid;grid-template-columns:260px 1fr 280px;gap:0;border:1px solid var(--gold);background:linear-gradient(180deg,rgba(8,16,12,0.85),rgba(4,8,6,0.9));min-height:78vh;position:relative;font-family:var(--font-mono);box-shadow:0 0 60px rgba(0,255,160,0.04) inset;}
 
 .term-shell::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,160,0.03) 2px,rgba(0,255,160,0.03) 3px);pointer-events:none;}
@@ -1077,8 +1071,8 @@ nav.amenti-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;backg
 /* ASCII pyramid */
 .term-ascii{font-family:var(--font-mono);font-size:9px;color:var(--gold);line-height:1;white-space:pre;opacity:.6;letter-spacing:0;}
 
-@media (max-width:1100px){.term-shell{grid-template-columns:220px 1fr;}.term-ctx{display:none;}}
-@media (max-width:780px){.term-shell{grid-template-columns:1fr;}.term-roster{display:none;}}
+@media (max-width:1100px){.term-shell{grid-template-columns:220px 1fr;}.term-ctx}
+@media (max-width:780px){.term-shell{grid-template-columns:1fr;}.term-roster}
 </style>
 <style>
 .master-nav{position:fixed;top:0;left:0;right:0;height:54px;z-index:9999;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(8,8,14,0.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(212,160,23,0.35);font-family:'Share Tech Mono',monospace;}
@@ -1092,12 +1086,12 @@ nav.amenti-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;backg
 .mn-links a.mn-ext:hover{color:#00ffe0;opacity:1;}
 .mn-signin{background:transparent;border:1.5px solid #d4a017;color:#d4a017;font-family:inherit;font-size:11px;letter-spacing:.12em;padding:6px 16px;cursor:pointer;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);}
 .mn-signin:hover{background:#d4a017;color:#0a0a0f;}
-.page-section{display:none;}
+.page-section
 .page-section.active{display:block;}
 body[data-page="arena"]{padding-top:54px;}
 .page-section[data-page="codex"],.page-section[data-page="timeline"],.page-section[data-page="terminal"],.page-section[data-page="counsel"]{padding-top:54px;}
 body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-height:100vh;overflow-x:hidden;background:#06080f;}
-@media(max-width:780px){.mn-links{overflow-x:auto;gap:0;}.mn-links button,.mn-links a.mn-ext{padding:8px 8px;font-size:10px;}.mn-signin{display:none;}.mn-logo{font-size:13px;}}
+@media(max-width:780px){.mn-links{overflow-x:auto;gap:0;}.mn-links button,.mn-links a.mn-ext{padding:8px 8px;font-size:10px;}.mn-signin.mn-logo{font-size:13px;}}
 </style>
 <!-- Shared AI proxy config + window.claude bridge.
      The Terminal calls window.claude.complete({system, messages}); on the live
@@ -1174,6 +1168,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 })();
 </script>
 <style>.section-header .section-title{order:0;} .section-header .section-tag{order:1;} .jd-row{display:flex;align-items:center;gap:10px;margin:2px 0 0;flex-basis:100%;width:100%;order:2;}.jd-row .jd-tag{font-family:var(--font-mono,monospace);font-size:13px;letter-spacing:.28em;color:#f5c542;text-shadow:0 0 10px rgba(245,197,66,.5);text-transform:uppercase;}.jd-scales{filter:drop-shadow(0 0 8px rgba(245,197,66,.45));opacity:.92;}</style>
+<link rel="stylesheet" href="img/grades.css">
 </head>
 <body data-page="arena">
 
@@ -1197,7 +1192,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 </nav>
 
 <section class="page-section active" data-page="arena">
-
 
 <!-- ════════════════════════════════════════════════════════════
      GATEWAY — full-bleed pyramid splash
@@ -1364,7 +1358,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 
 <!-- NAV -->
 
-
 <!-- HERO -->
 <section id="hero">
   <div id="hero-bg"></div>
@@ -1400,8 +1393,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   <!-- LINCOLN -->
   <div class="char-slide active" data-idx="0">
     <div class="char-visual">
-      <img class="char-photo" data-fig="lincoln" src="img/lincoln-card.jpg" alt="Abraham Lincoln">
-<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+      <svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="lg-bg" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#102060" stop-opacity=".6"/><stop offset="100%" stop-color="#05050f" stop-opacity="0"/></radialGradient>
           <filter id="lg-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -1465,8 +1457,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   <!-- MUSASHI -->
   <div class="char-slide" data-idx="1">
     <div class="char-visual">
-      <img class="char-photo" data-fig="miyamoto-musashi" src="img/miyamoto-musashi-card.jpg" alt="Miyamoto Musashi">
-<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+      <svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="ms-bg" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#600010" stop-opacity=".55"/><stop offset="100%" stop-color="#05050f" stop-opacity="0"/></radialGradient>
           <filter id="ms-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -1531,8 +1522,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   <!-- CAESAR -->
   <div class="char-slide" data-idx="2">
     <div class="char-visual">
-      <img class="char-photo" data-fig="caesar" src="img/caesar-card.jpg" alt="Julius Caesar">
-<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+      <svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="cs-bg" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#604000" stop-opacity=".55"/><stop offset="100%" stop-color="#05050e" stop-opacity="0"/></radialGradient>
           <filter id="cs-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -1599,8 +1589,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   <!-- GANDHI -->
   <div class="char-slide" data-idx="3">
     <div class="char-visual">
-      <img class="char-photo" data-fig="frederick-douglass" src="img/frederick-douglass-card.jpg" alt="Frederick Douglass">
-<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+      <svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="gd-bg" cx="50%" cy="85%" r="60%"><stop offset="0%" stop-color="#303840" stop-opacity=".5"/><stop offset="100%" stop-color="#05050e" stop-opacity="0"/></radialGradient>
           <filter id="gd-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -1664,8 +1653,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   <!-- MOSES -->
   <div class="char-slide" data-idx="4">
     <div class="char-visual">
-      <img class="char-photo" data-fig="sun-tzu" src="img/sun-tzu-card.jpg" alt="Sun Tzu">
-<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+      <svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="mo-bg" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#603800" stop-opacity=".6"/><stop offset="100%" stop-color="#05050e" stop-opacity="0"/></radialGradient>
           <radialGradient id="mo-tab" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f0c040" stop-opacity=".2"/><stop offset="100%" stop-color="#d4a020" stop-opacity="0"/></radialGradient>
@@ -1744,8 +1732,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   <!-- HANNIBAL -->
   <div class="char-slide" data-idx="5">
     <div class="char-visual">
-      <img class="char-photo" data-fig="tesla" src="img/tesla-card.jpg" alt="Nikola Tesla">
-<svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
+      <svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="hb-bg" cx="50%" cy="85%" r="65%"><stop offset="0%" stop-color="#502800" stop-opacity=".6"/><stop offset="100%" stop-color="#05050e" stop-opacity="0"/></radialGradient>
           <filter id="hb-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -2134,8 +2121,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 })();
 </script>
 
-
-
   
   
 <!-- LEGEND ROSTER -->
@@ -2344,10 +2329,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 
 <div id="tweaks-root"></div>
 
-
-
-
-
 </section>
 
 <section class="page-section" data-page="codex">
@@ -2355,8 +2336,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 <div class="bg-grid"></div>
 <div class="bg-vignette"></div>
 <div class="scanlines"></div>
-
-
 
 <div class="page">
   <div class="hud-corner hud-tl"></div>
@@ -2382,10 +2361,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
     <section class="cdx-detail" id="cdx-detail"></section>
   </main>
 </div>
-
-
-
-
 
 </section>
 
@@ -2422,8 +2397,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 <div class="bg-vignette"></div>
 <div class="scanlines"></div>
 
-
-
 <div class="page">
   <div class="hud-corner hud-tl"></div>
   <div class="hud-corner hud-tr"></div>
@@ -2449,10 +2422,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
   </div>
 </div>
 
-
-
-
-
 </section>
 
 <section class="page-section" data-page="terminal">
@@ -2460,8 +2429,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 <div class="bg-grid"></div>
 <div class="bg-vignette"></div>
 <div class="scanlines"></div>
-
-
 
 <div class="page">
   <div class="hud-corner hud-tl"></div>
@@ -2538,10 +2505,6 @@ RELAY:     AMENTI-MAIN-01</pre>
     </aside>
   </main>
 </div>
-
-
-
-
 
 </section>
 
@@ -3651,7 +3614,6 @@ window.AMENTI_ERAS = [
   { key:"industrial",name:"SECOND INDUSTRIAL", year:"1893",   chars:[7] },
   { key:"colonial", name:"COLONIAL DECLINE", year:"1930",      chars:[3] },
 ];
-
 
 }catch(e){console.error('codex script 0 error', e);}
 })();
@@ -5242,7 +5204,6 @@ fill="#3a2014"/>
 <ellipse cx="160" cy="552" rx="104" ry="14" fill="#2a1015" opacity=".4"/></svg>
 `;
 
-
 F['plato'] = () => `
 <svg class="char-art" viewBox="0 0 320 560" xmlns="http://www.w3.org/2000/svg">
   ${defs('pl','#6a4fc4','#221b38')}
@@ -5744,13 +5705,9 @@ F['akhenaten'] = () => `
 window.AMENTI_SVG = F;
 })();
 
-
 }catch(e){console.error('codex script 1 error', e);}
 })();
 </script>
-
-
-
 
 <script data-codex="2">
 window.AMENTI_LIBRARY_KEYS = window.AMENTI_LIBRARY_KEYS || ['lincoln','caesar','sun-tzu','hannibal','gandhi','tesla','moses','oliver-cromwell','marcus-aurelius','tacitus','david-hume','charles-martel','edward-gibbon','bram-stoker','plato','seneca','confucius','frederick-douglass','john-milton','akhenaten','ingram'];
@@ -5872,7 +5829,6 @@ window.AMENTI_CHARS = window.AMENTI_CHARS || [];
 window.AMENTI_ERAS = window.AMENTI_ERAS || [];
   /* ONE LIST — see the note on AMENTI_CHARS above. Declared once, in the
      codex block; this reads it. */
-
 
 }catch(e){console.error('timeline script 0 error', e);}
 })();
@@ -6037,7 +5993,6 @@ window.AMENTI_CHARS = window.AMENTI_CHARS || [];
 window.AMENTI_ERAS = window.AMENTI_ERAS || [];
   /* ONE LIST — see the note on AMENTI_CHARS above. Declared once, in the
      codex block; this reads it. */
-
 
 }catch(e){console.error('terminal script 0 error', e);}
 })();
@@ -6532,7 +6487,7 @@ tune(idx>=0?idx:0);
   .cns-sub{font-family:var(--font-script);font-size:15px;color:#8b93a8;margin-top:6px;letter-spacing:.04em;}
   .cns-colL,.cns-colR{position:absolute;top:4px;bottom:-12px;width:26px;pointer-events:none;opacity:.45;border-left:2px solid rgba(212,175,55,.5);border-right:2px solid rgba(212,175,55,.5);}
   .cns-colL{left:0;}.cns-colR{right:0;}
-  @media(max-width:760px){.cns-colL,.cns-colR{display:none;}}
+  @media(max-width:760px){.cns-colL,.cns-colR}
   .cns-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
   .cns-tile{position:relative;text-align:left;cursor:pointer;background:rgba(18,26,46,.7);border:1px solid rgba(212,175,55,.4);padding:16px 16px 18px;transition:all .18s;color:inherit;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);}
   .cns-tile:hover{border-color:var(--gold);background:rgba(28,36,58,.92);box-shadow:0 0 0 1px rgba(212,175,55,.3),0 8px 30px rgba(0,0,0,.4);transform:translateY(-2px);}
@@ -7348,7 +7303,6 @@ window.AMENTI_VOICE = {
    handlers (see PART 1's call-site note).
    ============================================================================ */
 
-
 /* ============================================================================
    PART 1 — CHUNKED-STREAMING AUDIO PIPELINE  (REMOVED — unified)
 
@@ -7362,7 +7316,6 @@ window.AMENTI_VOICE = {
    Amenti.throttle as a facade, so this block needs no change.
    PART 2 (voice-button glow) below is unchanged.
    ============================================================================ */
-
 
 /* ============================================================================
    AMENTI.LIVE — VOICE BUTTON GLOW
@@ -7911,7 +7864,35 @@ window.AMENTI_VOICE = {
   
  <!-- ============================================================================
      DAILY PLANET :: click-to-generate wiring
-     Drop this block in just BEFORE the closing </body> of Page1.html (same place
+     Drop this block in just BEFORE the closing 
+<style data-amenti="art-term">
+/* AMENTI ART · TERMINAL PLATE
+   The centre chat panel is the largest canvas in the product. The terminal
+   plate sits BEHIND the whole stream and the text runs over it.
+
+   Terminal body text is #c8e8d8 on a composited ground of rgb(3,7,5) — 15.4:1,
+   enormous headroom. The binding constraint is not the plate's average but its
+   BRIGHT patches, since one blown highlight under a line of type is what breaks
+   legibility. ingest.py solves for the 95th percentile per plate and writes the
+   opacity into img/grades.css; it lands between 0.31 and 0.40.
+
+   The scrim darkens top and bottom so the message bar and input row stay clean
+   while the middle of the stream reads. */
+.term-main{position:relative;isolation:isolate;}
+.term-main::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-repeat:no-repeat;background-size:cover;background-position:72% 18%;
+  opacity:0;transition:opacity 1.2s ease;
+}
+.term-main::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(2,6,4,.92) 0%,rgba(2,6,4,.35) 18%,
+             rgba(2,6,4,.28) 74%,rgba(2,6,4,.90) 100%);
+}
+.term-main>*{position:relative;z-index:1;}
+@media (prefers-reduced-motion: reduce){.term-main::before{transition:none;}}
+</style>
+</body> of Page1.html (same place
      as the voice block). It makes every .news-card in #news clickable:
        click -> derive figure key (from data-char + AMENTI_CHARS) + slug (from
        headline) -> POST /article/generate -> render the article in an overlay,
@@ -8093,7 +8074,8 @@ window.AMENTI_VOICE = {
   <script src="amenti-mascot.js"></script>
   <script src="amenti-profile.js"></script>
   <script src="amenti-probe-loader.js" defer></script> 
-  <script src="amenti-art-3.js"></script>
+  <script src="amenti-art-photo.js" defer></script>
+    <script src="amenti-art-3.js"></script>
   
 
 <style data-amenti="art-v1">
@@ -8101,195 +8083,41 @@ window.AMENTI_VOICE = {
    The hero SVG is HIDDEN, not removed: populateMiniPortraits() clones
    .char-art into the roster and news tiles, and at 36-54px an SVG shape
    still beats a photograph. Keep it in the DOM so that keeps working. */
-.char-slide[data-idx="0"] svg.char-art,
-.char-slide[data-idx="1"] svg.char-art,
-.char-slide[data-idx="2"] svg.char-art,
-.char-slide[data-idx="3"] svg.char-art,
-.char-slide[data-idx="4"] svg.char-art,
-.char-slide[data-idx="5"] svg.char-art{display:none;}
-.char-slide img.char-photo{
-  display:block;height:62vh;max-height:560px;width:auto;
-  aspect-ratio:320/560;object-fit:cover;object-position:50% 6%;
-  filter:saturate(0.32);
-  filter:saturate(var(--art-sat,0.32));
-  transition:filter 1.4s cubic-bezier(.22,.61,.36,1);
-  -webkit-filter:drop-shadow(0 0 6px rgba(255,255,255,0.28));
-}
 /* AMENTI ART — the plate arrives in full colour and settles into the deck's
    grade. Images are STORED at full saturation; the grade is a display value,
    so the whole deck can be retuned with one number and the pulse is free. */
 /* per-card grade: one multiplier does not EQUALISE, it scales. Each plate
    carries its own factor so all four settle on the same 0.105 at rest. */
 
-
-@media (prefers-reduced-motion: reduce){
-  .char-slide.active img.char-photo{animation:none;}
-}
-/* reading room banner */
-.dp-reader-hero{filter:saturate(var(--art-sat,1));
-  
-  width:100%;height:220px;margin:0 0 18px;border-radius:10px;overflow:hidden;
-  background-size:cover;background-position:50% 22%;
-  border:1px solid var(--wire);position:relative;
-}
-.dp-reader-hero::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(0deg,rgba(10,10,15,0.85) 0%,transparent 55%);
-}
-.dp-reader-hero[data-empty="1"]{display:none;}
-.dp-reader-hero[data-fig="caesar"]{--art-sat:0.329;}
-.dp-reader-hero[data-fig="frederick-douglass"]{--art-sat:1.0;}
-.dp-reader-hero[data-fig="miyamoto-musashi"]{--art-sat:1.0;}
-.dp-reader-hero[data-fig="sun-tzu"]{--art-sat:1.0;}
-.dp-reader-hero[data-fig="tesla"]{--art-sat:0.642;}
 </style>
 
-<script data-amenti="art-v1">
-(function(){
-  // NO MAP. Art resolves by CONVENTION from the library key:
-  //     img/{key}-card.jpg      img/{key}-reading.jpg
-  // A second hand-maintained list of figures is exactly what keeps drifting
-  // out of step with library/*.json. Adding a figure is now dropping two
-  // files into img/ — nothing in this file changes, ever.
-  function slug(t){
-    return String(t||"").split("\u2014")[0].trim().toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-      .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-  }
-  // display names that do not slug straight to their library key
-  var ALIAS = { "mohandas-k-gandhi":"gandhi", "gaius-julius-caesar":"caesar",
-                "abraham-lincoln":"lincoln", "nikola-tesla":"tesla",
-                "seneca-the-younger":"seneca", "hannibal-barca":"hannibal",
-                "sun-tzu-":"sun-tzu" };
-  function keyFor(name){ var k=slug(name); return ALIAS[k]||k; }
 
-  function banner(){
-    var panel=document.querySelector('.dp-reader-panel');
-    if(!panel||panel.querySelector('.dp-reader-hero')) return;
-    var scroll=panel.querySelector('.dp-reader-scroll'); if(!scroll) return;
-    var el=document.createElement('div');
-    el.className='dp-reader-hero'; el.setAttribute('data-empty','1');
-    scroll.insertBefore(el, scroll.firstChild);
-  }
-  function setBanner(name){
-    var el=document.querySelector('.dp-reader-hero'); if(!el) return;
-    var key=keyFor(name), src='img/'+key+'-reading.jpg';
-    var probe=new Image();
-    probe.onload=function(){
-      el.style.backgroundImage='url("'+src+'")';
-      el.setAttribute('data-fig',key);
-      el.setAttribute('data-empty','0');
-    };
-    probe.onerror=function(){ el.setAttribute('data-empty','1'); };
-    probe.src=src;
-  }
-  new MutationObserver(function(){
-    banner();
-    var h=document.getElementById('dp-reader-headline');
-    if(h&&!h.dataset.amentiWired){
-      h.dataset.amentiWired='1';
-      new MutationObserver(function(){ setBanner(h.textContent); })
-        .observe(h,{childList:true,characterData:true,subtree:true});
-      if(h.textContent) setBanner(h.textContent);
-    }
-  }).observe(document.body,{childList:true,subtree:true});
+<style data-amenti="art-term">
+/* AMENTI ART · TERMINAL PLATE
+   The centre chat panel is the largest canvas in the product. The terminal
+   plate sits BEHIND the whole stream and the text runs over it.
 
-  window.AmentiArt={ keyFor:keyFor, setBanner:setBanner };
-})();
+   Terminal body text is #c8e8d8 on a composited ground of rgb(3,7,5) — 15.4:1,
+   enormous headroom. The binding constraint is not the plate's average but its
+   BRIGHT patches, since one blown highlight under a line of type is what breaks
+   legibility. ingest.py solves for the 95th percentile per plate and writes the
+   opacity into img/grades.css; it lands between 0.31 and 0.40.
 
-</script>
-<style data-amenti='art-v3'>
-/* ── AMENTI ART v3 · PRESENTATION VARIANTS ────────────────────────────────
-   A card face is a still, but the presentation need not be. CSS cannot move
-   the key — the light is baked into the pixels — but it can make the light
-   appear to CHANGE, which is what stops a static plate going stale on the
-   fiftieth viewing.
-
-   Four treatments. One is chosen per arrival, and the choice rotates, so the
-   same card does not do the same thing twice running. Each is short and
-   settles to the deck's grade; none loops forever.
-
-     arrive   the plate lands in full colour and settles          (colour)
-     sweep    a hard raking highlight passes across the figure    (light)
-     breath   contrast and brightness swell, then release         (air)
-     ember    warmth rises and cools away                         (temperature)
-*/
-.char-visual{overflow:hidden;}
-.char-slide img.char-photo{will-change:filter,transform;}
-
-@keyframes amenti-arrive{
-  0%,18%{filter:saturate(1) contrast(1) brightness(1);}
-  100%{filter:saturate(var(--art-sat,.32)) contrast(1) brightness(1);}
+   The scrim darkens top and bottom so the message bar and input row stay clean
+   while the middle of the stream reads. */
+.term-main{position:relative;isolation:isolate;}
+.term-main::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-repeat:no-repeat;background-size:cover;background-position:72% 18%;
+  opacity:0;transition:opacity 1.2s ease;
 }
-@keyframes amenti-breath{
-  0%{filter:saturate(var(--art-sat,.32)) contrast(1) brightness(1);}
-  38%{filter:saturate(calc(var(--art-sat,.32) * 1.5)) contrast(1.14) brightness(1.06);}
-  100%{filter:saturate(var(--art-sat,.32)) contrast(1) brightness(1);}
+.term-main::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(2,6,4,.92) 0%,rgba(2,6,4,.35) 18%,
+             rgba(2,6,4,.28) 74%,rgba(2,6,4,.90) 100%);
 }
-@keyframes amenti-ember{
-  0%{filter:saturate(var(--art-sat,.32)) sepia(0) brightness(1);}
-  42%{filter:saturate(calc(var(--art-sat,.32) * 1.35)) sepia(.16) brightness(1.04);}
-  100%{filter:saturate(var(--art-sat,.32)) sepia(0) brightness(1);}
-}
-/* the sweep is a separate pass of light, so it needs its own layer */
-.char-visual::after{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:32;
-  background:linear-gradient(105deg,
-    transparent 34%, rgba(255,250,235,.16) 46%,
-    rgba(255,252,242,.30) 50%, rgba(255,250,235,.16) 54%, transparent 66%);
-  transform:translateX(-120%);opacity:0;mix-blend-mode:screen;
-}
-@keyframes amenti-sweep{
-  0%{transform:translateX(-120%);opacity:0;}
-  12%{opacity:1;}
-  88%{opacity:1;}
-  100%{transform:translateX(120%);opacity:0;}
-}
-
-.char-slide img.char-photo[data-fig="caesar"]{--art-sat:0.341;}
-.char-slide img.char-photo[data-fig="frederick-douglass"]{--art-sat:0.48;}
-.char-slide img.char-photo[data-fig="lincoln"]{--art-sat:1.0;}
-.char-slide img.char-photo[data-fig="miyamoto-musashi"]{--art-sat:1.0;}
-.char-slide img.char-photo[data-fig="suntzu-card"]{--art-sat:1.0;}
-.char-slide img.char-photo[data-fig="tesla"]{--art-sat:0.691;}
-.char-slide.active img.char-photo{animation:amenti-arrive 1.9s ease-out 1;}
-.char-slide.active[data-pass="breath"] img.char-photo{animation:amenti-breath 3.4s ease-in-out 1;}
-.char-slide.active[data-pass="ember"]  img.char-photo{animation:amenti-ember 3.8s ease-in-out 1;}
-.char-slide.active[data-pass="sweep"]  img.char-photo{animation:amenti-arrive 1.9s ease-out 1;}
-.char-slide.active[data-pass="sweep"] .char-visual::after{
-  animation:amenti-sweep 2.6s cubic-bezier(.3,.0,.4,1) 1;}
-
-@media (prefers-reduced-motion: reduce){
-  .char-slide.active img.char-photo,
-  .char-slide.active .char-visual::after{animation:none;}
-  .char-visual::after{display:none;}
-}
+.term-main>*{position:relative;z-index:1;}
+@media (prefers-reduced-motion: reduce){.term-main::before{transition:none;}}
 </style>
-<script data-amenti="art-v3">
-(function(){
-  // Four passes, cycled rather than random, so a viewer never sees the same
-  // treatment twice running and the sequence still feels unplanned.
-  var PASSES = ["arrive","sweep","breath","arrive","ember","sweep"];
-  var n = Math.floor(Math.random()*PASSES.length);
-  function apply(el){
-    if(!el) return;
-    el.setAttribute("data-pass", PASSES[n % PASSES.length]);
-    n++;
-    // restart the animation even if the class was already present
-    var img = el.querySelector("img.char-photo");
-    if(img){ img.style.animation="none"; void img.offsetWidth; img.style.animation=""; }
-  }
-  new MutationObserver(function(muts){
-    muts.forEach(function(m){
-      if(m.attributeName!=="class") return;
-      var t=m.target;
-      if(t.classList && t.classList.contains("char-slide") && t.classList.contains("active"))
-        apply(t);
-    });
-  }).observe(document.body,{attributes:true,subtree:true,attributeFilter:["class"]});
-  var first=document.querySelector(".char-slide.active");
-  if(first) apply(first);
-})();
-</script>
 </body>
 </html>

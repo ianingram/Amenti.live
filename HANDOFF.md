@@ -42,6 +42,20 @@ state.
 **What the person should have to do:** run one command, read one report, review
 one diff. Anything more than that is the assistant offloading its own work.
 
+### AND ASK WHERE THEY WORK BEFORE DESIGNING THE HANDOFF
+
+The proprietor works **in GitHub, in the browser. There is no local clone and no
+terminal.** I built and tested a command-line script for two sessions without
+asking, and it sat in the repo unrun — because uploading a script does not
+execute it. Lincoln looked unchanged because he WAS unchanged.
+
+So the delivery mechanism here is a **GitHub Action**:
+`.github/workflows/apply-art-session.yml`, triggered from the Actions tab with a
+`dry_run` toggle. The script still does the work; the Action is what makes it
+run. Same discipline, correct venue.
+
+A SCRIPT IN THE REPO IS NOT A SCRIPT THAT HAS RUN.
+
 ---
 
 ## THIS SESSION'S SCRIPT
