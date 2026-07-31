@@ -559,6 +559,66 @@
       "file": "oliver-cromwell-terminal.jpg",
       "key": "oliver-cromwell",
       "surface_slug": "terminal"
+    },
+    "moses-card.jpg": {
+      "figure": "Moses",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_06.txt#MOSES \u2014 CARD",
+      "source": "openart-sample_1785480843342_ef831590.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "backlit silhouette against an enormous setting blood moon; two sacrificial altars burning on tripods with smoke columns. FACE DELIBERATELY DARK - no likeness of Moses survives, and every surface in the product prints the name in text, so the plate never has to identify him. ART_SAT SET TO 0.75 BY HAND, NOT TO THE DECK'S 0.105 TARGET: this is the one plate whose colour IS its composition, and the computed 0.43 muted the moon to brick. Knowing exception. TWO DEFECTS ACCEPTED: the woven mantle came back with RED AND BLUE stripes, a second colour family the brief forbade (the prompt asked for 'a striped mantle' and got dyed stripes - drop the word 'striped' next time); and the audit's lateral key reads 0.020 because a backlight directly behind the figure has no lateral separation by definition - radial is 0.181.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.019,
+        "key_radial": 0.204,
+        "key_side": "RIGHT",
+        "value_span": 232.0,
+        "accent_sat": 0.252,
+        "tile_contrast": 63.984
+      },
+      "art_sat": 0.75,
+      "file": "moses-card.jpg",
+      "key": "moses",
+      "surface_slug": "card"
+    },
+    "moses-terminal.jpg": {
+      "figure": "Moses",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_06.txt#MOSES \u2014 TERMINAL",
+      "source": "openart-sample_1785481024469_f919d815.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "Mount Nebo at moonset, Deuteronomy 34 - shown the land, forbidden to enter it. Four of the ten works in library/moses.json are Deuteronomy, so this is the room's endpoint. PASSED ALL FOUR ENFORCED RULES. CLEANEST READING OF THE INVARIANT IN THE DECK: accent 0.036 with warm pixels at 0.11% of frame - the bronze staff finial is the only colour in the picture, which is exactly 'a single warm accent carried only on metal'. ONE ANACHRONISM ACCEPTED: he wears heavy leather riding boots rather than sandals, and the town below reads medieval rather than Bronze Age.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.065,
+        "key_radial": 0.308,
+        "key_side": "RIGHT",
+        "value_span": 218.667,
+        "accent_sat": 0.003,
+        "tile_contrast": 95.902
+      },
+      "art_sat": 1.0,
+      "file": "moses-terminal.jpg",
+      "key": "moses",
+      "surface_slug": "terminal"
     }
   }
 }
