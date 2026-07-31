@@ -619,6 +619,64 @@
       "file": "moses-terminal.jpg",
       "key": "moses",
       "surface_slug": "terminal"
+    },
+    "tacitus-card.jpg": {
+      "figure": "Tacitus",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_07.txt#TACITUS \u2014 CARD",
+      "source": "openart-sample_1785531770326_9cae116e.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "AD 97, newly consul, on the wet Curia steps at night; bronze doors shut behind him, torches in iron brackets, bronze-cased scroll at his side. The rain solves the material problem BATCH_02 recorded - wool returns 60.8 specular pop against oiled leather's 124.3 - by soaking the toga until it goes dark and gleaming. Face is exactly the guard: lean, close-shaven, hair short and forward in the Trajanic manner, not a bearded philosopher. TWO DEFECTS ACCEPTED: the purple broad stripe sits on the toga rather than on the tunic beneath it, and the toga reads undyed brown rather than white wool. The specified low moon did not appear. Lateral key 0.041 is the x-only metric failing on a frontal torch-lit subject; radial is 0.180.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.04,
+        "key_radial": 0.177,
+        "value_span": 224.0,
+        "accent_sat": 0.259,
+        "tile_contrast": 59.479
+      },
+      "art_sat": 0.405,
+      "file": "tacitus-card.jpg",
+      "key": "tacitus",
+      "surface_slug": "card"
+    },
+    "tacitus-terminal.jpg": {
+      "figure": "Tacitus",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_07.txt#TACITUS \u2014 TERMINAL",
+      "source": "openart-sample_1785531704354_2a0a8eb8.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "About AD 116, twenty years on, writing the Annals alone by a two-wick bronze lamp. Pigeonholed scroll shelving behind, lamp smoke rising through the key, and a MARBLE BUST OF TIBERIUS on a plinth at the edge of the light, facing him - the emperor whose reign he is writing, watching him work. Toga removed and every highlight moved onto bronze, lamp oil and marble, which is why this plate holds its speculars where a wool-heavy one would not. ONE DEFECT ACCEPTED: he writes with a bronze stylus on parchment rather than cutting into wax - a stylus is a wax instrument. NOTE the audit reports key_side RIGHT while the lamp is plainly at the viewer's left; the bright white bust drags the bright centroid across. Radial key 0.208.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.201,
+        "key_radial": 0.202,
+        "value_span": 228.333,
+        "accent_sat": 0.195,
+        "tile_contrast": 83.388
+      },
+      "art_sat": 0.539,
+      "file": "tacitus-terminal.jpg",
+      "key": "tacitus",
+      "surface_slug": "terminal"
     }
   }
 }
