@@ -499,6 +499,66 @@
       "file": "edward-gibbon-chat.jpg",
       "key": "edward-gibbon",
       "surface_slug": "chat"
+    },
+    "oliver-cromwell-card.jpg": {
+      "figure": "Oliver Cromwell",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_05.txt#OLIVER CROMWELL \u2014 CARD",
+      "source": "openart-sample_1785479051448_8e65d1d1.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "mounted at night, full moon in frame, burning fields distant, rain beginning. PASSED ALL FOUR ENFORCED RULES on the first run - only tesla-card had done that before. key_side LEFT agrees with the moon's position in frame, so the CSS-era problem of two light sources arguing does not arise. THE MOON IS NOW LITERAL: HANDOFF left open whether it stays a marker from the pencil work or enters the picture; this plate decides it.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.177,
+        "key_radial": 0.327,
+        "key_side": "LEFT",
+        "value_span": 217.0,
+        "accent_sat": 0.116,
+        "tile_contrast": 73.628
+      },
+      "art_sat": 0.901,
+      "file": "oliver-cromwell-card.jpg",
+      "key": "oliver-cromwell",
+      "surface_slug": "card"
+    },
+    "oliver-cromwell-terminal.jpg": {
+      "figure": "Oliver Cromwell",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_05.txt#OLIVER CROMWELL \u2014 TERMINAL (farmhouse dispatch version, since superseded in that file by the Parliament-doors prompt)",
+      "source": "openart-sample_1785479173690_d2de7245.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "writing the dispatch after Naseby by one lantern; buff coat, map, lobster-tail pot helmet on the board, straw floor. PASSED ALL FOUR ENFORCED RULES. Effectively monochrome at accent 0.068. The prompt that produced this was replaced in PROMPTS_BATCH_05.txt by the Parliament-doors scene, which remains unshot and is a candidate for oliver-cromwell-chat.jpg.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.066,
+        "key_radial": 0.113,
+        "key_side": "LEFT",
+        "value_span": 235.333,
+        "accent_sat": 0.035,
+        "tile_contrast": 85.152
+      },
+      "art_sat": 1.0,
+      "file": "oliver-cromwell-terminal.jpg",
+      "key": "oliver-cromwell",
+      "surface_slug": "terminal"
     }
   }
 }
