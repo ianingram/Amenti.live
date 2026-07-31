@@ -94,11 +94,17 @@ def grades():
             # THE TERMINAL — the largest canvas in the product. The terminal
             # plate sits behind the whole chat stream at the opacity computed
             # from its own bright patches, not a guessed constant.
-            if r.get("term_opacity"):
+            if r.get("pool_op"):
+                # THE MOON KEY. The plate is no longer dimmed globally — it runs
+                # near full strength and a MASK decides where the light falls.
+                # --pool-x comes from the plate's own measured key_side, so the
+                # CSS light agrees with the light already in the photograph
+                # instead of arguing with it.
                 out.append(
                     f'.term-main[data-fig="{key}"]::before{{'
                     f'background-image:url("img/{key}-terminal.jpg");'
-                    f'opacity:{r["term_opacity"]};'
+                    f'opacity:{r["pool_op"]};'
+                    f'--pool-x:{r["pool_x"]}%;'
                     f'filter:saturate({r["art_sat"]});}}')
     open("img/grades.css", "w").write("\n".join(out) + "\n")
     return len(m["images"])

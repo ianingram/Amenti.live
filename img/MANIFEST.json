@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "updated": "2026-07-30",
+  "updated": "2026-07-31",
   "images": {
     "lincoln-card.jpg": {
       "figure": "Abraham Lincoln",
@@ -187,7 +187,9 @@
       "file": "lincoln-terminal.jpg",
       "key": "lincoln",
       "surface_slug": "terminal",
-      "term_opacity": 0.31
+      "pool_x": 26,
+      "pool_op": 0.72,
+      "key_side": "LEFT"
     },
     "tesla-terminal.jpg": {
       "figure": "Nikola Tesla",
@@ -215,7 +217,9 @@
       "art_sat": 0.642,
       "key": "tesla",
       "surface_slug": "terminal",
-      "term_opacity": 0.36
+      "pool_x": 74,
+      "pool_op": 0.92,
+      "key_side": "RIGHT"
     },
     "caesar-terminal.jpg": {
       "figure": "Julius Caesar",
@@ -243,7 +247,9 @@
       "art_sat": 0.329,
       "key": "caesar",
       "surface_slug": "terminal",
-      "term_opacity": 0.33
+      "pool_x": 26,
+      "pool_op": 0.92,
+      "key_side": "LEFT"
     },
     "frederick-douglass-terminal.jpg": {
       "figure": "Frederick Douglass",
@@ -271,7 +277,9 @@
       "art_sat": 1.0,
       "key": "frederick-douglass",
       "surface_slug": "terminal",
-      "term_opacity": 0.36
+      "pool_x": 74,
+      "pool_op": 0.92,
+      "key_side": "RIGHT"
     },
     "sun-tzu-terminal.jpg": {
       "figure": "Sun Tzu",
@@ -299,7 +307,9 @@
       "art_sat": 1.0,
       "key": "sun-tzu",
       "surface_slug": "terminal",
-      "term_opacity": 0.4
+      "pool_x": 74,
+      "pool_op": 0.92,
+      "key_side": "RIGHT"
     },
     "marcus-aurelius-terminal.jpg": {
       "file": "marcus-aurelius-terminal.jpg",
@@ -319,7 +329,9 @@
       "stored_saturation": 0.281,
       "art_sat": 0.373,
       "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "term_opacity": 0.35
+      "pool_x": 74,
+      "pool_op": 0.73,
+      "key_side": "RIGHT"
     },
     "musashi-card.jpg": {
       "figure": "Miyamoto Musashi",
@@ -367,7 +379,9 @@
       "stored_saturation": 0.002,
       "art_sat": 1.0,
       "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "term_opacity": 0.32
+      "pool_x": 26,
+      "pool_op": 0.92,
+      "key_side": "LEFT"
     }
   }
 }

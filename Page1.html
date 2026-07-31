@@ -8051,35 +8051,67 @@ window.AMENTI_VOICE = {
 
 <link rel="stylesheet" href="img/grades.css">
 <style data-amenti="art-term">
-/* ── AMENTI ART · TERMINAL PLATE ──────────────────────────────────────────
-   The centre panel is the largest canvas in the product. The reading plate
-   sits BEHIND the whole chat stream and the text runs over it.
+/* ── AMENTI ART · TERMINAL PLATE · THE MOON KEY ───────────────────────────
+   The plate no longer sits behind the stream at a uniform dim. It runs at
+   near full strength and a MASK decides where the light falls.
 
-   Why this is safe: terminal body text is #c8e8d8 on a composited ground of
-   rgb(3,7,5) — 15.4:1, enormous headroom. The binding constraint is not the
-   plate's average but its BRIGHT patches, since one blown highlight under a
-   line of type is what breaks legibility. ingest.py solves for the 95th
-   percentile per plate and writes the opacity into grades.css. It lands
-   between 0.31 and 0.40 — present, atmospheric, never competing.
+   WHY THE FIRST VERSION FAILED. It solved one constraint — text must stay
+   above 4.5:1 — and drove every pixel to 31% opacity to satisfy it. A 28%
+   scrim then sat over the middle of the panel, which is exactly where a
+   reader looks. Lincoln's plate has a mean of 126 and rendered at about 30
+   out of 255: drawn, but not lit. Optimising for legibility alone made the
+   picture invisible, which is a different kind of failure from a broken one.
 
-   The scrim adds a vertical darkening at top and bottom so the message bar
-   and the input row stay clean, and keeps the middle where the stream reads. */
+   THE POOL. Light falls where text is thinnest and the plate runs bright
+   there; elsewhere it recedes. The constraint stops being a ceiling on the
+   whole image and becomes a question of placement.
+
+   THREE THINGS KEEP IT FROM READING AS A TORCH BEAM:
+     APERTURE WIDER THAN THE PANEL — 150% x 130%. If the pool is larger than
+       its container you cannot see its shape, only the falloff across the
+       frame. A circle you can find the edge of is an effect; a gradient you
+       cannot is a room.
+     A LONG FALLOFF — five stops, most of the work done in the middle two.
+       A torch is bright to a hard shoulder then dark. A window is bright,
+       then gradually less so over a long run.
+     NO FLOOR — the mask bottoms out at 0.14, never at zero. The plate stays
+       faintly present at the far side, so the image continues into shadow
+       rather than ending. An edge that stops is a shape; an edge that fades
+       is a form. Same finding as the card plates, from the other direction.
+
+   --pool-x IS THE MOON. It comes from each plate's own measured key_side, so
+   the CSS light agrees with the light already baked into the photograph.
+   Lincoln's column is keyed from the left, so the pool sits left at 26%;
+   Tesla's bench is keyed from the right, so it sits at 74%. Two light sources
+   arguing reads as a mistake even to someone who could not name why.
+
+   The scrim is now only at the very top and bottom, clear of the message bar
+   and the input row. The middle of the panel is left alone. */
 .term-main{position:relative;isolation:isolate;}
 .term-main::before{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
   background-repeat:no-repeat;background-size:cover;
-  background-position:72% 18%;   /* bias right and up: figure clear of the text column */
-  opacity:0;transition:opacity 1.2s ease, background-image .01s;
+  background-position:var(--pool-x,50%) 22%;
+  opacity:0;transition:opacity 1.4s ease;
+  --pool-x:50%;
+  -webkit-mask-image:radial-gradient(ellipse 150% 130% at var(--pool-x,50%) 34%,
+     rgba(0,0,0,1) 0%, rgba(0,0,0,.94) 18%, rgba(0,0,0,.62) 42%,
+     rgba(0,0,0,.30) 68%, rgba(0,0,0,.14) 100%);
+          mask-image:radial-gradient(ellipse 150% 130% at var(--pool-x,50%) 34%,
+     rgba(0,0,0,1) 0%, rgba(0,0,0,.94) 18%, rgba(0,0,0,.62) 42%,
+     rgba(0,0,0,.30) 68%, rgba(0,0,0,.14) 100%);
 }
 .term-main::after{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:linear-gradient(180deg,rgba(2,6,4,.92) 0%,rgba(2,6,4,.35) 18%,
-             rgba(2,6,4,.28) 74%,rgba(2,6,4,.90) 100%);
+  background:linear-gradient(180deg,rgba(2,6,4,.90) 0%,rgba(2,6,4,.42) 9%,
+             rgba(2,6,4,0) 20%,rgba(2,6,4,0) 82%,rgba(2,6,4,.52) 93%,
+             rgba(2,6,4,.90) 100%);
 }
 .term-main>*{position:relative;z-index:1;}
-@media (prefers-reduced-motion: reduce){
-  .term-main::before{transition:none;}
-}
+/* the stream's own text gets a whisper of ground so it never sits naked on a
+   bright patch — cheaper and less invasive than dimming the whole plate */
+.term-main .term-stream{text-shadow:0 1px 2px rgba(0,8,4,.85);}
+@media (prefers-reduced-motion: reduce){.term-main::before{transition:none;}}
 </style>
 <style data-amenti="art-v1">
 /* AMENTI ART v1 — raster art on the hero and the reading room.
