@@ -793,6 +793,64 @@
       "file": "bram-stoker-terminal.jpg",
       "key": "bram-stoker",
       "surface_slug": "terminal"
+    },
+    "hannibal-terminal.jpg": {
+      "figure": "Hannibal Barca",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_SESSION_31JUL.txt#HANNIBAL BARCA \u2014 TERMINAL",
+      "source": "openart-sample_1785535631614_b39d04fd.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "The crossing of the Alps, October 218 BC - two years before Cannae, so BOTH EYES ARE STILL GOOD (he lost the sight of his right eye to ophthalmia in the Arno marshes in 217). Commissioned as a ROOM PORTRAIT in the manner of the Hume library plate: the invariant's shallow-focus background clause was deliberately reversed so the mountain reads as the subject and Hannibal is one small figure identifiable by the purple cloak. PASSED ALL FOUR ENFORCED RULES. THREE DEFECTS ACCEPTED KNOWINGLY: the armour returned as ornate gilded filigree and the troops in uniform bronze helms, where the guard asked flatly for no fantasy armour; the elephant is gold-capped and healthy rather than the gaunt mud-caked animal specified, since nearly all of them died in the mountains; and the plate renders as digital painting rather than photograph. Also note it is the LIGHTEST plate in the deck at 10% of frame under 40/255 and mean luminance 119, taking that record from marcus-aurelius-terminal at 22%.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.139,
+        "key_radial": 0.272,
+        "value_span": 197.0,
+        "accent_sat": 0.084,
+        "tile_contrast": 95.103
+      },
+      "art_sat": 1.0,
+      "file": "hannibal-terminal.jpg",
+      "key": "hannibal",
+      "surface_slug": "terminal"
+    },
+    "hannibal-card.jpg": {
+      "figure": "Hannibal Barca",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_SESSION_31JUL.txt#HANNIBAL BARCA \u2014 CARD",
+      "source": "openart-sample_1785537645889_ede37c09.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "New Carthage (Qart Hadasht) in Spain, spring 218 BC, aged 29, on the quay before the expedition. STRONGEST KEY IN THE DECK at radial 0.433, taking the record from musashi-card at 0.428. WHY NOT CARTHAGE: he left Carthage for Spain at nine - that departure is The Oath of Enmity, the first work in library/hannibal.json - and did not see the city again until he was forty-four. There is no handsome young adult Hannibal in Carthage. New Carthage is the city the Barcids built in Spain to be a second Carthage, funded by silver mines yielding three hundred pounds a day. LIKENESS: no bust or reliable coin survives, so the deck renders a characteristic face rather than a portrait, and takes the North African reading - deep brown skin, African features, Libyan and Numidian rather than Levantine. Carthage was an African city that had stood five hundred years among African peoples and married into them. BOTH EYES CLEAR, correct for 218: he loses the right one to ophthalmia in the Arno marshes the following year. TWO DEFECTS ACCEPTED: the temple on the hill reads Greco-Roman peripteral rather than Punic with an Egyptian cavetto cornice, and the houses read Mediterranean-modern rather than Punic. WEALTH BY DESIGN: Tyrian purple and gold on the man, silver pigs and shipping and a six-storey city behind him - richer than armour would have read, and it keeps the plate out of fantasy.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.069,
+        "key_radial": 0.437,
+        "value_span": 219.333,
+        "accent_sat": 0.283,
+        "tile_contrast": 109.004
+      },
+      "art_sat": 0.371,
+      "file": "hannibal-card.jpg",
+      "key": "hannibal",
+      "surface_slug": "card"
     }
   }
 }

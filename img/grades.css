@@ -29,6 +29,9 @@
 .rc-img[data-fig="gandhi"],.nc-thumb[data-fig="gandhi"],.mkt-thumb[data-fig="gandhi"],.cdx-art[data-fig="gandhi"][data-art-photo="card"]{filter:saturate(0.558);}
 .cdx-art[data-fig="gandhi"][data-art-photo="terminal"]{filter:saturate(0.773);}
 .term-main[data-fig="gandhi"] .plate-stack{--plate-sat:0.773;}
+.rc-img[data-fig="hannibal"],.nc-thumb[data-fig="hannibal"],.mkt-thumb[data-fig="hannibal"],.cdx-art[data-fig="hannibal"][data-art-photo="card"]{filter:saturate(0.371);}
+.cdx-art[data-fig="hannibal"][data-art-photo="terminal"]{filter:saturate(1.0);}
+.term-main[data-fig="hannibal"] .plate-stack{--plate-sat:1.0;}
 .rc-img[data-fig="lincoln"],.nc-thumb[data-fig="lincoln"],.mkt-thumb[data-fig="lincoln"],.cdx-art[data-fig="lincoln"][data-art-photo="card"]{filter:saturate(1.0);}
 .cdx-art[data-fig="lincoln"][data-art-photo="terminal"]{filter:saturate(1.0);}
 .term-main[data-fig="lincoln"] .plate-stack{--plate-sat:1.0;}
