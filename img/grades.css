@@ -6,14 +6,15 @@
 
    31 Jul 2026 — TWO CHANGES.
    1. opacity and --pool-x are no longer written. The moon key is gone from
-      Page1.html and the reader-controlled PLATE slider owns terminal opacity;
-      a baked opacity here fought it at equal specificity.
+      Page1.html and the reader-controlled PLATE slider owns terminal opacity.
    2. The terminal grade hangs on .plate-stack, not .term-main::before. The terminal
       cycles through every plate a figure has, crossfading between two layers inside
       that stack, so there is no single image to grade and no background-image to
-      write here. One saturation covers all of a figure's plates, which keeps the
-      grade in CSS and out of a hardcoded map in JS.
+      write here. One saturation covers all of a figure's plates.
 
+.rc-img[data-fig="bram-stoker"],.nc-thumb[data-fig="bram-stoker"],.mkt-thumb[data-fig="bram-stoker"],.cdx-art[data-fig="bram-stoker"][data-art-photo="card"]{filter:saturate(0.522);}
+.cdx-art[data-fig="bram-stoker"][data-art-photo="terminal"]{filter:saturate(0.262);}
+.term-main[data-fig="bram-stoker"] .plate-stack{--plate-sat:0.262;}
 .rc-img[data-fig="caesar"],.nc-thumb[data-fig="caesar"],.mkt-thumb[data-fig="caesar"],.cdx-art[data-fig="caesar"][data-art-photo="card"]{filter:saturate(0.341);}
 .cdx-art[data-fig="caesar"][data-art-photo="terminal"]{filter:saturate(0.329);}
 .term-main[data-fig="caesar"] .plate-stack{--plate-sat:0.329;}

@@ -735,6 +735,64 @@
       "file": "david-hume-terminal.jpg",
       "key": "david-hume",
       "surface_slug": "terminal"
+    },
+    "bram-stoker-card.jpg": {
+      "figure": "Bram Stoker",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_SESSION_31JUL.txt#BRAM STOKER \u2014 CARD",
+      "source": "openart-sample_1785535032468_30b9eac3.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "Stage door of the Lyceum at night, Wellington Street, about 1895 - bowler, frock coat, watch chain, ring of keys, ledgers, the Lyceum playbill pasted on wet brick, door ajar with warm light. THE THREE-PART GUARD LANDED ON ALL THREE CLAUSES: he is physically big, he is unmistakably RED-haired and red-bearded, and nothing gothic attaches to him - no cape, no pallor, no menace. The prior is dated from library/bram-stoker.json, where NINE of ten works are Dracula, written 1890-97 at ages 43-50. Lateral key reads 0.031 because the gas lamp is directly ABOVE him and audit2's key_strength measures the x-axis only; radial is 0.282. 48% of frame under 40/255.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.032,
+        "key_radial": 0.285,
+        "value_span": 229.333,
+        "accent_sat": 0.201,
+        "tile_contrast": 71.26
+      },
+      "art_sat": 0.522,
+      "file": "bram-stoker-card.jpg",
+      "key": "bram-stoker",
+      "surface_slug": "card"
+    },
+    "bram-stoker-terminal.jpg": {
+      "figure": "Bram Stoker",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_SESSION_31JUL.txt#BRAM STOKER \u2014 TERMINAL",
+      "source": "openart-sample_1785535104959_0596fa49.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "The manager's office above the Lyceum - he ran the theatre for Henry Irving for twenty-seven years and wrote Dracula in the hours left over. Ledgers with ruled columns, framed Lyceum bills, the notebook, shirtsleeves and waistcoat: the content is right. TWO DEFECTS ACCEPTED KNOWINGLY. FIRST, THERE IS NO KEY: radial 0.051, the flattest plate in the deck - flatter than the pale-wall Gandhi card that was rejected at 0.105. The prompt specified one visible green-shaded brass lamp at the left with fast falloff to true black; what returned is broad even ambient with no source in frame. SECOND, accent 0.400 is the highest saturation in the deck by a wide margin, above Caesar's 0.312, so the CSS grade pulls it to 0.263 and takes the red hair down with everything else. Kept as it stands by choice.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.014,
+        "key_radial": 0.053,
+        "value_span": 223.0,
+        "accent_sat": 0.401,
+        "tile_contrast": 97.381
+      },
+      "art_sat": 0.262,
+      "file": "bram-stoker-terminal.jpg",
+      "key": "bram-stoker",
+      "surface_slug": "terminal"
     }
   }
 }
