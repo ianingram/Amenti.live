@@ -677,6 +677,64 @@
       "file": "tacitus-terminal.jpg",
       "key": "tacitus",
       "surface_slug": "terminal"
+    },
+    "david-hume-card.jpg": {
+      "figure": "David Hume",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_08.txt#DAVID HUME \u2014 CARD",
+      "source": "openart-sample_1785533902392_4bd3d364.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "Outside the Advocates Library at night, Parliament Close, Edinburgh, about 1758, while he was its Keeper. Lit BY the library - lamp, and the open door throwing warm light onto wet flagstones - with haar and coal smoke in the close. THE GUARD WORKED: the prompt states flat that he is fat and that he is NOT a tortured genius, because contemporaries all recorded a broad heavy placid face that gave no outward sign of intelligence. Both landed first roll. The prior is dated from library/david-hume.json, where THIRTEEN of twenty works are The History of England - this room belongs to the historian, not the philosopher.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.074,
+        "key_radial": 0.083,
+        "value_span": 202.0,
+        "accent_sat": 0.229,
+        "tile_contrast": 51.706
+      },
+      "art_sat": 0.458,
+      "file": "david-hume-card.jpg",
+      "key": "david-hume",
+      "surface_slug": "card"
+    },
+    "david-hume-terminal.jpg": {
+      "figure": "David Hume",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_08.txt#DAVID HUME \u2014 TERMINAL",
+      "source": "openart-sample_1785533934906_6813d98d.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "The Advocates Library about 1756 with its Keeper at work in it - presses, gallery, rolling ladders, a shaft of daylight through a tall window crossing the floor, a clerk delivering a bundle of manuscripts tied with tape, visitors at the presses. Commissioned as a ROOM PORTRAIT: the invariant's shallow-focus background clause was deliberately reversed for this plate so the library reads as the subject. THREE DEVIATIONS FROM THE BRIEF, ALL ACCEPTED KNOWINGLY: it returned as an OIL PAINTING rather than a photograph, with blended brushwork and craquelure, where the invariant asks for photographic realism; Hume and the clerk both LOOK AT THE CAMERA, where the absorbed grammar asks that nobody does; and Hume occupies roughly half the frame rather than the under-one-third that would have let the room read first. Kept because the room itself is right and the proprietor chose it as it stands.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.273,
+        "key_radial": 0.281,
+        "value_span": 210.0,
+        "accent_sat": 0.303,
+        "tile_contrast": 55.2
+      },
+      "art_sat": 0.347,
+      "file": "david-hume-terminal.jpg",
+      "key": "david-hume",
+      "surface_slug": "terminal"
     }
   }
 }
