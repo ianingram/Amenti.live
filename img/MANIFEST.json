@@ -851,6 +851,64 @@
       "file": "hannibal-card.jpg",
       "key": "hannibal",
       "surface_slug": "card"
+    },
+    "plato-card.jpg": {
+      "figure": "Plato",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_SESSION_31JUL.txt#PLATO \u2014 CARD",
+      "source": "openart-sample_1785541464109_081647c6.png",
+      "crop": "trimmed 16px of height to 0.571 | source 576x1024, UPSAMPLED to 1120 tall (deck standard is 2048 downsampled)",
+      "seed": null,
+      "note": "Teaching at dusk on the plateau west of Athens, about 385 BC - seated at a low podium cutting a wax tablet, pupils in white chitons, a boy raking the sand, oil lamps in the sand, and the plateau dropping away to the Saronic Gulf with the lit Acropolis on the headland. REPLACES an earlier palaestra version and fixes its three faults: blown highlights went from 22% of frame to 0.0%, accent from 0.492 to 0.284, true shadow from 8% to 14%. NOTABLE - head_room measures 0.010, the FIRST NON-ZERO READING IN THE DECK. Every other plate reads 0.000 because something bright touches the top row; this one has genuine measured air above the figure, which is what the rewritten framing clause was for. TWO DEFECTS ACCEPTED KNOWINGLY. FIRST, the pupils are all open-mouthed and wide-eyed as though astonished, where the brief asked for thoughtful faces following a hard argument; at 340x560 in the codex those expressions read as comic. SECOND, it generated at 576x1024 - the second sub-2K roll running - so it is UPSAMPLED to 1120 where every other plate is downsampled from 2048.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "1K \u2014 SUB-SPEC",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.08,
+        "key_radial": 0.287,
+        "value_span": 194.333,
+        "accent_sat": 0.284,
+        "tile_contrast": 73.525
+      },
+      "art_sat": 0.369,
+      "file": "plato-card.jpg",
+      "key": "plato",
+      "surface_slug": "card"
+    },
+    "plato-terminal.jpg": {
+      "figure": "Plato",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_SESSION_31JUL.txt#PLATO \u2014 TERMINAL",
+      "source": "openart-sample_1785538183678_620bbfcf.png",
+      "crop": "trimmed 32px of height to 0.571 | source was 1152x2048; downsampled",
+      "seed": null,
+      "note": "The Allegory of the Cave, Republic VII, as a ROOM PORTRAIT in the manner of the Alps and the Advocates Library - the invariant's shallow-focus background clause deliberately reversed so the cave reads as the subject. Prisoners chained at neck and ankle facing the wall, the raised walkway with figures carrying carved shapes on poles, the fire as the only real light, and the shadows enormous on the far wall as the largest thing in frame. Plato stands at the foot of the passage having come back down - the Republic requires the philosopher to return into the cave. Key reads LEFT, which is the fire, exactly as specified. Fails only on accent at 0.185, a hairline over the 0.18 ceiling on a firelit scene. TWO MINOR DEVIATIONS: Plato is roughly a third of the frame height rather than the under-a-fifth the brief asked for, and a lit candelabrum at the right edge introduces a second small light the brief did not call for.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.148,
+        "key_radial": 0.247,
+        "value_span": 223.0,
+        "accent_sat": 0.184,
+        "tile_contrast": 72.911
+      },
+      "art_sat": 0.571,
+      "file": "plato-terminal.jpg",
+      "key": "plato",
+      "surface_slug": "terminal"
     }
   }
 }
