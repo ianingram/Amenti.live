@@ -8125,6 +8125,239 @@ window.AMENTI_VOICE = {
    carries its own factor so all four settle on the same 0.105 at rest. */
 
 </style>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     AMENTI · THE TERMINAL PLATE
+     Paste this whole block into Page1.html immediately before </body>.
+     Self-contained. Nothing else in the file changes.
 
-</body>
+     The plate sits behind the chat stream at full bleed. A slider in the
+     terminal bar hands its opacity to the reader:
+
+         0%    full black — the terminal as it was, text at 15.4:1
+         35%   default — the figure present, text clean
+         100%  full image — the stream veiled, for reading in company
+
+     Because the reader sets it, nothing here has to solve for the worst case.
+     The plate is stored at full strength and never dimmed by the system.
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<style data-amenti="plate-v1">
+.term-main{
+  isolation:isolate;
+  --plate-op:.35;      /* driven by the slider */
+  --plate-sat:.6;      /* deck grade; raise toward 1 for full colour */
+}
+
+/* THE PLATE. Full bleed, behind everything, never intercepts a click. */
+.term-main::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:var(--plate-src,none);
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:50% 22%;   /* the panel is landscape; this holds the head */
+  filter:saturate(var(--plate-sat));
+  opacity:var(--plate-op);
+  transition:opacity .4s ease;
+}
+
+/* THUMBNAIL. Click the readout to toggle. The figure stands beside the
+   stream at native ratio instead of being cropped to a band. */
+.term-main[data-plate-fit="contain"]::before{
+  background-size:contain;
+  background-position:100% 100%;
+}
+
+/* SCRIM, top and bottom only — the message bar and the input row stay clean
+   at every slider position. The middle of the stream is left alone, because
+   the middle is where the picture is. Scales with the plate so it vanishes
+   entirely at 0%. */
+.term-main::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(2,6,4,calc(var(--plate-op) * .95)) 0%,
+    rgba(2,6,4,0) 15%,
+    rgba(2,6,4,0) 84%,
+    rgba(2,6,4,calc(var(--plate-op) * .95)) 100%);
+}
+
+.term-main > *{position:relative;z-index:1;}
+
+/* Cheaper than dimming the plate, and it also scales to zero. */
+.term-stream{
+  text-shadow:
+    0 1px 2px rgba(0,0,0,calc(var(--plate-op) * .9)),
+    0 0 12px rgba(0,0,0,calc(var(--plate-op) * .6));
+}
+
+/* ── THE CONTROL ──────────────────────────────────────────────────────── */
+.plate-ctl{display:flex;align-items:center;gap:8px;}
+
+.plate-ctl-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;
+  color:#80ffc0;cursor:pointer;user-select:none;white-space:nowrap;
+  background:none;border:none;padding:0;
+}
+.plate-ctl-label:hover{color:#fff;}
+.plate-ctl-label:focus-visible{outline:1px solid var(--gold);outline-offset:2px;}
+.plate-ctl[data-fit="contain"] .plate-ctl-label{color:var(--gold);}
+
+.plate-range{
+  -webkit-appearance:none;appearance:none;
+  width:74px;height:14px;background:transparent;cursor:pointer;margin:0;
+}
+.plate-range:focus-visible{outline:1px solid var(--gold);outline-offset:3px;}
+.plate-range::-webkit-slider-runnable-track{
+  height:2px;background:rgba(0,255,160,.28);
+}
+.plate-range::-moz-range-track{height:2px;background:rgba(0,255,160,.28);}
+.plate-range::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:9px;height:9px;margin-top:-3.5px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 6px rgba(212,160,23,.7);
+}
+.plate-range::-moz-range-thumb{
+  width:9px;height:9px;border:none;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 6px rgba(212,160,23,.7);
+}
+
+/* No plate on disk for this figure — the control says so rather than
+   sitting there dead. */
+.plate-ctl[data-plate="none"]{opacity:.32;pointer-events:none;}
+
+@media (max-width:1100px){.plate-range{width:54px;}}
+@media (max-width:780px){.plate-ctl{display:none;}}
+@media (prefers-reduced-motion:reduce){.term-main::before{transition:none;}}
+</style>
+
+<script data-amenti="plate-v1">
+(function(){
+  var STORE_OP = 'amenti.plate.op', STORE_FIT = 'amenti.plate.fit';
+
+  // Art resolves by CONVENTION from the library key. The three candidates
+  // cover every naming this repo has used, so the patch works whether or not
+  // the card/reading/terminal rename has landed yet.
+  function candidates(key){
+    return ['img/'+key+'-reading.jpg',
+            'img/'+key+'-terminal.jpg',
+            'img/'+key+'-card.jpg'];
+  }
+
+  function slug(t){
+    return String(t||'').split('\u2014')[0].trim().toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  }
+  var ALIAS = {'mohandas-k-gandhi':'gandhi','gaius-julius-caesar':'caesar',
+               'abraham-lincoln':'lincoln','nikola-tesla':'tesla',
+               'seneca-the-younger':'seneca','hannibal-barca':'hannibal',
+               'miyamoto-musashi':'miyamoto-musashi'};
+
+  // `active` is scoped inside the terminal script, so read the roster
+  // instead. The selected row always carries the canonical id.
+  function figKey(){
+    var row = document.querySelector('.term-char.active');
+    var R = window.AMENTI_CHARS || [];
+    if(row && R[+row.dataset.id] && R[+row.dataset.id].key) return R[+row.dataset.id].key;
+    var bar = document.getElementById('barName');
+    if(!bar) return null;
+    var k = slug(bar.textContent);
+    return (!k || k === 'select-a-legend') ? null : (ALIAS[k] || k);
+  }
+
+  var main, ctl, range, label, current = null;
+
+  function setOpacity(v, persist){
+    if(!main) return;
+    main.style.setProperty('--plate-op', v);
+    if(label) label.firstChild.nodeValue = 'PLATE ' + Math.round(v*100) + '%  ';
+    if(persist) try{ localStorage.setItem(STORE_OP, v); }catch(e){}
+  }
+
+  function setFit(fit, persist){
+    main.setAttribute('data-plate-fit', fit);
+    ctl.setAttribute('data-fit', fit);
+    label.title = fit === 'contain'
+      ? 'Thumbnail — click for full bleed'
+      : 'Full bleed — click for thumbnail';
+    if(persist) try{ localStorage.setItem(STORE_FIT, fit); }catch(e){}
+  }
+
+  // Try each candidate in turn; the first that decodes wins.
+  function load(paths, i){
+    if(i >= paths.length){
+      main.style.setProperty('--plate-src','none');
+      ctl.setAttribute('data-plate','none');
+      return;
+    }
+    var probe = new Image();
+    probe.onload  = function(){
+      main.style.setProperty('--plate-src','url("'+paths[i]+'")');
+      ctl.setAttribute('data-plate','ok');
+    };
+    probe.onerror = function(){ load(paths, i+1); };
+    probe.src = paths[i];
+  }
+
+  function swap(){
+    var key = figKey();
+    if(key === current) return;
+    current = key;
+    if(!key){
+      main.style.setProperty('--plate-src','none');
+      ctl.setAttribute('data-plate','none');
+      return;
+    }
+    load(candidates(key), 0);
+  }
+
+  function build(){
+    main = document.querySelector('.term-main');
+    var bar = document.querySelector('.term-bar-buttons');
+    if(!main || !bar || bar.querySelector('.plate-ctl')) return false;
+
+    ctl = document.createElement('div');
+    ctl.className = 'plate-ctl';
+    ctl.setAttribute('data-plate','none');
+
+    label = document.createElement('button');
+    label.type = 'button';
+    label.className = 'plate-ctl-label';
+    label.appendChild(document.createTextNode('PLATE 35%  '));
+
+    range = document.createElement('input');
+    range.type = 'range';
+    range.className = 'plate-range';
+    range.min = 0; range.max = 1; range.step = 0.01;
+    range.setAttribute('aria-label','Image behind the chat');
+
+    ctl.appendChild(label);
+    ctl.appendChild(range);
+    bar.insertBefore(ctl, bar.firstChild);
+
+    var saved = parseFloat(localStorage.getItem(STORE_OP));
+    var op = (saved >= 0 && saved <= 1) ? saved : 0.35;
+    range.value = op;
+    setOpacity(op, false);
+    setFit(localStorage.getItem(STORE_FIT) === 'contain' ? 'contain' : 'cover', false);
+
+    range.addEventListener('input', function(){ setOpacity(parseFloat(this.value), true); });
+    label.addEventListener('click', function(){
+      setFit(main.getAttribute('data-plate-fit') === 'contain' ? 'cover' : 'contain', true);
+    });
+
+    swap();
+    return true;
+  }
+
+  function start(){
+    if(!build()) return;
+    // The terminal rebuilds its roster on every tune(); that is the signal.
+    new MutationObserver(swap).observe(document.body, {childList:true, subtree:true});
+  }
+
+  if(document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();
+</script></body>
 </html>
