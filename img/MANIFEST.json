@@ -382,6 +382,60 @@
       "pool_x": 26,
       "pool_op": 0.92,
       "key_side": "LEFT"
+    },
+    "gandhi-card.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785301093124_1dadc1c8.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "young hooded khadi in rain, head bowed. GOLD AVIATORS ACCEPTED KNOWINGLY - small round wire spectacles were refused across v4 and v5. Face bowed and hooded; identity is carried by the name label on every surface, not by the plate. Library is Hind Swaraj (1909) and Third Class in Indian Railways (1917) - nothing postdates 1917, so the young prior is the evidence-backed reading.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.202,
+        "value_span": 240.667,
+        "accent_sat": 0.188,
+        "tile_contrast": 106.529
+      },
+      "art_sat": 0.558,
+      "file": "gandhi-card.jpg",
+      "key": "gandhi",
+      "surface_slug": "card"
+    },
+    "gandhi-terminal.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785299306315_232b1589.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "seated, reading a letter, absorbed. WHEEL IS GEAR-DRIVEN, NOT A CHARKHA - accepted knowingly; a charkha is belt-driven and spins thread, not woven cloth on a roller. Mostly below the terminal crop band (rows 11-60%); fully visible in the codex at 340x560.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.055,
+        "value_span": 239.667,
+        "accent_sat": 0.136,
+        "tile_contrast": 94.172
+      },
+      "art_sat": 0.773,
+      "file": "gandhi-terminal.jpg",
+      "key": "gandhi",
+      "surface_slug": "terminal"
     }
   }
 }
