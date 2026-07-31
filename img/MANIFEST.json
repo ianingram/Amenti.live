@@ -28,13 +28,15 @@
       "art_sat": 1.0,
       "file": "lincoln-card.jpg",
       "key": "lincoln",
-      "surface_slug": "card"
+      "surface_slug": "card",
+      "seed_candidate": 71269299,
+      "seed_note": "seed recorded in the prompt file. NOT confirmed for this plate: the note says 'candidate C of four', so four rolls were made and the file records one. Verify against OpenArt history before promoting to seed."
     },
     "caesar-card.jpg": {
       "figure": "Julius Caesar",
       "surface": "hero/arena",
       "grammar": "presented",
-      "prompt_file": "PROMPTS_BATCH_03.txt#CAESAR \u2014 CARD",
+      "prompt_file": "PROMPTS_BATCH_03.txt#CAESAR — CARD",
       "source": "openart-sample_1785281582839_19e2dea1.png",
       "crop": "trimmed to 0.571",
       "seed": null,
@@ -62,7 +64,7 @@
       "figure": "Nikola Tesla",
       "surface": "hero/arena",
       "grammar": "presented",
-      "prompt_file": "PROMPTS_BATCH_03.txt#TESLA \u2014 CARD",
+      "prompt_file": "PROMPTS_BATCH_03.txt#TESLA — CARD",
       "source": "openart-sample_1785281430336_eb8d4f79.png",
       "crop": "trimmed to 0.571",
       "seed": null,
@@ -90,7 +92,7 @@
       "figure": "Frederick Douglass",
       "surface": "hero/arena",
       "grammar": "presented",
-      "prompt_file": "PROMPTS_BATCH_03.txt#DOUGLASS \u2014 CARD",
+      "prompt_file": "PROMPTS_BATCH_03.txt#DOUGLASS — CARD",
       "source": "openart-sample_1785281294019_1a0e8dcc.png",
       "crop": "trimmed to 0.571",
       "seed": null,
@@ -118,7 +120,7 @@
       "figure": "Sun Tzu",
       "surface": "hero/arena",
       "grammar": "presented",
-      "prompt_file": "PROMPTS_BATCH_04.txt#SUN TZU \u2014 CARD",
+      "prompt_file": "PROMPTS_BATCH_04.txt#SUN TZU — CARD",
       "note": "gold and silver added in post with goldleaf2.metal (metal-sharp). The plate returned dead neutral at R-B -0.36 because the leading clause said 'no colour'; accent keyed to existing speculars rather than painted on. Micro-contrast 7.98 -> 11.4.",
       "model": "flux.2-pro",
       "service": "OpenArt",
@@ -167,7 +169,7 @@
       "prompt_file": "PROMPT_lincoln_column.txt",
       "source": "openart-sample_1785275913046_90a80aac.jpg",
       "crop": "none",
-      "seed": null,
+      "seed": 61256669,
       "note": "four separated value planes; best tile contrast in the set at 150. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
       "model": "flux.2-pro",
       "service": "OpenArt",
@@ -189,13 +191,14 @@
       "surface_slug": "terminal",
       "pool_x": 26,
       "pool_op": 0.72,
-      "key_side": "LEFT"
+      "key_side": "LEFT",
+      "seed_source": "recovered from img/prompts/PROMPT_lincoln_column.txt"
     },
     "tesla-terminal.jpg": {
       "figure": "Nikola Tesla",
       "surface": "terminal",
       "grammar": "absorbed",
-      "prompt_file": "PROMPTS_BATCH_04.txt#TESLA \u2014 READING ROOM  (revised)",
+      "prompt_file": "PROMPTS_BATCH_04.txt#TESLA — READING ROOM  (revised)",
       "note": "monochrome clause led; 0.177 on a brass-heavy scene | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
       "model": "flux.2-pro",
       "service": "OpenArt",
@@ -225,8 +228,8 @@
       "figure": "Julius Caesar",
       "surface": "terminal",
       "grammar": "absorbed",
-      "prompt_file": "PROMPTS_BATCH_04.txt#CAESAR \u2014 READING ROOM  (revised)",
-      "note": "0.316 saturation even with the clause leading \u2014 the SUBJECT is warm, not the prompt. Armour on the bench is segmentata (Imperial, ~1c late); accepted because it is unworn and this is not the identifying image. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
+      "prompt_file": "PROMPTS_BATCH_04.txt#CAESAR — READING ROOM  (revised)",
+      "note": "0.316 saturation even with the clause leading — the SUBJECT is warm, not the prompt. Armour on the bench is segmentata (Imperial, ~1c late); accepted because it is unworn and this is not the identifying image. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
       "model": "flux.2-pro",
       "service": "OpenArt",
       "aspect": "9:16",
@@ -255,7 +258,7 @@
       "figure": "Frederick Douglass",
       "surface": "terminal",
       "grammar": "absorbed",
-      "prompt_file": "PROMPTS_BATCH_04.txt#DOUGLASS \u2014 READING ROOM  (revised)",
+      "prompt_file": "PROMPTS_BATCH_04.txt#DOUGLASS — READING ROOM  (revised)",
       "note": "most monochrome plate in the set at 0.038; reads as a period photograph | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
       "model": "flux.2-pro",
       "service": "OpenArt",
@@ -285,7 +288,7 @@
       "figure": "Sun Tzu",
       "surface": "terminal",
       "grammar": "absorbed",
-      "prompt_file": "PROMPTS_BATCH_04.txt#SUN TZU \u2014 READING ROOM",
+      "prompt_file": "PROMPTS_BATCH_04.txt#SUN TZU — READING ROOM",
       "note": "campaign tent, writing on bamboo slips by lamplight. Period cues all held: bamboo not paper, straight jian not sabre, corded topknot. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
       "model": "flux.2-pro",
       "service": "OpenArt",
@@ -341,7 +344,7 @@
       "source": "openart-sample_1785283529256_fe1ead07.png",
       "crop": "trimmed to 0.571",
       "seed": null,
-      "note": "v2 prompt \u2014 temple, mountains, rain, jingasa. Passed all four rules first run. | key is 'musashi' per the roster record, NOT 'miyamoto-musashi'. He has no library/ file, so the key was inferred from the frederick-douglass pattern and inferred wrong.",
+      "note": "v2 prompt — temple, mountains, rain, jingasa. Passed all four rules first run. | key is 'musashi' per the roster record, NOT 'miyamoto-musashi'. He has no library/ file, so the key was inferred from the frederick-douglass pattern and inferred wrong.",
       "model": "flux.2-pro",
       "service": "OpenArt",
       "aspect": "9:16",
@@ -408,7 +411,8 @@
       "art_sat": 0.558,
       "file": "gandhi-card.jpg",
       "key": "gandhi",
-      "surface_slug": "card"
+      "surface_slug": "card",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)"
     },
     "gandhi-terminal.jpg": {
       "figure": "Mohandas K. Gandhi",
@@ -435,7 +439,8 @@
       "art_sat": 0.773,
       "file": "gandhi-terminal.jpg",
       "key": "gandhi",
-      "surface_slug": "terminal"
+      "surface_slug": "terminal",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)"
     }
   }
 }
