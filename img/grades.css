@@ -1,22 +1,25 @@
 /* GENERATED — do not edit by hand.
-   One CSS multiplier per image. A single global value would SCALE saturation,
-   not EQUALISE it: at 0.32 a plate stored at 0.10 lands at 0.03 while one stored
-   at 0.31 lands at 0.10, and they stay three times apart. Each plate carries its
-   own factor to 0.105.
+   One CSS multiplier per image. A single global value would SCALE saturation, not
+   EQUALISE it: at 0.32 a plate stored at 0.10 lands at 0.03 while one stored at 0.31
+   lands at 0.10, and they stay three times apart. Each plate carries its own factor
+   to 0.105.
 
    31 Jul 2026 — TWO CHANGES.
    1. opacity and --pool-x are no longer written. The moon key is gone from
       Page1.html and the reader-controlled PLATE slider owns terminal opacity;
       a baked opacity here fought it at equal specificity.
-   2. The terminal grade hangs on .plate-stack, not .term-main::before. The
-      terminal cycles through every plate a figure has, crossfading between two
-      layers inside that stack, so there is no single image to grade and no
-      background-image to write here. One saturation covers all of a figure's
-      plates, which keeps the grade in CSS and out of a hardcoded map in JS.
+   2. The terminal grade hangs on .plate-stack, not .term-main::before. The terminal
+      cycles through every plate a figure has, crossfading between two layers inside
+      that stack, so there is no single image to grade and no background-image to
+      write here. One saturation covers all of a figure's plates, which keeps the
+      grade in CSS and out of a hardcoded map in JS.
 
 .rc-img[data-fig="caesar"],.nc-thumb[data-fig="caesar"],.mkt-thumb[data-fig="caesar"],.cdx-art[data-fig="caesar"][data-art-photo="card"]{filter:saturate(0.341);}
 .cdx-art[data-fig="caesar"][data-art-photo="terminal"]{filter:saturate(0.329);}
 .term-main[data-fig="caesar"] .plate-stack{--plate-sat:0.329;}
+.rc-img[data-fig="david-hume"],.nc-thumb[data-fig="david-hume"],.mkt-thumb[data-fig="david-hume"],.cdx-art[data-fig="david-hume"][data-art-photo="card"]{filter:saturate(0.458);}
+.cdx-art[data-fig="david-hume"][data-art-photo="terminal"]{filter:saturate(0.347);}
+.term-main[data-fig="david-hume"] .plate-stack{--plate-sat:0.347;}
 .rc-img[data-fig="edward-gibbon"],.nc-thumb[data-fig="edward-gibbon"],.mkt-thumb[data-fig="edward-gibbon"],.cdx-art[data-fig="edward-gibbon"][data-art-photo="card"]{filter:saturate(0.368);}
 .term-main[data-fig="edward-gibbon"] .plate-stack{--plate-sat:0.478;}
 .rc-img[data-fig="frederick-douglass"],.nc-thumb[data-fig="frederick-douglass"],.mkt-thumb[data-fig="frederick-douglass"],.cdx-art[data-fig="frederick-douglass"][data-art-photo="card"]{filter:saturate(0.48);}
