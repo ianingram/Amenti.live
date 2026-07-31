@@ -1,14 +1,14 @@
 {
-  "at": "2026-07-30T18:48:57.195Z",
+  "at": "2026-07-31T00:56:45.944Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 64,
+    "count": 65,
     "prefixes": {
-      "atlantica:": 61,
+      "atlantica:": 62,
       "dailyplanet:": 3
     }
   },
-  "today": "2026-07-30",
+  "today": "2026-07-31",
   "thisWeek": "2026-07-26",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -16,12 +16,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 48,
+      "fired": 49,
       "last": {
         "date": "2026-07-30",
         "figure": "cleopatra"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
@@ -33,6 +33,11 @@
           "figure": "cleopatra",
           "date": "2026-07-30",
           "key": "atlantica:cleopatra:2026-07-30"
+        },
+        {
+          "figure": "tesla",
+          "date": "2026-07-30",
+          "key": "atlantica:tesla:2026-07-30"
         },
         {
           "figure": "cleopatra",
@@ -93,14 +98,9 @@
           "figure": "gilgamesh",
           "date": "2026-07-19",
           "key": "atlantica:gilgamesh:2026-07-19"
-        },
-        {
-          "figure": "manlius",
-          "date": "2026-07-19",
-          "key": "atlantica:manlius:2026-07-19"
         }
       ],
-      "note": "48 dispatch(es) in the hold · last 2026-07-30 (cleopatra) · MISSED 4 of the last 14 days"
+      "note": "49 dispatch(es) in the hold · last 2026-07-30 (cleopatra) · MISSED 4 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
