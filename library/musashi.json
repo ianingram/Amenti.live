@@ -1,0 +1,61 @@
+{
+  "key": "musashi",
+  "name": "Miyamoto Musashi",
+  "note": "He is the figure this repo's key problem is named after. His plates were built as miyamoto-musashi-* when the roster record says musashi, and for weeks he had two plates and no room at all — the art painted and the room never opened, silently, because the loader probes with new Image() and does nothing on failure. Found by amenti.py check, 1 August 2026. SOURCING: Musashi left real texts in his own hand — the Book of Five Rings, finished in the Reigando cave weeks before his death in 1645, and the Dokkodo. Unlike Shaka he is not a figure known only through other men. But every English translation in circulation is modern and in copyright, including the one distributed freely on archive.org, so the room holds renderings rather than translations and says so.",
+  "works": [
+    {
+      "id": "01-the-ground-book",
+      "section": "Go Rin no Sho — The Book of Five Rings (1645)",
+      "title": "The Ground Book",
+      "mode": "stored",
+      "source": "Rendering — see note",
+      "note": "Strategy as a trade, learned whole. The carpenter who knows his timber, and the warning against a favourite weapon. Rendered into plain English for this library. Every widely available translation of Musashi is modern and under copyright, and no clean public-domain English version exists, so this is an independent rendering of the substance rather than a translation of any published text.",
+      "file": "musashi/01-the-ground-book.md"
+    },
+    {
+      "id": "02-the-water-book",
+      "section": "Go Rin no Sho — The Book of Five Rings (1645)",
+      "title": "The Water Book",
+      "mode": "stored",
+      "source": "Rendering — see note",
+      "note": "The spirit in combat and the spirit in ordinary life are one spirit. Perception above sight, and the refusal of a fixed stance. Rendered into plain English for this library. Every widely available translation of Musashi is modern and under copyright, and no clean public-domain English version exists, so this is an independent rendering of the substance rather than a translation of any published text.",
+      "file": "musashi/02-the-water-book.md"
+    },
+    {
+      "id": "03-the-fire-book",
+      "section": "Go Rin no Sho — The Book of Five Rings (1645)",
+      "title": "The Fire Book",
+      "mode": "stored",
+      "source": "Rendering — see note",
+      "note": "Fighting itself, at any scale. Take the ground, learn his rhythm and break it, and never fight the way you practised. Rendered into plain English for this library. Every widely available translation of Musashi is modern and under copyright, and no clean public-domain English version exists, so this is an independent rendering of the substance rather than a translation of any published text.",
+      "file": "musashi/03-the-fire-book.md"
+    },
+    {
+      "id": "04-the-wind-book",
+      "section": "Go Rin no Sho — The Book of Five Rings (1645)",
+      "title": "The Wind Book",
+      "mode": "stored",
+      "source": "Rendering — see note",
+      "note": "The other schools, and he is not polite about them. Teaching is a different trade from fighting, with different rewards. Rendered into plain English for this library. Every widely available translation of Musashi is modern and under copyright, and no clean public-domain English version exists, so this is an independent rendering of the substance rather than a translation of any published text.",
+      "file": "musashi/04-the-wind-book.md"
+    },
+    {
+      "id": "05-the-book-of-the-void",
+      "section": "Go Rin no Sho — The Book of Five Rings (1645)",
+      "title": "The Book of the Void",
+      "mode": "stored",
+      "source": "Rendering — see note",
+      "note": "The void is not ignorance. It is reached by knowing, and there is nothing mystical in it. Rendered into plain English for this library. Every widely available translation of Musashi is modern and under copyright, and no clean public-domain English version exists, so this is an independent rendering of the substance rather than a translation of any published text.",
+      "file": "musashi/05-the-book-of-the-void.md"
+    },
+    {
+      "id": "06-dokkodo",
+      "section": "Dokkodo — The Way of Walking Alone (1645)",
+      "title": "The Way of Walking Alone",
+      "mode": "stored",
+      "source": "Rendering — see note",
+      "note": "Twenty-one precepts given to a student a week before he died. The last is the only one that asks for anything. Rendered into plain English for this library. Every widely available translation of Musashi is modern and under copyright, and no clean public-domain English version exists, so this is an independent rendering of the substance rather than a translation of any published text.",
+      "file": "musashi/06-dokkodo.md"
+    }
+  ]
+}
