@@ -1161,6 +1161,42 @@
       },
       "art_sat": 0.448,
       "stored_saturation": 0.234
+    },
+    "shaka-card.jpg": {
+      "figure": "Shaka kaSenzangakhona",
+      "key": "shaka",
+      "file": "shaka-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785556156167_eb07fa4f.jpg",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Before his regiments in dawn mist at kwaBulawayo, about 1824. STRONGEST KEY IN THE DECK at radial 0.491, taking the record from hannibal-card at 0.433. THE SHIELD GUARD WORKED ON THE SECOND ROLL: the first returned a small round disc, and rewriting the clause by SIZE AGAINST A BODY PART - a full cowhide from chin to knee, oval, NOT round and NOT small - produced the correct isihlangu, and the ranks behind him carry the same, so the shield wall reads. That is the Gandhi lesson applied: six polite requests for small round wire spectacles failed where he is fat landed first roll. Describe the thing, then refuse the default. TWO DEFECTS ACCEPTED KNOWINGLY. FIRST, the spear is still LONG-HAFTED and held vertically like a staff: the blade came back broad and leaf-shaped, so half the clause landed, but no longer than a forearm, gripped underhand at the hip did not. The iklwa is the single thing he is most remembered for. SECOND, the specified sunrise never arrived - flat grey mist, no god-rays, no raking light - which is why true shadow is 12.5% against the first roll's 24.8% and mean luminance rose to 112.6. THE ROOM: he left no writing, so library/shaka.json holds two archives and labels which is which - three izibongo as plain-English renderings of the praise-names, and three travellers' accounts still to be sourced from Isaacs 1836 and Bryant 1929.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.023,
+        "key_radial": 0.494,
+        "key_side": "RIGHT",
+        "value_span": 193.0,
+        "accent_sat": 0.333,
+        "tile_contrast": 91.779,
+        "shadow_frac": 0.119,
+        "blown_frac": 0.0,
+        "head_room": 0.0,
+        "mean_lum": 113.5
+      },
+      "art_sat": 0.315,
+      "stored_saturation": 0.333
     }
   }
 }
