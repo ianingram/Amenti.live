@@ -50,6 +50,9 @@
 .rc-img[data-fig="plato"],.nc-thumb[data-fig="plato"],.mkt-thumb[data-fig="plato"],.cdx-art[data-fig="plato"][data-art-photo="card"]{filter:saturate(0.369);}
 .cdx-art[data-fig="plato"][data-art-photo="terminal"]{filter:saturate(0.571);}
 .term-main[data-fig="plato"] .plate-stack{--plate-sat:0.571;}
+.rc-img[data-fig="seneca"],.nc-thumb[data-fig="seneca"],.mkt-thumb[data-fig="seneca"],.cdx-art[data-fig="seneca"][data-art-photo="card"]{filter:saturate(0.433);}
+.cdx-art[data-fig="seneca"][data-art-photo="terminal"]{filter:saturate(0.211);}
+.term-main[data-fig="seneca"] .plate-stack{--plate-sat:0.211;}
 .rc-img[data-fig="sun-tzu"],.nc-thumb[data-fig="sun-tzu"],.mkt-thumb[data-fig="sun-tzu"],.cdx-art[data-fig="sun-tzu"][data-art-photo="card"]{filter:saturate(1.0);}
 .cdx-art[data-fig="sun-tzu"][data-art-photo="terminal"]{filter:saturate(1.0);}
 .term-main[data-fig="sun-tzu"] .plate-stack{--plate-sat:1.0;}
