@@ -6,6 +6,8 @@
     python3 amenti.py ingest <file> <key> <surf>  audit + crop + grade + stamp + manifest
                                                   + regenerate grades.css
     python3 amenti.py status                      deck state
+    python3 amenti.py check                       do the sheet, the roster,
+                                                  library/ and img/ agree?
     python3 amenti.py grades                      regenerate grades.css alone
 
     surf is card | terminal | chat
@@ -29,7 +31,7 @@ WHAT THE AUDIT MEASURES, and what to distrust.
                 row zeroes it — dust motes, a lit sky, a bright wall. One plate in the
                 deck has ever measured non-zero.
 """
-import sys, os, json, datetime, urllib.request
+import sys, os, json, datetime, urllib.request, urllib.error, re, csv, io
 import numpy as np
 from PIL import Image
 
@@ -210,6 +212,180 @@ def ingest(src, key, surface, note=""):
     return rec
 
 
+
+# ── the check ───────────────────────────────────────────────────────────────
+# Four places carry a figure's key and NOTHING VERIFIES THEY AGREE:
+#   1. the Google Sheet name, slugged at runtime by the CSV loader
+#   2. the curated AMENTI_CHARS record in Page1.html
+#   3. library/<key>.json
+#   4. img/<key>-card.jpg and img/<key>-terminal.jpg
+#
+# Every key incident in this repo was the same bug in different clothes.
+# Musashi's plates were built as miyamoto-musashi-* when the roster said
+# musashi. Caesar, Gandhi and Moses each stood in the codex twice, because a
+# ceremonial curated name never met the ledger's common one. The codex resolved
+# by array index after the CSV merge had made the index meaningless.
+#
+# The bug was never the mismatch. The bug was that a mismatch was INVISIBLE.
+# amenti-art-photo.js probes with new Image(); the probe 404s; onerror does
+# nothing by design; amenti-art-3.js quietly paints worker SVG over the hole.
+# Silence on failure is deliberate there — it is why 21 figures without plates
+# show no broken images — and it is also why every one of these took a human
+# noticing that something looked slightly off.
+#
+# This does not prevent the mistake. It makes the mistake impossible to miss.
+
+REPO = "https://raw.githubusercontent.com/ianingram/Amenti.live/main"
+API = "https://api.github.com/repos/ianingram/Amenti.live/contents"
+
+
+def _get(url):
+    return urllib.request.urlopen(url, timeout=20).read().decode("utf-8", "replace")
+
+
+def _slug(name):
+    """Exactly what the CSV loader in Page1.html does."""
+    s = re.sub(r"[^a-z0-9]+", "-", (name or "").lower().strip()).strip("-")
+    return s or "figure"
+
+
+def _norm(s):
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+
+def check():
+    print("\n  reading the live repo and the ledger...")
+    problems, notes = [], []
+
+    cfg = _get(REPO + "/config.js")
+    m = re.search(r'LEDGER_CSV_URL\s*:\s*.([^"\']+).', cfg)
+    ledger = {}
+    if not m:
+        notes.append("config.js has no LEDGER_CSV_URL - ledger not checked")
+    else:
+        try:
+            rows = list(csv.reader(io.StringIO(_get(m.group(1)))))
+            hdr = [_norm(h) for h in rows[0]]
+            ni = next((i for i, h in enumerate(hdr)
+                       if h in ("fullname", "name", "figure", "person")), -1)
+            ki = next((i for i, h in enumerate(hdr) if h == "key"), -1)
+            for r in rows[1:]:
+                if ni < 0 or ni >= len(r) or not r[ni].strip():
+                    continue
+                nm = r[ni].strip()
+                ex = r[ki].strip() if 0 <= ki < len(r) and r[ki].strip() else None
+                ledger[_norm(nm)] = {"name": nm, "key": ex or _slug(nm),
+                                     "explicit": bool(ex)}
+            notes.append("ledger: %d rows%s" % (
+                len(ledger),
+                "" if ki >= 0 else "   <- NO key COLUMN; keys are slugged from names"))
+        except Exception as e:
+            notes.append("ledger unreadable: %s" % e)
+
+    page = _get(REPO + "/Page1.html")
+    i = page.find("window.AMENTI_CHARS = [")
+    block = page[i:page.find("\n];", i)] if i >= 0 else ""
+    curated = dict(re.findall(r"key:\s*'([^']+)'\s*,\s*name:\s*\"([^\"]+)\"", block))
+    notes.append("curated roster: %d records" % len(curated))
+
+    man = json.loads(_get(REPO + "/img/MANIFEST.json"))["images"]
+    plates = {}
+    for r in man.values():
+        plates.setdefault(r["key"], set()).add(r["surface_slug"])
+    notes.append("manifest: %d plates across %d keys" % (len(man), len(plates)))
+
+    # Probe library/<key>.json one at a time on raw.githubusercontent rather
+    # than listing the folder through the API. The API rate-limits hard and an
+    # empty listing is indistinguishable from an empty folder — on the first
+    # run of this check that produced twenty false alarms, which is worse than
+    # having no check at all. A per-key probe either answers or admits it did
+    # not, and never silently reports absence.
+    library, lib_known = set(), True
+    probe = sorted(set(plates) | set(curated))
+    for k in probe:
+        try:
+            urllib.request.urlopen(REPO + "/library/%s.json" % k, timeout=10).read(1)
+            library.add(k)
+        except urllib.error.HTTPError as e:
+            if e.code != 404:
+                lib_known = False
+                notes.append("library/%s.json probe failed (%s) - LIBRARY CHECK SKIPPED" % (k, e.code))
+                break
+        except Exception as e:
+            lib_known = False
+            notes.append("library probe failed (%s) - LIBRARY CHECK SKIPPED" % e)
+            break
+    if lib_known:
+        notes.append("library: %d of %d probed keys have a room" % (len(library), len(probe)))
+
+    # DEAD WORK RECORDS. A room can exist and still open onto nothing: the JSON
+    # lists work files that were never uploaded, or were uploaded to a path that
+    # differs by CASE. raw.githubusercontent is case-sensitive, so a folder
+    # committed as library/Musashi/ serves nothing to a JSON pointing at
+    # library/musashi/ — the six texts are live and unreachable at once. Same
+    # bug as every key incident here, wearing case instead of spelling.
+    for k in sorted(library):
+        try:
+            works = json.loads(_get(REPO + "/library/%s.json" % k)).get("works", [])
+        except Exception:
+            continue
+        dead = []
+        for w in works:
+            f = w.get("file")
+            if not f:
+                continue
+            try:
+                urllib.request.urlopen(REPO + "/library/" + f, timeout=10).read(1)
+            except Exception:
+                dead.append(f)
+        if dead:
+            problems.append("%-22s room lists %d work file(s) that 404: %s%s"
+                            % (k, len(dead), dead[:3],
+                               " (CHECK THE CASE OF THE FOLDER)" if any(
+                                   d.split("/")[0] != k for d in dead) else ""))
+
+    keys = set(library) | set(plates) | set(curated)
+
+    for k in sorted(keys):
+        lib, plt, cur = k in library, k in plates, curated.get(k)
+        led = ledger.get(_norm(cur)) if cur else None
+        if not led:
+            led = next((v for v in ledger.values() if v["key"] == k), None)
+
+        if plt and not lib and lib_known:
+            problems.append("%-22s HAS PLATES, NO library/%s.json - the art paints, "
+                            "the room never opens" % (k, k))
+        if lib and not plt and lib_known:
+            notes.append("%-22s room, no plates yet" % k)
+        if cur and ledger and not ledger.get(_norm(cur)):   # ledger empty = skipped
+            near = [v["name"] for v in ledger.values()
+                    if k.split("-")[0] in _norm(v["name"])][:3]
+            problems.append("%-22s curated name %r matches NO ledger row - the codex "
+                            "will show him TWICE%s"
+                            % (k, cur, ("; ledger has %s" % near) if near else ""))
+        if led and led["key"] != k and not cur:
+            problems.append("%-22s ledger says %r -> key %r, but library and img use "
+                            "%r - nothing resolves" % (k, led["name"], led["key"], k))
+
+    print()
+    for n in notes:
+        print("    .", n)
+    if not ledger:
+        notes.append("LEDGER CHECK SKIPPED - the Google Sheet is not reachable from here. "
+                     "Duplicate-name and slugged-key faults CANNOT be detected without it.")
+    print("\n  %d figures with a room, plates or a dossier" % len(keys))
+    print("  checks run: library %s | ledger %s | roster yes\n"
+          % ("yes" if lib_known else "SKIPPED", "yes" if ledger else "SKIPPED"))
+    if problems:
+        print("  %d PROBLEM(S):\n" % len(problems))
+        for p in problems:
+            print("    !!", p)
+    else:
+        print("  no key disagreements found")
+    print()
+    return 1 if problems else 0
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(__doc__); sys.exit(1)
@@ -225,6 +401,8 @@ if __name__ == "__main__":
                sys.argv[5] if len(sys.argv) > 5 else "")
     elif cmd == "grades":
         print(f"  grades.css regenerated for {grades()} figures")
+    elif cmd == "check":
+        sys.exit(check())
     elif cmd == "status":
         status()
     else:
