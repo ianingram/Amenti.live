@@ -1197,6 +1197,42 @@
       },
       "art_sat": 0.315,
       "stored_saturation": 0.333
+    },
+    "charles-martel-terminal.jpg": {
+      "figure": "Charles Martel",
+      "key": "charles-martel",
+      "file": "charles-martel-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785556952945_9511218b.jpg",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Signing away the church lands, about 735 - Gibbon's chapter on him is titled for this: the saviour condemned. He took ecclesiastical estates to pay the men who held the line at Tours and the church cursed him for it. Four of the five works in library/charles-martel.json are Gibbon writing ABOUT him; he left nothing of his own and arrives in this deck as another man's subject. GENERATED FROM THE SUPERSEDED DRAFT. A rewrite exists in PROMPT_charles-martel.txt that strips the church to unreadable dark, drops the monks and the architecture entirely, and puts the drawn sword flat on the table beside a single sealed vellum - written after the proprietor's principle that the name is printed on every surface of the product, so the plate is mood and set design and never has to identify anyone. That version is unshot. FIVE DEVIATIONS ACCEPTED KNOWINGLY: gothic vaulting and an ornate altar where the rewrite asks for a room three stops down and unreadable; three hooded monks and armoured soldiers as staffage; PLATE ARMOUR on the soldiers, roughly three centuries early for 732; a cross-hilted knightly sword rather than the period straight blade with a short simple crossguard; and it returned as an oil painting at accent 0.253 where the brief asked for true greyscale. Span 202.7, radial key 0.208 from the left as specified.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.209,
+        "key_radial": 0.211,
+        "key_side": "LEFT",
+        "value_span": 202.333,
+        "accent_sat": 0.254,
+        "tile_contrast": 68.697,
+        "shadow_frac": 0.121,
+        "blown_frac": 0.0001,
+        "head_room": 0.0,
+        "mean_lum": 92.2
+      },
+      "art_sat": 0.414,
+      "stored_saturation": 0.254
     }
   }
 }

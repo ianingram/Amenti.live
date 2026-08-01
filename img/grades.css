@@ -17,6 +17,8 @@
 .rc-img[data-fig="caesar"],.nc-thumb[data-fig="caesar"],.mkt-thumb[data-fig="caesar"],.cdx-art[data-fig="caesar"][data-art-photo="card"]{filter:saturate(0.341);}
 .cdx-art[data-fig="caesar"][data-art-photo="terminal"]{filter:saturate(0.329);}
 .term-main[data-fig="caesar"] .plate-stack{--plate-sat:0.329;}
+.cdx-art[data-fig="charles-martel"][data-art-photo="terminal"]{filter:saturate(0.414);}
+.term-main[data-fig="charles-martel"] .plate-stack{--plate-sat:0.414;}
 .rc-img[data-fig="confucius"],.nc-thumb[data-fig="confucius"],.mkt-thumb[data-fig="confucius"],.cdx-art[data-fig="confucius"][data-art-photo="card"]{filter:saturate(0.43);}
 .cdx-art[data-fig="confucius"][data-art-photo="terminal"]{filter:saturate(0.448);}
 .term-main[data-fig="confucius"] .plate-stack{--plate-sat:0.448;}
