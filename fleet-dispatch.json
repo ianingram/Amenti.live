@@ -1,10 +1,10 @@
 {
-  "at": "2026-08-01T00:57:47.184Z",
+  "at": "2026-08-01T07:08:43.063Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 66,
+    "count": 67,
     "prefixes": {
-      "atlantica:": 63,
+      "atlantica:": 64,
       "dailyplanet:": 3
     }
   },
@@ -16,12 +16,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 50,
+      "fired": 51,
       "last": {
-        "date": "2026-07-31",
-        "figure": "tesla"
+        "date": "2026-08-01",
+        "figure": "gilgamesh"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
@@ -29,6 +29,11 @@
         "2026-07-20"
       ],
       "recent": [
+        {
+          "figure": "gilgamesh",
+          "date": "2026-08-01",
+          "key": "atlantica:gilgamesh:2026-08-01"
+        },
         {
           "figure": "tesla",
           "date": "2026-07-31",
@@ -93,14 +98,9 @@
           "figure": "leif-erikson",
           "date": "2026-07-22",
           "key": "atlantica:leif-erikson:2026-07-22"
-        },
-        {
-          "figure": "ayn-rand",
-          "date": "2026-07-21",
-          "key": "atlantica:ayn-rand:2026-07-21"
         }
       ],
-      "note": "50 dispatch(es) in the hold · last 2026-07-31 (tesla) · MISSED 4 of the last 14 days"
+      "note": "51 dispatch(es) in the hold · last 2026-08-01 (gilgamesh) · MISSED 4 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
