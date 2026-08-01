@@ -1,0 +1,61 @@
+{
+  "key": "shaka",
+  "name": "Shaka kaSenzangakhona",
+  "note": "A room built from two incompatible archives. Shaka left no writings — the Zulu had no script in his lifetime — so everything here was written down by someone else. The izibongo are Zulu praise-poetry, composed by imbongi and carried orally for a century before being transcribed. The travellers' accounts are two young English traders at Port Natal with commercial interests in the outcome. Nathaniel Isaacs wrote to Henry Fynn advising him to make the chiefs out as bloodthirsty as he could, because it would help their case and sell better; that letter survives. Most of the Shaka the world knows comes down through it. The room holds both archives and says which is which.",
+  "works": [
+    {
+      "id": "01-udlungwana",
+      "section": "Izibongo — the praise-poems (oral tradition)",
+      "title": "uDlungwana kaNdaba",
+      "mode": "stored",
+      "source": "Zulu izibongo, transcribed from oral tradition",
+      "note": "The opening praise-names. Shaka is addressed by what he did, not by title — the form of Zulu praise-poetry, in which a man is named by his acts.",
+      "file": "shaka/01-udlungwana.md"
+    },
+    {
+      "id": "02-the-praise-of-the-spear",
+      "section": "Izibongo — the praise-poems (oral tradition)",
+      "title": "The Praise of the Spear",
+      "mode": "stored",
+      "source": "Zulu izibongo, transcribed from oral tradition",
+      "note": "The iklwa, the short stabbing spear that replaced the thrown assegai, praised in the poems as the thing that changed war.",
+      "file": "shaka/02-the-praise-of-the-spear.md"
+    },
+    {
+      "id": "03-the-imbongi-speaks",
+      "section": "Izibongo — the praise-poems (oral tradition)",
+      "title": "The Imbongi Speaks",
+      "mode": "stored",
+      "source": "Zulu izibongo, transcribed from oral tradition",
+      "note": "On the office of the praise-singer itself: the imbongi could praise and could also rebuke, and was the one voice permitted to do both.",
+      "file": "shaka/03-the-imbongi-speaks.md"
+    },
+    {
+      "id": "04-fynn-at-the-kraal",
+      "section": "The travellers' accounts (1824–1836)",
+      "title": "Fynn at the Kraal",
+      "mode": "stored",
+      "source": "Henry Francis Fynn, diary",
+      "note": "The first European description of Shaka's court, by a trader who was there. Read against the izibongo, not instead of them.",
+      "file": "shaka/04-fynn-at-the-kraal.md"
+    },
+    {
+      "id": "05-isaacs-and-the-instruction",
+      "section": "The travellers' accounts (1824–1836)",
+      "title": "Isaacs and the Instruction",
+      "mode": "stored",
+      "source": "Nathaniel Isaacs, Travels and Adventures in Eastern Africa (1836)",
+      "note": "Isaacs' account, paired with his surviving letter to Fynn urging him to make the chiefs 'bloodthirsty as you can.' The distortion is part of the record and is printed with it.",
+      "file": "shaka/05-isaacs-and-the-instruction.md"
+    },
+    {
+      "id": "06-the-assassination",
+      "section": "The travellers' accounts (1824–1836)",
+      "title": "The Assassination, 1828",
+      "mode": "stored",
+      "source": "Compiled from Fynn, Isaacs and Zulu oral tradition",
+      "note": "Killed by his half-brothers Dingane and Mhlangana at kwaDukuza, September 1828. The two archives disagree about almost everything except that it happened.",
+      "file": "shaka/06-the-assassination.md"
+    }
+  ]
+}
