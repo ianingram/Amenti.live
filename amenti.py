@@ -175,6 +175,16 @@ def ingest(src, key, surface, note=""):
     prior = next((r["figure"] for r in load()["images"].values()
                   if r["key"] == key and r.get("figure")
                   and r["figure"] != key), None)
+    if not prior:
+        # library/<key>.json is authoritative for the display name. Title-casing
+        # the key gives "Seneca" where the library says "Seneca the Younger".
+        try:
+            import urllib.request
+            u = ("https://raw.githubusercontent.com/ianingram/Amenti.live/"
+                 f"main/library/{key}.json")
+            prior = json.loads(urllib.request.urlopen(u, timeout=8).read())["name"]
+        except Exception:
+            pass
     rec = dict(
         figure=prior or key.replace("-", " ").title(),
         key=key, file=os.path.basename(out), surface_slug=surface,
