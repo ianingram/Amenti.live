@@ -1233,6 +1233,42 @@
       },
       "art_sat": 0.414,
       "stored_saturation": 0.254
+    },
+    "albert-einstein-card.jpg": {
+      "figure": "Albert Einstein",
+      "key": "albert-einstein",
+      "file": "albert-einstein-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785561844144_865d916a.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Outside the Swiss Federal Office for Intellectual Property at night, Bern, 1905 - technical expert third class, twenty-six years old, patent files under one arm and his own scruffier sheaf in his hands. Wet arcade, gas lamp, tram-lit street beyond. THE AGE GUARD HELD, WHICH WAS THE WHOLE RISK: thick dark brown hair neatly combed, full dark moustache, a young unlined face. NO white halo, no cardigan, no pipe, no tongue out - the famous likeness is fifty years later and it is the only Einstein the model knows, so the guard states the age as a flat refusal rather than a description. That is the Gandhi lesson: six polite requests for small round wire spectacles failed where 'he is fat' landed first roll. 40% of frame under 40/255, the deepest shadow of any card in the deck, span 226.3, nothing blown. TWO DEFECTS ACCEPTED: the papers carry visible equations and diagrams where the brief forbade equations anywhere - it reads as a working man's notes rather than as E=mc2 iconography, so it is the mild version of the failure guarded against; and radial key 0.083, the light broad and frontal rather than raked from the lamp as specified. NO ROOM: there is no library/albert-einstein.json. A figure can carry plates and a quiz without one, so this is a state rather than a fault. FILENAME: the ledger's Full Name cell reads 'Albert Einstein', which the CSV loader slugs to albert-einstein - confirmed before ingest, because that is exactly how Musashi's plates were built as miyamoto-musashi-* when the roster said musashi.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.031,
+        "key_radial": 0.076,
+        "key_side": "RIGHT",
+        "value_span": 223.667,
+        "accent_sat": 0.204,
+        "tile_contrast": 75.168,
+        "shadow_frac": 0.394,
+        "blown_frac": 0.0001,
+        "head_room": 0.0,
+        "mean_lum": 71.4
+      },
+      "art_sat": 0.515,
+      "stored_saturation": 0.204
     }
   }
 }
