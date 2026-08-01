@@ -9,6 +9,8 @@
    The terminal grade hangs on .plate-stack, because the terminal cycles
    through every plate a figure has and there is no single image to grade.
 
+.rc-img[data-fig="akhenaten"],.nc-thumb[data-fig="akhenaten"],.mkt-thumb[data-fig="akhenaten"],.cdx-art[data-fig="akhenaten"][data-art-photo="card"]{filter:saturate(0.379);}
+.term-main[data-fig="akhenaten"] .plate-stack{--plate-sat:0.379;}
 .rc-img[data-fig="bram-stoker"],.nc-thumb[data-fig="bram-stoker"],.mkt-thumb[data-fig="bram-stoker"],.cdx-art[data-fig="bram-stoker"][data-art-photo="card"]{filter:saturate(0.522);}
 .cdx-art[data-fig="bram-stoker"][data-art-photo="terminal"]{filter:saturate(0.262);}
 .term-main[data-fig="bram-stoker"] .plate-stack{--plate-sat:0.262;}

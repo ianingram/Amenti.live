@@ -1053,6 +1053,42 @@
       },
       "art_sat": 0.211,
       "stored_saturation": 0.497
+    },
+    "akhenaten-card.jpg": {
+      "figure": "Akhenaten",
+      "key": "akhenaten",
+      "file": "akhenaten-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785545820517_7b9e199c.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "At the altar in the open court of the Great Temple of the Aten at Akhetaten, about 1345 BC. THE GUARD FAILED ON EVERY COUNT AND IT IS THE ONE GUARD THAT INVERTED. Every other figure in this deck carries 'no likeness survives, render a characteristic face rather than a portrait'; Akhenaten has hundreds of surviving portraits and the instruction was DO NOT NORMALISE HIM. The plate returned a conventional pharaoh: six-pack abdominals, broad square shoulders, flat stomach, muscular chest, an ordinary skull and jaw. None of the Amarna features survived - no elongated skull, no drooping jaw, no soft chest, no swollen belly, no wide hips. The ray-hands are also gone: the disc carries plain radiating spokes rather than rays ending in small human hands holding ankhs, which is the single detail that identifies which pharaoh this is. The altar additionally blocks the figure from the waist down. WHY THE GUARD LOST: it sat at the END of a long passage that had already specified crown, collar, linen, gold and sandals, so the model had built a king before the deformity clauses arrived. A re-roll should lead with the body. MEASURED WORST IN THE DECK: value_span 148.3 is the FIRST PLATE EVER TO FAIL THAT ENFORCED RULE (floor 170); radial key 0.031 is the flattest measured; 1.2% of frame under 40/255 against a previous minimum of 5%; mean luminance 153, the brightest plate in the deck. Span and key cannot be corrected by CSS grading the way saturation can. Kept as it stands by choice.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.034,
+        "key_radial": 0.036,
+        "key_side": "LEFT",
+        "value_span": 148.0,
+        "accent_sat": 0.277,
+        "tile_contrast": 79.507,
+        "shadow_frac": 0.012,
+        "blown_frac": 0.0004,
+        "head_room": 0.0,
+        "mean_lum": 153.0
+      },
+      "art_sat": 0.379,
+      "stored_saturation": 0.277
     }
   }
 }
