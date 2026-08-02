@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-02T22:42:21.623Z",
+    "generated": "2026-08-02T23:53:35.490Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -214,6 +214,226 @@
         {
           "global": "Amenti.listen",
           "line": 7645,
+          "when": "function",
+          "own": false
+        }
+      ],
+      "endpoints": [
+        "/article",
+        "/article/generate",
+        "/atlantica/daily",
+        "/speak"
+      ],
+      "tables": []
+    },
+    {
+      "file": "Page1.patched.html",
+      "bytes": 553612,
+      "sha256": "436f6687086e9f94",
+      "type": "html",
+      "declares": [
+        "AMENTI_CHARS",
+        "AMENTI_ERAS",
+        "AMENTI_GROUPS",
+        "AMENTI_LIBRARY_KEYS",
+        "AMENTI_SVG",
+        "AMENTI_VOICE",
+        "Amenti",
+        "Amenti.gateway",
+        "Amenti.micLamp",
+        "Amenti.silence",
+        "Amenti.terminal",
+        "Amenti.terminalPath",
+        "AmentiBrowseRefresh",
+        "AmentiCodexOpen",
+        "AmentiCodexRefresh",
+        "AmentiCost",
+        "AmentiCounselRefresh",
+        "AmentiGroupFor",
+        "AmentiModel",
+        "AmentiTerminal",
+        "claude"
+      ],
+      "loads": [
+        {
+          "file": "config.js",
+          "line": 1103
+        },
+        {
+          "file": "amenti-resolve.js",
+          "line": 1119
+        },
+        {
+          "file": "amenti-doctrine.js",
+          "line": 6115
+        },
+        {
+          "file": "amenti-voice.js",
+          "line": 6134
+        },
+        {
+          "file": "amenti-listen.js",
+          "line": 6135
+        },
+        {
+          "file": "amenti-chat.js",
+          "line": 6136
+        },
+        {
+          "file": "library.js",
+          "line": 7229
+        },
+        {
+          "file": "amenti-cassiel.js",
+          "line": 7230
+        },
+        {
+          "file": "amenti-manifest.js",
+          "line": 7236
+        },
+        {
+          "file": "amenti-probe.js",
+          "line": 7237
+        },
+        {
+          "file": "amenti-canonical.js",
+          "line": 7243
+        },
+        {
+          "file": "amenti-auth.js",
+          "line": 8119
+        },
+        {
+          "file": "amenti-quiz.js",
+          "line": 8120
+        },
+        {
+          "file": "amenti-roster.js",
+          "line": 8121
+        },
+        {
+          "file": "amenti-roster-view.js",
+          "line": 8122
+        },
+        {
+          "file": "amenti-bay.js",
+          "line": 8123
+        },
+        {
+          "file": "amenti-motion.js",
+          "line": 8124
+        },
+        {
+          "file": "amenti-art-2.js",
+          "line": 8125
+        },
+        {
+          "file": "amenti-leaderboard.js",
+          "line": 8126
+        },
+        {
+          "file": "amenti-readaloud.js",
+          "line": 8127
+        },
+        {
+          "file": "amenti-vallhalla-signup.js",
+          "line": 8130
+        },
+        {
+          "file": "amenti-flourish.js",
+          "line": 8131
+        },
+        {
+          "file": "amenti-mascot.js",
+          "line": 8132
+        },
+        {
+          "file": "amenti-profile.js",
+          "line": 8133
+        },
+        {
+          "file": "amenti-probe-loader.js",
+          "line": 8134
+        },
+        {
+          "file": "amenti-art-photo.js",
+          "line": 8135
+        },
+        {
+          "file": "amenti-art-3.js",
+          "line": 8136
+        }
+      ],
+      "calls": [
+        {
+          "global": "AMENTI_CONFIG",
+          "line": 1123,
+          "when": "iife",
+          "own": false
+        },
+        {
+          "global": "AmentiCost",
+          "line": 1163,
+          "when": "function",
+          "own": true
+        },
+        {
+          "global": "Amenti.throttle",
+          "line": 2002,
+          "when": "function",
+          "own": false
+        },
+        {
+          "global": "AmentiTerminal",
+          "line": 2669,
+          "when": "function",
+          "own": true
+        },
+        {
+          "global": "AMENTI_CHARS",
+          "line": 5880,
+          "when": "iife",
+          "own": true
+        },
+        {
+          "global": "AMENTI_ERAS",
+          "line": 5983,
+          "when": "iife",
+          "own": true
+        },
+        {
+          "global": "Amenti.chat",
+          "line": 6277,
+          "when": "iife",
+          "own": false
+        },
+        {
+          "global": "AMENTI_VOICE",
+          "line": 6382,
+          "when": "function",
+          "own": true
+        },
+        {
+          "global": "Amenti.micLamp",
+          "line": 6414,
+          "when": "function",
+          "own": true
+        },
+        {
+          "global": "Amenti.silence",
+          "line": 7693,
+          "when": "function",
+          "own": true
+        },
+        {
+          "global": "Amenti.voice",
+          "line": 7718,
+          "when": "function",
+          "own": false
+        },
+        {
+          "global": "Amenti.listen",
+          "line": 7720,
           "when": "function",
           "own": false
         }
@@ -1097,8 +1317,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 44997,
-      "sha256": "f282bf2ce93b725d",
+      "bytes": 44891,
+      "sha256": "d3c5464ceed58004",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1107,25 +1327,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1037,
+          "line": 1049,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1038,
+          "line": 1050,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1039,
+          "line": 1051,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1040,
+          "line": 1052,
           "when": "toplevel",
           "own": false
         }
