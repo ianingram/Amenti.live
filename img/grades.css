@@ -29,6 +29,9 @@
 .term-main[data-fig="david-hume"] .plate-stack{--plate-sat:0.347;}
 .rc-img[data-fig="edward-gibbon"],.nc-thumb[data-fig="edward-gibbon"],.mkt-thumb[data-fig="edward-gibbon"],.cdx-art[data-fig="edward-gibbon"][data-art-photo="card"]{filter:saturate(0.368);}
 .term-main[data-fig="edward-gibbon"] .plate-stack{--plate-sat:0.478;}
+.rc-img[data-fig="flavius-josephus"],.nc-thumb[data-fig="flavius-josephus"],.mkt-thumb[data-fig="flavius-josephus"],.cdx-art[data-fig="flavius-josephus"][data-art-photo="card"]{filter:saturate(0.201);}
+.cdx-art[data-fig="flavius-josephus"][data-art-photo="terminal"]{filter:saturate(0.232);}
+.term-main[data-fig="flavius-josephus"] .plate-stack{--plate-sat:0.232;}
 .rc-img[data-fig="frederick-douglass"],.nc-thumb[data-fig="frederick-douglass"],.mkt-thumb[data-fig="frederick-douglass"],.cdx-art[data-fig="frederick-douglass"][data-art-photo="card"]{filter:saturate(0.48);}
 .cdx-art[data-fig="frederick-douglass"][data-art-photo="terminal"]{filter:saturate(1.0);}
 .term-main[data-fig="frederick-douglass"] .plate-stack{--plate-sat:1.0;}

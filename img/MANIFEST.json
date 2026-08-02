@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "updated": "2026-08-01",
+  "updated": "2026-08-02",
   "images": {
     "lincoln-card.jpg": {
       "figure": "Abraham Lincoln",
@@ -1269,6 +1269,78 @@
       },
       "art_sat": 0.515,
       "stored_saturation": 0.204
+    },
+    "flavius-josephus-card.jpg": {
+      "figure": "Flavius Josephus",
+      "key": "flavius-josephus",
+      "file": "flavius-josephus-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-image_1785646056841_e75c4a46_1785646056932_7c30534a.png",
+      "crop": "trimmed 32px of height to 0.571 | source 768x1376, downsampled to 1120 tall",
+      "seed": null,
+      "note": "The wall at Jotapata, AD 67, aged thirty - a priest's son given command of a province he was not trained to defend, watching the Roman siege ramp come up in the dark. Exhausted, dirt to the elbows, a scale corselet that does not fit him well, his own men slumped against the stone behind him, the camp fires laid out in ordered rows across the valley. The order of it is the point: not a mob, a machine, and nearly finished. 48% of frame under 40/255 and span 234.3. THE CONTRADICTION THIS PAIR IS BUILT ON, and it is the third of its kind in the deck after Seneca and Tacitus: he surrendered, told Vespasian he would be emperor, and ended in the Flavian household writing the definitive account of his own people's destruction for the men who carried it out. His own side called him a traitor; without him almost nothing of first-century Judaea would be known. TWO DEFECTS ACCEPTED: generated at 768x1376, sub-spec, so UPSAMPLED to 1120 where the deck standard is 2048 downsampled - the third such plate; and accent 0.519, the highest saturation in the deck, taking that record from plato-card at 0.492, so the CSS grade pulls it hard. NO ROOM: there is no library/josephus.json. A figure can carry plates and a quiz without one. Both The Jewish War and the Antiquities are public domain in the Whiston translation, so a room is available whenever wanted.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-08-02",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.151,
+        "key_radial": 0.154,
+        "key_side": "LEFT",
+        "value_span": 233.667,
+        "accent_sat": 0.521,
+        "tile_contrast": 71.416,
+        "shadow_frac": 0.486,
+        "blown_frac": 0.0001,
+        "head_room": 0.0,
+        "mean_lum": 55.9
+      },
+      "art_sat": 0.201,
+      "stored_saturation": 0.521
+    },
+    "flavius-josephus-terminal.jpg": {
+      "figure": "Flavius Josephus",
+      "key": "flavius-josephus",
+      "file": "flavius-josephus-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-image_1785646349091_d8c09cab_1785646349193_6080c1d2.png",
+      "crop": "trimmed 32px of height to 0.571 | source 768x1376, downsampled to 1120 tall",
+      "seed": null,
+      "note": "A room in Rome, about AD 75, writing The Jewish War on Roman paper in the house of the men who won it. Dressed as a Roman now, beard trimmed, hands clean - he has citizenship, a pension and a name that is not the one he was born with. The table is divided the way Stoker's and Einstein's are: the besiegers' own campaign records on one side, given to him, and nothing but his own memory on the other. Radial key 0.266 from the right, tile contrast 106.8, span 232.7. THREE DEFECTS ACCEPTED KNOWINGLY. FIRST, the windows are GOTHIC POINTED ARCHES WITH TRACERY - twelfth century, eleven hundred years after Josephus, the same class of error as the nineteenth-century tailoring on Milton's card. SECOND, a BOUND CODEX with what reads as printed pages sits on the table; the codex barely existed in AD 75 and printing is fourteen centuries away. The scrolls and the reed pen are correct. THIRD, generated at 768x1376, sub-spec, so UPSAMPLED to 1120. Accent 0.454 is the second highest in the deck.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-08-02",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.223,
+        "key_radial": 0.264,
+        "key_side": "RIGHT",
+        "value_span": 231.333,
+        "accent_sat": 0.452,
+        "tile_contrast": 107.485,
+        "shadow_frac": 0.241,
+        "blown_frac": 0.0078,
+        "head_room": 0.0,
+        "mean_lum": 97.9
+      },
+      "art_sat": 0.232,
+      "stored_saturation": 0.452
     }
   }
 }
