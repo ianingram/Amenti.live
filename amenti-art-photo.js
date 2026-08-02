@@ -29,16 +29,49 @@
      hash, so a single pass at DOMContentLoaded decorates nothing. This watches
      for mutation and hashchange, and is idempotent — a card is decorated at
      most once.
+
+   NEVER SLUG A DISPLAYED NAME INTO A KEY
+     The key space is short and deliberately inconsistent with display names:
+     `lincoln` not `abraham-lincoln`, `musashi` not `miyamoto-musashi`,
+     `gandhi` not `mohandas-gandhi` — but `flavius-josephus` IS the full form.
+     There is no derivable rule. Every key resolves from AMENTI_CHARS, and a
+     failure to resolve returns '' so the caller can decline. A wrong key is
+     worse than no key: it produces two 404s and paints nothing either way.
    =========================================================================== */
 (function () {
   'use strict';
 
   var BASE = (window.AMENTI_ART && window.AMENTI_ART.photoBase) || 'img/';
-  var known = {};   /* key -> true | false, so each file is probed once */
+  var known = {};   /* key -> true | false, so each CARD file is probed once */
+  var plate = {};   /* "key-surface" -> true | false, same for codex plates   */
   var done  = 0;
 
   function norm(k) {
     return String(k || '').toLowerCase().trim().replace(/[\s_]+/g, '-');
+  }
+
+  /* ---- KEY RESOLUTION ----------------------------------------------------
+     Single path for every surface. Takes the row that carries data-id and
+     returns the figure's key, or '' if it cannot be resolved with certainty.
+
+     AMENTI_CHARS is index-addressed because the CSV loader in Page1.html
+     reindexes the merged array (`merged.forEach(function(c,i){ c.id = i; })`)
+     so id and position agree. The find() is a cheap guard in case that
+     invariant is ever broken by a future reorder — it costs one linear scan
+     only on the path where the index has already disagreed. */
+  function keyFromRow(row) {
+    if (!row || !window.AMENTI_CHARS) return '';
+    var id = +row.getAttribute('data-id');
+    if (!isFinite(id)) return '';
+    var list = window.AMENTI_CHARS;
+    var rec = list[id];
+    if (!rec || rec.id !== id) {
+      rec = null;
+      for (var i = 0; i < list.length; i++) {
+        if (list[i] && list[i].id === id) { rec = list[i]; break; }
+      }
+    }
+    return (rec && rec.key) ? norm(rec.key) : '';
   }
 
   function decorate(el, key) {
@@ -77,29 +110,38 @@
      anywhere in the product. It is rebuilt by renderDetail() every time the
      selection changes and carries NO key of its own — the key lives on
      AMENTI_CHARS[active]. So it is resolved from the active list row, which
-     does carry data-id, falling back to slugging the displayed name.
+     carries data-id.
+
+     There is NO name fallback. See the header note. The previous version
+     slugged .cdx-name, so "ABRAHAM LINCOLN" became abraham-lincoln when the
+     key is lincoln — probing abraham-lincoln-terminal.jpg, then falling back
+     to abraham-lincoln-card.jpg, and 404ing on both. passTerminal() below was
+     already fixed for exactly this and the fix was never carried across.
 
      The codex gets the TERMINAL plate, not the card. It has the room for one,
      and a 560px container wants an absorbed figure with air around it rather
      than a card face cropped to a portrait window. Falls back to the card if
      no terminal plate exists. */
   function codexKey() {
-    var row = document.querySelector('.cdx-row.active');
-    if (row && window.AMENTI_CHARS) {
-      var rec = window.AMENTI_CHARS[+row.getAttribute('data-id')];
-      if (rec && rec.key) return norm(rec.key);
-    }
-    var nm = document.querySelector('.cdx-name');
-    return nm ? norm(nm.textContent).replace(/[^a-z0-9-]/g, '-')
-                  .replace(/-+/g, '-').replace(/^-|-$/g, '') : '';
+    return keyFromRow(document.querySelector('.cdx-row.active'));
   }
 
+  /* Probes are cached per key+surface. Without this, every codex repaint costs
+     a network round trip, and a MISS costs one on every single pass — and pass
+     is driven by a subtree MutationObserver, so an active terminal stream
+     retriggers it continuously. A figure with no plate would emit 404s for as
+     long as the page stayed open. */
   function paintCodex(key, surface) {
     var art = document.querySelector('.cdx-art');
     if (!art) return;
-    var src = BASE + key + '-' + surface + '.jpg';
-    var probe = new Image();
-    probe.onload = function () {
+    var slot = key + '-' + surface;
+    if (plate[slot] === false) {
+      if (surface === 'terminal') paintCodex(key, 'card');
+      return;
+    }
+    var src = BASE + slot + '.jpg';
+
+    function apply() {
       art.style.backgroundImage = 'url("' + src + '"), ' +
         'radial-gradient(ellipse at 50% 70%,rgba(212,160,23,0.12),transparent 70%)';
       art.style.backgroundSize = 'cover';
@@ -108,8 +150,14 @@
       art.setAttribute('data-art-photo', surface);
       /* the hand-built SVG portrait would sit on top of the photograph */
       var svg = art.querySelector('svg'); if (svg) svg.style.display = 'none';
-    };
+    }
+
+    if (plate[slot] === true) { apply(); return; }
+
+    var probe = new Image();
+    probe.onload  = function () { plate[slot] = true;  apply(); };
     probe.onerror = function () {
+      plate[slot] = false;
       if (surface === 'terminal') paintCodex(key, 'card');
     };
     probe.src = src;
@@ -127,30 +175,25 @@
   /* ---- TERMINAL ---------------------------------------------------------
      The centre chat panel is the largest canvas in the product, so the terminal
      plate goes behind the whole stream. The terminal tracks its selection with
-     .term-char.active in the left roster; that row has no key attribute, so
-     the figure is resolved from its displayed name and matched against the
-     plates we hold. grades.css carries the per-plate opacity. */
+     .term-char.active in the left roster. grades.css carries the per-plate
+     opacity, keyed off data-fig. This surface does not paint itself — it only
+     publishes data-fig, and the inline plate-v2 script in Page1.html does the
+     rendering. */
   function passTerminal() {
     var main = document.querySelector('.term-main');
     if (!main) return;
-    // Resolve from data-id against AMENTI_CHARS, exactly as the codex does.
-    // The previous version slugged the DISPLAYED NAME, which fails wherever the
-    // name and the key differ: "MIYAMOTO MUSASHI" slugs to miyamoto-musashi but
-    // the key is musashi; "MOHANDAS GANDHI" slugs to mohandas-gandhi but the key
-    // is gandhi. The probe 404s and the surface stays empty, silently.
-    var row = document.querySelector('.term-char.active');
-    var key = '';
-    if (row && window.AMENTI_CHARS) {
-      var rec = window.AMENTI_CHARS[+row.getAttribute('data-id')];
-      if (rec && rec.key) key = norm(rec.key);
-    }
+    var key = keyFromRow(document.querySelector('.term-char.active'));
     if (!key) { main.removeAttribute('data-fig'); return; }
     if (main.getAttribute('data-fig') === key) return;
-    var src = BASE + key + '-terminal.jpg';
+
+    var slot = key + '-terminal';
+    if (plate[slot] === false) { main.removeAttribute('data-fig'); return; }
+    if (plate[slot] === true)  { main.setAttribute('data-fig', key); return; }
+
     var probe = new Image();
-    probe.onload  = function () { main.setAttribute('data-fig', key); };
-    probe.onerror = function () { main.removeAttribute('data-fig'); };
-    probe.src = src;
+    probe.onload  = function () { plate[slot] = true;  main.setAttribute('data-fig', key); };
+    probe.onerror = function () { plate[slot] = false; main.removeAttribute('data-fig'); };
+    probe.src = BASE + slot + '.jpg';
   }
 
   function pass() { passCards(); passCodex(); passTerminal(); }
@@ -163,5 +206,5 @@
   else pass();
 
   window.AmentiArtPhoto = { pass: pass, count: function () { return done; },
-                            known: known };
+                            known: known, plate: plate };
 })();
