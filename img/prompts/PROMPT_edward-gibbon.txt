@@ -1,0 +1,61 @@
+PROMPT_edward-gibbon.txt   —   EDWARD GIBBON
+==============================================================================
+
+FLUX.2 Pro  ·  9:16 unless a section says otherwise  ·  2K  ·  auto-polish ON
+
+REBUILT 2 August 2026 FROM THE MANIFEST, not from working drafts. Each section
+below states what it produced. Earlier files claimed a provenance they did not
+have: several pointed at prompts that had been rewritten AFTER the plate shipped,
+so the file recorded the successor rather than the recipe. Where the shipped
+prompt was overwritten and is genuinely gone, this file says so instead of
+offering the replacement as though it were the original.
+
+==============================================================================
+
+### EDWARD GIBBON — CARD
+status:  SHIPPED
+
+key: viewer's left   ·   seed ________  <- PASTE AT GENERATION TIME
+
+Edward Gibbon, the historian of the Decline and Fall. Georgian England, 1780s. short and heavy-set, round-faced, small-featured, a full soft jaw — he was famously stout and no drawing should slim him. Wearing a wine-coloured silk coat with polished gilt buttons catching the key, a waistcoat of watered silk, starched white linen stock at the throat, and a powdered tie-wig with two tight rolls above the ear. Holding a quarto volume closed against his chest, one finger keeping the place. Behind: the shelved spines and gilt tooling of a gentleman's library, deep in shadow. Candle smoke hangs in the air and catches the key. Key light from the viewer's left, high, three-quarter front, hard-edged. camera at chest height, square and formal. Visible atmosphere catches the key so the light reads as a physical presence in the air and separates the figure from the background. Cinematic monochrome character plate, near black-and-white with a single warm accent carried only on metal. EVERY SURFACE IS WET, OILED OR POLISHED so it throws a hard specular highlight — nothing matte, nothing that eats the light. Hard highlights run along every fold and edge; deep true blacks in between. One dominant key, hard-edged, with a clear terminator across the face and body; the shadow side falls almost to black and dissolves into the ground, held only by a thin rim of bounce. Full tonal range with small blown speculars. Volume carried by continuous tonal turn. Fine film grain, deep vignette, high micro-contrast. Waist-up, cropped just below the belt. Subject centred, facing the viewer, shoulders filling the width of the frame. The head occupies the top third with a hand's width of space above it. Vertical format, aspect ratio 9:16. Background is a dark, shallow-focus suggestion of place, two stops below the figure. Both hands fully visible and clearly resolved — palm, finger mass, thumb, knuckles, tendons on the back of the hand. Headgear sits firmly ON the skull and casts a shadow onto the brow that binds it to the head. Face weathered and specific, skull structure reading through: brow ridge, cheekbone, jaw, temple. Skin has pores, scars and a faint sheen. Expression composed and level, mouth closed, eyes catching a single sharp highlight. Photographic realism. Materials behave like real materials under a hard light. Sharp on the face, softer toward the frame edge.
+
+------------------------------------------------------------------------------
+
+### EDWARD GIBBON — CHAT
+status:  SHIPPED — generated 9:16 instead of the specified 16:9
+
+key: viewer's left   ·   seed ________  <- PASTE AT GENERATION TIME
+
+WHY THIS MOMENT. Gibbon was a captain of the Hampshire Militia 1760-62 and wrote that
+the captain of the grenadiers had not been useless to the historian of the Roman
+Empire. Camp taught him how armies work and it went into the Decline and Fall. The
+young officer is not a different man from the one at the desk — he is the reason the
+desk has anything on it.
+
+NOT the card and NOT the codex plate. This file is img/edward-gibbon-chat.jpg and it
+appears ONLY behind the chat stream; the codex keeps the desk plate.
+
+GENERATE AT 16:9 LANDSCAPE, NOT 9:16. The chat panel is about 804x702 — landscape. A
+9:16 plate is cover-cropped there to roughly rows 11-60% and loses the camp. This is
+the only prompt in the deck that wants landscape.
+
+Edward Gibbon as a captain of the Hampshire Militia, twenty-four years old, encamped. Southern England, high summer, 1761 — fifteen years before he began the Decline and Fall. Already short and heavy-set but young with it: full-cheeked, high-coloured, the soft jaw already there under a young man's skin. Wearing a scarlet regimental coat with contrasting facings and gilt lace, the coat unbuttoned and thrown open in the heat, white waistcoat and breeches, a crimson officer's sash, black knee boots, gorget at the throat throwing one hard specular. Hat set on the ground beside him. Seated on a powder barrel in the open, one boot up on the trail of the gun, READING — a small duodecimo volume held open in both hands, wholly absorbed, the camp forgotten. Beside him a light brass field gun on its carriage, the barrel polished and throwing a long hard highlight down its length; a stand of muskets tripodded, a pyramid of round shot, a drum on its side, rope and handspike on the trampled grass. Behind: bell tents in a row receding, a colour hanging slack, low downland and a wide sky, all of it two stops down and softly focused. BRILLIANT DIRECT SUMMER SUN, high and hard, striking the brass of the gun and the scarlet of the coat so they are the brightest things in the frame; the shadow beneath the gun carriage and inside the tent mouths falls almost to black. The contrast between the sunstruck metal and the black shade under the carriage is the whole picture. Dust and chaff hang in the air and catch the sun. Key light from the viewer's left, high and near-overhead, hard-edged, casting a short sharp shadow on the grass. camera low, at seated eye level from a few paces off, as if you had walked up and he had not noticed. Visible atmosphere catches the key so the light reads as a physical presence in the air and separates the figure from the background. Cinematic monochrome character plate, near black-and-white with a single warm accent carried only on metal. EVERY SURFACE IS WET, OILED OR POLISHED so it throws a hard specular highlight — nothing matte, nothing that eats the light. Hard highlights run along every fold and edge; deep true blacks in between. One dominant key, hard-edged, with a clear terminator across the face and body; the shadow side falls almost to black and dissolves into the ground, held only by a thin rim of bounce. Full tonal range with small blown speculars. Volume carried by continuous tonal turn. Fine film grain, deep vignette, high micro-contrast. Full figure seated, placed off-centre with the camp opening away behind him, the ground and the guns reading as much as the man. Subject wholly unaware of being looked at. Generous air above and to one side. Horizontal format, aspect ratio 16:9. Background is a dark, shallow-focus suggestion of place, two stops below the figure. Both hands fully visible and clearly resolved — palm, finger mass, thumb, knuckles, tendons on the back of the hand. Headgear sits firmly ON the skull and casts a shadow onto the brow that binds it to the head. Face weathered and specific, skull structure reading through: brow ridge, cheekbone, jaw, temple. Skin has pores, scars and a faint sheen. Expression absorbed and unposed, attention wholly on the page. Photographic realism. Materials behave like real materials under a hard light. Sharp on the face, softer toward the frame edge.
+
+------------------------------------------------------------------------------
+
+### EDWARD GIBBON — TERMINAL
+status:  UNSHOT — the roll came back an oil painting with a fabricated signature and was not ingested
+
+key: viewer's right   ·   seed ________  <- PASTE AT GENERATION TIME
+
+Edward Gibbon at the desk where the Decline and Fall was written. Lausanne, night. short and heavy-set, round-faced, in shirtsleeves and an unbuttoned silk waistcoat, wig set aside on its stand, close-cropped grey beneath. Seated at a broad table under a single candle-branch, mid-sentence, quill in hand; a folio open flat, loose sheets weighted with a brass rule, an inkwell throwing one hard highlight. Behind: shelves running up into darkness and a tall shuttered window. Key light from the viewer's right, low and close, the candle-branch itself the source, falling off fast across the table. camera at desk height, slightly to one side, as if the door had been left open. Visible atmosphere catches the key so the light reads as a physical presence in the air and separates the figure from the background. Cinematic monochrome character plate, near black-and-white with a single warm accent carried only on metal. EVERY SURFACE IS WET, OILED OR POLISHED so it throws a hard specular highlight — nothing matte, nothing that eats the light. Hard highlights run along every fold and edge; deep true blacks in between. One dominant key, hard-edged, with a clear terminator across the face and body; the shadow side falls almost to black and dissolves into the ground, held only by a thin rim of bounce. Full tonal range with small blown speculars. Volume carried by continuous tonal turn. Fine film grain, deep vignette, high micro-contrast. Full figure with air around it, the room reading as much as the man. Subject turned into his own work and not toward the viewer, occupied, unaware of being looked at. Generous empty ground above and beside the head. Vertical format, aspect ratio 9:16. Background is a dark, shallow-focus suggestion of place, two stops below the figure. Both hands fully visible and clearly resolved — palm, finger mass, thumb, knuckles, tendons on the back of the hand. Headgear sits firmly ON the skull and casts a shadow onto the brow that binds it to the head. Face weathered and specific, skull structure reading through: brow ridge, cheekbone, jaw, temple. Skin has pores, scars and a faint sheen. Expression absorbed and unposed, attention wholly on the work in front of him. Photographic realism. Materials behave like real materials under a hard light. Sharp on the face, softer toward the frame edge.
+
+------------------------------------------------------------------------------
+
+
+==============================================================================
+THE INVARIANT STYLE BLOCK  ·  1637 characters
+img/prompts/INVARIANT_STYLE_BLOCK.txt — reproduced inside each prompt above.
+==============================================================================
+
+Visible atmosphere catches the key so the light reads as a physical presence in the air and separates the figure from the background. Cinematic monochrome character plate, near black-and-white with a single warm accent carried only on metal. EVERY SURFACE IS WET, OILED OR POLISHED so it throws a hard specular highlight — nothing matte, nothing that eats the light. Hard highlights run along every fold and edge; deep true blacks in between. One dominant key, hard-edged, with a clear terminator across the face and body; the shadow side falls almost to black and dissolves into the ground, held only by a thin rim of bounce. Full tonal range with small blown speculars. Volume carried by continuous tonal turn. Fine film grain, deep vignette, high micro-contrast. Waist-up, cropped just below the belt. Subject centred, facing the viewer, shoulders filling the width of the frame. The head occupies the top third with a hand's width of space above it. Vertical format, aspect ratio 9:16. Background is a dark, shallow-focus suggestion of place, two stops below the figure. Both hands fully visible and clearly resolved — palm, finger mass, thumb, knuckles, tendons on the back of the hand. Headgear sits firmly ON the skull and casts a shadow onto the brow that binds it to the head. Face weathered and specific, skull structure reading through: brow ridge, cheekbone, jaw, temple. Skin has pores, scars and a faint sheen. Expression composed and level, mouth closed, eyes catching a single sharp highlight. Photographic realism. Materials behave like real materials under a hard light. Sharp on the face, softer toward the frame edge.

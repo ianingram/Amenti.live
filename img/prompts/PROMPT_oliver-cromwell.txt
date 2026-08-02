@@ -1,0 +1,73 @@
+PROMPT_oliver-cromwell.txt   —   OLIVER CROMWELL
+==============================================================================
+
+FLUX.2 Pro  ·  9:16 unless a section says otherwise  ·  2K  ·  auto-polish ON
+
+REBUILT 2 August 2026 FROM THE MANIFEST, not from working drafts. Each section
+below states what it produced. Earlier files claimed a provenance they did not
+have: several pointed at prompts that had been rewritten AFTER the plate shipped,
+so the file recorded the successor rather than the recipe. Where the shipped
+prompt was overwritten and is genuinely gone, this file says so instead of
+offering the replacement as though it were the original.
+
+==============================================================================
+
+### OLIVER CROMWELL — CARD
+status:  SHIPPED — passed all four enforced rules first roll
+
+key: viewer's right   ·   seed ________  <- PASTE AT GENERATION TIME
+
+THE MOON IS LITERAL AND IN FRAME. HANDOFF left that open — the moon began as a
+marker in the pencil work, a notation rather than part of the picture. This plate
+decides it. Once one plate has a moon, the rest will want one.
+
+TWO SOURCES, DELIBERATELY NOT ARGUING: the moon is the KEY and it is cold; the
+distant fires are the ACCENT and they are warm, small, and far away. The invariant
+asks for one dominant key and a single warm accent — this is that, staged.
+
+FRAMING IS ALTERED: a mounted figure cannot be waist-up. Horse and rider fill the
+frame, cropped at the horse's knees. Everything else in the invariant is verbatim.
+
+Oliver Cromwell mounted at night, in the field. English countryside, 1645. Thick-set and heavy through the chest, coarse-featured, the warts left in — he asked to be painted as he was — but seen from below and seated high, so he reads tall and commanding. Wearing blackened three-quarter cuirass and tassets over a buff leather coat, the plate streaming with rain and throwing hard cold highlights along every edge; lobster-tail pot helmet under one arm or hung at the saddle, bare-headed, cropped hair wet and flat to the skull; plain falling linen band at the throat, a broad orange-tawny sash across the breast, heavy bucket-top boots in the stirrups. Gauntleted hand on the reins, the other resting on the pommel of a straight cavalry sword. Beneath him a LARGE DARK HORSE, near-black, wet-coated and steaming, head turned and bit foaming, muscle reading through the wet hide. A FULL MOON high and clear behind broken cloud is the key — hard, cold, blue-white, and IN THE FRAME, raking him from the viewer's right so the wet plate lights up along its edges and the shadow side falls to black. Far off across the fields, low burning fires and thick smoke rolling — the ONLY warm colour in the picture, small and distant, glinting once on the cuirass. Rain beginning: the first long vertical streaks lit silver by the moon, water running off the plate and the horse's mane. Ground fog low across the stubble. camera low, from the ground a few paces off, looking up at him. Visible atmosphere catches the key so the light reads as a physical presence in the air and separates the figure from the background. Cinematic monochrome character plate, near black-and-white with a single warm accent carried only on metal. EVERY SURFACE IS WET, OILED OR POLISHED so it throws a hard specular highlight — nothing matte, nothing that eats the light. Hard highlights run along every fold and edge; deep true blacks in between. One dominant key, hard-edged, with a clear terminator across the face and body; the shadow side falls almost to black and dissolves into the ground, held only by a thin rim of bounce. Full tonal range with small blown speculars. Volume carried by continuous tonal turn. Fine film grain, deep vignette, high micro-contrast. Horseman and horse together fill the frame, cropped at the horse's knees. Subject centred and turned to the viewer from the saddle. The head sits high in the top third against the sky, with air above it. Vertical format, aspect ratio 9:16. Background is a dark, shallow-focus suggestion of place, two stops below the figure. Both hands fully visible and clearly resolved — palm, finger mass, thumb, knuckles, tendons on the back of the hand. Headgear sits firmly ON the skull and casts a shadow onto the brow that binds it to the head. Face weathered and specific, skull structure reading through: brow ridge, cheekbone, jaw, temple. Skin has pores, scars and a faint sheen. Expression composed and level, mouth closed, eyes catching a single sharp highlight. Photographic realism. Materials behave like real materials under a hard light. Sharp on the face, softer toward the frame edge.
+
+------------------------------------------------------------------------------
+
+### OLIVER CROMWELL — TERMINAL
+status:  LOST
+
+!! THE PROMPT THAT PRODUCED THIS PLATE NO LONGER EXISTS. It was overwritten in a
+!! later rewrite after the plate had already been ingested. What follows below is
+!! the SUCCESSOR prompt, which was never generated — it is NOT the recipe for the
+!! image in the repo. The manifest note on this plate records what the shipped
+!! version contained.
+
+key: viewer's left   ·   seed ________  <- PASTE AT GENERATION TIME
+
+STRAIGHT FROM THE LIBRARY. library/oliver-cromwell.json carries both 'The Dissolution
+of the Rump Parliament, 1653' and 'Cromwell Made Lord Protector, 1653'. April to
+December of one year. The doors were shut in the spring and he was Protector by the
+winter; this plate stands in the gap. A notice was said to have been posted on the
+empty House reading 'This House to be Lett, now unfurnished.'
+
+TRUE BLACK AND WHITE, no accent. A departure from the invariant, taken on purpose.
+The deck already runs this low - frederick-douglass-terminal sits at accent 0.003.
+
+SNOW IS THE CONTRAST DEVICE and it also solves a known material problem: BATCH_02
+opens by noting that black wool returned 60.8 specular pop against oiled leather's
+124.3 - wool eats the key. Snow on the shoulders, melt on the cloth and wet stone put
+the highlights back without changing what he is wearing.
+
+NO ARMOUR. He is in civilian parliamentary dress, which is the whole point of the
+moment - the soldier arriving as a politician. The card plate already has the armour.
+
+Oliver Cromwell outside the doors of the House of Commons, the Rump dissolved and the House shut. Westminster, winter 1653, snow falling at night. Thick-set and heavy through the chest, coarse-featured, the warts left in — he asked to be painted as he was. Wearing PLAIN PARLIAMENTARY CIVILIAN DRESS, no armour of any kind: a long black wool coat, damp and gleaming, black doublet and breeches, a broad plain white linen falling band at the throat and plain white linen cuffs — the white linen and the snow are the only bright things in the picture. A tall-crowned black felt hat. No sash, no sword, no gorget; nothing military. Standing before the great doors of the chamber, which are CHAINED AND PADLOCKED — heavy iron chain drawn through the ring handles, a padlock hanging wet — and NAILED WITH PAPER NOTICES, several of them, curling at the corners, the ink run with wet. One hand hanging open at his side; the other holding his hat against his thigh. SNOW is the contrast: thick fresh snow lying on the stone steps, on the lintel, on the shoulders of his coat, caught in his hair, and falling in front of him in hard bright flecks — blazing white against the black coat and the black doors. Snow-light bouncing up off the steps under his jaw. Behind and around: wet Gothic stonework, a lantern bracket, and the chamber beyond the doors utterly dark. Key light from the viewer's left, low and hard, a single lantern raking across the snow and the wet stone; the shadow side falls to true black. camera at chest height from a few paces back, low enough that the doors tower. Visible atmosphere catches the key so the light reads as a physical presence in the air and separates the figure from the background. Cinematic character plate in TRUE BLACK AND WHITE. NO COLOUR ANYWHERE — not on metal, not on skin, not in the light. A silver-gelatin photograph, neutral grey throughout. EVERY SURFACE IS SNOW-WET, MELTING OR POLISHED so it throws a hard specular highlight. The black wool is DAMP AND GLEAMING, not dry — dry wool eats the key and returns half the specular pop of oiled leather. Wet stone, wet iron, wet paper, melting snow. Hard highlights run along every fold and edge; deep true blacks in between. One dominant key, hard-edged, with a clear terminator across the face and body; the shadow side falls almost to black and dissolves into the ground, held only by a thin rim of bounce. Full tonal range with small blown speculars. Volume carried by continuous tonal turn. Fine film grain, deep vignette, high micro-contrast. Full figure standing, small against the doorway, the architecture reading as much as the man. Subject turned three-quarters away toward the doors and not toward the viewer. Generous air above and beside him. Vertical format, aspect ratio 9:16. Background is a dark, shallow-focus suggestion of place, two stops below the figure. Both hands fully visible and clearly resolved — palm, finger mass, thumb, knuckles, tendons on the back of the hand. Headgear sits firmly ON the skull and casts a shadow onto the brow that binds it to the head. Face weathered and specific, skull structure reading through: brow ridge, cheekbone, jaw, temple. Skin has pores, scars and a faint sheen. Expression closed and unreadable, attention on the notice, not on you. Photographic realism. Materials behave like real materials under a hard light. Sharp on the face, softer toward the frame edge.
+
+------------------------------------------------------------------------------
+
+
+==============================================================================
+THE INVARIANT STYLE BLOCK  ·  1637 characters
+img/prompts/INVARIANT_STYLE_BLOCK.txt — reproduced inside each prompt above.
+==============================================================================
+
+Visible atmosphere catches the key so the light reads as a physical presence in the air and separates the figure from the background. Cinematic monochrome character plate, near black-and-white with a single warm accent carried only on metal. EVERY SURFACE IS WET, OILED OR POLISHED so it throws a hard specular highlight — nothing matte, nothing that eats the light. Hard highlights run along every fold and edge; deep true blacks in between. One dominant key, hard-edged, with a clear terminator across the face and body; the shadow side falls almost to black and dissolves into the ground, held only by a thin rim of bounce. Full tonal range with small blown speculars. Volume carried by continuous tonal turn. Fine film grain, deep vignette, high micro-contrast. Waist-up, cropped just below the belt. Subject centred, facing the viewer, shoulders filling the width of the frame. The head occupies the top third with a hand's width of space above it. Vertical format, aspect ratio 9:16. Background is a dark, shallow-focus suggestion of place, two stops below the figure. Both hands fully visible and clearly resolved — palm, finger mass, thumb, knuckles, tendons on the back of the hand. Headgear sits firmly ON the skull and casts a shadow onto the brow that binds it to the head. Face weathered and specific, skull structure reading through: brow ridge, cheekbone, jaw, temple. Skin has pores, scars and a faint sheen. Expression composed and level, mouth closed, eyes catching a single sharp highlight. Photographic realism. Materials behave like real materials under a hard light. Sharp on the face, softer toward the frame edge.
