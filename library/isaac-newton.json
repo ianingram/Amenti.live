@@ -1,0 +1,61 @@
+{
+  "key": "isaac-newton",
+  "name": "Isaac Newton",
+  "note": "A room of Newton's own words rather than his mathematics. The Principia's propositions are geometry and do not read as prose; what does read is the man — six letters and recorded conversations preserved in Chittenden's Life at the front of the 1846 Motte edition, plus the General Scholium, which is the one passage of the Principia written to be read rather than followed. Motte's translation is public domain; the Cajori revision is not, and is not used here. Every word in this room is Newton's, in the sense that it is either his own writing or his speech recorded by a witness who names himself.",
+  "works": [
+    {
+      "id": "01-advice-to-a-traveller",
+      "section": "Letters",
+      "title": "Advice to a Traveller",
+      "mode": "stored",
+      "source": "Letter to Francis Aston, 18 May 1669. The Principia, Motte translation (1846 American edition), Project Gutenberg #76404 — public domain.",
+      "note": "He is twenty-six and about to be made Lucasian Professor. A young man's rules for going among strangers — observe their humours, put your discourse in queries rather than assertions, commend rather than discommend, and if affronted abroad, let it pass. Then a list of what to look at: mines, fortifications, the guiding of ships, the price of diet.",
+      "file": "isaac-newton/01-advice-to-a-traveller.md"
+    },
+    {
+      "id": "02-the-sun-and-the-eye",
+      "section": "Letters",
+      "title": "The Sun and the Eye",
+      "mode": "stored",
+      "source": "Letter to John Locke, 30 June 1691. The Principia, Motte translation (1846 American edition), Project Gutenberg #76404 — public domain.",
+      "note": "He looked at the sun in a mirror to see what the afterimage would do, repeated it, and could not stop seeing it. He shut himself in a dark room for three days. Written twenty years later to Locke, calmly, as evidence about the power of fancy.",
+      "file": "isaac-newton/02-the-sun-and-the-eye.md"
+    },
+    {
+      "id": "03-an-impertinently-litigious-lady",
+      "section": "Letters",
+      "title": "An Impertinently Litigious Lady",
+      "mode": "stored",
+      "source": "Letter to Edmond Halley, 20 June 1686. The Principia, Motte translation (1846 American edition), Project Gutenberg #76404 — public domain.",
+      "note": "Hooke had made a claim, and Newton wrote to Halley proposing to suppress Book III of the Principia entirely — the book that contains the system of the world. Halley talked him out of it. The last line is the tell: it will help the sale of the book, which I ought not to diminish now 'tis yours.",
+      "file": "isaac-newton/03-an-impertinently-litigious-lady.md"
+    },
+    {
+      "id": "04-this-being-governs-all-things",
+      "section": "The Principia",
+      "title": "This Being Governs All Things",
+      "mode": "stored",
+      "source": "The General Scholium, Book III. The Principia, Motte translation (1846 American edition), Project Gutenberg #76404 — public domain.",
+      "note": "The closing passage of the Principia and the only part of it written to be read rather than worked through. He argues that the system could not have arisen from mechanism alone, then turns to what can and cannot be known of God — we know him only by his contrivances, and of his substance we have no idea at all.",
+      "file": "isaac-newton/04-this-being-governs-all-things.md"
+    },
+    {
+      "id": "05-a-sort-of-revolution",
+      "section": "Recorded Conversation",
+      "title": "A Sort of Revolution",
+      "mode": "stored",
+      "source": "John Conduit's record of a conversation at Kensington, 7 March 1725. The Principia, Motte translation (1846 American edition), Project Gutenberg #76404 — public domain.",
+      "note": "Eighty-two, out of a fit of gout, sitting by a wood fire. He speculates that comets fall into stars and replenish them, that the comet of 1680 will one day fall into the sun and burn the earth, and that the new stars seen by Hipparchus and Tycho were this happening elsewhere. He would affirm nothing.",
+      "file": "isaac-newton/05-a-sort-of-revolution.md"
+    },
+    {
+      "id": "06-i-do-not-deal-in-conjectures",
+      "section": "Recorded Conversation",
+      "title": "I Do Not Deal in Conjectures",
+      "mode": "stored",
+      "source": "John Conduit's record of a conversation at Kensington, 7 March 1725. The Principia, Motte translation (1846 American edition), Project Gutenberg #76404 — public domain.",
+      "note": "The same evening. Conduit asks why he will not publish his conjectures as conjectures, since Kepler published his and they proved good. The answer is four words. Then, pressed on whether he believes the sun is replenished as the fixed stars are, he says only that it concerned us more — and, laughing, that he had said enough for people to know his meaning.",
+      "file": "isaac-newton/06-i-do-not-deal-in-conjectures.md"
+    }
+  ]
+}
