@@ -41,6 +41,9 @@
 .rc-img[data-fig="hannibal"],.nc-thumb[data-fig="hannibal"],.mkt-thumb[data-fig="hannibal"],.cdx-art[data-fig="hannibal"][data-art-photo="card"]{filter:saturate(0.371);}
 .cdx-art[data-fig="hannibal"][data-art-photo="terminal"]{filter:saturate(1.0);}
 .term-main[data-fig="hannibal"] .plate-stack{--plate-sat:1.0;}
+.rc-img[data-fig="isaac-newton"],.nc-thumb[data-fig="isaac-newton"],.mkt-thumb[data-fig="isaac-newton"],.cdx-art[data-fig="isaac-newton"][data-art-photo="card"]{filter:saturate(0.244);}
+.cdx-art[data-fig="isaac-newton"][data-art-photo="terminal"]{filter:saturate(1.0);}
+.term-main[data-fig="isaac-newton"] .plate-stack{--plate-sat:1.0;}
 .rc-img[data-fig="john-milton"],.nc-thumb[data-fig="john-milton"],.mkt-thumb[data-fig="john-milton"],.cdx-art[data-fig="john-milton"][data-art-photo="card"]{filter:saturate(0.536);}
 .cdx-art[data-fig="john-milton"][data-art-photo="terminal"]{filter:saturate(0.436);}
 .term-main[data-fig="john-milton"] .plate-stack{--plate-sat:0.436;}
