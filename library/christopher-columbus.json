@@ -1,0 +1,61 @@
+{
+  "key": "christopher-columbus",
+  "name": "Christopher Columbus",
+  "note": "A room in which the man convicts himself. Unlike Shaka, whose record was written by hostile witnesses, almost everything damning about Columbus is in his own dispatches — he described the Taino with real wonder and, in the same breath, assessed them as servants. ONE THING MUST BE SAID PLAINLY AND IS SAID IN EVERY ENTRY BELOW: the journal of the first voyage IS NOT COLUMBUS'S MANUSCRIPT. His original is lost. What survives is Bartolome de las Casas's abstract, in which Las Casas moves between quoting Columbus directly and summarising him in the third person. Where the text says 'the Admiral', that is Las Casas summarising; where it is in quotation marks, Las Casas is quoting. The letters of 1500 and 1503 are Columbus's own, in Major's translation. All translations here predate 1929 and are public domain; the modern versions are not and are not used.",
+  "works": [
+    {
+      "id": "01-the-two-reckonings",
+      "section": "The First Voyage, 1492-93 (Las Casas's abstract)",
+      "title": "The Two Reckonings",
+      "mode": "stored",
+      "source": "The Northmen, Columbus and Cabot, 985-1503, ed. Olson and Bourne (1906), Project Gutenberg #18571 — public domain. Journal of the first voyage, tr. Clements R. Markham (Hakluyt Society, 1893).",
+      "note": "Nine days out he begins keeping two logs: the true distance run, and a shorter figure for the crew, so the people might not be alarmed if the voyage should be long. Las Casas records both numbers side by side, every day, for a month.",
+      "file": "christopher-columbus/01-the-two-reckonings.md"
+    },
+    {
+      "id": "02-a-light-like-a-wax-candle",
+      "section": "The First Voyage, 1492-93 (Las Casas's abstract)",
+      "title": "A Light Like a Wax Candle",
+      "mode": "stored",
+      "source": "The Northmen, Columbus and Cabot, 985-1503, ed. Olson and Bourne (1906), Project Gutenberg #18571 — public domain. Journal of the first voyage, tr. Clements R. Markham (Hakluyt Society, 1893).",
+      "note": "11 October. A sailor named Rodrigo de Triana sights land first. But four hours earlier the Admiral, on the poop, had seen a light rising and falling like a wax candle, and had called two witnesses; one saw it and one could not. The reward for first sighting was ten thousand maravedis a year for life. Read the passage and notice what it is doing.",
+      "file": "christopher-columbus/02-a-light-like-a-wax-candle.md"
+    },
+    {
+      "id": "03-they-should-be-good-servants",
+      "section": "The First Voyage, 1492-93 (Las Casas's abstract)",
+      "title": "They Should Be Good Servants",
+      "mode": "stored",
+      "source": "The Northmen, Columbus and Cabot, 985-1503, ed. Olson and Bourne (1906), Project Gutenberg #18571 — public domain. Journal of the first voyage, tr. Clements R. Markham (Hakluyt Society, 1893).",
+      "note": "In Columbus's own words, quoted directly by Las Casas and marked as such. He notes their wounds, understands they are raided by others, and in the next sentence assesses their aptitude. He will take six away with him. Las Casas closes the passage: the above is in the words of the Admiral.",
+      "file": "christopher-columbus/03-they-should-be-good-servants.md"
+    },
+    {
+      "id": "04-a-very-handsome-people",
+      "section": "The First Voyage, 1492-93 (Las Casas's abstract)",
+      "title": "A Very Handsome People",
+      "mode": "stored",
+      "source": "The Northmen, Columbus and Cabot, 985-1503, ed. Olson and Bourne (1906), Project Gutenberg #18571 — public domain. Journal of the first voyage, tr. Clements R. Markham (Hakluyt Society, 1893).",
+      "note": "13 October, also in his own words. Two days after landfall, a careful and admiring description of the Taino - their hair, their eyes, their canoes made from a single trunk, forty men to a boat and propelled at a marvellous rate. It ends: I was attentive, and took trouble to ascertain if there was gold.",
+      "file": "christopher-columbus/04-a-very-handsome-people.md"
+    },
+    {
+      "id": "05-i-ought-to-be-judged",
+      "section": "The Letters, 1500-1503",
+      "title": "I Ought To Be Judged",
+      "mode": "stored",
+      "source": "The Northmen, Columbus and Cabot, 985-1503, ed. Olson and Bourne (1906), Project Gutenberg #18571 — public domain. Letters of Columbus, tr. R. H. Major, Select Letters of Columbus (Hakluyt Society, 1847, 1870).",
+      "note": "Written on shipboard in 1500 to Dona Juana de Torres, after Bobadilla arrested him on Espanola and sent him home in chains. His defence is not that the accounts are false but that they are being judged by the wrong standard - not as a governor of a settled province but as a captain sent to conquer a numerous and warlike people.",
+      "file": "christopher-columbus/05-i-ought-to-be-judged.md"
+    },
+    {
+      "id": "06-weep-for-me",
+      "section": "The Letters, 1500-1503",
+      "title": "Weep For Me",
+      "mode": "stored",
+      "source": "The Northmen, Columbus and Cabot, 985-1503, ed. Olson and Bourne (1906), Project Gutenberg #18571 — public domain. Letters of Columbus, tr. R. H. Major, Select Letters of Columbus (Hakluyt Society, 1847, 1870).",
+      "note": "From the letter of the fourth voyage, 1503, marooned on Jamaica. He was twenty-eight when he entered their service and has not a hair on him that is not gray. Everything taken and sold, down to the frock he wore. Hitherto I have wept over others; may the earth now weep for me.",
+      "file": "christopher-columbus/06-weep-for-me.md"
+    }
+  ]
+}
