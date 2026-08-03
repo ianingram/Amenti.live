@@ -797,5 +797,33 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 
-  window.amentiRoster = { refresh: boot };
+  /* ── REFRESH IS NOT A REBOOT ────────────────────────────────────────────
+     amenti-art-2.js ends its IIFE with an unconditional
+
+         window.amentiRoster.refresh()          (art-2 L962)
+         /* the roster repaints when the library grows *\/
+
+     and refresh WAS boot, so every load ran the whole boot sequence twice:
+     /quiz/topics, loadProgress() and mergeCharacters() all fetched again,
+     then render() rebuilt every card from scratch and threw away the ones
+     already painted. Measured in the rekey trace as two rekey(0) entry
+     points 42 ms apart, and it is a large part of why the first card took
+     ~12.5 s to appear.
+
+     What art-2 actually wants is what its comment says: repaint, because it
+     just added drawings to AMENTI_SVG. That needs no network at all.
+
+     So refresh() now does the cheap thing when a roster already exists —
+     repaint portraits, re-key anything the ledger has since resolved — and
+     falls back to a real boot only when there are no cards yet. reboot()
+     stays available for a genuine reload. */
+  function refresh() {
+    var host = document.getElementById('amenti-roster');
+    if (!host || !host.querySelector('.roster-card')) return boot();
+    try { paintPortraits(host, 0); } catch (e) {}
+    try { rekey(0); } catch (e) {}
+    try { if (window.AmentiArtPhoto) window.AmentiArtPhoto.pass(); } catch (e) {}
+  }
+
+  window.amentiRoster = { refresh: refresh, reboot: boot };
 })();
