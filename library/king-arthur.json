@@ -1,0 +1,340 @@
+{
+  "key": "king-arthur",
+  "name": "King Arthur",
+  "note": "There is no Arthur to read. He left no writing, and the earliest mentions — a line in the Historia Brittonum, an entry in the Annales Cambriae — are a sentence each and centuries after any life he might have had. So this is not an author's shelf but the tradition that built him: the chronicle that invented his reign, the Welsh tales that remember someone older and rougher, and the romance that fixed him in English. Read in that order and you can watch a figure being assembled. Nennius and Gildas are not here yet — they need a public-domain translation confirmed rather than the first one a search returns.",
+  "works": [
+    {
+      "id": "01-geoffrey-histories-1136",
+      "section": "The Chronicle · c. 1136",
+      "title": "Histories of the Kings of Britain (Historia Regum Britanniae)",
+      "mode": "link",
+      "source": "Geoffrey of Monmouth · tr. Sebastian Evans, 1904 · Internet Sacred Text Archive · public domain",
+      "note": "Where Arthur becomes a king rather than a name in a list — Uther for a father, Merlin, a war against Rome, a wound carried to Avalon. Geoffrey claims an ancient book as his source and no one has found it since. Note what is NOT here: no Round Table, no Grail, no Lancelot, no sword from a lake. Those arrive later.",
+      "url": "https://sacred-texts.com/neu/eng/gem/index.htm"
+    },
+    {
+      "id": "02-geoffrey-scan-1904",
+      "section": "The Chronicle · c. 1136",
+      "title": "Histories of the Kings of Britain — the Evans translation, scanned",
+      "mode": "link",
+      "source": "Internet Archive · public domain",
+      "note": "The same translation as page images, for the apparatus and the notes.",
+      "url": "https://archive.org/details/historiesoftheki037587mbp"
+    },
+    {
+      "id": "mabinogion-01",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — The Lady of the Fountain",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "Owain at the fountain — the Welsh telling of the tale Chrétien wrote as Yvain.",
+      "file": "king-arthur/mabinogion-01-lady-of-the-fountain.md"
+    },
+    {
+      "id": "mabinogion-02",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Peredur the Son of Evrawc",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "Peredur raised in the woods, knowing nothing of knights. The Welsh Perceval, and older than the Grail.",
+      "file": "king-arthur/mabinogion-02-peredur.md"
+    },
+    {
+      "id": "mabinogion-03",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Geraint the Son of Erbin",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "Geraint and Enid, the source Tennyson used and Malory does not have.",
+      "file": "king-arthur/mabinogion-03-geraint.md"
+    },
+    {
+      "id": "mabinogion-04",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Kilhwch and Olwen",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "The oldest Arthurian tale of any length. A boar hunt across Britain and a war-band of impossible men — Arthur before the romance got to him.",
+      "file": "king-arthur/mabinogion-04-kilhwch-and-olwen.md"
+    },
+    {
+      "id": "mabinogion-05",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — The Dream of Rhonabwy",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "A dream of Arthur's court playing a board game while a battle is fought elsewhere. Strange, and deliberately so.",
+      "file": "king-arthur/mabinogion-05-dream-of-rhonabwy.md"
+    },
+    {
+      "id": "mabinogion-06",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Pwyll Prince of Dyved",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "The First Branch. Annwn, the otherworld, and the beginning of the four.",
+      "file": "king-arthur/mabinogion-06-pwyll.md"
+    },
+    {
+      "id": "mabinogion-07",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Branwen the Daughter of Llyr",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "The Second Branch. The cauldron of rebirth and a war that empties two islands.",
+      "file": "king-arthur/mabinogion-07-branwen.md"
+    },
+    {
+      "id": "mabinogion-08",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Manawyddan the Son of Llyr",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "The Third Branch. Enchantment falls on Dyved.",
+      "file": "king-arthur/mabinogion-08-manawyddan.md"
+    },
+    {
+      "id": "mabinogion-09",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Math the Son of Mathonwy",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "The Fourth Branch. Gwydion, Blodeuwedd made of flowers, and Lleu.",
+      "file": "king-arthur/mabinogion-09-math.md"
+    },
+    {
+      "id": "mabinogion-10",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — The Dream of Maxen Wledig",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "A Roman emperor dreams his way to Britain.",
+      "file": "king-arthur/mabinogion-10-dream-of-maxen.md"
+    },
+    {
+      "id": "mabinogion-11",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Lludd and Llevelys",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "Three plagues on Britain and how they were lifted.",
+      "file": "king-arthur/mabinogion-11-lludd-and-llevelys.md"
+    },
+    {
+      "id": "mabinogion-12",
+      "section": "The Welsh Tales · recorded 12th–13th century",
+      "title": "The Mabinogion — Taliesin",
+      "mode": "stored",
+      "source": "tr. Lady Charlotte Guest, 1838–45 · Project Gutenberg #5160 · public domain",
+      "note": "The poet's making, and the pursuit through shapes.",
+      "file": "king-arthur/mabinogion-12-taliesin.md"
+    },
+    {
+      "id": "malory-book-01",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 1",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "The coming of Uther, the sword in the stone, and Arthur made king.",
+      "file": "king-arthur/malory-book-01.md"
+    },
+    {
+      "id": "malory-book-02",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 2",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Balin le Savage, the Dolorous Stroke, and the first of the wounds that do not heal.",
+      "file": "king-arthur/malory-book-02.md"
+    },
+    {
+      "id": "malory-book-03",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 3",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "The marriage of Guenever and the founding of the Round Table.",
+      "file": "king-arthur/malory-book-03.md"
+    },
+    {
+      "id": "malory-book-04",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 4",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Merlin taken by Nimue; Arthur and the sword Excalibur; Morgan le Fay's treachery.",
+      "file": "king-arthur/malory-book-04.md"
+    },
+    {
+      "id": "malory-book-05",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 5",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Arthur's war against Rome — the one part Malory took from the chronicles rather than the romances.",
+      "file": "king-arthur/malory-book-05.md"
+    },
+    {
+      "id": "malory-book-06",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 6",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Launcelot alone, and the making of his reputation.",
+      "file": "king-arthur/malory-book-06.md"
+    },
+    {
+      "id": "malory-book-07",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 7",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Gareth Beaumains, who serves a year in the kitchen before anyone learns his name.",
+      "file": "king-arthur/malory-book-07.md"
+    },
+    {
+      "id": "malory-book-08",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 8",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Tristram of Lyonesse begins: La Beale Isoud, and the love that mirrors Launcelot's.",
+      "file": "king-arthur/malory-book-08.md"
+    },
+    {
+      "id": "malory-book-09",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 9",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Tristram continued — tournaments, madness, exile.",
+      "file": "king-arthur/malory-book-09.md"
+    },
+    {
+      "id": "malory-book-10",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 10",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "The longest book: Tristram, Palomides the Saracen, and the Round Table at its height.",
+      "file": "king-arthur/malory-book-10.md"
+    },
+    {
+      "id": "malory-book-11",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 11",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Launcelot and Elaine; the begetting of Galahad.",
+      "file": "king-arthur/malory-book-11.md"
+    },
+    {
+      "id": "malory-book-12",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 12",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Launcelot's madness and his healing.",
+      "file": "king-arthur/malory-book-12.md"
+    },
+    {
+      "id": "malory-book-13",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 13",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "The Grail appears at Pentecost and the fellowship rides out. From here the Table comes apart.",
+      "file": "king-arthur/malory-book-13.md"
+    },
+    {
+      "id": "malory-book-14",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 14",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Percivale and the temptations of the quest.",
+      "file": "king-arthur/malory-book-14.md"
+    },
+    {
+      "id": "malory-book-15",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 15",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Launcelot on the quest, and told plainly what his sin has cost him.",
+      "file": "king-arthur/malory-book-15.md"
+    },
+    {
+      "id": "malory-book-16",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 16",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Bors, and the choices the quest forces.",
+      "file": "king-arthur/malory-book-16.md"
+    },
+    {
+      "id": "malory-book-17",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 17",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Galahad achieves the Grail. The three knights and the ship of Solomon.",
+      "file": "king-arthur/malory-book-17.md"
+    },
+    {
+      "id": "malory-book-18",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 18",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "The court after the Grail. The poisoned apple, and the Fair Maid of Astolat.",
+      "file": "king-arthur/malory-book-18.md"
+    },
+    {
+      "id": "malory-book-19",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 19",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "The abduction of Guenever, and Launcelot the Knight of the Cart.",
+      "file": "king-arthur/malory-book-19.md"
+    },
+    {
+      "id": "malory-book-20",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 20",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Agravaine and Mordred force the matter into the open. Launcelot against the Table.",
+      "file": "king-arthur/malory-book-20.md"
+    },
+    {
+      "id": "malory-book-21",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte d'Arthur — Book 21",
+      "mode": "stored",
+      "source": "Sir Thomas Malory, c. 1470 · Caxton 1485 · Project Gutenberg #1251/#1252 · public domain",
+      "note": "Camlann, Mordred, the sword returned to the water, and the barge to Avalon.",
+      "file": "king-arthur/malory-book-21.md"
+    },
+    {
+      "id": "malory-caxton-text",
+      "section": "The Romance · Caxton, 1485",
+      "title": "Le Morte Darthur — the 1485 Caxton text",
+      "mode": "link",
+      "source": "Project Gutenberg #46853 · public domain",
+      "note": "Malory closer to how Caxton printed him, spelling and all, with a scholarly introduction. Linked rather than stored: two megabytes of Middle English, and the modernised books above are the reading text.",
+      "url": "https://www.gutenberg.org/ebooks/46853"
+    },
+    {
+      "id": "clay-stories-1905",
+      "section": "A Way In",
+      "title": "Stories from Le Morte D'Arthur and the Mabinogion",
+      "mode": "stored",
+      "source": "Beatrice E. Clay, 1905 · Project Gutenberg #15551 · public domain",
+      "note": "A retelling for a reader meeting the material for the first time. Secondary, and openly so — but it holds the shape of the legend without the Middle English.",
+      "file": "king-arthur/clay-stories.md"
+    }
+  ]
+}
