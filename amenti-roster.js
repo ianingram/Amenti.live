@@ -684,6 +684,65 @@
     return added;
   }
 
+  /* ── RE-KEY · THE LEDGER LANDS AFTER THE CARDS ─────────────────────────
+     A card gets data-char-key only if codexFor() answered at BUILD time:
+
+         (rec && rec.key ? ' data-char-key="' + esc(rec.key) + '"' : '')
+
+     boot() already rebuilds the resolver at the top of its .then() so the
+     index is fresh before render(). That is not enough. The csv-loader in
+     Page1.html fetches a 517 KB ledger and replaces AMENTI_CHARS wholesale
+     when it lands, which can be after the cards are already in the DOM. Those
+     cards keep an empty key forever, because nothing re-renders them.
+
+     Measured on the live page: the resolver answers PERFECTLY afterwards —
+     resolve("Isaac Newton") -> isaac-newton, record.key -> isaac-newton,
+     zero collisions — while the card still carries no key. All sixteen blank
+     cards were ledger-only figures. Newton's two plates sit in img/ unused
+     for want of one attribute, as do Josephus's and Shaka's.
+
+     So: watch for the roster growing, rebuild the index, and fill in the
+     attribute on cards that are still missing it. Attribute-only. No
+     re-render, and cards that already resolved are never touched.
+
+     paintPortraits solves the same race with six retries and says so in its
+     own comment. This is that guard, for the key rather than the drawing. */
+  function rekey(tries) {
+    tries = tries || 0;
+    var pending = document.querySelectorAll('.roster-card[data-figure]:not([data-char-key])');
+    if (!pending.length) return;
+
+    /* AMENTI_CHARS may have been REPLACED since the index was built, so
+       rebuild before asking it anything. Cheap and idempotent. */
+    var n = (window.AMENTI_CHARS || []).length;
+    if (n !== rekey._seen) {
+      rekey._seen = n;
+      try { if (window.AmentiResolve) window.AmentiResolve.build(); } catch (e) {}
+    }
+
+    var fixed = 0;
+    for (var i = 0; i < pending.length; i++) {
+      var el = pending[i];
+      var rec = codexFor(el.getAttribute('data-figure'));
+      if (rec && rec.key) { el.setAttribute('data-char-key', rec.key); fixed++; }
+    }
+
+    if (fixed) {
+      /* amenti-art-photo observes childList only, so an attribute write does
+         not wake it. Ask it directly, or the plate never lands. */
+      try { if (window.AmentiArtPhoto) window.AmentiArtPhoto.pass(); } catch (e) {}
+      try { paintPortraits(document.getElementById('amenti-roster') || document, 0); } catch (e) {}
+      try { console.log('[Amenti] re-keyed ' + fixed + ' card(s) after the ledger landed'); } catch (e) {}
+    }
+
+    /* Keep looking while cards remain unkeyed. 1.2s x 20 = 24s, which covers
+       a slow fetch of the ledger without polling forever. A figure that is
+       genuinely not in the roster simply stays unkeyed and shows its badge —
+       the honest outcome, same as codexFor's own contract. */
+    if (tries < 20) setTimeout(function () { rekey(tries + 1); }, 1200);
+  }
+  rekey._seen = -1;
+
   function boot() {
     injectCss();
     var host = document.getElementById('amenti-roster');
@@ -705,6 +764,7 @@
         var list = (d && d.topics) || [];
         if (!list.length) return empty(host, 'The library returned no quizzes.');
         render(host, list);
+        rekey(0);   /* the ledger may still be in flight — see rekey() above */
       })
       .catch(function (e) { empty(host, 'Could not read the quiz library. ' + esc(e)); });
   }
