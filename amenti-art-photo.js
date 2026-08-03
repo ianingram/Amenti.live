@@ -153,12 +153,47 @@
     thumb.src = cardSrc(key);
   }
 
-  /* ---- ROSTER / NEWS / MARKETPLACE — cards carry data-char-key ---------- */
+  /* ---- ROSTER / NEWS / MARKETPLACE — cards carry data-char-key ----------
+     LAZY. Roughly six of the twenty-four roster cards are above the fold on
+     a landing view; the rest were fetching their art immediately because
+     decorate() sets background-image the moment the card exists. With the
+     thumbnails that is still ~1.1 MB requested before anyone scrolls.
+
+     Cards are now observed and decorated when they come near the viewport.
+     rootMargin gives 500px of lead so the plate is already there by the time
+     the card is actually looked at — the point is to stop fetching art for
+     figures nobody scrolls to, not to make scrolling feel unpainted.
+
+     No IntersectionObserver (or no observer for some reason) falls straight
+     through to the old immediate path, so nothing depends on it. */
+  var seen = null;
+  try {
+    if (window.IntersectionObserver) {
+      seen = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (!entries[i].isIntersecting) continue;
+          var el = entries[i].target;
+          seen.unobserve(el);
+          var key = norm(el.getAttribute('data-char-key'));
+          if (key) tryKey(el, key);
+        }
+      }, { rootMargin: '500px 0px', threshold: 0 });
+    }
+  } catch (e) { seen = null; }
+
   function passCards() {
     document.querySelectorAll('[data-char-key]:not([data-art-photo])')
       .forEach(function (el) {
         var key = norm(el.getAttribute('data-char-key'));
-        if (key) tryKey(el, key);
+        if (!key) return;
+        /* Already probed and present? Paint immediately — no reason to wait
+           for a scroll to reuse something the cache already holds. */
+        if (known[key]) { decorate(el, key); return; }
+        if (known[key] === false) return;
+        if (!seen) { tryKey(el, key); return; }
+        if (el.getAttribute('data-art-watch')) return;   /* observed once */
+        el.setAttribute('data-art-watch', '1');
+        seen.observe(el);
       });
   }
 
