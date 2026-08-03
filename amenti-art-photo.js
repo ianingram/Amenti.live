@@ -106,10 +106,26 @@
     for (var i = 0; i < tiles.length; i++) strip(tiles[i]);
   }
 
+  /* ---- THUMBNAILS -------------------------------------------------------
+     A card plate is 640x1120 and the card box is 198x160. Even at 2x that is
+     5.7x more pixels than the surface can show, and background-position
+     50% 18% throws away everything outside roughly 10-56% of the height. The
+     24 plates on the arena came to 3.6 MB — ten times the weight of all the
+     JavaScript on the page.
+
+     {key}-thumb.jpg is the same picture pre-cropped to the card window at 2x:
+     480x420, ~43 KB instead of ~151 KB. Same image on screen, 71% less data.
+
+     The plate is kept as the fallback, so a figure with no thumbnail yet
+     still paints exactly as before. Nothing regresses if the thumbs are only
+     half generated. */
+  function cardSrc(key) { return BASE + key + '-thumb.jpg'; }
+  function cardFallback(key) { return BASE + key + '-card.jpg'; }
+
   function decorate(el, key) {
     var host = el.querySelector('.rc-img, .nc-thumb, .mkt-thumb');
     if (!host) return;
-    var src = BASE + key + '-card.jpg';
+    var src = (known[key] === 'thumb') ? cardSrc(key) : cardFallback(key);
     host.style.backgroundImage    = 'url("' + src + '")';
     host.style.backgroundSize     = 'cover';
     host.style.backgroundPosition = '50% 18%';
@@ -120,13 +136,21 @@
     done++;
   }
 
+  /* Probe the thumbnail first, fall back to the full plate. Each key is
+     probed at most once either way — the cache holds 'thumb', true (plate
+     only) or false (no art), so a miss never repeats. */
   function tryKey(el, key) {
     if (known[key] === false) return;
-    if (known[key] === true) { decorate(el, key); return; }
-    var probe = new Image();
-    probe.onload  = function () { known[key] = true;  decorate(el, key); };
-    probe.onerror = function () { known[key] = false; };
-    probe.src = BASE + key + '-card.jpg';
+    if (known[key]) { decorate(el, key); return; }
+    var thumb = new Image();
+    thumb.onload  = function () { known[key] = 'thumb'; decorate(el, key); };
+    thumb.onerror = function () {
+      var full = new Image();
+      full.onload  = function () { known[key] = true;  decorate(el, key); };
+      full.onerror = function () { known[key] = false; };
+      full.src = cardFallback(key);
+    };
+    thumb.src = cardSrc(key);
   }
 
   /* ---- ROSTER / NEWS / MARKETPLACE — cards carry data-char-key ---------- */
