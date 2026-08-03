@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.3';
+  var VERSION  = '1.5';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -450,13 +450,29 @@
     hr('6. TERMINAL & CODEX SURFACES');
     var main = document.querySelector('.term-main');
     var stack = document.querySelector('.plate-stack');
+
+    /* MEASURE IT VISIBLE, OR DO NOT MEASURE IT.
+       .term-main lives inside .page-section[data-page="terminal"], which is
+       display:none while the arena is active. An element in a hidden subtree
+       has NO BOXES, so getBoundingClientRect returns 0x0 — always, whether or
+       not anything is wrong. An earlier version of this section reported that
+       0x0 as a defect and sent us hunting a bug that did not exist.
+       So: only report geometry when the terminal is actually on screen. */
+    var termSection = document.querySelector('.page-section[data-page="terminal"]');
+    var visible = !!(termSection && termSection.classList.contains('active'));
+    w('terminal tab      : ' + (visible ? 'ACTIVE — geometry below is real'
+        : 'hidden (display:none) — geometry NOT measured, it would read 0x0 regardless'));
     w('.term-main        : ' + (main ? 'present  data-fig=' + (main.getAttribute('data-fig') || '(unset)') : 'absent'));
     if (stack) {
       var cs = getComputedStyle(stack), r = stack.getBoundingClientRect();
-      w('.plate-stack      : position=' + cs.position + '  size=' +
-        Math.round(r.width) + 'x' + Math.round(r.height) +
-        (cs.position !== 'absolute' ? '   <-- MUST be absolute; relative collapses it to 0px' : '') +
-        (r.height === 0 ? '   <-- ZERO HEIGHT, nothing can render' : ''));
+      w('.plate-stack      : position=' + cs.position +
+        (cs.position !== 'absolute' ? '   <-- MUST be absolute; relative collapses it to 0px' : '  (correct)'));
+      if (visible) {
+        w('                    size=' + Math.round(r.width) + 'x' + Math.round(r.height) +
+          (r.height === 0 ? '   <-- ZERO HEIGHT, nothing can render' : '  (has a box)'));
+      } else {
+        w('                    size not measured — see note above');
+      }
       var layers = stack.querySelectorAll('.plate-layer');
       w('  layers          : ' + layers.length);
       Array.prototype.forEach.call(layers, function (l, i) {
@@ -473,6 +489,117 @@
     w('  · candidates() in Page1.html ends with {key}-card.jpg, so the terminal');
     w('    cycles in the CARD face image. Remove it to stop the duplication.');
     w('  · paintCodex asks for -terminal first, duplicating the terminal main.');
+  }
+
+  /* ======================================================================= */
+  /* 7. TAB SWITCH COST                                                      */
+  /* -----------------------------------------------------------------------
+     "Clicking a tab takes several seconds." activate() itself only toggles
+     classes, so the cost is whatever the browser and the page do BECAUSE a
+     large hidden subtree became visible. This measures it instead of
+     guessing: click each tab, time the synchronous handler, then time how
+     long until the next frame actually paints.                              */
+  function tabSection(cb) {
+    hr('7. TAB SWITCH COST');
+    var btns = [].slice.call(document.querySelectorAll('#mnLinks button[data-target]'));
+    if (!btns.length) { w('  no tab buttons found'); return cb(); }
+
+    var longTasks = [], obs = null;
+    try {
+      obs = new PerformanceObserver(function (l) {
+        l.getEntries().forEach(function (e) { longTasks.push(Math.round(e.duration)); });
+      });
+      obs.observe({ entryTypes: ['longtask'] });
+    } catch (e) {}
+
+    var startPage = document.body.getAttribute('data-page');
+    var rows = [], i = 0;
+
+    w('  handler = synchronous time inside the click handler');
+    w('  paint   = click until the next frame is actually painted');
+    w('  nodes   = elements inside that section once it is visible');
+    w('');
+    w('  ' + pad('tab', 14) + pad('handler', 10) + pad('paint', 10) + pad('nodes', 9) + 'animations running');
+    w('  ' + Array(62).join('-'));
+
+    (function step() {
+      if (i >= btns.length) { finish(); return; }
+      var b = btns[i++], name = b.getAttribute('data-target');
+      var t0 = performance.now();
+      try { b.click(); } catch (e) {}
+      var tHandler = performance.now() - t0;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          var tPaint = performance.now() - t0;
+          var sec = document.querySelector('.page-section[data-page="' + name + '"]');
+          var nodes = sec ? sec.getElementsByTagName('*').length : 0;
+          var anims = 0;
+          try { anims = (document.getAnimations ? document.getAnimations() : []).length; } catch (e) {}
+          rows.push({ name: name, h: tHandler, p: tPaint, n: nodes, a: anims });
+          w('  ' + pad(name, 14) + pad(Math.round(tHandler) + ' ms', 10) +
+            pad(Math.round(tPaint) + ' ms', 10) + pad(nodes, 9) + anims);
+          setTimeout(step, 450);
+        });
+      });
+    })();
+
+    function finish() {
+      try { if (obs) obs.disconnect(); } catch (e) {}
+      var worst = rows.slice().sort(function (a, b) { return b.p - a.p; })[0];
+      w('');
+      if (worst) {
+        w('  slowest tab : ' + worst.name + '  ' + Math.round(worst.p) + ' ms to paint, ' +
+          worst.n + ' elements');
+      }
+      if (longTasks.length) {
+        longTasks.sort(function (a, b) { return b - a; });
+        w('  long tasks during the sweep (>50ms): ' + longTasks.slice(0, 8).join(', ') + ' ms');
+        w('    A long task blocks the main thread, so a click during one cannot');
+        w('    be handled until it ends. If the page is still booting when a tab');
+        w('    is clicked, THAT is the delay — not the router.');
+      } else {
+        w('  no long tasks recorded during the sweep.');
+      }
+      w('');
+      w('  Handler times near 0 with large paint times = rendering cost.');
+      w('  Both small here, but slow in real use = main-thread contention');
+      w('  during boot; the fix is the script chain, not the router.');
+      /* restore */
+      /* Now that we can drive the tabs, measure the terminal WHILE IT IS ON
+         SCREEN — the only reading of .plate-stack that means anything. */
+      var termBtn = btns.filter(function (b) { return b.getAttribute('data-target') === 'terminal'; })[0];
+      if (termBtn) {
+        try { termBtn.click(); } catch (e) {}
+        requestAnimationFrame(function () { requestAnimationFrame(function () {
+          var st = document.querySelector('.plate-stack');
+          sub('.plate-stack measured with the terminal VISIBLE');
+          if (!st) { w('  .plate-stack absent — the terminal has not built it'); }
+          else {
+            var c2 = getComputedStyle(st), b2 = st.getBoundingClientRect();
+            w('  position : ' + c2.position);
+            w('  size     : ' + Math.round(b2.width) + 'x' + Math.round(b2.height) +
+              (b2.height === 0 ? '   <-- genuinely zero, nothing can render'
+                               : '   <-- has a box, the plate can render'));
+            var ls = st.querySelectorAll('.plate-layer');
+            w('  layers   : ' + ls.length);
+            Array.prototype.forEach.call(ls, function (l, i) {
+              w('   [' + i + '] ' + (l.classList.contains('on') ? 'ON ' : 'off') +
+                ' opacity=' + getComputedStyle(l).opacity + '  ' +
+                (l.style.backgroundImage || '').replace(BASE, '').slice(0, 70));
+            });
+          }
+          finishUp();
+        }); });
+        return;
+      }
+      finishUp();
+
+      function finishUp() {
+        var back = btns.filter(function (b) { return b.getAttribute('data-target') === startPage; })[0];
+        if (back) try { back.click(); } catch (e) {}
+        cb();
+      }
+    }
   }
 
   /* ======================================================================= */
@@ -515,7 +642,7 @@
             cssSection();
             cardsSection(first, second);
             resolverSection(second);
-            artSection(second, function () { surfaceSection(); save(); });
+            artSection(second, function () { surfaceSection(); tabSection(save); });
           });
         }, LATE);
         return;
