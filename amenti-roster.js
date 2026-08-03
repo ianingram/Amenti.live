@@ -768,7 +768,15 @@
     window.AmentiRoster.rekeyLog = function () { return REKEY_LOG; };
   } catch (e) {}
 
+  var booted = false, BOOTS = [];
+
   function boot() {
+    if (booted) {
+      BOOTS.push({ t: Math.round(performance.now()), blocked: true });
+      return;                /* one boot per page, whoever asks */
+    }
+    booted = true;
+    BOOTS.push({ t: Math.round(performance.now()), blocked: false });
     injectCss();
     var host = document.getElementById('amenti-roster');
     if (!host) return;
@@ -818,12 +826,26 @@
      falls back to a real boot only when there are no cards yet. reboot()
      stays available for a genuine reload. */
   function refresh() {
+    /* NEVER start a second boot. The first version of this fell back to
+       boot() when no cards existed yet — and amenti-art-2.js calls refresh()
+       from its IIFE, which runs BEFORE the roster is built. So the fallback
+       fired every single load and the double boot survived in a new shape.
+
+       If boot has not run, one is already scheduled by the wiring below;
+       its own render + rekey + paintPortraits cover everything refresh would
+       have done. Doing nothing here is correct. */
+    if (!booted) return;
     var host = document.getElementById('amenti-roster');
-    if (!host || !host.querySelector('.roster-card')) return boot();
+    if (!host) return;
     try { paintPortraits(host, 0); } catch (e) {}
     try { rekey(0); } catch (e) {}
     try { if (window.AmentiArtPhoto) window.AmentiArtPhoto.pass(); } catch (e) {}
   }
 
-  window.amentiRoster = { refresh: refresh, reboot: boot };
+  /* reboot() is a genuine reload — it clears the guard on purpose. */
+  window.amentiRoster = {
+    refresh: refresh,
+    reboot: function () { booted = false; return boot(); },
+    boots: function () { return BOOTS; }
+  };
 })();

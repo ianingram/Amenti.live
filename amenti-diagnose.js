@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.2';
+  var VERSION  = '1.3';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -323,7 +323,24 @@
       var calls0 = RL.filter(function (r) { return r['try'] === 0; }).length;
       w('');
       w('  total cards keyed by rekey : ' + everFixed);
-      w('  rekey(0) entry points      : ' + calls0 + (calls0 > 1 ? '   <-- boot() ran more than once' : ''));
+      w('  rekey(0) entry points      : ' + calls0 + '   (refresh() also enters at 0 — not a boot count)');
+      var BT = (window.amentiRoster && window.amentiRoster.boots) ? window.amentiRoster.boots() : null;
+      if (BT) {
+        var ran = BT.filter(function (b) { return !b.blocked; });
+        var stopped = BT.filter(function (b) { return b.blocked; });
+        w('  boot() calls               : ' + BT.length +
+          '  (ran ' + ran.length + ', blocked ' + stopped.length + ')' +
+          (ran.length > 1 ? '   <-- STILL DOUBLE BOOTING' : ''));
+        BT.forEach(function (b) {
+          w('     t=' + pad(b.t, 8) + (b.blocked ? 'blocked by guard' : 'RAN')); });
+        if (ran.length === 1) w('  time to first render      : ~' + ran[0].t + ' ms (boot start)');
+      } else {
+        w('  boot() calls               : amentiRoster.boots absent (older build)');
+      }
+      w('');
+      w('  NOTE ON TIMINGS: browsers throttle timers in background tabs. If a');
+      w('  1200 ms retry shows a multi-second gap above, the tab lost focus and');
+      w('  every t(ms) here is inflated. Keep the tab focused for a true reading.');
       if (stopped.length && !everFixed) {
         w('  STOPPED with 0 pending while cards are unkeyed —');
         w('  the :not([data-char-key]) selector is not matching them.');
