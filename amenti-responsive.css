@@ -1,0 +1,166 @@
+/* ============================================================================
+   AMENTI · RESPONSIVE LAYER
+   ----------------------------------------------------------------------------
+   Page1.html's arena block (48.7 KB) contains exactly ONE media query, and it
+   only covers gateway chrome. Every primary grid is hard-locked to a desktop
+   column count, so the roster renders as six ~60px columns on a phone.
+
+   This file adds the missing breakpoints. It is purely additive: it changes no
+   colours, no type faces and no desktop layout. Load it LAST so it wins on
+   source order without needing !important (the two exceptions are marked --
+   they override existing !important rules on .dp-headline).
+
+   INSTALL — immediately before </head>, after every other <style>/<link>:
+       <link rel="stylesheet" href="amenti-responsive.css">
+
+   Breakpoints are consolidated onto three stops. The original file mixed
+   1100 / 780 / 760 / 640 / 480, which left a 640-780px band where the nav had
+   collapsed but the gateway had not.
+       1100px  desktop  -> laptop
+        780px  laptop   -> tablet
+        560px  tablet   -> phone
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- global ---
+   Nothing should be able to push the page sideways. A single overflowing
+   child creates a horizontal scrollbar across the whole document, which on
+   mobile reads as "the site is broken".                                     */
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: clip; }
+img, svg, video, canvas { max-width: 100%; height: auto; }
+
+/* Long unbroken strings (URLs, figure names, token hashes) are the usual
+   culprit behind overflow inside a fixed grid track. */
+.roster-card, .mkt-card, .news-card, .bs-row { min-width: 0; overflow-wrap: anywhere; }
+
+/* =========================================================== <= 1100px === */
+@media (max-width: 1100px) {
+
+  /* Side gutters: the original computes max(48px, ...) at every width. Below
+     the content cap the 48px is all that applies, so we simply reduce it. */
+  #hero, nav, section, footer {
+    padding-left:  32px;
+    padding-right: 32px;
+  }
+
+  .roster-grid   { grid-template-columns: repeat(4, 1fr); }
+  .mkt-grid      { grid-template-columns: repeat(3, 1fr); }
+  .sl-flow       { grid-template-columns: repeat(3, 1fr); }
+  .news-grid     { grid-template-columns: 1.6fr 1fr; }
+  .footer-top    { grid-template-columns: 2fr 1fr 1fr; gap: 36px; }
+  .bs-hero       { grid-template-columns: 1fr 1.15fr; gap: 24px; }
+
+  .contributor   { padding: 44px 32px; gap: 28px; }
+  .newsletter    { padding: 40px 32px 28px; }
+}
+
+/* ============================================================ <= 780px === */
+@media (max-width: 780px) {
+
+  #hero, nav, section, footer {
+    padding-left:  24px;
+    padding-right: 24px;
+  }
+
+  /* 100vh on mobile is measured against the *largest* viewport, so the hero
+     sits partly under the browser chrome until the user scrolls. svh is the
+     stable equivalent; the vh line stays first as the fallback. */
+  #hero { height: 100vh; height: 100svh; }
+
+  .roster-grid   { grid-template-columns: repeat(3, 1fr); }
+  .mkt-grid      { grid-template-columns: repeat(2, 1fr); }
+  .sl-flow       { grid-template-columns: repeat(2, 1fr); }
+  .footer-top    { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  /* Single column: a 2fr/1fr/1fr editorial grid has no meaning at this width. */
+  .news-grid            { grid-template-columns: 1fr; }
+  .news-card.featured   { grid-row: span 1; }
+  .news-card.featured .nc-thumb { height: 200px; }
+  .news-card.featured .nc-title { font-size: 22px; }
+
+  /* These two override existing !important declarations. */
+  .news-card.featured .dp-headline { font-size: 22px !important; }
+  .news-card .dp-headline          { font-size: 16px !important; }
+
+  .bs-hero       { grid-template-columns: 1fr; }
+  .contributor   { grid-template-columns: 1fr; padding: 36px 24px; gap: 22px; }
+  .newsletter    { grid-template-columns: 1fr; padding: 32px 24px 24px; gap: 20px; }
+
+  .section-title   { font-size: 27px; }
+  .section-header  { gap: 12px; margin-bottom: 32px; }
+
+  /* The tab strip overflows rather than wrapping — wrapped tabs lose the
+     "one row of choices" reading. Hide the scrollbar, keep the momentum. */
+  .bs-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .bs-tabs::-webkit-scrollbar { display: none; }
+  .bs-tab { flex: 0 0 auto; }
+}
+
+/* ============================================================ <= 560px === */
+@media (max-width: 560px) {
+
+  #hero, nav, section, footer {
+    padding-left:  16px;
+    padding-right: 16px;
+  }
+
+  /* Two columns is the floor for the roster. One column turns 30+ figures
+     into an endless scroll; two keeps the grid legible as a grid. */
+  .roster-grid   { grid-template-columns: repeat(2, 1fr); }
+  .mkt-grid      { grid-template-columns: 1fr; }
+  .sl-flow       { grid-template-columns: 1fr; }
+  .footer-top    { grid-template-columns: 1fr; gap: 26px; }
+
+  /* 60px thumb + title, with tag and duration dropping to a second line. */
+  .bs-row {
+    grid-template-columns: 52px 1fr;
+    gap: 10px 12px;
+    padding: 12px 4px;
+  }
+  .bs-row-tag, .bs-row-time { grid-column: 2; justify-self: start; }
+
+  .section-title { font-size: 23px; }
+  .contributor   { padding: 28px 16px; }
+  .newsletter    { padding: 26px 16px 20px; }
+}
+
+/* ------------------------------------------------------------ touch/a11y ---
+   Below the tablet stop the page is being driven by a thumb, not a cursor.
+   44px is the WCAG 2.2 target-size minimum.                                 */
+@media (max-width: 780px) {
+  .btn-primary, .btn-secondary, .bs-tab, .nav-signin,
+  .mn-links button, .mn-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hover states never resolve on touch, so a card can stick in its hover
+     transform after a tap. Neutralise the movement, keep the colour. */
+  .roster-card:hover, .mkt-card:hover { transform: none; }
+}
+
+/* Keyboard focus. The file styles :hover throughout but never :focus-visible,
+   so a keyboard user currently has no visible position on the page. */
+:focus-visible {
+  outline: 2px solid var(--gold, #d4a017);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Reduced motion. Three of the four page blocks already honour this; the
+   arena block does not, and it owns 32 of the file's keyframe animations. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
