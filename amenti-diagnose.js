@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.1';
+  var VERSION  = '1.2';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -104,7 +104,7 @@
      tokens, so "the repo has the fix" and "the browser is running it" become
      two separate, answerable questions.                                      */
   var FEATURES = {
-    'amenti-roster.js'   : ['function rekey(', 'AmentiArtPhoto.pass()'],
+    'amenti-roster.js'   : ['function rekey(', 'AmentiArtPhoto.pass()', 'REKEY_LOG'],
     'amenti-art-photo.js': ['function sweep(', 'function strip('],
     'amenti-diagnose.js' : ['FRESHNESS'],
     'Page1.html'         : ['rc-img[data-fig]', 'FEED_LIMIT=7', 'bandWrap']
@@ -301,6 +301,34 @@
     w('indexed forms   : ' + Object.keys(idx).length);
     w('canonical recs  : ' + Object.keys(recs).length);
     w('collisions      : ' + col.length);
+
+    sub('rekey trace — did the re-key pass run, and what did it see?');
+    var RL = (window.AmentiRoster && window.AmentiRoster.rekeyLog)
+             ? window.AmentiRoster.rekeyLog() : null;
+    if (!RL) {
+      w('  window.AmentiRoster.rekeyLog absent — amenti-roster.js has no trace,');
+      w('  i.e. it is an older build than the one that carries rekey().');
+    } else if (!RL.length) {
+      w('  TRACE EMPTY — rekey() was never called. render() may not have been');
+      w('  reached, or boot() rejected before it.');
+    } else {
+      w('  ' + pad('t(ms)', 8) + pad('try', 5) + pad('cards', 7) + pad('pending', 9) +
+        pad('fixed', 7) + pad('chars', 7) + 'codexFor sample / note');
+      RL.forEach(function (r) {
+        w('  ' + pad(r.t, 8) + pad(r['try'], 5) + pad(r.cards, 7) + pad(r.pending, 9) +
+          pad(r.fixed, 7) + pad(r.chars, 7) + (r.sample || r.note || ''));
+      });
+      var stopped = RL.filter(function (r) { return r.note; });
+      var everFixed = RL.reduce(function (n, r) { return n + (r.fixed || 0); }, 0);
+      var calls0 = RL.filter(function (r) { return r['try'] === 0; }).length;
+      w('');
+      w('  total cards keyed by rekey : ' + everFixed);
+      w('  rekey(0) entry points      : ' + calls0 + (calls0 > 1 ? '   <-- boot() ran more than once' : ''));
+      if (stopped.length && !everFixed) {
+        w('  STOPPED with 0 pending while cards are unkeyed —');
+        w('  the :not([data-char-key]) selector is not matching them.');
+      }
+    }
 
     sub('per-card resolution (only cards that FAILED or disagree)');
     w(pad('FIGURE', 26) + pad('resolve(name)', 22) + pad('record.key', 20) + 'data-char-key');

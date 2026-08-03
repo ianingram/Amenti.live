@@ -707,10 +707,22 @@
 
      paintPortraits solves the same race with six retries and says so in its
      own comment. This is that guard, for the key rather than the drawing. */
+  /* A TRACE, because this failed silently on the live page while passing in
+     isolation. Every call records what it saw, so the diagnostic can report
+     whether rekey ran at all, when, how many cards were pending, and what
+     codexFor actually answered — instead of us inferring it. */
+  var REKEY_LOG = [];
+
   function rekey(tries) {
     tries = tries || 0;
+    var t = Math.round(performance.now());
     var pending = document.querySelectorAll('.roster-card[data-figure]:not([data-char-key])');
-    if (!pending.length) return;
+    var allCards = document.querySelectorAll('.roster-card').length;
+    if (!pending.length) {
+      REKEY_LOG.push({ t: t, try: tries, cards: allCards, pending: 0, fixed: 0,
+                       chars: (window.AMENTI_CHARS || []).length, note: 'nothing pending — STOPPED' });
+      return;
+    }
 
     /* AMENTI_CHARS may have been REPLACED since the index was built, so
        rebuild before asking it anything. Cheap and idempotent. */
@@ -720,12 +732,18 @@
       try { if (window.AmentiResolve) window.AmentiResolve.build(); } catch (e) {}
     }
 
-    var fixed = 0;
+    var fixed = 0, sample = null;
     for (var i = 0; i < pending.length; i++) {
       var el = pending[i];
-      var rec = codexFor(el.getAttribute('data-figure'));
+      var fg = el.getAttribute('data-figure');
+      var rec = codexFor(fg);
+      if (i === 0) sample = fg + ' -> ' + (rec ? ('rec.key=' + rec.key) : 'NULL');
       if (rec && rec.key) { el.setAttribute('data-char-key', rec.key); fixed++; }
     }
+
+    REKEY_LOG.push({ t: t, try: tries, cards: allCards, pending: pending.length,
+                     fixed: fixed, chars: (window.AMENTI_CHARS || []).length,
+                     sample: sample });
 
     if (fixed) {
       /* amenti-art-photo observes childList only, so an attribute write does
@@ -742,6 +760,13 @@
     if (tries < 20) setTimeout(function () { rekey(tries + 1); }, 1200);
   }
   rekey._seen = -1;
+
+  /* exposed so amenti-diagnose can read the trace */
+  try {
+    window.AmentiRoster = window.AmentiRoster || {};
+    window.AmentiRoster.rekey = rekey;
+    window.AmentiRoster.rekeyLog = function () { return REKEY_LOG; };
+  } catch (e) {}
 
   function boot() {
     injectCss();
