@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.0';
+  var VERSION  = '1.1';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -92,6 +92,80 @@
       .forEach(function (g) { w('  ' + pad(g, 24) + (window[g] ? 'present' : 'absent')); });
     if (window.AmentiResolve && window.AmentiResolve.version)
       w('  resolver version        ' + window.AmentiResolve.version);
+  }
+
+  /* ======================================================================= */
+  /* 1b. FRESHNESS — is the browser running the code that is in the repo?    */
+  /* -----------------------------------------------------------------------
+     The recurring failure in this project has been diagnosing a page that
+     was running cached JavaScript. Resource Timing settles it: a response
+     served from cache reports transferSize 0 with a non-zero decodedBodySize.
+     Then we fetch the repo copy with cache:'no-store' and look for feature
+     tokens, so "the repo has the fix" and "the browser is running it" become
+     two separate, answerable questions.                                      */
+  var FEATURES = {
+    'amenti-roster.js'   : ['function rekey(', 'AmentiArtPhoto.pass()'],
+    'amenti-art-photo.js': ['function sweep(', 'function strip('],
+    'amenti-diagnose.js' : ['FRESHNESS'],
+    'Page1.html'         : ['rc-img[data-fig]', 'FEED_LIMIT=7', 'bandWrap']
+  };
+
+  function freshSection(cb) {
+    hr('1b. FRESHNESS — cached code vs repo code');
+    var res = {};
+    try {
+      (performance.getEntriesByType('resource') || []).forEach(function (e) {
+        var n = e.name.split('/').pop().split('?')[0];
+        res[n] = e;
+      });
+    } catch (e) {}
+
+    sub('what the BROWSER loaded');
+    w('  ' + pad('file', 26) + pad('transfer', 11) + pad('decoded', 11) + 'verdict');
+    var names = Object.keys(FEATURES);
+    names.forEach(function (f) {
+      var e = res[f];
+      if (!e) { w('  ' + pad(f, 26) + pad('-', 11) + pad('-', 11) + 'not in Resource Timing'); return; }
+      var t = e.transferSize, dz = e.decodedBodySize;
+      var v = (t === 0 && dz > 0) ? 'FROM CACHE  <-- may be stale'
+            : (t > 0 ? 'fetched from network' : 'unknown');
+      w('  ' + pad(f, 26) + pad(t == null ? '?' : t, 11) + pad(dz == null ? '?' : dz, 11) + v);
+    });
+
+    sub('what the REPO holds (fetched cache:no-store)');
+    var pending = names.length, lines = [];
+    names.forEach(function (f) {
+      fetch(BASE + f, { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.text() : Promise.reject('http ' + r.status); })
+        .then(function (txt) {
+          var miss = FEATURES[f].filter(function (tok) { return txt.indexOf(tok) === -1; });
+          lines.push('  ' + pad(f, 26) + pad(txt.length + ' b', 12) +
+            (miss.length ? 'MISSING: ' + miss.join(', ') : 'all expected markers present'));
+        })
+        .catch(function (e) { lines.push('  ' + pad(f, 26) + 'FETCH FAILED: ' + e); })
+        .then(function () { if (!--pending) { lines.sort().forEach(w); after(); } });
+    });
+
+    function after() {
+      sub('verdict');
+      var cached = names.filter(function (f) {
+        var e = res[f]; return e && e.transferSize === 0 && e.decodedBodySize > 0; });
+      if (cached.length) {
+        w('  ' + cached.length + ' file(s) came FROM CACHE: ' + cached.join(', '));
+        w('  If the repo shows markers present but behaviour has not changed,');
+        w('  the browser is running old code. Hard-reload (Cmd/Ctrl+Shift+R)');
+        w('  or use a private window, then re-run this diagnostic.');
+      } else {
+        w('  Nothing served from cache — the browser is running repo code.');
+        w('  A behaviour that still does not change is a real bug, not staleness.');
+      }
+      /* live proof: does the running roster expose the fix? */
+      sub('running-code probe');
+      w('  window.AmentiArtPhoto.sweep : ' +
+        (window.AmentiArtPhoto && typeof window.AmentiArtPhoto.sweep === 'function'
+          ? 'present (art-photo sweep IS running)' : 'ABSENT (art-photo is stale or unpatched)'));
+      cb();
+    }
   }
 
   /* ======================================================================= */
@@ -392,10 +466,12 @@
         setTimeout(function () {
           var second = snapshot();
           envSection(elapsed, settled);
-          cssSection();
-          cardsSection(first, second);
-          resolverSection(second);
-          artSection(second, function () { surfaceSection(); save(); });
+          freshSection(function () {
+            cssSection();
+            cardsSection(first, second);
+            resolverSection(second);
+            artSection(second, function () { surfaceSection(); save(); });
+          });
         }, LATE);
         return;
       }
