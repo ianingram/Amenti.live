@@ -8,20 +8,27 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-03T06:03:52.418Z",
-    "reading": "2026-08-03T06:03:52.304Z",
+    "merged": "2026-08-03T20:36:04.547Z",
+    "reading": "2026-08-03T20:36:04.429Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
-    "contradicted": 0,
+    "contradicted": 1,
     "unproven": 4,
     "undeclared": 22,
-    "adrift": 2,
-    "clean": true
+    "adrift": 1,
+    "clean": false
   },
   "drift": [
+    {
+      "stamp": "CONTRADICTED",
+      "subject": "Page1.html",
+      "claim": "declared as \"The Stardust Engine\"",
+      "reading": "NOT IN THE REPO",
+      "note": "A ship on the roll that never sailed. amenti-worker-listen.js was on the old manifest for months."
+    },
     {
       "stamp": "ADRIFT",
       "subject": "amenti-voice.js",
@@ -30,73 +37,66 @@ window.FLEET_MANIFEST = {
       "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
     },
     {
-      "stamp": "ADRIFT",
-      "subject": "amenti-cassiel.js",
-      "claim": "\"Cassiel, Reader of Names\" — crew",
-      "reading": "loaded, and NOTHING CALLS Amenti.cassiel",
-      "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
-    },
-    {
       "stamp": "UNDECLARED",
       "subject": "amenti-art-2.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-art-3.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-art-photo.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-bay.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-canonical.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-diagnose.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-flourish.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-manifest.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-mascot.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
@@ -110,21 +110,21 @@ window.FLEET_MANIFEST = {
       "stamp": "UNDECLARED",
       "subject": "amenti-motion.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-probe-loader.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-profile.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
@@ -138,28 +138,28 @@ window.FLEET_MANIFEST = {
       "stamp": "UNDECLARED",
       "subject": "amenti-resolve.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-roster-view.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-roster.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-vallhalla-signup.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
@@ -220,12 +220,12 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-08-03T00:57:49.198Z",
+    "at": "2026-08-03T18:55:26.335Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 68,
+      "count": 70,
       "prefixes": {
-        "atlantica:": 65,
+        "atlantica:": 67,
         "dailyplanet:": 3
       }
     },
@@ -237,12 +237,12 @@ window.FLEET_MANIFEST = {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 52,
+        "fired": 54,
         "last": {
-          "date": "2026-08-02",
-          "figure": "manlius"
+          "date": "2026-08-03",
+          "figure": "helen-keller"
         },
-        "lastAgeDays": 1,
+        "lastAgeDays": 0,
         "missedLast14": [
           "2026-07-28",
           "2026-07-27",
@@ -250,6 +250,16 @@ window.FLEET_MANIFEST = {
           "2026-07-20"
         ],
         "recent": [
+          {
+            "figure": "helen-keller",
+            "date": "2026-08-03",
+            "key": "atlantica:helen-keller:2026-08-03"
+          },
+          {
+            "figure": "helen-keller",
+            "date": "2026-08-02",
+            "key": "atlantica:helen-keller:2026-08-02"
+          },
           {
             "figure": "manlius",
             "date": "2026-08-02",
@@ -309,19 +319,9 @@ window.FLEET_MANIFEST = {
             "figure": "leif-erikson",
             "date": "2026-07-23",
             "key": "atlantica:leif-erikson:2026-07-23"
-          },
-          {
-            "figure": "lincoln",
-            "date": "2026-07-23",
-            "key": "atlantica:lincoln:2026-07-23"
-          },
-          {
-            "figure": "ayn-rand",
-            "date": "2026-07-22",
-            "key": "atlantica:ayn-rand:2026-07-22"
           }
         ],
-        "note": "52 dispatch(es) in the hold · last 2026-08-02 (manlius) · MISSED 4 of the last 14 days"
+        "note": "54 dispatch(es) in the hold · last 2026-08-03 (helen-keller) · MISSED 4 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -405,34 +405,8 @@ window.FLEET_MANIFEST = {
       },
       "group": "ships",
       "stamps": [
-        "CONFIRMED"
-      ],
-      "bytes": 555529,
-      "sha256": "4a744fd5a2329093",
-      "declares": [
-        "AMENTI_CHARS",
-        "AMENTI_ERAS",
-        "AMENTI_GROUPS",
-        "AMENTI_LIBRARY_KEYS",
-        "AMENTI_SVG",
-        "AMENTI_VOICE",
-        "Amenti",
-        "Amenti.gateway",
-        "Amenti.micLamp",
-        "Amenti.silence",
-        "Amenti.terminal",
-        "Amenti.terminalPath",
-        "AmentiBrowseRefresh",
-        "AmentiCodexOpen",
-        "AmentiCodexRefresh",
-        "AmentiCost",
-        "AmentiCounselRefresh",
-        "AmentiGroupFor",
-        "AmentiModel",
-        "AmentiTerminal",
-        "claude"
-      ],
-      "loadedBy": []
+        "CONTRADICTED"
+      ]
     },
     {
       "file": "Page2.html",
@@ -614,7 +588,6 @@ window.FLEET_MANIFEST = {
         "AMENTI_CONFIG"
       ],
       "loadedBy": [
-        "Page1.html",
         "Page2.html",
         "court.html",
         "docket.html",
@@ -641,9 +614,7 @@ window.FLEET_MANIFEST = {
         "Amenti.closeReadingRoom",
         "Amenti.openReadingRoom"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-voice.js",
@@ -668,7 +639,6 @@ window.FLEET_MANIFEST = {
         "Amenti.voice"
       ],
       "loadedBy": [
-        "Page1.html",
         "weighing.html"
       ]
     },
@@ -713,9 +683,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.listen"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-chat.js",
@@ -736,9 +704,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.chat"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-doctrine.js",
@@ -759,9 +725,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.doctrine"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-probe.js",
@@ -782,9 +746,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.probe"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-cassiel.js",
@@ -797,7 +759,7 @@ window.FLEET_MANIFEST = {
       },
       "group": "crew",
       "stamps": [
-        "ADRIFT"
+        "CONFIRMED"
       ],
       "bytes": 14115,
       "sha256": "952b3a39ab638e8a",
@@ -805,9 +767,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.cassiel"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-readaloud.js",
@@ -827,9 +787,7 @@ window.FLEET_MANIFEST = {
       "declares": [
         "amentiReadAloud"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-auth.js",
@@ -850,7 +808,6 @@ window.FLEET_MANIFEST = {
         "amentiAuth"
       ],
       "loadedBy": [
-        "Page1.html",
         "weighing.html"
       ]
     },
@@ -872,9 +829,7 @@ window.FLEET_MANIFEST = {
       "declares": [
         "amentiQuiz"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-leaderboard.js",
@@ -894,9 +849,7 @@ window.FLEET_MANIFEST = {
       "declares": [
         "amentiLeaderboard"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "voiceprofiles.js",
@@ -935,7 +888,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-03T00:57:48.428Z",
+        "at": "2026-08-03T18:55:23.485Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -953,7 +906,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-03T00:57:48.428Z",
+        "at": "2026-08-03T18:55:23.485Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -971,7 +924,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-03T00:57:48.428Z",
+        "at": "2026-08-03T18:55:23.485Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -1002,7 +955,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-03T00:57:48.428Z",
+        "at": "2026-08-03T18:55:23.485Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
