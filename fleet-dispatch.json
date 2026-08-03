@@ -1,10 +1,10 @@
 {
-  "at": "2026-08-03T00:57:49.198Z",
+  "at": "2026-08-03T07:27:41.082Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 68,
+    "count": 70,
     "prefixes": {
-      "atlantica:": 65,
+      "atlantica:": 67,
       "dailyplanet:": 3
     }
   },
@@ -16,12 +16,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 52,
+      "fired": 54,
       "last": {
-        "date": "2026-08-02",
-        "figure": "manlius"
+        "date": "2026-08-03",
+        "figure": "helen-keller"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
@@ -29,6 +29,16 @@
         "2026-07-20"
       ],
       "recent": [
+        {
+          "figure": "helen-keller",
+          "date": "2026-08-03",
+          "key": "atlantica:helen-keller:2026-08-03"
+        },
+        {
+          "figure": "helen-keller",
+          "date": "2026-08-02",
+          "key": "atlantica:helen-keller:2026-08-02"
+        },
         {
           "figure": "manlius",
           "date": "2026-08-02",
@@ -88,19 +98,9 @@
           "figure": "leif-erikson",
           "date": "2026-07-23",
           "key": "atlantica:leif-erikson:2026-07-23"
-        },
-        {
-          "figure": "lincoln",
-          "date": "2026-07-23",
-          "key": "atlantica:lincoln:2026-07-23"
-        },
-        {
-          "figure": "ayn-rand",
-          "date": "2026-07-22",
-          "key": "atlantica:ayn-rand:2026-07-22"
         }
       ],
-      "note": "52 dispatch(es) in the hold · last 2026-08-02 (manlius) · MISSED 4 of the last 14 days"
+      "note": "54 dispatch(es) in the hold · last 2026-08-03 (helen-keller) · MISSED 4 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
