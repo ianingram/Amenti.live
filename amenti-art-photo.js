@@ -74,6 +74,38 @@
     return (rec && rec.key) ? norm(rec.key) : '';
   }
 
+  /* ---- THE PUPPET/RENDERING SWEEP ---------------------------------------
+     THREE painters write into .rc-img and none of them know about each other:
+
+       amenti-roster.js  fitArt()  appends <svg>, class stripped
+       amenti-art-3.js   inject()  appends <svg> with an INLINE style.display
+       this file         decorate() sets the background, and alone sets data-fig
+
+     A stylesheet rule cannot suppress art-3's overlay, because art-3 writes
+     display:block as an inline style and inline beats any selector. So the
+     photograph-over-drawing precedence has to be enforced from script.
+
+     Removal is terminal rather than a running battle: art-3 marks the card
+     data-art3="done" as it injects and its own pass matches
+     [data-figure]:not([data-art3]), so it will not come back for that card.
+
+     Scoped to tiles carrying data-fig — i.e. tiles where a photograph
+     actually loaded. A figure with no plate keeps its drawing, which is the
+     whole point. This is precedence, not retirement. */
+  function strip(host) {
+    if (!host || !host.hasAttribute('data-fig')) return;
+    var svgs = host.querySelectorAll('svg');
+    for (var i = 0; i < svgs.length; i++) svgs[i].parentNode.removeChild(svgs[i]);
+  }
+
+  /* art-3 and paintPortraits are async and may land after decorate() has run,
+     so the sweep repeats on every pass rather than only at paint time. */
+  function sweep() {
+    var tiles = document.querySelectorAll(
+      '.rc-img[data-fig], .nc-thumb[data-fig], .mkt-thumb[data-fig]');
+    for (var i = 0; i < tiles.length; i++) strip(tiles[i]);
+  }
+
   function decorate(el, key) {
     var host = el.querySelector('.rc-img, .nc-thumb, .mkt-thumb');
     if (!host) return;
@@ -82,7 +114,8 @@
     host.style.backgroundSize     = 'cover';
     host.style.backgroundPosition = '50% 18%';
     host.setAttribute('data-fig', key);          /* grades.css hooks this */
-    el.setAttribute('data-art3', 'done');        /* art-3 skips it */
+    strip(host);                                 /* photograph wins the tile */
+    el.setAttribute('data-art3', 'done');        /* art-3 skips it hereafter */
     el.setAttribute('data-art-photo', 'done');
     done++;
   }
@@ -196,7 +229,7 @@
     probe.src = BASE + slot + '.jpg';
   }
 
-  function pass() { passCards(); passCodex(); passTerminal(); }
+  function pass() { passCards(); sweep(); passCodex(); passTerminal(); }
 
   new MutationObserver(pass).observe(document.documentElement,
     { childList: true, subtree: true });
@@ -206,5 +239,5 @@
   else pass();
 
   window.AmentiArtPhoto = { pass: pass, count: function () { return done; },
-                            known: known, plate: plate };
+                            known: known, plate: plate, sweep: sweep };
 })();
