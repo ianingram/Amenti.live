@@ -1,0 +1,43 @@
+{
+  "key": "galileo-galilei",
+  "name": "Galileo Galilei",
+  "note": "A room of what Galileo actually published, in translations that are genuinely out of copyright. That constraint shapes the shelf: the two works Project Gutenberg holds are here as verified text, and the Two New Sciences is linked to the 1914 Crew and de Salvio translation rather than reproduced, because no Gutenberg edition exists. The Letter to the Grand Duchess Christina is deliberately absent — the translation everyone quotes is Stillman Drake's from 1957 and is still in copyright. The public-domain alternative is Thomas Salusbury's of 1661, in his Mathematical Collections and Translations; when a clean scan of that is prepared the letter belongs here, and it is the most important thing missing.",
+  "works": [
+    {
+      "id": "01-sidereal-messenger-1610",
+      "section": "The Telescope · 1610–1613",
+      "title": "The Sidereal Messenger (Sidereus Nuncius, Venice, 1610)",
+      "mode": "link",
+      "source": "tr. Edward Stafford Carlos, 1880 · Project Gutenberg #46036 · public domain",
+      "note": "Written in weeks and printed in a hurry: mountains on the moon, the Milky Way resolved into stars, and four bodies moving around Jupiter that he named for the Medici. The book that made him famous and made the trouble.",
+      "url": "https://www.gutenberg.org/ebooks/46036"
+    },
+    {
+      "id": "02-bodies-in-water-1612",
+      "section": "The Telescope · 1610–1613",
+      "title": "Discourse Concerning the Natation of Bodies Upon, and Submersion In, the Water (1612)",
+      "mode": "link",
+      "source": "tr. Thomas Salusbury, 1663 · Project Gutenberg #37729 · public domain",
+      "note": "Presented to Cosimo II. An argument with the Aristotelians about why things float — shape or density — and an early demonstration of what he meant by settling a question with an experiment rather than an authority.",
+      "url": "https://www.gutenberg.org/ebooks/37729"
+    },
+    {
+      "id": "03-two-new-sciences-1638",
+      "section": "Under House Arrest · 1633–1642",
+      "title": "Dialogues Concerning Two New Sciences (Leiden, 1638)",
+      "mode": "link",
+      "source": "tr. Henry Crew and Alfonso de Salvio, Macmillan, 1914 · Online Library of Liberty · public domain",
+      "note": "Written blind and under house arrest at Arcetri, smuggled out to a Dutch printer because he was forbidden to publish. The strength of materials and the law of falling bodies — the foundations Newton would build on. Not on Project Gutenberg, so it is linked rather than stored.",
+      "url": "https://oll.libertyfund.org/titles/galilei-dialogues-concerning-two-new-sciences"
+    },
+    {
+      "id": "04-two-new-sciences-scan-1914",
+      "section": "Under House Arrest · 1633–1642",
+      "title": "Two New Sciences — the 1914 Macmillan printing, scanned",
+      "mode": "link",
+      "source": "Internet Archive · Cornell University copy · public domain",
+      "note": "The same translation as a page scan, with Favaro's introduction and the reproduction of the 1638 title page. Useful where the plain text loses the diagrams.",
+      "url": "https://archive.org/details/cu31924012322701"
+    }
+  ]
+}
