@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.8';
+  var VERSION  = '2.0';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -829,6 +829,73 @@
     }
   }
 
+
+  /* ======================================================================= */
+  /* 9. THE FLIGHT RECORDER — what actually held the thread                  */
+  /* -----------------------------------------------------------------------
+     Read from window.__AT, filled by an inline snippet at the very top of
+     <head> that started before any other script ran. A deferred diagnostic
+     cannot see the work that happened before it loaded, which is exactly the
+     work in question. This section replaces driving DevTools by hand.        */
+  function recorderSection() {
+    hr('9. WHAT HELD THE MAIN THREAD');
+    var T = window.__AT;
+    if (!T) {
+      w('  window.__AT absent — this Page1.html does not carry the recorder.');
+      w('  Deploy the version with the inline snippet at the top of <head>.');
+      return;
+    }
+    sub('9a. milestones');
+    (T.marks || []).forEach(function (m) {
+      w('  ' + pad(m.at + ' ms', 12) + m.w +
+        (m.took != null ? '   (' + m.took + ' ms from click to paint)' : ''));
+    });
+
+    sub('9b. blocking, measured by heartbeat');
+    w('  A tick is scheduled every 50 ms. A longer gap means the thread was busy');
+    w('  for the difference. Works in every browser, needs no API.');
+    w('');
+    var gaps = (T.gaps || []).slice().sort(function (a, b) { return b.d - a.d; });
+    if (!gaps.length) w('  no gap over 220 ms — the thread was never blocked for long');
+    else {
+      w('  ' + pad('started', 12) + pad('blocked for', 14) + 'bar (1 # = 100ms)');
+      gaps.slice(0, 18).forEach(function (g) {
+        w('  ' + pad(g.s + ' ms', 12) + pad(g.d + ' ms', 14) +
+          Array(Math.min(40, Math.round(g.d / 100)) + 1).join('#'));
+      });
+      var total = gaps.reduce(function (n, g) { return n + g.d; }, 0);
+      w('');
+      w('  worst single block : ' + gaps[0].d + ' ms, starting at ' + gaps[0].s + ' ms');
+      w('  total blocked      : ' + total + ' ms across ' + gaps.length + ' stalls');
+    }
+
+    sub('9c. long tasks, with attribution');
+    if (!T.longtaskSupported) {
+      w('  This browser has no PerformanceObserver longtask, so there is no');
+      w('  attribution. The heartbeat above still measured the blocking — it');
+      w('  simply cannot name the file. Cross-reference 9b against 9a.');
+    } else if (!(T.long || []).length) {
+      w('  no long tasks recorded');
+    } else {
+      w('  ' + pad('started', 12) + pad('duration', 12) + 'attributed to');
+      T.long.slice().sort(function (a, b) { return b.d - a.d; }).slice(0, 18)
+        .forEach(function (e) {
+          w('  ' + pad(e.s + ' ms', 12) + pad(e.d + ' ms', 12) +
+            (e.c || e.n || '(unattributed)'));
+        });
+    }
+
+    sub('9d. how to read it');
+    w('  Compare the worst stall in 9b against the milestones in 9a:');
+    w('    before DOMContentLoaded      parsing and executing the blocking');
+    w('                                 scripts, or one of the inline blocks');
+    w('    after load, before a click   the ledger — fetch, parse, merge of');
+    w('                                 1,007 records, resolver indexing');
+    w('    after "click <tab>"          that section building itself. The');
+    w('                                 paint figure on the same line in 9a is');
+    w('                                 the true cost of the tab switch.');
+  }
+
   /* ======================================================================= */
   /* download                                                                */
   /* ======================================================================= */
@@ -882,7 +949,13 @@
             cssSection();
             cardsSection(first, second);
             resolverSection(second);
-            artSection(second, function () { surfaceSection(); tabSection(function () { riskSection(save); }); });
+            /* ORDER: the recorder answers the question this run is for, so it goes
+             first. The tab sweep is optional and has stalled before. */
+          artSection(second, function () {
+            surfaceSection();
+            recorderSection();
+            riskSection(function () { tabSection(save); });
+          });
           });
         }, LATE);
         return;
