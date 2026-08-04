@@ -1,235 +1,11 @@
 {
   "meta": {
-    "generated": "2026-08-04T00:17:30.163Z",
+    "generated": "2026-08-04T00:18:50.589Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
   },
   "files": [
-    {
-      "file": "Page1.html",
-      "bytes": 532816,
-      "sha256": "ec8460e903706d0c",
-      "type": "html",
-      "declares": [
-        "AMENTI_CHARS",
-        "AMENTI_ERAS",
-        "AMENTI_GROUPS",
-        "AMENTI_LIBRARY_KEYS",
-        "AMENTI_SVG",
-        "AMENTI_VOICE",
-        "Amenti",
-        "Amenti.gateway",
-        "Amenti.micLamp",
-        "Amenti.silence",
-        "Amenti.terminal",
-        "Amenti.terminalPath",
-        "AmentiBrowseRefresh",
-        "AmentiCodexOpen",
-        "AmentiCodexRefresh",
-        "AmentiCost",
-        "AmentiCounselRefresh",
-        "AmentiGroupFor",
-        "AmentiModel",
-        "AmentiTerminal",
-        "claude"
-      ],
-      "loads": [
-        {
-          "file": "config.js",
-          "line": 722
-        },
-        {
-          "file": "amenti-resolve.js",
-          "line": 738
-        },
-        {
-          "file": "amenti-doctrine.js",
-          "line": 5925
-        },
-        {
-          "file": "amenti-voice.js",
-          "line": 5944
-        },
-        {
-          "file": "amenti-listen.js",
-          "line": 5945
-        },
-        {
-          "file": "amenti-chat.js",
-          "line": 5946
-        },
-        {
-          "file": "library.js",
-          "line": 7039
-        },
-        {
-          "file": "amenti-cassiel.js",
-          "line": 7040
-        },
-        {
-          "file": "amenti-manifest.js",
-          "line": 7046
-        },
-        {
-          "file": "amenti-probe.js",
-          "line": 7047
-        },
-        {
-          "file": "amenti-canonical.js",
-          "line": 7053
-        },
-        {
-          "file": "amenti-auth.js",
-          "line": 7929
-        },
-        {
-          "file": "amenti-quiz.js",
-          "line": 7930
-        },
-        {
-          "file": "amenti-roster.js",
-          "line": 7931
-        },
-        {
-          "file": "amenti-roster-view.js",
-          "line": 7932
-        },
-        {
-          "file": "amenti-bay.js",
-          "line": 7933
-        },
-        {
-          "file": "amenti-motion.js",
-          "line": 7934
-        },
-        {
-          "file": "amenti-art-2.js",
-          "line": 7935
-        },
-        {
-          "file": "amenti-leaderboard.js",
-          "line": 7936
-        },
-        {
-          "file": "amenti-readaloud.js",
-          "line": 7937
-        },
-        {
-          "file": "amenti-vallhalla-signup.js",
-          "line": 7940
-        },
-        {
-          "file": "amenti-flourish.js",
-          "line": 7941
-        },
-        {
-          "file": "amenti-mascot.js",
-          "line": 7942
-        },
-        {
-          "file": "amenti-profile.js",
-          "line": 7943
-        },
-        {
-          "file": "amenti-probe-loader.js",
-          "line": 7944
-        },
-        {
-          "file": "amenti-art-photo.js",
-          "line": 7945
-        },
-        {
-          "file": "amenti-diagnose.js",
-          "line": 7947
-        },
-        {
-          "file": "amenti-art-3.js",
-          "line": 7948
-        }
-      ],
-      "calls": [
-        {
-          "global": "AMENTI_CONFIG",
-          "line": 742,
-          "when": "iife",
-          "own": false
-        },
-        {
-          "global": "AmentiCost",
-          "line": 782,
-          "when": "function",
-          "own": true
-        },
-        {
-          "global": "Amenti.throttle",
-          "line": 1786,
-          "when": "function",
-          "own": false
-        },
-        {
-          "global": "AmentiTerminal",
-          "line": 2479,
-          "when": "function",
-          "own": true
-        },
-        {
-          "global": "AMENTI_CHARS",
-          "line": 5690,
-          "when": "iife",
-          "own": true
-        },
-        {
-          "global": "AMENTI_ERAS",
-          "line": 5793,
-          "when": "iife",
-          "own": true
-        },
-        {
-          "global": "Amenti.chat",
-          "line": 6087,
-          "when": "iife",
-          "own": false
-        },
-        {
-          "global": "AMENTI_VOICE",
-          "line": 6192,
-          "when": "function",
-          "own": true
-        },
-        {
-          "global": "Amenti.micLamp",
-          "line": 6224,
-          "when": "function",
-          "own": true
-        },
-        {
-          "global": "Amenti.silence",
-          "line": 7503,
-          "when": "function",
-          "own": true
-        },
-        {
-          "global": "Amenti.voice",
-          "line": 7528,
-          "when": "function",
-          "own": false
-        },
-        {
-          "global": "Amenti.listen",
-          "line": 7530,
-          "when": "function",
-          "own": false
-        }
-      ],
-      "endpoints": [
-        "/article",
-        "/article/generate",
-        "/atlantica/daily",
-        "/speak"
-      ],
-      "tables": []
-    },
     {
       "file": "Page2.html",
       "bytes": 1499623,
@@ -1125,7 +901,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 45181,
-      "sha256": "0fd57e150b9e7fd3",
+      "sha256": "f4cc1998694a9580",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1484,56 +1260,56 @@
         "declares": [
           "AmentiArtPhoto"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-bay.js",
         "declares": [
           "amentiBay"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-canonical.js",
         "declares": [
           "Amenti.canonical"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-cassiel.js",
         "declares": [
           "Amenti.cassiel"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-diagnose.js",
         "declares": [
           "AmentiDiagnose"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-flourish.js",
         "declares": [
           "amentiFlourish"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-mascot.js",
         "declares": [
           "amentiMascot"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-migration-audit.js",
@@ -1548,40 +1324,40 @@
         "declares": [
           "amentiMotion"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-probe-loader.js",
         "declares": [
           "amentiRosterView"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-profile.js",
         "declares": [
           "amentiProfile"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-resolve.js",
         "declares": [
           "AmentiResolve"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-roster-view.js",
         "declares": [
           "amentiRosterView"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-roster.js",
@@ -1591,8 +1367,8 @@
           "AmentiRoster",
           "amentiRoster"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-voice.js",
