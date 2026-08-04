@@ -1,14 +1,14 @@
 {
-  "at": "2026-08-03T18:55:26.335Z",
+  "at": "2026-08-04T00:55:09.020Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 70,
+    "count": 71,
     "prefixes": {
-      "atlantica:": 67,
+      "atlantica:": 68,
       "dailyplanet:": 3
     }
   },
-  "today": "2026-08-03",
+  "today": "2026-08-04",
   "thisWeek": "2026-08-02",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -16,19 +16,23 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 54,
+      "fired": 55,
       "last": {
         "date": "2026-08-03",
-        "figure": "helen-keller"
+        "figure": "ayn-rand"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
-        "2026-07-26",
-        "2026-07-20"
+        "2026-07-26"
       ],
       "recent": [
+        {
+          "figure": "ayn-rand",
+          "date": "2026-08-03",
+          "key": "atlantica:ayn-rand:2026-08-03"
+        },
         {
           "figure": "helen-keller",
           "date": "2026-08-03",
@@ -93,14 +97,9 @@
           "figure": "musashi",
           "date": "2026-07-24",
           "key": "atlantica:musashi:2026-07-24"
-        },
-        {
-          "figure": "leif-erikson",
-          "date": "2026-07-23",
-          "key": "atlantica:leif-erikson:2026-07-23"
         }
       ],
-      "note": "54 dispatch(es) in the hold · last 2026-08-03 (helen-keller) · MISSED 4 of the last 14 days"
+      "note": "55 dispatch(es) in the hold · last 2026-08-03 (ayn-rand) · MISSED 3 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
