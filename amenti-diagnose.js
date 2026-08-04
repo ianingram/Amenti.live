@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.7';
+  var VERSION  = '1.8';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -48,6 +48,29 @@
     } catch (e) {}
   })();
   function w(s) { L.push(s == null ? '' : String(s)); }
+
+  /* EVERY fetch here is to something that may not answer — a worker, a CDN,
+     a file that no longer exists. v1.7 had no timeouts, so one request that
+     never settled meant the report was never written and nothing downloaded
+     at all. A diagnostic that can hang is worse than none: it reports
+     nothing and looks like the page is broken. */
+  function fetchT(url, opts, ms) {
+    ms = ms || 6000;
+    return new Promise(function (resolve, reject) {
+      var done = false, ctl = null;
+      try { ctl = new AbortController(); if (opts) opts.signal = ctl.signal; else opts = { signal: ctl.signal }; } catch (e) {}
+      var t = setTimeout(function () {
+        if (done) return; done = true;
+        try { if (ctl) ctl.abort(); } catch (e) {}
+        reject('timeout after ' + ms + 'ms');
+      }, ms);
+      fetch(url, opts).then(function (r) {
+        if (done) return; done = true; clearTimeout(t); resolve(r);
+      }, function (e) {
+        if (done) return; done = true; clearTimeout(t); reject(e);
+      });
+    });
+  }
   function hr(s) { w(''); w(Array(75).join('=')); w(s); w(Array(75).join('=')); }
   function sub(s) { w(''); w('-- ' + s + ' ' + Array(Math.max(2, 70 - s.length)).join('-')); }
   function pad(s, n) { s = String(s == null ? '' : s); return s.length >= n ? s.slice(0, n) : s + Array(n - s.length + 1).join(' '); }
@@ -146,7 +169,7 @@
     sub('what the REPO holds (fetched cache:no-store)');
     var pending = names.length, lines = [];
     names.forEach(function (f) {
-      fetch(BASE + f, { cache: 'no-store' })
+      fetchT(BASE + f, { cache: 'no-store' }, 5000)
         .then(function (r) { return r.ok ? r.text() : Promise.reject('http ' + r.status); })
         .then(function (txt) {
           var miss = FEATURES[f].filter(function (tok) { return txt.indexOf(tok) === -1; });
@@ -402,7 +425,7 @@
         w('  ' + pad(k, 34) + (AP.plate[k] ? 'FOUND' : 'missing')); });
     }
 
-    fetch(BASE + 'img/MANIFEST.json', { cache: 'no-store' })
+    fetchT(BASE + 'img/MANIFEST.json', { cache: 'no-store' }, 6000)
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (m) {
         if (!m || !m.images) { w(''); w('MANIFEST.json unreadable — skipping inventory comparison.'); return cb(); }
@@ -713,9 +736,9 @@
     [].forEach.call(document.querySelectorAll('link[rel="stylesheet"],link[rel="preload"]'), function (t) { want.push(t.getAttribute('href')); });
     want = want.filter(function (u) { return u && u.indexOf('//') === -1; });
     var left = want.length, dead = [];
-    if (!left) { part8d(); }
+    if (!left) { w('  no local script or stylesheet references found to check'); part8d(); }
     want.forEach(function (u) {
-      fetch(BASE + u.split('?')[0], { method: 'GET', cache: 'no-store' })
+      fetchT(BASE + u.split('?')[0], { method: 'GET', cache: 'no-store' }, 5000)
         .then(function (r) { if (!r.ok) dead.push(u + '  (' + r.status + ')'); })
         .catch(function () { dead.push(u + '  (network)'); })
         .then(function () {
@@ -735,13 +758,13 @@
          page's own dispatch script now: /feed?prefix=atlantica:&details=1
          and /article?key=... — a probe that invents an API tests nothing. */
       var WORKER = 'https://amenti-proxy.ingram-ian.workers.dev';
-      fetch(WORKER + '/feed?prefix=atlantica:&details=1', { cache: 'no-store' })
+      fetchT(WORKER + '/feed?prefix=atlantica:&details=1', { cache: 'no-store' }, 8000)
         .then(function (r) { return r.ok ? r.json() : Promise.reject('feed ' + r.status); })
         .then(function (d) {
           var items = (d && (d.items || d.keys || d.entries)) || (Array.isArray(d) ? d : []);
           if (!items.length) { w('  feed returned no items'); return part8e(); }
           var k = items[0].key || items[0].name || items[0];
-          return fetch(WORKER + '/article?key=' + encodeURIComponent(k), { cache: 'no-store' })
+          return fetchT(WORKER + '/article?key=' + encodeURIComponent(k), { cache: 'no-store' }, 8000)
             .then(function (r) { return r.json(); })
             .then(function (rec) {
               var b = (rec && rec.body) || '';
@@ -809,7 +832,9 @@
   /* ======================================================================= */
   /* download                                                                */
   /* ======================================================================= */
+  var SAVED = false;
   function save() {
+    if (SAVED) return; SAVED = true;
     hr('END — amenti-diagnose v' + VERSION + '  (' + ((Date.now() - t0) / 1000).toFixed(1) + 's)');
     var txt = L.join('\n');
     try {
@@ -830,7 +855,18 @@
 
   /* ---- wait for the ledger, then run ------------------------------------ */
   function run() {
-    L = []; t0 = Date.now();
+    L = []; t0 = Date.now(); SAVED = false;
+    /* WATCHDOG. Whatever stalls, the report is written and downloaded. It may
+       be incomplete, and it says so — but it exists. */
+    setTimeout(function () {
+      if (SAVED) return;
+      w('');
+      w('*** WATCHDOG FIRED — a section did not finish within 60s and the');
+      w('*** report was written anyway. Anything below the last completed');
+      w('*** section is missing. The usual cause is a fetch to a worker or');
+      w('*** CDN that never answered.');
+      save();
+    }, 60000);
     var last = -1, stable = 0, settled = false;
     (function poll() {
       var n = (window.AMENTI_CHARS || []).length;
