@@ -1,0 +1,97 @@
+{
+  "key": "helen-keller",
+  "name": "Helen Keller",
+  "note": "Unlike most rooms here, Keller wrote — and the writing is the point rather than the biography. Everything below is hers except the four chapters by John Macy, kept because they carry Anne Sullivan's own reports of the method and there is nowhere else to read those.\n\nThe shelf stops at 1910 for a reason worth stating. Out of the Dark (1913), her socialist essays, is not in the public domain and is not here; neither is My Religion (1927) nor Midstream (1929). She was a founding member of the ACLU, a suffragist and an IWW sympathiser who wrote that she had been made into a symbol precisely so her politics could be ignored. A room that stops at the inspirational writing repeats that erasure, so: it is a copyright boundary, not an editorial judgement, and the missing books are the ones she would most want read.",
+  "works": [
+    {
+      "id": "01-story-of-my-life",
+      "section": "In Her Own Words",
+      "title": "The Story of My Life (1903)",
+      "mode": "stored",
+      "source": "Helen Keller · Project Gutenberg #2397 · public domain",
+      "note": "Written at twenty-two, while she was still an undergraduate at Radcliffe. Twenty-three chapters: the illness at nineteen months, the years without language, and the morning at the well-house when the word water and the water itself became the same thing. She is careful about what she can and cannot remember, which is the most striking thing in it.",
+      "file": "helen-keller/01-story-of-my-life.md"
+    },
+    {
+      "id": "02-letters-1887-1901",
+      "section": "In Her Own Words",
+      "title": "Letters, 1887–1901",
+      "mode": "stored",
+      "source": "Helen Keller · Project Gutenberg #2397 · public domain",
+      "note": "The most extraordinary document here, and the one nobody reads. It begins three months after her first word, in telegraphic fragments — helen write anna george will give helen apple — and ends fourteen years later in the prose of the book above. You can watch a language being assembled, letter by letter, in real time.",
+      "file": "helen-keller/02-letters-1887-1901.md"
+    },
+    {
+      "id": "08-the-world-i-live-in",
+      "section": "In Her Own Words",
+      "title": "The World I Live In (1908)",
+      "mode": "stored",
+      "source": "Helen Keller · Project Gutenberg #27683 · public domain",
+      "note": "Her best book, and the one she was pressed not to write. Essays on what she actually perceives — the seeing hand, the world of touch, smell as a fallen angel, and a long argument that language gives her access to the whole spectrum of the senses. Closes with A Chant of Darkness.",
+      "file": "helen-keller/08-the-world-i-live-in.md"
+    },
+    {
+      "id": "09-optimism",
+      "section": "In Her Own Words",
+      "title": "Optimism: An Essay (1903)",
+      "mode": "stored",
+      "source": "Helen Keller · Project Gutenberg #31622 · public domain",
+      "note": "Written as a college student. Easy to take for the inspirational Keller and miss that it is an argument rather than a mood — optimism as a working assumption a person adopts because the alternative forecloses action.",
+      "file": "helen-keller/09-optimism.md"
+    },
+    {
+      "id": "10-song-of-the-stone-wall",
+      "section": "Later Work",
+      "title": "The Song of the Stone Wall (1910)",
+      "mode": "stored",
+      "source": "Helen Keller · Project Gutenberg #12093 · public domain",
+      "note": "A long poem about a New England stone wall and the hands that built it. She is reading the wall with her fingers, which is the whole conceit.",
+      "file": "helen-keller/10-song-of-the-stone-wall.md"
+    },
+    {
+      "id": "03-macy-writing-of-the-book",
+      "section": "The Record of the Teaching",
+      "title": "The Writing of the Book",
+      "mode": "stored",
+      "source": "John Albert Macy, in the 1903 edition · Project Gutenberg #2397 · public domain",
+      "note": "How the autobiography was actually composed, by the man who edited it. Short, and worth reading before the longer chapters that follow.",
+      "file": "helen-keller/03-macy-writing-of-the-book.md"
+    },
+    {
+      "id": "04-macy-personality",
+      "section": "The Record of the Teaching",
+      "title": "Personality",
+      "mode": "stored",
+      "source": "John Albert Macy · Project Gutenberg #2397 · public domain",
+      "note": "Macy on what she was like to be around, including Mark Twain's view of her. A contemporary trying to describe someone the public had already turned into a symbol.",
+      "file": "helen-keller/04-macy-personality.md"
+    },
+    {
+      "id": "05-macy-education",
+      "section": "The Record of the Teaching",
+      "title": "Education",
+      "mode": "stored",
+      "source": "John Albert Macy, incorporating Anne Sullivan's reports · Project Gutenberg #2397 · public domain",
+      "note": "The longest thing in the room and the most valuable. Anne Sullivan's own accounts of the method, day by day, from the first week onward. If the question is HOW it was done rather than that it was done, the answer is here and almost nowhere else.",
+      "file": "helen-keller/05-macy-education.md"
+    },
+    {
+      "id": "06-macy-speech",
+      "section": "The Record of the Teaching",
+      "title": "Speech",
+      "mode": "stored",
+      "source": "John Albert Macy · Project Gutenberg #2397 · public domain",
+      "note": "On learning to speak aloud — the part she found hardest and was least satisfied with for the rest of her life.",
+      "file": "helen-keller/06-macy-speech.md"
+    },
+    {
+      "id": "07-macy-literary-style",
+      "section": "The Record of the Teaching",
+      "title": "Literary Style",
+      "mode": "stored",
+      "source": "John Albert Macy · Project Gutenberg #2397 · public domain",
+      "note": "Macy examining her prose directly, including the Frost King episode — the plagiarism accusation at eleven that shook her badly and shows up in how carefully she cites herself ever after.",
+      "file": "helen-keller/07-macy-literary-style.md"
+    }
+  ]
+}
