@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.5';
+  var VERSION  = '1.6';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -36,6 +36,17 @@
   var LATE     = 2500;   /* ms between the settle sample and the late sample */
 
   var L = [], t0 = Date.now();
+  /* Hooks installed as early as this file runs. It is deferred, so parse-time
+     throws are already gone — 8e says so rather than implying coverage. */
+  var ERRS = [], WINERR = [], REJ = [];
+  (function () {
+    try {
+      var ce = console.error;
+      console.error = function () { try { ERRS.push([].join.call(arguments, ' ')); } catch (e) {} return ce.apply(console, arguments); };
+      window.addEventListener('error', function (e) { WINERR.push((e.message || '') + ' @ ' + (e.filename || '').split('/').pop() + ':' + e.lineno); });
+      window.addEventListener('unhandledrejection', function (e) { REJ.push(String(e.reason).slice(0, 200)); });
+    } catch (e) {}
+  })();
   function w(s) { L.push(s == null ? '' : String(s)); }
   function hr(s) { w(''); w(Array(75).join('=')); w(s); w(Array(75).join('=')); }
   function sub(s) { w(''); w('-- ' + s + ' ' + Array(Math.max(2, 70 - s.length)).join('-')); }
@@ -602,6 +613,174 @@
     }
   }
 
+
+  /* ======================================================================= */
+  /* 8. DEPLOYMENT RISK                                                      */
+  /* -----------------------------------------------------------------------
+     Everything above measures what IS. This section hunts for what would go
+     wrong, and for damage already done that nothing reports. The failure mode
+     that matters here is SILENT: a script that loads but is never used, a
+     guard that evaluates false, an asset that 404s into a fallback. None of
+     those throw.                                                            */
+  function riskSection(cb) {
+    hr('8. DEPLOYMENT RISK — silent failures and what a change would break');
+
+    /* ---- 8a. parse-time dependency canaries ---------------------------- */
+    sub('8a. parse-time dependencies (would DEFER break this?)');
+    var A = window.Amenti || {};
+    var path = A.terminalPath;
+    w('  Amenti.terminalPath        : ' + (path || '(absent)'));
+    if (path === 'core') {
+      w('    The Terminal IS running amenti-chat.js. That is only true because');
+      w('    the module tag sits ABOVE the Terminal IIFE. Deferring the script,');
+      w('    or moving it below, sets termChat = null and drops the Terminal to');
+      w('    its inline fallback — no move tags, no registers, no Turn, no');
+      w('    doctrine — WITHOUT THROWING. This is the single highest-risk edit');
+      w('    on the page and it fails silently.');
+    } else if (path === 'inline-fallback') {
+      w('    *** THE TERMINAL IS ON THE INLINE FALLBACK RIGHT NOW ***');
+      w('    amenti-chat.js is loaded but unused. termChat evaluated null,');
+      w('    which means the module tag is not above the Terminal IIFE, or the');
+      w('    script failed. 106 KB is being downloaded and executed for nothing.');
+    } else {
+      w('    Terminal has not been built on this page load (its tab never opened),');
+      w('    so this cannot be judged. Open the terminal tab and re-run.');
+    }
+    var pairs = [
+      ['Amenti.chat',        A.chat,        'terminal conversation core (parse-time consumer)'],
+      ['Amenti.conversation',A.conversation,'voice conversation (guarded, defer-safe)'],
+      ['Amenti.listen',      A.listen,      'microphone (guarded, defer-safe)'],
+      ['Amenti.voice',       A.voice,       'speech (guarded, defer-safe)'],
+      ['Amenti.throttle',    A.throttle,    'cost governor'],
+      ['Amenti.terminal',    A.terminal,    'null here == fallback is live']
+    ];
+    w('');
+    w('  ' + pad('global', 24) + pad('present', 9) + 'note');
+    pairs.forEach(function (p2) {
+      w('  ' + pad(p2[0], 24) + pad(p2[1] ? 'yes' : 'NO', 9) + p2[2]);
+    });
+
+    /* ---- 8b. what each script actually cost ---------------------------- */
+    sub('8b. script cost, in load order (what preload/defer would move)');
+    var res = [];
+    try {
+      (performance.getEntriesByType('resource') || []).forEach(function (e) {
+        if (e.initiatorType === 'script' || /\.js(\?|$)/.test(e.name)) res.push(e);
+      });
+    } catch (e) {}
+    res.sort(function (a, b) { return a.startTime - b.startTime; });
+    if (!res.length) w('  Resource Timing gave nothing (GitHub Pages sends no Timing-Allow-Origin).');
+    else {
+      w('  ' + pad('script', 30) + pad('start', 9) + pad('dur', 8) + pad('transfer', 10) + 'note');
+      var slowest = null;
+      res.forEach(function (e) {
+        var nm = e.name.split('/').pop().split('?')[0].slice(0, 28);
+        var cached = e.transferSize === 0 && e.decodedBodySize > 0;
+        if (!slowest || e.duration > slowest.duration) slowest = e;
+        w('  ' + pad(nm, 30) + pad(Math.round(e.startTime) + 'ms', 9) +
+          pad(Math.round(e.duration) + 'ms', 8) +
+          pad(e.transferSize ? (Math.round(e.transferSize / 1024) + 'KB') : (cached ? 'cache' : '?'), 10) +
+          (e.duration > 300 ? 'SLOW' : ''));
+      });
+      if (slowest) w('\n  slowest: ' + slowest.name.split('/').pop() + '  ' + Math.round(slowest.duration) + 'ms');
+    }
+
+    /* ---- 8c. assets referenced but missing ----------------------------- */
+    sub('8c. referenced assets that 404 (silent fallbacks)');
+    var want = [];
+    [].forEach.call(document.querySelectorAll('script[src]'), function (t) { want.push(t.getAttribute('src')); });
+    [].forEach.call(document.querySelectorAll('link[rel="stylesheet"],link[rel="preload"]'), function (t) { want.push(t.getAttribute('href')); });
+    want = want.filter(function (u) { return u && u.indexOf('//') === -1; });
+    var left = want.length, dead = [];
+    if (!left) { part8d(); }
+    want.forEach(function (u) {
+      fetch(BASE + u.split('?')[0], { method: 'GET', cache: 'no-store' })
+        .then(function (r) { if (!r.ok) dead.push(u + '  (' + r.status + ')'); })
+        .catch(function () { dead.push(u + '  (network)'); })
+        .then(function () {
+          if (--left) return;
+          w('  checked ' + want.length + ' local script/stylesheet references');
+          if (dead.length) { dead.forEach(function (d) { w('    MISSING  ' + d); });
+            w('    A missing script does not throw — the feature it powers just never appears.'); }
+          else w('    all resolve');
+          part8d();
+        });
+    });
+
+    /* ---- 8d. does the dispatch body actually contain markdown? --------- */
+    function part8d() {
+      sub('8d. dispatch markdown — is mdToHtml being given structure to render?');
+      var WORKER = 'https://amenti-proxy.ingram-ian.workers.dev';
+      fetch(WORKER + '/atlantica/feed', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function (d) {
+          var items = (d && (d.items || d.dispatches)) || [];
+          if (!items.length) { w('  feed returned no items'); return part8e(); }
+          return fetch(WORKER + '/atlantica/article?key=' + encodeURIComponent(items[0].key), { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .then(function (rec) {
+              var b = (rec && rec.body) || '';
+              w('  sampled: ' + (rec.headline || items[0].key));
+              w('  body length: ' + b.length + ' chars');
+              var tests = [
+                ['headings  (## )',   /(^|\n)#{1,4}\s+\S/],
+                ['blockquote (> )',   /(^|\n)>\s?\S/],
+                ['bullets   (- )',    /(^|\n)\s*[-*+]\s+\S/],
+                ['numbered  (1. )',   /(^|\n)\s*\d+[.)]\s+\S/],
+                ['rule      (---)',   /(^|\n)(-{3,}|\*{3,})\s*(\n|$)/],
+                ['bold      (**)',    /\*\*[^*]+\*\*/],
+                ['italic    (*)',     /(^|\s)\*[^*\n]+\*/],
+                ['links     ([](  ))',/\[[^\]]+\]\(https?:\/\/[^\s)]+\)/],
+                ['inline code (`)',   /`[^`\n]+`/]
+              ];
+              var found = 0;
+              tests.forEach(function (t) {
+                var hit = t[1].test(b); if (hit) found++;
+                w('    ' + pad(t[0], 22) + (hit ? 'PRESENT' : '-'));
+              });
+              w('');
+              if (found > 1) {
+                w('  The generator IS emitting structure. Before the mdToHtml rewrite');
+                w('  every one of these rendered as literal punctuation in the reader.');
+              } else {
+                w('  Little or no structure in this sample. The richer rendering is');
+                w('  harmless, but the magazine treatment will not show until the');
+                w('  generator writes headings and quotes. That is a prompt change,');
+                w('  not a code one.');
+              }
+              part8e();
+            });
+        })
+        .catch(function (e) { w('  could not sample the feed (' + e + ')'); part8e(); });
+    }
+
+    /* ---- 8e. errors nothing else reports -------------------------------- */
+    function part8e() {
+      sub('8e. errors captured since this probe installed');
+      w('  NOTE: this script is deferred, so anything that threw during parse');
+      w('  happened BEFORE these hooks existed and cannot be seen here.');
+      w('');
+      w('  console.error   : ' + ERRS.length);
+      ERRS.slice(0, 12).forEach(function (e) { w('    ' + e.slice(0, 150)); });
+      w('  window.onerror  : ' + WINERR.length);
+      WINERR.slice(0, 12).forEach(function (e) { w('    ' + e.slice(0, 150)); });
+      w('  unhandled reject: ' + REJ.length);
+      REJ.slice(0, 12).forEach(function (e) { w('    ' + e.slice(0, 150)); });
+      if (!ERRS.length && !WINERR.length && !REJ.length) w('    none since install');
+
+      sub('8f. verdict on the proposed change');
+      w('  DEFER amenti-chat.js       : DO NOT. termChat is built at parse time');
+      w('                               (Amenti.chat.create at the Terminal IIFE).');
+      w('                               Deferring sets it null silently — see 8a.');
+      w('  PRELOAD amenti-chat.js     : safe. <link rel="preload" as="script"> starts');
+      w('                               the fetch early WITHOUT changing execution');
+      w('                               order, so the parse-time guard still passes.');
+      w('  Confirm after adding it    : Amenti.terminalPath must still read "core".');
+      w('                               If it reads "inline-fallback", revert at once.');
+      cb();
+    }
+  }
+
   /* ======================================================================= */
   /* download                                                                */
   /* ======================================================================= */
@@ -642,7 +821,7 @@
             cssSection();
             cardsSection(first, second);
             resolverSection(second);
-            artSection(second, function () { surfaceSection(); tabSection(save); });
+            artSection(second, function () { surfaceSection(); tabSection(function () { riskSection(save); }); });
           });
         }, LATE);
         return;
