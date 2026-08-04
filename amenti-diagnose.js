@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '1.6';
+  var VERSION  = '1.7';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -671,18 +671,39 @@
     res.sort(function (a, b) { return a.startTime - b.startTime; });
     if (!res.length) w('  Resource Timing gave nothing (GitHub Pages sends no Timing-Allow-Origin).');
     else {
-      w('  ' + pad('script', 30) + pad('start', 9) + pad('dur', 8) + pad('transfer', 10) + 'note');
-      var slowest = null;
+      w('  ' + pad('script', 30) + pad('start', 9) + pad('dur', 8) + pad('bytes', 9) + 'source');
+      var slowest = null, durs = {};
       res.forEach(function (e) {
         var nm = e.name.split('/').pop().split('?')[0].slice(0, 28);
         var cached = e.transferSize === 0 && e.decodedBodySize > 0;
+        var opaque = e.transferSize === 0 && !e.decodedBodySize;
         if (!slowest || e.duration > slowest.duration) slowest = e;
-        w('  ' + pad(nm, 30) + pad(Math.round(e.startTime) + 'ms', 9) +
-          pad(Math.round(e.duration) + 'ms', 8) +
-          pad(e.transferSize ? (Math.round(e.transferSize / 1024) + 'KB') : (cached ? 'cache' : '?'), 10) +
-          (e.duration > 300 ? 'SLOW' : ''));
+        var d = Math.round(e.duration);
+        durs[d] = (durs[d] || 0) + 1;
+        w('  ' + pad(nm, 30) + pad(Math.round(e.startTime) + 'ms', 9) + pad(d + 'ms', 8) +
+          pad(e.decodedBodySize ? (Math.round(e.decodedBodySize / 1024) + 'KB') : '?', 9) +
+          (cached ? 'cache' : opaque ? 'no timing headers' : 'network'));
       });
-      if (slowest) w('\n  slowest: ' + slowest.name.split('/').pop() + '  ' + Math.round(slowest.duration) + 'ms');
+      /* A dozen scripts reporting the SAME duration to the millisecond did not
+         each take that long — they were all waiting on one thing, or the tab
+         was throttled. Saying "SLOW" against each of them is a lie the probe
+         used to tell. Detect the clustering and say so instead. */
+      var worstCount = 0, worstDur = 0;
+      Object.keys(durs).forEach(function (k) {
+        if (durs[k] > worstCount) { worstCount = durs[k]; worstDur = +k; } });
+      w('');
+      if (worstCount >= 4 && worstDur > 500) {
+        w('  *** ' + worstCount + ' scripts report an identical duration of ' + worstDur + 'ms.');
+        w('  They did not each take that long. An identical duration across many');
+        w('  resources means they were queued behind one blocker, or the tab lost');
+        w('  focus. Treat every number in this table as unusable and re-run with');
+        w('  the tab kept in the foreground.');
+      } else if (slowest) {
+        w('  slowest: ' + slowest.name.split('/').pop() + '  ' + Math.round(slowest.duration) + 'ms');
+      }
+      var net = res.filter(function (e) { return e.transferSize > 0; });
+      w('  fetched from network this load: ' + net.length + ' of ' + res.length +
+        '  (the rest were cached, so their timings say nothing about a cold load)');
     }
 
     /* ---- 8c. assets referenced but missing ----------------------------- */
@@ -710,17 +731,21 @@
     /* ---- 8d. does the dispatch body actually contain markdown? --------- */
     function part8d() {
       sub('8d. dispatch markdown — is mdToHtml being given structure to render?');
+      /* v1.6 guessed these endpoints and got a 405. They are read from the
+         page's own dispatch script now: /feed?prefix=atlantica:&details=1
+         and /article?key=... — a probe that invents an API tests nothing. */
       var WORKER = 'https://amenti-proxy.ingram-ian.workers.dev';
-      fetch(WORKER + '/atlantica/feed', { cache: 'no-store' })
-        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      fetch(WORKER + '/feed?prefix=atlantica:&details=1', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject('feed ' + r.status); })
         .then(function (d) {
-          var items = (d && (d.items || d.dispatches)) || [];
+          var items = (d && (d.items || d.keys || d.entries)) || (Array.isArray(d) ? d : []);
           if (!items.length) { w('  feed returned no items'); return part8e(); }
-          return fetch(WORKER + '/atlantica/article?key=' + encodeURIComponent(items[0].key), { cache: 'no-store' })
+          var k = items[0].key || items[0].name || items[0];
+          return fetch(WORKER + '/article?key=' + encodeURIComponent(k), { cache: 'no-store' })
             .then(function (r) { return r.json(); })
             .then(function (rec) {
               var b = (rec && rec.body) || '';
-              w('  sampled: ' + (rec.headline || items[0].key));
+              w('  sampled: ' + (rec.headline || k));
               w('  body length: ' + b.length + ' chars');
               var tests = [
                 ['headings  (## )',   /(^|\n)#{1,4}\s+\S/],
