@@ -1,0 +1,25 @@
+{
+  "key": "leif-erikson",
+  "name": "Leif Erikson",
+  "note": "Leif wrote nothing, and nobody who sailed with him did either. Everything here was set down in Iceland roughly two hundred and fifty years after the voyages, by writers working from oral tradition and their own purposes. There are two sagas and they contradict each other: Grœnlendinga saga gives six expeditions and has Bjarni Herjólfsson sight the coast first, Eiríks saga gives fewer and credits Leif with the discovery outright. Neither is a document; both are literature about an event. That the settlement at L'Anse aux Meadows was found in 1960, and that it matched, is the strangest fact in this room and not one the sagas can take credit for.",
+  "works": [
+    {
+      "id": "01-eiriks-saga-sephton-1880",
+      "section": "The Sagas · written c. 1200–1300, of events c. 1000",
+      "title": "Eiríks saga rauða — The Saga of Erik the Red",
+      "mode": "link",
+      "source": "tr. Rev. J. Sephton, read to the Literary and Philosophical Society of Liverpool, 1880 · Project Gutenberg #17946 · public domain",
+      "note": "Despite the title, most of this saga follows Thorfinn Karlsefni and Gudrid rather than Erik. Leif's landfall happens almost in passing: blown off course on his way back from Norway, he finds a land of self-sown wheat and vines. Written down two centuries after the events, in Iceland, by people with reasons of their own.",
+      "url": "https://www.gutenberg.org/ebooks/17946"
+    },
+    {
+      "id": "02-decosta-northmen-1890",
+      "section": "The Sagas · written c. 1200–1300, of events c. 1000",
+      "title": "The Pre-Columbian Discovery of America by the Northmen",
+      "mode": "link",
+      "source": "B. F. DeCosta, 1890 · translations from the Icelandic · Project Gutenberg #41221 · public domain",
+      "note": "Carries BOTH Vinland sagas in English, including Grœnlendinga saga, which Gutenberg does not hold separately. The two disagree — on who sighted the coast first, on how many voyages there were, on what Leif actually did — and reading them side by side is the point rather than a problem to resolve.",
+      "url": "https://www.gutenberg.org/ebooks/41221"
+    }
+  ]
+}
