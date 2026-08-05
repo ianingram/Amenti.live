@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-05T06:53:37.487Z",
+    "generated": "2026-08-05T23:08:12.201Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -8,8 +8,8 @@
   "files": [
     {
       "file": "Page1.html",
-      "bytes": 573972,
-      "sha256": "2ab28267e294156c",
+      "bytes": 580026,
+      "sha256": "3e3fcb59053d3afa",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -33,156 +33,157 @@
         "AmentiModel",
         "AmentiTerminal",
         "__AT",
+        "__motion",
         "claude"
       ],
       "loads": [
         {
           "file": "amenti-core.bundle.js",
-          "line": 888
+          "line": 911
         },
         {
           "file": "amenti-doctrine.js",
-          "line": 6432
+          "line": 6501
         },
         {
           "file": "library.js",
-          "line": 7555
+          "line": 7624
         },
         {
           "file": "amenti-canonical.js",
-          "line": 7566
+          "line": 7635
         },
         {
           "file": "amenti-auth.js",
-          "line": 8442
+          "line": 8511
         },
         {
           "file": "amenti-quiz.js",
-          "line": 8449
+          "line": 8518
         },
         {
           "file": "amenti-roster.js",
-          "line": 8450
+          "line": 8519
         },
         {
           "file": "amenti-roster-view.js",
-          "line": 8451
+          "line": 8520
         },
         {
           "file": "amenti-bay.js",
-          "line": 8452
+          "line": 8521
         },
         {
           "file": "amenti-motion.js",
-          "line": 8453
+          "line": 8522
         },
         {
           "file": "amenti-art-2.js",
-          "line": 8454
+          "line": 8523
         },
         {
           "file": "amenti-leaderboard.js",
-          "line": 8455
+          "line": 8524
         },
         {
           "file": "amenti-readaloud.js",
-          "line": 8456
+          "line": 8525
         },
         {
           "file": "amenti-vallhalla-signup.js",
-          "line": 8459
+          "line": 8528
         },
         {
           "file": "amenti-flourish.js",
-          "line": 8460
+          "line": 8529
         },
         {
           "file": "amenti-mascot.js",
-          "line": 8461
+          "line": 8530
         },
         {
           "file": "amenti-profile.js",
-          "line": 8462
+          "line": 8531
         },
         {
           "file": "amenti-art-photo.js",
-          "line": 8470
+          "line": 8539
         },
         {
           "file": "amenti-art-3.js",
-          "line": 8484
+          "line": 8553
         }
       ],
       "calls": [
         {
           "global": "AMENTI_CONFIG",
-          "line": 907,
+          "line": 930,
           "when": "iife",
           "own": false
         },
         {
           "global": "AmentiCost",
-          "line": 947,
+          "line": 970,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.throttle",
-          "line": 2248,
+          "line": 2317,
           "when": "function",
           "own": false
         },
         {
           "global": "AmentiTerminal",
-          "line": 2941,
+          "line": 3010,
           "when": "function",
           "own": true
         },
         {
           "global": "AMENTI_CHARS",
-          "line": 6197,
+          "line": 6266,
           "when": "iife",
           "own": true
         },
         {
           "global": "AMENTI_ERAS",
-          "line": 6300,
+          "line": 6369,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.chat",
-          "line": 6591,
+          "line": 6660,
           "when": "iife",
           "own": false
         },
         {
           "global": "AMENTI_VOICE",
-          "line": 6696,
+          "line": 6765,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.micLamp",
-          "line": 6728,
+          "line": 6797,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.silence",
-          "line": 8016,
+          "line": 8085,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.voice",
-          "line": 8041,
+          "line": 8110,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 8043,
+          "line": 8112,
           "when": "function",
           "own": false
         }
@@ -1004,6 +1005,19 @@
       "tables": []
     },
     {
+      "file": "amenti-svg-library.js",
+      "bytes": 147555,
+      "sha256": "977a4ede4fb7a218",
+      "type": "js",
+      "declares": [
+        "AMENTI_SVG"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-throttle.js",
       "bytes": 18097,
       "sha256": "721f848e4fb5b06a",
@@ -1153,8 +1167,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 44938,
-      "sha256": "5929e9b655befdff",
+      "bytes": 44912,
+      "sha256": "3481c5eac86d329f",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1163,25 +1177,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1033,
+          "line": 1046,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1034,
+          "line": 1047,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1035,
+          "line": 1048,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1036,
+          "line": 1049,
           "when": "toplevel",
           "own": false
         }

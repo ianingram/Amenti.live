@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-05T06:53:37.582Z",
-    "reading": "2026-08-05T06:53:37.487Z",
+    "merged": "2026-08-05T23:08:12.305Z",
+    "reading": "2026-08-05T23:08:12.201Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -17,7 +17,7 @@ window.FLEET_MANIFEST = {
   "health": {
     "contradicted": 0,
     "unproven": 4,
-    "undeclared": 23,
+    "undeclared": 24,
     "adrift": 1,
     "clean": true
   },
@@ -157,6 +157,13 @@ window.FLEET_MANIFEST = {
     },
     {
       "stamp": "UNDECLARED",
+      "subject": "amenti-svg-library.js",
+      "claim": "— nothing claims it —",
+      "reading": "in the repo",
+      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
+    },
+    {
+      "stamp": "UNDECLARED",
       "subject": "amenti-vallhalla-signup.js",
       "claim": "— nothing claims it —",
       "reading": "in the repo, LOADED by Page1.html",
@@ -220,12 +227,12 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-08-05T00:49:45.702Z",
+    "at": "2026-08-05T18:50:36.887Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 74,
+      "count": 76,
       "prefixes": {
-        "atlantica:": 71,
+        "atlantica:": 73,
         "dailyplanet:": 3
       }
     },
@@ -237,18 +244,28 @@ window.FLEET_MANIFEST = {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 58,
+        "fired": 60,
         "last": {
-          "date": "2026-08-04",
-          "figure": "ayn-rand"
+          "date": "2026-08-05",
+          "figure": "clovis-i"
         },
-        "lastAgeDays": 1,
+        "lastAgeDays": 0,
         "missedLast14": [
           "2026-07-28",
           "2026-07-27",
           "2026-07-26"
         ],
         "recent": [
+          {
+            "figure": "clovis-i",
+            "date": "2026-08-05",
+            "key": "atlantica:clovis-i:2026-08-05"
+          },
+          {
+            "figure": "leif-erikson",
+            "date": "2026-08-05",
+            "key": "atlantica:leif-erikson:2026-08-05"
+          },
           {
             "figure": "ayn-rand",
             "date": "2026-08-04",
@@ -308,19 +325,9 @@ window.FLEET_MANIFEST = {
             "figure": "cleopatra",
             "date": "2026-07-29",
             "key": "atlantica:cleopatra:2026-07-29"
-          },
-          {
-            "figure": "hannibal",
-            "date": "2026-07-29",
-            "key": "atlantica:hannibal:2026-07-29"
-          },
-          {
-            "figure": "caesar",
-            "date": "2026-07-25",
-            "key": "atlantica:caesar:2026-07-25"
           }
         ],
-        "note": "58 dispatch(es) in the hold · last 2026-08-04 (ayn-rand) · MISSED 3 of the last 14 days"
+        "note": "60 dispatch(es) in the hold · last 2026-08-05 (clovis-i) · MISSED 3 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -406,8 +413,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 573972,
-      "sha256": "2ab28267e294156c",
+      "bytes": 580026,
+      "sha256": "3e3fcb59053d3afa",
       "declares": [
         "AMENTI_CHARS",
         "AMENTI_ERAS",
@@ -430,6 +437,7 @@ window.FLEET_MANIFEST = {
         "AmentiModel",
         "AmentiTerminal",
         "__AT",
+        "__motion",
         "claude"
       ],
       "loadedBy": []
@@ -925,7 +933,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-05T00:49:44.753Z",
+        "at": "2026-08-05T18:50:35.272Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -943,7 +951,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-05T00:49:44.753Z",
+        "at": "2026-08-05T18:50:35.272Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -961,7 +969,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-05T00:49:44.753Z",
+        "at": "2026-08-05T18:50:35.272Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -992,7 +1000,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-05T00:49:44.753Z",
+        "at": "2026-08-05T18:50:35.272Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
