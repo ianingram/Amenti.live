@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-04T23:45:32.442Z",
-    "reading": "2026-08-04T23:45:32.333Z",
+    "merged": "2026-08-05T00:31:27.361Z",
+    "reading": "2026-08-05T00:31:27.049Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -17,7 +17,7 @@ window.FLEET_MANIFEST = {
   "health": {
     "contradicted": 0,
     "unproven": 4,
-    "undeclared": 22,
+    "undeclared": 23,
     "adrift": 1,
     "clean": true
   },
@@ -60,6 +60,13 @@ window.FLEET_MANIFEST = {
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-canonical.js",
+      "claim": "— nothing claims it —",
+      "reading": "in the repo, LOADED by Page1.html",
+      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
+    },
+    {
+      "stamp": "UNDECLARED",
+      "subject": "amenti-core.bundle.js",
       "claim": "— nothing claims it —",
       "reading": "in the repo, LOADED by Page1.html",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
@@ -131,7 +138,7 @@ window.FLEET_MANIFEST = {
       "stamp": "UNDECLARED",
       "subject": "amenti-resolve.js",
       "claim": "— nothing claims it —",
-      "reading": "in the repo, LOADED by Page1.html",
+      "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
@@ -399,8 +406,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "CONFIRMED"
       ],
-      "bytes": 547911,
-      "sha256": "cb4e4ec47dcad410",
+      "bytes": 549144,
+      "sha256": "17bcd90e4b3cefa3",
       "declares": [
         "AMENTI_CHARS",
         "AMENTI_ERAS",
@@ -607,7 +614,6 @@ window.FLEET_MANIFEST = {
         "AMENTI_CONFIG"
       ],
       "loadedBy": [
-        "Page1.html",
         "Page2.html",
         "court.html",
         "docket.html",
@@ -661,7 +667,6 @@ window.FLEET_MANIFEST = {
         "Amenti.voice"
       ],
       "loadedBy": [
-        "Page1.html",
         "weighing.html"
       ]
     },
@@ -706,9 +711,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.listen"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-chat.js",
@@ -729,9 +732,7 @@ window.FLEET_MANIFEST = {
         "Amenti",
         "Amenti.chat"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-doctrine.js",
@@ -861,9 +862,7 @@ window.FLEET_MANIFEST = {
       "declares": [
         "amentiQuiz"
       ],
-      "loadedBy": [
-        "Page1.html"
-      ]
+      "loadedBy": []
     },
     {
       "file": "amenti-leaderboard.js",
