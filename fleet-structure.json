@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-05T00:46:20.390Z",
+    "generated": "2026-08-05T01:00:13.744Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -480,8 +480,8 @@
     },
     {
       "file": "amenti-core.bundle.js",
-      "bytes": 219296,
-      "sha256": "c3cf12a8d92cc94a",
+      "bytes": 186701,
+      "sha256": "e0b4b11c6f9e112d",
       "type": "js",
       "declares": [
         "AMENTI_CONFIG",
@@ -491,83 +491,55 @@
         "Amenti.listen",
         "Amenti.throttle",
         "Amenti.voice",
-        "AmentiResolve",
-        "amentiQuiz"
+        "AmentiResolve"
       ],
       "loads": [],
       "calls": [
         {
+          "global": "AMENTI_CONFIG",
+          "line": 423,
+          "when": "function",
+          "own": true
+        },
+        {
           "global": "AMENTI_CHARS",
-          "line": 560,
+          "line": 564,
           "when": "iife",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 624,
+          "line": 629,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.throttle",
-          "line": 1257,
+          "line": 1263,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1293,
+          "line": 1299,
           "when": "function",
           "own": false
         },
         {
           "global": "Sovereign.Angels",
-          "line": 2192,
+          "line": 2199,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 2534,
+          "line": 2541,
           "when": "function",
           "own": true
-        },
-        {
-          "global": "AMENTI_CONFIG",
-          "line": 3504,
-          "when": "iife",
-          "own": true
-        },
-        {
-          "global": "amentiReadAloud",
-          "line": 3854,
-          "when": "function",
-          "own": false
-        },
-        {
-          "global": "Amenti.openReadingRoom",
-          "line": 3861,
-          "when": "function",
-          "own": false
-        },
-        {
-          "global": "amentiAuth",
-          "line": 3865,
-          "when": "function",
-          "own": false
-        },
-        {
-          "global": "amentiLeaderboard",
-          "line": 3956,
-          "when": "function",
-          "own": false
         }
       ],
       "endpoints": [
-        "/arguments/vote",
         "/listen",
-        "/quiz/start",
-        "/quiz/submit",
         "/quiz/topics"
       ],
       "tables": []
@@ -1178,7 +1150,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 44872,
-      "sha256": "7e1391eca9bcaa22",
+      "sha256": "01c17018b201efd7",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
