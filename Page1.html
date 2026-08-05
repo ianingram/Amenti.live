@@ -176,10 +176,33 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:54px;background:rgba(
 /* HERO BACKGROUND IMAGE — pyramid scene */
 #hero-bg{position:absolute;inset:0;z-index:1;background:url('img/hero-bg.webp') center 55%/cover no-repeat;background-color:#06060e;}
 #hero-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%, transparent 0%, rgba(6,6,14,0.15) 55%, rgba(6,6,14,0.55) 100%);pointer-events:none;}
-/* legacy pyramid container — hidden, kept so JS doesn't error */
-#pyramid-bg
-/* PLANETS — disabled (starfield is in background image) */
-.planets-layer{display:none;}
+/* THIS RULE WAS BROKEN, AND HAD BEEN FOR A LONG TIME.
+     It read:
+         #pyramid-bg
+         /* PLANETS — disabled (starfield is in background image) */
+         .planets-layer{display:none;}
+     #pyramid-bg has NO declaration block, so a comment does not end the
+     selector — the browser parsed the whole thing as one descendant selector,
+     `#pyramid-bg .planets-layer`. #planets-layer is a SIBLING inside #hero,
+     not a child of #pyramid-bg, so it matched nothing.
+
+     Result: neither element was ever hidden, despite both comments saying so.
+     The large planets have been running the whole time.
+
+     WHY THEY GO NOW. Six of them, 10 to 28px, and each carries three
+     box-shadows with up to 39px of blur, a .planet-trail at 1.6x size with
+     filter:blur() AND mix-blend-mode:screen, and will-change:transform. A
+     blur and a blend on a MOVING element re-rasterises every frame. Twelve
+     such elements, animating for 22 to 52 seconds each, infinitely.
+
+     That is the most expensive pattern on the page — worse than the grain
+     filter or the beacons — and it is why the compositor never rested, which
+     is why Safari throttled, which is why the site felt quick only with the
+     Web Inspector open.
+
+     The gateway's small 6px .planet streaks are untouched: a radial gradient,
+     no blur, no blend. They cost nothing and they read well. */
+  #planets-layer, .planets-layer{ display:none; }
 .planet{position:absolute;border-radius:50%;will-change:transform,opacity,filter;}
 .planet-trail{position:absolute;border-radius:50%;pointer-events:none;will-change:transform,opacity;}
 @keyframes planetTrack{0%{transform:translate(0,0);opacity:0;}6%{opacity:var(--p-op,1);}38%{opacity:var(--p-op,1);}44%{opacity:calc(var(--p-op,1) * 0.06);filter:blur(1.4px) brightness(0.35);}54%{opacity:calc(var(--p-op,1) * 0.03);filter:blur(1.6px) brightness(0.25);}64%{opacity:calc(var(--p-op,1) * 0.18);filter:blur(0.8px) brightness(0.6);}72%{opacity:var(--p-op,1);filter:none;}94%{opacity:var(--p-op,1);}100%{transform:translate(var(--p-tx),var(--p-ty));opacity:0;}}
@@ -1407,6 +1430,52 @@ body.gw-locked .master-nav{opacity:0;pointer-events:none;
      image. Start the fetch at the top of the head rather than when the CSS
      that references it is finally applied. -->
 <link rel="preload" href="img/hero-bg.webp" as="image" fetchpriority="high">
+
+<!-- ===========================================================================
+     THE MOTION GOVERNOR
+     ---------------------------------------------------------------------------
+     WHAT THIS FIXES, AND HOW IT WAS FOUND
+
+     The site felt sluggish — but only with the Web Inspector CLOSED. With it
+     open it was quick. That is reproducible, and it is not imagination.
+
+     The page carries 24 CSS rules with `infinite` animations plus a dozen
+     JS-made planet trails, each with mix-blend-mode:screen and
+     will-change:transform, which pins a permanent GPU layer. Twelve of those
+     animations are in the ARENA and never stop, whatever you are looking at.
+
+     So the compositor never rests. And a page that never rests is exactly what
+     Safari downclocks: it coalesces timers and drops the frame rate when it
+     decides a page is churning without user input. Opening the Web Inspector
+     disables that throttling, because the page is being debugged.
+
+     Confirmed by test: stopping every animation and blend mode made the page
+     snappy with the inspector closed.
+
+     THE RULE HERE: decoration runs when it is being looked at, and not
+     otherwise. Nothing is deleted; it is paused.
+     =========================================================================== -->
+<style id="amenti-motion-governor">
+/* Paused, not stopped: animation-play-state keeps the position so nothing
+   jumps when it resumes. */
+.motion-idle,
+.motion-idle *,
+.motion-idle *::before,
+.motion-idle *::after{
+  animation-play-state:paused!important;
+}
+/* A paused element does not need a GPU layer reserved for it. Twelve trails
+   holding will-change:transform is twelve layers of memory doing nothing. */
+.motion-idle .planet-trail,
+.motion-idle .planet{ will-change:auto!important; }
+
+/* Someone who has asked for less motion gets none of it. */
+@media (prefers-reduced-motion:reduce){
+  .planet,.planet-trail,.ckt,.ckt2,.ckt3,.light-rays,
+  .beacon-rays,.beacon-sweep,.beacon-core,.beacon-bright,
+  .ticker-inner,.era-dot{ animation:none!important; }
+}
+</style>
 </head>
 <body data-page="arena">
 
@@ -8874,6 +8943,80 @@ window.AMENTI_VOICE = {
   im.onload=function(){ g.classList.add("gw-plate"); };
   im.onerror=function(){ /* the scene stands in, permanently */ };
   im.src="img/hero-bg.webp";
+})();
+</script>
+
+<script>
+/* THE MOTION GOVERNOR — see the stylesheet comment above for why.
+   Three rules, in order of how much they save:
+
+     1. A section that is not on screen has its motion paused. The arena's
+        twelve perpetual animations were running while you read the codex.
+     2. A hidden tab has everything paused. Safari throttles these anyway, but
+        an animation that is throttled is still an animation the compositor is
+        tracking.
+     3. After 20 seconds without a pointer, key or scroll, motion pauses and
+        the page is allowed to go genuinely idle — which is the state Safari
+        stops fighting. Any input brings it straight back.
+
+   Nothing is removed. animation-play-state keeps each animation's position,
+   so resuming does not jump. */
+(function(){
+  var SECTIONS = '.page-section, #hero, #gateway';
+  var IDLE_AFTER = 20000;
+  var idleTimer = null, sleeping = false;
+
+  function all(){ return [].slice.call(document.querySelectorAll(SECTIONS)); }
+
+  function sleep(){
+    if (sleeping) return; sleeping = true;
+    all().forEach(function(el){ el.classList.add('motion-idle'); });
+  }
+  function wake(){
+    if (!sleeping) { schedule(); return; }
+    sleeping = false;
+    all().forEach(function(el){
+      /* only the ones actually on screen come back */
+      if (el.__onScreen !== false) el.classList.remove('motion-idle');
+    });
+    schedule();
+  }
+  function schedule(){
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(sleep, IDLE_AFTER);
+  }
+
+  /* 1 — off screen means paused */
+  try {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        e.target.__onScreen = e.isIntersecting;
+        if (!e.isIntersecting) e.target.classList.add('motion-idle');
+        else if (!sleeping && !document.hidden) e.target.classList.remove('motion-idle');
+      });
+    }, { rootMargin: '120px' });
+    all().forEach(function(el){ io.observe(el); });
+  } catch(e){}
+
+  /* 2 — a hidden tab is paused entirely */
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) sleep(); else wake();
+  });
+
+  /* 3 — genuine idleness, and any input undoes it */
+  ['pointermove','pointerdown','keydown','wheel','touchstart','scroll']
+    .forEach(function(ev){
+      window.addEventListener(ev, wake, { passive:true });
+    });
+  schedule();
+
+  /* so it can be measured and argued with */
+  window.__motion = {
+    sleeping: function(){ return sleeping; },
+    running:  function(){ try { return document.getAnimations().filter(
+                 function(a){ return a.playState === 'running'; }).length; } catch(e){ return -1; } },
+    wake: wake, sleep: sleep
+  };
 })();
 </script>
 </body>
