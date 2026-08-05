@@ -1,10 +1,10 @@
 {
-  "at": "2026-08-05T00:49:45.702Z",
+  "at": "2026-08-05T07:13:07.264Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 74,
+    "count": 76,
     "prefixes": {
-      "atlantica:": 71,
+      "atlantica:": 73,
       "dailyplanet:": 3
     }
   },
@@ -16,18 +16,28 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 58,
+      "fired": 60,
       "last": {
-        "date": "2026-08-04",
-        "figure": "ayn-rand"
+        "date": "2026-08-05",
+        "figure": "clovis-i"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
         "2026-07-26"
       ],
       "recent": [
+        {
+          "figure": "clovis-i",
+          "date": "2026-08-05",
+          "key": "atlantica:clovis-i:2026-08-05"
+        },
+        {
+          "figure": "leif-erikson",
+          "date": "2026-08-05",
+          "key": "atlantica:leif-erikson:2026-08-05"
+        },
         {
           "figure": "ayn-rand",
           "date": "2026-08-04",
@@ -87,19 +97,9 @@
           "figure": "cleopatra",
           "date": "2026-07-29",
           "key": "atlantica:cleopatra:2026-07-29"
-        },
-        {
-          "figure": "hannibal",
-          "date": "2026-07-29",
-          "key": "atlantica:hannibal:2026-07-29"
-        },
-        {
-          "figure": "caesar",
-          "date": "2026-07-25",
-          "key": "atlantica:caesar:2026-07-25"
         }
       ],
-      "note": "58 dispatch(es) in the hold · last 2026-08-04 (ayn-rand) · MISSED 3 of the last 14 days"
+      "note": "60 dispatch(es) in the hold · last 2026-08-05 (clovis-i) · MISSED 3 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
