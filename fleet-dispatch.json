@@ -1,14 +1,14 @@
 {
-  "at": "2026-08-04T18:51:03.240Z",
+  "at": "2026-08-05T00:49:45.702Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 72,
+    "count": 74,
     "prefixes": {
-      "atlantica:": 69,
+      "atlantica:": 71,
       "dailyplanet:": 3
     }
   },
-  "today": "2026-08-04",
+  "today": "2026-08-05",
   "thisWeek": "2026-08-02",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -16,12 +16,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 56,
+      "fired": 58,
       "last": {
         "date": "2026-08-04",
         "figure": "ayn-rand"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-07-28",
         "2026-07-27",
@@ -32,6 +32,16 @@
           "figure": "ayn-rand",
           "date": "2026-08-04",
           "key": "atlantica:ayn-rand:2026-08-04"
+        },
+        {
+          "figure": "leif-erikson",
+          "date": "2026-08-04",
+          "key": "atlantica:leif-erikson:2026-08-04"
+        },
+        {
+          "figure": "zheng-he",
+          "date": "2026-08-04",
+          "key": "atlantica:zheng-he:2026-08-04"
         },
         {
           "figure": "ayn-rand",
@@ -87,19 +97,9 @@
           "figure": "caesar",
           "date": "2026-07-25",
           "key": "atlantica:caesar:2026-07-25"
-        },
-        {
-          "figure": "musashi",
-          "date": "2026-07-25",
-          "key": "atlantica:musashi:2026-07-25"
-        },
-        {
-          "figure": "lincoln",
-          "date": "2026-07-24",
-          "key": "atlantica:lincoln:2026-07-24"
         }
       ],
-      "note": "56 dispatch(es) in the hold · last 2026-08-04 (ayn-rand) · MISSED 3 of the last 14 days"
+      "note": "58 dispatch(es) in the hold · last 2026-08-04 (ayn-rand) · MISSED 3 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
