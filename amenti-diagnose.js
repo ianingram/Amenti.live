@@ -28,7 +28,7 @@
 (function () {
   'use strict';
 
-  var VERSION  = '2.0';
+  var VERSION  = '2.2';
   var BASE     = location.origin + location.pathname.replace(/[^/]*$/, '');
   var MAXCARDS = 200;
   var SETTLE   = 700;    /* ms of no AMENTI_CHARS growth = ledger has landed */
@@ -851,12 +851,31 @@
         (m.took != null ? '   (' + m.took + ' ms from click to paint)' : ''));
     });
 
+    /* A recorder newer than its reader is how the last two runs went wrong:
+       Page1 recorded visibility, this file did not know to look at it, and
+       throttling was reported as blocking. Say so loudly rather than quietly
+       producing a wrong number. */
+    if (T.gaps && T.gaps.length && T.gaps[0].hid === undefined) {
+      w('');
+      w('  *** RECORDER/READER MISMATCH. The page is not recording visibility,');
+      w('  *** so a hidden window cannot be told apart from a blocked thread.');
+      w('  *** Any large gap below may simply be the tab having lost focus.');
+    }
     sub('9b. blocking, measured by heartbeat');
     w('  A tick is scheduled every 50 ms. A longer gap means the thread was busy');
     w('  for the difference. Works in every browser, needs no API.');
     w('');
-    var gaps = (T.gaps || []).slice().sort(function (a, b) { return b.d - a.d; });
-    if (!gaps.length) w('  no gap over 220 ms — the thread was never blocked for long');
+    var all = (T.gaps || []).slice().sort(function (a, b) { return b.d - a.d; });
+    var hid = all.filter(function (g) { return g.hid; });
+    var gaps = all.filter(function (g) { return !g.hid; });
+    if (hid.length) {
+      w('  *** ' + hid.length + ' gap(s) happened while the WINDOW WAS NOT IN FRONT and are');
+      w('  *** excluded. Safari throttles timers in a hidden tab, so those are');
+      w('  *** not blocking — they are the tab being backgrounded. Longest was ' +
+        Math.max.apply(null, hid.map(function (g) { return g.d; })) + ' ms.');
+      w('');
+    }
+    if (!gaps.length) w('  no unhidden gap over 220 ms — the thread was never blocked for long');
     else {
       w('  ' + pad('started', 12) + pad('blocked for', 14) + 'bar (1 # = 100ms)');
       gaps.slice(0, 18).forEach(function (g) {
@@ -865,6 +884,22 @@
       });
       var total = gaps.reduce(function (n, g) { return n + g.d; }, 0);
       w('');
+      /* An event cannot fire on a blocked thread. If a milestone timestamp
+         falls inside a reported stall, the stall is not real — that single
+         contradiction is what caught the last two bad runs. */
+      var bad = [];
+      (T.marks || []).forEach(function (m) {
+        gaps.forEach(function (g) {
+          if (m.at > g.s && m.at < g.s + g.d) bad.push(m.w + ' at ' + m.at + ' ms');
+        });
+      });
+      if (bad.length) {
+        w('  *** THESE NUMBERS ARE NOT BLOCKING TIME.');
+        w('  *** ' + bad.join('; ') + ' fired INSIDE a reported stall,');
+        w('  *** which is impossible on a blocked thread. The window was almost');
+        w('  *** certainly not in front. Re-run with it in the foreground.');
+        w('');
+      }
       w('  worst single block : ' + gaps[0].d + ' ms, starting at ' + gaps[0].s + ' ms');
       w('  total blocked      : ' + total + ' ms across ' + gaps.length + ' stalls');
     }
