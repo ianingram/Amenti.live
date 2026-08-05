@@ -31,10 +31,28 @@
 
   /* the heartbeat: a tick that should arrive every 50 ms. When it does not,
      the difference is main-thread blocking, measured without any API. */
+  /* A HIDDEN TAB LOOKS EXACTLY LIKE A FROZEN ONE.
+     Safari throttles setInterval hard in a background tab, so a late tick
+     means either the thread was busy OR the window was not in front. The
+     first version could not tell those apart and reported a 69-second
+     "block" that DOMContentLoaded fired in the middle of — which is
+     impossible. Record visibility alongside, and mark any gap that overlaps
+     a hidden period as unusable rather than reporting it as blocking. */
+  T.hidden = [];
+  var hidSince = document.hidden ? performance.now() : null;
+  document.addEventListener('visibilitychange', function(){
+    var now = performance.now();
+    if (document.hidden) { hidSince = now; }
+    else if (hidSince != null) { T.hidden.push({ s: Math.round(hidSince), e: Math.round(now) }); hidSince = null; }
+  });
+
   var last = performance.now();
   var hb = setInterval(function(){
     var now = performance.now(), gap = now - last;
-    if (gap > 220) T.gaps.push({ s: Math.round(last), d: Math.round(gap) });
+    if (gap > 220) {
+      T.gaps.push({ s: Math.round(last), d: Math.round(gap),
+                    hid: document.hidden || hidSince != null });
+    }
     last = now;
   }, 50);
   setTimeout(function(){ clearInterval(hb); }, 90000);
@@ -798,7 +816,27 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
      The Terminal calls window.claude.complete({system, messages}); on the live
      site there is no in-editor API, so define one that forwards to the Amenti
      Cloudflare Worker (same contract Page2 uses: POST {system, messages} -> {reply}). -->
-<script src="config.js"></script>
+<!-- amenti-core.bundle.js — SIX FILES, ONE ROUND TRIP.
+     config.js, amenti-resolve.js, amenti-voice.js, amenti-listen.js,
+     amenti-chat.js and amenti-quiz.js were the last six render-blocking
+     scripts on the page. The bytes were never the problem; six SERIAL round
+     trips were, each halting the parser until it returned.
+
+     This is a concatenation in the exact original order, not a rewrite.
+     Checked before doing it: all six are fully IIFE-wrapped (zero top-level
+     declarations between them, so merging scopes cannot collide), none
+     carries file-scope 'use strict', and none reads document.currentScript.
+     Loading them bundled produces an identical global surface to loading
+     them separately — same four globals, same five Amenti.* namespaces,
+     no errors either way.
+
+     It stays BLOCKING and it stays HERE, where config.js was. The inline
+     blocks at L6167, L7285 and L7403 read Amenti.chat/.voice/.listen at
+     parse time; defer would set termChat null and drop the Terminal to its
+     inline fallback, silently.
+
+     REBUILD IT if you edit any of the six. It is generated, not authored. -->
+<script src="amenti-core.bundle.js"></script>
 <!-- THE RESOLVER · LOADED HERE, AND HERE FOR A REASON.
      One name, one person, exact match or null. Three things now depend on it:
      amenti-roster.js for every card's face and bars, library.js for casting a
@@ -814,7 +852,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 
      Measured: 1,009 records instead of 1,006, and no error anywhere.
      A dependency that is usually ready is not a dependency that is ready. -->
-<script src="amenti-resolve.js"></script>
 
 <script>
 (function(){
@@ -987,15 +1024,6 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
     .gw-meta-item { min-width: 104px; }
   }
 </style>
-<!-- amenti-chat.js is 106 KB and the largest single script on the page.
-     It CANNOT be deferred: the Terminal IIFE calls Amenti.chat.create() at
-     parse time, so defer sets termChat=null and drops the Terminal to its
-     inline fallback SILENTLY — the exact regression documented above the
-     module tags. preload starts the fetch here, in parallel, without touching
-     execution order, so the parse-time guard still passes.
-     Canary after deploying: Amenti.terminalPath must read "core".
-     This must stay in the HEAD; below the script tag it does nothing. -->
-<link rel="preload" href="amenti-chat.js" as="script">
 <!-- THE PROBE STACK IS FOR THE CAPTAIN, NOT THE READER.
      amenti-probe.js, amenti-cassiel.js and amenti-manifest.js came to 51 KB
      on every single visit, and nothing outside the probe stack calls any of
@@ -6046,9 +6074,6 @@ window.AMENTI_ERAS = window.AMENTI_ERAS || [];
 
      amenti-throttle.js STAYS IN THE REPO until that header says hit. It is the
      rollback, and nothing is deleted on the same commit that makes it unnecessary. -->
-<script src="amenti-voice.js"></script>
-<script src="amenti-listen.js"></script>
-<script src="amenti-chat.js"></script>
 <script data-terminal="1">
 (function(){
 try{
@@ -8041,7 +8066,6 @@ window.AMENTI_VOICE = {
 </script> 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="amenti-auth.js" defer></script>  
-<script src="amenti-quiz.js"></script>
 <script src="amenti-roster.js" defer></script>
 <script src="amenti-roster-view.js" defer></script>
 <script src="amenti-bay.js" defer></script>
@@ -8072,7 +8096,7 @@ window.AMENTI_VOICE = {
 (function(){
   if(!/[?&]diagnose=1/.test(location.search)) return;
   var t=document.createElement('script');
-  t.src='amenti-diagnose.js?v=20'; t.defer=true;
+  t.src='amenti-diagnose.js?v=21'; t.defer=true;
   document.head.appendChild(t);
 })();
 </script>
