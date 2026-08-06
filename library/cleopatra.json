@@ -1,0 +1,70 @@
+{
+  "key": "cleopatra",
+  "name": "Cleopatra",
+  "note": "Not one word of hers survives. She was the last pharaoh of Egypt, reportedly spoke nine languages and was the first of her Greek dynasty to bother learning Egyptian, wrote — by ancient report — on cosmetics and on weights and measures. None of it is here, because none of it exists.\n\nWhat exists is this shelf, and every item on it is Roman. Every one was written after she was dead, in the language of the man who defeated her, mostly by people living comfortably under his settlement. Horace's ode was composed within months of her death by a poet whose patron was Octavian's closest friend — you can watch him start with 'fatal monster' and end, against his own argument, admiring her. Plutarch, the fullest source and the one Shakespeare used, was born about seventy-five years after she died.\n\nSo there is no version of her here that is not an enemy's, and the room cannot fix that. What it can do is put the accounts side by side, because they do not agree. Plutarch's Antony gives her wit and languages and a voice like an instrument; Horace gives her a drunk; Lucan gives her a seductress and blames her for the Republic. The disagreement is the evidence, and it is most of what can honestly be known.",
+  "works": [
+    {
+      "id": "01-plutarch-antony",
+      "section": "Plutarch · c. AD 100, of events 130 years earlier",
+      "title": "Life of Antony",
+      "mode": "stored",
+      "source": "tr. John Dryden, revised A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The fullest account there is, and the source of nearly every image you already hold — the barge on the Cydnus, the pearl in the vinegar, Actium, the asp. It is a life of Antony, so she appears as what happened to him, and Plutarch's thesis is that she ruined a good soldier. Read past the thesis and the detail is remarkable: he says she rarely needed an interpreter, and lists the languages. Shakespeare took the barge passage almost verbatim from this translation's predecessor.",
+      "file": "cleopatra/01-plutarch-antony.md"
+    },
+    {
+      "id": "02-plutarch-caesar",
+      "section": "Plutarch · c. AD 100, of events 130 years earlier",
+      "title": "Life of Caesar",
+      "mode": "stored",
+      "source": "tr. John Dryden, revised A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "How she got the throne back. She is twenty-one, deposed, and has herself carried into a palace held by her brother's faction to reach Caesar before anyone can stop her. The Alexandrian war follows. Plutarch gives it a few pages; it decided who ruled Egypt for the next eighteen years.",
+      "file": "cleopatra/02-plutarch-caesar.md"
+    },
+    {
+      "id": "03-plutarch-pompey",
+      "section": "Plutarch · c. AD 100, of events 130 years earlier",
+      "title": "Life of Pompey",
+      "mode": "stored",
+      "source": "tr. John Dryden, revised A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The reason Caesar was in Egypt at all. Pompey flees there after Pharsalus expecting refuge from a family his father had helped restore, and is killed in a boat within sight of shore by men he recognised. Her brother's court did it, calculating which Roman to please. That calculation is the world she inherited: Egypt was already deciding which Roman to be useful to.",
+      "file": "cleopatra/03-plutarch-pompey.md"
+    },
+    {
+      "id": "04-suetonius-julius",
+      "section": "Suetonius · c. AD 121, imperial archivist",
+      "title": "The Deified Julius",
+      "mode": "stored",
+      "source": "tr. Alexander Thomson, revised T. Forester · Project Gutenberg #6400 · public domain",
+      "note": "Suetonius had the imperial archives and the instincts of a gossip columnist, and he is brief on her — three mentions, all of them barbed. He puts Egypt in her hands and her brother's because Caesar feared making it a province. He lists her among Caesar's mistresses, notes they revelled until dawn and that Caesar would have sailed the Nile with her as far as Ethiopia if the army had not refused to follow. And he records that Caesar's own friend Oppius felt obliged to publish a book arguing the child was not Caesar's — which tells you what Rome believed, and that it mattered enough to answer in print.",
+      "file": "cleopatra/04-suetonius-julius.md"
+    },
+    {
+      "id": "05-suetonius-augustus",
+      "section": "Suetonius · c. AD 121, imperial archivist",
+      "title": "Augustus",
+      "mode": "stored",
+      "source": "tr. Alexander Thomson, revised T. Forester · Project Gutenberg #6400 · public domain",
+      "note": "The victor's life, and the one to read for how the story was made. Octavian's war was declared on Cleopatra, not on Antony — a foreign queen is a legitimate enemy where a Roman consul is a civil war. Everything the later sources say about her drunkenness, her ambition and her spell over Roman men was useful to that framing before it was ever history.",
+      "file": "cleopatra/05-suetonius-augustus.md"
+    },
+    {
+      "id": "06-horace-book-one",
+      "section": "The poets · written while it was still news",
+      "title": "Horace, Odes Book I — including 'Nunc est bibendum'",
+      "mode": "stored",
+      "source": "tr. John Conington, 1863 · Project Gutenberg #5432 · public domain",
+      "note": "Ode 37 is the closest thing to a contemporary reaction that survives — written within months, by a poet under Maecenas, who was Octavian's closest friend. It opens as a drinking song for her death and calls her a fatal monster surrounded by a diseased crew. Then it turns. By the end she is refusing to be led in triumph, handling the asps deliberately, and the poet cannot help admiring her. Sixteen lines of propaganda that lose their nerve and become the best portrait on this shelf.",
+      "file": "cleopatra/06-horace-book-one.md"
+    },
+    {
+      "id": "07-lucan-book-ten",
+      "section": "The poets · written while it was still news",
+      "title": "Lucan, Pharsalia Book X — Caesar in Egypt",
+      "mode": "stored",
+      "source": "tr. Edward Ridley, 1896 · Project Gutenberg #602 · public domain",
+      "note": "Written under Nero by a poet who would be forced to open his own veins at twenty-five, and it is the most hostile thing here. Lucan's Cleopatra is Egypt's shame and Rome's ruin, her banquet an obscenity of imported luxury, her body the instrument that undid the Republic. It is worth reading precisely because it is unrestrained — this is the version with the propaganda still visible on the surface, before Plutarch made it literature.",
+      "file": "cleopatra/07-lucan-book-ten.md"
+    }
+  ]
+}
