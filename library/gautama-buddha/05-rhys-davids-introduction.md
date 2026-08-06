@@ -1,0 +1,1175 @@
+INTRODUCTION.
+
+It is well known that amongst the Buddhist Scriptures there is one book
+in which a large number of old stories, fables, and fairy tales, lie
+enshrined in an edifying commentary; and have thus been preserved for
+the study and amusement of later times. How this came about is not at
+present quite certain. The belief of orthodox Buddhists on the subject
+is this. The Buddha, as occasion arose, was accustomed throughout his
+long career to explain and comment on the events happening around him,
+by telling of similar events that had occurred in his own previous
+births. The experience, not of one lifetime only, but of many lives,
+was always present to his mind; and it was this experience he so
+often used to point a moral, or adorn a tale. The stories so told are
+said to have been reverently learnt and repeated by his disciples;
+and immediately after his death 550 of them were gathered together
+in one collection, called the Book of the 550 Jātakas or Births; the
+commentary to which gives for each Jātaka, or Birth Story, an account
+of the event in Gotama’s life which led to his first telling that
+particular story. Both text and commentary were then handed down
+intact, and in the Pāli language in which they were composed, to the
+time of the Council of Patna (held in or about the year 250 B.C.);
+and they were carried in the following year to Ceylon by the great
+missionary Mahinda. There the commentary was translated into Siŋhalese,
+the Aryan dialect spoken in Ceylon; and was re-translated into its
+present form in the Pāli language in the fifth century of our era. But
+the text of the Jātaka stories themselves has been throughout preserved
+in its original Pāli form.
+
+Unfortunately this orthodox Buddhist belief as to the history of
+the Book of Birth Stories rests on a foundation of quicksand. The
+Buddhist belief, that most of their sacred books were in existence
+immediately after the Buddha’s death, is not only not supported, but
+is contradicted by the evidence of those books themselves. It may be
+necessary to state what that belief is, in order to show the importance
+which the Buddhists attach to the book; but in order to estimate the
+value we ourselves should give it, it will be necessary by critical,
+and more roundabout methods, to endeavour to arrive at some more
+reliable conclusion. Such an investigation cannot, it is true, be
+completed until the whole series of the Buddhist Birth Stories shall
+have become accessible in the original Pāli text, and the history
+of those stories shall have been traced in other sources. With the
+present inadequate information at our command, it is only possible to
+arrive at probabilities. But it is therefore the more fortunate that
+the course of the inquiry will lead to some highly interesting and
+instructive results.
+
+In the first place, the fairy tales, parables, fables, riddles, and
+comic and moral stories, of which the Buddhist Collection--known as the
+Jātaka Book--consists, have been found, in many instances, to bear a
+striking resemblance to similar ones current in the West. Now in many
+instances this resemblance is simply due to the fact that the _Western
+stories were borrowed from the Buddhist ones_.
+
+To this resemblance much of the interest excited by the Buddhist Birth
+Stories is, very naturally, due. As, therefore, the stories translated
+in the body of this volume do not happen to contain among them any
+of those most generally known in England, I insert here one or two
+specimens which may at the same time afford some amusement, and also
+enable the reader to judge how far the alleged resemblances do actually
+exist.
+
+It is absolutely essential for the correctness of such judgment
+that the stories should be presented exactly as they stand in the
+original. I am aware that a close and literal translation involves the
+disadvantage of presenting the stories in a style which will probably
+seem strange, and even wooden, to the modern reader. But it cannot be
+admitted that, for even purposes of comparison, it would be sufficient
+to reproduce the stories in a modern form which should aim at combining
+substantial accuracy with a pleasing dress.
+
+And the Book of Birth Stories has a value quite independent of the fact
+that many of its tales have been transplanted to the West. It contains
+a record of the every-day life, and every-day thought, of the people
+among whom the tales were told: it is _the oldest, most complete, and
+most important Collection of Folk-lore extant_.
+
+The whole value of its evidence in this respect would be lost, if a
+translator, by slight additions in some places, slight omissions in
+others, and slight modifications here and there, should run the risk
+of conveying erroneous impressions of early Buddhist beliefs, and
+habits, and modes of thought. It is important, therefore, that the
+reader should understand, before reading the stories I intend to give,
+that while translating sentence by sentence, rather than word by word,
+I have never lost sight of the importance of retaining in the English
+version, as far as possible, not only the phraseology, but the style
+and spirit of the Buddhist story-teller.
+
+The first specimen I propose to give is a half-moral half-comic story,
+which runs as follows.
+
+The Ass in the Lion’s Skin.
+
+SĪHA-CAMMA JĀTAKA.
+
+(Fausböll, No. 189.)
+
+Once upon a time, while Brahma-datta was reigning in Benāres, the
+future Buddha was born one of a peasant family; and when he grew up, he
+gained his living by tilling the ground.
+
+At that time a hawker used to go from place to place, trafficking in
+goods carried by an ass. Now at each place he came to, when he took the
+pack down from the ass’s back, he used to clothe him in a lion’s skin,
+and turn him loose in the rice and barley-fields. And when the watchmen
+in the fields saw the ass, they dared not go near him, taking him for a
+lion.
+
+So one day the hawker stopped in a village; and whilst he was getting
+his own breakfast cooked, he dressed the ass in a lion’s skin, and
+turned him loose in a barley-field. The watchmen in the field dared not
+go up to him; but going home, they published the news. Then all the
+villagers came out with weapons in their hands; and blowing chanks, and
+beating drums, they went near the field and shouted. Terrified with the
+fear of death, the ass uttered a cry--the cry of an ass!
+
+Ana when he knew him then to be an ass, the future Buddha pronounced
+the First Stanza:
+
+    “This is not a lion’s roaring,
+    Nor a tiger’s, nor a panther’s;
+    Dressed in a lion’s skin,
+    ’Tis a wretched ass that roars!”
+
+But when the villagers knew the creature to be an ass, they beat him
+till his bones broke; and, carrying off the lion’s skin, went away.
+Then the hawker came; and seeing the ass fallen into so bad a plight,
+pronounced the Second Stanza:
+
+    “Long might the ass,
+    Clad in a lion’s skin,
+    Have fed on the barley green.
+        But he brayed!
+    And that moment he came to ruin.”
+
+And even whilst he was yet speaking the ass died on the spot!
+
+       *       *       *       *       *
+
+This story will doubtless sound familiar enough to English ears; for a
+similar tale is found in our modern collections of so-called ‘Æsop’s
+Fables.’ Professor Benfey has further traced it in mediæval French,
+German, Turkish, and Indian literature. But it may have been much
+older than any of these books; for the fable possibly gave rise to
+a proverb of which we find traces among the Greeks as early as the
+time of Plato. Lucian gives the fable in full, localizing it at
+Kumē, in South Italy, and Julien has given us a Chinese version in
+his ‘Avadānas.’ Erasmus, in his work on proverbs, alludes to
+the fable; and so also does our own Shakespeare in ‘King John.’
+It is worthy of mention that in one of the later story-books--in a
+Persian translation, that is, of the Hitopadesa--there is a version
+of our fable in which it is the vanity of the ass in trying to sing
+which leads to his disguise being discovered, and thus brings him
+to grief. But Professor Benfey has shown that this version is
+simply the rolling into one of the present tale and of another, also
+widely prevalent, where an ass by trying to sing earns for himself,
+not thanks, but blows. I shall hereafter attempt to draw some
+conclusions from the history of the story. But I would here point out
+that the fable could scarcely have originated in any country in which
+lions were not common; and that the Jātaka story gives a reasonable
+explanation of the ass being dressed in the skin, instead of saying
+that he dressed himself in it, as is said in our ‘Æsop’s Fables.’
+
+The reader will notice that the ‘moral’ of the tale is contained in
+two stanzas, one of which is put into the mouth of the Bodisat or
+future Buddha. This will be found to be the case in all the Birth
+Stories, save that the number of the stanzas differs, and that they
+are usually all spoken by the Bodisat. It should also be noticed that
+the identification of the peasant’s son with the Bodisat, which is of
+so little importance to the story, is the only part of it which is
+essentially Buddhistic. Both these points will be of importance further
+on.
+
+The introduction of the human element takes this story, perhaps, out of
+the class of fables in the most exact sense of that word. I therefore
+add a story containing a fable proper, where animals speak and act like
+men.
+
+The Talkative Tortoise.
+
+KACCHAPA JĀTAKA.
+
+(Fausböll, No. 215.)
+
+Once upon a time, when Brahma-datta was reigning in Benāres, the future
+Buddha was born in a minister’s family; and when he grew up, he became
+the king’s adviser in things temporal and spiritual.
+
+Now this king was very talkative: while he was speaking, others had no
+opportunity for a word. And the future Buddha, wanting to cure this
+talkativeness of his, was constantly seeking for some means of doing
+so.
+
+At that time there was living, in a pond in the Himālaya mountains, a
+tortoise. Two young haŋsas (_i.e._ wild ducks) who came to feed
+there, made friends with him. And one day, when they had become very
+intimate with him, they said to the tortoise--
+
+“Friend tortoise! the place where we live, at the Golden Cave on Mount
+Beautiful in the Himālaya country, is a delightful spot. Will you come
+there with us?”
+
+“But how can I got there?”
+
+“We can take you, if you can only hold your tongue, and will say
+nothing to anybody.”
+
+“O! that I can do. Take me with you.”
+
+“That’s right,” said they. And making the tortoise bite hold of a
+stick, they themselves took the two ends in their teeth, and flew up
+into the air.
+
+Seeing him thus carried by the haŋsas, some villagers called out, “Two
+wild ducks are carrying a tortoise along on a stick!” Whereupon the
+tortoise wanted to say, “If my friends choose to carry me, what is that
+to you, you wretched slaves!” So just as the swift flight of the wild
+ducks had brought him over the king’s palace in the city of Benāres, he
+let go of the stick he was biting, and falling in the open courtyard,
+split in two! And there arose a universal cry, “A tortoise has fallen
+in the open courtyard, and has split in two!”
+
+The king, taking the future Buddha, went to the place, surrounded by
+his courtiers; and looking at the tortoise, he asked the Bodisat,
+“Teacher! how comes he to be fallen here?”
+
+The future Buddha thought to himself, “Long expecting, wishing to
+admonish the king, have I sought for some means of doing so. This
+tortoise must have made friends with the wild ducks; and they must
+have made him bite hold of the stick, and have flown up into the air
+to take him to the hills. But he, being unable to hold his tongue
+when he hears any one else talk, must have wanted to say something,
+and let go the stick; and so must have fallen down from the sky, and
+thus lost his life.” And saying, “Truly, O king! those who are called
+chatter-boxes--people whose words have no end--come to grief like
+this,” he uttered these Verses:
+
+    “Verily the tortoise killed himself
+    Whilst uttering his voice;
+    Though he was holding tight the stick,
+    By a word himself he slew.
+
+    “Behold him then, O excellent by strength!
+    And speak wise words, not out of season.
+    You see how, by his talking overmuch,
+    The tortoise fell into this wretched plight!”
+
+The king saw that he was himself referred to, and said, “O Teacher! are
+you speaking of us?”
+
+And the Bodisat spake openly, and said, “O great king! be it thou, or
+be it any other, whoever talks beyond measure meets with some mishap
+like this.”
+
+And the king henceforth refrained himself, and became a man of few
+words.
+
+This story too is found also in Greek, Latin, Arabic, Persian, and in
+most European languages, though, strangely enough, it does not
+occur in our books of Æsop’s Fables. But in the ‘Æsop’s Fables’ is
+usually included a story of a tortoise who asked an eagle to teach him
+to fly; and being dropped, split into two! It is worthy of notice
+that in the Southern recension of the Pañca Tantra it is eagles, and
+not wild ducks or swans, who carry the tortoise; and there can, I
+think, be little doubt that the two fables are historically connected.
+
+Another fable, very familiar to modern readers, is stated in the
+commentary to have been first related in ridicule of a kind of Mutual
+Admiration Society existing among the opponents of the Buddha. Hearing
+the monks talking about the foolish way in which Devadatta and Kokālika
+went about among the people ascribing each to the other virtues which
+neither possessed, he is said to have told this tale.
+
+The Jackal and the Crow.
+
+JAMBU-KHĀDAKA JĀTAKA.
+
+(Fausböll, No. 294.)
+
+Long, long ago, when Brahma-datta was reigning in Benāres, the Bodisat
+had come to life as a tree-god, dwelling in a certain grove of
+Jambu-trees.
+
+Now a crow was sitting there one day on the branch of a Jambu-tree,
+eating the Jambu-fruits, when a jackal coming by, looked up and saw him.
+
+“Ha!” thought he. “I’ll flatter that fellow, and get some of those
+Jambus to eat.” And thereupon he uttered this verse in his praise:
+
+  “Who may this be, whose rich and pleasant notes
+  Proclaim him best of all the singing-birds?
+  Warbling so sweetly on the Jambu-branch,
+  Where like a peacock he sits firm and grand!”
+
+Then the crow, to pay him back his compliments, replied in this second
+verse:
+
+    “’Tis a well-bred young gentleman, who understands
+    To speak of gentlemen in terms polite!
+    Good Sir!--whose shape and glossy coat reveal
+    The tiger’s offspring--eat of these, I pray!”
+
+And so saying, he shook the branch of the Jambu-tree till he made the
+fruit to fall.
+
+But when the god who dwelt in that tree saw the two of them, now they
+had done flattering one another, eating the Jambus together, he uttered
+a third verse:
+
+    “Too long, forsooth, I’ve borne the sight
+    Of these poor chatterers of lies--
+    The refuse-eater and the offal-eater
+    Belauding each other!”
+
+And making himself visible in awful shape, he frightened them away from
+the place!
+
+       *       *       *       *       *
+
+It is easy to understand, that when this story had been carried out
+of those countries where the crow and the jackal are the common
+scavengers, it would lose its point; and it may very well, therefore,
+have been shortened into the fable of the Fox and the Crow and the
+piece of cheese. On the other hand, the latter is so complete and
+excellent a story, that it would scarcely have been expanded, if it had
+been the original, into the tale of the Jackal and the Crow.
+
+The next tale to be quoted is one showing how a wise man solves a
+difficulty. I am sorry that Mr. Fausböll has not yet reached this
+Jātaka in his edition of the Pāli text; but I give it from a Siŋhalese
+version of the fourteenth century, which is nearer to the Pāli than any
+other as yet known. It is an episode in
+
+The Birth as ‘Great Physician.’
+
+MAHOSADHA JĀTAKA.
+
+A woman, carrying her child, went to the future Buddha’s tank to wash.
+And having first bathed the child, she put on her upper garment and
+descended into the water to bathe herself.
+
+Then a Yakshiṇī, seeing the child, had a craving to eat it. And
+taking the form of a woman, she drew near, and asked the mother--
+
+“Friend, this _is_ a _very_ pretty child, is it one of yours?”
+
+And when she was told it was, she asked if she might nurse it. And this
+being allowed, she nursed it a little, and then carried it off.
+
+But when the mother saw this, she ran after her, and cried out, “Where
+are you taking my child to?” and caught hold of her.
+
+The Yakshiṇī boldly said, “Where did you get the child from? It is
+mine!” And so quarrelling, they passed the door of the future Buddha’s
+Judgment Hall.
+
+He heard the noise, sent for them, inquired into the matter, and asked
+them whether they would abide by his decision. And they agreed. Then
+he had a line drawn on the ground; and told the Yakshiṇī to take hold
+of the child’s arms, and the mother to take hold of its legs; and said,
+“The child shall be hers who drags him over the line.”
+
+But as soon as they pulled at him, the mother, seeing how he suffered,
+grieved as if her heart would break. And letting him go, she stood
+there weeping.
+
+Then the future Buddha asked the bystanders, “Whose hearts are tender
+to babes? those who have borne children, or those who have not?”
+
+And they answered, “O Sire! the hearts of mothers are tender.”
+
+Then he said, “Whom think you is the mother? she who has the child in
+her arms, or she who has let go?”
+
+And they answered, “She who has let go is the mother.”
+
+And he said, “Then do you all think that the other was the thief?”
+
+And they answered, “Sire! we cannot tell.”
+
+And he said, “Verily this is a Yakshiṇī, who took the child to eat it.”
+
+And they asked, “O Sire! how did you know it?”
+
+And he replied, “Because her eyes winked not, and were red, and she
+knew no fear, and had no pity, I knew it.”
+
+And so saying, he demanded of the thief, “Who are you?”
+
+And she said, “Lord! I am a Yakshiṇī.”
+
+And he asked, “Why did you take away this child?”
+
+And she said, “I thought to eat him, O my Lord!”
+
+And he rebuked her, saying, “O foolish woman! For your former sins you
+have been born a Yakshiṇī, and now do you still sin” And he laid a vow
+upon her to keep the Five Commandments, and let her go.
+
+But the mother of the child exalted the future Buddha, and said, “O my
+Lord! O Great Physician! may thy life be long!” And she went away, with
+her babe clasped to her bosom.
+
+       *       *       *       *       *
+
+The Hebrew story, in which a similar judgment is ascribed to Solomon,
+occurs in the Book of Kings, which is more than a century older than
+the time of Gotama. We shall consider below what may be the connexion
+between the two.
+
+The next specimen is a tale about lifeless things endowed with
+miraculous powers; perhaps the oldest tale in the world of that kind
+which has been yet published. It is an episode in
+
+Sakka’s Presents.
+
+DADHI-VĀHANA JĀTAKA.
+
+(Fausböll, No. 186.)
+
+Once upon a time, when Brahma-datta was reigning in Benāres, four
+brothers, Brāhmans, of that kingdom, devoted themselves to an ascetic
+life; and having built themselves huts at equal distances in the region
+of the Himālaya mountains, took up their residence there.
+
+The eldest of them died, and was reborn as the god Sakka. When he
+became aware of this, he used to go and render help at intervals every
+seven or eight days to the others. And one day, having greeted the
+eldest hermit, and sat down beside him, he asked him, “Reverend Sir,
+what are you in need of?”
+
+The hermit, who suffered from jaundice, answered, “I want fire!” So he
+gave him a double-edged hatchet.
+
+But the hermit said, “Who is to take this, and bring me firewood?”
+
+Then Sakka spake thus to him, “Whenever, reverend Sir, you want
+firewood, you should let go the hatchet from your hand, and say,
+‘Please fetch me firewood: make me fire!’ And it will do so.”
+
+So he gave him the hatchet; and went to the second hermit, and asked,
+“Reverend Sir, what are you in need of?”
+
+Now the elephants had made a track for themselves close to his hut. And
+he was annoyed by those elephants, and said, “I am much troubled by
+elephants; drive them away.”
+
+Sakka, handing him a drum, said, “Reverend Sir, if you strike on this
+side of it, your enemies will take to flight; but if you strike on this
+side, they will become friendly, and surround you on all sides with an
+army in fourfold array.”
+
+So he gave him the drum; and went to the third hermit, and asked,
+“Reverend Sir, what are you in need of?”
+
+He was also affected with jaundice, and said, therefore, “I want sour
+milk.”
+
+Sakka gave him a milk-bowl, and said, “If you wish for anything, and
+turn this bowl over, it will become a great river, and pour out such a
+torrent, that it will be able to take a kingdom, and give it to you.”
+
+And Sakka went away. But thenceforward the hatchet made fire for
+the eldest hermit; when the second struck one side of his drum, the
+elephants ran away; and the third enjoyed his curds.
+
+Now at that time a wild boar, straying in a forsaken village, saw a
+gem of magical power. When he seized this in his mouth, he rose by its
+magic into the air, and went to an island in the midst of the ocean.
+And thinking, “Here now I ought to live,” he descended, and took up his
+abode in a convenient spot under an Udumbara-tree. And one day, placing
+the gem before him, he fell asleep at the foot of the tree.
+
+Now a certain man of the Land of Kāsi had been expelled from home by
+his parents, who said, “This fellow is of no use to us.” So he went
+to a seaport, and embarked in a ship as a servant to the sailors. And
+the ship was wrecked; but by the help of a plank he reached that very
+island. And while he was looking about for fruits, he saw the boar
+asleep; and going softly up, he took hold of the gem.
+
+Then by its magical power he straightway rose right up into the air!
+So, taking a seat on the Udumbara-tree, he said to himself, “Methinks
+this boar must have become a sky-walker through the magic power of
+this gem. That’s how he got to be living here! It’s plain enough what
+I ought to do; I’ll first of all kill and eat him, and then I can get
+away!”
+
+So he broke a twig off the tree, and dropped it on his head. The boar
+woke up, and not seeing the gem, ran about, trembling, this way and
+that way. The man seated on the tree laughed. The boar, looking up, saw
+him, and dashing his head against the tree, died on the spot.
+
+But the man descended, cooked his flesh, ate it, and rose into the air.
+And as he was passing along the summit of the Himālaya range, he saw a
+hermitage; and descending at the hut of the eldest hermit, he stayed
+there two or three days, and waited on the hermit; and thus became
+aware of the magic power of the hatchet.
+
+“I must get that,” thought he. And he showed the hermit the magic
+power of his gem, and said, “Sir, do you take this, and give me your
+hatchet.” The ascetic, full of longing to be able to fly through the
+air, did so. But the man, taking the hatchet, went a little way
+off, and letting it go, said, “O hatchet! cut off that hermit’s head,
+and bring the gem to me!” And it went, and cut off the hermit’s head,
+and brought him the gem.
+
+Then he put the hatchet in a secret place, and went to the second
+hermit, and stayed there a few days. And having thus become aware of
+the magic power of the drum, he exchanged the gem for the drum; and cut
+off _his_ head too in the same way as before.
+
+Then he went to the third hermit, and saw the magic power of the
+milk-bowl; and exchanging the gem for it, caused _his_ head to be cut
+off in the same manner. And taking the Gem, and the Hatchet, and the
+Drum, and the Milk-bowl, he flew away up into the air.
+
+Not far from the city of Benāres he stopped, and sent by the hand of a
+man a letter to the king of Benāres to this effect, “Either do battle,
+or give me up your kingdom!”
+
+No sooner had he heard that message, than the king sallied forth,
+saying, “Let us catch the scoundrel!”
+
+But the man beat one side of his drum, and a fourfold army stood around
+him! And directly he saw that the king’s army was drawn out in battle
+array, he poured out his milk-bowl; and a mighty river arose, and the
+multitude, sinking down in it, were not able to escape! Then letting go
+the hatchet, he said, “Bring me the king’s head!” And the hatchet went,
+and brought the king’s head, and threw it at his feet; and no one had
+time even to raise a weapon!
+
+Then he entered the city in the midst of his great army, and caused
+himself to be anointed king, under the name of Dadhi-vāhana (The Lord
+of Milk), and governed the kingdom with righteousness.
+
+       *       *       *       *       *
+
+The story goes on to relate how the king planted a wonderful mango, how
+the sweetness of its fruit turned to sourness through the too-close
+proximity of bitter herbs, (!) and how the Bodisat, then the king’s
+minister, pointed out that evil communications corrupt good things. But
+it is the portion above translated which deserves notice as the most
+ancient example known of those tales in which inanimate objects are
+endowed with magical powers; and in which the Seven League Boots, or
+the Wishing Cup, or the Vanishing Hat, or the Wonderful Lamp, render
+their fortunate possessors happy and glorious. There is a very tragical
+story of a Wishing Cup in the Buddhist Collection, where the
+Wishing Cup, however, is turned into ridicule. It is not unpleasant to
+find that beliefs akin to, and perhaps the result of, fetish-worship,
+had faded away, among Buddhist story-tellers, into sources of innocent
+amusement.
+
+In this curious tale the Hatchet, the Drum, and the Milk-bowl are
+endowed with qualities much more fit for the use they were put to in
+the latter part of the story, than to satisfy the wants of the hermits.
+It is common ground with satirists how little, save sorrow, men would
+gain if they could have anything they chose to ask for. But, unlike
+the others we have quoted, the tale in its present shape has a flavour
+distinctively Buddhist in the irreverent way in which it treats the
+great god Sakka, the Jupiter of the pre-Buddhistic Hindus. It takes for
+granted, too, that the hero ruled in righteousness; and this is as
+common in the Jātakas, as the ’lived happily ever after’ of modern love
+stories.
+
+This last idea recurs more strongly in the Birth Story called
+
+A Lesson for Kings.
+
+RĀJOVĀDA JĀTAKA.
+
+(Fausböll, No. 151.)
+
+Once upon a time, when Brahma-datta was reigning in Benāres, the future
+Buddha returned to life in the womb of his chief queen; and after the
+conception ceremony had been performed, he was safely born. And when
+the day came for choosing a name, they called him Prince Brahma-datta.
+He grew up in due course; and when he was sixteen years old, went
+to Takkasilā, and became accomplished in all arts. And after
+his father died he ascended the throne, and ruled the kingdom with
+righteousness and equity. He gave judgments without partiality, hatred,
+ignorance, or fear. Since he thus reigned with justice, with
+justice also his ministers administered the law. Lawsuits being thus
+decided with justice, there were none who brought false cases. And as
+these ceased, the noise and tumult of litigation ceased in the king’s
+court. Though the judges sat all day in the court, they had to leave
+without any one coming for justice. It came to this, that the Hall of
+Justice would have to be closed!
+
+Then the future Buddha thought, “From my reigning with righteousness
+there are none who come for judgment; the bustle has ceased, and the
+Hall of Justice will have to be closed. It behoves me, therefore, now
+to examine into my own faults; and if I find that anything is wrong in
+me, to put that away, and practise only virtue.”
+
+Thenceforth he sought for some one to tell him his faults; but among
+those around him he found no one who would tell him of any fault, but
+heard only his own praise.
+
+Then he thought, “It is from fear of me that these men speak only good
+things, and not evil things,” and he sought among those people who
+lived outside the palace. And finding no fault-finder there, he sought
+among those who lived outside the city, in the suburbs, at the four
+gates. And there too finding no one to find fault, and hearing only
+his own praise, he determined to search the country places.
+
+So he made over the kingdom to his ministers, and mounted his chariot;
+and taking only his charioteer, left the city in disguise. And
+searching the country through, up to the very boundary, he found no
+fault-finder, and heard only of his own virtue; and so he turned back
+from the outermost boundary, and returned by the high road towards the
+city.
+
+Now at that time the king of Kosala, Mallika by name, was also ruling
+his kingdom with righteousness; and when seeking for some fault in
+himself, he also found no fault-finder in the palace, but only heard
+of his own virtue! So seeking in country places, he too came to that
+very spot. And these two came face to face in a low cart-track with
+precipitous sides, where there was no space for a chariot to get out of
+the way!
+
+Then the charioteer of Mallika the king said to the charioteer of the
+king of Benāres, “Take thy chariot out of the way!”
+
+But he said, “Take thy chariot out of the way, O charioteer! In this
+chariot sitteth the lord over the kingdom of Benāres, the great king
+Brahma-datta.”
+
+Yet the other replied, “In this chariot, O charioteer, sitteth the lord
+over the kingdom of Kosala, the great king Mallika. Take thy carriage
+out of the way, and make room for the chariot of our king!”
+
+Then the charioteer of the king of Benāres thought, “They say then that
+he too is a king! What _is_ now to be done?” After some consideration,
+he said to himself, “I know a way. I’ll find out how old he is, and
+then I’ll let the chariot of the younger be got out of the way, and so
+make room for the elder.”
+
+And when he had arrived at that conclusion, he asked that charioteer
+what the age of the king of Kosala was. But on inquiry he found that
+the ages of both were equal. Then he inquired about the extent of
+his kingdom, and about his army, and his wealth, and his renown, and
+about the country he lived in, and his caste and tribe and family.
+And he found that both were lords of a kingdom three hundred leagues
+in extent; and that in respect of army and wealth and renown, and the
+countries in which they lived, and their caste and their tribe and
+their family, they were just on a par!
+
+Then he thought, “I will make way for the most righteous.” And he
+asked, “What kind of righteousness has this king of yours?”
+
+And the other saying, “Such and such is our king’s righteousness,” and
+so proclaiming his king’s wickedness as goodness, uttered the First
+Stanza:
+
+  The strong he overthrows by strength,
+  The mild by mildness, does Mallika;
+  The good he conquers by goodness,
+  And the wicked by wickedness too.
+    Such is the nature of _this_ king!
+    Move out of the way, O charioteer!
+
+But the charioteer of the king of Benāres asked him, “Well, have you
+told all the virtues of your king?”
+
+“Yes,” said the other.
+
+“If these are his _virtues_, where are then his faults?” replied he.
+
+The other said, “Well, for the nonce, they shall be faults, if you
+like! But pray, then, what is the kind of goodness your king has?”
+
+And then the charioteer of the king of Benāres called unto him to
+hearken, and uttered the Second Stanza:
+
+  Anger he conquers by calmness,
+  And by goodness the wicked;
+  The stingy he conquers by gifts,
+  And by truth the speaker of lies.
+    Such is the nature of _this_ king!
+    Move out of the way, O charioteer!”
+
+And when he had thus spoken, both Mallika, the king and his charioteer
+alighted from their chariot. And they took out the horses, and removed
+their chariot, and made way for the king of Benāres!
+
+But the king of Benāres exhorted Mallika the king, saying, “Thus
+and thus is it right to do.” And returning to Benāres, he practised
+charity, and did other good deeds, and so when his life was ended he
+passed away to heaven.
+
+And Mallika the king took his exhortation to heart; and having in vain
+searched the country through for a fault-finder, he too returned to his
+own city, and practised charity and other good deeds; and so at the end
+of his life he went to heaven.
+
+       *       *       *       *       *
+
+The mixture in this Jātaka of earnestness with dry humour is very
+instructive. The exaggeration in the earlier part of the story; the
+hint that law depends in reality on false cases; the suggestion that
+to decide cases justly would by itself put an end, not only to ‘the
+block in the law courts,’ but even to all lawsuits; the way in which
+it is brought about that two mighty kings should meet, unattended, in
+a narrow lane; the cleverness of the first charioteer in getting out
+of his difficulties; the brand-new method of settling the delicate
+question of precedence--a method which, logically carried out, would
+destroy the necessity of such questions being raised at all;--all this
+is the amusing side of the Jātaka. It throws, and is meant to throw,
+an air of unreality over the story; and it is none the less humour
+because it is left to be inferred, because it is only an aroma which
+might easily escape unnoticed, only the humour of naïve absurdity and
+of clever repartee.
+
+But none the less also is the story-teller thoroughly in earnest; he
+really means that justice is noble, that to conquer evil by good is
+the right thing, and that goodness is the true measure of greatness.
+The object is edification also, and not amusement only. The lesson
+itself is quite Buddhistic. The first four lines of the Second Moral
+are indeed included, as verse 223, in the _Dhammapada_ or ‘Scripture
+Verses,’ perhaps the most sacred and most widely-read book of the
+Buddhist Bible; and the distinction between the two ideals of virtue
+is in harmony with all Buddhist ethics. It is by no means, however,
+exclusively Buddhistic. It gives expression to an idea that would be
+consistent with most of the later religions; and is found also in
+the great Hindu Epic, the Mahā Bhārata, which has been called the
+Bible of the Hindus. It is true that further on in the same poem
+is found the opposite sentiment, attributed in our story to the king
+of Mallika; and that the higher teaching is in one of the latest
+portions of the Mahā Bhārata, and probably of Buddhist origin. But
+when we find that the Buddhist principle of overcoming evil by good was
+received, as well as its opposite, into the Hindu poem, it is clear
+that this lofty doctrine was by no means repugnant to the best among
+the Brāhmans.
+
+It is to be regretted that some writers on Buddhism have been led away
+by their just admiration for the noble teaching of Gotama into an
+unjust depreciation of the religious system of which his own was, after
+all, but the highest product and result. There were doubtless among the
+Brāhmans uncompromising advocates of the worst privileges of caste,
+of the most debasing belief in the efficacy of rites and ceremonies;
+but this verse is only one among many others which are incontestable
+evidence of the wide prevalence also of a spirit of justice, and of an
+earnest seeking after truth. It is, in fact, inaccurate to draw any
+hard-and-fast line between the Indian Buddhists and their countrymen
+of other faiths. After the first glow of the Buddhist reformation had
+passed away, there was probably as little difference between Buddhist
+and Hindu as there was between the two kings in the story which has
+just been told.
+
+THE KALILAG AND DAMNAG LITERATURE.
+
+Among the other points of similarity between Buddhists and Hindus,
+there is one which deserves more especial mention here,--that of their
+liking for the kind of moral-comic tales which form the bulk of the
+Buddhist Birth Stories. That this partiality was by no means confined
+to the Buddhists is apparent from the fact that books of such tales
+have been amongst the most favourite literature of the Hindus. And this
+is the more interesting to us, as it is these Hindu collections that
+have most nearly preserved the form in which many of the Indian stories
+have been carried to the West.
+
+The oldest of the collections now extant is the one already referred
+to, the PANCHA TANTRA, that is, the ’Five Books,’ a kind of Hindu
+‘Pentateuch’ or ‘Pentamerone.’ In its earliest form this work is
+unfortunately no longer extant; but in the sixth century of our era a
+book very much like it formed part of a work translated into Pahlavi,
+or Ancient Persian; and thence, about 750 A.D., into Syriac, under the
+title of ‘KALILAG AND DAMNAG,’ and into Arabic under the title ‘KALILAH
+AND DIMNAH.’
+
+These tales, though originally Buddhist, became great favourites among
+the Arabs; and as the Arabs were gradually brought into contact with
+Europeans, and penetrated into the South of Europe, they brought the
+stories with them; and we soon afterwards find them translated into
+Western tongues. It would be impossible within the limits of this
+preface to set out in full detail the intricate literary history
+involved in this statement; and while I must refer the student to the
+Tables appended to this Introduction for fuller information, I can only
+give here a short summary of the principal facts.
+
+It is curious to notice that it was the Jews to whom we owe the
+earliest versions. Whilst their mercantile pursuits took them much
+amongst the followers of the Prophet, and the comparative nearness of
+their religious beliefs led to a freer intercourse than was usually
+possible between Christians and Moslems, they were naturally attracted
+by a kind of literature such as this--Oriental in morality, amusing
+in style, and perfectly free from Christian legend and from Christian
+dogma. It was also the kind of literature which travellers would most
+easily become acquainted with, and we need not therefore be surprised
+to hear that a Jew, named Symeon Seth, about 1080 A.D., made the
+first translation into a European language, viz. into modern Greek.
+Another Jew, about 1250, made a translation of a slightly different
+recension of the ‘Kalilah and Dimnah’ into Hebrew; and a third, John
+of Capua, turned this Hebrew version into Latin between 1263 and 1278.
+At about the same time as the Hebrew version, another was made direct
+from the Arabic into Spanish, and a fifth into Latin; and from these
+five versions translations were afterwards made into German, Italian,
+French, and English.
+
+The title of the second Latin version just mentioned is very
+striking--it is “Æsop the Old.” To the translator, Baldo, it evidently
+seemed quite in order to ascribe these new stories to the traditional
+teller of similar stories in ancient times; just as witty sayings of
+more modern times have been collected into books ascribed to the once
+venerable Joe Miller. Baldo was neither sufficiently enlightened to
+consider a good story the worse for being an old one, nor sufficiently
+scrupulous to hesitate at giving his new book the advantage it would
+gain from its connexion with a well-known name.
+
+Is it true, then, that the so-called Æsop’s Fables--so popular still,
+in spite of many rivals, among our Western children--are merely
+adaptations from tales invented long ago to please and to instruct the
+childlike people of the East? I think I can give an answer, though not
+a complete answer, to the question.
+
+Æsop himself is several times mentioned in classical literature,
+and always as the teller of stories or fables. Thus Plato says that
+Socrates in his imprisonment occupied himself by turning the stories
+(literally myths) of Æsop into verse: Aristophanes four times
+refers to his tales: and Aristotle quotes in one form a fable of
+his, which Lucian quotes in another. In accordance with these
+references, classical historians fix the date of Æsop in the sixth
+century B.C.; but some modern critics, relying on the vagueness and
+inconsistency of the traditions, have denied his existence altogether.
+This is, perhaps, pushing scepticism too far; but it may be admitted
+that he left no written works, and it is quite certain that if he did,
+they have been irretrievably lost.
+
+Notwithstanding this, a learned monk of Constantinople, named PLANUDES,
+and the author also of numerous other works, did not hesitate, in the
+first half of the fourteenth century, to write a work which he called a
+collection of Æsop’s Fables. This was first printed at Milan at the end
+of the fifteenth century; and two other supplementary collections have
+subsequently appeared. From these, and especially from the work of
+Planudes, all our so-called Æsop’s Fables are derived.
+
+Whence then did Planudes and his fellow-labourers draw their tales?
+This cannot be completely answered till the source of each one of them
+shall have been clearly found, and this has not yet been completely
+done. But Oriental and classical scholars have already traced a goodly
+number of them; and the general results of their investigations may be
+shortly stated.
+
+BABRIUS, a Greek poet, who probably lived in the first century before
+Christ, wrote in verse a number of fables, of which a few fragments
+were known in the Middle Ages. The complete work was fortunately
+discovered by Mynas, in the year 1824, at Mount Athos; and both Bentley
+and Tyrwhitt from the fragments, and Sir George Cornewall Lewis in
+his well-known edition of the whole work, have shown that several of
+Planudes’ Fables are also to be found in Babrius.
+
+It is possible, also, that the Æsopean fables of the Latin poet
+_Phædrus_, who in the title of his work calls himself a freedman of
+Augustus, were known to Planudes. But the work of Phædrus, which is
+based on that of Babrius, existed only in very rare MSS. till the end
+of the sixteenth century, and may therefore have easily escaped the
+notice of Planudes.
+
+On the other hand, we have seen that versions of Buddhist Birth
+Stories, and other Indian tales, had appeared in Europe before the
+time of Planudes in Greek, Latin, Hebrew, and Spanish; and many of his
+stories have been clearly traced back to this source. Further, as
+I shall presently show, some of the fables of Babrius and Phædrus,
+found in Planudes, were possibly derived by those authors from Buddhist
+sources. And lastly, other versions of the Jātakas, besides those which
+have been mentioned as coming through the Arabs, had reached Europe
+long before the time of Planudes; and some more of his stories have
+been traced back to Buddhist sources through these channels also.
+
+What is at present known, then, with respect to the so-called Æsop’s
+fables, amounts to this--that none of them are really Æsopean at all;
+that the collection was first formed in the Middle Ages; that a large
+number of them have been already traced back, in various ways, to our
+Buddhist Jātaka book; and that almost the whole of them are probably
+derived, in one way or another, from Indian sources.
+
+It is perhaps worthy of mention, as a fitting close to the history of
+the so-called Æsop’s Fables, that those of his stories which Planudes
+borrowed indirectly from India have at length been restored to their
+original home, and bid fair to be popular even in this much-altered
+form. For not only has an Englishman translated a few of them into
+several of the many languages spoken in the great continent of
+India, but Narāyan Balkrishṇa Godpole, B.A., one of the Masters
+of the Government High School at Ahmadnagar, has lately published a
+second edition of his translation into Sanskrit of the common English
+version of the successful spurious compilation of the old monk of
+Constantinople!
+
+THE BARLAAM AND JOSAPHAT LITERATURE.
+
+A complete answer to the question with which the last digression
+started can only be given when each one of the two hundred and
+thirty-one fables of Planudes and his successors shall have been traced
+back to its original author. But--whatever that complete answer may
+be--the discoveries just pointed out are at least most strange and most
+instructive. And yet, if I mistake not, the history of the Jātaka Book
+contains hidden amongst its details a fact more unexpected and more
+striking still.
+
+In the eighth century the Khalif of Bagdad was that Almansur at whose
+court was written the Arabic book Kalilah and Dimnah, afterwards
+translated by the learned Jews I have mentioned into Hebrew, Latin, and
+Greek. A Christian, high in office at his court, afterwards became a
+monk, and is well known, under the name of St. John of Damascus, as the
+author in Greek of many theological works in defence of the orthodox
+faith. Among these is a religious romance called ‘Barlaam and Jōasaph,’
+giving the history of an Indian prince who was converted by Barlaam
+and became a hermit. This history, the reader will be surprised to
+learn, is taken from the life of the Buddha; and Joasaph is merely the
+Buddha under another name, the word Joasaph, or Josaphat, being simply
+a corruption of the word Bodisat, that title of the future Buddha so
+constantly repeated in the Buddhist Birth Stories. Now a life of
+the Buddha forms the introduction to our Jātaka Book, and St. John’s
+romance also contains a number of fables and stories, most of which
+have been traced back to the same source.
+
+This book, the first religious romance published in a Western language,
+became very popular indeed, and, like the Arabic Kalilah and Dimnah,
+was translated into many other European languages. It exists in Latin,
+French, Italian, Spanish, German, English, Swedish, and Dutch. This
+will show how widely it was read, and how much its moral tone pleased
+the taste of the Middle Ages. It was also translated as early as 1204
+into Icelandic, and has even been published in the Spanish dialect used
+in the Philippine Islands!
+
+Now it was a very ancient custom among Christians to recite at the
+most sacred part of their most sacred service (in the so-called Canon
+of the Mass, immediately before the consecration of the Host) the
+names of deceased saints and martyrs. Religious men of local celebrity
+were inserted for this purpose in local lists, called Diptychs, and
+names universally honoured throughout Christendom appeared in all such
+catalogues. The confessors and martyrs so honoured are now said to
+be _canonized_, that is, they have become enrolled among the number
+of Christian saints mentioned in the ‘Canon,’ whom it is the duty of
+every Catholic to revere, whose intercession may be invoked, who may
+be chosen as patron saints, and in whose honour images and altars and
+chapels may be set up.
+
+For a long time it was permitted to the local ecclesiastics to continue
+the custom of inserting such names in their ‘Diptychs,’ but about 1170
+a decretal of Pope Alexander III. confined the power of canonization,
+as far as the Roman Catholics were concerned, to the Pope himself.
+From the different Diptychs various martyrologies, or lists of persons
+so to be commemorated in the ‘Canon,’ were composed to supply the place
+of the merely local lists or Diptychs. For as time went on, it began to
+be considered more and more improper to insert new names in so sacred
+a part of the Church prayers; and the old names being well known, the
+Diptychs fell into disuse. The names in the Martyrologies were at last
+no longer inserted in the Canon, but are repeated in the service called
+the ‘Prime’; though the term ‘canonized’ was still used of the holy men
+mentioned in them. And when the increasing number of such Martyrologies
+threatened to lead to confusion, and to throw doubt on the exclusive
+power of the Popes to canonize, Pope Sixtus the Fifth (1585-1590)
+authorized a particular Martyrologium, drawn up by Cardinal Baronius,
+to be used throughout the Western Church. In that work are included not
+only the saints first canonized at Rome, but all those who, having been
+already canonized elsewhere, were then acknowledged by the Pope and the
+College of Rites to be saints of the Catholic Church of Christ. Among
+such, under the date of the 27th of November, are included “The holy
+Saints Barlaam and Josaphat, of India, on the borders of Persia, whose
+wonderful acts Saint John of Damascus has described.”
+
+Where and when they were first canonized, I have been unable, in spite
+of much investigation, to ascertain. Petrus de Natalibus, who was
+Bishop of Equilium, the modern Jesolo near Venice, from 1370 to 1400,
+wrote a Martyrology called ‘Catalogus Sanctorum’; and in it, among the
+‘saints,’ he inserts both Barlaam and Josaphat, giving also a short
+account of them derived from the old Latin translation of St. John
+of Damascus. It is from this work that Baronius, the compiler of
+the authorized Martyrology now in use, took over the names of these
+two saints, Barlaam and Josaphat. But, so far as I have been able to
+ascertain, they do not occur in any martyrologies or lists of saints of
+the Western Church older than that of Petrus de Natalibus.
+
+In the corresponding manual of worship still used in the Greek Church,
+however, we find, under August 26, the name ‘of the holy Iosaph, son
+of Abenēr, king of India.’ Barlaam is not mentioned, and is not
+therefore recognized as a saint in the Greek Church. No history is
+added to the simple statement I have quoted; and I do not know on what
+authority it rests. But there is no doubt that it is in the East, and
+probably among the records of the ancient church of Syria, that a final
+solution of this question should be sought.
+
+Some of the more learned of the numerous writers who translated or
+composed new works on the basis of the story of Josaphat, have pointed
+out in their notes that he had been canonized; and the hero of the
+romance is usually called St. Josaphat in the titles of these works,
+as will be seen from the Table of the Josaphat literature below. But
+Professor Liebrecht, when identifying Josaphat with the Buddha, took no
+notice of this; and it was Professor Max Müller, who has done so much
+to infuse the glow of life into the dry bones of Oriental scholarship,
+who first pointed out the strange fact--almost incredible, were it not
+for the completeness of the proof--that Gotama the Buddha, under the
+name of St. Josaphat, is now officially recognized and honoured and
+worshipped throughout the whole of Catholic Christendom as a Christian
+saint!
+
+I have now followed the Western history of the Buddhist Book of Birth
+Stories along two channels only. Space would fail me, and the reader’s
+patience perhaps too, if I attempted to do more. But I may mention
+that the inquiry is not by any means exhausted. A learned Italian has
+proved that a good many of the stories of the hero known throughout
+Europe as Sinbad the Sailor are derived from the same inexhaustible
+treasury of stories witty and wise; and a similar remark applies
+also to other well-known Tales included in the Arabian Nights.
+La Fontaine, whose charming versions of the Fables are so deservedly
+admired, openly acknowledges his indebtedness to the French versions
+of Kalilah and Dimnah; and Professor Benfey and others have traced the
+same stories, or ideas drawn from them, to Poggio, Boccaccio, Gower,
+Chaucer, Spenser, and many other later writers. Thus, for instance, the
+three caskets and the pound of flesh in ‘The Merchant of Venice,’ and
+the precious jewel which in ‘As You Like It’ the venomous toad wears in
+his head, are derived from the Buddhist tales. In a similar way it
+has been shown that tales current among the Hungarians and the numerous
+peoples of Slavonic race have been derived from Buddhist sources,
+through translations made by or for the Huns, who penetrated in the
+time of Genghis Khān into the East of Europe. And finally yet
+other Indian tales, not included in the Kalilag and Damnag literature,
+have been brought into the opposite corner of Europe, by the Arabs of
+Spain.
+
+There is only one other point on which a few words should be said. I
+have purposely chosen as specimens one Buddhist Birth Story similar to
+the Judgment of Solomon; two which are found also in Babrius; and one
+which is found also in Phædrus. How are these similarities, on which
+the later history of Indian Fables throws no light, to be explained?
+
+As regards the cases of Babrius and Phædrus, it can only be said
+that the Greeks who travelled with Alexander to India may have taken
+the tales there, but they may equally well have brought them back.
+We only know that at the end of the fourth, and still more in the
+third century before Christ, there was constant travelling to and
+fro between the Greek dominions in the East and the adjoining parts
+of India, which were then Buddhist, and that the Birth Stories were
+already popular among the Buddhists in Afghanistan, where the Greeks
+remained for a long time. Indeed, the very region which became the
+seat of the Græco-Bactrian kings takes, in all the Northern versions
+of the Birth Stories, the place occupied by the country of Kāsi in the
+Pāli text,--so that the scene of the tales is laid in that district.
+And among the innumerable Buddhist remains still existing there, a
+large number are connected with the Birth Stories. It is also in
+this very district, and under the immediate successor of Alexander,
+that the original of the ‘Kalilah and Dimnah’ was said by its Arabian
+translators to have been written by Bidpai. It is possible that a
+smaller number of similar stories were also current among the Greeks;
+and that they not only heard the Buddhist ones, but told their own.
+But so far as the Greek and the Buddhist stories can at present be
+compared, it seems to me that the internal evidence is in favour of the
+Buddhist versions being the originals from which the Greek versions
+were adapted. Whether more than this can be at present said is very
+doubtful: when the Jātakas are all published, and the similarities
+between them and classical stories shall have been fully investigated,
+the contents of the stories may enable criticism to reach a more
+definite conclusion.
+
+The case of Solomon’s judgment is somewhat different. If there were
+only one fable in Babrius or Phædrus identical with a Buddhist Birth
+Story, we should suppose merely that the same idea had occurred to two
+different minds; and there would thus be no necessity to postulate any
+historical connexion. Now the similarity of the two judgments stands,
+as far as I know, in complete isolation; and the story is not so
+curious but that two writers may have hit upon the same idea. At the
+same time, it is just possible that when the Jews were in Babylon they
+may have told, or heard, the story.
+
+Had we met with this story in a book unquestionably later than the
+Exile, we might suppose that they heard the story there; that some one
+repeating it had ascribed the judgment to King Solomon, whose great
+wisdom was a common tradition among them; and that it had thus been
+included in their history of that king. But we find it in the Book of
+Kings, which is usually assigned to the time of Jeremiah, who died
+during the Exile; and it should be remembered that the chronicle in
+question was based for the most part on traditions current much earlier
+among the Jewish people, and probably on earlier documents.
+
+If, on the other hand, they told it there, we may expect to find some
+evidence of the fact in the details of the story as preserved in the
+Buddhist story-books current in the North of India, and more especially
+in the Buddhist countries bordering on Persia. Now Dr. Dennys, in his
+‘_Folklore of China_,’ has given us a Chinese Buddhist version of
+a similar judgment, which is most probably derived from a Northern
+Buddhist Sanskrit original; and though this version is very late, and
+differs so much in its details from those of both the Pāli and Hebrew
+tales that it affords no basis itself for argument, it yet holds out
+the hope that we may discover further evidence of a decisive character.
+This hope is confirmed by the occurrence of a similar tale in the
+_Gesta Romanorum_, a mediæval work which quotes Barlaam and Josaphat,
+and is otherwise largely indebted in an indirect way to Buddhist
+sources. It is true that the basis of the judgment in that story
+is not the love of a mother to her son, but the love of a son to his
+father. But that very difference is encouraging. The orthodox compilers
+of the ‘Gests of the Romans’ dared not have so twisted the sacred
+record. They could not therefore have taken it from our Bible. Like all
+their other tales, however, this one was borrowed from somewhere; and
+its history, when discovered, may be expected to throw some light on
+this inquiry.
+
+I should perhaps point out another way in which this tale may possibly
+be supposed to have wandered from the Jews to the Buddhists, or from
+India to the Jews. The land of Ophir was probably in India. The Hebrew
+names of the apes and peacocks said to have been brought thence by
+Solomon’s coasting-vessels are merely corruptions of Indian names; and
+Ophir must therefore have been either an Indian port (and if so, almost
+certainly at the mouth of the Indus, afterwards a Buddhist country),
+or an entrepot, further west, for Indian trade. But the very gist of
+the account of Solomon’s expedition by sea is its unprecedented and
+hazardous character; it would have been impossible even for him without
+the aid of Phœnician sailors; and it was not renewed by the Hebrews
+till after the time when the account of the judgment was recorded in
+the Book of Kings. Any intercourse between his servants and the people
+of Ophir must, from the difference of language, have been of the most
+meagre extent; and we may safely conclude that it was not the means of
+the migration of our tale. It is much more likely, if the Jews heard
+or told the Indian story at all, and before the time of the captivity,
+that the way of communication was overland. There is every reason to
+believe that there was a great and continual commercial intercourse
+between East and West from very early times by way of Palmyra and
+Mesopotamia. Though the intercourse by sea was not continued after
+Solomon’s time, gold of Ophir, ivory, jade, and Eastern gems still
+found their way to the West; and it would be an interesting task for
+an Assyrian or Hebrew scholar to trace the evidence of this ancient
+overland route in other ways.
+
+SUMMARY.
+
+To sum up what can at present be said on the connexion between the
+Indian tales, preserved to us in the Book of Buddhist Birth Stories,
+and their counterparts in the West:--
+
+1. In a few isolated passages of Greek and other writers, earlier than
+the invasion of India by Alexander the Great, there are references to a
+legendary Æsop, and perhaps also allusions to stories like some of the
+Buddhist ones.
+
+2. After Alexander’s time a number of tales also found in the Buddhist
+collection became current in Greece, and are preserved in the poetical
+versions of Babrius and Phædrus. They are probably of Buddhist origin.
+
+3. From the time of Babrius to the time of the first Crusade no
+migration of Indian tales to Europe can be proved to have taken place.
+About the latter time a translation into Arabic of a Persian work
+containing tales found in the Buddhist book was translated by Jews into
+Greek, Hebrew, and Latin. Translations of these versions afterwards
+appeared in all the principal languages of Europe.
+
+4. In the eleventh or twelfth century a translation was made into Latin
+of the legend of Barlaam and Josaphat, a Greek romance written in the
+eighth century by St. John of Damascus on the basis of the Buddhist
+Jātaka book. Translations, poems, and plays founded on this work were
+rapidly produced throughout Western Europe.
+
+5. Other Buddhist stories not included in either of the works mentioned
+in the two last paragraphs were introduced into Europe both during the
+Crusades and also during the dominion of the Arabs in Spain.
+
+6. Versions of other Buddhist stories were introduced into Eastern
+Europe by the Huns under Genghis Khān.
+
+7. The fables and stories introduced through these various channels
+became very popular during the Middle Ages, and were used as the
+subjects of numerous sermons, story-books, romances, poems, and
+edifying dramas. Thus extensively adopted and circulated, they had
+a considerable influence on the revival of literature, which, hand
+in hand with the revival of learning, did so much to render possible
+and to bring about the Great Reformation. The character of the hero
+of them--the Buddha, in his last or in one or other of his supposed
+previous births--appealed so strongly to the sympathies, and was so
+attractive to the minds of mediæval Christians, that he became, and has
+ever since remained, an object of Christian worship. And a collection
+of these and similar stories--wrongly, but very naturally, ascribed
+to a famous story-teller of the ancient Greeks--has become the common
+property, the household literature, of all the nations of Europe; and,
+under the name of Æsop’s Fables, has handed down, as a first moral
+lesson-book and as a continual feast for our children in the West,
+tales first invented to please and to instruct our far-off cousins in
+the distant East.
