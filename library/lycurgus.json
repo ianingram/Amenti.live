@@ -1,0 +1,61 @@
+{
+  "key": "lycurgus",
+  "name": "Lycurgus",
+  "note": "Plutarch opens his Life with a sentence that ought to be printed above this whole shelf: there is so much uncertainty in the accounts of Lycurgus that nothing is said of him which is not disputed — his time, his family, his travels, his death, and above all his laws. Historians could not agree in the second century AD, and the position has not improved since.\n\nHe may not have existed. What certainly existed is the system attributed to him: land divided equally, iron money too heavy to hoard, boys taken from their families at seven, men eating in common messes until they were sixty, and a helot population held down by an annual declaration of war. Sparta produced no philosophy, almost no literature and very little art, and was admired for centuries by people who had all three.\n\nThe four ancient accounts here disagree about the most basic points. Herodotus, the earliest, says he brought the laws from Crete — or possibly got them from the Delphic oracle; he gives both and does not choose. Xenophon, who lived in Sparta and sent his sons through the upbringing, describes a system he admires and then ends by saying it is no longer obeyed. Aristotle, working from documents, takes it apart: the women, he says, own two-fifths of the land, and the state that was designed for war cannot survive peace. Plutarch, writing four hundred years after Sparta had ceased to matter, gives the version everyone remembers.\n\nRead Agis last. Four centuries on, a young king tried to restore the Lycurgan system and was strangled in a prison cell by his own people for it.",
+  "works": [
+    {
+      "id": "01-plutarch-lycurgus",
+      "section": "Plutarch · c. AD 100",
+      "title": "Life of Lycurgus",
+      "mode": "stored",
+      "source": "tr. John Dryden, revised A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The fullest account and the one every later description descends from — the land redistribution, the iron money so heavy that storing a modest sum needed a closet and a wagon to move it, the common messes, the taking of boys at seven, the tolerated stealing and the flogging for being caught. Plutarch is writing about a state that had been irrelevant for four centuries, and he admires it. Note how he opens: nothing about the man is undisputed, and he says so before he begins.",
+      "file": "lycurgus/01-plutarch-lycurgus.md"
+    },
+    {
+      "id": "02-plutarch-comparison-numa",
+      "section": "Plutarch · c. AD 100",
+      "title": "Comparison of Numa with Lycurgus",
+      "mode": "stored",
+      "source": "tr. John Dryden, revised A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "Plutarch paired every Greek with a Roman and then judged them against each other. Numa softened Rome; Lycurgus hardened Sparta. Short, and the most direct statement of what Plutarch thought a lawgiver was for.",
+      "file": "lycurgus/02-plutarch-comparison-numa.md"
+    },
+    {
+      "id": "03-xenophon-lacedaemonians",
+      "section": "The witnesses · 4th century BC",
+      "title": "Xenophon — The Polity of the Lacedaemonians",
+      "mode": "stored",
+      "source": "tr. H. G. Dakyns · Project Gutenberg #1178 · public domain",
+      "note": "The earliest surviving description of the system, written by an Athenian who was exiled from his own city, given an estate by Sparta, and sent his sons through the Spartan upbringing. He begins in open astonishment that so small a city became the most powerful in Greece. Then, at the very end, he says the Spartans no longer obey Lycurgus and are no longer respected — which is the most valuable sentence in the volume, and easy to miss.",
+      "file": "lycurgus/03-xenophon-lacedaemonians.md"
+    },
+    {
+      "id": "04-aristotle-politics-two",
+      "section": "The witnesses · 4th century BC",
+      "title": "Aristotle — Politics, Book II",
+      "mode": "stored",
+      "source": "tr. William Ellis, 1776 · Project Gutenberg #6762 · public domain",
+      "note": "The hostile audit, and the only ancient source doing analysis rather than admiration. Aristotle says the ephors are unaccountable and can be bought, the common messes exclude the poor who cannot pay their share, and a state trained for war has no idea what to do with peace. His sharpest point is arithmetic: land had concentrated through heiresses and unrestricted bequest until a country that could support fifteen hundred horse and thirty thousand foot fielded fewer than a thousand citizens — so Sparta 'could not support one shock, but was ruined for want of men'. The constitution built on equal shares had eaten itself, and he watched it happen.",
+      "file": "lycurgus/04-aristotle-politics-two.md"
+    },
+    {
+      "id": "05-plutarch-agis",
+      "section": "What became of it",
+      "title": "Plutarch — Life of Agis",
+      "mode": "stored",
+      "source": "tr. John Dryden, revised A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "Read this last. Four centuries after Lycurgus, a young Spartan king tried to restore the system — cancel debts, redistribute land, reopen the common messes. The rich resisted, the other king betrayed him, and he was strangled in a cell along with his mother and grandmother. Sparta by then had about seven hundred citizens, of whom a hundred owned the land. The Lycurgan constitution had already been dead for a long time; this is the record of somebody discovering that.",
+      "file": "lycurgus/05-plutarch-agis.md"
+    },
+    {
+      "id": "06-herodotus-book-one",
+      "section": "The earliest mention · c. 430 BC",
+      "title": "Herodotus — The Histories, Book I",
+      "mode": "stored",
+      "source": "tr. G. C. Macaulay, 1890 · Project Gutenberg #2707 · public domain",
+      "note": "The oldest surviving reference, and it is nine lines long. Herodotus says the Spartans had the worst laws in Greece, then got good ones — and gives two incompatible explanations without choosing between them: the Delphic oracle dictated the constitution to Lycurgus, or he brought it back from Crete. He also records the oracle greeting him with a line that cannot decide whether he is a god or a man. Everything later is elaboration of this.",
+      "file": "lycurgus/06-herodotus-book-one.md"
+    }
+  ]
+}
