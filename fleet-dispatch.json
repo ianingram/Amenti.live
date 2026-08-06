@@ -1,14 +1,14 @@
 {
-  "at": "2026-08-05T18:50:36.887Z",
+  "at": "2026-08-06T07:13:55.213Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 76,
+    "count": 80,
     "prefixes": {
-      "atlantica:": 73,
+      "atlantica:": 77,
       "dailyplanet:": 3
     }
   },
-  "today": "2026-08-05",
+  "today": "2026-08-06",
   "thisWeek": "2026-08-02",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -16,10 +16,10 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 60,
+      "fired": 64,
       "last": {
-        "date": "2026-08-05",
-        "figure": "clovis-i"
+        "date": "2026-08-06",
+        "figure": "shaka"
       },
       "lastAgeDays": 0,
       "missedLast14": [
@@ -29,14 +29,34 @@
       ],
       "recent": [
         {
+          "figure": "shaka",
+          "date": "2026-08-06",
+          "key": "atlantica:shaka:2026-08-06"
+        },
+        {
           "figure": "clovis-i",
           "date": "2026-08-05",
           "key": "atlantica:clovis-i:2026-08-05"
         },
         {
+          "figure": "ignatius-of-loyola",
+          "date": "2026-08-05",
+          "key": "atlantica:ignatius-of-loyola:2026-08-05"
+        },
+        {
           "figure": "leif-erikson",
           "date": "2026-08-05",
           "key": "atlantica:leif-erikson:2026-08-05"
+        },
+        {
+          "figure": "shaka",
+          "date": "2026-08-05",
+          "key": "atlantica:shaka:2026-08-05"
+        },
+        {
+          "figure": "theodora",
+          "date": "2026-08-05",
+          "key": "atlantica:theodora:2026-08-05"
         },
         {
           "figure": "ayn-rand",
@@ -77,29 +97,9 @@
           "figure": "gilgamesh",
           "date": "2026-08-01",
           "key": "atlantica:gilgamesh:2026-08-01"
-        },
-        {
-          "figure": "tesla",
-          "date": "2026-07-31",
-          "key": "atlantica:tesla:2026-07-31"
-        },
-        {
-          "figure": "cleopatra",
-          "date": "2026-07-30",
-          "key": "atlantica:cleopatra:2026-07-30"
-        },
-        {
-          "figure": "tesla",
-          "date": "2026-07-30",
-          "key": "atlantica:tesla:2026-07-30"
-        },
-        {
-          "figure": "cleopatra",
-          "date": "2026-07-29",
-          "key": "atlantica:cleopatra:2026-07-29"
         }
       ],
-      "note": "60 dispatch(es) in the hold · last 2026-08-05 (clovis-i) · MISSED 3 of the last 14 days"
+      "note": "64 dispatch(es) in the hold · last 2026-08-06 (shaka) · MISSED 3 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
