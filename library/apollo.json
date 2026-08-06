@@ -1,0 +1,79 @@
+{
+  "key": "apollo",
+  "name": "Apollo",
+  "note": "Apollo wrote nothing. He is the god of the thing itself — of the utterance, the lyre, the arrow, the clean line — and every word here is somebody else's report of him. That is not a gap in the shelf; it is the shape of the subject. What survives is a god assembled from the outside: hymned by singers who wanted his favour, prosecuted by playwrights who found him cold, consulted by cities who needed an answer and got a riddle. Read together they do not agree. The Delian hymn's radiant boy and the Iliad's silent archer walking down from Olympus like nightfall are not obviously the same being.\n\nThe oracle at Delphi ran for something close to a thousand years and shaped Greek policy, colonisation and law. Not one of its answers survives in a form we can verify. What we have instead is what the poets made of it.",
+  "works": [
+    {
+      "id": "01-homeric-hymn-delian",
+      "section": "The Hymns · c. 8th–6th century BC",
+      "title": "Homeric Hymn III — To Delian Apollo",
+      "mode": "stored",
+      "source": "tr. Hugh G. Evelyn-White, Loeb Classical Library, 1914 · Project Gutenberg #348 · public domain",
+      "note": "The birth. Leto wanders the islands in labour and every land refuses her, afraid of what she carries; only Delos, poor and rocky and with nothing to lose, consents — and asks for an oath first. The gods tremble when Apollo enters the hall. Scholars have long read this half and the next as two separate poems joined at the seam: this one is Ionian, island, and knows nothing of Delphi.",
+      "file": "apollo/01-homeric-hymn-delian.md"
+    },
+    {
+      "id": "02-homeric-hymn-pythian",
+      "section": "The Hymns · c. 8th–6th century BC",
+      "title": "Homeric Hymn III — To Pythian Apollo",
+      "mode": "stored",
+      "source": "tr. Hugh G. Evelyn-White, Loeb Classical Library, 1914 · Project Gutenberg #348 · public domain",
+      "note": "The founding of the oracle, and it is not a gentle story. Apollo goes looking for a site, is talked out of Telphusa by the nymph who lives there and wants no rival, kills the she-dragon at Pytho, and comes back to bury Telphusa's spring under a rock for lying to him. Then he hijacks a Cretan merchant ship in the form of a dolphin to staff his temple. The god of clear utterance acquires his oracle by deception and force.",
+      "file": "apollo/02-homeric-hymn-pythian.md"
+    },
+    {
+      "id": "03-homeric-hymns-short",
+      "section": "The Hymns · c. 8th–6th century BC",
+      "title": "Homeric Hymns XXI and XXV — the short invocations",
+      "mode": "stored",
+      "source": "tr. Hugh G. Evelyn-White, Loeb Classical Library, 1914 · Project Gutenberg #348 · public domain",
+      "note": "Four lines and seven. These are preludes — a singer clearing his throat before the real recitation — and they are the smallest complete things on this shelf. The swan sings of Apollo; the singer says so and then begins.",
+      "file": "apollo/03-homeric-hymns-short.md"
+    },
+    {
+      "id": "04-ovid-python",
+      "section": "Ovid · Metamorphoses, c. AD 8",
+      "title": "The slaying of Python",
+      "mode": "stored",
+      "source": "tr. Henry T. Riley, 1851 · Project Gutenberg #21765 · public domain",
+      "note": "The same killing as the Pythian hymn, told eight centuries later by a Roman who is not worshipping. Ovid gives the arrows a number and the games a founding, and moves briskly on. Riley's prose translation keeps the notes and explanations of a Victorian schoolroom edition, which are themselves a record of how the story was being read in 1851.",
+      "file": "apollo/04-ovid-python.md"
+    },
+    {
+      "id": "05-ovid-daphne",
+      "section": "Ovid · Metamorphoses, c. AD 8",
+      "title": "Apollo and Daphne",
+      "mode": "stored",
+      "source": "tr. Henry T. Riley, 1851 · Project Gutenberg #21765 · public domain",
+      "note": "Immediately after Python, and Ovid makes the connection deliberate: flushed with the kill, Apollo mocks Cupid's bow, and Cupid answers with an arrow of his own. The god who never misses is made to chase a woman who does not want him until she turns into a tree to escape, and he takes the tree for his emblem. The laurel he wears is a refusal.",
+      "file": "apollo/05-ovid-daphne.md"
+    },
+    {
+      "id": "06-iliad-book-one",
+      "section": "Homer · the Iliad, c. 8th century BC",
+      "title": "Iliad, Book I — the plague",
+      "mode": "stored",
+      "source": "tr. Samuel Butler, 1898 · Project Gutenberg #2199 · public domain",
+      "note": "The poem opens with Apollo, and he says nothing. A priest is refused, prays, and the god comes down from Olympus \"like the night\", sits apart from the ships and shoots for nine days — mules and dogs first, then men. This is the oldest sustained portrait of him in Greek, and it is of a god who answers a prayer with an epidemic.",
+      "file": "apollo/06-iliad-book-one.md"
+    },
+    {
+      "id": "07-sophocles-oedipus",
+      "section": "The tragedians · 5th century BC",
+      "title": "Sophocles — Oedipus the King",
+      "mode": "stored",
+      "source": "tr. F. Storr, Loeb Classical Library, 1912 · Project Gutenberg #31 · public domain",
+      "note": "Apollo never appears and the whole play is his. The oracle spoke once, truthfully, and every step taken to avoid it accomplished it. Read it beside the Pythian hymn: the same shrine, seen from underneath. It is also the sharpest ancient statement of what an oracle actually costs the person who receives one.",
+      "file": "apollo/07-sophocles-oedipus.md"
+    },
+    {
+      "id": "08-pindar-pythian",
+      "section": "Pindar · the victory odes, 5th century BC",
+      "title": "The Pythian Odes",
+      "mode": "stored",
+      "source": "tr. Ernest Myers, 1874 · Project Gutenberg #10717 · public domain",
+      "note": "Commissioned poems for winners at Apollo's own games, sung at Delphi. Pindar is the only writer here being paid, and it shows in the best sense — these are the sound of the cult at its most confident, before the tragedians got to it. The first Pythian opens with the lyre quieting the eagle of Zeus, which is Apollo's whole claim in one image.",
+      "file": "apollo/08-pindar-pythian.md"
+    }
+  ]
+}
