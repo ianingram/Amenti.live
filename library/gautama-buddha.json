@@ -1,0 +1,79 @@
+{
+  "key": "gautama-buddha",
+  "name": "Gautama Buddha",
+  "note": "He wrote nothing, and for something like four centuries neither did anyone else. What became the Pali Canon was carried by memory — recited, checked against other reciters, and only committed to writing in Sri Lanka around 29 BC, when war and famine threatened to take the reciters with them. Everything on this shelf descends from that.\n\nSo the earliest life of him here is not a life at all. The Nidāna-Kathā opens four incalculable ages before his birth, with a hermit named Sumedha lying down in mud so a previous Buddha can walk over him dry — and it reaches the man from Kapilavatthu only in its second act. That is not a flaw in the record; it is what the record was for. The tradition was not writing biography. It was explaining how a person becomes the sort of person this happened to.\n\nThe Dhammapada is here twice, in two translations forty years apart, because they disagree in ways worth seeing. Müller renders the first verse as thought preceding all things; Woodward makes it mind. Neither is wrong and the difference is most of what has been argued about since.",
+  "works": [
+    {
+      "id": "01-nidana-distant",
+      "section": "The traditional life · Nidāna-Kathā, c. 5th century AD",
+      "title": "The Distant Epoch — Dūre-nidāna",
+      "mode": "stored",
+      "source": "tr. T. W. Rhys Davids, Buddhist Birth Stories, 1880 · Project Gutenberg #51880 · public domain",
+      "note": "Begins four incalculable ages before the birth, with the hermit Sumedha lying face-down in mud so that Dīpaŋkara Buddha may cross without wetting his feet — and receiving, for it, the prediction that he will one day be a Buddha himself. What follows is the fulfilling of the Ten Perfections across innumerable lives. Read it as what it is: not a history of a man but an account of how the conditions for one were assembled.",
+      "file": "gautama-buddha/01-nidana-distant.md"
+    },
+    {
+      "id": "02-nidana-intermediate",
+      "section": "The traditional life · Nidāna-Kathā, c. 5th century AD",
+      "title": "The Intermediate Epoch — Avidūre-nidāna",
+      "mode": "stored",
+      "source": "tr. T. W. Rhys Davids, Buddhist Birth Stories, 1880 · Project Gutenberg #51880 · public domain",
+      "note": "The birth at Lumbinī, Māyā and Suddhodana, the four sights, the departure from the palace, the six years of austerity, and Māra beneath the tree. This is the part everyone knows, and it is the middle act of three — the tradition never presented it as the beginning of anything.",
+      "file": "gautama-buddha/02-nidana-intermediate.md"
+    },
+    {
+      "id": "03-nidana-proximate",
+      "section": "The traditional life · Nidāna-Kathā, c. 5th century AD",
+      "title": "The Proximate Epoch — Santike-nidāna",
+      "mode": "stored",
+      "source": "tr. T. W. Rhys Davids, Buddhist Birth Stories, 1880 · Project Gutenberg #51880 · public domain",
+      "note": "The weeks after the awakening, the hesitation over whether the thing understood could be taught at all, and the founding of the order. It ends abruptly — 'END OF THE ACCOUNT OF THE CAUSES THAT LEAD TO THE ATTAINMENT OF BUDDHAHOOD' — because the commentary's purpose is complete. The forty-five years of teaching that follow were somebody else's job to record.",
+      "file": "gautama-buddha/03-nidana-proximate.md"
+    },
+    {
+      "id": "04-jataka-book-one",
+      "section": "The birth stories · commentary c. 5th century AD, on verses much older",
+      "title": "The Jātaka — Book I, the first forty births",
+      "mode": "stored",
+      "source": "tr. T. W. Rhys Davids, Buddhist Birth Stories, 1880 · Project Gutenberg #51880 · public domain",
+      "note": "Each tale has the same three-part shape: an occasion in the Buddha's lifetime, a story of a former birth, and the identification of who in the old story is who in the new. They are folk tales with a frame welded on — and Rhys Davids' introduction traces several of them, by name, into Aesop and into medieval Europe.",
+      "file": "gautama-buddha/04-jataka-book-one.md"
+    },
+    {
+      "id": "05-rhys-davids-introduction",
+      "section": "The birth stories · commentary c. 5th century AD, on verses much older",
+      "title": "Rhys Davids — how these tales reached Europe",
+      "mode": "stored",
+      "source": "T. W. Rhys Davids, introduction to Buddhist Birth Stories, 1880 · Project Gutenberg #51880 · public domain",
+      "note": "The best thing in the volume and the least read. Rhys Davids follows the birth stories out of India through Persian and Syriac into the Kalilag and Damnag literature, and then the extraordinary case of Barlaam and Josaphat — a Christian saint's life, in the calendar for centuries, which is the Buddha's biography with the names changed. Josaphat is Bodhisattva, worn down through Arabic and Georgian. The Church canonised him.",
+      "file": "gautama-buddha/05-rhys-davids-introduction.md"
+    },
+    {
+      "id": "06-dhammapada-muller",
+      "section": "The verses · Pali Canon, Khuddaka Nikāya",
+      "title": "The Dhammapada — tr. Max Müller, 1881",
+      "mode": "stored",
+      "source": "tr. F. Max Müller, Sacred Books of the East vol. X · Project Gutenberg #2017 · public domain",
+      "note": "423 verses in 26 chapters, and the closest thing here to words rather than reports of words. Müller's is the translation that carried the text into English and it reads like the Victorian scholarship it is — 'All that we are is the result of what we have thought.' Compare the first verse against Woodward's below.",
+      "file": "gautama-buddha/06-dhammapada-muller.md"
+    },
+    {
+      "id": "07-dhammapada-woodward",
+      "section": "The verses · Pali Canon, Khuddaka Nikāya",
+      "title": "The Buddha's Path of Virtue — tr. F. L. Woodward, 1921",
+      "mode": "stored",
+      "source": "tr. F. L. Woodward, Theosophical Publishing House, Madras, 1921 · Project Gutenberg #35185 · public domain",
+      "note": "The same 423 verses, forty years later, done in Ceylon by a translator who lived there. Woodward gives 'mind' where Müller gives 'thought', and keeps a verse rhythm Müller does not attempt. Two translations of one short text is the cheapest way to see how much of any of this is the translator.",
+      "file": "gautama-buddha/07-dhammapada-woodward.md"
+    },
+    {
+      "id": "08-fa-hien",
+      "section": "A witness · AD 399–414",
+      "title": "Fa-hien — A Record of Buddhistic Kingdoms",
+      "mode": "stored",
+      "source": "tr. James Legge, 1886 · Project Gutenberg #2124 · public domain",
+      "note": "A Chinese monk walked from Ch'ang-gan across the Gobi and the Pamirs to India, spent years copying texts nobody in China possessed, and sailed home by way of Ceylon and Java. He visited Lumbinī, Bodh Gayā and Kusinārā, and describes what was standing at each — which is the only thing on this shelf written by someone who went and looked. He was about sixty when he set out.",
+      "file": "gautama-buddha/08-fa-hien.md"
+    }
+  ]
+}
