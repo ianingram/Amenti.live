@@ -71,6 +71,11 @@
 
   function inject(el, svg, sceneKey) {
     var host = el.querySelector('.rc-img, .nc-thumb, .mkt-thumb') || el;
+    /* Tell the browser this insertion cannot affect anything outside the
+       card. Without it, appending a ~95-node SVG makes the whole 53-card
+       grid a layout question — thirty-eight times over. The CSS carries the
+       same rule; this is here so the file stands on its own. */
+    try { if (host.style && !host.style.contain) host.style.contain = 'layout paint style'; } catch (e) {}
     var wrap = document.createElement('div');
     wrap.innerHTML = svg;
     var node = wrap.querySelector('svg');
@@ -136,6 +141,24 @@
                      alt: norm(el.getAttribute('data-figure')) });
       });
 
+    /* ── FETCH TOGETHER, PAINT ONE AT A TIME ────────────────────────────
+       This was:
+           for (...) { row = await ensureArtifact(row); inject(...); }
+       — a fetch awaited inside a loop, so thirty-eight round trips ran in
+       series. Measured on the live site: renderings come back in 118-154 ms
+       each, so the network was never slow; it was simply never asked twice
+       at once.
+
+       And every inject() was followed immediately by the next fetch, so the
+       browser had a fresh ~95-node SVG to lay out while nothing else could
+       proceed. The click profile caught the result exactly: frames of
+       1,280 / 2,592 / 2,819 / 2,808 / 1,344 ms, with 97% of eleven seconds
+       spent inside them and NO long task and NO slow request to blame.
+
+       So: ask for everything at once, then paint them a few per frame. The
+       fetches overlap, and the browser gets a breath between insertions
+       instead of a queue of them. */
+    var pending = [];
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
       var row = byFigure[c.key] || (c.alt && byFigure[c.alt]);
@@ -143,18 +166,42 @@
         state.unmatchedCards[c.key] = (state.unmatchedCards[c.key] || 0) + 1;
         continue;
       }
-      row = await ensureArtifact(row);
-      if (!row.artifact) {
-        if (state.noArtifact.indexOf(row.scene_key) === -1) state.noArtifact.push(row.scene_key);
-        continue;
+      pending.push({ c: c, row: row });
+    }
+
+    /* all the fetches at once. allSettled, so one failure does not take the
+       rest with it — the old loop would have thrown and stopped. */
+    var resolved = await Promise.all(pending.map(function (p) {
+      return ensureArtifact(p.row).then(
+        function (r) { return { c: p.c, row: r }; },
+        function ()  { return { c: p.c, row: p.row }; }
+      );
+    }));
+
+    /* paint in small batches, yielding a frame between each, so no single
+       frame carries more than a couple of insertions */
+    var BATCH = 3;
+    for (var b = 0; b < resolved.length; b += BATCH) {
+      var slice = resolved.slice(b, b + BATCH);
+      for (var k = 0; k < slice.length; k++) {
+        var it = slice[k], r2 = it.row;
+        if (!r2 || !r2.artifact) {
+          if (r2 && state.noArtifact.indexOf(r2.scene_key) === -1) state.noArtifact.push(r2.scene_key);
+          continue;
+        }
+        if (!safe(r2.artifact)) {
+          if (state.refused.indexOf(r2.scene_key) === -1) state.refused.push(r2.scene_key);
+          continue;
+        }
+        if (inject(it.c.el, r2.artifact, r2.scene_key)) {
+          state.done[r2.scene_key] = true;
+          state.matched.push(it.c.key + ' <- ' + r2.scene_key);
+        }
       }
-      if (!safe(row.artifact)) {
-        if (state.refused.indexOf(row.scene_key) === -1) state.refused.push(row.scene_key);
-        continue;
-      }
-      if (inject(c.el, row.artifact, row.scene_key)) {
-        state.done[row.scene_key] = true;
-        state.matched.push(c.key + ' <- ' + row.scene_key);
+      if (b + BATCH < resolved.length) {
+        await new Promise(function (res) {
+          (window.requestAnimationFrame || setTimeout)(function () { setTimeout(res, 0); });
+        });
       }
     }
 
