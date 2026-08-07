@@ -1,0 +1,70 @@
+{
+  "key": "gutenberg",
+  "name": "Johannes Gutenberg",
+  "note": "The man who made it possible to reproduce text at scale left almost no text about himself. Not a letter, not a memoir, not one line explaining what he had done or how. His name appears in no book he printed — the 42-line Bible carries no colophon, no printer, no date. His former partners put their names on the Psalter of 1457, two years after they took the workshop from him.\n\nWhat survives instead is litigation. He is documented, more than by anything else, by people suing him. A Strasbourg court case in 1439, brought by the brothers of a dead business partner, in which witnesses describe presses and forms and something being melted down, and carefully do not say what it was for. And the Helmasperger notarial instrument of 1455 — printed here in full — recording how Johann Fust called in the loans and took the equipment. That document is the closest thing to a biography he has, and it is a foreclosure.\n\nHe seems to have died in 1468, and even that is inferred. There is no portrait: every image of him was invented more than a century after his death.\n\nThe Coster chapters here are worth reading for their own sake. For three hundred years Haarlem claimed the invention for a Dutchman, and the claim was taught, monumented and defended — De Vinne devotes three chapters to setting it out fairly and then dismantling it. It is a case study in how a national origin story is built on almost nothing, by a writer doing it carefully in 1876.",
+  "works": [
+    {
+      "id": "01-devinne-strasburg",
+      "section": "The documents · what a court recorded",
+      "title": "John Gutenberg at Strasburg — the 1439 lawsuit",
+      "mode": "stored",
+      "source": "Theo. L. De Vinne, The Invention of Printing, 1876 · Project Gutenberg #51034 · public domain",
+      "note": "The earliest hard evidence of the work, and it is a lawsuit. Gutenberg had taken partners into a secret enterprise; one died, and the brothers sued to be let in. The witnesses testify about a press, about forms, about lead and about something being taken apart so that nobody could see what it was. Nobody says the word printing. De Vinne quotes the depositions and then argues about what they can and cannot prove.",
+      "file": "gutenberg/01-devinne-strasburg.md"
+    },
+    {
+      "id": "02-devinne-mentz-early",
+      "section": "The documents · what a court recorded",
+      "title": "The earlier work at Mentz — and the Helmasperger instrument of 1455",
+      "mode": "stored",
+      "source": "Theo. L. De Vinne, The Invention of Printing, 1876 · Project Gutenberg #51034 · public domain",
+      "note": "The Fust partnership, the 42-line Bible, and then the foreclosure — the notarial record is printed here in full, down to the witnesses standing in the room. Fust had lent him money twice; he called it in with interest, and took the equipment. The document names the sums, the terms and the men present, and says nothing whatever about what any of it was for. It is the single most important surviving paper about Gutenberg and it is a debt action.",
+      "file": "gutenberg/02-devinne-mentz-early.md"
+    },
+    {
+      "id": "03-devinne-later-work",
+      "section": "The documents · what a court recorded",
+      "title": "The later work of Gutenberg",
+      "mode": "stored",
+      "source": "Theo. L. De Vinne, The Invention of Printing, 1876 · Project Gutenberg #51034 · public domain",
+      "note": "After losing the workshop he seems to have printed again, on borrowed money, in a city that was sacked in 1462. Meanwhile Fust and Schoeffer put their names on the Psalter of 1457 — the first book to carry a printer's imprint, and it is not his. He was granted a courtier's place by the Archbishop of Mentz in 1465, which reads as a pension. There is no record of what he thought about any of it.",
+      "file": "gutenberg/03-devinne-later-work.md"
+    },
+    {
+      "id": "04-devinne-coster-legend",
+      "section": "The rival claim · Haarlem",
+      "title": "The legend of Lourens Janszoon Coster, and how it grew",
+      "mode": "stored",
+      "source": "Theo. L. De Vinne, The Invention of Printing, 1876 · Project Gutenberg #51034 · public domain",
+      "note": "For three centuries Haarlem claimed the invention for a Dutchman whose apprentice, the story goes, stole the types on Christmas Eve and carried them to Mentz. The claim acquired a birthplace, a house, a statue and a civic festival. De Vinne lays it out at length and in good faith — which is what makes the next chapter work.",
+      "file": "gutenberg/04-devinne-coster-legend.md"
+    },
+    {
+      "id": "05-devinne-coster-downfall",
+      "section": "The rival claim · Haarlem",
+      "title": "The downfall of the legend",
+      "mode": "stored",
+      "source": "Theo. L. De Vinne, The Invention of Printing, 1876 · Project Gutenberg #51034 · public domain",
+      "note": "The dismantling. Every prop of the Coster story is picked up and examined — the inscription, the dates that do not fit, the witnesses who were not born yet, the documents that turn out to be about a different man. Read as a piece of method it is better than anything else in the volume, and it applies well beyond printing.",
+      "file": "gutenberg/05-devinne-coster-downfall.md"
+    },
+    {
+      "id": "06-devinne-bookmakers",
+      "section": "Before and after",
+      "title": "The book-makers of the Middle Ages",
+      "mode": "stored",
+      "source": "Theo. L. De Vinne, The Invention of Printing, 1876 · Project Gutenberg #51034 · public domain",
+      "note": "What a book cost when every copy was written by hand — the scriptoria, the stationers, the university book trade, the prices. Read it first if you want the invention to land. The 42-line Bible is only remarkable against this.",
+      "file": "gutenberg/06-devinne-bookmakers.md"
+    },
+    {
+      "id": "07-devinne-first-printers",
+      "section": "Before and after",
+      "title": "The tools and usages of the early printers",
+      "mode": "stored",
+      "source": "Theo. L. De Vinne, The Invention of Printing, 1876 · Project Gutenberg #51034 · public domain",
+      "note": "How it was actually done, by a man who ran a printing house himself and knew what he was looking at. Punches, matrices, the adjustable mould, the composition of the metal, the ink, the press. De Vinne's argument throughout the book is that the mould — not the press, not the type — is the invention, and here he shows you why.",
+      "file": "gutenberg/07-devinne-first-printers.md"
+    }
+  ]
+}
