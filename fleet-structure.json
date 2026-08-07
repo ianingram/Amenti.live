@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-07T02:03:52.856Z",
+    "generated": "2026-08-07T02:04:37.915Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -573,6 +573,19 @@
           "own": false
         }
       ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-dispatch-art.js",
+      "bytes": 10589,
+      "sha256": "3a5fdb8cff16acdd",
+      "type": "js",
+      "declares": [
+        "AmentiDispatchArt"
+      ],
+      "loads": [],
+      "calls": [],
       "endpoints": [],
       "tables": []
     },
@@ -1174,8 +1187,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 44363,
-      "sha256": "3bb0c83c40f90472",
+      "bytes": 45247,
+      "sha256": "d45ae2b4816f2cb9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1184,25 +1197,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1022,
+          "line": 1040,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1023,
+          "line": 1041,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1024,
+          "line": 1042,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1025,
+          "line": 1043,
           "when": "toplevel",
           "own": false
         }
@@ -1577,6 +1590,14 @@
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-dispatch-art.js",
+        "declares": [
+          "AmentiDispatchArt"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-flourish.js",
