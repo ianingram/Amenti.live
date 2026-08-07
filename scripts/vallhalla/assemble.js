@@ -81,9 +81,21 @@ const OUT   = 'vallhalla';
     cron does its work — settle, rotate, seal — and only AFTER, a full turn
     later, does the herald read the settled state."
 
-   The bell rings Monday at midnight. The herald speaks Sunday at noon — SIX
-   DAYS BEHIND IT. It reads a hall that sealed long ago. It cannot read a
-   half-open one. Two strands must never occupy one rung. */
+   The rule is a STATE, not a duration: it reads a hall that sealed long ago,
+   and it cannot read a half-open one. Each gap is therefore sized by what it
+   protects, not by a number carried between them:
+
+       the bell seals ......... Monday   00:00 UTC
+       the Worker publishes ... Saturday 12:00 UTC   (5 days after the seal)
+       the herald mails ....... Sunday   12:00 UTC   (A FULL 24 HOURS AFTER)
+
+   Worker -> herald is 24h because that gap must absorb not just the RUN
+   (9-15 minutes) but the time to NOTICE A FAILURE AND RE-FIRE. You sleep; the
+   cron does not care. Two strands must never occupy one rung.
+
+   And the clock is the comfort, not the mechanism — see THE MANIFEST GATE in
+   main(). The herald asks whether the week is finished and believes the answer
+   over the calendar. */
 function sundayOf(d) {
   const t = new Date(d || Date.now());
   t.setUTCHours(0, 0, 0, 0);
@@ -224,7 +236,7 @@ function render({ week, docket, atlantica, planet, standings }) {
   const since = Date.parse(week + 'T00:00:00Z') - 7 * 864e5;
 
   console.log('VALL-HALLA · assembling the week of ' + week);
-  console.log('  the herald trails the bell by six days. It reads a settled hall.');
+  console.log('  the herald trails the Worker by a full turn. It reads a sealed hall.');
   console.log('  site base: ' + SITE + '   (every link in the issue hangs off this)');
   console.log('');
 
@@ -256,10 +268,27 @@ function render({ week, docket, atlantica, planet, standings }) {
     .slice(0, 7);
 
   const planetRaw = await feed('dailyplanet:', 'daily planet');
-  const planet = planetRaw.map(partsOf).slice(0, 7);
+  /* DATE-FILTER THE NEWSROOM TOO.
+     The atlantica strand is windowed to the week; this one was not — it took the
+     seven most recent records regardless of age. With only three dailyplanet:
+     keys in KV, all of them test data, THE FIRST REAL ISSUE WOULD HAVE MAILED AN
+     ARTICLE HEADLINED "Test Article" under FROM THE NEWSROOM. Same window, same
+     rule, no special case. */
+  const planet = planetRaw.map(partsOf)
+    .filter(a => a.key)
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+    .filter(a => { const d = Date.parse(a.date); return !isNaN(d) && d >= since; })
+    .slice(0, 7);
 
   const board = await get(MINT + '/pool/leaderboard', 'standings');
-  const standings = Array.isArray(board) ? board : ((board && (board.leaderboard || board.entries || board.top)) || []);
+  /* THE MINT RETURNS `ranked`. This looked for leaderboard|entries|top and a
+     bare array — none of which the mint has ever sent. Verified live 7 Aug:
+        keys = ok, pool, totalVotes, settlesAt, ranked
+     It was masked because `ranked` is genuinely empty until the pool settles
+     (settlesAt 2026-08-10), so THE SCALE would simply have stayed blank
+     forever once real votes arrived. Read the field it actually sends. */
+  const standings = Array.isArray(board) ? board
+    : ((board && (board.ranked || board.leaderboard || board.entries || board.top)) || []);
 
   /* ── RECONCILE. The log said what fired. Did the Worker agree? ── */
   if (log && !log.stale && log.hold && log.hold.prefixes) {
@@ -285,6 +314,45 @@ function render({ week, docket, atlantica, planet, standings }) {
   console.log('  daily planet  ' + planet.length + ' article(s)');
   console.log('  standings     ' + standings.length + ' entr(ies)');
   console.log('');
+
+  /* ── THE MANIFEST GATE ────────────────────────────────────────────────────
+     A TIME GAP IS NOT A SAFETY MECHANISM. The stagger gives the Worker a full
+     turn to finish, but a gap only protects against a run that is SLOW. It does
+     nothing about a run that STOPPED.
+
+     And a stopped run is the likely failure: the publisher walks the issue in
+     chunks to stay under the subrequest ceiling, so an interrupted week leaves a
+     PARTIAL issue in KV. The empty-issue guard below does not catch that — it
+     refuses only a completely silent hall, and will mail three of eleven pieces
+     without complaint.
+
+     So the herald asks the Worker whether the week is FINISHED, and believes the
+     manifest over the calendar. Same move as sent.json: make it a constraint,
+     not a promise.
+
+     If no manifest exists at all, that is the pre-manifest era (the first
+     edition was seeded by hand through /week/publish, which writes articles
+     without writing week:{sunday}) — warn, and fall through to the counts. */
+  const wk = await get(PROXY + '/week?date=' + week, 'week manifest');
+  if (wk && wk.exists === false) {
+    console.warn('  ⚠ NO WEEK MANIFEST for ' + week + '. publishWeek() has not run for');
+    console.warn('    this week. Assembling from whatever the feeds hold.');
+  } else if (wk && wk.total != null) {
+    const done = wk.done || 0, total = wk.total || 0;
+    console.log('  week manifest  ' + done + '/' + total + '  status=' + (wk.status || '?') +
+                (wk.theme ? '  theme="' + wk.theme + '"' : ''));
+    if (wk.status !== 'published' || done < total) {
+      console.error('');
+      console.error('✗ THE WEEK IS NOT SEALED. ' + done + ' of ' + total + ' pieces filed, status=' +
+                    (wk.status || 'unknown') + '.');
+      console.error('  A HALF ISSUE IS WORSE THAN NO ISSUE, because it spends the one thing');
+      console.error('  the herald owns: the right to be opened next week. AN EMAIL CANNOT BE');
+      console.error('  UNSENT.');
+      console.error('  NO ISSUE ASSEMBLED. NO MAIL SENT. Let the publisher finish, or re-fire');
+      console.error('  POST /week/publish until remaining = 0, then run this again.');
+      process.exit(3);
+    }
+  }
 
   /* ⚠ NEVER MAIL AN EMPTY ISSUE. */
   if (!docket.length && !atl.length && !planet.length && !standings.length) {
