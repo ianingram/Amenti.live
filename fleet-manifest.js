@@ -8,14 +8,14 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-08T04:09:47.371Z",
-    "reading": "2026-08-08T04:09:47.260Z",
+    "merged": "2026-08-08T04:10:36.661Z",
+    "reading": "2026-08-08T04:10:36.546Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
-    "contradicted": 1,
+    "contradicted": 2,
     "unproven": 4,
     "undeclared": 26,
     "adrift": 1,
@@ -26,6 +26,13 @@ window.FLEET_MANIFEST = {
       "stamp": "CONTRADICTED",
       "subject": "Page1.html",
       "claim": "declared as \"The Stardust Engine\"",
+      "reading": "NOT IN THE REPO",
+      "note": "A ship on the roll that never sailed. amenti-worker-listen.js was on the old manifest for months."
+    },
+    {
+      "stamp": "CONTRADICTED",
+      "subject": "Page2.html",
+      "claim": "declared as \"The Sovereign Instrument\"",
       "reading": "NOT IN THE REPO",
       "note": "A ship on the roll that never sailed. amenti-worker-listen.js was on the old manifest for months."
     },
@@ -451,22 +458,8 @@ window.FLEET_MANIFEST = {
       },
       "group": "ships",
       "stamps": [
-        "CONFIRMED"
-      ],
-      "bytes": 1500265,
-      "sha256": "e28377dd4617b299",
-      "declares": [
-        "AMENTI_CONFIG",
-        "AMENTI_VOICE_ON",
-        "AmentiAudio",
-        "Sovereign",
-        "Sovereign.Atlantica",
-        "Sovereign.Ephemeris",
-        "Sovereign.Voice",
-        "__canvasGuardWarned",
-        "inspectReticles"
-      ],
-      "loadedBy": []
+        "CONTRADICTED"
+      ]
     },
     {
       "file": "Page3.html",
@@ -616,7 +609,6 @@ window.FLEET_MANIFEST = {
         "AMENTI_CONFIG"
       ],
       "loadedBy": [
-        "Page2.html",
         "court.html",
         "docket.html",
         "weighing.html"

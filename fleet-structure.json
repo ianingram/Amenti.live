@@ -1,128 +1,11 @@
 {
   "meta": {
-    "generated": "2026-08-08T04:09:47.260Z",
+    "generated": "2026-08-08T04:10:36.546Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
   },
   "files": [
-    {
-      "file": "Page2.html",
-      "bytes": 1500265,
-      "sha256": "e28377dd4617b299",
-      "type": "html",
-      "declares": [
-        "AMENTI_CONFIG",
-        "AMENTI_VOICE_ON",
-        "AmentiAudio",
-        "Sovereign",
-        "Sovereign.Atlantica",
-        "Sovereign.Ephemeris",
-        "Sovereign.Voice",
-        "__canvasGuardWarned",
-        "inspectReticles"
-      ],
-      "loads": [
-        {
-          "file": "config.js",
-          "line": 22
-        }
-      ],
-      "calls": [
-        {
-          "global": "Sovereign.Navigation",
-          "line": 2857,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Angels",
-          "line": 3184,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.UI",
-          "line": 3202,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Log",
-          "line": 3751,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Cosmetics",
-          "line": 3757,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Search",
-          "line": 3853,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "AMENTI_CONFIG",
-          "line": 8265,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "Sovereign.QuantumContainer",
-          "line": 8280,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.State",
-          "line": 8282,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Bookmarks",
-          "line": 8638,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Voice",
-          "line": 9286,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "Sovereign.TechnicalBriefs",
-          "line": 11246,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Atlantica",
-          "line": 15364,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "AmentiAudio",
-          "line": 15481,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "Sovereign.Ephemeris",
-          "line": 16264,
-          "when": "function",
-          "own": true
-        }
-      ],
-      "endpoints": [],
-      "tables": []
-    },
     {
       "file": "Page3.html",
       "bytes": 39289,
@@ -1008,8 +891,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 45828,
-      "sha256": "fa4733358ab023c6",
+      "bytes": 44904,
+      "sha256": "97f786801501c88a",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1018,25 +901,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1069,
+          "line": 1037,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1070,
+          "line": 1038,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1071,
+          "line": 1039,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1072,
+          "line": 1040,
           "when": "toplevel",
           "own": false
         }
