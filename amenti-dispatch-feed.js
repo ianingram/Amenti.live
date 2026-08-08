@@ -65,7 +65,12 @@
             || 'https://amenti-proxy.ingram-ian.workers.dev';
   var FEED  = PROXY + '/feed?prefix=dailyplanet:&details=1';
   var CARDS = 5;                       /* one featured + four */
-  var SCENE_BASE = 'img/scenes/';      /* {sceneTag}.jpg — none exist yet */
+  /* Scenes are RENDERED BY THE WORKER and stored in R2, not committed to the
+     repo. The tag was chosen by the model when the article was written and the
+     image rendered in the same pass, so nothing is ever named by hand and the
+     repo does not carry 64 JPEGs. A tag with no image 404s, which the loader
+     below treats as "keep the placeholder" — a normal state, not an error. */
+  var SCENE_BASE = PROXY + '/scene/';
 
   function esc(s) {
     return String(s == null ? '' : s)
