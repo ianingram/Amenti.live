@@ -1,11 +1,14 @@
 {
-  "at": "2026-08-08T00:33:23.262Z",
+  "at": "2026-08-08T06:30:01.884Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 80,
+    "count": 90,
     "prefixes": {
       "atlantica:": 77,
-      "dailyplanet:": 3
+      "dailyplanet:": 10,
+      "idx:": 1,
+      "watch:": 1,
+      "week:": 1
     }
   },
   "today": "2026-08-08",
@@ -140,16 +143,23 @@
       "id": "THE DAILY PLANET",
       "cadence": "daily",
       "prefix": "dailyplanet:",
-      "status": "WARN",
-      "fired": 3,
-      "last": null,
-      "lastAgeDays": null,
+      "status": "OK",
+      "fired": 10,
+      "last": "2026-09-06",
+      "lastAgeDays": -29,
       "recent": [
+        "dailyplanet:denis diderot:2026-09-06",
+        "dailyplanet:enlil:2026-09-06",
+        "dailyplanet:giuseppe garibaldi:2026-09-06",
+        "dailyplanet:julius caesar:2026-09-06",
         "dailyplanet:lincoln:90-minutes-made-president",
         "dailyplanet:lincoln:lincoln-s-cooper-union-speech-90-minutes",
-        "dailyplanet:lincoln:test-article"
+        "dailyplanet:lincoln:test-article",
+        "dailyplanet:linus torvalds:2026-09-06",
+        "dailyplanet:muhammad ali:2026-09-06",
+        "dailyplanet:werner herzog:2026-09-06"
       ],
-      "note": "3 piece(s) under \"dailyplanet:\""
+      "note": "10 piece(s) under \"dailyplanet:\" · last 2026-09-06"
     },
     "THE PODCAST": {
       "id": "THE PODCAST",
