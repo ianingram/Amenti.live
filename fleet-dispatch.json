@@ -1,14 +1,13 @@
 {
-  "at": "2026-08-08T06:30:01.884Z",
+  "at": "2026-08-08T12:29:06.042Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 90,
+    "count": 92,
     "prefixes": {
       "atlantica:": 77,
       "dailyplanet:": 10,
-      "idx:": 1,
       "watch:": 1,
-      "week:": 1
+      "week:": 4
     }
   },
   "today": "2026-08-08",
