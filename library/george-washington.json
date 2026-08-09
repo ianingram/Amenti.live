@@ -1,0 +1,52 @@
+{
+  "key": "george-washington",
+  "name": "George Washington",
+  "note": "Washington is unusual on these shelves because almost everything here is BY him rather than about him. He wrote constantly — orders, letters, surveys, diaries — and the surviving papers run to tens of thousands of documents. The problem is not scarcity; it is that he was a guarded writer who left very little that is unguarded.\n\nSO THIS SHELF IS ARRANGED BY AGE. A boy of about fourteen copying out a French Jesuit etiquette manual by hand. A surveyor of sixteen keeping a journal in the Blue Ridge with spelling he never quite fixed. A man of fifty-seven telling Congress he did not want the job. A man of sixty-one giving the shortest inaugural address in the history of the office — one hundred and thirty-five words, most of them about the oath. You can watch the reserve being assembled.\n\nTHE RULES ARE NOT HIS. They are a translation of a sixteenth-century French Jesuit courtesy book, and Conway's edition prints the French beside them to prove it. What is Washington's is the copying — a boy writing out a hundred and ten rules of conduct in a fair hand, including the hundred and tenth, which is the only one anybody remembers: 'Labour to keep alive in your Breast that Little Spark of Celestial fire called Conscience.'\n\nWHAT IS NOT HERE, AND SHOULD BE. THE FAREWELL ADDRESS of 1796 is the single most important thing he wrote, and I could not find a complete public-domain text of it in the sources searched — only extracts inside school anthologies. It is public domain and certainly available somewhere; it is simply not on this shelf yet, and the shelf should say so rather than present extracts as the document.",
+  "works": [
+    {
+      "id": "01-rules-of-civility",
+      "section": "The boy",
+      "title": "Rules of Civility and Decent Behaviour",
+      "mode": "stored",
+      "source": "*George Washington's Rules of Civility, Traced to their Sources and Restored* · ed. Moncure D. Conway, 1890 · Project Gutenberg #12029 · public domain",
+      "note": "A hundred and ten rules copied out by hand at about fourteen, from a French Jesuit manual of 1595. Most are about not being disgusting in company. Conway prints the sources alongside — French for most, Hawkins's English *Youths Behaviour* for others — so the copying can be seen for what it is. The hundred and tenth is the famous one: 'Labour to keep alive in your Breast that Little Spark of Celestial fire called Conscience.' It is not original to him either, and it is the one he appears to have kept.",
+      "file": "george-washington/01-rules-of-civility.md"
+    },
+    {
+      "id": "02-journal-over-the-mountains",
+      "section": "The boy",
+      "title": "Journal of my Journey over the Mountains, 1747–8",
+      "mode": "stored",
+      "source": "George Washington, *Journal of my Journey over the Mountains*, 1747-8 · ed. J. M. Toner, 1892 · Project Gutenberg #52395 · public domain",
+      "note": "Sixteen years old, surveying in the Blue Ridge for Lord Fairfax, and transcribed with his spelling untouched: he sleeps 'under one thread Bear blanket with double its Weight of Vermin', and records the first Indians he ever saw dancing. The only text on this shelf where he is not being watched.",
+      "file": "george-washington/02-journal-over-the-mountains.md"
+    },
+    {
+      "id": "03-first-inaugural",
+      "section": "The office",
+      "title": "First Inaugural Address — 30 April 1789",
+      "mode": "stored",
+      "source": "*United States Presidents' Inaugural Speeches* · Project Gutenberg #925 · public domain",
+      "note": "The first inaugural address ever given, by a man who opens by saying the summons was the one he received 'with the greatest anxiety' and that no event could have filled him with 'greater anxieties'. He declines any salary beyond expenses. There was no precedent for anything he did that day, which is why everything he did became one.",
+      "file": "george-washington/03-first-inaugural.md"
+    },
+    {
+      "id": "04-second-inaugural",
+      "section": "The office",
+      "title": "Second Inaugural Address — 4 March 1793",
+      "mode": "stored",
+      "source": "*United States Presidents' Inaugural Speeches* · Project Gutenberg #925 · public domain",
+      "note": "A hundred and thirty-five words, the shortest inaugural address ever given, and almost all of it is the oath and an invitation to punish him if he breaks it: that if he has violated the Constitution 'willingly or knowingly' he may 'be subject to the upbraidings of all who are now witnesses'. Four sentences from a man at the height of his power.",
+      "file": "george-washington/04-second-inaugural.md"
+    },
+    {
+      "id": "05-masonic-correspondence",
+      "section": "The letters",
+      "title": "Masonic Correspondence",
+      "mode": "stored",
+      "source": "*Washington's Masonic Correspondence* · ed. Julius F. Sachse, 1915 · Project Gutenberg #29949 · public domain",
+      "note": "Letters to and from lodges across the new republic, collected because they are one of the few bodies of his correspondence that survive complete and unofficial. He was made a Mason at twenty and remained one; the letters show the register he used with people who were neither subordinates nor rivals, which is rarer in his papers than it sounds.",
+      "file": "george-washington/05-masonic-correspondence.md"
+    }
+  ]
+}
