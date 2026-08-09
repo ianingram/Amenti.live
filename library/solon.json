@@ -1,0 +1,79 @@
+{
+  "key": "solon",
+  "name": "Solon",
+  "note": "Solon was given absolute power over Athens and used it once, for one year, and then left the country for ten so that nobody could ask him to change anything. That is the whole difficulty of reading him: every source agrees he could have made himself tyrant and every source has to explain why he did not.\n\nWHAT HE ACTUALLY DID. Athens in 594 BC had a debt crisis in which the security for a loan was the borrower's own body — men who could not pay became slaves, and some had been sold abroad. Solon cancelled the debts, freed those enslaved for them, forbade the practice outright, and then rebuilt the constitution around property classes instead of birth. The cancellation was called the SEISACHTHEIA, the shaking off of burdens.\n\nTHE RAREST THING HERE IS THAT HE ANSWERS. Solon wrote poetry, and Aristotle quotes it — so this shelf contains a lawgiver's own defence of his law, in his own metre, against people who were still alive to argue: \"So I stood with my shield outstretched, and both were safe in its sight, and I would not that either should triumph, when the triumph was not with right.\" Almost no ancient legislator can be heard doing this.\n\nAND NOBODY WAS SATISFIED. He says so himself. The poor wanted the land redistributed and did not get it; the rich wanted the debts honoured and did not get that either. Aristotle records that both sides accused him of enriching his friends with advance warning of the cancellation, and reports the charge without dismissing it.\n\nTHREE SOURCES, ONE ABSENT AUTHOR. Aristotle writing two and a half centuries later with the documents in front of him; Diogenes Laertius five hundred years after that, collecting the sayings and the letters; and Herodotus, who put him in front of Croesus for the most famous conversation in Greek history — which almost certainly never happened, since the dates do not permit it. It is on the shelf because Herodotus meant it as an argument rather than a report, and because the argument is Solon's.\n\nPLUTARCH'S LIFE OF SOLON IS NOT REPEATED HERE — it stands on Plutarch's own shelf on this site, and is the fullest single account.",
+  "works": [
+    {
+      "id": "01-the-crisis",
+      "section": "The crisis · Aristotle, Athenian Constitution",
+      "title": "The Crisis — Parts 2–5",
+      "mode": "stored",
+      "source": "Aristotle, *The Athenian Constitution* · trans. Sir Frederic G. Kenyon · Project Gutenberg #26095 · public domain",
+      "note": "What he inherited. The whole land in the hands of a few, the poor enslaved to the rich with their own bodies as security, and a constitution that made this lawful. Aristotle sets out the arrangement plainly and then notes that the harshest part of it was that men could be sold abroad for debt.",
+      "file": "solon/01-the-crisis.md"
+    },
+    {
+      "id": "02-the-shaking-off-of-burdens",
+      "section": "The crisis · Aristotle, Athenian Constitution",
+      "title": "The Seisachtheia — Part 6",
+      "mode": "stored",
+      "source": "Aristotle, *The Athenian Constitution* · trans. Sir Frederic G. Kenyon · Project Gutenberg #26095 · public domain",
+      "note": "The shortest work on the shelf and the one everything turns on. The debts are cancelled, the enslaved are freed, and lending on the security of the body is forbidden for ever. Aristotle then immediately records the accusation that Solon's friends borrowed heavily just beforehand — and reports both the charge and the defence without choosing.",
+      "file": "solon/02-the-shaking-off-of-burdens.md"
+    },
+    {
+      "id": "03-the-constitution",
+      "section": "The law · Aristotle, Athenian Constitution",
+      "title": "The Constitution — Parts 7–9",
+      "mode": "stored",
+      "source": "Aristotle, *The Athenian Constitution* · trans. Sir Frederic G. Kenyon · Project Gutenberg #26095 · public domain",
+      "note": "Office by property rather than birth, election by lot, and the three provisions Aristotle calls the most democratic: no lending on the person, the right of any citizen to seek redress for a wrong done to another, and appeal to the courts. The third, he says, is what gave the people their power.",
+      "file": "solon/03-the-constitution.md"
+    },
+    {
+      "id": "04-the-democratic-features",
+      "section": "The law · Aristotle, Athenian Constitution",
+      "title": "The Democratic Features — Parts 10–11",
+      "mode": "stored",
+      "source": "Aristotle, *The Athenian Constitution* · trans. Sir Frederic G. Kenyon · Project Gutenberg #26095 · public domain",
+      "note": "The measures and the weights, and then the reception: \"both parties were alienated through their disappointment at the condition of things which he had created.\" The poor had expected the land redistributed; the rich had expected the old order restored. Aristotle treats the double disappointment as evidence that he governed for the city rather than a faction — which is an argument, not a fact.",
+      "file": "solon/04-the-democratic-features.md"
+    },
+    {
+      "id": "05-solons-own-verses",
+      "section": "His own voice · Aristotle quoting the poems",
+      "title": "Solon's Own Verses — Part 12",
+      "mode": "stored",
+      "source": "Aristotle, *The Athenian Constitution* · trans. Sir Frederic G. Kenyon · Project Gutenberg #26095 · public domain",
+      "note": "THE CENTRE OF THIS SHELF. Aristotle stops paraphrasing and quotes the man himself, at length, defending the settlement in verse against people who were still alive to contradict him. \"I gave to the mass of the people such rank as befitted their need, I took not away their honour, and I granted naught to their greed.\" A lawgiver arguing his own case is close to unique in the ancient record.",
+      "file": "solon/05-solons-own-verses.md"
+    },
+    {
+      "id": "06-the-departure",
+      "section": "His own voice · Aristotle quoting the poems",
+      "title": "The Departure — Part 13",
+      "mode": "stored",
+      "source": "Aristotle, *The Athenian Constitution* · trans. Sir Frederic G. Kenyon · Project Gutenberg #26095 · public domain",
+      "note": "He leaves. Aristotle gives the reason in Solon's own words — he would not stay to be badgered into amending his own laws — and then describes what happened to Athens in the four years after, which is the strongest available argument that the departure was a mistake.",
+      "file": "solon/06-the-departure.md"
+    },
+    {
+      "id": "07-life-of-solon",
+      "section": "The tradition",
+      "title": "Diogenes Laertius — Life of Solon",
+      "mode": "stored",
+      "source": "Diogenes Laertius, *The Lives and Opinions of Eminent Philosophers* · trans. C. D. Yonge · Project Gutenberg #57342 · public domain",
+      "note": "Five hundred years later, and a different kind of source: the sayings, the letters, the anecdotes, and the quarrel with Pisistratus, who took the tyranny anyway while Solon was still alive and old. Diogenes preserves the detail that Solon put on his armour and stood in the street to oppose him, and that nobody joined him.",
+      "file": "solon/07-life-of-solon.md"
+    },
+    {
+      "id": "08-solon-and-croesus",
+      "section": "The tradition",
+      "title": "Herodotus — Solon and Croesus",
+      "mode": "stored",
+      "source": "Herodotus, *The History*, Book I · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+      "note": "The most famous conversation in Greek history, and it almost certainly never took place — Croesus came to the throne some thirty years after Solon's travels. Herodotus does not care, because he is making an argument rather than a report: shown the treasuries of the richest man alive and asked who is happiest, Solon names an obscure Athenian who died well, and then two brothers who died in their sleep. Count no man happy until he is dead.",
+      "file": "solon/08-solon-and-croesus.md"
+    }
+  ]
+}
