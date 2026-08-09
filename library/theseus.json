@@ -1,0 +1,61 @@
+{
+  "key": "theseus",
+  "name": "Theseus",
+  "note": "Theseus is the only figure on this roster whose reading room contains no biography of him. There is not one to hold: no history was written, because he belongs to the age before history — Plutarch opens his Life by warning the reader that beyond this point lie prodigies and fables, and then writes it anyway.\n\nSO THIS SHELF IS BUILT FROM WHAT OTHER PEOPLE MADE OF HIM. A Roman poet's version of the Minotaur, two Athenian tragedies in which he is not the subject, and the story of a king who kills a monster in a maze and then leaves the woman who got him out of it alive.\n\nTHE PATTERN WORTH NOTICING. In every text here Theseus is at his best when he is not the hero of the scene. As the young man of the Minotaur story he is brave and then contemptible: he takes the thread, kills the beast, and abandons Ariadne on Naxos while she sleeps. As the older king of the two plays he is something else entirely — the man who takes in a blind exile everyone else has driven out, and the man who curses his own son to death on a false accusation and learns it too late. He is not a consistent character. He is a figure Athens kept revising.\n\nPLUTARCH'S LIFE OPENS THIS SHELF, because it is the fullest account there is and a room about Theseus that withheld it would be a worse room. The same text also stands on Plutarch's own shelf, where it is paired with Romulus and the Comparison that weighs them — that room is about Plutarch's method; this one is about the man.\n\nON THE TRANSLATIONS. Riley's Ovid is a prose crib, faithful and flat; the poetry is gone but the story is exact. Gilbert Murray's Hippolytus is the opposite — rhyming verse of 1902 that reads more like Swinburne than Euripides, and is the version that put the play back on the English stage. Read it for the drama and not for the diction.",
+  "works": [
+    {
+      "id": "00-plutarch-theseus",
+      "section": "The Life",
+      "title": "Plutarch — Life of Theseus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The fullest account of him that exists, and the one that admits it should not. Plutarch opens the whole of the Lives here, and begins by warning the reader: as geographers crowd the unknown edges of their maps with deserts and wild beasts, so he is now past the reach of evidence. He writes it anyway — the road to Athens, the Minotaur, the unification of Attica, Ariadne, and the ugly end nobody dramatises. It also stands on Plutarch's own shelf, paired with Romulus and the Comparison that weighs them.",
+      "file": "theseus/00-plutarch-theseus.md"
+    },
+    {
+      "id": "01-the-minotaur-and-ariadne",
+      "section": "The labyrinth · Ovid, Metamorphoses VIII",
+      "title": "The Minotaur and Ariadne",
+      "mode": "stored",
+      "source": "Ovid, *Metamorphoses*, Book VIII · trans. Henry T. Riley · Project Gutenberg #26073 · public domain",
+      "note": "The episode everyone knows, in seven pages. The tribute of Athenian youths, the lot falling on Theseus, the thread, the monster, and then the line the story is usually told without: he carries Ariadne to Naxos and leaves her there. Ovid gives the desertion two clauses and moves on to Bacchus finding her.",
+      "file": "theseus/01-the-minotaur-and-ariadne.md"
+    },
+    {
+      "id": "02-the-labyrinth-and-icarus",
+      "section": "The labyrinth · Ovid, Metamorphoses VIII",
+      "title": "Daedalus and Icarus",
+      "mode": "stored",
+      "source": "Ovid, *Metamorphoses*, Book VIII · trans. Henry T. Riley · Project Gutenberg #26073 · public domain",
+      "note": "The other half of the maze. The man who built the labyrinth is shut inside his own work and escapes by inventing flight, at the cost of his son. Included because the labyrinth is not Theseus's problem alone — it is a thing somebody made, and the maker is trapped in it too.",
+      "file": "theseus/02-the-labyrinth-and-icarus.md"
+    },
+    {
+      "id": "03-the-river-god",
+      "section": "The labyrinth · Ovid, Metamorphoses VIII",
+      "title": "Theseus and the River God",
+      "mode": "stored",
+      "source": "Ovid, *Metamorphoses*, Book VIII · trans. Henry T. Riley · Project Gutenberg #26073 · public domain",
+      "note": "A quieter piece: Theseus, going home from the Calydonian boar hunt, is stopped by a flooded river and waits it out as a guest of the river god Acheloüs. Almost nothing happens. It is here because it is the only passage on this shelf in which he is simply a man being hospitably received.",
+      "file": "theseus/03-the-river-god.md"
+    },
+    {
+      "id": "04-hippolytus",
+      "section": "The king · two tragedies",
+      "title": "Euripides — Hippolytus",
+      "mode": "stored",
+      "source": "Euripides, *Hippolytus* · trans. Gilbert Murray · Project Gutenberg #8418 · public domain",
+      "note": "Theseus as father, and the worst thing he ever does. His wife Phaedra, made to love her stepson by Aphrodite, hangs herself and leaves a letter accusing the boy of raping her. Theseus reads it, refuses to hear him, and spends one of the three curses Poseidon owes him on his own son's death. He is told the truth at the end, from the body.",
+      "file": "theseus/04-hippolytus.md"
+    },
+    {
+      "id": "05-oedipus-at-colonus",
+      "section": "The king · two tragedies",
+      "title": "Sophocles — Oedipus at Colonus",
+      "mode": "stored",
+      "source": "Sophocles, *Oedipus at Colonus* · trans. F. Storr · Project Gutenberg #31 · public domain",
+      "note": "Theseus at his best, and he is barely in it. A blind, polluted exile arrives at the edge of Athens and every other city has refused him. Theseus takes him in without conditions, defends him against Thebes, and is the only man permitted to see how he dies. Sophocles wrote it at about ninety, in the year Athens lost the war.",
+      "file": "theseus/05-oedipus-at-colonus.md"
+    }
+  ]
+}
