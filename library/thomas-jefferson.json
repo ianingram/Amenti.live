@@ -1,0 +1,43 @@
+{
+  "key": "thomas-jefferson",
+  "name": "Thomas Jefferson",
+  "note": "Jefferson is the opposite problem from Washington on the neighbouring shelf. Washington wrote constantly and revealed almost nothing; Jefferson wrote about nineteen thousand letters and revealed a great deal, much of it contradictory. He is the most quotable man in American history and the quotations do not agree with each other.\n\nTHE CENTRE OF THIS SHELF IS THE DRAFT DECLARATION. Not the famous version — the one he actually wrote, printed in his Autobiography with THE PASSAGES CONGRESS STRUCK OUT MARKED, because, as he says, 'the sentiments of men are known not only by what they receive, but what they reject also.' The longest deletion is his clause on slavery, removed 'in complaisance to South Carolina and Georgia'. He is showing his readers what was taken out of him, forty-five years later, still counting.\n\nAND HE OWNED SIX HUNDRED PEOPLE. That is not a footnote to the shelf; it is the reason to read it carefully. The man who wrote that all men are created equal, and who wrote the anti-slavery clause Congress cut, freed two people in his lifetime. Both facts are in these documents. Neither cancels the other and this room does not attempt to reconcile them.\n\nWHAT IS NOT HERE. *Notes on the State of Virginia* — his only published book, and the one containing both his case against slavery and his statements of racial inferiority — is not on Project Gutenberg in the sources searched. It is public domain and it belongs on this shelf; it simply is not here yet, and the omission is worth naming rather than hiding, because it is the text where he is least defensible. The *Statute for Religious Freedom* is likewise absent from the volumes taken.\n\nTHE EDITION is the 1903 Lipscomb and Bergh Memorial Edition, twenty volumes originally, of which Gutenberg holds nine. It is superseded by the modern Princeton edition, which is not public domain.",
+  "works": [
+    {
+      "id": "01-autobiography",
+      "section": "His own account",
+      "title": "Autobiography — begun 6 January 1821",
+      "mode": "stored",
+      "source": "Thomas Jefferson, *The Writings of Thomas Jefferson*, Vol. 1 (of 9) · ed. Andrew A. Lipscomb and Albert Ellery Bergh · Project Gutenberg #45847 · public domain",
+      "note": "'At the age of 77, I begin to make some memoranda, and state some recollections of dates and facts concerning myself, for my own more ready reference, and for the information of my family.' He gets as far as 1790 and stops. Covers his birth, education, the Virginia legislature, the drafting of the Declaration, and the revision of Virginia's laws — including the bill he was proudest of.",
+      "file": "thomas-jefferson/01-autobiography.md"
+    },
+    {
+      "id": "02-the-draft-declaration",
+      "section": "His own account",
+      "title": "The Draft Declaration, with the passages Congress struck out",
+      "mode": "stored",
+      "source": "Thomas Jefferson, *The Writings of Thomas Jefferson*, Vol. 1 (of 9) · ed. Andrew A. Lipscomb and Albert Ellery Bergh · Project Gutenberg #45847 · public domain",
+      "note": "THE CENTRE OF THIS SHELF. Jefferson prints his original text and marks every alteration Congress made, because 'the sentiments of men are known not only by what they receive, but what they reject also.' Note the wording before the edit: 'inalienable', not 'unalienable'. And note the largest excision — the clause arraigning the slave trade, struck out, he says, 'in complaisance to South Carolina and Georgia'.",
+      "file": "thomas-jefferson/02-the-draft-declaration.md"
+    },
+    {
+      "id": "03-letter-to-adams-on-aristocracy",
+      "section": "The correspondence",
+      "title": "To John Adams, 28 October 1813 — the natural aristocracy",
+      "mode": "stored",
+      "source": "Thomas Jefferson, *The Writings of Thomas Jefferson*, Vol. 6 (of 9) · Project Gutenberg #55075 · public domain",
+      "note": "From the great late correspondence between two men who had been enemies and became friends again, and who died on the same day — the fiftieth anniversary of the Declaration. Here Jefferson answers Adams on whether an aristocracy is natural: 'there is a natural aristocracy among men. The grounds of this are virtue and talents' — as against 'an artificial aristocracy, founded on wealth and birth, without either virtue or talents.'",
+      "file": "thomas-jefferson/03-letter-to-adams-on-aristocracy.md"
+    },
+    {
+      "id": "04-first-inaugural",
+      "section": "The office",
+      "title": "First Inaugural Address — 4 March 1801",
+      "mode": "stored",
+      "source": "*United States Presidents' Inaugural Speeches* · Project Gutenberg #925 · public domain",
+      "note": "After the most vicious election yet held, and with the losing president refusing to attend, Jefferson opens by conceding almost everything: 'We are all Republicans, we are all Federalists.' The first peaceful transfer of power between opposed parties in the modern world, and the speech is largely an argument that the transfer should not frighten anyone.",
+      "file": "thomas-jefferson/04-first-inaugural.md"
+    }
+  ]
+}
