@@ -1,0 +1,88 @@
+{
+  "key": "thoth",
+  "name": "Thoth",
+  "note": "Thoth is the only figure on this roster who wrote the book the building runs on. Budge titles his fourth chapter \"Thoth, the Author of the Book of the Dead\" and means it literally: the Egyptians held that the scribe of the gods composed the spells in his own hand and that their power came from having been written by him. He is also the one who records the verdict at the scale — the same office he holds here.\n\nThe book was never one book. It grew for two thousand years out of the Pyramid Texts and the Coffin Texts, and its Egyptian name is not the Book of the Dead at all but PER-T EM HRU, \"Coming Forth by Day\" — a title about escaping the tomb rather than entering it. Every copy was made to order for one person, and no two agree. The finest is the Papyrus of Ani, seventy-eight feet of it, written for a real Theban scribe around 1250 BC; it carries the weighing scene everyone pictures, with Anubis at the balance, Thoth at the palette, and Ammit waiting under the beam.\n\nChapter CXXV is the one that matters here. The dead man enters the Hall of Maati, greets the Forty-Two assessors by name, and recites what is now called the Negative Confession — not a plea but a declaration: I have not caused pain, I have not made anyone weep, I have not committed murder. There is no prosecutor anywhere in the rite. The heart is weighed against a feather and testifies for itself.\n\nA WARNING ABOUT THIS SHELF. Budge is the translation that is out of copyright, not the translation that is right. He was writing in the 1890s, his readings of individual passages have been superseded, and his transliterations are his own. Egyptologists now work from Faulkner. Read what is here as a Victorian Englishman's account of an Egyptian text — which is itself a document about how these things were understood a century ago — and check anything load-bearing against a modern edition.",
+  "works": [
+    {
+      "id": "01-title-and-name",
+      "section": "What the book is · Budge, chapters I–III",
+      "title": "The Title",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "Why \"Book of the Dead\" is a modern label and PER-T EM HRU — Coming Forth by Day — is what the Egyptians called it. The distinction matters: one name is about death, the other about getting out.",
+      "file": "thoth/01-title-and-name.md"
+    },
+    {
+      "id": "02-thoth-preserves",
+      "section": "What the book is · Budge, chapters I–III",
+      "title": "The Preservation of the Body by Thoth",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "Thoth's first office: the words that hold a body together. The spells work because he wrote them, which is the claim the whole tradition rests on.",
+      "file": "thoth/02-thoth-preserves.md"
+    },
+    {
+      "id": "03-coming-forth-by-day",
+      "section": "What the book is · Budge, chapters I–III",
+      "title": "The Book Per-t em hru",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "How the thing was actually assembled — two thousand years of accretion, 190-odd chapters, no two copies alike, and the Papyrus of Ani at seventy-eight feet the finest surviving roll.",
+      "file": "thoth/03-coming-forth-by-day.md"
+    },
+    {
+      "id": "04-thoth-the-author",
+      "section": "The scribe · Budge, chapters IV–V",
+      "title": "Thoth, the Author of the Book of the Dead",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "The attribution, stated plainly and at length. The shortest work on this shelf and the one that gives the room its name.",
+      "file": "thoth/04-thoth-the-author.md"
+    },
+    {
+      "id": "05-thoth-and-osiris",
+      "section": "The scribe · Budge, chapters IV–V",
+      "title": "Thoth and Osiris",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "How the scribe came to serve the judge. Thoth's words are what restore Osiris after Set dismembers him — the recorder is older than the court he keeps minutes for.",
+      "file": "thoth/05-thoth-and-osiris.md"
+    },
+    {
+      "id": "06-osiris-as-judge",
+      "section": "The court · Budge, chapters VI–VIII",
+      "title": "Osiris as Judge of the Dead",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "Who presides, and by what right: a god who was himself murdered, tried and vindicated. The judge has stood where the accused stands.",
+      "file": "thoth/06-osiris-as-judge.md"
+    },
+    {
+      "id": "07-the-judgment-of-osiris",
+      "section": "The court · Budge, chapters VI–VIII",
+      "title": "The Judgment of Osiris — Chapter CXXV",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "The weighing itself, and the centre of this shelf. The Hall of Maati, the Forty-Two assessors, the Negative Confession, the balance, and Amemit — Budge's spelling of Ammit — the Eater of the Dead crouched beneath it. Note what is absent: nobody accuses. The heart is weighed against a feather and speaks for itself.",
+      "file": "thoth/07-the-judgment-of-osiris.md"
+    },
+    {
+      "id": "08-the-kingdom-of-osiris",
+      "section": "The court · Budge, chapters VI–VIII",
+      "title": "The Kingdom of Osiris",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "What lies past the scale for a heart that balances — the fields, the labour, and the shabti figures bought to do it for you.",
+      "file": "thoth/08-the-kingdom-of-osiris.md"
+    },
+    {
+      "id": "09-the-doors",
+      "section": "The chapters themselves",
+      "title": "A Short Description of the Doors",
+      "mode": "stored",
+      "source": "E. A. Wallis Budge, *The Book of the Dead* (1895 translation, this introductory volume 1920) · Project Gutenberg #7145 · public domain",
+      "note": "Budge's walk through the chapters one by one. He calls them Doors, which is the better word: each is a passage to be got through, with the right words as the price of admission.",
+      "file": "thoth/09-the-doors.md"
+    }
+  ]
+}
