@@ -1,0 +1,97 @@
+{
+  "key": "dante-alighieri",
+  "name": "Dante Alighieri",
+  "note": "Dante was condemned to death by Florence in 1302, in his absence, on a charge of corruption he always denied. He never went back. The Comedy was written in exile over some twenty years, in a language that barely existed as a literary medium until he used it — and he put his political enemies in hell by name while they were still alive to read it.\n\nTHIS SHELF IS NOT THE WHOLE COMEDY. It is a hundred cantos and would be a download rather than a room. What is here is the ARC — the opening of each canticle, the closing vision, and the four episodes people actually return to — with the two prose works entire, because they are short enough and because without them Dante is only the poem.\n\nTHE THING WORTH NOTICING. He does not put himself above the material. He faints with pity for Francesca, is rebuked by Beatrice so severely he cannot answer, and admits at the last that language has failed him. A poem structured as a moral hierarchy, narrated by someone who keeps getting it wrong.\n\nON THE TRANSLATION. Longfellow's 1867 version is line-for-line, unrhymed, and deliberately literal — he was translating for accuracy and lost the terza rima to get it. It is stiff and trustworthy. Cary's earlier version is grander and freer; Rossetti's Vita Nuova here is by a poet translating a poet, and reads accordingly.\n\nNIMROD'S SHELF ON THIS SITE holds Canto XXXI, where Dante chains the builder of Babel at the bottom of hell and gives him a language nobody can understand.",
+  "works": [
+    {
+      "id": "01-inferno-i-ii",
+      "section": "Inferno",
+      "title": "Cantos I–II — The Dark Wood",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "'Midway upon the journey of our life I found myself within a forest dark, for the straightforward pathway had been lost.' The three beasts, the appearance of Virgil, and Dante's attempt to refuse the journey — 'I not Aeneas am, I am not Paul' — before he is told who sent for him.",
+      "file": "dante-alighieri/01-inferno-i-ii.md"
+    },
+    {
+      "id": "02-inferno-v",
+      "section": "Inferno",
+      "title": "Canto V — Paolo and Francesca",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "The lovers blown on the wind, and the most sympathetic passage in the Inferno. Francesca blames a book — they were reading of Launcelot, and 'Galeotto was the book and he who wrote it. That day no farther did we read therein.' Dante, who has just placed her in hell, faints at the end of her speech: 'I swooned away as if I had been dying, and fell, even as a dead body falls.' The poem's judgement and its narrator's feeling come apart in front of the reader.",
+      "file": "dante-alighieri/02-inferno-v.md"
+    },
+    {
+      "id": "03-inferno-xxvi",
+      "section": "Inferno",
+      "title": "Canto XXVI — Ulysses",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "Dante invents an ending for Ulysses that no ancient source has: an old man who sails past Gibraltar to see the unpeopled world, and drowns. The speech to the crew — that men were not made 'to live like unto brutes, but for pursuit of virtue and of knowledge' — is put in the mouth of a man being punished for it.",
+      "file": "dante-alighieri/03-inferno-xxvi.md"
+    },
+    {
+      "id": "04-inferno-xxxiii-xxxiv",
+      "section": "Inferno",
+      "title": "Cantos XXXIII–XXXIV — Ugolino and the Pit",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "Ugolino gnawing the skull of the archbishop who starved him and his sons, and then the bottom of hell — which is not fire but ice, with Satan frozen to the waist, weeping from three faces. The climb out is the strangest passage in the poem: they descend so far they begin ascending without turning round.",
+      "file": "dante-alighieri/04-inferno-xxxiii-xxxiv.md"
+    },
+    {
+      "id": "05-purgatorio-i-ii",
+      "section": "Purgatorio",
+      "title": "Cantos I–II — The Shore",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "Out of hell at dawn on Easter Sunday, onto an island in the southern ocean. The tone changes completely — 'to run o'er better waters hoists its sail the little vessel of my genius now' — and the first souls arrive singing, in no hurry at all.",
+      "file": "dante-alighieri/05-purgatorio-i-ii.md"
+    },
+    {
+      "id": "06-purgatorio-xxx-xxxi",
+      "section": "Purgatorio",
+      "title": "Cantos XXX–XXXI — Beatrice",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "Virgil vanishes without a word and Beatrice arrives, and the reunion is a prosecution. She names him from the chariot — the only time in the poem his own name is spoken — and accuses him to his face until he cannot answer. The centre of the Comedy, and the least comfortable thing in it.",
+      "file": "dante-alighieri/06-purgatorio-xxx-xxxi.md"
+    },
+    {
+      "id": "07-paradiso-i",
+      "section": "Paradiso",
+      "title": "Canto I — The Ascent",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "'The glory of Him who moveth everything doth penetrate the universe, and shine in one part more and in another less.' He warns the reader here that memory cannot follow where he went, and that anyone in a small boat should turn back rather than risk losing him.",
+      "file": "dante-alighieri/07-paradiso-i.md"
+    },
+    {
+      "id": "08-paradiso-xxxiii",
+      "section": "Paradiso",
+      "title": "Canto XXXIII — The Vision",
+      "mode": "stored",
+      "source": "Dante Alighieri, *The Divine Comedy* · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001–1003 · public domain",
+      "note": "The end. Bernard's prayer, the final vision, and Dante's admission that it is beyond saying — 'here vigour failed the lofty fantasy'. Then the last line of the whole poem, which is about motion rather than rest: 'the Love which moves the sun and the other stars.'",
+      "file": "dante-alighieri/08-paradiso-xxxiii.md"
+    },
+    {
+      "id": "09-la-vita-nuova",
+      "section": "The prose, entire",
+      "title": "La Vita Nuova — The New Life",
+      "mode": "stored",
+      "source": "Dante Alighieri, *La Vita Nuova (The New Life)* · trans. Dante Gabriel Rossetti · Project Gutenberg #41085 · public domain",
+      "note": "Written twenty years before the Comedy, and the reason Beatrice is in it. Thirty-one poems with prose commentary in which Dante explains his own verse line by line — the first time a European poet did that — around the death of a woman he had spoken to perhaps twice. It ends with a promise to write of her what has never been written of any woman. He kept it.",
+      "file": "dante-alighieri/09-la-vita-nuova.md"
+    },
+    {
+      "id": "10-de-monarchia",
+      "section": "The prose, entire",
+      "title": "De Monarchia",
+      "mode": "stored",
+      "source": "Dante Alighieri, *De Monarchia* · trans. F. J. Church, in R. W. Church, *Dante: An Essay* (1879) · Project Gutenberg #33896 · public domain",
+      "note": "The political argument, in Latin, from the man the Comedy is usually read without: that a single temporal monarchy is necessary for the world's peace, that Rome held empire by right, and that the Emperor's authority comes from God directly and not through the Pope. It was burned in 1329 and put on the Index in 1554, and it is the key to why so many popes are in hell.",
+      "file": "dante-alighieri/10-de-monarchia.md"
+    }
+  ]
+}
