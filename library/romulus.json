@@ -1,0 +1,70 @@
+{
+  "key": "romulus",
+  "name": "Romulus",
+  "note": "THIS ROOM EXISTS BECAUSE ITS TWO SOURCES DISAGREE. Livy and Plutarch both tell the founding of Rome, three centuries and one language apart, and they are the only substantial accounts there are. Both stand on their own shelves on this site. Here they are set beside each other, because the differences are the most instructive thing about either.\n\nTHE KILLING OF REMUS. Livy gives two versions and commits to one: the brothers quarrel over the auspices, and \"a more common account is, that Remus, in derision of his brother, leaped over his new-built wall, and was, for that reason, slain by Romulus in a passion\" — followed by the sentence that has troubled readers ever since: \"So shall every one fare, who shall dare to leap over my fortifications.\" Plutarch tells the same episode and declines to name the killer: \"some say Romulus himself struck him, others Celer, one of his companions.\"\n\nOne historian is willing to say the founder murdered his brother. The other reports that people said so. Neither is being careless; they are doing different jobs, and the room is the place to see that.\n\nTHE END IS WORSE. Livy has Romulus vanish in a storm before the whole army and be saluted as a god — and then adds, in his own voice, \"I believe that even then there were some, who silently surmised that the king had been torn in pieces by the hands of the fathers; for this rumour also spread, but was not credited.\" The founder of Rome either ascended into heaven or was dismembered by his own senate, and the first Roman historian records both and settles neither.\n\nWHAT IS NOT HERE. No contemporary source, because there is none — Rome's founding predates Roman writing by some five hundred years. Everything on this shelf is a reconstruction from annals, family tradition and legend, written by men who said as much. Read it as what Rome believed about itself.",
+  "works": [
+    {
+      "id": "00-plutarch-romulus",
+      "section": "The Life",
+      "title": "Plutarch — Life of Romulus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The fullest account, and the more sceptical. Plutarch collects the competing versions of every episode — the descent, the exposure, the she-wolf, the killing of Remus, the disappearance — and repeatedly refuses to adjudicate. He also gives the rationalist explanation of the wolf: that \"the Latins not only called wolves lupae, but also women of loose life\", and that such a woman was Acca Larentia, the herdsman's wife who nursed them.",
+      "file": "romulus/00-plutarch-romulus.md"
+    },
+    {
+      "id": "01-livy-the-founding",
+      "section": "Livy, Book I · the founding",
+      "title": "The Founding and the Death of Remus — §4–7",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Book I · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "The vestal, the exposure, the wolf, the herdsman, the vultures, and the wall. Livy gives two accounts of Remus's death, names Romulus in both, and supplies the line about leaping the fortifications. Set this beside Plutarch's version of the same twenty minutes.",
+      "file": "romulus/01-livy-the-founding.md"
+    },
+    {
+      "id": "02-livy-the-asylum",
+      "section": "Livy, Book I · the founding",
+      "title": "The Sanctuary and the Senate — §8",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Book I · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "The strangest founding decision in the record, and Livy reports it without embarrassment: to make the city large enough to matter, Romulus \"opened as a sanctuary\" a place between the two groves, and \"hither fled from the neighbouring states, without distinction whether freemen or slaves, crowds of all sorts, desirous of change.\" Rome's own account of its origins begins with an amnesty for anyone who wanted out of where they were. The section also gives the hundred senators and the twelve lictors.",
+      "file": "romulus/02-livy-the-asylum.md"
+    },
+    {
+      "id": "03-livy-the-sabines",
+      "section": "Livy, Book I · the founding",
+      "title": "The Sabine Women and the War — §9–13",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Book I · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "A city of men without wives stages a festival and carries off its neighbours' daughters. What keeps this from being simply an atrocity is what Livy does next: the women themselves stop the war, standing between their fathers and their husbands. He records the crime and the reconciliation and does not reconcile them.",
+      "file": "romulus/03-livy-the-sabines.md"
+    },
+    {
+      "id": "04-livy-the-reign",
+      "section": "Livy, Book I · the reign",
+      "title": "The Joint Reign and the Wars — §14–15",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Book I · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "The shared kingship with Tatius, its end, and the campaigns that follow. The quiet section of the shelf, and useful mainly as the ground the disappearance happens against.",
+      "file": "romulus/04-livy-the-reign.md"
+    },
+    {
+      "id": "05-livy-the-disappearance",
+      "section": "Livy, Book I · the reign",
+      "title": "The Disappearance — §16",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Book I · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "THE CASE. A storm, a mist, an empty throne, and a king saluted as a god by the army that lost sight of him. Then Livy's own aside: some silently surmised the fathers had torn him to pieces. Two pages, and the founder's death is either an apotheosis or a coup that was never investigated.",
+      "file": "romulus/05-livy-the-disappearance.md"
+    },
+    {
+      "id": "06-comparison-with-theseus",
+      "section": "Weighed against another founder",
+      "title": "Plutarch — Comparison of Romulus with Theseus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "Plutarch's own verdict, and the device that makes him unique. Having written both founders sympathetically, he weighs them against each other — birth, means, the treatment of women, the killing of kin — and decides. Theseus's shelf on this site holds the other half of the pair.",
+      "file": "romulus/06-comparison-with-theseus.md"
+    }
+  ]
+}
