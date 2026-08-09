@@ -1,0 +1,52 @@
+{
+  "key": "brutus",
+  "name": "Brutus",
+  "note": "FIRST, WHICH BRUTUS. This is LUCIUS Junius Brutus, who overthrew the Roman monarchy in 509 BC and became one of the first two consuls. He is not Marcus Junius Brutus, who killed Caesar four hundred and sixty-five years later — though that is not a coincidence. The assassin claimed descent from this man, Romans knew it, and the expectation that a Brutus would act against a tyrant was used on him deliberately. Plutarch's Life of MARCUS Brutus stands on Plutarch's shelf on this site; it is a different man and a different case.\n\nTHERE IS NO BIOGRAPHY OF HIM. Nobody wrote one, and what survives is Livy's narrative across the end of Book I and the beginning of Book II — five episodes, about eight thousand words in total. That is the whole record of the man who invented the Republic.\n\nTHE CASE. He survived a tyrant who had murdered his brother by pretending to be an idiot — the name Brutus means exactly that, and he wore it. He carried a hollow staff to Delphi with gold hidden inside it, as an offering that was also a joke about himself. He used Lucretia's suicide to end the monarchy. Then, as consul, when his own two sons were caught conspiring to bring the king back, he sat on the tribunal and watched them beheaded, and Livy records that the father showed in his face throughout.\n\nThe Republic was founded by a man who faked stupidity for years and then killed his children for it. Every part of that is in the record and Livy does not soften any of it.\n\nA WARNING. Livy is writing five centuries after the events, from annals and family tradition, about a period Rome had strong reasons to mythologise — the Junii were still a great family in his lifetime. Read this as what the Republic told itself about its own founding.",
+  "works": [
+    {
+      "id": "01-the-fool-at-delphi",
+      "section": "The disguise",
+      "title": "The Fool at Delphi — Book I §56",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Books I–II · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "How he survived. His brother killed by the king and his fortune seized, Brutus 'resolved to leave nothing in his intellects that might be dreaded by the king, nor any thing in his fortune to be coveted' — and accepted the name that meant idiot. Taken to Delphi 'rather as a subject of sport than as a companion', he brings Apollo 'a golden rod, enclosed in a staff of cornel-wood hollowed out for the purpose, a mystical emblem of his own mind.' Then he hears an oracle the king's sons do not understand, and acts on it in the road.",
+      "file": "brutus/01-the-fool-at-delphi.md"
+    },
+    {
+      "id": "02-lucretia",
+      "section": "The overthrow",
+      "title": "Lucretia — Book I §57–59",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Books I–II · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "The rape, the summoning of her father and husband, and the suicide she performs in front of them while they are still telling her she is guiltless. Then Brutus stops pretending: he draws the knife out of the wound and swears on her blood. The same passage stands on Livy's own shelf as her case; here it is his, and the difference is who you are watching.",
+      "file": "brutus/02-lucretia.md"
+    },
+    {
+      "id": "03-the-expulsion",
+      "section": "The overthrow",
+      "title": "The Expulsion and the First Consuls — I §60, II §1–2",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Books I–II · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "The kings are driven out and two consuls are elected in their place, one of them Brutus. He immediately binds the people by oath never to allow a king in Rome again, and then forces his own colleague — Tarquinius Collatinus, Lucretia's husband — into exile for no offence except his name. The Republic's first act after liberty is a purge.",
+      "file": "brutus/03-the-expulsion.md"
+    },
+    {
+      "id": "04-the-sons",
+      "section": "The price",
+      "title": "The Sons — Book II §3–5",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Books I–II · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "THE CASE. Young nobles conspire to restore the king, and Brutus's two sons are among them. He does not recuse himself. 'The consuls seated themselves in their tribunal, and the lictors, being despatched to inflict punishment, strip them naked, beat them with rods, and strike off their heads.' Livy adds that throughout it the father's feelings showed in his face — and leaves the reader to decide whether that is an extenuation.",
+      "file": "brutus/04-the-sons.md"
+    },
+    {
+      "id": "05-the-death-of-brutus",
+      "section": "The price",
+      "title": "The Death of Brutus — Book II §6–7",
+      "mode": "stored",
+      "source": "Livy, *The History of Rome*, Books I–II · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+      "note": "Tarquin returns with two armies. Brutus rides ahead with the cavalry; Aruns, the king's son, knows him at a distance by the lictors and then 'by his face', and charges. They kill each other in the same encounter — the man who ended the monarchy and the son of the last king, on each other's spears. Livy records that 'the matrons mourned him a year, as a parent, because he had been so vigorous an avenger of violated chastity.'",
+      "file": "brutus/05-the-death-of-brutus.md"
+    }
+  ]
+}
