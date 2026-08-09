@@ -1,0 +1,412 @@
+{
+  "key": "shakespeare-william",
+  "name": "William Shakespeare",
+  "note": "THERE IS NO MANUSCRIPT. Not one authorial holograph of any Shakespeare play survives. Everything on this shelf descends from printed books, and the printed books disagree.\n\nFor roughly twenty plays — The Tempest, Macbeth, Twelfth Night among them — the 1623 Folio is the earliest text of any kind. For others there are competing quarto printings, and the disagreements are not trivial: Hamlet has three early witnesses that differ substantially, and the two texts of King Lear differ far enough that many editors now print them as two plays rather than reconcile them.\n\nSo every modern reading edition is an EDITOR'S CONSTRUCTION, assembled by choosing among witnesses. That is honest scholarship and it is not the same thing as a source. This shelf therefore holds both poles: forty-four works split out of the modern Complete Works for reading, and the First Folio entire as the evidence they were constructed from.\n\nTHE RULE FOR THIS ROOM: read from the individual works; check contested passages against the Folio.\n\nONE THING WORTH SEEING. The Folio opens with its own catalogue of the plays it contains, grouped as Comedies, Histories and Tragedies — the grouping used here. Troilus and Cressida does not appear in that list, and is printed in the book anyway. The first collected Shakespeare disagrees with itself about what it is.\n\nFLAGGED, NOT SOLVED. The Two Noble Kinsmen is a collaboration with John Fletcher. The Passionate Pilgrim is a 1599 miscellany published under his name whose contents are largely by other people. Both are here, both are marked, and whether they belong on a separate shelf is undecided.",
+  "works": [
+    {
+      "id": "00-first-folio",
+      "section": "The evidence",
+      "title": "The First Folio, 1623",
+      "mode": "stored",
+      "source": "*Mr. William Shakespeares Comedies, Histories, & Tragedies* — the First Folio, 1623 · Project Gutenberg #2270 · public domain",
+      "note": "THE WITNESS, NOT THE READING TEXT. Original spelling and punctuation, printed seven years after his death by men who had acted with him. For roughly twenty plays this is the earliest text of any kind. Everything else on this shelf descends from it or from quartos that disagree with it. It exceeds GitHub's display limit and will not render in the browser — it downloads correctly.",
+      "file": "shakespeare-william/02-first-folio.md"
+    },
+    {
+      "id": "01-sonnets",
+      "section": "The Poems and Sonnets",
+      "title": "The Sonnets",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "One hundred and fifty-four sonnets, published in 1609 in an order nobody can prove is his. The first hundred and twenty-six address a young man, the rest a woman. Four centuries of readers have tried to make them a story; they resist it.",
+      "file": "shakespeare-william/01-sonnets.md"
+    },
+    {
+      "id": "02-all-s-well-that-ends-well",
+      "section": "The Comedies",
+      "title": "All’s Well That Ends Well",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/02-all-s-well-that-ends-well.md"
+    },
+    {
+      "id": "03-antony-and-cleopatra",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Antony and Cleopatra",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "Plutarch's Antony, turned into verse almost line by line — Enobarbus on the barge is North's translation with the prose broken. Read it against Plutarch's Life on the neighbouring shelf and you can watch a source become a play.",
+      "file": "shakespeare-william/03-antony-and-cleopatra.md"
+    },
+    {
+      "id": "04-as-you-like-it",
+      "section": "The Comedies",
+      "title": "As You Like It",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/04-as-you-like-it.md"
+    },
+    {
+      "id": "05-errors",
+      "section": "The Comedies",
+      "title": "The Comedy of Errors",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/05-errors.md"
+    },
+    {
+      "id": "06-coriolanus",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Coriolanus",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "Also straight from Plutarch. A man of enormous courage and no patience, driven out by the people he defended, who returns at the head of his enemies' army and is stopped by his mother. Plutarch's Coriolanus is on this site; the scene survives almost intact.",
+      "file": "shakespeare-william/06-coriolanus.md"
+    },
+    {
+      "id": "07-cymbeline",
+      "section": "The Tragedies",
+      "title": "Cymbeline",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/07-cymbeline.md"
+    },
+    {
+      "id": "08-hamlet-prince-of-denmark",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Hamlet, Prince of Denmark",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "The most textually unstable play in the canon. Three early witnesses — the 1603 quarto, the 1604 quarto, and the Folio — disagree substantially, and no modern edition is any one of them. What is read here is an editor's construction.",
+      "file": "shakespeare-william/08-hamlet-prince-of-denmark.md"
+    },
+    {
+      "id": "09-first-part-of-king-henry-the-fourth",
+      "section": "The Histories",
+      "title": "The First Part of King Henry the Fourth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/09-first-part-of-king-henry-the-fourth.md"
+    },
+    {
+      "id": "10-second-part-of-king-henry-the-fourth",
+      "section": "The Histories",
+      "title": "The Second Part of King Henry the Fourth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/10-second-part-of-king-henry-the-fourth.md"
+    },
+    {
+      "id": "11-king-henry-the-fifth",
+      "section": "The Histories",
+      "title": "The Life of King Henry the Fifth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/11-king-henry-the-fifth.md"
+    },
+    {
+      "id": "12-first-part-of-henry-the-sixth",
+      "section": "The Histories",
+      "title": "The First Part of Henry the Sixth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/12-first-part-of-henry-the-sixth.md"
+    },
+    {
+      "id": "13-second-part-of-king-henry-the-sixth",
+      "section": "The Histories",
+      "title": "The Second Part of King Henry the Sixth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/13-second-part-of-king-henry-the-sixth.md"
+    },
+    {
+      "id": "14-third-part-of-king-henry-the-sixth",
+      "section": "The Histories",
+      "title": "The Third Part of King Henry the Sixth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/14-third-part-of-king-henry-the-sixth.md"
+    },
+    {
+      "id": "15-king-henry-the-eighth",
+      "section": "The Histories",
+      "title": "King Henry the Eighth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/15-king-henry-the-eighth.md"
+    },
+    {
+      "id": "16-king-john",
+      "section": "The Histories",
+      "title": "The Life and Death of King John",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/16-king-john.md"
+    },
+    {
+      "id": "17-julius-caesar",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Julius Caesar",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "North's Plutarch again, and the third of the Roman plays built directly from it. Brutus is Plutarch's Brutus, including the courtesy to the men he is about to kill.",
+      "file": "shakespeare-william/17-julius-caesar.md"
+    },
+    {
+      "id": "18-king-lear",
+      "section": "The Tragedies",
+      "title": "The Tragedy of King Lear",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "The clearest case of the problem this room exists to show. The 1608 quarto and the 1623 Folio differ so far that many editors now print them as two plays rather than reconciling them. A single Lear is a modern decision.",
+      "file": "shakespeare-william/18-king-lear.md"
+    },
+    {
+      "id": "19-love-s-labour-s-lost",
+      "section": "The Comedies",
+      "title": "Love’s Labour’s Lost",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/19-love-s-labour-s-lost.md"
+    },
+    {
+      "id": "20-macbeth",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Macbeth",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "One of roughly twenty plays for which the Folio is the earliest witness of any kind. There is no quarto, no manuscript, nothing before 1623.",
+      "file": "shakespeare-william/20-macbeth.md"
+    },
+    {
+      "id": "21-measure-for-measure",
+      "section": "The Comedies",
+      "title": "Measure For Measure",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/21-measure-for-measure.md"
+    },
+    {
+      "id": "22-merchant-of-venice",
+      "section": "The Comedies",
+      "title": "The Merchant of Venice",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/22-merchant-of-venice.md"
+    },
+    {
+      "id": "23-merry-wives-of-windsor",
+      "section": "The Comedies",
+      "title": "The Merry Wives of Windsor",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/23-merry-wives-of-windsor.md"
+    },
+    {
+      "id": "24-a-midsummer-night-s-dream",
+      "section": "The Comedies",
+      "title": "A Midsummer Night’s Dream",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/24-a-midsummer-night-s-dream.md"
+    },
+    {
+      "id": "25-much-ado-about-nothing",
+      "section": "The Comedies",
+      "title": "Much Ado About Nothing",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/25-much-ado-about-nothing.md"
+    },
+    {
+      "id": "26-othello-the-moor-of-venice",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Othello, the Moor of Venice",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/26-othello-the-moor-of-venice.md"
+    },
+    {
+      "id": "27-pericles-prince-of-tyre",
+      "section": "The Tragedies",
+      "title": "Pericles, Prince of Tyre",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/27-pericles-prince-of-tyre.md"
+    },
+    {
+      "id": "28-king-richard-the-second",
+      "section": "The Histories",
+      "title": "King Richard the Second",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/28-king-richard-the-second.md"
+    },
+    {
+      "id": "29-king-richard-the-third",
+      "section": "The Histories",
+      "title": "King Richard the Third",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/29-king-richard-the-third.md"
+    },
+    {
+      "id": "30-romeo-and-juliet",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Romeo and Juliet",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/30-romeo-and-juliet.md"
+    },
+    {
+      "id": "31-taming-of-the-shrew",
+      "section": "The Comedies",
+      "title": "The Taming of the Shrew",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/31-taming-of-the-shrew.md"
+    },
+    {
+      "id": "32-tempest",
+      "section": "The Comedies",
+      "title": "The Tempest",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "Folio-only, like Macbeth. It stands first in the Folio's own arrangement, which is an editorial statement by the compilers rather than a chronology.",
+      "file": "shakespeare-william/32-tempest.md"
+    },
+    {
+      "id": "33-timon-of-athens",
+      "section": "The Tragedies",
+      "title": "The Life of Timon of Athens",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/33-timon-of-athens.md"
+    },
+    {
+      "id": "34-titus-andronicus",
+      "section": "The Tragedies",
+      "title": "The Tragedy of Titus Andronicus",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/34-titus-andronicus.md"
+    },
+    {
+      "id": "35-troilus-and-cressida",
+      "section": "The Tragedies",
+      "title": "Troilus and Cressida",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "THE CATALOGUE ANOMALY. The Folio prints this play and its own table of contents does not list it. The first collected Shakespeare disagrees with itself about what it contains — recorded here rather than tidied away.",
+      "file": "shakespeare-william/35-troilus-and-cressida.md"
+    },
+    {
+      "id": "36-twelfth-night-or-what-you-will",
+      "section": "The Comedies",
+      "title": "Twelfth Night; Or, What You Will",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/36-twelfth-night-or-what-you-will.md"
+    },
+    {
+      "id": "37-two-gentlemen-of-verona",
+      "section": "The Comedies",
+      "title": "The Two Gentlemen of Verona",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/37-two-gentlemen-of-verona.md"
+    },
+    {
+      "id": "38-two-noble-kinsmen",
+      "section": "The Tragedies",
+      "title": "The Two Noble Kinsmen",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "ATTRIBUTION FLAGGED. A collaboration with John Fletcher, not solely Shakespeare's. It sits in the canon and in this file; whether collaborative work belongs on a separate shelf is an open decision recorded in the room's index.",
+      "file": "shakespeare-william/38-two-noble-kinsmen.md"
+    },
+    {
+      "id": "39-winter-s-tale",
+      "section": "The Comedies",
+      "title": "The Winter’s Tale",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/39-winter-s-tale.md"
+    },
+    {
+      "id": "40-a-lover-s-complaint",
+      "section": "The Poems and Sonnets",
+      "title": "A Lover’s Complaint",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/40-a-lover-s-complaint.md"
+    },
+    {
+      "id": "41-passionate-pilgrim",
+      "section": "The Poems and Sonnets",
+      "title": "The Passionate Pilgrim",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "ATTRIBUTION FLAGGED. A 1599 miscellany printed under Shakespeare's name whose contents are largely by other hands. Included because it was published as his, not because it is.",
+      "file": "shakespeare-william/41-passionate-pilgrim.md"
+    },
+    {
+      "id": "42-phoenix-and-the-turtle",
+      "section": "The Poems and Sonnets",
+      "title": "The Phoenix and the Turtle",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/42-phoenix-and-the-turtle.md"
+    },
+    {
+      "id": "43-rape-of-lucrece",
+      "section": "The Poems and Sonnets",
+      "title": "The Rape of Lucrece",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "Livy's Lucretia, made into a narrative poem. The passage from Book I is on Livy's shelf on this site — the same event, told by a Roman historian in 27 BC and by an English poet in 1594.",
+      "file": "shakespeare-william/43-rape-of-lucrece.md"
+    },
+    {
+      "id": "44-venus-and-adonis",
+      "section": "The Poems and Sonnets",
+      "title": "Venus and Adonis",
+      "mode": "stored",
+      "source": "William Shakespeare, *The Complete Works* · Project Gutenberg #100 · public domain",
+      "note": "",
+      "file": "shakespeare-william/44-venus-and-adonis.md"
+    }
+  ]
+}
