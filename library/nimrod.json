@@ -1,0 +1,43 @@
+{
+  "key": "nimrod",
+  "name": "Nimrod",
+  "note": "THE ENTIRE BIBLICAL NIMROD IS FIVE VERSES. Genesis 10:8–12, repeated almost word for word in 1 Chronicles, and a single passing reference in Micah to \"the land of Nimrod\". That is the whole of him in scripture. He is a mighty hunter before the LORD, and the beginning of his kingdom was Babel.\n\nHE IS NOT IN THE TOWER OF BABEL STORY. Genesis 11 tells the building of the tower and the confusion of tongues over nine verses and NEVER MENTIONS HIM. Both passages are on this shelf, in order, so the gap can be seen rather than described. Everything anyone knows about Nimrod — the tyranny, the defiance of God, the tower raised in revenge against a second flood — comes from somewhere else.\n\nIT COMES FROM JOSEPHUS. Writing around AD 93, he supplies the motive that scripture withheld: Nimrod \"gradually changed the government into tyranny\", and said \"he would be revenged on God, if he should have a mind to drown the world again; for that he would build a tower too high for the waters to be able to reach.\" That sentence is the origin of the Nimrod of sermons, paintings and empire. One first-century historian filled a silence and everyone afterwards inherited the filling.\n\nTHIS ROOM IS THEREFORE ABOUT HOW A FIGURE IS MADE. Four texts, twelve kilobytes, spanning two and a half thousand years: a name with no story, a story with no name, the man who welded them together, and Dante putting the result at the bottom of hell. It is the smallest shelf in this library and the one where the sources are easiest to catch in the act.\n\nA WARNING. Later tradition adds far more — the war on Abraham, the furnace, the identification with Gilgamesh or with Sargon — and none of it is here, because none of it is in a text this old. The identification with any Mesopotamian king is a modern conjecture, not a finding.",
+  "works": [
+    {
+      "id": "01-genesis-10",
+      "section": "The source · Genesis",
+      "title": "Genesis 10:8–12 — The Whole Biblical Nimrod",
+      "mode": "stored",
+      "source": "*The Holy Bible*, King James Version, 1611 · Project Gutenberg #10 · public domain",
+      "note": "Five verses, and the shortest work in this library. He begins to be a mighty one in the earth; he is a mighty hunter before the LORD; the beginning of his kingdom is Babel, Erech, Accad and Calneh; out of that land he goes to Asshur and builds Nineveh. There is no crime here, no tower, and no judgement. Read it before reading anything else about him.",
+      "file": "nimrod/01-genesis-10.md"
+    },
+    {
+      "id": "02-genesis-11-babel",
+      "section": "The source · Genesis",
+      "title": "Genesis 11:1–9 — The Tower, in which he is not named",
+      "mode": "stored",
+      "source": "*The Holy Bible*, King James Version, 1611 · Project Gutenberg #10 · public domain",
+      "note": "The tower, the brick and slime, the city, the scattering, the confusion of tongues — and no Nimrod. The subject throughout is 'they'. This work is on the shelf precisely because of what is absent from it: the most famous thing Nimrod did is a story he does not appear in.",
+      "file": "nimrod/02-genesis-11-babel.md"
+    },
+    {
+      "id": "03-josephus-the-tyrant",
+      "section": "Where the rest came from",
+      "title": "Josephus — Antiquities I.4",
+      "mode": "stored",
+      "source": "Flavius Josephus, *Antiquities of the Jews*, Book I ch. 4 · trans. William Whiston · public domain · the full text stands on Josephus's shelf on this site",
+      "note": "THE SOURCE OF EVERYTHING ELSE. Josephus names Nimrod as the man who 'excited them to such an affront and contempt of God', who 'gradually changed the government into tyranny', and who built the tower as revenge — 'too high for the waters to be able to reach'. None of this is in Genesis. Written around AD 93, it became the received account and has been read back into scripture ever since.",
+      "file": "nimrod/03-josephus-the-tyrant.md"
+    },
+    {
+      "id": "04-dante-inferno-xxxi",
+      "section": "Where the rest came from",
+      "title": "Dante — Inferno, Canto XXXI",
+      "mode": "stored",
+      "source": "Dante Alighieri, *Inferno*, Canto XXXI · trans. Henry Wadsworth Longfellow · Project Gutenberg #1001 · public domain",
+      "note": "Twelve hundred years later, at the bottom of hell, Nimrod is a chained giant who shouts 'Raphael mai amech izabi almi' and can be understood by nobody. Virgil's verdict is the whole tradition in two lines: 'This one is Nimrod, by whose evil thought one language in the world is not still used... For even such to him is every language as his to others, which to none is known.' The punishment is the crime.",
+      "file": "nimrod/04-dante-inferno-xxxi.md"
+    }
+  ]
+}
