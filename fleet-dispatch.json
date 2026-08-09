@@ -1,30 +1,31 @@
 {
-  "at": "2026-08-08T18:28:37.598Z",
+  "at": "2026-08-09T00:34:20.225Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 99,
+    "count": 101,
     "prefixes": {
       "atlantica:": 77,
-      "dailyplanet:": 16,
+      "dailyplanet:": 18,
       "watch:": 1,
       "week:": 5
     }
   },
-  "today": "2026-08-08",
-  "thisWeek": "2026-08-02",
+  "today": "2026-08-09",
+  "thisWeek": "2026-08-09",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
     "ATLANTICA": {
       "id": "ATLANTICA",
       "cadence": "daily",
-      "status": "OK",
+      "status": "WARN",
       "fired": 64,
       "last": {
         "date": "2026-08-06",
         "figure": "shaka"
       },
-      "lastAgeDays": 2,
+      "lastAgeDays": 3,
       "missedLast14": [
+        "2026-08-08",
         "2026-08-07",
         "2026-07-28",
         "2026-07-27",
@@ -102,7 +103,7 @@
           "key": "atlantica:gilgamesh:2026-08-01"
         }
       ],
-      "note": "64 dispatch(es) in the hold · last 2026-08-06 (shaka) · MISSED 4 of the last 14 days"
+      "note": "64 dispatch(es) in the hold · last 2026-08-06 (shaka) · MISSED 5 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -116,7 +117,7 @@
         "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
       },
       "fired": 0,
-      "thisWeek": "2026-08-02",
+      "thisWeek": "2026-08-09",
       "assembled": false,
       "delivered": false,
       "schedule": {
@@ -127,14 +128,14 @@
       "lastDelivery": null,
       "recent": [],
       "missedLast8": [
+        "2026-08-02",
         "2026-07-26",
         "2026-07-19",
         "2026-07-12",
         "2026-07-05",
         "2026-06-28",
         "2026-06-21",
-        "2026-06-14",
-        "2026-06-07"
+        "2026-06-14"
       ],
       "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 2 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
@@ -143,9 +144,9 @@
       "cadence": "daily",
       "prefix": "dailyplanet:",
       "status": "OK",
-      "fired": 16,
+      "fired": 18,
       "last": "2026-11-08",
-      "lastAgeDays": -92,
+      "lastAgeDays": -91,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:denis diderot:2026-09-06",
@@ -153,12 +154,12 @@
         "dailyplanet:enlil:2026-09-06",
         "dailyplanet:giuseppe garibaldi:2026-09-06",
         "dailyplanet:john calvin:2026-11-08",
+        "dailyplanet:john ford:2026-11-08",
         "dailyplanet:julius caesar:2026-09-06",
         "dailyplanet:lincoln:90-minutes-made-president",
-        "dailyplanet:lincoln:lincoln-s-cooper-union-speech-90-minutes",
-        "dailyplanet:lincoln:test-article"
+        "dailyplanet:lincoln:lincoln-s-cooper-union-speech-90-minutes"
       ],
-      "note": "16 piece(s) under \"dailyplanet:\" · last 2026-11-08"
+      "note": "18 piece(s) under \"dailyplanet:\" · last 2026-11-08"
     },
     "THE PODCAST": {
       "id": "THE PODCAST",
