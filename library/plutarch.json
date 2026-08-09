@@ -1,0 +1,97 @@
+{
+  "key": "plutarch",
+  "name": "Plutarch",
+  "note": "Plutarch was a priest of Apollo at Delphi who spent most of his life in a small town in Boeotia and wrote fifty surviving biographies of men mostly dead centuries before him. He is the reason we think we know what Caesar, Alexander, Antony and Brutus were LIKE — not what they did, which others recorded, but how they behaved when nobody needed them to.\n\nHE SAYS PLAINLY THAT HE IS NOT WRITING HISTORY. The Alexander opens by warning the reader off: \"my design is not to write histories, but lives. And the most glorious exploits do not always furnish us with the clearest discoveries of virtue or vice in men; sometimes a matter of less moment, an expression or a jest, informs us better of their characters and inclinations, than the most famous sieges, the greatest armaments, or the bloodiest battles whatsoever.\" That is a method, and it is the opposite of Livy's. Livy sets conduct on a monument to be judged; Plutarch goes looking for the jest.\n\nWHY THE COMPARISONS ARE THE POINT OF THIS SHELF. He wrote in PAIRS — a Greek and a Roman — and then appended a short piece weighing one against the other. Nobody else in antiquity does this. The comparison is not a summary; it is an argument, and he frequently decides against the man he has just spent eighty pages making you admire. Two of them are here, with both their subjects, so the device can be read whole: the founders, and the two brilliant men who turned on their own cities.\n\nThis shelf holds COMPLETE LIVES, not passages — which is why it is large. Plutarch does not excerpt well; the small revealing detail he is famous for only lands when you have read the hundred pages that make it small.\n\nNOTE ON WHAT IS NOT HERE. His Antony, Caesar and Pompey already stand in Cleopatra's room, and his Lycurgus, Agis and the comparison with Numa in Lycurgus's. They are not repeated. The translation is Dryden's as revised by Clough — the version that shaped English prose about the ancient world, including Shakespeare's Roman plays, which were built from an earlier English Plutarch almost line by line.",
+  "works": [
+    {
+      "id": "01-theseus",
+      "section": "The founders · a pair and its comparison",
+      "title": "Theseus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "Plutarch begins the whole work here, and admits at once that he is at the edge of what can be known — beyond this point, he says, lie prodigies and fables. A man who cleared the road to Athens of bandits, killed the Minotaur, abandoned Ariadne, and unified Attica. The founder as adventurer.",
+      "file": "plutarch/01-theseus.md"
+    },
+    {
+      "id": "02-romulus",
+      "section": "The founders · a pair and its comparison",
+      "title": "Romulus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The same founding Livy tells, told by a Greek two hundred years later and interested in different things — the omens, the exposure, the wolf, and the killing of Remus, which Plutarch reports in several versions without settling on one. Read against Livy's account on the neighbouring shelf.",
+      "file": "plutarch/02-romulus.md"
+    },
+    {
+      "id": "03-comparison-romulus-theseus",
+      "section": "The founders · a pair and its comparison",
+      "title": "Comparison of Romulus with Theseus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The device itself, and the shortest work here. Having written both men sympathetically, Plutarch weighs them — birth, means, the treatment of women, the killing of kin — and comes down. This is what the site does with a docket case, written in the second century.",
+      "file": "plutarch/03-comparison-romulus-theseus.md"
+    },
+    {
+      "id": "04-solon",
+      "section": "The lawgivers and the city",
+      "title": "Solon",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The man who cancelled the debts, refused the tyranny that was his for the taking, made the Athenians swear to keep his laws for ten years, and then left the country so he could not be asked to change them. Contains the meeting with Croesus and the line about calling no man happy until he is dead.",
+      "file": "plutarch/04-solon.md"
+    },
+    {
+      "id": "05-pericles",
+      "section": "The lawgivers and the city",
+      "title": "Pericles",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "Athens at its height, described by someone who knew it had ended. The building of the Parthenon, the management of a democracy by a man who spoke rarely, and the plague. Plutarch is unusually interested here in what public money spent on beauty is FOR.",
+      "file": "plutarch/05-pericles.md"
+    },
+    {
+      "id": "06-alcibiades",
+      "section": "The men who turned · a pair and its comparison",
+      "title": "Alcibiades",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The most gifted man of his generation, ward of Pericles, student of Socrates — who was recalled from command to face a charge of sacrilege, defected to Sparta, advised them how to beat Athens, then defected again. Plutarch cannot decide whether to admire him and does not pretend otherwise.",
+      "file": "plutarch/06-alcibiades.md"
+    },
+    {
+      "id": "07-coriolanus",
+      "section": "The men who turned · a pair and its comparison",
+      "title": "Coriolanus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "A Roman of enormous courage and no patience, driven out by the people he had defended, who returned at the head of his enemies' army and was stopped at the gates by his mother. The source Shakespeare worked from almost line by line.",
+      "file": "plutarch/07-coriolanus.md"
+    },
+    {
+      "id": "08-comparison-alcibiades-coriolanus",
+      "section": "The men who turned · a pair and its comparison",
+      "title": "Comparison of Alcibiades with Coriolanus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "Two men who took arms against their own cities, weighed against each other. Plutarch's question is not which betrayal was worse but which man was more governable — and his answer is not the one the reader expects after seven hundred pages.",
+      "file": "plutarch/08-comparison-alcibiades-coriolanus.md"
+    },
+    {
+      "id": "09-alexander",
+      "section": "Two who ended a world",
+      "title": "Alexander",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The longest work on this shelf, and the one that opens with his statement of method: that his design is not to write histories but lives, and that an expression or a jest may inform us better of a man's character than the most famous sieges. He then proves it — the boy who notices the horse Bucephalas is shying at its own shadow, and the killing of Clitus at dinner.",
+      "file": "plutarch/09-alexander.md"
+    },
+    {
+      "id": "10-marcus-brutus",
+      "section": "Two who ended a world",
+      "title": "Marcus Brutus",
+      "mode": "stored",
+      "source": "Plutarch, *Lives of the Noble Grecians and Romans* · the Dryden translation, revised by A. H. Clough · Project Gutenberg #674 · public domain",
+      "note": "The assassin as Plutarch saw him: a philosopher who did an appalling thing for reasons he believed were good, and was courteous to everyone including the men he was about to kill. Judas is on the docket for a comparable act. This life is the case for the defence, written by someone who liked him.",
+      "file": "plutarch/10-marcus-brutus.md"
+    }
+  ]
+}
