@@ -261,7 +261,28 @@
     var key = codexKey();
     if (!key || art.getAttribute('data-fig') === key) return;
     art.removeAttribute('data-art-photo');
+    /* The codex shows the TERMINAL plate, so it must show the SAME one the
+       terminal chose this session — otherwise the two largest displays of a
+       figure disagree with each other on the same page. If the terminal has
+       not resolved yet, fall through to the plain probe below, which lands on
+       the unnumbered original. */
+    var sel = chosen[key];
+    if (sel) { paintCodexSlot(key, sel, 'terminal'); return; }
     paintCodex(key, 'terminal');
+  }
+
+  /* paint a NAMED slot, used when the session has already chosen a variant */
+  function paintCodexSlot(key, slot, surface) {
+    var art = document.querySelector('.cdx-art');
+    if (!art) return;
+    var src = BASE + slot + '.jpg';
+    art.style.backgroundImage = 'url("' + src + '"), ' +
+      'radial-gradient(ellipse at 50% 70%,rgba(212,160,23,0.12),transparent 70%)';
+    art.style.backgroundSize = 'cover';
+    art.style.backgroundPosition = '50% 22%';
+    art.setAttribute('data-fig', key);
+    art.setAttribute('data-art-photo', surface);
+    var svg = art.querySelector('svg'); if (svg) svg.style.display = 'none';
   }
 
   /* ---- TERMINAL ---------------------------------------------------------
@@ -271,6 +292,71 @@
      opacity, keyed off data-fig. This surface does not paint itself — it only
      publishes data-fig, and the inline plate-v2 script in Page1.html does the
      rendering. */
+  /* ---- ROTATION ---------------------------------------------------------
+     A figure may have more than one terminal plate, and the site should not
+     look the same every visit. The variants are numbered:
+
+         img/{key}-terminal.jpg     the original, always tried first
+         img/{key}-terminal-2.jpg
+         img/{key}-terminal-3.jpg   ... and so on
+
+     NO MANIFEST, for the reason in the header: a hand-maintained list of who
+     has how many plates is the thing that drifts. Availability is DISCOVERED —
+     the loader probes upward until one 404s, and the 404 IS the answer.
+
+     ONE PLATE PER SESSION, NOT PER REPAINT. passTerminal() is driven by a
+     subtree MutationObserver, so picking at random on every call would swap
+     the background mid-conversation every time the stream mutated. The choice
+     is made once per figure per session and remembered in `chosen`.
+
+     COST. Discovery costs ONE extra 404 per figure with plates, once, ever —
+     the probe results are cached in `plate` exactly like the single-plate
+     path. A figure with one plate behaves as it always did: probe
+     {key}-terminal.jpg, probe {key}-terminal-2.jpg once, get a 404, stop.
+     Nothing changes for the fourteen figures that have one.
+
+     WHY sessionStorage AND NOT localStorage. "Fresh next session" is the
+     requirement. sessionStorage clears when the tab closes, which is exactly
+     a session; localStorage would pin one plate for months. If storage is
+     unavailable the pick falls back to in-memory and the page still works. */
+  var MAX_TERMINAL = 6;          /* stop probing after this many */
+  var chosen = {};               /* key -> resolved slot name, per session   */
+
+  function sessionPick(key, n) {
+    var k = 'amenti.term.' + key;
+    try {
+      var v = window.sessionStorage.getItem(k);
+      if (v !== null) {
+        var i = parseInt(v, 10);
+        if (i >= 0 && i < n) return i;      /* still in range after a change */
+      }
+      var pick = Math.floor(Math.random() * n);
+      window.sessionStorage.setItem(k, String(pick));
+      return pick;
+    } catch (e) {
+      return Math.floor(Math.random() * n);  /* private mode, storage denied */
+    }
+  }
+
+  function slotName(key, i) {
+    return key + '-terminal' + (i === 0 ? '' : '-' + (i + 1));
+  }
+
+  /* Probe {key}-terminal, -2, -3 ... until one is missing, then choose. */
+  function discoverTerminals(key, cb) {
+    var found = [];
+    (function step(i) {
+      if (i >= MAX_TERMINAL) return cb(found);
+      var slot = slotName(key, i);
+      if (plate[slot] === true)  { found.push(i); return step(i + 1); }
+      if (plate[slot] === false) { return cb(found); }   /* the 404 ends it */
+      var probe = new Image();
+      probe.onload  = function () { plate[slot] = true;  found.push(i); step(i + 1); };
+      probe.onerror = function () { plate[slot] = false; cb(found); };
+      probe.src = BASE + slot + '.jpg';
+    })(0);
+  }
+
   function passTerminal() {
     var main = document.querySelector('.term-main');
     if (!main) return;
@@ -278,14 +364,28 @@
     if (!key) { main.removeAttribute('data-fig'); return; }
     if (main.getAttribute('data-fig') === key) return;
 
-    var slot = key + '-terminal';
-    if (plate[slot] === false) { main.removeAttribute('data-fig'); return; }
-    if (plate[slot] === true)  { main.setAttribute('data-fig', key); return; }
+    /* already resolved this session — no probing, no flicker */
+    if (chosen[key] !== undefined) {
+      if (chosen[key] === null) { main.removeAttribute('data-fig'); return; }
+      main.setAttribute('data-fig', key);
+      main.setAttribute('data-term-plate', chosen[key]);
+      return;
+    }
 
-    var probe = new Image();
-    probe.onload  = function () { plate[slot] = true;  main.setAttribute('data-fig', key); };
-    probe.onerror = function () { plate[slot] = false; main.removeAttribute('data-fig'); };
-    probe.src = BASE + slot + '.jpg';
+    discoverTerminals(key, function (found) {
+      if (!found.length) {
+        chosen[key] = null;
+        main.removeAttribute('data-fig');
+        return;
+      }
+      var pick = found[sessionPick(key, found.length)];
+      chosen[key] = slotName(key, pick);
+      /* data-fig drives grades.css exactly as before; data-term-plate names
+         the chosen file so the inline plate-v2 renderer in Page1.html can use
+         it, and so the choice is visible in the DOM for debugging. */
+      main.setAttribute('data-fig', key);
+      main.setAttribute('data-term-plate', chosen[key]);
+    });
   }
 
   function pass() { passCards(); sweep(); passCodex(); passTerminal(); }
