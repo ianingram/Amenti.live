@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-10T08:01:04.809Z",
+    "generated": "2026-08-10T19:24:48.888Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -362,8 +362,8 @@
     },
     {
       "file": "amenti-art-photo.js",
-      "bytes": 14145,
-      "sha256": "4070eef82fe69a02",
+      "bytes": 18622,
+      "sha256": "ec00e1e8c951e482",
       "type": "js",
       "declares": [
         "AmentiArtPhoto"
@@ -1211,7 +1211,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46261,
-      "sha256": "d8e406346515afcc",
+      "sha256": "abc26a0e1ebda132",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
