@@ -1,5 +1,5 @@
 {
-  "at": "2026-08-10T18:35:08.466Z",
+  "at": "2026-08-11T00:34:15.793Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 101,
@@ -9,7 +9,7 @@
       "week:": 6
     }
   },
-  "today": "2026-08-10",
+  "today": "2026-08-11",
   "thisWeek": "2026-08-09",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -22,13 +22,13 @@
         "date": "2026-08-06",
         "figure": "shaka"
       },
-      "lastAgeDays": 4,
+      "lastAgeDays": 5,
       "missedLast14": [
+        "2026-08-10",
         "2026-08-09",
         "2026-08-08",
         "2026-08-07",
-        "2026-07-28",
-        "2026-07-27"
+        "2026-07-28"
       ],
       "recent": [
         {
@@ -145,7 +145,7 @@
       "status": "OK",
       "fired": 18,
       "last": "2026-11-08",
-      "lastAgeDays": -90,
+      "lastAgeDays": -89,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:denis diderot:2026-09-06",
