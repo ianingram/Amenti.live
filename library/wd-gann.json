@@ -1,0 +1,97 @@
+{
+  "key": "wd-gann",
+  "name": "W.D. Gann",
+  "note": "THREE BOOKS, AND ONE OF THEM IS A NOVEL. This shelf holds *The Tunnel Thru the Air* (1927) in eight parts, and both of the trading manuals that are out of copyright: *Truth of the Stock Tape* (1923) and *Wall Street Stock Selector* (1930), which survive bound together in a single Indian library scan. **His later work is not here** — *45 Years in Wall Street* (1949) is still in copyright.\n\nTHE TWO MANUALS ARE SCANS AND THE NOVEL IS NOT. Gutenberg typeset the novel; the manuals are OCR of a photographed book, with the errors that implies and **without the charts**, which in a book about chart reading is a real loss. Read them against the PDF on the Internet Archive before quoting anything.\n\nTHE PLOT IS HIS OWN LIFE, THINLY DRESSED. Robert Gordon is a boy from northeastern Texas who studies the Bible and the markets, goes to New York, trades cotton and stocks, and is proved right. Gann was born in Lufkin, Texas, in 1878 and did the same.\n\nAND TWICE HE DROPS THE FICTION ENTIRELY. Chapters VII and VIII are not story. They are dated — 28 January 1927 — and written in the first person, and they state the method as plainly as he ever stated it: \"In making my predictions I use geometry and mathematics, just as the astronomer does, based on immutable laws. I am a believer in the Bible.\" He cites Ecclesiastes 1:9 as his warrant for the claim that history repeats, and Matthew 7:7 for the claim that the rules can be found by anyone who looks.\n\nTHE BOOK IS FAMOUS FOR A CLAIM THIS ROOM WILL NOT MAKE. It is widely held among traders that Gann encoded his real method in the novel — in the dates, the names, the chapter lengths, the biblical citations. **That is a claim, not a finding.** People have been searching it for ninety years and no two agree on what they found. The text is here; the reader can look.\n\nWHAT CAN BE CHECKED, AND SHOULD BE. This is a book of dated predictions written in 1927 about the 1930s, and **the datable ones are testable.** He forecast a great war fought largely by aircraft — right, and early. He set it in 1930–1932, with the United States invaded and a peace conference following — wrong, by about a decade and in almost every particular. He also held that Atlantis possessed radio and aircraft, and that Enoch did not ascend to heaven but left in an aeroplane around 3017 BC. **A shelf that reports the hits and hides the rest would be doing exactly what its subject is accused of.**",
+  "works": [
+    {
+      "id": "01-foreword",
+      "section": "The book",
+      "title": "Title page, dedication and foreword",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "Published 1927 by the Financial Guardian Publishing Co. at 80 Wall Street, dedicated to his mother and to an old schoolmate in Texas. The foreword opens on Proverbs — happy is the man that findeth wisdom — which sets the register for everything after it: this is a market book that thinks it is a religious one.",
+      "file": "wd-gann/01-foreword.md"
+    },
+    {
+      "id": "02-the-texas-boy",
+      "section": "Robert Gordon",
+      "title": "Chapters I–III — The Texas Boy",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "Northeastern Texas, a farm, an illness in 1913, and a boy who reads. The autobiography is barely disguised — Gann was a Lufkin man himself — and the two things the character acquires here are the two things the author claimed as his method: the Bible and the habit of looking up what happened before.",
+      "file": "wd-gann/02-the-texas-boy.md"
+    },
+    {
+      "id": "03-future-cycles",
+      "section": "Where the fiction stops",
+      "title": "Chapters VII–VIII — Future Cycles",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "THE CENTRE OF THIS SHELF. Dated 28 January 1927 and written in the first person, with Robert Gordon nowhere in it. Gann states the method — geometry and mathematics 'just as the astronomer does' — grounds it in Ecclesiastes 1:9, and then forecasts: aircraft will decide the coming war; Atlantis had radio and aeroplanes; Enoch did not ascend but was flown, about 3017 BC, and we are 5,000 years into that cycle. It is the plainest statement he left and it is also where he is least defensible. Both facts are in the same eight pages.",
+      "file": "wd-gann/03-future-cycles.md"
+    },
+    {
+      "id": "04-the-best-thing-on-earth",
+      "section": "Where the fiction stops",
+      "title": "Chapter XII — The Best Thing on Earth",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "The longest chapter in the book and the strangest — an inset piece credited to R. L. Cole, dropped whole into the narrative. Gann's habit of pausing the story to admit a document is why the book reads less like a novel than like a folder somebody bound.",
+      "file": "wd-gann/04-the-best-thing-on-earth.md"
+    },
+    {
+      "id": "05-the-cotton-campaign",
+      "section": "The trading",
+      "title": "Chapters XVI–XVIII — The Cotton Campaign",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "Robert Gordon's great campaign in cotton, then a chapter in which he turns to the Bible for consolation, then a calculation on a presidential election. The sequence is the argument: the trade, the scripture and the forecast are presented as one activity rather than three.",
+      "file": "wd-gann/05-the-cotton-campaign.md"
+    },
+    {
+      "id": "06-the-crash-years",
+      "section": "The trading",
+      "title": "Chapters XIX–XXI — December 1927 onward",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "Written in 1927 and set forward: stocks declining, then a large campaign in the autumn of 1929. Worth reading with a calendar. Gann has his character positioned for a break at very nearly the moment the real one came, which is the single most cited fact about this book — and the chapters around it are wrong about a great deal else.",
+      "file": "wd-gann/06-the-crash-years.md"
+    },
+    {
+      "id": "07-the-war",
+      "section": "The prophecy",
+      "title": "Chapters XXVIII–XXXI — The War",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "The invasion. Written in 1927 and set in 1931–32: a foreign coalition attacks the United States, cities are bombed, aircraft decide it. The mode of war is right and early — he was clear that the next one would be fought in the air. The date, the enemy and the events are wrong. Both halves of that are worth the shelf.",
+      "file": "wd-gann/07-the-war.md"
+    },
+    {
+      "id": "08-peace-conference",
+      "section": "The prophecy",
+      "title": "Chapter XXXVI — Peace Conference of the World",
+      "mode": "stored",
+      "source": "W. D. Gann, *The Tunnel Thru the Air, or Looking Back from 1940* · Financial Guardian Publishing Co., New York, 1927 · Project Gutenberg #74988 · public domain",
+      "note": "The book ends at a world peace conference, looking back from 1940 as the subtitle promises. Read from here, the whole novel is a man in 1927 describing a decade he would live through and largely misdescribe — which does not make him a fraud and does not make him a prophet, and the room declines to decide between those.",
+      "file": "wd-gann/08-peace-conference.md"
+    },
+    {
+      "id": "09-truth-of-the-stock-tape",
+      "section": "The manuals",
+      "title": "Truth of the Stock Tape (1923) — complete",
+      "mode": "stored",
+      "source": "W. D. Gann, *Truth of the Stock Tape* (1923) and *Wall Street Stock Selector* (1930), bound together · Financial Guardian Publishing Co., New York · scanned by the Digital Library of India, Internet Archive in.ernet.dli.2015.166248 · public domain in the US",
+      "note": "His first book and the one the novel advertises on its own title page. Four books in one: the preparation and knowledge required, methods of operating, and determining the position of stocks and commodities. Dedicated to his subscribers. It ends with the plainest thing he ever wrote — read it several times, never buy or sell without a reason, and do not be in a hurry to get in or out. **This is a SCAN, not a typeset text**: the OCR carries errors (his own name appears as 'Gank' on the last page) and the charts, which are half the book's argument, do not survive as text. Check anything quoted against the PDF.",
+      "file": "wd-gann/09-truth-of-the-stock-tape.md"
+    },
+    {
+      "id": "10-wall-street-stock-selector",
+      "section": "The manuals",
+      "title": "Wall Street Stock Selector (1930) — complete",
+      "mode": "stored",
+      "source": "W. D. Gann, *Truth of the Stock Tape* (1923) and *Wall Street Stock Selector* (1930), bound together · Financial Guardian Publishing Co., New York · scanned by the Digital Library of India, Internet Archive in.ernet.dli.2015.166248 · public domain in the US",
+      "note": "The sequel, printed as a companion volume continuing from page 185 of the first — and written after the 1929 crash, which the earlier book could not have known about. A review of the market with charts, rules and methods for selecting stocks. It entered the US public domain on 1 January 2026. Same warning as its companion: this is OCR of a scanned book and the charts are lost in the text.",
+      "file": "wd-gann/10-wall-street-stock-selector.md"
+    }
+  ]
+}
