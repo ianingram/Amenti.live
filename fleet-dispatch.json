@@ -1,11 +1,11 @@
 {
-  "at": "2026-08-14T06:47:22.417Z",
+  "at": "2026-08-14T12:31:06.830Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 101,
+    "count": 103,
     "prefixes": {
       "atlantica:": 77,
-      "dailyplanet:": 18,
+      "dailyplanet:": 20,
       "week:": 6
     }
   },
@@ -145,11 +145,12 @@
       "cadence": "daily",
       "prefix": "dailyplanet:",
       "status": "OK",
-      "fired": 18,
+      "fired": 20,
       "last": "2026-11-08",
       "lastAgeDays": -86,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
+        "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
         "dailyplanet:denis diderot:2026-09-06",
         "dailyplanet:edward gibbon:2026-11-08",
         "dailyplanet:enlil:2026-09-06",
@@ -157,10 +158,9 @@
         "dailyplanet:john calvin:2026-11-08",
         "dailyplanet:john ford:2026-11-08",
         "dailyplanet:julius caesar:2026-09-06",
-        "dailyplanet:lincoln:90-minutes-made-president",
-        "dailyplanet:lincoln:lincoln-s-cooper-union-speech-90-minutes"
+        "dailyplanet:lincoln:90-minutes-made-president"
       ],
-      "note": "18 piece(s) under \"dailyplanet:\" · last 2026-11-08"
+      "note": "20 piece(s) under \"dailyplanet:\" · last 2026-11-08"
     },
     "THE PODCAST": {
       "id": "THE PODCAST",
