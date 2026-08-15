@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-15T03:04:45.043Z",
+    "generated": "2026-08-15T03:49:31.819Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1207,7 +1207,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46281,
-      "sha256": "eb700e7ae971e362",
+      "sha256": "6fb023d409a3bbe7",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
