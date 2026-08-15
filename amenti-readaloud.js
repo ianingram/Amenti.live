@@ -155,7 +155,7 @@
       }
       var cov = st.words.length ? st.ptr / st.words.length : 0;
       setProgress(cov); markWords();
-      if (cov >= COVERAGE_MIN && !st.done) { st.done = true; stopRec(); complete(cov); }
+      if (cov >= COVERAGE_MIN && !st.done) { st.done = true; stopRec(); complete(cov, 'speech'); }
     };
     rec.onend = function () { if (!st || st.done) return; /* stopped early */ };
     try { rec.start(); } catch (e) { startHonor(); }
@@ -174,7 +174,10 @@
     var t0 = (performance && performance.now) ? performance.now() : Date.now();
     var btn = body.querySelector('#raStart');
     if (btn) { btn.textContent = 'Reading\u2026'; btn.disabled = true; }
-    if (fromDenied) { var h = body.querySelector('.ra-hint'); if (h) h.textContent = 'Mic not available \u2014 honour mode: read it through at a natural pace.'; }
+    var h0 = body.querySelector('.ra-hint');
+    if (h0) h0.textContent = fromDenied
+      ? 'Mic not available \u2014 honour mode. The reading is recorded, but only a heard reading earns.'
+      : 'Honour mode \u2014 this browser cannot listen. The reading is recorded, but only a heard reading earns.';
     var spans = body.querySelectorAll('#raText .w'), total = spans.length;
     var iv = setInterval(function () {
       var el = ((performance && performance.now) ? performance.now() : Date.now()) - t0;
@@ -182,24 +185,37 @@
       setProgress(cov);
       var upto = Math.floor(cov * total);
       for (var i = 0; i < upto; i++) spans[i].classList.add('said');
-      if (cov >= 1 && !st.done) { st.done = true; clearInterval(iv); complete(1); }
+      /* HONOUR MODE DECLARES ITSELF. The Worker pays nothing for a timer —
+         see THE LIVING VOICE, Rev. A. The read is still recorded. */
+      if (cov >= 1 && !st.done) { st.done = true; clearInterval(iv); complete(1, 'honor'); }
     }, 120);
   }
 
   /* ---- complete ---------------------------------------------------------- */
-  async function complete(coverage) {
+  async function complete(coverage, mode) {
     loading('Weighing your reading');
-    var res = await api('/readaloud/complete', { method:'POST', body: JSON.stringify({ session: st.session, coverage: coverage, words: st.words.length }) });
+    var res = await api('/readaloud/complete', { method:'POST', body: JSON.stringify({
+      session: st.session, coverage: coverage, words: st.words.length,
+      mode: mode || 'honor' }) });
     if (!res.ok || !res.body) return err((res.body && res.body.error) || 'Could not score the reading.');
     var r = res.body;
     if (!r.completed) { renderReady(); var h = body.querySelector('.ra-hint'); if (h) { h.textContent = 'Not quite \u2014 read a bit more of the passage, then finish.'; } return; }
+    /* A ZERO HAS THREE DIFFERENT CAUSES and they must not look alike: the day
+       is fully earned, this passage has paid out, or the browser could not
+       listen. The Worker sends `why`; print it rather than guessing. */
+    var earned = (r.credited || 0) > 0;
     body.innerHTML =
       '<div class="ra-center">'
-      + '<p class="ra-eyebrow">' + (r.credited > 0 ? 'Earned' : 'Read complete') + '</p>'
+      + '<p class="ra-eyebrow">' + (earned ? 'Earned' : 'Reading recorded') + '</p>'
       + '<div class="ra-credit">' + GLYPH + ' ' + (r.credited || 0) + ' ET</div>'
-      + '<p class="ra-pct" style="text-align:center">Balance ' + GLYPH + ' ' + (r.balance != null ? r.balance : '\u2014') + ' ET \u00b7 read #' + (r.readsToday || 1) + ' today</p>'
-      + (r.capReached ? '<p class="ra-note">You\u2019ve earned today\u2019s reads for this passage \u2014 keep practising; more comes back tomorrow, and the community pool is coming.</p>'
-                      : '<p class="ra-note">Read it again for a little more \u2014 the reward eases each time, then refreshes tomorrow.</p>')
+      + '<p class="ra-pct" style="text-align:center">Balance ' + GLYPH + ' ' + (r.balance != null ? r.balance : '\u2014') + ' ET'
+      + ' \u00b7 read #' + (r.readsToday || 1) + ' of this passage today'
+      + (r.dayMax ? (' \u00b7 ' + (r.earnedToday || 0) + ' of ' + r.dayMax + ' today') : '')
+      + '</p>'
+      + '<p class="ra-note">' + (r.why
+          ? r.why
+          : 'Read it again \u2014 the reward RISES each time you return to the same passage. The fifth reading is the one that is actually improving.')
+        + '</p>'
       + '<div class="ra-row" style="justify-content:center;margin-top:16px"><button class="ra-btn" id="raAgain">Read again</button><button class="ra-btn ghost" id="raDone">Done</button></div>'
       + '</div>';
     bind('#raDone','click',close);
