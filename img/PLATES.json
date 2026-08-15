@@ -1,0 +1,3685 @@
+{
+  "deck": "Amenti",
+  "generated": "2026-08-15T02:56:48.097Z",
+  "generator": "tools/plates.js",
+  "variants": {
+    "card": {
+      "multiple": false,
+      "required": true,
+      "note": "the face. roster, dispatch lead, atlantica lead"
+    },
+    "thumb": {
+      "multiple": false,
+      "required": true,
+      "note": "small and dense. lists, related, search"
+    },
+    "terminal": {
+      "multiple": true,
+      "required": true,
+      "note": "wide. also what the CODEX surface renders. grows over time."
+    },
+    "chat": {
+      "multiple": true,
+      "required": false,
+      "note": "incidental"
+    }
+  },
+  "totals": {
+    "files": 164,
+    "plates": 159,
+    "keys": 51,
+    "rooms": 50,
+    "byVariant": {
+      "card": 51,
+      "thumb": 51,
+      "terminal": 49,
+      "chat": 2
+    },
+    "complete": 49,
+    "provenanced": 46
+  },
+  "gaps": {
+    "missingByVariant": {
+      "terminal": [
+        "albert-einstein",
+        "gw-winter"
+      ]
+    },
+    "roomsWithoutPlates": [
+      "ingram"
+    ],
+    "platesWithoutRooms": [
+      "albert-einstein",
+      "gw-winter"
+    ],
+    "notPlates": [
+      "0_2-22.png",
+      "book-vol1-cover.jpg",
+      "counsel-bg-a.webp",
+      "counsel-bg-b.jpg",
+      "hero-bg.webp"
+    ]
+  },
+  "keys": {
+    "akhenaten": {
+      "key": "akhenaten",
+      "variants": {
+        "card": [
+          {
+            "file": "akhenaten-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "akhenaten-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "akhenaten-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "albert-einstein": {
+      "key": "albert-einstein",
+      "variants": {
+        "card": [
+          {
+            "file": "albert-einstein-card.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "albert-einstein-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": false,
+      "complete": false,
+      "missing": [
+        "terminal"
+      ]
+    },
+    "apollo": {
+      "key": "apollo",
+      "variants": {
+        "card": [
+          {
+            "file": "apollo-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "apollo-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "apollo-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "bram-stoker": {
+      "key": "bram-stoker",
+      "variants": {
+        "card": [
+          {
+            "file": "bram-stoker-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "bram-stoker-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "bram-stoker-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "brutus": {
+      "key": "brutus",
+      "variants": {
+        "card": [
+          {
+            "file": "brutus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "brutus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "brutus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "caesar": {
+      "key": "caesar",
+      "variants": {
+        "card": [
+          {
+            "file": "caesar-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "caesar-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "caesar-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "charles-martel": {
+      "key": "charles-martel",
+      "variants": {
+        "card": [
+          {
+            "file": "charles-martel-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "charles-martel-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "charles-martel-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "christopher-columbus": {
+      "key": "christopher-columbus",
+      "variants": {
+        "card": [
+          {
+            "file": "christopher-columbus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "christopher-columbus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "christopher-columbus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "cleopatra": {
+      "key": "cleopatra",
+      "variants": {
+        "card": [
+          {
+            "file": "cleopatra-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "cleopatra-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "cleopatra-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "confucius": {
+      "key": "confucius",
+      "variants": {
+        "card": [
+          {
+            "file": "confucius-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "confucius-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "confucius-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "dante-alighieri": {
+      "key": "dante-alighieri",
+      "variants": {
+        "card": [
+          {
+            "file": "dante-alighieri-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "dante-alighieri-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "dante-alighieri-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "david-hume": {
+      "key": "david-hume",
+      "variants": {
+        "card": [
+          {
+            "file": "david-hume-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "david-hume-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "david-hume-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "edward-gibbon": {
+      "key": "edward-gibbon",
+      "variants": {
+        "card": [
+          {
+            "file": "edward-gibbon-card.jpg",
+            "n": 1
+          }
+        ],
+        "chat": [
+          {
+            "file": "edward-gibbon-chat.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "edward-gibbon-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "edward-gibbon-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "flavius-josephus": {
+      "key": "flavius-josephus",
+      "variants": {
+        "card": [
+          {
+            "file": "flavius-josephus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "flavius-josephus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "flavius-josephus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "frederick-douglass": {
+      "key": "frederick-douglass",
+      "variants": {
+        "card": [
+          {
+            "file": "frederick-douglass-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "frederick-douglass-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "frederick-douglass-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "galileo-galilei": {
+      "key": "galileo-galilei",
+      "variants": {
+        "card": [
+          {
+            "file": "galileo-galilei-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "galileo-galilei-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "galileo-galilei-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "gandhi": {
+      "key": "gandhi",
+      "variants": {
+        "card": [
+          {
+            "file": "gandhi-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "gandhi-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "gandhi-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "gautama-buddha": {
+      "key": "gautama-buddha",
+      "variants": {
+        "card": [
+          {
+            "file": "gautama-buddha-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "gautama-buddha-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "gautama-buddha-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "george-washington": {
+      "key": "george-washington",
+      "variants": {
+        "card": [
+          {
+            "file": "george-washington-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "george-washington-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "george-washington-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "gutenberg": {
+      "key": "gutenberg",
+      "variants": {
+        "card": [
+          {
+            "file": "gutenberg-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "gutenberg-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "gutenberg-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "gw-winter": {
+      "key": "gw-winter",
+      "variants": {
+        "card": [
+          {
+            "file": "gw-winter-card.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "gw-winter-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": false,
+      "complete": false,
+      "missing": [
+        "terminal"
+      ]
+    },
+    "hannibal": {
+      "key": "hannibal",
+      "variants": {
+        "card": [
+          {
+            "file": "hannibal-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "hannibal-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "hannibal-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "helen-keller": {
+      "key": "helen-keller",
+      "variants": {
+        "card": [
+          {
+            "file": "helen-keller-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "helen-keller-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "helen-keller-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "herodotus": {
+      "key": "herodotus",
+      "variants": {
+        "card": [
+          {
+            "file": "herodotus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "herodotus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "herodotus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "isaac-newton": {
+      "key": "isaac-newton",
+      "variants": {
+        "card": [
+          {
+            "file": "isaac-newton-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "isaac-newton-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "isaac-newton-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "john-milton": {
+      "key": "john-milton",
+      "variants": {
+        "card": [
+          {
+            "file": "john-milton-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "john-milton-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "john-milton-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "king-arthur": {
+      "key": "king-arthur",
+      "variants": {
+        "card": [
+          {
+            "file": "king-arthur-card.jpg",
+            "n": 1
+          }
+        ],
+        "chat": [
+          {
+            "file": "king-arthur-chat-2.jpg",
+            "n": 2
+          },
+          {
+            "file": "king-arthur-chat.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "king-arthur-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "king-arthur-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "leif-erikson": {
+      "key": "leif-erikson",
+      "variants": {
+        "card": [
+          {
+            "file": "leif-erikson-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "leif-erikson-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "leif-erikson-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "lincoln": {
+      "key": "lincoln",
+      "variants": {
+        "card": [
+          {
+            "file": "lincoln-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "lincoln-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "lincoln-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "livy": {
+      "key": "livy",
+      "variants": {
+        "card": [
+          {
+            "file": "livy-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "livy-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "livy-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "lycurgus": {
+      "key": "lycurgus",
+      "variants": {
+        "card": [
+          {
+            "file": "lycurgus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "lycurgus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "lycurgus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "marcus-aurelius": {
+      "key": "marcus-aurelius",
+      "variants": {
+        "card": [
+          {
+            "file": "marcus-aurelius-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "marcus-aurelius-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "marcus-aurelius-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "moses": {
+      "key": "moses",
+      "variants": {
+        "card": [
+          {
+            "file": "moses-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "moses-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "moses-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "musashi": {
+      "key": "musashi",
+      "variants": {
+        "card": [
+          {
+            "file": "musashi-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "musashi-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "musashi-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "nimrod": {
+      "key": "nimrod",
+      "variants": {
+        "card": [
+          {
+            "file": "nimrod-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "nimrod-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "nimrod-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "oliver-cromwell": {
+      "key": "oliver-cromwell",
+      "variants": {
+        "card": [
+          {
+            "file": "oliver-cromwell-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "oliver-cromwell-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "oliver-cromwell-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "plato": {
+      "key": "plato",
+      "variants": {
+        "card": [
+          {
+            "file": "plato-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "plato-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "plato-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "plutarch": {
+      "key": "plutarch",
+      "variants": {
+        "card": [
+          {
+            "file": "plutarch-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "plutarch-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "plutarch-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "romulus": {
+      "key": "romulus",
+      "variants": {
+        "card": [
+          {
+            "file": "romulus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "romulus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "romulus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "seneca": {
+      "key": "seneca",
+      "variants": {
+        "card": [
+          {
+            "file": "seneca-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "seneca-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "seneca-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "shaka": {
+      "key": "shaka",
+      "variants": {
+        "card": [
+          {
+            "file": "shaka-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "shaka-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "shaka-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "shakespeare-william": {
+      "key": "shakespeare-william",
+      "variants": {
+        "card": [
+          {
+            "file": "shakespeare-william-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "shakespeare-william-terminal-2.jpg",
+            "n": 2
+          },
+          {
+            "file": "shakespeare-william-terminal-3.jpg",
+            "n": 3
+          },
+          {
+            "file": "shakespeare-william-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "shakespeare-william-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "solon": {
+      "key": "solon",
+      "variants": {
+        "card": [
+          {
+            "file": "solon-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "solon-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "solon-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "sun-tzu": {
+      "key": "sun-tzu",
+      "variants": {
+        "card": [
+          {
+            "file": "sun-tzu-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "sun-tzu-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "sun-tzu-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "tacitus": {
+      "key": "tacitus",
+      "variants": {
+        "card": [
+          {
+            "file": "tacitus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "tacitus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "tacitus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "tesla": {
+      "key": "tesla",
+      "variants": {
+        "card": [
+          {
+            "file": "tesla-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "tesla-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "tesla-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "theseus": {
+      "key": "theseus",
+      "variants": {
+        "card": [
+          {
+            "file": "theseus-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "theseus-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "theseus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "thomas-jefferson": {
+      "key": "thomas-jefferson",
+      "variants": {
+        "card": [
+          {
+            "file": "thomas-jefferson-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "thomas-jefferson-terminal-2.jpg",
+            "n": 2
+          },
+          {
+            "file": "thomas-jefferson-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "thomas-jefferson-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "thoth": {
+      "key": "thoth",
+      "variants": {
+        "card": [
+          {
+            "file": "thoth-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "thoth-terminal-2.jpg",
+            "n": 2
+          },
+          {
+            "file": "thoth-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "thoth-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "thucydides": {
+      "key": "thucydides",
+      "variants": {
+        "card": [
+          {
+            "file": "thucydides-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "thucydides-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "thucydides-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "wd-gann": {
+      "key": "wd-gann",
+      "variants": {
+        "card": [
+          {
+            "file": "wd-gann-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "wd-gann-terminal-2.jpg",
+            "n": 2
+          },
+          {
+            "file": "wd-gann-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "wd-gann-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "room": true,
+      "complete": true,
+      "missing": []
+    }
+  },
+  "images": {
+    "akhenaten-card.jpg": {
+      "figure": "Akhenaten",
+      "key": "akhenaten",
+      "file": "akhenaten-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785545820517_7b9e199c.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "At the altar in the open court of the Great Temple of the Aten at Akhetaten, about 1345 BC. THE GUARD FAILED ON EVERY COUNT AND IT IS THE ONE GUARD THAT INVERTED. Every other figure in this deck carries 'no likeness survives, render a characteristic face rather than a portrait'; Akhenaten has hundreds of surviving portraits and the instruction was DO NOT NORMALISE HIM. The plate returned a conventional pharaoh: six-pack abdominals, broad square shoulders, flat stomach, muscular chest, an ordinary skull and jaw. None of the Amarna features survived - no elongated skull, no drooping jaw, no soft chest, no swollen belly, no wide hips. The ray-hands are also gone: the disc carries plain radiating spokes rather than rays ending in small human hands holding ankhs, which is the single detail that identifies which pharaoh this is. The altar additionally blocks the figure from the waist down. WHY THE GUARD LOST: it sat at the END of a long passage that had already specified crown, collar, linen, gold and sandals, so the model had built a king before the deformity clauses arrived. A re-roll should lead with the body. MEASURED WORST IN THE DECK: value_span 148.3 is the FIRST PLATE EVER TO FAIL THAT ENFORCED RULE (floor 170); radial key 0.031 is the flattest measured; 1.2% of frame under 40/255 against a previous minimum of 5%; mean luminance 153, the brightest plate in the deck. Span and key cannot be corrected by CSS grading the way saturation can. Kept as it stands by choice.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.034,
+        "key_radial": 0.036,
+        "key_side": "LEFT",
+        "value_span": 148,
+        "accent_sat": 0.277,
+        "tile_contrast": 79.507,
+        "shadow_frac": 0.012,
+        "blown_frac": 0.0004,
+        "head_room": 0,
+        "mean_lum": 153
+      },
+      "art_sat": 0.379,
+      "stored_saturation": 0.277,
+      "prompt_file": "PROMPT_akhenaten.txt#CARD",
+      "bytes": 129206
+    },
+    "akhenaten-terminal.jpg": {
+      "key": "akhenaten",
+      "surface_slug": "terminal",
+      "file": "akhenaten-terminal.jpg",
+      "bytes": 224823,
+      "provenance": null
+    },
+    "akhenaten-thumb.jpg": {
+      "key": "akhenaten",
+      "surface_slug": "thumb",
+      "file": "akhenaten-thumb.jpg",
+      "bytes": 35526,
+      "provenance": null
+    },
+    "albert-einstein-card.jpg": {
+      "figure": "Albert Einstein",
+      "key": "albert-einstein",
+      "file": "albert-einstein-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785561844144_865d916a.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Outside the Swiss Federal Office for Intellectual Property at night, Bern, 1905 - technical expert third class, twenty-six years old, patent files under one arm and his own scruffier sheaf in his hands. Wet arcade, gas lamp, tram-lit street beyond. THE AGE GUARD HELD, WHICH WAS THE WHOLE RISK: thick dark brown hair neatly combed, full dark moustache, a young unlined face. NO white halo, no cardigan, no pipe, no tongue out - the famous likeness is fifty years later and it is the only Einstein the model knows, so the guard states the age as a flat refusal rather than a description. That is the Gandhi lesson: six polite requests for small round wire spectacles failed where 'he is fat' landed first roll. 40% of frame under 40/255, the deepest shadow of any card in the deck, span 226.3, nothing blown. TWO DEFECTS ACCEPTED: the papers carry visible equations and diagrams where the brief forbade equations anywhere - it reads as a working man's notes rather than as E=mc2 iconography, so it is the mild version of the failure guarded against; and radial key 0.083, the light broad and frontal rather than raked from the lamp as specified. NO ROOM: there is no library/albert-einstein.json. A figure can carry plates and a quiz without one, so this is a state rather than a fault. FILENAME: the ledger's Full Name cell reads 'Albert Einstein', which the CSV loader slugs to albert-einstein - confirmed before ingest, because that is exactly how Musashi's plates were built as miyamoto-musashi-* when the roster said musashi.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.031,
+        "key_radial": 0.076,
+        "key_side": "RIGHT",
+        "value_span": 223.667,
+        "accent_sat": 0.204,
+        "tile_contrast": 75.168,
+        "shadow_frac": 0.394,
+        "blown_frac": 0.0001,
+        "head_room": 0,
+        "mean_lum": 71.4
+      },
+      "art_sat": 0.515,
+      "stored_saturation": 0.204,
+      "prompt_file": "PROMPT_albert-einstein.txt#CARD",
+      "bytes": 135544
+    },
+    "albert-einstein-thumb.jpg": {
+      "key": "albert-einstein",
+      "surface_slug": "thumb",
+      "file": "albert-einstein-thumb.jpg",
+      "bytes": 41365,
+      "provenance": null
+    },
+    "apollo-card.jpg": {
+      "key": "apollo",
+      "surface_slug": "card",
+      "file": "apollo-card.jpg",
+      "bytes": 162471,
+      "provenance": null
+    },
+    "apollo-terminal.jpg": {
+      "key": "apollo",
+      "surface_slug": "terminal",
+      "file": "apollo-terminal.jpg",
+      "bytes": 167069,
+      "provenance": null
+    },
+    "apollo-thumb.jpg": {
+      "key": "apollo",
+      "surface_slug": "thumb",
+      "file": "apollo-thumb.jpg",
+      "bytes": 34186,
+      "provenance": null
+    },
+    "bram-stoker-card.jpg": {
+      "figure": "Bram Stoker",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_bram-stoker.txt#CARD",
+      "source": "openart-sample_1785535032468_30b9eac3.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "Stage door of the Lyceum at night, Wellington Street, about 1895 - bowler, frock coat, watch chain, ring of keys, ledgers, the Lyceum playbill pasted on wet brick, door ajar with warm light. THE THREE-PART GUARD LANDED ON ALL THREE CLAUSES: he is physically big, he is unmistakably RED-haired and red-bearded, and nothing gothic attaches to him - no cape, no pallor, no menace. The prior is dated from library/bram-stoker.json, where NINE of ten works are Dracula, written 1890-97 at ages 43-50. Lateral key reads 0.031 because the gas lamp is directly ABOVE him and audit2's key_strength measures the x-axis only; radial is 0.282. 48% of frame under 40/255.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.032,
+        "key_radial": 0.285,
+        "value_span": 229.333,
+        "accent_sat": 0.201,
+        "tile_contrast": 71.26
+      },
+      "art_sat": 0.522,
+      "file": "bram-stoker-card.jpg",
+      "key": "bram-stoker",
+      "surface_slug": "card",
+      "bytes": 126080
+    },
+    "bram-stoker-terminal.jpg": {
+      "figure": "Bram Stoker",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_bram-stoker.txt#TERMINAL",
+      "source": "openart-sample_1785535104959_0596fa49.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "The manager's office above the Lyceum - he ran the theatre for Henry Irving for twenty-seven years and wrote Dracula in the hours left over. Ledgers with ruled columns, framed Lyceum bills, the notebook, shirtsleeves and waistcoat: the content is right. TWO DEFECTS ACCEPTED KNOWINGLY. FIRST, THERE IS NO KEY: radial 0.051, the flattest plate in the deck - flatter than the pale-wall Gandhi card that was rejected at 0.105. The prompt specified one visible green-shaded brass lamp at the left with fast falloff to true black; what returned is broad even ambient with no source in frame. SECOND, accent 0.400 is the highest saturation in the deck by a wide margin, above Caesar's 0.312, so the CSS grade pulls it to 0.263 and takes the red hair down with everything else. Kept as it stands by choice.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.014,
+        "key_radial": 0.053,
+        "value_span": 223,
+        "accent_sat": 0.401,
+        "tile_contrast": 97.381
+      },
+      "art_sat": 0.262,
+      "file": "bram-stoker-terminal.jpg",
+      "key": "bram-stoker",
+      "surface_slug": "terminal",
+      "bytes": 149269
+    },
+    "bram-stoker-thumb.jpg": {
+      "key": "bram-stoker",
+      "surface_slug": "thumb",
+      "file": "bram-stoker-thumb.jpg",
+      "bytes": 39450,
+      "provenance": null
+    },
+    "brutus-card.jpg": {
+      "key": "brutus",
+      "surface_slug": "card",
+      "file": "brutus-card.jpg",
+      "bytes": 182192,
+      "provenance": null
+    },
+    "brutus-terminal.jpg": {
+      "key": "brutus",
+      "surface_slug": "terminal",
+      "file": "brutus-terminal.jpg",
+      "bytes": 150361,
+      "provenance": null
+    },
+    "brutus-thumb.jpg": {
+      "key": "brutus",
+      "surface_slug": "thumb",
+      "file": "brutus-thumb.jpg",
+      "bytes": 36823,
+      "provenance": null
+    },
+    "caesar-card.jpg": {
+      "figure": "Julius Caesar",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_03.txt#CAESAR — CARD",
+      "source": "openart-sample_1785281582839_19e2dea1.png",
+      "crop": "trimmed to 0.571",
+      "seed": null,
+      "note": "returned at 0.312 saturation; monochrome clause was buried at the end.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.212,
+        "value_span": 221.667,
+        "accent_sat": 0.312,
+        "tile_contrast": 67.469
+      },
+      "art_sat": 0.341,
+      "file": "caesar-card.jpg",
+      "key": "caesar",
+      "surface_slug": "card",
+      "bytes": 160267
+    },
+    "caesar-terminal.jpg": {
+      "figure": "Julius Caesar",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_04.txt#CAESAR — READING ROOM  (revised)",
+      "note": "0.316 saturation even with the clause leading — the SUBJECT is warm, not the prompt. Armour on the bench is segmentata (Imperial, ~1c late); accepted because it is unworn and this is not the identifying image. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "seed": null,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "file": "caesar-terminal.jpg",
+      "source": "openart-sample_1785290401785_c4436a1f.png",
+      "audit": {
+        "aspect": 0.562,
+        "key_strength": 0.092,
+        "value_span": 204.333,
+        "accent_sat": 0.32,
+        "tile_contrast": 79.586
+      },
+      "art_sat": 0.329,
+      "key": "caesar",
+      "surface_slug": "terminal",
+      "pool_x": 26,
+      "pool_op": 0.92,
+      "key_side": "LEFT",
+      "bytes": 155709
+    },
+    "caesar-thumb.jpg": {
+      "key": "caesar",
+      "surface_slug": "thumb",
+      "file": "caesar-thumb.jpg",
+      "bytes": 45186,
+      "provenance": null
+    },
+    "charles-martel-card.jpg": {
+      "key": "charles-martel",
+      "surface_slug": "card",
+      "file": "charles-martel-card.jpg",
+      "bytes": 177809,
+      "provenance": null
+    },
+    "charles-martel-terminal.jpg": {
+      "figure": "Charles Martel",
+      "key": "charles-martel",
+      "file": "charles-martel-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785556952945_9511218b.jpg",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Signing away the church lands, about 735 - Gibbon's chapter on him is titled for this: the saviour condemned. He took ecclesiastical estates to pay the men who held the line at Tours and the church cursed him for it. Four of the five works in library/charles-martel.json are Gibbon writing ABOUT him; he left nothing of his own and arrives in this deck as another man's subject. GENERATED FROM THE SUPERSEDED DRAFT. A rewrite exists in PROMPT_charles-martel.txt that strips the church to unreadable dark, drops the monks and the architecture entirely, and puts the drawn sword flat on the table beside a single sealed vellum - written after the proprietor's principle that the name is printed on every surface of the product, so the plate is mood and set design and never has to identify anyone. That version is unshot. FIVE DEVIATIONS ACCEPTED KNOWINGLY: gothic vaulting and an ornate altar where the rewrite asks for a room three stops down and unreadable; three hooded monks and armoured soldiers as staffage; PLATE ARMOUR on the soldiers, roughly three centuries early for 732; a cross-hilted knightly sword rather than the period straight blade with a short simple crossguard; and it returned as an oil painting at accent 0.253 where the brief asked for true greyscale. Span 202.7, radial key 0.208 from the left as specified.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.209,
+        "key_radial": 0.211,
+        "key_side": "LEFT",
+        "value_span": 202.333,
+        "accent_sat": 0.254,
+        "tile_contrast": 68.697,
+        "shadow_frac": 0.121,
+        "blown_frac": 0.0001,
+        "head_room": 0,
+        "mean_lum": 92.2
+      },
+      "art_sat": 0.414,
+      "stored_saturation": 0.254,
+      "prompt_file": "PROMPT_charles-martel.txt#TERMINAL",
+      "bytes": 177809
+    },
+    "charles-martel-thumb.jpg": {
+      "key": "charles-martel",
+      "surface_slug": "thumb",
+      "file": "charles-martel-thumb.jpg",
+      "bytes": 49135,
+      "provenance": null
+    },
+    "christopher-columbus-card.jpg": {
+      "key": "christopher-columbus",
+      "surface_slug": "card",
+      "file": "christopher-columbus-card.jpg",
+      "bytes": 189493,
+      "provenance": null
+    },
+    "christopher-columbus-terminal.jpg": {
+      "key": "christopher-columbus",
+      "surface_slug": "terminal",
+      "file": "christopher-columbus-terminal.jpg",
+      "bytes": 245619,
+      "provenance": null
+    },
+    "christopher-columbus-thumb.jpg": {
+      "key": "christopher-columbus",
+      "surface_slug": "thumb",
+      "file": "christopher-columbus-thumb.jpg",
+      "bytes": 42139,
+      "provenance": null
+    },
+    "cleopatra-card.jpg": {
+      "key": "cleopatra",
+      "surface_slug": "card",
+      "file": "cleopatra-card.jpg",
+      "bytes": 216079,
+      "provenance": null
+    },
+    "cleopatra-terminal.jpg": {
+      "key": "cleopatra",
+      "surface_slug": "terminal",
+      "file": "cleopatra-terminal.jpg",
+      "bytes": 254115,
+      "provenance": null
+    },
+    "cleopatra-thumb.jpg": {
+      "key": "cleopatra",
+      "surface_slug": "thumb",
+      "file": "cleopatra-thumb.jpg",
+      "bytes": 35841,
+      "provenance": null
+    },
+    "confucius-card.jpg": {
+      "figure": "Confucius",
+      "key": "confucius",
+      "file": "confucius-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785546826769_b7757c92.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Turned away at a ruler's gate, about 495 BC - standing on the wet threshold, half turned, about to walk away, a bundle of bamboo writing slips held against his side. Coarse dark hemp wrapped LEFT OVER RIGHT with a woven sash, plain cloth cap, long grey beard. Rain just stopped: wet stone, wet timber, water standing in the ruts. THE PERIOD GUARD HELD - bamboo slips not paper, no dragon robe, no mandarin square, no queue, no fan. 38% of frame under 40/255 and radial key 0.277 from the left as specified. TWO SOFT MISSES: the skin reads weathered but lighter than the deep tanned reddish-brown the guard asked for, and the expression is more resigned than the level unimpressed look briefed. Neither touches identity.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.116,
+        "key_radial": 0.281,
+        "key_side": "LEFT",
+        "value_span": 219,
+        "accent_sat": 0.244,
+        "tile_contrast": 68.005,
+        "shadow_frac": 0.373,
+        "blown_frac": 0,
+        "head_room": 0,
+        "mean_lum": 71.4
+      },
+      "art_sat": 0.43,
+      "stored_saturation": 0.244,
+      "prompt_file": "PROMPT_confucius.txt#CARD",
+      "bytes": 184592
+    },
+    "confucius-terminal.jpg": {
+      "figure": "Confucius",
+      "key": "confucius",
+      "file": "confucius-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785546816738_fed56dcb.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "On the road between states, about 495 BC - somewhere in the fourteen years he spent going from court to court looking for a ruler who would listen and finding none. Seated on the bed of a plain two-wheeled ox cart with his legs over the edge, mid-gesture, turned to a young disciple who stands looking up at him; more disciples behind, one at the ox. BUNDLES OF BAMBOO WRITING SLIPS stacked and corded on the cart bed, which is the period detail the guard was written for. THREE SOFT MISSES: the skin is weathered but lighter than the deep tanned reddish-brown specified; the sky does not read, so the open-half-frame air the brief asked for did not arrive; and shadow is 9.4% with mean luminance 118, making this one of the lighter plates in the deck. The scene itself is exactly the brief.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.095,
+        "key_radial": 0.168,
+        "key_side": "RIGHT",
+        "value_span": 196.667,
+        "accent_sat": 0.234,
+        "tile_contrast": 89.311,
+        "shadow_frac": 0.093,
+        "blown_frac": 0.002,
+        "head_room": 0,
+        "mean_lum": 117.3
+      },
+      "art_sat": 0.448,
+      "stored_saturation": 0.234,
+      "prompt_file": "PROMPT_confucius.txt#TERMINAL",
+      "bytes": 205615
+    },
+    "confucius-thumb.jpg": {
+      "key": "confucius",
+      "surface_slug": "thumb",
+      "file": "confucius-thumb.jpg",
+      "bytes": 50856,
+      "provenance": null
+    },
+    "dante-alighieri-card.jpg": {
+      "key": "dante-alighieri",
+      "surface_slug": "card",
+      "file": "dante-alighieri-card.jpg",
+      "bytes": 165814,
+      "provenance": null
+    },
+    "dante-alighieri-terminal.jpg": {
+      "key": "dante-alighieri",
+      "surface_slug": "terminal",
+      "file": "dante-alighieri-terminal.jpg",
+      "bytes": 154910,
+      "provenance": null
+    },
+    "dante-alighieri-thumb.jpg": {
+      "key": "dante-alighieri",
+      "surface_slug": "thumb",
+      "file": "dante-alighieri-thumb.jpg",
+      "bytes": 28570,
+      "provenance": null
+    },
+    "david-hume-card.jpg": {
+      "figure": "David Hume",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_david-hume.txt#CARD",
+      "source": "openart-sample_1785533902392_4bd3d364.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "Outside the Advocates Library at night, Parliament Close, Edinburgh, about 1758, while he was its Keeper. Lit BY the library - lamp, and the open door throwing warm light onto wet flagstones - with haar and coal smoke in the close. THE GUARD WORKED: the prompt states flat that he is fat and that he is NOT a tortured genius, because contemporaries all recorded a broad heavy placid face that gave no outward sign of intelligence. Both landed first roll. The prior is dated from library/david-hume.json, where THIRTEEN of twenty works are The History of England - this room belongs to the historian, not the philosopher.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.074,
+        "key_radial": 0.083,
+        "value_span": 202,
+        "accent_sat": 0.229,
+        "tile_contrast": 51.706
+      },
+      "art_sat": 0.458,
+      "file": "david-hume-card.jpg",
+      "key": "david-hume",
+      "surface_slug": "card",
+      "bytes": 116198
+    },
+    "david-hume-terminal.jpg": {
+      "figure": "David Hume",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_david-hume.txt#TERMINAL",
+      "source": "openart-sample_1785533934906_6813d98d.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "The Advocates Library about 1756 with its Keeper at work in it - presses, gallery, rolling ladders, a shaft of daylight through a tall window crossing the floor, a clerk delivering a bundle of manuscripts tied with tape, visitors at the presses. Commissioned as a ROOM PORTRAIT: the invariant's shallow-focus background clause was deliberately reversed for this plate so the library reads as the subject. THREE DEVIATIONS FROM THE BRIEF, ALL ACCEPTED KNOWINGLY: it returned as an OIL PAINTING rather than a photograph, with blended brushwork and craquelure, where the invariant asks for photographic realism; Hume and the clerk both LOOK AT THE CAMERA, where the absorbed grammar asks that nobody does; and Hume occupies roughly half the frame rather than the under-one-third that would have let the room read first. Kept because the room itself is right and the proprietor chose it as it stands.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.273,
+        "key_radial": 0.281,
+        "value_span": 210,
+        "accent_sat": 0.303,
+        "tile_contrast": 55.2
+      },
+      "art_sat": 0.347,
+      "file": "david-hume-terminal.jpg",
+      "key": "david-hume",
+      "surface_slug": "terminal",
+      "bytes": 157394
+    },
+    "david-hume-thumb.jpg": {
+      "key": "david-hume",
+      "surface_slug": "thumb",
+      "file": "david-hume-thumb.jpg",
+      "bytes": 38415,
+      "provenance": null
+    },
+    "edward-gibbon-card.jpg": {
+      "figure": "Edward Gibbon",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_edward-gibbon.txt#CARD",
+      "source": "openart-sample_1785477286794_6a3f3bf9.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "wine silk coat, gilt buttons, tie-wig, quarto held to the chest. Prior dated from the library: the room is entirely Decline and Fall (1776-89), so he is 39-52 and stout. Invented gilt lettering on the book spine ACCEPTED KNOWINGLY.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.027,
+        "key_radial": 0.073,
+        "value_span": 230.667,
+        "accent_sat": 0.286,
+        "tile_contrast": 61.321
+      },
+      "art_sat": 0.368,
+      "file": "edward-gibbon-card.jpg",
+      "key": "edward-gibbon",
+      "surface_slug": "card",
+      "bytes": 138027
+    },
+    "edward-gibbon-chat.jpg": {
+      "figure": "Edward Gibbon",
+      "surface": "terminal chat panel (alternate)",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_edward-gibbon.txt#CHAT",
+      "source": "openart-sample_1785477435137_66de8cfd.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "ALTERNATE, chat panel only - the codex keeps the canonical plate. Hampshire Militia captain, 1761, aged 24, reading on a powder barrel beside a brass field gun. Gibbon wrote that the captain of the grenadiers had not been useless to the historian of the Roman Empire; camp is where Decline and Fall came from. Radial key 0.338, second strongest in the deck. GENERATED 9:16 NOT 16:9 - the chat panel is landscape, so it is cover-cropped to about rows 11-60% and the barrel and gun carriage fall below the cut. Re-roll at 16:9 when convenient.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.112,
+        "key_radial": 0.357,
+        "value_span": 220.667,
+        "accent_sat": 0.22,
+        "tile_contrast": 105.762
+      },
+      "art_sat": 0.478,
+      "file": "edward-gibbon-chat.jpg",
+      "key": "edward-gibbon",
+      "surface_slug": "chat",
+      "bytes": 171259
+    },
+    "edward-gibbon-terminal.jpg": {
+      "key": "edward-gibbon",
+      "surface_slug": "terminal",
+      "file": "edward-gibbon-terminal.jpg",
+      "bytes": 237815,
+      "provenance": null
+    },
+    "edward-gibbon-thumb.jpg": {
+      "key": "edward-gibbon",
+      "surface_slug": "thumb",
+      "file": "edward-gibbon-thumb.jpg",
+      "bytes": 40296,
+      "provenance": null
+    },
+    "flavius-josephus-card.jpg": {
+      "figure": "Flavius Josephus",
+      "key": "flavius-josephus",
+      "file": "flavius-josephus-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-image_1785646056841_e75c4a46_1785646056932_7c30534a.png",
+      "crop": "trimmed 32px of height to 0.571 | source 768x1376, downsampled to 1120 tall",
+      "seed": null,
+      "note": "The wall at Jotapata, AD 67, aged thirty - a priest's son given command of a province he was not trained to defend, watching the Roman siege ramp come up in the dark. Exhausted, dirt to the elbows, a scale corselet that does not fit him well, his own men slumped against the stone behind him, the camp fires laid out in ordered rows across the valley. The order of it is the point: not a mob, a machine, and nearly finished. 48% of frame under 40/255 and span 234.3. THE CONTRADICTION THIS PAIR IS BUILT ON, and it is the third of its kind in the deck after Seneca and Tacitus: he surrendered, told Vespasian he would be emperor, and ended in the Flavian household writing the definitive account of his own people's destruction for the men who carried it out. His own side called him a traitor; without him almost nothing of first-century Judaea would be known. TWO DEFECTS ACCEPTED: generated at 768x1376, sub-spec, so UPSAMPLED to 1120 where the deck standard is 2048 downsampled - the third such plate; and accent 0.519, the highest saturation in the deck, taking that record from plato-card at 0.492, so the CSS grade pulls it hard. NO ROOM: there is no library/josephus.json. A figure can carry plates and a quiz without one. Both The Jewish War and the Antiquities are public domain in the Whiston translation, so a room is available whenever wanted.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-08-02",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.151,
+        "key_radial": 0.154,
+        "key_side": "LEFT",
+        "value_span": 233.667,
+        "accent_sat": 0.521,
+        "tile_contrast": 71.416,
+        "shadow_frac": 0.486,
+        "blown_frac": 0.0001,
+        "head_room": 0,
+        "mean_lum": 55.9
+      },
+      "art_sat": 0.201,
+      "stored_saturation": 0.521,
+      "prompt_file": "PROMPT_flavius-josephus.txt#CARD",
+      "bytes": 166355
+    },
+    "flavius-josephus-terminal.jpg": {
+      "figure": "Flavius Josephus",
+      "key": "flavius-josephus",
+      "file": "flavius-josephus-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-image_1785646349091_d8c09cab_1785646349193_6080c1d2.png",
+      "crop": "trimmed 32px of height to 0.571 | source 768x1376, downsampled to 1120 tall",
+      "seed": null,
+      "note": "A room in Rome, about AD 75, writing The Jewish War on Roman paper in the house of the men who won it. Dressed as a Roman now, beard trimmed, hands clean - he has citizenship, a pension and a name that is not the one he was born with. The table is divided the way Stoker's and Einstein's are: the besiegers' own campaign records on one side, given to him, and nothing but his own memory on the other. Radial key 0.266 from the right, tile contrast 106.8, span 232.7. THREE DEFECTS ACCEPTED KNOWINGLY. FIRST, the windows are GOTHIC POINTED ARCHES WITH TRACERY - twelfth century, eleven hundred years after Josephus, the same class of error as the nineteenth-century tailoring on Milton's card. SECOND, a BOUND CODEX with what reads as printed pages sits on the table; the codex barely existed in AD 75 and printing is fourteen centuries away. The scrolls and the reed pen are correct. THIRD, generated at 768x1376, sub-spec, so UPSAMPLED to 1120. Accent 0.454 is the second highest in the deck.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-08-02",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.223,
+        "key_radial": 0.264,
+        "key_side": "RIGHT",
+        "value_span": 231.333,
+        "accent_sat": 0.452,
+        "tile_contrast": 107.485,
+        "shadow_frac": 0.241,
+        "blown_frac": 0.0078,
+        "head_room": 0,
+        "mean_lum": 97.9
+      },
+      "art_sat": 0.232,
+      "stored_saturation": 0.452,
+      "prompt_file": "PROMPT_flavius-josephus.txt#TERMINAL",
+      "bytes": 149528
+    },
+    "flavius-josephus-thumb.jpg": {
+      "key": "flavius-josephus",
+      "surface_slug": "thumb",
+      "file": "flavius-josephus-thumb.jpg",
+      "bytes": 48687,
+      "provenance": null
+    },
+    "frederick-douglass-card.jpg": {
+      "figure": "Frederick Douglass",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_03.txt#DOUGLASS — CARD",
+      "source": "openart-sample_1785281294019_1a0e8dcc.png",
+      "crop": "trimmed to 0.571",
+      "seed": null,
+      "note": "studio portrait; key strength low.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.036,
+        "value_span": 226.333,
+        "accent_sat": 0.216,
+        "tile_contrast": 48.494
+      },
+      "art_sat": 0.48,
+      "file": "frederick-douglass-card.jpg",
+      "key": "frederick-douglass",
+      "surface_slug": "card",
+      "bytes": 129853
+    },
+    "frederick-douglass-terminal.jpg": {
+      "figure": "Frederick Douglass",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_04.txt#DOUGLASS — READING ROOM  (revised)",
+      "note": "most monochrome plate in the set at 0.038; reads as a period photograph | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "seed": null,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "file": "frederick-douglass-terminal.jpg",
+      "source": "openart-sample_1785290342400_ae19b523.png",
+      "audit": {
+        "aspect": 0.562,
+        "key_strength": 0.117,
+        "value_span": 231.333,
+        "accent_sat": 0.003,
+        "tile_contrast": 68.495
+      },
+      "art_sat": 1,
+      "key": "frederick-douglass",
+      "surface_slug": "terminal",
+      "pool_x": 74,
+      "pool_op": 0.92,
+      "key_side": "RIGHT",
+      "bytes": 91315
+    },
+    "frederick-douglass-thumb.jpg": {
+      "key": "frederick-douglass",
+      "surface_slug": "thumb",
+      "file": "frederick-douglass-thumb.jpg",
+      "bytes": 38040,
+      "provenance": null
+    },
+    "galileo-galilei-card.jpg": {
+      "key": "galileo-galilei",
+      "surface_slug": "card",
+      "file": "galileo-galilei-card.jpg",
+      "bytes": 144156,
+      "provenance": null
+    },
+    "galileo-galilei-terminal.jpg": {
+      "key": "galileo-galilei",
+      "surface_slug": "terminal",
+      "file": "galileo-galilei-terminal.jpg",
+      "bytes": 212995,
+      "provenance": null
+    },
+    "galileo-galilei-thumb.jpg": {
+      "key": "galileo-galilei",
+      "surface_slug": "thumb",
+      "file": "galileo-galilei-thumb.jpg",
+      "bytes": 29768,
+      "provenance": null
+    },
+    "gandhi-card.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785301093124_1dadc1c8.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "young hooded khadi in rain, head bowed. GOLD AVIATORS ACCEPTED KNOWINGLY - small round wire spectacles were refused across v4 and v5. Face bowed and hooded; identity is carried by the name label on every surface, not by the plate. Library is Hind Swaraj (1909) and Third Class in Indian Railways (1917) - nothing postdates 1917, so the young prior is the evidence-backed reading.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.202,
+        "value_span": 240.667,
+        "accent_sat": 0.188,
+        "tile_contrast": 106.529
+      },
+      "art_sat": 0.558,
+      "file": "gandhi-card.jpg",
+      "key": "gandhi",
+      "surface_slug": "card",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)",
+      "bytes": 140983
+    },
+    "gandhi-terminal.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785299306315_232b1589.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "seated, reading a letter, absorbed. WHEEL IS GEAR-DRIVEN, NOT A CHARKHA - accepted knowingly; a charkha is belt-driven and spins thread, not woven cloth on a roller. Mostly below the terminal crop band (rows 11-60%); fully visible in the codex at 340x560.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.055,
+        "value_span": 239.667,
+        "accent_sat": 0.136,
+        "tile_contrast": 94.172
+      },
+      "art_sat": 0.773,
+      "file": "gandhi-terminal.jpg",
+      "key": "gandhi",
+      "surface_slug": "terminal",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)",
+      "bytes": 119842
+    },
+    "gandhi-thumb.jpg": {
+      "key": "gandhi",
+      "surface_slug": "thumb",
+      "file": "gandhi-thumb.jpg",
+      "bytes": 41316,
+      "provenance": null
+    },
+    "gautama-buddha-card.jpg": {
+      "key": "gautama-buddha",
+      "surface_slug": "card",
+      "file": "gautama-buddha-card.jpg",
+      "bytes": 181851,
+      "provenance": null
+    },
+    "gautama-buddha-terminal.jpg": {
+      "key": "gautama-buddha",
+      "surface_slug": "terminal",
+      "file": "gautama-buddha-terminal.jpg",
+      "bytes": 245660,
+      "provenance": null
+    },
+    "gautama-buddha-thumb.jpg": {
+      "key": "gautama-buddha",
+      "surface_slug": "thumb",
+      "file": "gautama-buddha-thumb.jpg",
+      "bytes": 48660,
+      "provenance": null
+    },
+    "george-washington-card.jpg": {
+      "key": "george-washington",
+      "surface_slug": "card",
+      "file": "george-washington-card.jpg",
+      "bytes": 205103,
+      "provenance": null
+    },
+    "george-washington-terminal.jpg": {
+      "key": "george-washington",
+      "surface_slug": "terminal",
+      "file": "george-washington-terminal.jpg",
+      "bytes": 214580,
+      "provenance": null
+    },
+    "george-washington-thumb.jpg": {
+      "key": "george-washington",
+      "surface_slug": "thumb",
+      "file": "george-washington-thumb.jpg",
+      "bytes": 43452,
+      "provenance": null
+    },
+    "gutenberg-card.jpg": {
+      "key": "gutenberg",
+      "surface_slug": "card",
+      "file": "gutenberg-card.jpg",
+      "bytes": 211642,
+      "provenance": null
+    },
+    "gutenberg-terminal.jpg": {
+      "key": "gutenberg",
+      "surface_slug": "terminal",
+      "file": "gutenberg-terminal.jpg",
+      "bytes": 211642,
+      "provenance": null
+    },
+    "gutenberg-thumb.jpg": {
+      "key": "gutenberg",
+      "surface_slug": "thumb",
+      "file": "gutenberg-thumb.jpg",
+      "bytes": 41367,
+      "provenance": null
+    },
+    "gw-winter-card.jpg": {
+      "key": "gw-winter",
+      "surface_slug": "card",
+      "file": "gw-winter-card.jpg",
+      "bytes": 205103,
+      "provenance": null
+    },
+    "gw-winter-thumb.jpg": {
+      "key": "gw-winter",
+      "surface_slug": "thumb",
+      "file": "gw-winter-thumb.jpg",
+      "bytes": 43452,
+      "provenance": null
+    },
+    "hannibal-card.jpg": {
+      "figure": "Hannibal Barca",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_hannibal.txt#CARD",
+      "source": "openart-sample_1785537645889_ede37c09.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "New Carthage (Qart Hadasht) in Spain, spring 218 BC, aged 29, on the quay before the expedition. STRONGEST KEY IN THE DECK at radial 0.433, taking the record from musashi-card at 0.428. WHY NOT CARTHAGE: he left Carthage for Spain at nine - that departure is The Oath of Enmity, the first work in library/hannibal.json - and did not see the city again until he was forty-four. There is no handsome young adult Hannibal in Carthage. New Carthage is the city the Barcids built in Spain to be a second Carthage, funded by silver mines yielding three hundred pounds a day. LIKENESS: no bust or reliable coin survives, so the deck renders a characteristic face rather than a portrait, and takes the North African reading - deep brown skin, African features, Libyan and Numidian rather than Levantine. Carthage was an African city that had stood five hundred years among African peoples and married into them. BOTH EYES CLEAR, correct for 218: he loses the right one to ophthalmia in the Arno marshes the following year. TWO DEFECTS ACCEPTED: the temple on the hill reads Greco-Roman peripteral rather than Punic with an Egyptian cavetto cornice, and the houses read Mediterranean-modern rather than Punic. WEALTH BY DESIGN: Tyrian purple and gold on the man, silver pigs and shipping and a six-storey city behind him - richer than armour would have read, and it keeps the plate out of fantasy.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.069,
+        "key_radial": 0.437,
+        "value_span": 219.333,
+        "accent_sat": 0.283,
+        "tile_contrast": 109.004
+      },
+      "art_sat": 0.371,
+      "file": "hannibal-card.jpg",
+      "key": "hannibal",
+      "surface_slug": "card",
+      "bytes": 180132
+    },
+    "hannibal-terminal.jpg": {
+      "figure": "Hannibal Barca",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_hannibal.txt#TERMINAL",
+      "source": "openart-sample_1785535631614_b39d04fd.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "The crossing of the Alps, October 218 BC - two years before Cannae, so BOTH EYES ARE STILL GOOD (he lost the sight of his right eye to ophthalmia in the Arno marshes in 217). Commissioned as a ROOM PORTRAIT in the manner of the Hume library plate: the invariant's shallow-focus background clause was deliberately reversed so the mountain reads as the subject and Hannibal is one small figure identifiable by the purple cloak. PASSED ALL FOUR ENFORCED RULES. THREE DEFECTS ACCEPTED KNOWINGLY: the armour returned as ornate gilded filigree and the troops in uniform bronze helms, where the guard asked flatly for no fantasy armour; the elephant is gold-capped and healthy rather than the gaunt mud-caked animal specified, since nearly all of them died in the mountains; and the plate renders as digital painting rather than photograph. Also note it is the LIGHTEST plate in the deck at 10% of frame under 40/255 and mean luminance 119, taking that record from marcus-aurelius-terminal at 22%.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.139,
+        "key_radial": 0.272,
+        "value_span": 197,
+        "accent_sat": 0.084,
+        "tile_contrast": 95.103
+      },
+      "art_sat": 1,
+      "file": "hannibal-terminal.jpg",
+      "key": "hannibal",
+      "surface_slug": "terminal",
+      "bytes": 201395
+    },
+    "hannibal-thumb.jpg": {
+      "key": "hannibal",
+      "surface_slug": "thumb",
+      "file": "hannibal-thumb.jpg",
+      "bytes": 58042,
+      "provenance": null
+    },
+    "helen-keller-card.jpg": {
+      "key": "helen-keller",
+      "surface_slug": "card",
+      "file": "helen-keller-card.jpg",
+      "bytes": 194337,
+      "provenance": null
+    },
+    "helen-keller-terminal.jpg": {
+      "key": "helen-keller",
+      "surface_slug": "terminal",
+      "file": "helen-keller-terminal.jpg",
+      "bytes": 179863,
+      "provenance": null
+    },
+    "helen-keller-thumb.jpg": {
+      "key": "helen-keller",
+      "surface_slug": "thumb",
+      "file": "helen-keller-thumb.jpg",
+      "bytes": 38435,
+      "provenance": null
+    },
+    "herodotus-card.jpg": {
+      "key": "herodotus",
+      "surface_slug": "card",
+      "file": "herodotus-card.jpg",
+      "bytes": 213961,
+      "provenance": null
+    },
+    "herodotus-terminal.jpg": {
+      "key": "herodotus",
+      "surface_slug": "terminal",
+      "file": "herodotus-terminal.jpg",
+      "bytes": 205194,
+      "provenance": null
+    },
+    "herodotus-thumb.jpg": {
+      "key": "herodotus",
+      "surface_slug": "thumb",
+      "file": "herodotus-thumb.jpg",
+      "bytes": 41327,
+      "provenance": null
+    },
+    "isaac-newton-card.jpg": {
+      "figure": "Isaac Newton",
+      "key": "isaac-newton",
+      "file": "isaac-newton-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-image_1785652542271_b1b370ad_1785652542389_2d3b57c3.png",
+      "crop": "trimmed 32px of height to 0.571 | source 768x1376, downsampled to 1120 tall",
+      "seed": null,
+      "note": "The orchard at Woolsthorpe, the plague years 1665-66, aged twenty-three - Cambridge closed, sent home to Lincolnshire, where in eighteen months he did the calculus, the optics and the gravitation. He called it the prime of his age for invention. Same shape as the Einstein pair: the young man alone before anyone knew. THE APPLE GUARD HELD - one apple lies already fallen on the grass and nothing is in the air, which is what the only first-hand account describes; the cartoon with an apple striking his head was refused outright. The moon, the farmhouse with its lit window, the drystone wall and the old orchard all landed. SECOND ROLL. The first was the night version as briefed and measured tile_contrast 29.7 with mean luminance 37 - the darkest plate in the deck and by a wide margin the least legible at the 198x160 roster thumbnail, where it read as a smudge. This roll fixed that: tile_contrast 63.1, radial key 0.240. FOUR DEFECTS ACCEPTED KNOWINGLY. FIRST, it came back DAYLIGHT - blue sky, sun on the grass, an autumn afternoon - so the moon is a pale daytime disc rather than the key light, and the plate loses the point that the moon WAS the idea: whatever pulled the apple down also holds it. SECOND, he wears a TRICORNE, eighteenth-century and not asked for. THIRD, he is READING, where the brief specified hands empty and loose because the stillness was the point. FOURTH, generated at 768x1376, sub-spec, so UPSAMPLED to 1120. Accent 0.431 is among the highest in the deck.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-08-02",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.069,
+        "key_radial": 0.24,
+        "key_side": "LEFT",
+        "value_span": 214.333,
+        "accent_sat": 0.431,
+        "tile_contrast": 63.165,
+        "shadow_frac": 0.257,
+        "blown_frac": 0.0001,
+        "head_room": 0,
+        "mean_lum": 76.9
+      },
+      "art_sat": 0.244,
+      "stored_saturation": 0.431,
+      "bytes": 220145
+    },
+    "isaac-newton-terminal.jpg": {
+      "figure": "Isaac Newton",
+      "key": "isaac-newton",
+      "file": "isaac-newton-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785652101713_071f56d4.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "The prism in a darkened chamber at Woolsthorpe, 1666 - one beam of sunlight, a glass prism, and the spectrum thrown on the far wall. PASSED ALL FOUR ENFORCED RULES and it is one of the strongest plates in the deck: value_span 239.0 joint highest, 70.5% of frame under 40/255 which is the DEEPEST SHADOW IN THE DECK, radial key 0.320 from the right as specified, accent 0.123 comfortably inside the ceiling. THE COLOUR RULE WAS INVERTED ON PURPOSE AND IT WORKED: the invariant asks for near black-and-white with a single warm accent on metal; here the room and the man are monochrome and the ONLY colour in the frame is the spectrum on the wall. That is not a stylistic departure, it is the experiment. One hard beam in a sealed black room is also the invariant's lighting stated literally - a single dominant source, hard-edged, everything it does not reach at true black. Full 2K, the only plate of this pair at spec. TWO DEFECTS ACCEPTED: it returned as an OIL PAINTING with a visible signature, the fifth painted plate in the deck; and the beam enters through an open window rather than the bored hole in a closed shutter the brief specified, which is the detail that made the original experiment work.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-02",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.253,
+        "key_radial": 0.318,
+        "key_side": "RIGHT",
+        "value_span": 238.667,
+        "accent_sat": 0.043,
+        "tile_contrast": 76.182,
+        "shadow_frac": 0.702,
+        "blown_frac": 0.0001,
+        "head_room": 0,
+        "mean_lum": 43.6
+      },
+      "art_sat": 1,
+      "stored_saturation": 0.043,
+      "bytes": 108173
+    },
+    "isaac-newton-thumb.jpg": {
+      "key": "isaac-newton",
+      "surface_slug": "thumb",
+      "file": "isaac-newton-thumb.jpg",
+      "bytes": 55175,
+      "provenance": null
+    },
+    "john-milton-card.jpg": {
+      "figure": "John Milton",
+      "key": "john-milton",
+      "file": "john-milton-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785543010159_230fb402.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "At his door in Bunhill Fields, about 1665, thirteen years blind - grey coarse cloth coat, plain oak chair on the step, both hands on a walking stick, face lifted and turned past the viewer, listening to the street. THE GUARD LANDED: the eyes are open, clear and unblemished and aimed at nothing, which is what contemporaries recorded - his blindness was invisible and nobody could tell. No book in his hands; he cannot read one. TWO DEFECTS ACCEPTED. FIRST, the tailoring is nineteenth-century: a coat with notched lapels and long trousers on a man who died in 1674, where 1660s dress is a skirted coat and breeches to the knee. SECOND, radial key 0.083 - the light is broad and flat rather than the hard shaft down the street the brief asked for, though 36% of frame still falls under 40/255.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.081,
+        "key_radial": 0.087,
+        "key_side": "RIGHT",
+        "value_span": 225,
+        "accent_sat": 0.196,
+        "tile_contrast": 66.316,
+        "shadow_frac": 0.35,
+        "blown_frac": 0.0001,
+        "head_room": 0,
+        "mean_lum": 66.2
+      },
+      "art_sat": 0.536,
+      "stored_saturation": 0.196,
+      "prompt_file": "PROMPT_john-milton.txt#CARD",
+      "bytes": 169941
+    },
+    "john-milton-terminal.jpg": {
+      "figure": "John Milton",
+      "key": "john-milton",
+      "file": "john-milton-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785543048623_0d556ce7.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Dictating Paradise Lost at first light, about 1663 - head tipped back toward the casement, mouth open mid-line, one finger lifted to hold the rhythm, a young woman at a small table writing it down, quill moving. He is not touching paper and there is no book in frame. He composed at night lying awake and gave the lines out in the morning to whoever could hold a pen; he never saw a word of the poem. TWO DEFECTS ACCEPTED. FIRST, it returned as an OIL PAINTING with visible craquelure and a signature at the lower left, where the invariant asks for photographic realism - the fourth painted plate in the deck. SECOND, only 7% of frame falls under 40/255 and tile_contrast is 43.7, the lowest in the deck. NOTE: an ENGRAVED version of this plate was written and never generated - PROMPT_milton.txt carries it, showing the poem at full scale with Milton small and seated inside it, back turned. It remains available as john-milton-chat.jpg.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.075,
+        "key_radial": 0.182,
+        "key_side": "LEFT",
+        "value_span": 192.333,
+        "accent_sat": 0.241,
+        "tile_contrast": 43.199,
+        "shadow_frac": 0.064,
+        "blown_frac": 0,
+        "head_room": 0,
+        "mean_lum": 73.3
+      },
+      "art_sat": 0.436,
+      "stored_saturation": 0.241,
+      "prompt_file": "PROMPT_john-milton.txt#TERMINAL",
+      "bytes": 129715
+    },
+    "john-milton-thumb.jpg": {
+      "key": "john-milton",
+      "surface_slug": "thumb",
+      "file": "john-milton-thumb.jpg",
+      "bytes": 49367,
+      "provenance": null
+    },
+    "king-arthur-card.jpg": {
+      "key": "king-arthur",
+      "surface_slug": "card",
+      "file": "king-arthur-card.jpg",
+      "bytes": 168223,
+      "provenance": null
+    },
+    "king-arthur-chat-2.jpg": {
+      "key": "king-arthur",
+      "surface_slug": "chat",
+      "file": "king-arthur-chat-2.jpg",
+      "bytes": 178101,
+      "provenance": null
+    },
+    "king-arthur-chat.jpg": {
+      "key": "king-arthur",
+      "surface_slug": "chat",
+      "file": "king-arthur-chat.jpg",
+      "bytes": 203186,
+      "provenance": null
+    },
+    "king-arthur-terminal.jpg": {
+      "key": "king-arthur",
+      "surface_slug": "terminal",
+      "file": "king-arthur-terminal.jpg",
+      "bytes": 211043,
+      "provenance": null
+    },
+    "king-arthur-thumb.jpg": {
+      "key": "king-arthur",
+      "surface_slug": "thumb",
+      "file": "king-arthur-thumb.jpg",
+      "bytes": 44840,
+      "provenance": null
+    },
+    "leif-erikson-card.jpg": {
+      "key": "leif-erikson",
+      "surface_slug": "card",
+      "file": "leif-erikson-card.jpg",
+      "bytes": 217928,
+      "provenance": null
+    },
+    "leif-erikson-terminal.jpg": {
+      "key": "leif-erikson",
+      "surface_slug": "terminal",
+      "file": "leif-erikson-terminal.jpg",
+      "bytes": 212876,
+      "provenance": null
+    },
+    "leif-erikson-thumb.jpg": {
+      "key": "leif-erikson",
+      "surface_slug": "thumb",
+      "file": "leif-erikson-thumb.jpg",
+      "bytes": 45116,
+      "provenance": null
+    },
+    "lincoln-card.jpg": {
+      "figure": "Abraham Lincoln",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_02.txt#ABRAHAM LINCOLN",
+      "source": "openart-sample_1785274239993_8abc35ac.jpg",
+      "crop": "trimmed 16px of height to 0.571",
+      "seed": null,
+      "note": "candidate C of four. Chosen over A for photoreal quality.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.01,
+        "value_span": 240.667,
+        "accent_sat": 0.1,
+        "tile_contrast": 87.03
+      },
+      "art_sat": 1,
+      "file": "lincoln-card.jpg",
+      "key": "lincoln",
+      "surface_slug": "card",
+      "seed_candidate": 71269299,
+      "seed_note": "seed recorded in the prompt file. NOT confirmed for this plate: the note says 'candidate C of four', so four rolls were made and the file records one. Verify against OpenArt history before promoting to seed.",
+      "bytes": 152868
+    },
+    "lincoln-terminal.jpg": {
+      "figure": "Abraham Lincoln",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_lincoln_column.txt",
+      "source": "openart-sample_1785275913046_90a80aac.jpg",
+      "crop": "none",
+      "seed": 61256669,
+      "note": "four separated value planes; best tile contrast in the set at 150. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.562,
+        "key_strength": 0.288,
+        "value_span": 239,
+        "accent_sat": 0.191,
+        "tile_contrast": 150.376
+      },
+      "art_sat": 1,
+      "file": "lincoln-terminal.jpg",
+      "key": "lincoln",
+      "surface_slug": "terminal",
+      "pool_x": 26,
+      "pool_op": 0.72,
+      "key_side": "LEFT",
+      "seed_source": "recovered from img/prompts/PROMPT_lincoln_column.txt",
+      "bytes": 118766
+    },
+    "lincoln-thumb.jpg": {
+      "key": "lincoln",
+      "surface_slug": "thumb",
+      "file": "lincoln-thumb.jpg",
+      "bytes": 55124,
+      "provenance": null
+    },
+    "livy-card.jpg": {
+      "key": "livy",
+      "surface_slug": "card",
+      "file": "livy-card.jpg",
+      "bytes": 191047,
+      "provenance": null
+    },
+    "livy-terminal.jpg": {
+      "key": "livy",
+      "surface_slug": "terminal",
+      "file": "livy-terminal.jpg",
+      "bytes": 210847,
+      "provenance": null
+    },
+    "livy-thumb.jpg": {
+      "key": "livy",
+      "surface_slug": "thumb",
+      "file": "livy-thumb.jpg",
+      "bytes": 36347,
+      "provenance": null
+    },
+    "lycurgus-card.jpg": {
+      "key": "lycurgus",
+      "surface_slug": "card",
+      "file": "lycurgus-card.jpg",
+      "bytes": 203028,
+      "provenance": null
+    },
+    "lycurgus-terminal.jpg": {
+      "key": "lycurgus",
+      "surface_slug": "terminal",
+      "file": "lycurgus-terminal.jpg",
+      "bytes": 216741,
+      "provenance": null
+    },
+    "lycurgus-thumb.jpg": {
+      "key": "lycurgus",
+      "surface_slug": "thumb",
+      "file": "lycurgus-thumb.jpg",
+      "bytes": 45939,
+      "provenance": null
+    },
+    "marcus-aurelius-card.jpg": {
+      "file": "marcus-aurelius-card.jpg",
+      "key": "marcus-aurelius",
+      "surface": "hero/arena",
+      "surface_slug": "card",
+      "grammar": "presented",
+      "source": "openart-sample_1785298134607_0c729ad1.jpg",
+      "note": "gilded muscled cuirass, frontier camp; living flesh clauses fixed the marble failure",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "seed": null,
+      "date": "2026-07-29",
+      "stored_saturation": 0.336,
+      "art_sat": 0.312,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "prompt_file": null,
+      "bytes": 168354
+    },
+    "marcus-aurelius-terminal.jpg": {
+      "file": "marcus-aurelius-terminal.jpg",
+      "key": "marcus-aurelius",
+      "surface": "terminal",
+      "surface_slug": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785302369716_38141979.png",
+      "note": "young Marcus teaching two boys in a colonnade; warm daylight, the lightest plate in the set | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "seed": null,
+      "date": "2026-07-29",
+      "stored_saturation": 0.281,
+      "art_sat": 0.373,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "pool_x": 74,
+      "pool_op": 0.73,
+      "key_side": "RIGHT",
+      "prompt_file": null,
+      "bytes": 118271
+    },
+    "marcus-aurelius-thumb.jpg": {
+      "key": "marcus-aurelius",
+      "surface_slug": "thumb",
+      "file": "marcus-aurelius-thumb.jpg",
+      "bytes": 47424,
+      "provenance": null
+    },
+    "moses-card.jpg": {
+      "figure": "Moses",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_moses.txt#CARD",
+      "source": "openart-sample_1785480843342_ef831590.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "backlit silhouette against an enormous setting blood moon; two sacrificial altars burning on tripods with smoke columns. FACE DELIBERATELY DARK - no likeness of Moses survives, and every surface in the product prints the name in text, so the plate never has to identify him. ART_SAT SET TO 0.75 BY HAND, NOT TO THE DECK'S 0.105 TARGET: this is the one plate whose colour IS its composition, and the computed 0.43 muted the moon to brick. Knowing exception. TWO DEFECTS ACCEPTED: the woven mantle came back with RED AND BLUE stripes, a second colour family the brief forbade (the prompt asked for 'a striped mantle' and got dyed stripes - drop the word 'striped' next time); and the audit's lateral key reads 0.020 because a backlight directly behind the figure has no lateral separation by definition - radial is 0.181.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.019,
+        "key_radial": 0.204,
+        "key_side": "RIGHT",
+        "value_span": 232,
+        "accent_sat": 0.252,
+        "tile_contrast": 63.984
+      },
+      "art_sat": 0.75,
+      "file": "moses-card.jpg",
+      "key": "moses",
+      "surface_slug": "card",
+      "bytes": 168695
+    },
+    "moses-terminal.jpg": {
+      "figure": "Moses",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_moses.txt#TERMINAL",
+      "source": "openart-sample_1785481024469_f919d815.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "Mount Nebo at moonset, Deuteronomy 34 - shown the land, forbidden to enter it. Four of the ten works in library/moses.json are Deuteronomy, so this is the room's endpoint. PASSED ALL FOUR ENFORCED RULES. CLEANEST READING OF THE INVARIANT IN THE DECK: accent 0.036 with warm pixels at 0.11% of frame - the bronze staff finial is the only colour in the picture, which is exactly 'a single warm accent carried only on metal'. ONE ANACHRONISM ACCEPTED: he wears heavy leather riding boots rather than sandals, and the town below reads medieval rather than Bronze Age.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.065,
+        "key_radial": 0.308,
+        "key_side": "RIGHT",
+        "value_span": 218.667,
+        "accent_sat": 0.003,
+        "tile_contrast": 95.902
+      },
+      "art_sat": 1,
+      "file": "moses-terminal.jpg",
+      "key": "moses",
+      "surface_slug": "terminal",
+      "bytes": 160686
+    },
+    "moses-thumb.jpg": {
+      "key": "moses",
+      "surface_slug": "thumb",
+      "file": "moses-thumb.jpg",
+      "bytes": 42867,
+      "provenance": null
+    },
+    "musashi-card.jpg": {
+      "figure": "Miyamoto Musashi",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_musashi_card_v2.txt",
+      "source": "openart-sample_1785283529256_fe1ead07.png",
+      "crop": "trimmed to 0.571",
+      "seed": null,
+      "note": "v2 prompt — temple, mountains, rain, jingasa. Passed all four rules first run. | key is 'musashi' per the roster record, NOT 'miyamoto-musashi'. He has no library/ file, so the key was inferred from the frederick-douglass pattern and inferred wrong.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.31,
+        "value_span": 225.333,
+        "accent_sat": 0.078,
+        "tile_contrast": 86.108
+      },
+      "art_sat": 1,
+      "file": "musashi-card.jpg",
+      "key": "musashi",
+      "surface_slug": "card",
+      "bytes": 192174
+    },
+    "musashi-terminal.jpg": {
+      "file": "musashi-terminal.jpg",
+      "key": "musashi",
+      "surface": "terminal",
+      "surface_slug": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785291446425_c72fbd2e.png",
+      "note": "veranda of a castle keep; best key strength in the set at 0.428 | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image. | key is 'musashi' per the roster record, NOT 'miyamoto-musashi'. He has no library/ file, so the key was inferred from the frederick-douglass pattern and inferred wrong.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "seed": null,
+      "date": "2026-07-29",
+      "stored_saturation": 0.002,
+      "art_sat": 1,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "pool_x": 26,
+      "pool_op": 0.92,
+      "key_side": "LEFT",
+      "prompt_file": null,
+      "bytes": 137000
+    },
+    "musashi-thumb.jpg": {
+      "key": "musashi",
+      "surface_slug": "thumb",
+      "file": "musashi-thumb.jpg",
+      "bytes": 51868,
+      "provenance": null
+    },
+    "nimrod-card.jpg": {
+      "key": "nimrod",
+      "surface_slug": "card",
+      "file": "nimrod-card.jpg",
+      "bytes": 160637,
+      "provenance": null
+    },
+    "nimrod-terminal.jpg": {
+      "key": "nimrod",
+      "surface_slug": "terminal",
+      "file": "nimrod-terminal.jpg",
+      "bytes": 246208,
+      "provenance": null
+    },
+    "nimrod-thumb.jpg": {
+      "key": "nimrod",
+      "surface_slug": "thumb",
+      "file": "nimrod-thumb.jpg",
+      "bytes": 30625,
+      "provenance": null
+    },
+    "oliver-cromwell-card.jpg": {
+      "figure": "Oliver Cromwell",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_oliver-cromwell.txt#CARD",
+      "source": "openart-sample_1785479051448_8e65d1d1.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "mounted at night, full moon in frame, burning fields distant, rain beginning. PASSED ALL FOUR ENFORCED RULES on the first run - only tesla-card had done that before. key_side LEFT agrees with the moon's position in frame, so the CSS-era problem of two light sources arguing does not arise. THE MOON IS NOW LITERAL: HANDOFF left open whether it stays a marker from the pencil work or enters the picture; this plate decides it.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.177,
+        "key_radial": 0.327,
+        "key_side": "LEFT",
+        "value_span": 217,
+        "accent_sat": 0.116,
+        "tile_contrast": 73.628
+      },
+      "art_sat": 0.901,
+      "file": "oliver-cromwell-card.jpg",
+      "key": "oliver-cromwell",
+      "surface_slug": "card",
+      "bytes": 148372
+    },
+    "oliver-cromwell-terminal.jpg": {
+      "figure": "Oliver Cromwell",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_oliver-cromwell.txt#TERMINAL",
+      "source": "openart-sample_1785479173690_d2de7245.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "writing the dispatch after Naseby by one lantern; buff coat, map, lobster-tail pot helmet on the board, straw floor. PASSED ALL FOUR ENFORCED RULES. Effectively monochrome at accent 0.068. The prompt that produced this was replaced in PROMPTS_BATCH_05.txt by the Parliament-doors scene, which remains unshot and is a candidate for oliver-cromwell-chat.jpg.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.066,
+        "key_radial": 0.113,
+        "key_side": "LEFT",
+        "value_span": 235.333,
+        "accent_sat": 0.035,
+        "tile_contrast": 85.152
+      },
+      "art_sat": 1,
+      "file": "oliver-cromwell-terminal.jpg",
+      "key": "oliver-cromwell",
+      "surface_slug": "terminal",
+      "bytes": 137336
+    },
+    "oliver-cromwell-thumb.jpg": {
+      "key": "oliver-cromwell",
+      "surface_slug": "thumb",
+      "file": "oliver-cromwell-thumb.jpg",
+      "bytes": 41613,
+      "provenance": null
+    },
+    "plato-card.jpg": {
+      "figure": "Plato",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_plato.txt#CARD",
+      "source": "openart-sample_1785541464109_081647c6.png",
+      "crop": "trimmed 16px of height to 0.571 | source 576x1024, UPSAMPLED to 1120 tall (deck standard is 2048 downsampled)",
+      "seed": null,
+      "note": "Teaching at dusk on the plateau west of Athens, about 385 BC - seated at a low podium cutting a wax tablet, pupils in white chitons, a boy raking the sand, oil lamps in the sand, and the plateau dropping away to the Saronic Gulf with the lit Acropolis on the headland. REPLACES an earlier palaestra version and fixes its three faults: blown highlights went from 22% of frame to 0.0%, accent from 0.492 to 0.284, true shadow from 8% to 14%. NOTABLE - head_room measures 0.010, the FIRST NON-ZERO READING IN THE DECK. Every other plate reads 0.000 because something bright touches the top row; this one has genuine measured air above the figure, which is what the rewritten framing clause was for. TWO DEFECTS ACCEPTED KNOWINGLY. FIRST, the pupils are all open-mouthed and wide-eyed as though astonished, where the brief asked for thoughtful faces following a hard argument; at 340x560 in the codex those expressions read as comic. SECOND, it generated at 576x1024 - the second sub-2K roll running - so it is UPSAMPLED to 1120 where every other plate is downsampled from 2048.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.08,
+        "key_radial": 0.287,
+        "value_span": 194.333,
+        "accent_sat": 0.284,
+        "tile_contrast": 73.525
+      },
+      "art_sat": 0.369,
+      "file": "plato-card.jpg",
+      "key": "plato",
+      "surface_slug": "card",
+      "bytes": 126198
+    },
+    "plato-terminal.jpg": {
+      "figure": "Plato",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_plato.txt#TERMINAL",
+      "source": "openart-sample_1785538183678_620bbfcf.png",
+      "crop": "trimmed 32px of height to 0.571 | source was 1152x2048; downsampled",
+      "seed": null,
+      "note": "The Allegory of the Cave, Republic VII, as a ROOM PORTRAIT in the manner of the Alps and the Advocates Library - the invariant's shallow-focus background clause deliberately reversed so the cave reads as the subject. Prisoners chained at neck and ankle facing the wall, the raised walkway with figures carrying carved shapes on poles, the fire as the only real light, and the shadows enormous on the far wall as the largest thing in frame. Plato stands at the foot of the passage having come back down - the Republic requires the philosopher to return into the cave. Key reads LEFT, which is the fire, exactly as specified. Fails only on accent at 0.185, a hairline over the 0.18 ceiling on a firelit scene. TWO MINOR DEVIATIONS: Plato is roughly a third of the frame height rather than the under-a-fifth the brief asked for, and a lit candelabrum at the right edge introduces a second small light the brief did not call for.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.148,
+        "key_radial": 0.247,
+        "value_span": 223,
+        "accent_sat": 0.184,
+        "tile_contrast": 72.911
+      },
+      "art_sat": 0.571,
+      "file": "plato-terminal.jpg",
+      "key": "plato",
+      "surface_slug": "terminal",
+      "bytes": 172617
+    },
+    "plato-thumb.jpg": {
+      "key": "plato",
+      "surface_slug": "thumb",
+      "file": "plato-thumb.jpg",
+      "bytes": 30763,
+      "provenance": null
+    },
+    "plutarch-card.jpg": {
+      "key": "plutarch",
+      "surface_slug": "card",
+      "file": "plutarch-card.jpg",
+      "bytes": 186544,
+      "provenance": null
+    },
+    "plutarch-terminal.jpg": {
+      "key": "plutarch",
+      "surface_slug": "terminal",
+      "file": "plutarch-terminal.jpg",
+      "bytes": 205140,
+      "provenance": null
+    },
+    "plutarch-thumb.jpg": {
+      "key": "plutarch",
+      "surface_slug": "thumb",
+      "file": "plutarch-thumb.jpg",
+      "bytes": 40891,
+      "provenance": null
+    },
+    "romulus-card.jpg": {
+      "key": "romulus",
+      "surface_slug": "card",
+      "file": "romulus-card.jpg",
+      "bytes": 181098,
+      "provenance": null
+    },
+    "romulus-terminal.jpg": {
+      "key": "romulus",
+      "surface_slug": "terminal",
+      "file": "romulus-terminal.jpg",
+      "bytes": 130029,
+      "provenance": null
+    },
+    "romulus-thumb.jpg": {
+      "key": "romulus",
+      "surface_slug": "thumb",
+      "file": "romulus-thumb.jpg",
+      "bytes": 33494,
+      "provenance": null
+    },
+    "seneca-card.jpg": {
+      "figure": "Seneca the Younger",
+      "key": "seneca",
+      "file": "seneca-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785544981248_573c2bff.jpg",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "The bath, AD 65, ordered to die by his own pupil. THE GUARD LANDED ON THE BODY: gaunt, sinewy, hollow-cheeked, thin grey hair, clean-shaven, an old man's frame - Tacitus records that an austere diet had wasted him. The secretary standing behind, still writing, is the detail that carries the plate: he went on dictating throughout. THREE DEVIATIONS ACCEPTED KNOWINGLY. The tub returned ROUND where the brief specified a long rectangle. The blood is a vivid red ribbon on the surface rather than the faint clouding thread written - still no wound in frame, no red bath, nothing graphic, but more emphatic than briefed. And the face reads slightly strained where the entire brief was composure. Also note this is a LIGHT plate: 5% of frame under 40/255, mean luminance 117, span 181 - second lightest in the deck. ON THE DEATH BEING THE CARD: this is his roster face, chosen deliberately because it is the one thing everyone knows about him and what the argument finally cost.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.177,
+        "key_radial": 0.218,
+        "key_side": "LEFT",
+        "value_span": 179.333,
+        "accent_sat": 0.243,
+        "tile_contrast": 79.364,
+        "shadow_frac": 0.047,
+        "blown_frac": 0,
+        "head_room": 0,
+        "mean_lum": 118.3
+      },
+      "art_sat": 0.433,
+      "stored_saturation": 0.243,
+      "prompt_file": "PROMPT_seneca.txt#CARD",
+      "bytes": 106184
+    },
+    "seneca-terminal.jpg": {
+      "figure": "Seneca the Younger",
+      "key": "seneca",
+      "file": "seneca-terminal.jpg",
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785544934621_ac1d4055.png",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Writing On the Shortness of Life in his own marble hall, about AD 62, while still the richest private man in the empire and still Nero's minister. Commissioned as a ROOM PORTRAIT with the invariant's shallow-focus background clause reversed so the wealth reads as the subject. THE BEST ROOM PORTRAIT IN THE DECK: massy columns, gilt coffered ceiling, gold lion-mask table legs, white marble top, silver vessels, scrolls, wax tablets, mosaic floor, and household attendants standing motionless down the colonnade waiting to be needed and not being needed. The plain white tunic with its narrow purple stripe reads as the only plain thing in frame, exactly as briefed. TWO DEVIATIONS ACCEPTED: accent 0.491 ties plato-card for the highest saturation in the deck, so the CSS grade takes it to 0.214; and he sits DEAD CENTRE at roughly 40% of frame height rather than off to one side under a third, the same drift the Hume library plate showed. Minor anachronism: the coffered ceiling carries what read as recessed downlights.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.085,
+        "key_radial": 0.198,
+        "key_side": "LEFT",
+        "value_span": 220.667,
+        "accent_sat": 0.497,
+        "tile_contrast": 84.206,
+        "shadow_frac": 0.294,
+        "blown_frac": 0.0004,
+        "head_room": 0,
+        "mean_lum": 86
+      },
+      "art_sat": 0.211,
+      "stored_saturation": 0.497,
+      "prompt_file": "PROMPT_seneca.txt#TERMINAL",
+      "bytes": 165632
+    },
+    "seneca-thumb.jpg": {
+      "key": "seneca",
+      "surface_slug": "thumb",
+      "file": "seneca-thumb.jpg",
+      "bytes": 34650,
+      "provenance": null
+    },
+    "shaka-card.jpg": {
+      "figure": "Shaka kaSenzangakhona",
+      "key": "shaka",
+      "file": "shaka-card.jpg",
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785556156167_eb07fa4f.jpg",
+      "crop": "trimmed 32px of height to 0.571 | source 1152x2048, downsampled to 1120 tall",
+      "seed": null,
+      "note": "Before his regiments in dawn mist at kwaBulawayo, about 1824. STRONGEST KEY IN THE DECK at radial 0.491, taking the record from hannibal-card at 0.433. THE SHIELD GUARD WORKED ON THE SECOND ROLL: the first returned a small round disc, and rewriting the clause by SIZE AGAINST A BODY PART - a full cowhide from chin to knee, oval, NOT round and NOT small - produced the correct isihlangu, and the ranks behind him carry the same, so the shield wall reads. That is the Gandhi lesson applied: six polite requests for small round wire spectacles failed where he is fat landed first roll. Describe the thing, then refuse the default. TWO DEFECTS ACCEPTED KNOWINGLY. FIRST, the spear is still LONG-HAFTED and held vertically like a staff: the blade came back broad and leaf-shaped, so half the clause landed, but no longer than a forearm, gripped underhand at the hip did not. The iklwa is the single thing he is most remembered for. SECOND, the specified sunrise never arrived - flat grey mist, no god-rays, no raking light - which is why true shadow is 12.5% against the first roll's 24.8% and mean luminance rose to 112.6. THE ROOM: he left no writing, so library/shaka.json holds two archives and labels which is which - three izibongo as plain-English renderings of the praise-names, and three travellers' accounts still to be sourced from Isaacs 1836 and Bryant 1929.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-08-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.023,
+        "key_radial": 0.494,
+        "key_side": "RIGHT",
+        "value_span": 193,
+        "accent_sat": 0.333,
+        "tile_contrast": 91.779,
+        "shadow_frac": 0.119,
+        "blown_frac": 0,
+        "head_room": 0,
+        "mean_lum": 113.5
+      },
+      "art_sat": 0.315,
+      "stored_saturation": 0.333,
+      "prompt_file": "PROMPT_shaka.txt#CARD",
+      "bytes": 168791
+    },
+    "shaka-terminal.jpg": {
+      "key": "shaka",
+      "surface_slug": "terminal",
+      "file": "shaka-terminal.jpg",
+      "bytes": 221162,
+      "provenance": null
+    },
+    "shaka-thumb.jpg": {
+      "key": "shaka",
+      "surface_slug": "thumb",
+      "file": "shaka-thumb.jpg",
+      "bytes": 45802,
+      "provenance": null
+    },
+    "shakespeare-william-card.jpg": {
+      "key": "shakespeare-william",
+      "surface_slug": "card",
+      "file": "shakespeare-william-card.jpg",
+      "bytes": 185058,
+      "provenance": null
+    },
+    "shakespeare-william-terminal-2.jpg": {
+      "key": "shakespeare-william",
+      "surface_slug": "terminal",
+      "file": "shakespeare-william-terminal-2.jpg",
+      "bytes": 207343,
+      "provenance": null
+    },
+    "shakespeare-william-terminal-3.jpg": {
+      "key": "shakespeare-william",
+      "surface_slug": "terminal",
+      "file": "shakespeare-william-terminal-3.jpg",
+      "bytes": 190896,
+      "provenance": null
+    },
+    "shakespeare-william-terminal.jpg": {
+      "key": "shakespeare-william",
+      "surface_slug": "terminal",
+      "file": "shakespeare-william-terminal.jpg",
+      "bytes": 171824,
+      "provenance": null
+    },
+    "shakespeare-william-thumb.jpg": {
+      "key": "shakespeare-william",
+      "surface_slug": "thumb",
+      "file": "shakespeare-william-thumb.jpg",
+      "bytes": 36567,
+      "provenance": null
+    },
+    "solon-card.jpg": {
+      "key": "solon",
+      "surface_slug": "card",
+      "file": "solon-card.jpg",
+      "bytes": 211441,
+      "provenance": null
+    },
+    "solon-terminal.jpg": {
+      "key": "solon",
+      "surface_slug": "terminal",
+      "file": "solon-terminal.jpg",
+      "bytes": 232015,
+      "provenance": null
+    },
+    "solon-thumb.jpg": {
+      "key": "solon",
+      "surface_slug": "thumb",
+      "file": "solon-thumb.jpg",
+      "bytes": 39278,
+      "provenance": null
+    },
+    "sun-tzu-card.jpg": {
+      "figure": "Sun Tzu",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_04.txt#SUN TZU — CARD",
+      "note": "gold and silver added in post with goldleaf2.metal (metal-sharp). The plate returned dead neutral at R-B -0.36 because the leading clause said 'no colour'; accent keyed to existing speculars rather than painted on. Micro-contrast 7.98 -> 11.4.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "seed": null,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "file": "sun-tzu-card.jpg",
+      "source": "suntzu_metal-sharp.jpg",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.019,
+        "value_span": 232.667,
+        "accent_sat": 0.064,
+        "tile_contrast": 55.731
+      },
+      "art_sat": 1,
+      "key": "sun-tzu",
+      "surface_slug": "card",
+      "bytes": 197403
+    },
+    "sun-tzu-terminal.jpg": {
+      "figure": "Sun Tzu",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_04.txt#SUN TZU — READING ROOM",
+      "note": "campaign tent, writing on bamboo slips by lamplight. Period cues all held: bamboo not paper, straight jian not sabre, corded topknot. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "seed": null,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "file": "sun-tzu-terminal.jpg",
+      "source": "openart-sample_1785290300246_9fffd812.jpg",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.022,
+        "value_span": 227.667,
+        "accent_sat": 0.013,
+        "tile_contrast": 82.982
+      },
+      "art_sat": 1,
+      "key": "sun-tzu",
+      "surface_slug": "terminal",
+      "pool_x": 74,
+      "pool_op": 0.92,
+      "key_side": "RIGHT",
+      "bytes": 158498
+    },
+    "sun-tzu-thumb.jpg": {
+      "key": "sun-tzu",
+      "surface_slug": "thumb",
+      "file": "sun-tzu-thumb.jpg",
+      "bytes": 56591,
+      "provenance": null
+    },
+    "tacitus-card.jpg": {
+      "figure": "Tacitus",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPT_tacitus.txt#CARD",
+      "source": "openart-sample_1785531770326_9cae116e.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "AD 97, newly consul, on the wet Curia steps at night; bronze doors shut behind him, torches in iron brackets, bronze-cased scroll at his side. The rain solves the material problem BATCH_02 recorded - wool returns 60.8 specular pop against oiled leather's 124.3 - by soaking the toga until it goes dark and gleaming. Face is exactly the guard: lean, close-shaven, hair short and forward in the Trajanic manner, not a bearded philosopher. TWO DEFECTS ACCEPTED: the purple broad stripe sits on the toga rather than on the tunic beneath it, and the toga reads undyed brown rather than white wool. The specified low moon did not appear. Lateral key 0.041 is the x-only metric failing on a frontal torch-lit subject; radial is 0.180.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.04,
+        "key_radial": 0.177,
+        "value_span": 224,
+        "accent_sat": 0.259,
+        "tile_contrast": 59.479
+      },
+      "art_sat": 0.405,
+      "file": "tacitus-card.jpg",
+      "key": "tacitus",
+      "surface_slug": "card",
+      "bytes": 140314
+    },
+    "tacitus-terminal.jpg": {
+      "figure": "Tacitus",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPT_tacitus.txt#TERMINAL",
+      "source": "openart-sample_1785531704354_2a0a8eb8.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "About AD 116, twenty years on, writing the Annals alone by a two-wick bronze lamp. Pigeonholed scroll shelving behind, lamp smoke rising through the key, and a MARBLE BUST OF TIBERIUS on a plinth at the edge of the light, facing him - the emperor whose reign he is writing, watching him work. Toga removed and every highlight moved onto bronze, lamp oil and marble, which is why this plate holds its speculars where a wool-heavy one would not. ONE DEFECT ACCEPTED: he writes with a bronze stylus on parchment rather than cutting into wax - a stylus is a wax instrument. NOTE the audit reports key_side RIGHT while the lamp is plainly at the viewer's left; the bright white bust drags the bright centroid across. Radial key 0.208.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.201,
+        "key_radial": 0.202,
+        "value_span": 228.333,
+        "accent_sat": 0.195,
+        "tile_contrast": 83.388
+      },
+      "art_sat": 0.539,
+      "file": "tacitus-terminal.jpg",
+      "key": "tacitus",
+      "surface_slug": "terminal",
+      "bytes": 140023
+    },
+    "tacitus-thumb.jpg": {
+      "key": "tacitus",
+      "surface_slug": "thumb",
+      "file": "tacitus-thumb.jpg",
+      "bytes": 43697,
+      "provenance": null
+    },
+    "tesla-card.jpg": {
+      "figure": "Nikola Tesla",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "prompt_file": "PROMPTS_BATCH_03.txt#TESLA — CARD",
+      "source": "openart-sample_1785281430336_eb8d4f79.png",
+      "crop": "trimmed to 0.571",
+      "seed": null,
+      "note": "first card to pass all four enforced rules.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.106,
+        "value_span": 220.333,
+        "accent_sat": 0.158,
+        "tile_contrast": 49.19
+      },
+      "art_sat": 0.691,
+      "file": "tesla-card.jpg",
+      "key": "tesla",
+      "surface_slug": "card",
+      "bytes": 104079
+    },
+    "tesla-terminal.jpg": {
+      "figure": "Nikola Tesla",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "prompt_file": "PROMPTS_BATCH_04.txt#TESLA — READING ROOM  (revised)",
+      "note": "monochrome clause led; 0.177 on a brass-heavy scene | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-28",
+      "seed": null,
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "file": "tesla-terminal.jpg",
+      "source": "openart-sample_1785290376995_4747f1eb.png",
+      "audit": {
+        "aspect": 0.562,
+        "key_strength": 0.071,
+        "value_span": 239.667,
+        "accent_sat": 0.164,
+        "tile_contrast": 74.355
+      },
+      "art_sat": 0.642,
+      "key": "tesla",
+      "surface_slug": "terminal",
+      "pool_x": 74,
+      "pool_op": 0.92,
+      "key_side": "RIGHT",
+      "bytes": 133826
+    },
+    "tesla-thumb.jpg": {
+      "key": "tesla",
+      "surface_slug": "thumb",
+      "file": "tesla-thumb.jpg",
+      "bytes": 35223,
+      "provenance": null
+    },
+    "theseus-card.jpg": {
+      "key": "theseus",
+      "surface_slug": "card",
+      "file": "theseus-card.jpg",
+      "bytes": 197183,
+      "provenance": null
+    },
+    "theseus-terminal.jpg": {
+      "key": "theseus",
+      "surface_slug": "terminal",
+      "file": "theseus-terminal.jpg",
+      "bytes": 231465,
+      "provenance": null
+    },
+    "theseus-thumb.jpg": {
+      "key": "theseus",
+      "surface_slug": "thumb",
+      "file": "theseus-thumb.jpg",
+      "bytes": 37000,
+      "provenance": null
+    },
+    "thomas-jefferson-card.jpg": {
+      "key": "thomas-jefferson",
+      "surface_slug": "card",
+      "file": "thomas-jefferson-card.jpg",
+      "bytes": 165283,
+      "provenance": null
+    },
+    "thomas-jefferson-terminal-2.jpg": {
+      "key": "thomas-jefferson",
+      "surface_slug": "terminal",
+      "file": "thomas-jefferson-terminal-2.jpg",
+      "bytes": 266088,
+      "provenance": null
+    },
+    "thomas-jefferson-terminal.jpg": {
+      "key": "thomas-jefferson",
+      "surface_slug": "terminal",
+      "file": "thomas-jefferson-terminal.jpg",
+      "bytes": 227088,
+      "provenance": null
+    },
+    "thomas-jefferson-thumb.jpg": {
+      "key": "thomas-jefferson",
+      "surface_slug": "thumb",
+      "file": "thomas-jefferson-thumb.jpg",
+      "bytes": 36952,
+      "provenance": null
+    },
+    "thoth-card.jpg": {
+      "key": "thoth",
+      "surface_slug": "card",
+      "file": "thoth-card.jpg",
+      "bytes": 200209,
+      "provenance": null
+    },
+    "thoth-terminal-2.jpg": {
+      "key": "thoth",
+      "surface_slug": "terminal",
+      "file": "thoth-terminal-2.jpg",
+      "bytes": 247692,
+      "provenance": null
+    },
+    "thoth-terminal.jpg": {
+      "key": "thoth",
+      "surface_slug": "terminal",
+      "file": "thoth-terminal.jpg",
+      "bytes": 244298,
+      "provenance": null
+    },
+    "thoth-thumb.jpg": {
+      "key": "thoth",
+      "surface_slug": "thumb",
+      "file": "thoth-thumb.jpg",
+      "bytes": 43794,
+      "provenance": null
+    },
+    "thucydides-card.jpg": {
+      "key": "thucydides",
+      "surface_slug": "card",
+      "file": "thucydides-card.jpg",
+      "bytes": 195481,
+      "provenance": null
+    },
+    "thucydides-terminal.jpg": {
+      "key": "thucydides",
+      "surface_slug": "terminal",
+      "file": "thucydides-terminal.jpg",
+      "bytes": 183679,
+      "provenance": null
+    },
+    "thucydides-thumb.jpg": {
+      "key": "thucydides",
+      "surface_slug": "thumb",
+      "file": "thucydides-thumb.jpg",
+      "bytes": 36500,
+      "provenance": null
+    },
+    "wd-gann-card.jpg": {
+      "key": "wd-gann",
+      "surface_slug": "card",
+      "file": "wd-gann-card.jpg",
+      "bytes": 199388,
+      "provenance": null
+    },
+    "wd-gann-terminal-2.jpg": {
+      "key": "wd-gann",
+      "surface_slug": "terminal",
+      "file": "wd-gann-terminal-2.jpg",
+      "bytes": 230498,
+      "provenance": null
+    },
+    "wd-gann-terminal.jpg": {
+      "key": "wd-gann",
+      "surface_slug": "terminal",
+      "file": "wd-gann-terminal.jpg",
+      "bytes": 240051,
+      "provenance": null
+    },
+    "wd-gann-thumb.jpg": {
+      "key": "wd-gann",
+      "surface_slug": "thumb",
+      "file": "wd-gann-thumb.jpg",
+      "bytes": 27311,
+      "provenance": null
+    }
+  }
+}
