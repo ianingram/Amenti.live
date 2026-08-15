@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-14T07:36:27.426Z",
-    "reading": "2026-08-14T07:36:27.335Z",
+    "merged": "2026-08-15T00:20:52.470Z",
+    "reading": "2026-08-15T00:20:52.362Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -241,13 +241,13 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-08-14T06:47:22.417Z",
+    "at": "2026-08-14T18:34:18.625Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 101,
+      "count": 103,
       "prefixes": {
         "atlantica:": 77,
-        "dailyplanet:": 18,
+        "dailyplanet:": 20,
         "week:": 6
       }
     },
@@ -387,11 +387,12 @@ window.FLEET_MANIFEST = {
         "cadence": "daily",
         "prefix": "dailyplanet:",
         "status": "OK",
-        "fired": 18,
+        "fired": 20,
         "last": "2026-11-08",
         "lastAgeDays": -86,
         "recent": [
           "dailyplanet:anubis:2026-11-08",
+          "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
           "dailyplanet:denis diderot:2026-09-06",
           "dailyplanet:edward gibbon:2026-11-08",
           "dailyplanet:enlil:2026-09-06",
@@ -399,10 +400,9 @@ window.FLEET_MANIFEST = {
           "dailyplanet:john calvin:2026-11-08",
           "dailyplanet:john ford:2026-11-08",
           "dailyplanet:julius caesar:2026-09-06",
-          "dailyplanet:lincoln:90-minutes-made-president",
-          "dailyplanet:lincoln:lincoln-s-cooper-union-speech-90-minutes"
+          "dailyplanet:lincoln:90-minutes-made-president"
         ],
-        "note": "18 piece(s) under \"dailyplanet:\" · last 2026-11-08"
+        "note": "20 piece(s) under \"dailyplanet:\" · last 2026-11-08"
       },
       "THE PODCAST": {
         "id": "THE PODCAST",
@@ -959,7 +959,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-14T06:47:20.703Z",
+        "at": "2026-08-14T18:34:17.229Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -977,7 +977,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-14T06:47:20.703Z",
+        "at": "2026-08-14T18:34:17.229Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -995,7 +995,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-14T06:47:20.703Z",
+        "at": "2026-08-14T18:34:17.229Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -1026,7 +1026,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-14T06:47:20.703Z",
+        "at": "2026-08-14T18:34:17.229Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
