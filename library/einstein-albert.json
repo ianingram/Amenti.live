@@ -1,0 +1,105 @@
+{
+  "key": "einstein-albert",
+  "name": "Albert Einstein",
+  "works": [
+    {
+      "id": "01a-relativity-3rd-ed",
+      "section": "Relativity — the reading text",
+      "title": "Relativity: The Special and the General Theory — 3rd edition",
+      "mode": "stored",
+      "source": "Lawson’s authorised translation, 3rd ed. · Project Gutenberg #36114 · public domain",
+      "note": "The preferred reading text. 738 equations survive as renderable LaTeX because this is a data-tex build.",
+      "file": "einstein-albert/01a-relativity-3rd-ed.md"
+    },
+    {
+      "id": "01-relativity",
+      "section": "Variants and the German original",
+      "title": "Relativity — the #5001 production",
+      "mode": "stored",
+      "source": "Lawson’s authorised 1920 translation · Project Gutenberg #5001 · public domain",
+      "note": "The same book as 01a, retained for Appendix IV. ~33,500 words; Appendix V is absent and still in copyright. Its 233 equations are spoken-form only, not typeset.",
+      "file": "einstein-albert/01-relativity.md"
+    },
+    {
+      "id": "04-meaning-of-relativity",
+      "section": "The technical counterpart",
+      "title": "The Meaning of Relativity — the Princeton lectures, 1921",
+      "mode": "stored",
+      "source": "Princeton lectures, May 1921 · Project Gutenberg #36276 · public domain",
+      "note": "Lectures I–IV only, a carve-out resolved as cleanly public domain. 1,165 equations as renderable LaTeX — the most mathematics in the room.",
+      "file": "einstein-albert/04-meaning-of-relativity.md"
+    },
+    {
+      "id": "05-sidelights",
+      "section": "Addresses and the Nobel lecture",
+      "title": "Sidelights on Relativity — two addresses",
+      "mode": "stored",
+      "source": "Leyden 1920 and Berlin 1921 · Project Gutenberg #7333 · public domain",
+      "note": "Complete, ~8,400 words, pure prose. Read “Geometry and Experience” first: it is where Einstein comes closest to writing philosophy rather than physics, and it is short.",
+      "file": "einstein-albert/05-sidelights.md"
+    },
+    {
+      "id": "06-nobel-lecture",
+      "section": "Addresses and the Nobel lecture",
+      "title": "Fundamental Ideas and Problems — the Nobel lecture",
+      "mode": "stored",
+      "source": "Gothenburg, 11 July 1923 · Project Gutenberg #69572 · public domain",
+      "note": "The shortest text here, ~3,800 words, and the best formula fidelity in the set: all 38 equations as real LaTeX.",
+      "file": "einstein-albert/06-nobel-lecture.md"
+    },
+    {
+      "id": "07-1905-papers",
+      "section": "The 1905 paper",
+      "title": "On the Electrodynamics of Moving Bodies",
+      "mode": "stored",
+      "source": "Annalen der Physik, 1905 · 1923 Methuen line via the Walker edition · public domain",
+      "note": "The special relativity paper, ~8,600 words. One damaged page: the conversion dropped p. 22, and with it the closing acknowledgement to Michele Besso.",
+      "file": "einstein-albert/07-1905-papers.md"
+    },
+    {
+      "id": "02-relativitaetstheorie-de-1917",
+      "section": "Variants and the German original",
+      "title": "Über die spezielle und die allgemeine Relativitätstheorie — the German original",
+      "mode": "stored",
+      "source": "Einstein’s own language, 1917 · Project Gutenberg #77850 · public domain",
+      "note": "Incomplete or an early printing — unresolved. Breaks off around the English Ch. XXV; Part III and the appendices are absent. Formulae are text rather than images, so notation survives better here than in the English.",
+      "file": "einstein-albert/02-relativitaetstheorie-de-1917.md"
+    },
+    {
+      "id": "03-principle-of-relativity",
+      "section": "Variants and the German original",
+      "title": "The Principle of Relativity — Calcutta, 1920",
+      "mode": "stored",
+      "source": "Saha and Bose translation, with Minkowski · Project Gutenberg #66944 · public domain",
+      "note": "Complete at ~60,500 words but the wrong edition — the Saha/Bose line rather than the 1923 Methuen. Contains the abridged 1905 paper; Besso is confirmed absent. Kept as a variant and as reception history.",
+      "file": "einstein-albert/03-principle-of-relativity.md"
+    },
+    {
+      "id": "00-index",
+      "section": "Beyond the room",
+      "title": "Manifest — editions, provenance, carve-outs",
+      "mode": "stored",
+      "source": "Room manifest · scouted 1 August 2026",
+      "note": "Which edition was taken and why, what was refused, and where the room is knowingly imperfect. Read before citing.",
+      "file": "einstein-albert/00-index.md"
+    },
+    {
+      "id": "08-linkouts",
+      "section": "Beyond the room",
+      "title": "Link-outs — what stays a link, and why",
+      "mode": "stored",
+      "source": "Room manifest · scouted 1 August 2026",
+      "note": "The reception shelf, the Princeton documentary edition, and the walled post-1929 writing.",
+      "file": "einstein-albert/08-linkouts.md"
+    },
+    {
+      "id": "digital-einstein-papers",
+      "section": "Beyond the room",
+      "title": "The Digital Einstein Papers",
+      "mode": "link",
+      "source": "Princeton University Press",
+      "note": "The full documentary edition, openly readable. The modern translations carry their own rights — link out, do not corpus.",
+      "url": "https://einsteinpapers.press.princeton.edu"
+    }
+  ]
+}
