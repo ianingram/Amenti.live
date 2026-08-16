@@ -1,5 +1,20 @@
 name: plate register
 
+# Regenerates img/PLATES.json whenever the images or the generator change.
+#
+# WHY THE PUSH LOOKS THE WAY IT DOES
+#   A plain `git push` raced the fleet-scanner workflow: both jobs check out
+#   main, do their work, and push. Whichever finishes second is rejected,
+#   because the remote moved underneath it. Git was right to refuse.
+#
+#   `git pull --rebase` replays this commit on top of whatever landed while the
+#   job was running, so the two registers stop fighting over the same ref. The
+#   retry loop covers the case where the remote moves again during the rebase.
+#
+#   [skip ci] on the commit stops this workflow re-triggering itself. Without
+#   it, writing PLATES.json under img/ matches the push filter below and the
+#   job fires again on its own output.
+
 on:
   workflow_dispatch:
   push:
@@ -27,5 +42,10 @@ jobs:
           git config user.name  "amenti-register"
           git config user.email "register@amenti.live"
           git add img/PLATES.json
-          git diff --staged --quiet || git commit -m "register: regenerate PLATES.json"
-          git push
+          git diff --staged --quiet && exit 0
+          git commit -m "register: regenerate PLATES.json [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push origin main && exit 0
+            sleep 5
+          done
+          echo "could not push after 5 attempts"; exit 1
