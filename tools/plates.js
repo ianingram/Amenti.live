@@ -1,39 +1,61 @@
 #!/usr/bin/env node
 /* ============================================================================
-   tools/plates.js — the plate register
+   tools/plates.js — the plate register, and the scene register
    ----------------------------------------------------------------------------
    Walks img/ and emits img/PLATES.json: every plate, what is known about it,
-   and — the part that did not exist before — a per-key index of which variants
-   each figure has.
+   and a per-key index of which variants each figure has.
+
+   NEW IN THIS CUT: img/scene/. A scene is a MOMENT a figure was in. It is not
+   a figure, it does not hold variants, and its absence is not a gap.
 
    IT DOES NOT WRITE img/MANIFEST.json. That file belongs to the Python art
    pipeline and is read at runtime by amenti-diagnose.js. This one reads it for
    provenance and publishes a DERIVED register beside it. Provenance has one
    owner; the index is a reflection of it.
 
-     node tools/plates.js            # write the manifest
+     node tools/plates.js            # write the register
      node tools/plates.js --check    # report only, write nothing, exit 1 on gaps
 
-   WHY THIS EXISTS
-     img/MANIFEST.json covers 46 files. There are 164. The
-     other 118 have no provenance at all — no model, no seed, no crop note, no
-     colour audit. Worse, the file was a flat map of FILENAMES, so the question
-     any surface actually asks — "does this figure have a terminal plate?" —
-     could only be answered by scanning the directory.
+   ── WHY THE SCENE REGISTER EXISTS ─────────────────────────────────────────
+   gw-winter-card.jpg and gw-winter-thumb.jpg sat in img/ and were registered
+   as a FIGURE named `gw-winter` holding two of three required variants. The
+   register duly reported a missing terminal plate and counted it against
+   49 of 51. It was George Washington at Valley Forge.
 
-   WHAT IS PRESERVED, AND WHY IT MATTERS
-     Every existing entry is carried forward BYTE FOR BYTE. Those records hold
-     things that cannot be recovered by looking at a file: which candidate of
-     four was chosen and why, the seed, the crop, whether the seed was ever
-     confirmed. A generator that regenerated them from scratch would silently
-     destroy the only copy. New files get a stub marked `provenance: null`,
-     which is an honest "not recorded" rather than a fabricated entry.
+   The checker was not wrong. The grammar had no room for the sentence.
+   `^(.*?)-(card|thumb|terminal|chat)` must parse a filename as key + variant,
+   so ANY scene dropped in img/ becomes a figure whose name is a moment. That
+   is not a bug to be caught — it is a category the naming convention could
+   not express.
 
-   THE COUNTS ARE OBSERVED, NEVER ASSUMED
-     A figure is not "complete" because the totals happen to match. Each variant
-     is checked per key. Equal counts across two lists is not the same as the
-     same fifty-one keys appearing on both, and that distinction has already
-     cost this project once.
+   ── THE ASYMMETRY THAT MATTERS ────────────────────────────────────────────
+   A figure key can be WRONG, because names.csv and library/ say what right is.
+   A scene tag COULD NOT BE WRONG, because nothing said what right was. That is
+   why scene keys drift silently while wd-gann was caught at one character.
+
+   Authority is what makes error possible. So a scene inherits the authority of
+   the figure it belongs to, and the grammar forbids a scene without one:
+
+       img/scene/{figure-key}--{scene-tag}[-{variant}].{ext}
+
+   The SUBDIRECTORY keeps scenes out of the figure grammar entirely. The DOUBLE
+   HYPHEN splits owner from moment unambiguously, which a single hyphen cannot
+   do because nearly every figure key already contains one.
+
+   ── THE FIGURE NEED NOT BE IN THE FRAME ───────────────────────────────────
+   Valley Forge without Washington in it is still his scene. The empty Senate
+   after Caesar leaves is still his. Ownership is EDITORIAL, not photographic —
+   a scene belongs to the figure whose story it serves, and depiction has
+   nothing to do with it. Nothing here checks what is in the picture, because
+   nothing could.
+
+   ── WHAT IS CHECKABLE, AND WHAT IS NOT ────────────────────────────────────
+   CHECKABLE   the owner is a real figure          → scenesWithoutFigure, fails --check
+   NOT         the tag names the right moment      → free text, never validated
+   NOT         a figure has any scenes at all      → absence is normal, never a gap
+
+   A register that reports what cannot be acted on teaches its reader to stop
+   reading it. Every article without a scene would be a row nobody can fix.
    ========================================================================== */
 
 'use strict';
@@ -42,7 +64,9 @@ const path = require('path');
 
 const ROOT     = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : '.';
 const IMG      = path.join(ROOT, 'img');
+const SCENES   = path.join(IMG, 'scene');
 const LIBRARY  = path.join(ROOT, 'library');
+const ROSTER   = path.join(ROOT, 'names.csv');
 /* NOT img/MANIFEST.json. That file is a WRITE TARGET for the Python art
    pipeline — provenance.py, seed.py, seeds_scan.py, ingest.py and
    apply_art_session.py all write to it, and amenti-diagnose.js reads it at
@@ -68,8 +92,21 @@ const VARIANTS = {
   chat:     { multiple: true,  required: false, note: 'incidental' },
 };
 
+/* Scene variants are a SHORT list and none of them is required. A scene may be
+   a single file. The bare form — owner--tag.jpg with no variant suffix — is
+   the lead image and is the common case. */
+const SCENE_VARIANTS = ['card', 'thumb', 'terminal', 'wide'];
+
 const PLATE = new RegExp(
   '^(.*?)-(' + Object.keys(VARIANTS).join('|') + ')(?:-(\\d+))?\\.(jpg|jpeg|png|webp)$', 'i');
+
+/* owner -- tag [ - variant ] . ext
+   The tag is non-greedy and the variant group is anchored to the end, so
+   `caesar--rubicon-dawn.jpg` reads as tag `rubicon-dawn` (no variant) while
+   `caesar--rubicon-thumb.jpg` reads as tag `rubicon`, variant `thumb`. Tags
+   may contain hyphens; only the closed variant list is special. */
+const SCENE = new RegExp(
+  '^(.+?)--(.+?)(?:-(' + SCENE_VARIANTS.join('|') + '))?\\.(jpg|jpeg|png|webp)$', 'i');
 
 function die(m){ console.error('REFUSES: ' + m); process.exit(2); }
 
@@ -105,7 +142,27 @@ if (fs.existsSync(LIBRARY)) {
     .sort();
 }
 
-/* ── WALK ─────────────────────────────────────────────────────────────── */
+/* ── THE ROSTER, IF IT IS THERE ───────────────────────────────────────────
+   Until now this register's only authority was library/ — which is why a scene
+   surfaced as "plate without room" rather than as anything more specific. The
+   roster is the stronger authority: 1,016 figures, most without a room. It is
+   read if present and simply skipped if not, because a register that refuses
+   to run without an optional input is a register nobody runs. */
+let roster = null;
+if (fs.existsSync(ROSTER)) {
+  try {
+    const lines = fs.readFileSync(ROSTER, 'utf8').split(/\r?\n/).filter(Boolean);
+    const head  = lines[0].split(',').map(s => s.trim().toLowerCase());
+    const col   = head.indexOf('key') > -1 ? head.indexOf('key') : 0;
+    roster = new Set(lines.slice(1)
+      .map(l => (l.split(',')[col] || '').trim().toLowerCase())
+      .filter(Boolean));
+  } catch (e) {
+    roster = null;   /* unreadable roster is not fatal; it is one fewer check */
+  }
+}
+
+/* ── WALK THE FIGURE PLATES ───────────────────────────────────────────── */
 const images = {};
 const keys   = {};
 const loose  = [];   // hero-bg, counsel-bg, book covers — not figure plates
@@ -127,31 +184,108 @@ for (const file of files) {
            "recorded as empty", and only one of them is true */
         provenance: null };
 
-  if (!keys[key]) keys[key] = { key, variants: {}, room: false, complete: false };
+  if (!keys[key]) keys[key] = { key, variants: {}, scenes: [], room: false, complete: false };
   if (!keys[key].variants[variant]) keys[key].variants[variant] = [];
   keys[key].variants[variant].push({ file, n });
+}
+
+/* ── WALK THE SCENES ──────────────────────────────────────────────────────
+   Scenes attach to the figure that owns them. They are NOT keys, they never
+   count toward `complete`, and they cannot create a figure — a scene whose
+   owner does not exist is reported, not registered. That is the one scene
+   failure worth printing, because it is the only one anybody can act on. */
+const scenes            = {};   // owner -> [ { tag, files } ]
+const scenesWithoutFigure = []; // owner is not a plate key and not on the roster
+const sceneMalformed      = []; // in img/scene/ but does not carry `--`
+let sceneFileCount = 0;
+
+if (fs.existsSync(SCENES)) {
+  const sf = fs.readdirSync(SCENES)
+    .filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f))
+    .sort();
+
+  for (const file of sf) {
+    const m = SCENE.exec(file);
+    if (!m) {
+      /* No `--`, so owner and moment cannot be separated. Naming it MALFORMED
+         rather than ORPHAN matters: an orphan has an owner who is missing, a
+         malformed file never said who its owner was. Different repairs. */
+      sceneMalformed.push(file);
+      continue;
+    }
+
+    const owner   = m[1].toLowerCase();
+    const tag     = m[2].toLowerCase();
+    const variant = m[3] ? m[3].toLowerCase() : 'lead';
+    const rel     = 'scene/' + file;
+    const stat    = fs.statSync(path.join(SCENES, file));
+
+    /* An owner is legitimate if it holds plates OR sits on the roster. The
+       roster is the wider net — a figure may be onboarded long before art
+       exists — so a scene for a plateless figure is fine and a scene for
+       a figure nobody has ever heard of is not. */
+    const known = !!keys[owner] || (roster ? roster.has(owner) : false);
+    if (!known) {
+      scenesWithoutFigure.push({ file: rel, owner, tag });
+      continue;
+    }
+
+    const was = prior[rel] || prior[file];
+    images[rel] = was
+      ? Object.assign({}, was, { key: owner, scene: tag, surface_slug: variant, bytes: stat.size })
+      : { key: owner, scene: tag, surface_slug: variant, file: rel, bytes: stat.size,
+          provenance: null };
+
+    if (!scenes[owner]) scenes[owner] = {};
+    if (!scenes[owner][tag]) scenes[owner][tag] = { tag, files: {} };
+    scenes[owner][tag].files[variant] = rel;
+    sceneFileCount++;
+  }
+}
+
+/* hang the scene list off the figure, so one lookup answers both questions */
+for (const owner of Object.keys(scenes)) {
+  const list = Object.keys(scenes[owner]).sort().map(t => scenes[owner][t]);
+  if (keys[owner]) keys[owner].scenes = list;
+  else keys[owner] = { key: owner, variants: {}, scenes: list,
+                       room: false, complete: false, missing: [], platesOnly: false };
 }
 
 /* ── RECONCILE AGAINST THE LIBRARY ────────────────────────────────────── */
 for (const k of Object.keys(keys)) keys[k].room = rooms.indexOf(k) > -1;
 const roomsNoPlate = rooms.filter(r => !keys[r]);
-const platesNoRoom = Object.keys(keys).filter(k => !keys[k].room).sort();
+/* a key with scenes but no card is not a "plate without room" in the old
+   sense — it is a figure represented only by moments. Kept separate so the
+   old report keeps meaning what it meant. */
+const platesNoRoom = Object.keys(keys)
+  .filter(k => !keys[k].room && Object.keys(keys[k].variants).length)
+  .sort();
 
 /* a figure is complete when it holds every REQUIRED variant — checked one key
    at a time. Totals matching across variants proves nothing about whether the
-   same figures appear in each. */
+   same figures appear in each. SCENES ARE NEVER PART OF THIS. A figure with no
+   scenes is not incomplete; it is a figure with no scenes. */
 const required = Object.keys(VARIANTS).filter(v => VARIANTS[v].required);
 const gaps = {};
 for (const k of Object.keys(keys)) {
+  /* a scene-only key holds no variants and must not be reported as a figure
+     missing all three — it was never claiming to be a figure plate */
+  if (!Object.keys(keys[k].variants).length) {
+    keys[k].complete = false;
+    keys[k].missing  = [];
+    keys[k].sceneOnly = true;
+    continue;
+  }
   const missing = required.filter(v => !keys[k].variants[v]);
   keys[k].complete = missing.length === 0;
   keys[k].missing  = missing;
   missing.forEach(v => { (gaps[v] = gaps[v] || []).push(k); });
 }
 
+const plateKeys = Object.keys(keys).filter(k => Object.keys(keys[k].variants).length);
 const tally = {};
 for (const v of Object.keys(VARIANTS)) {
-  tally[v] = Object.keys(keys).filter(k => keys[k].variants[v]).length;
+  tally[v] = plateKeys.filter(k => keys[k].variants[v]).length;
 }
 
 const out = {
@@ -160,13 +294,26 @@ const out = {
   generator: 'tools/plates.js',
   /* the schema, stated in the file, so a reader need not infer it */
   variants: VARIANTS,
+  sceneGrammar: {
+    path: 'img/scene/{figure-key}--{scene-tag}[-{variant}].{ext}',
+    variants: SCENE_VARIANTS,
+    bare: 'lead',
+    required: false,
+    note: 'a scene is a moment a figure was in. the figure need not be in the '
+        + 'frame — ownership is editorial, not photographic. absence is never '
+        + 'a gap. the owner is checkable; the tag is not.',
+  },
   totals: {
-    files: files.length,
-    plates: Object.keys(images).length,
-    keys: Object.keys(keys).length,
+    files: files.length + sceneFileCount,
+    plates: Object.keys(images).length - sceneFileCount,
+    keys: plateKeys.length,
     rooms: rooms.length,
+    scenes: Object.keys(scenes).reduce((n,o) => n + Object.keys(scenes[o]).length, 0),
+    sceneFiles: sceneFileCount,
+    figuresWithScenes: Object.keys(scenes).length,
+    rosterKnown: roster ? roster.size : null,
     byVariant: tally,
-    complete: Object.keys(keys).filter(k => keys[k].complete).length,
+    complete: plateKeys.filter(k => keys[k].complete).length,
     provenanced: Object.keys(images).filter(f => images[f].provenance !== null
                                              || images[f].model).length,
   },
@@ -174,8 +321,11 @@ const out = {
     missingByVariant: gaps,
     roomsWithoutPlates: roomsNoPlate,
     platesWithoutRooms: platesNoRoom,
+    scenesWithoutFigure: scenesWithoutFigure,
+    scenesMalformed: sceneMalformed,
     notPlates: loose,
   },
+  scenes,
   keys,
   images,
 };
@@ -184,7 +334,11 @@ const out = {
 const T = out.totals;
 console.log('plates    ' + T.plates + ' across ' + T.keys + ' keys  ('
           + loose.length + ' non-plate files ignored)');
-console.log('provenance ' + T.provenanced + ' of ' + T.plates
+console.log('scenes    ' + T.scenes + ' across ' + T.figuresWithScenes
+          + ' figures  (' + T.sceneFiles + ' files)');
+console.log('roster    ' + (roster ? T.rosterKnown + ' keys — scene owners checked against it'
+                                   : 'names.csv not read; scene owners checked against plates only'));
+console.log('provenance ' + T.provenanced + ' of ' + (T.plates + T.sceneFiles)
           + ' — the rest carry provenance:null, which is honest, not empty');
 console.log('');
 for (const v of Object.keys(VARIANTS)) {
@@ -200,8 +354,21 @@ for (const v of Object.keys(gaps)) {
 if (roomsNoPlate.length) console.log('room, no plate : ' + roomsNoPlate.join(', '));
 if (platesNoRoom.length) console.log('plate, no room : ' + platesNoRoom.join(', '));
 
+/* LISTS, NOT COUNTS. `passed: 5` was struck from the declaration for the same
+   reason: a count reconciles silently and looks quantitative. These are the
+   two scene failures anybody can act on, so they are printed in full. */
+if (scenesWithoutFigure.length) {
+  console.log('\nscene, no figure — the owner is not a plate key and not on the roster:');
+  scenesWithoutFigure.forEach(s => console.log('  ' + s.file + '   owner=' + s.owner));
+}
+if (sceneMalformed.length) {
+  console.log('\nscene, malformed — no `--`, so owner and moment cannot be separated:');
+  sceneMalformed.forEach(f => console.log('  scene/' + f));
+}
+
 if (CHECK) {
-  const bad = T.complete !== T.keys || roomsNoPlate.length || platesNoRoom.length;
+  const bad = T.complete !== T.keys || roomsNoPlate.length || platesNoRoom.length
+            || scenesWithoutFigure.length || sceneMalformed.length;
   console.log('\n--check: ' + (bad ? 'GAPS ABOVE' : 'clean') + ', nothing written');
   process.exit(bad ? 1 : 0);
 }
