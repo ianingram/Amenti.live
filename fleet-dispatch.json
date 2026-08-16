@@ -1,5 +1,5 @@
 {
-  "at": "2026-08-15T18:27:43.907Z",
+  "at": "2026-08-16T00:30:03.100Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 103,
@@ -9,8 +9,8 @@
       "week:": 6
     }
   },
-  "today": "2026-08-15",
-  "thisWeek": "2026-08-09",
+  "today": "2026-08-16",
+  "thisWeek": "2026-08-16",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
     "ATLANTICA": {
@@ -22,8 +22,9 @@
         "date": "2026-08-06",
         "figure": "shaka"
       },
-      "lastAgeDays": 9,
+      "lastAgeDays": 10,
       "missedLast14": [
+        "2026-08-15",
         "2026-08-14",
         "2026-08-13",
         "2026-08-12",
@@ -105,7 +106,7 @@
           "key": "atlantica:gilgamesh:2026-08-01"
         }
       ],
-      "note": "64 dispatch(es) in the hold · last 2026-08-06 (shaka) · MISSED 8 of the last 14 days"
+      "note": "64 dispatch(es) in the hold · last 2026-08-06 (shaka) · MISSED 9 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -119,7 +120,7 @@
         "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
       },
       "fired": 0,
-      "thisWeek": "2026-08-09",
+      "thisWeek": "2026-08-16",
       "assembled": false,
       "delivered": false,
       "schedule": {
@@ -130,14 +131,14 @@
       "lastDelivery": null,
       "recent": [],
       "missedLast8": [
+        "2026-08-09",
         "2026-08-02",
         "2026-07-26",
         "2026-07-19",
         "2026-07-12",
         "2026-07-05",
         "2026-06-28",
-        "2026-06-21",
-        "2026-06-14"
+        "2026-06-21"
       ],
       "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 2 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
@@ -148,7 +149,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -85,
+      "lastAgeDays": -84,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
