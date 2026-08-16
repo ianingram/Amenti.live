@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-16T20:14:51.683Z",
+  "generated": "2026-08-16T20:33:06.601Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -38,16 +38,16 @@
   },
   "totals": {
     "files": 165,
-    "plates": 158,
-    "keys": 51,
+    "plates": 157,
+    "keys": 50,
     "rooms": 51,
     "scenes": 1,
-    "sceneFiles": 1,
+    "sceneFiles": 2,
     "figuresWithScenes": 1,
     "rosterKnown": 1008,
     "byVariant": {
       "card": 50,
-      "thumb": 51,
+      "thumb": 50,
       "terminal": 49,
       "chat": 2
     },
@@ -57,11 +57,7 @@
   "gaps": {
     "missingByVariant": {
       "terminal": [
-        "albert-einstein",
-        "gw-winter"
-      ],
-      "card": [
-        "gw-winter"
+        "albert-einstein"
       ]
     },
     "roomsWithoutPlates": [
@@ -69,8 +65,7 @@
       "ingram"
     ],
     "platesWithoutRooms": [
-      "albert-einstein",
-      "gw-winter"
+      "albert-einstein"
     ],
     "scenesWithoutFigure": [],
     "scenesMalformed": [],
@@ -88,6 +83,7 @@
       "valley-forge": {
         "tag": "valley-forge",
         "files": {
+          "thumb": "scene/george-washington--valley-forge-thumb.jpg",
           "lead": "scene/george-washington--valley-forge.jpg"
         }
       }
@@ -608,6 +604,7 @@
         {
           "tag": "valley-forge",
           "files": {
+            "thumb": "scene/george-washington--valley-forge-thumb.jpg",
             "lead": "scene/george-washington--valley-forge.jpg"
           }
         }
@@ -642,24 +639,6 @@
       "room": true,
       "complete": true,
       "missing": []
-    },
-    "gw-winter": {
-      "key": "gw-winter",
-      "variants": {
-        "thumb": [
-          {
-            "file": "gw-winter-thumb.jpg",
-            "n": 1
-          }
-        ]
-      },
-      "scenes": [],
-      "room": false,
-      "complete": false,
-      "missing": [
-        "card",
-        "terminal"
-      ]
     },
     "hannibal": {
       "key": "hannibal",
@@ -2414,13 +2393,6 @@
       "bytes": 41367,
       "provenance": null
     },
-    "gw-winter-thumb.jpg": {
-      "key": "gw-winter",
-      "surface_slug": "thumb",
-      "file": "gw-winter-thumb.jpg",
-      "bytes": 43452,
-      "provenance": null
-    },
     "hannibal-card.jpg": {
       "figure": "Hannibal Barca",
       "surface": "hero/arena",
@@ -3758,6 +3730,14 @@
       "surface_slug": "thumb",
       "file": "wd-gann-thumb.jpg",
       "bytes": 27311,
+      "provenance": null
+    },
+    "scene/george-washington--valley-forge-thumb.jpg": {
+      "key": "george-washington",
+      "scene": "valley-forge",
+      "surface_slug": "thumb",
+      "file": "scene/george-washington--valley-forge-thumb.jpg",
+      "bytes": 43452,
       "provenance": null
     },
     "scene/george-washington--valley-forge.jpg": {
