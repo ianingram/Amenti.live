@@ -21,6 +21,35 @@
 #    already ships in every page's source; the RLS ward is the wall we test).
 #    Without it the probe uses a dummy key, every sealed table returns 401,
 #    and DATA WATCH still reads correctly as "sealed".
+#
+#  ── TWO CORRECTIONS, 16 AUGUST 2026 ───────────────────────────────────────
+#
+#  1. THE PUSH RACED.  The plate register began writing to main. Both jobs
+#     check out, work, and push; whichever finishes second is REJECTED because
+#     the remote moved underneath it. This file was correct for its whole life
+#     and became incorrect the moment something else wrote to the same branch.
+#     Nothing about it changed — the world around it grew. Now it rebases
+#     before pushing, retries, and SAYS SO if it cannot land.
+#
+#  2. THE FINAL GATE WORKED BY ACCIDENT.  It read:
+#
+#         run: |
+#           node probes/probe-watches.mjs > fleet-patrol.json
+#           echo "exit=$?" >> $GITHUB_OUTPUT
+#         ...
+#         if: steps.patrol.outputs.exit != '0'
+#
+#     GitHub runs `run:` under `bash -e`. If the probe exits non-zero the step
+#     ABORTS AT THAT LINE and the echo never happens — so `outputs.exit` is
+#     never written at all. The gate then compares an EMPTY STRING to '0',
+#     which is unequal, and fires.
+#
+#     It caught the failure. It caught it for a reason that has nothing to do
+#     with the value it appears to read. A line that is never reached on the
+#     path it was written for is not a mechanism, it is a coincidence — and the
+#     next person to "tidy" the empty-string case would silently disarm the
+#     whole watch. It now reads `steps.patrol.outcome`, which GitHub sets
+#     deliberately and which `continue-on-error` preserves.
 # ============================================================================
 name: Fleet Patrol
 
@@ -41,18 +70,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # continue-on-error records the FAIL and lets the reading be committed.
+      # The job is failed deliberately at the end, after the finding is safely
+      # written down — an alarm that loses its own evidence is not an alarm.
       - name: Make the rounds
         id: patrol
-        continue-on-error: true      # a FAIL is recorded, then fails the job at the end
+        continue-on-error: true
         env:
           AMENTI_ANON_KEY: ${{ secrets.AMENTI_ANON_KEY }}
-        run: |
-          node probes/probe-watches.mjs > fleet-patrol.json
-          echo "exit=$?" >> $GITHUB_OUTPUT
+        run: node probes/probe-watches.mjs > fleet-patrol.json
 
       - name: Walk the tubes
         continue-on-error: true
@@ -75,11 +106,31 @@ jobs:
             echo "patrol unchanged"
           else
             git commit -m "patrol: $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
-            git push
+
+            # REBASE BEFORE PUSHING. See correction 1 in the header. Five
+            # attempts, then say so and fail — never a silent give-up, because
+            # a patrol whose reading did not land is a patrol that did not run.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "committed the patrol reading (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::the patrol reading could not be pushed after 5 attempts — fleet-patrol.json on main is STALE and the next merge will read it as current"
+              exit 1
+            fi
           fi
 
+      # Reads `outcome`, not a value the failing path never wrote.
+      # continue-on-error sets `conclusion` to success but leaves `outcome`
+      # as the true result — that is the one to trust.
       - name: A watch that failed is a real finding
-        if: steps.patrol.outputs.exit != '0'
+        if: steps.patrol.outcome == 'failure'
         run: |
           echo "::error::A FLEET WATCH FAILED. See fleet-patrol.json — a real leak or forgery, not a drift."
           exit 1
