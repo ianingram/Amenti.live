@@ -38,6 +38,31 @@
 #
 #  SETUP: upload this file to  .github/workflows/scan.yml  — and that is all.
 #         No Terminal. No Node. No remembering.
+#
+#  ── TWO FAULTS FOUND 16 AUGUST 2026, BOTH OF THIS FILE'S OWN DISEASE ──────
+#
+#  1. THE PUSH RACED.  A second workflow — plate register — began writing to
+#     main. Both jobs check out, work, and push; whichever finishes second is
+#     REJECTED, because the remote moved underneath it. Git was right to refuse.
+#     This file was CORRECT for its whole life and became incorrect the moment
+#     something else started writing to the same branch. Nothing about it
+#     changed. The world around it grew.
+#
+#     The fix is `git pull --rebase` before pushing, and a retry loop for the
+#     case where the remote moves again during the rebase.
+#
+#  2. THE GLASS GATE NEVER RAN.  The condition read:
+#
+#         if: github.event_name == 'push' && env.FLEET_TOKEN != ''
+#
+#     `if:` is evaluated BEFORE the step's own `env:` block is applied. So
+#     env.FLEET_TOKEN was always empty at decision time and the step was ALWAYS
+#     SKIPPED — including when the secret was set correctly. A skipped step is
+#     green. The mirror sat unreflected and the log said nothing was wrong.
+#
+#     That is precisely "a step that quietly does nothing and calls it green",
+#     the disease named in this file's own commit step. It did it to itself
+#     twice. Secrets must be read from the `secrets` context in `if:`.
 # ============================================================================
 name: Fleet Scan
 
@@ -145,12 +170,15 @@ jobs:
       # The claim meets the reading. The DIFF is the finding.
       # exit 1 on a CONTRADICTION — a commit that makes the manifest lie does
       # not merge. This step is ALLOWED to fail the build; that is its job.
+      #
+      # NOTE: `continue-on-error` sets `conclusion` to success but leaves
+      # `outcome` as the real result, which is why the gate below reads
+      # steps.merge.OUTCOME. Reading conclusion would make this check green
+      # forever — the same shape as the Glass Gate fault above.
       - name: Merge — claims vs reading
         id: merge
         continue-on-error: true
-        run: |
-          node tools/merge.js fleet-semantics.js fleet-structure.json
-          echo "merge_exit=$?" >> $GITHUB_OUTPUT
+        run: node tools/merge.js fleet-semantics.js fleet-structure.json
 
       # ── THE GLASS GATE ──────────────────────────────────────────────────
       # Publish the reconciliation into the mirror. ONE DIRECTION. NEVER BACK.
@@ -161,8 +189,12 @@ jobs:
       #
       # Without it this step is SKIPPED — and the mirror will show the
       # EMPTY-GLASS BOX rather than a stale fleet. That is the correct failure.
+      #
+      # The condition reads `secrets.FLEET_TOKEN`, NOT `env.FLEET_TOKEN`.
+      # `if:` is evaluated before the step's env block exists, so the env form
+      # was always empty and this step never ran once. See the header.
       - name: Publish through the Glass Gate
-        if: github.event_name == 'push' && env.FLEET_TOKEN != ''
+        if: github.event_name == 'push' && secrets.FLEET_TOKEN != ''
         env:
           FLEET_TOKEN: ${{ secrets.FLEET_TOKEN }}
         run: |
@@ -207,8 +239,26 @@ jobs:
             echo "structure unchanged — nothing to commit"
           else
             git commit -m "scan: fleet-structure + manifest [skip ci]"
-            git push
-            echo "committed the reading"
+
+            # REBASE BEFORE PUSHING. The plate register writes to main too, and
+            # a bare push loses whichever race it finishes second. --rebase
+            # replays this commit on top of whatever landed meanwhile; the loop
+            # covers the remote moving again mid-rebase. Five attempts, then
+            # SAY SO and fail — never a silent give-up.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "committed the reading (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::could not push the reading after 5 attempts — the manifest is now BEHIND the tree"
+              exit 1
+            fi
           fi
 
           # And SAY what happened, so a silent no-op can never look like a success.
