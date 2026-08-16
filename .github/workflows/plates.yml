@@ -1,0 +1,31 @@
+name: plate register
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'img/**'
+      - 'tools/plates.js'
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Walk img/ and write PLATES.json
+        run: node tools/plates.js
+
+      - name: Commit the register if it changed
+        run: |
+          git config user.name  "amenti-register"
+          git config user.email "register@amenti.live"
+          git add img/PLATES.json
+          git diff --staged --quiet || git commit -m "register: regenerate PLATES.json"
+          git push
