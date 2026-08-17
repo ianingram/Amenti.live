@@ -1,0 +1,322 @@
+# ============================================================================
+#  .github/workflows/scan.yml  ·  THE WATCH
+# ----------------------------------------------------------------------------
+#  The scan runs itself. On every push. Forever. Nobody has to remember.
+#
+#  WHY THIS EXISTS
+#  A reading that depends on someone REMEMBERING to take it is not a reading.
+#  It is a good intention, and good intentions are how every document in this
+#  fleet came to lie:
+#
+#      "amenti-chat.js is the PRIMARY PATH"      the Terminal never loaded it
+#      "voiceprofiles assigns every soul"        zero callers
+#      "keys map 1:1 to AMENTI_CHARS"            23 sovereigns, 20 voices
+#      "historyCap — max chat turns"             it counts MESSAGES
+#      "push-to-talk: deliberate"                it was a limitation, not a choice
+#      "amenti-chat.js calls /generate"          there is no /generate route
+#      "DATA WATCH: verified ✓"                  no probe exists
+#
+#  NOT ONE of those was careless. They were all TRUE WHEN WRITTEN, and the fleet
+#  sailed. Every single one was a grep. NOT ONE required insight — only looking.
+#
+#  WHAT THIS DOES
+#    1. runs tools/scan.js against the tree that was just pushed
+#    2. commits the fresh fleet-structure.json — THE READING, never typed
+#    3. FAILS THE BUILD on a NOT WIRED finding
+#
+#  THE THIRD ONE IS THE POINT.
+#
+#      A COMMIT THAT MAKES THE MANIFEST LIE DOES NOT MERGE.
+#
+#  Page1's Terminal called Amenti.chat at line 6104. amenti-chat.js was loaded at
+#  line 6865 — SEVEN HUNDRED AND SIXTY-ONE LINES TOO LATE. The guard failed
+#  silently, the Terminal ran an inline fallback for the entire life of the
+#  system, and FOURTEEN TEST HARNESSES REPORTED GREEN — because every one of them
+#  built its own object and tested THE FILE instead of THE TERMINAL.
+#
+#  This check would have caught it in the commit that introduced it.
+#
+#  SETUP: upload this file to  .github/workflows/scan.yml  — and that is all.
+#         No Terminal. No Node. No remembering.
+#
+#  ── TWO FAULTS FOUND 16 AUGUST 2026, BOTH OF THIS FILE'S OWN DISEASE ──────
+#
+#  1. THE PUSH RACED.  A second workflow — plate register — began writing to
+#     main. Both jobs check out, work, and push; whichever finishes second is
+#     REJECTED, because the remote moved underneath it. Git was right to refuse.
+#     This file was CORRECT for its whole life and became incorrect the moment
+#     something else started writing to the same branch. Nothing about it
+#     changed. The world around it grew.
+#
+#     The fix is `git pull --rebase` before pushing, and a retry loop for the
+#     case where the remote moves again during the rebase.
+#
+#  2. A CLAIM MADE ABOUT THIS FILE, AND WITHDRAWN.  It was asserted that the
+#     Glass Gate had never run — that `if: env.FLEET_TOKEN != ''` evaluates
+#     before the step's env block exists, so the step was always skipped.
+#
+#     THE READING SAYS OTHERWISE. fleet-manifest.js in the mirror carries
+#     merged: 2026-08-16T20:45:32Z. The gate ran. The claim was made from
+#     documentation rather than from the mirror, which is the exact fault this
+#     workflow exists to catch, committed in the header of the workflow itself.
+#
+#     The condition is left EXACTLY as written. It works.
+# ============================================================================
+name: Fleet Scan
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:        # and a "Run workflow" button, for when you want one
+
+  # ── THE HERALD TRAILS THE BELL ────────────────────────────────────────────
+  #  The patrol rings at :17 every six hours and commits the reading with
+  #  [skip ci] — deliberately, so it cannot start a loop. But that also meant
+  #  THE SCAN NEVER WOKE. The manifest only ever reflected the PREVIOUS patrol,
+  #  and it only caught up when a human happened to push something unrelated.
+  #
+  #  ARCHIVE WATCH could find the archive forked at 2am and the manifest would
+  #  stay green until the next commit. The Action fails loudly — that is the
+  #  alarm — but THE MANIFEST IS THE RECORD, AND THE GATE READS THE RECORD.
+  #
+  #  The Siege wrote this law before the fault existed:
+  #
+  #    "the herald was set to TRAIL THE BELL, NOT RACE IT: the bell rings and
+  #     the cron does its work — and only AFTER, a full turn later, does the
+  #     herald read the settled state and announce what has already, safely,
+  #     happened."
+  #
+  #  The bell is :17. The herald is :27. Ten minutes is the stagger.
+  #  Two strands must never occupy one rung.
+  schedule:
+    - cron: '27 */6 * * *'
+
+permissions:
+  contents: write           # so it can commit the reading back
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the fleet
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── TAKE THE READING ────────────────────────────────────────────────
+      - name: Scan the repo
+        run: node tools/scan.js > fleet-structure.json
+
+      # ── READ IT ALOUD, so the log is legible without opening the JSON ───
+      - name: Report
+        id: report
+        run: |
+          node -e '
+            const d = JSON.parse(require("fs").readFileSync("fleet-structure.json","utf8"));
+            const w = d.findings.wiring, a = d.findings.adrift;
+            const notWired = w.filter(f => f.kind === "NOT WIRED");
+            const stow     = w.filter(f => f.kind === "STOWAWAY" || f.kind === "NOT LOADED");
+
+            console.log(`\nscanned ${d.files.length} files\n`);
+
+            if (notWired.length) {
+              console.log("::group::🔴 NOT WIRED — the guard fails SILENTLY and the caller gets undefined");
+              for (const f of notWired) {
+                console.log(`  ${f.page} · ${f.global}`);
+                console.log(`     called at line ${f.calledAtLine}, LOADED at line ${f.loadedAtLine}`);
+                console.log(`     ${f.gap} LINES TOO LATE — declared in ${f.declaredIn.join(", ")}`);
+                console.log("::error file=" + f.page + ",line=" + f.calledAtLine +
+                            "::NOT WIRED — " + f.global + " is called here but loaded " + f.gap +
+                            " lines later. The Terminal bug. Move the script tag above the caller.");
+              }
+              console.log("::endgroup::");
+            } else {
+              console.log("✓ WIRING CLEAN — every global reached for at parse time is loaded first.");
+            }
+
+            for (const f of stow) {
+              console.log("::warning file=" + f.page + ",line=" + f.line +
+                          "::" + f.kind + " — " + f.global + ": " + f.note);
+            }
+            for (const x of a) {
+              console.log("::warning file=" + x.file +
+                          "::ADRIFT — declares " + x.declares.join(", ") +
+                          " and NOTHING CALLS IT. Shipped weight, and it will mislead the next reader.");
+            }
+
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              `## Fleet Scan\n\n` +
+              `| | |\n|---|---|\n` +
+              `| files scanned | ${d.files.length} |\n` +
+              `| 🔴 NOT WIRED | **${notWired.length}** |\n` +
+              `| ⚠ stowaway / not loaded | ${stow.length} |\n` +
+              `| ⚠ adrift | ${a.length} |\n\n` +
+              (notWired.length
+                ? notWired.map(f => `🔴 **${f.page} · ${f.global}** — called at ${f.calledAtLine}, loaded at ${f.loadedAtLine}. **${f.gap} lines too late.**`).join("\n\n")
+                : "✅ **Wiring clean.** Every global reached for at parse time is loaded before its caller.") +
+              (a.length ? "\n\n**Adrift** (loaded, called by nobody): " + a.map(x => "`" + x.file + "`").join(" · ") : ""));
+
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, "notwired=" + notWired.length + "\n");
+          '
+
+      # ── RECONCILE ───────────────────────────────────────────────────────
+      # The claim meets the reading. The DIFF is the finding.
+      # exit 1 on a CONTRADICTION — a commit that makes the manifest lie does
+      # not merge. This step is ALLOWED to fail the build; that is its job.
+      #
+      # NOTE: `continue-on-error` sets `conclusion` to success but leaves
+      # `outcome` as the real result, which is why the gate below reads
+      # steps.merge.OUTCOME. Reading conclusion would make this check green
+      # forever — the same shape as the Glass Gate fault above.
+      - name: Merge — claims vs reading
+        id: merge
+        continue-on-error: true
+        run: node tools/merge.js fleet-semantics.js fleet-structure.json
+
+      # ── THE GLASS GATE ──────────────────────────────────────────────────
+      # Publish the reconciliation into the mirror. ONE DIRECTION. NEVER BACK.
+      #
+      #   REQUIRES a repository secret named FLEET_TOKEN:
+      #     a fine-grained PAT with Contents:write on ianingram/Fleet-Documents
+      #     Settings -> Secrets and variables -> Actions -> New repository secret
+      #
+      # Without it this step is SKIPPED — and the mirror will show the
+      # EMPTY-GLASS BOX rather than a stale fleet. That is the correct failure.
+      #
+      - name: Publish through the Glass Gate
+        if: github.event_name == 'push' && env.FLEET_TOKEN != ''
+        env:
+          FLEET_TOKEN: ${{ secrets.FLEET_TOKEN }}
+        run: |
+          git clone --depth 1 \
+            "https://x-access-token:${FLEET_TOKEN}@github.com/ianingram/Fleet-Documents.git" mirror
+          cp fleet-manifest.js mirror/fleet-manifest.js
+
+          # ── THE FACE ────────────────────────────────────────────────────
+          # Every pane declares 'Amenti Display' and falls back to Special
+          # Elite. For as long as anyone can remember they have ALL been
+          # rendering in the fallback — a typewriter face that reads as texture
+          # at 13px and as a seafood menu at 66px — because amenti.css pointed
+          # at the fonts ACROSS ORIGINS and the browser would not fetch them.
+          #
+          # A PANE THAT NAMES A FAMILY IT CANNOT LOAD DOES NOT ERROR.
+          # It renders in the fallback and looks finished. Nobody could point
+          # at a failure because there was not one to point at — the same shape
+          # as `sealed: 1`, as the cron set to Sunday, as the Harbor replaced by
+          # a Go hello-world and nothing noticing for twelve hours.
+          #
+          # So the ship sends its own face across, and the panes load it from
+          # their own origin. No CORS, no second copy to keep in step.
+          if [ -d fonts ]; then
+            mkdir -p mirror/fonts
+            cp -r fonts/. mirror/fonts/
+            echo "carried $(ls fonts | wc -l) font files through the gate"
+          else
+            echo "::warning::no fonts/ directory in the ship — the panes will keep rendering in Special Elite"
+          fi
+          # THE PLATE REGISTER. Written by tools/plates.js walking img/ in the
+          # commit that changed it; the Plate Deck pane reads it and types
+          # nothing. Copied, never authored here — the mirror is a reflection.
+          # If plates.js has not run yet the file may not exist, so this is
+          # conditional rather than fatal: a missing register makes the pane
+          # show EMPTY GLASS, which is the correct failure.
+          if [ -f img/PLATES.json ]; then
+            cp img/PLATES.json mirror/PLATES.json
+          else
+            echo "::warning::img/PLATES.json is absent — the Plate Deck will show empty glass"
+          fi
+          cd mirror
+          git config user.name  "glass-gate"
+          git config user.email "gate@amenti.live"
+          paths="fleet-manifest.js"
+          [ -f PLATES.json ] && paths="$paths PLATES.json"
+          [ -d fonts ]       && paths="$paths fonts"
+          git add -f $paths
+          if git diff --cached --quiet -- $paths; then
+            echo "the reflection is unchanged"
+          else
+            git commit -m "gate: reflect ${GITHUB_SHA::7}"
+            git push
+            echo "reflected ${GITHUB_SHA::7} through the gate"
+          fi
+
+      # ── COMMIT THE READING ──────────────────────────────────────────────
+      # It is written by the scanner, in the repo it describes, in the commit
+      # that changed it. A human never types it. The moment a human types it,
+      # it stops being a READING and becomes a CLAIM — and it rots.
+      - name: Commit fleet-structure.json
+        if: github.event_name == 'push'
+        run: |
+          git config user.name  "fleet-scanner"
+          git config user.email "scanner@amenti.live"
+
+          # STAGE FIRST, THEN COMPARE.
+          #
+          # The first version did `git diff --quiet -- fleet-structure.json` on an
+          # UNTRACKED file. git diff does not look at untracked files, so it
+          # reported NO DIFFERENCE, the step announced "nothing to commit", and
+          # exited 0.
+          #
+          # THE ACTION RAN TWICE, REPORTED SUCCESS, AND COMMITTED NOTHING.
+          # A step that quietly does nothing and calls it green is the exact
+          # disease this whole workflow exists to catch. It did it to itself.
+          git add -f fleet-structure.json fleet-manifest.js
+
+          if git diff --cached --quiet -- fleet-structure.json fleet-manifest.js; then
+            echo "structure unchanged — nothing to commit"
+          else
+            git commit -m "scan: fleet-structure + manifest [skip ci]"
+
+            # REBASE BEFORE PUSHING. The plate register writes to main too, and
+            # a bare push loses whichever race it finishes second. --rebase
+            # replays this commit on top of whatever landed meanwhile; the loop
+            # covers the remote moving again mid-rebase. Five attempts, then
+            # SAY SO and fail — never a silent give-up.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "committed the reading (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::could not push the reading after 5 attempts — the manifest is now BEHIND the tree"
+              exit 1
+            fi
+          fi
+
+          # And SAY what happened, so a silent no-op can never look like a success.
+          if [ -f fleet-structure.json ]; then
+            echo "fleet-structure.json is $(wc -c < fleet-structure.json) bytes"
+          else
+            echo "::error::the scanner produced no fleet-structure.json"
+            exit 1
+          fi
+
+      # ── AND THE WHOLE POINT ─────────────────────────────────────────────
+      - name: A commit that makes the manifest lie does not merge
+        if: steps.report.outputs.notwired != '0' || steps.merge.outcome == 'failure'
+        run: |
+          echo ""
+          echo "  ══════════════════════════════════════════════════════════"
+          echo "   NOT WIRED."
+          echo ""
+          echo "   A file is being called BEFORE it is loaded. The guard will"
+          echo "   fail silently, the caller will get undefined, and the code"
+          echo "   will quietly take a fallback path that nobody is watching."
+          echo ""
+          echo "   THIS IS THE TERMINAL BUG. It hid for the entire life of"
+          echo "   this system and fourteen test harnesses reported green."
+          echo ""
+          echo "   Move the <script src> tag ABOVE the code that calls it."
+          echo "  ══════════════════════════════════════════════════════════"
+          echo ""
+          exit 1
