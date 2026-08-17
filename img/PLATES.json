@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-16T21:28:10.488Z",
+  "generated": "2026-08-17T00:56:28.855Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -67,6 +67,27 @@
     "platesWithoutRooms": [
       "albert-einstein"
     ],
+    "accepted": [
+      {
+        "key": "einstein-albert",
+        "on": "2026-08-16",
+        "fails": false,
+        "note": "same figure as albert-einstein — word-order drift, the third instance after wd-gann and gw-winter. Renaming means touching the catalog and 10+ ingested texts by hand; the room resolves and the plates resolve, so the cost is two lines of report rather than a broken surface."
+      },
+      {
+        "key": "albert-einstein",
+        "on": "2026-08-16",
+        "fails": false,
+        "note": "the plate side of the einstein-albert drift. Same figure, other spelling."
+      },
+      {
+        "key": "ingram",
+        "on": "2026-08-16",
+        "fails": false,
+        "note": "the captain. A room and no portrait, by choice."
+      }
+    ],
+    "unaccepted": [],
     "scenesWithoutFigure": [],
     "scenesMalformed": [],
     "notPlates": [
