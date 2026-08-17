@@ -51,18 +51,16 @@
 #     The fix is `git pull --rebase` before pushing, and a retry loop for the
 #     case where the remote moves again during the rebase.
 #
-#  2. THE GLASS GATE NEVER RAN.  The condition read:
+#  2. A CLAIM MADE ABOUT THIS FILE, AND WITHDRAWN.  It was asserted that the
+#     Glass Gate had never run — that `if: env.FLEET_TOKEN != ''` evaluates
+#     before the step's env block exists, so the step was always skipped.
 #
-#         if: github.event_name == 'push' && env.FLEET_TOKEN != ''
+#     THE READING SAYS OTHERWISE. fleet-manifest.js in the mirror carries
+#     merged: 2026-08-16T20:45:32Z. The gate ran. The claim was made from
+#     documentation rather than from the mirror, which is the exact fault this
+#     workflow exists to catch, committed in the header of the workflow itself.
 #
-#     `if:` is evaluated BEFORE the step's own `env:` block is applied. So
-#     env.FLEET_TOKEN was always empty at decision time and the step was ALWAYS
-#     SKIPPED — including when the secret was set correctly. A skipped step is
-#     green. The mirror sat unreflected and the log said nothing was wrong.
-#
-#     That is precisely "a step that quietly does nothing and calls it green",
-#     the disease named in this file's own commit step. It did it to itself
-#     twice. Secrets must be read from the `secrets` context in `if:`.
+#     The condition is left EXACTLY as written. It works.
 # ============================================================================
 name: Fleet Scan
 
@@ -190,22 +188,30 @@ jobs:
       # Without it this step is SKIPPED — and the mirror will show the
       # EMPTY-GLASS BOX rather than a stale fleet. That is the correct failure.
       #
-      # The condition reads `secrets.FLEET_TOKEN`, NOT `env.FLEET_TOKEN`.
-      # `if:` is evaluated before the step's env block exists, so the env form
-      # was always empty and this step never ran once. See the header.
       - name: Publish through the Glass Gate
-        if: github.event_name == 'push' && secrets.FLEET_TOKEN != ''
+        if: github.event_name == 'push' && env.FLEET_TOKEN != ''
         env:
           FLEET_TOKEN: ${{ secrets.FLEET_TOKEN }}
         run: |
           git clone --depth 1 \
             "https://x-access-token:${FLEET_TOKEN}@github.com/ianingram/Fleet-Documents.git" mirror
           cp fleet-manifest.js mirror/fleet-manifest.js
+          # THE PLATE REGISTER. Written by tools/plates.js walking img/ in the
+          # commit that changed it; the Plate Deck pane reads it and types
+          # nothing. Copied, never authored here — the mirror is a reflection.
+          # If plates.js has not run yet the file may not exist, so this is
+          # conditional rather than fatal: a missing register makes the pane
+          # show EMPTY GLASS, which is the correct failure.
+          if [ -f img/PLATES.json ]; then
+            cp img/PLATES.json mirror/PLATES.json
+          else
+            echo "::warning::img/PLATES.json is absent — the Plate Deck will show empty glass"
+          fi
           cd mirror
           git config user.name  "glass-gate"
           git config user.email "gate@amenti.live"
-          git add -f fleet-manifest.js
-          if git diff --cached --quiet -- fleet-manifest.js; then
+          git add -f fleet-manifest.js PLATES.json 2>/dev/null || git add -f fleet-manifest.js
+          if git diff --cached --quiet -- fleet-manifest.js PLATES.json; then
             echo "the reflection is unchanged"
           else
             git commit -m "gate: reflect ${GITHUB_SHA::7}"
