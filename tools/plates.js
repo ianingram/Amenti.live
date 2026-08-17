@@ -97,6 +97,61 @@ const VARIANTS = {
    the lead image and is the common case. */
 const SCENE_VARIANTS = ['card', 'thumb', 'terminal', 'wide'];
 
+/* ── ACCEPTED, AND WHY ─────────────────────────────────────────────────────
+   A known mismatch that is not written down looks exactly like one nobody has
+   noticed. The report then asks the same question every run and the reader
+   learns to skim past it — which is how a live finding gets missed among the
+   settled ones.
+
+   So a decision the CAPTAIN made lives here, beside the reading, and the
+   register sails it instead of re-raising it. Entries are annotated in the
+   report and in the JSON; they are NOT removed from the counts, because an
+   accepted mismatch is still a mismatch and hiding it would make this file a
+   claim rather than a reading.
+
+   `fails` decides only whether --check exits non-zero. Set it true for
+   something that is accepted FOR NOW and must not be forgotten. */
+const ACCEPTED = {
+  'einstein-albert': {
+    on:    '2026-08-16',
+    fails: false,
+    note:  'same figure as albert-einstein — word-order drift, the third instance '
+         + 'after wd-gann and gw-winter. Renaming means touching the catalog and '
+         + '10+ ingested texts by hand; the room resolves and the plates resolve, '
+         + 'so the cost is two lines of report rather than a broken surface.',
+  },
+  'albert-einstein': {
+    on:    '2026-08-16',
+    fails: false,
+    note:  'the plate side of the einstein-albert drift. Same figure, other spelling.',
+  },
+  'ingram': {
+    on:    '2026-08-16',
+    fails: false,
+    note:  'the captain. A room and no portrait, by choice.',
+  },
+};
+
+function accepted(key){ return Object.prototype.hasOwnProperty.call(ACCEPTED, key) ? ACCEPTED[key] : null; }
+
+/* wrap a list for the report, annotating what has been ruled on */
+function annotate(list, indent){
+  const pad = ' '.repeat(indent);
+  return list.map(k => {
+    const a = accepted(k);
+    if (!a) return pad + k;
+    const words = a.note.split(/\s+/);
+    const lines = []; let line = '';
+    for (const w of words) {
+      if ((line + ' ' + w).length > 66) { lines.push(line); line = w; }
+      else line = line ? line + ' ' + w : w;
+    }
+    if (line) lines.push(line);
+    return pad + k + '   [accepted ' + a.on + ']\n'
+         + lines.map(l => pad + '    ' + l).join('\n');
+  }).join('\n');
+}
+
 const PLATE = new RegExp(
   '^(.*?)-(' + Object.keys(VARIANTS).join('|') + ')(?:-(\\d+))?\\.(jpg|jpeg|png|webp)$', 'i');
 
@@ -321,6 +376,12 @@ const out = {
     missingByVariant: gaps,
     roomsWithoutPlates: roomsNoPlate,
     platesWithoutRooms: platesNoRoom,
+    /* the same two lists with the captain's rulings attached, so a reader of
+       the JSON sees the decision and not only the discrepancy */
+    accepted: Object.keys(ACCEPTED)
+      .filter(k => roomsNoPlate.indexOf(k) > -1 || platesNoRoom.indexOf(k) > -1)
+      .map(k => Object.assign({ key: k }, ACCEPTED[k])),
+    unaccepted: roomsNoPlate.concat(platesNoRoom).filter(k => !accepted(k)),
     scenesWithoutFigure: scenesWithoutFigure,
     scenesMalformed: sceneMalformed,
     notPlates: loose,
@@ -351,8 +412,14 @@ for (const v of Object.keys(gaps)) {
   console.log('  no ' + v + ': ' + gaps[v].length
             + (gaps[v].length <= 8 ? '  ' + gaps[v].join(', ') : ''));
 }
-if (roomsNoPlate.length) console.log('room, no plate : ' + roomsNoPlate.join(', '));
-if (platesNoRoom.length) console.log('plate, no room : ' + platesNoRoom.join(', '));
+if (roomsNoPlate.length) {
+  console.log('\nroom, no plate');
+  console.log(annotate(roomsNoPlate, 2));
+}
+if (platesNoRoom.length) {
+  console.log('\nplate, no room');
+  console.log(annotate(platesNoRoom, 2));
+}
 
 /* LISTS, NOT COUNTS. `passed: 5` was struck from the declaration for the same
    reason: a count reconciles silently and looks quantitative. These are the
@@ -367,7 +434,11 @@ if (sceneMalformed.length) {
 }
 
 if (CHECK) {
-  const bad = T.complete !== T.keys || roomsNoPlate.length || platesNoRoom.length
+  /* an accepted mismatch does not fail the check — that is the whole point of
+     writing it down. One that carries fails:true still does. */
+  const openRooms  = roomsNoPlate.filter(k => { const a = accepted(k); return !a || a.fails; });
+  const openPlates = platesNoRoom.filter(k => { const a = accepted(k); return !a || a.fails; });
+  const bad = T.complete !== T.keys || openRooms.length || openPlates.length
             || scenesWithoutFigure.length || sceneMalformed.length;
   console.log('\n--check: ' + (bad ? 'GAPS ABOVE' : 'clean') + ', nothing written');
   process.exit(bad ? 1 : 0);
