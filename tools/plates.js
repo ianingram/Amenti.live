@@ -200,17 +200,82 @@ if (fs.existsSync(LIBRARY)) {
 /* ── THE ROSTER, IF IT IS THERE ───────────────────────────────────────────
    Until now this register's only authority was library/ — which is why a scene
    surfaced as "plate without room" rather than as anything more specific. The
-   roster is the stronger authority: 1,016 figures, most without a room. It is
-   read if present and simply skipped if not, because a register that refuses
-   to run without an optional input is a register nobody runs. */
-let roster = null;
+   roster is the stronger authority: most figures have no room.
+
+   ── A CHECK THAT COULD NEVER FIRE, 17 August 2026 ────────────────────────
+   The first cut of this block looked for a `key` column, fell back to column
+   zero, and lowercased it. names.csv HAS NO KEY COLUMN — it carries "Full
+   Name", and the proxy derives its own key at amenti-proxy-worker.js:468 as
+
+       key: name.toLowerCase().trim()
+
+   which is a lowercased full name WITH THE SPACE IN IT: `george washington`.
+   Plate and scene keys are hyphenated: `george-washington`. So the set this
+   built could not match a single owner, and the scene test
+
+       !!keys[owner] || roster.has(owner)
+
+   passed only on its first half. The dead second half never showed, and the
+   report printed, in full confidence:
+
+       roster    1008 keys — scene owners checked against it
+
+   They were not checked against it. A line stating a check that structurally
+   could not fire — the same shape as `sealed: 1` against two visible rows, in
+   a file written hours after that fault was written down.
+
+   THE FIX IS TO SLUG BOTH SIDES THE SAME WAY. slugKey() below is the one
+   place the convention lives; a plate key and a roster name now reduce to the
+   same string or the mismatch is real. The report also states which column it
+   read and how many owners actually resolved through the roster ALONE — so a
+   check that stops firing says so next time instead of going quiet. */
+function slugKey(s) {
+  return String(s)
+    .toLowerCase()
+    .replace(/[.'’]/g, '')        /* W.D. Gann -> wd gann  */
+    .replace(/[^a-z0-9]+/g, '-')  /* spaces and punctuation -> hyphen */
+    .replace(/^-+|-+$/g, '');
+}
+
+let roster    = null;
+let rosterCol = null;
 if (fs.existsSync(ROSTER)) {
   try {
     const lines = fs.readFileSync(ROSTER, 'utf8').split(/\r?\n/).filter(Boolean);
-    const head  = lines[0].split(',').map(s => s.trim().toLowerCase());
-    const col   = head.indexOf('key') > -1 ? head.indexOf('key') : 0;
+    /* RFC-4180-ish: fields may be quoted and contain commas. A naive split on
+       comma put half a biography in the key column on any quoted row. */
+    const cut = function (line) {
+      const out = []; let f = '', q = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (q) {
+          if (c === '"' && line[i + 1] === '"') { f += '"'; i++; }
+          else if (c === '"') q = false;
+          else f += c;
+        } else if (c === '"') q = true;
+        else if (c === ',') { out.push(f); f = ''; }
+        else f += c;
+      }
+      out.push(f);
+      return out;
+    };
+
+    const head = cut(lines[0]).map(function (s) { return s.trim().toLowerCase(); });
+    /* Prefer an explicit key column if one is ever added. Otherwise use the
+       name column the proxy uses, BY NAME — never by position. Column zero was
+       a guess, and a guess about which column holds identity is how a register
+       ends up indexing biographies. */
+    const pick = ['key', 'full name', 'name'];
+    for (const want of pick) {
+      const i = head.indexOf(want);
+      if (i > -1) { rosterCol = { name: want, index: i }; break; }
+    }
+    if (!rosterCol) die('names.csv has no key, "full name" or "name" column. '
+      + 'Header reads: ' + head.join(', ') + '. This register will not guess '
+      + 'which column holds identity.');
+
     roster = new Set(lines.slice(1)
-      .map(l => (l.split(',')[col] || '').trim().toLowerCase())
+      .map(function (l) { return slugKey(cut(l)[rosterCol.index] || ''); })
       .filter(Boolean));
   } catch (e) {
     roster = null;   /* unreadable roster is not fatal; it is one fewer check */
@@ -253,6 +318,7 @@ const scenes            = {};   // owner -> [ { tag, files } ]
 const scenesWithoutFigure = []; // owner is not a plate key and not on the roster
 const sceneMalformed      = []; // in img/scene/ but does not carry `--`
 let sceneFileCount = 0;
+let rosterOnlyOwners = 0;   /* scenes whose owner was known ONLY via names.csv */
 
 if (fs.existsSync(SCENES)) {
   const sf = fs.readdirSync(SCENES)
@@ -279,7 +345,12 @@ if (fs.existsSync(SCENES)) {
        roster is the wider net — a figure may be onboarded long before art
        exists — so a scene for a plateless figure is fine and a scene for
        a figure nobody has ever heard of is not. */
-    const known = !!keys[owner] || (roster ? roster.has(owner) : false);
+    /* COUNT WHAT THE ROSTER ALONE RESOLVED. If this is 0 forever, the roster
+       arm of the check is dead again and the report will say so. */
+    const onPlates = !!keys[owner];
+    const onRoster = roster ? roster.has(slugKey(owner)) : false;
+    if (!onPlates && onRoster) rosterOnlyOwners++;
+    const known = onPlates || onRoster;
     if (!known) {
       scenesWithoutFigure.push({ file: rel, owner, tag });
       continue;
@@ -367,6 +438,8 @@ const out = {
     sceneFiles: sceneFileCount,
     figuresWithScenes: Object.keys(scenes).length,
     rosterKnown: roster ? roster.size : null,
+    rosterColumn: rosterCol ? rosterCol.name : null,
+    scenesResolvedByRosterAlone: rosterOnlyOwners,
     byVariant: tally,
     complete: plateKeys.filter(k => keys[k].complete).length,
     provenanced: Object.keys(images).filter(f => images[f].provenance !== null
@@ -397,8 +470,17 @@ console.log('plates    ' + T.plates + ' across ' + T.keys + ' keys  ('
           + loose.length + ' non-plate files ignored)');
 console.log('scenes    ' + T.scenes + ' across ' + T.figuresWithScenes
           + ' figures  (' + T.sceneFiles + ' files)');
-console.log('roster    ' + (roster ? T.rosterKnown + ' keys — scene owners checked against it'
-                                   : 'names.csv not read; scene owners checked against plates only'));
+if (roster) {
+  console.log('roster    ' + T.rosterKnown + ' keys from column "' + rosterCol.name
+            + '", slugged — ' + rosterOnlyOwners + ' scene owner'
+            + (rosterOnlyOwners === 1 ? '' : 's') + ' resolved by the roster alone');
+  /* A sample match, so a silently-dead check cannot hide behind a big number. */
+  const probe = Object.keys(keys).filter(function (k) { return keys[k].variants.card; })[0];
+  if (probe) console.log('          spot check: ' + probe + ' '
+    + (roster.has(slugKey(probe)) ? 'IS on the roster' : 'IS NOT on the roster — the slug rule may have drifted again'));
+} else {
+  console.log('roster    names.csv not read; scene owners checked against plates only');
+}
 console.log('provenance ' + T.provenanced + ' of ' + (T.plates + T.sceneFiles)
           + ' — the rest carry provenance:null, which is honest, not empty');
 console.log('');
