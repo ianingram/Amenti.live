@@ -1,5 +1,5 @@
 {
-  "key": "gandhi",
+  "key": "mahatma-gandhi",
   "name": "Mohandas K. Gandhi",
   "works": [
     {
@@ -9,7 +9,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Gandhi on the early Congress and its moderate leaders.",
-      "file": "gandhi/01-the-congress-and-its-officials.md"
+      "file": "mahatma-gandhi/01-the-congress-and-its-officials.md"
     },
     {
       "id": "02-the-partition-of-bengal",
@@ -18,7 +18,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "The 1905 partition as the awakening of India.",
-      "file": "gandhi/02-the-partition-of-bengal.md"
+      "file": "mahatma-gandhi/02-the-partition-of-bengal.md"
     },
     {
       "id": "03-the-discontent-and-unrest",
@@ -27,7 +27,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Unrest as a necessary prelude to reform.",
-      "file": "gandhi/03-the-discontent-and-unrest.md"
+      "file": "mahatma-gandhi/03-the-discontent-and-unrest.md"
     },
     {
       "id": "04-what-is-swaraj",
@@ -36,7 +36,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Defining true self-rule — more than expelling the British.",
-      "file": "gandhi/04-what-is-swaraj.md"
+      "file": "mahatma-gandhi/04-what-is-swaraj.md"
     },
     {
       "id": "05-the-condition-of-england",
@@ -45,7 +45,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Why the British Parliament and system are not to be envied.",
-      "file": "gandhi/05-the-condition-of-england.md"
+      "file": "mahatma-gandhi/05-the-condition-of-england.md"
     },
     {
       "id": "06-civilization",
@@ -54,7 +54,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "His critique of modern industrial civilization.",
-      "file": "gandhi/06-civilization.md"
+      "file": "mahatma-gandhi/06-civilization.md"
     },
     {
       "id": "07-why-was-india-lost",
@@ -63,7 +63,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Indians themselves enabled British rule.",
-      "file": "gandhi/07-why-was-india-lost.md"
+      "file": "mahatma-gandhi/07-why-was-india-lost.md"
     },
     {
       "id": "08-the-condition-of-india",
@@ -72,7 +72,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "The true costs of that rule.",
-      "file": "gandhi/08-the-condition-of-india.md"
+      "file": "mahatma-gandhi/08-the-condition-of-india.md"
     },
     {
       "id": "09-the-condition-of-india-railways",
@@ -81,7 +81,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "How railways spread famine, plague, and division.",
-      "file": "gandhi/09-the-condition-of-india-railways.md"
+      "file": "mahatma-gandhi/09-the-condition-of-india-railways.md"
     },
     {
       "id": "10-the-condition-of-india-hindus-and-mahomedans",
@@ -90,7 +90,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "On unity between the communities.",
-      "file": "gandhi/10-the-condition-of-india-hindus-and-mahomedans.md"
+      "file": "mahatma-gandhi/10-the-condition-of-india-hindus-and-mahomedans.md"
     },
     {
       "id": "11-the-condition-of-india-lawyers",
@@ -99,7 +99,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "How the legal profession entrenched foreign rule.",
-      "file": "gandhi/11-the-condition-of-india-lawyers.md"
+      "file": "mahatma-gandhi/11-the-condition-of-india-lawyers.md"
     },
     {
       "id": "12-the-condition-of-india-doctors",
@@ -108,7 +108,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "His critique of the medical profession.",
-      "file": "gandhi/12-the-condition-of-india-doctors.md"
+      "file": "mahatma-gandhi/12-the-condition-of-india-doctors.md"
     },
     {
       "id": "13-what-is-true-civilization",
@@ -117,7 +117,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Civilization as mastery over the self, not machines.",
-      "file": "gandhi/13-what-is-true-civilization.md"
+      "file": "mahatma-gandhi/13-what-is-true-civilization.md"
     },
     {
       "id": "14-how-can-india-become-free",
@@ -126,7 +126,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Self-reform before political freedom.",
-      "file": "gandhi/14-how-can-india-become-free.md"
+      "file": "mahatma-gandhi/14-how-can-india-become-free.md"
     },
     {
       "id": "15-italy-and-india",
@@ -135,7 +135,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Why Mazzini and Garibaldi’s path does not fit India.",
-      "file": "gandhi/15-italy-and-india.md"
+      "file": "mahatma-gandhi/15-italy-and-india.md"
     },
     {
       "id": "16-brute-force",
@@ -144,7 +144,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Why violence cannot win true freedom.",
-      "file": "gandhi/16-brute-force.md"
+      "file": "mahatma-gandhi/16-brute-force.md"
     },
     {
       "id": "17-passive-resistance",
@@ -153,7 +153,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Satyagraha: soul-force as the weapon of the strong.",
-      "file": "gandhi/17-passive-resistance.md"
+      "file": "mahatma-gandhi/17-passive-resistance.md"
     },
     {
       "id": "18-education",
@@ -162,7 +162,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "What real education is, and the place of literacy.",
-      "file": "gandhi/18-education.md"
+      "file": "mahatma-gandhi/18-education.md"
     },
     {
       "id": "19-machinery",
@@ -171,7 +171,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "Machinery as the chief symbol of modern civilization — and its dangers.",
-      "file": "gandhi/19-machinery.md"
+      "file": "mahatma-gandhi/19-machinery.md"
     },
     {
       "id": "20-conclusion",
@@ -180,7 +180,7 @@
       "mode": "stored",
       "source": "Hind Swaraj (Indian Home Rule) · M. K. Gandhi, 1909 · Project Gutenberg #40461 · public domain",
       "note": "His closing appeal to both English and Indians.",
-      "file": "gandhi/20-conclusion.md"
+      "file": "mahatma-gandhi/20-conclusion.md"
     },
     {
       "id": "hind-swaraj-full",
