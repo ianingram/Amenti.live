@@ -1,5 +1,5 @@
 {
-  "key": "caesar",
+  "key": "julius-caesar",
   "name": "Gaius Julius Caesar",
   "works": [
     {
@@ -9,7 +9,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "The Helvetii and the German king Ariovistus.",
-      "file": "caesar/gallic-war-1.md"
+      "file": "julius-caesar/gallic-war-1.md"
     },
     {
       "id": "gallic-war-2",
@@ -18,7 +18,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "The campaign against the Belgae.",
-      "file": "caesar/gallic-war-2.md"
+      "file": "julius-caesar/gallic-war-2.md"
     },
     {
       "id": "gallic-war-3",
@@ -27,7 +27,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "Campaigns in the Alps and against the Veneti.",
-      "file": "caesar/gallic-war-3.md"
+      "file": "julius-caesar/gallic-war-3.md"
     },
     {
       "id": "gallic-war-4",
@@ -36,7 +36,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "Crossing the Rhine; the first expedition to Britain.",
-      "file": "caesar/gallic-war-4.md"
+      "file": "julius-caesar/gallic-war-4.md"
     },
     {
       "id": "gallic-war-5",
@@ -45,7 +45,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "The second invasion of Britain; the revolt of Ambiorix.",
-      "file": "caesar/gallic-war-5.md"
+      "file": "julius-caesar/gallic-war-5.md"
     },
     {
       "id": "gallic-war-6",
@@ -54,7 +54,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "The customs of the Gauls and the Germans.",
-      "file": "caesar/gallic-war-6.md"
+      "file": "julius-caesar/gallic-war-6.md"
     },
     {
       "id": "gallic-war-7",
@@ -63,7 +63,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "Vercingetorix and the siege of Alesia.",
-      "file": "caesar/gallic-war-7.md"
+      "file": "julius-caesar/gallic-war-7.md"
     },
     {
       "id": "gallic-war-8",
@@ -72,7 +72,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "The final pacification of Gaul (written by Aulus Hirtius).",
-      "file": "caesar/gallic-war-8.md"
+      "file": "julius-caesar/gallic-war-8.md"
     },
     {
       "id": "civil-war-1",
@@ -81,7 +81,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "Italy and Spain: the war against Pompey begins.",
-      "file": "caesar/civil-war-1.md"
+      "file": "julius-caesar/civil-war-1.md"
     },
     {
       "id": "civil-war-2",
@@ -89,8 +89,8 @@
       "title": "Book II",
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
-      "note": "The siege of Massilia and Curio’s African campaign.",
-      "file": "caesar/civil-war-2.md"
+      "note": "The siege of Massilia and Curio's African campaign.",
+      "file": "julius-caesar/civil-war-2.md"
     },
     {
       "id": "civil-war-3",
@@ -99,7 +99,7 @@
       "mode": "stored",
       "source": "trans. McDevitte, 1869 · Project Gutenberg #10657 · public domain",
       "note": "Dyrrhachium and the decisive battle of Pharsalus.",
-      "file": "caesar/civil-war-3.md"
+      "file": "julius-caesar/civil-war-3.md"
     },
     {
       "id": "complete",
