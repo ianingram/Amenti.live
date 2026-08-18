@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-18T07:14:55.778Z",
+    "generated": "2026-08-18T07:55:33.822Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1213,7 +1213,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46356,
-      "sha256": "053a528d4da5e814",
+      "sha256": "fd60f2587da8455d",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1434,13 +1434,19 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 22,
+    "count": 23,
     "files": [
       {
         "file": "probe-ordnance.mjs",
         "title": "THE ORDNANCE PROBE",
         "guards": null,
         "bytes": 16341
+      },
+      {
+        "file": "probe-panes.mjs",
+        "title": "THE PANE WATCH",
+        "guards": null,
+        "bytes": 11540
       },
       {
         "file": "probe-spells.mjs",
