@@ -33,9 +33,16 @@
     "They came back with three corrections and one missing rule. Two entries",
     "measured the system against a spec nobody wrote — the exact fault this",
     "file exists to catch, committed inside the file itself. Entries corrected",
-    "by probe carry a `corrected` field; entries confirmed carry `verified`."
+    "by probe carry a `corrected` field; entries confirmed carry `verified`.",
+    "",
+    "DRAFT 3, 17 August: the mint's source was read from the amenti-workers mirror.",
+    "The two BLOCKED spells are now AUTOMATIC and both hold in the mirror. A third",
+    "rule was found there that no brief had stated — the truncation guard — and is",
+    "added. EVERY MINT FINDING IS FLAGGED UNVERIFIED AGAINST LIVE: the mirror was",
+    "copied by hand and its byte-parity gate has never been run. A claim about a",
+    "photograph is not a claim about the ship."
   ],
-  "version": "2026.08-draft-2",
+  "version": "2026.08-draft-3",
   "drafted": "2026-08-17",
   "law": "A specification forbids things. A metaphor chosen afterwards never does.",
   "spells": [
@@ -136,10 +143,11 @@
       "source": "The Silent Signature Rev. A. Discovered by breaking it — Caesar was sealed HUNG on zero votes and the verdict was reversed.",
       "states": "Heard means votes cast, not arguments filed. HUNG must mean argued and even; it cannot also mean ignored.",
       "forbids": "A verdict written where nobody staked anything. A case leaving the docket by being ignored.",
-      "holds_in": "amenti-mint · settlePool · sittings",
-      "check": "BLOCKED",
-      "how": "For each bell with zero votes, the verdicts table must gain no row and the sittings table must gain an attendance row. The probe cannot reach the mint's source; it can check the tables if given a read path.",
-      "why_it_matters": "The register is more powerful empty and honest than full and staged."
+      "holds_in": "amenti-mint · sealCharges() · sittings · verdicts",
+      "check": "AUTOMATIC",
+      "how": "VERIFIED IN THE MIRROR. sealCharges() branches on `if (total === 0)`: it writes a sittings row with heard:false, votes:0 and an arguments_count, counts appearances via a count=exact HEAD on prior unheard sittings, pushes a result carrying reopened:true, and CONTINUES — no verdict POST, no PATCH to arguments, so they stay status='visible' and the case returns at the next bell. The probe check is: for any bell with zero votes, verdicts gains no row and sittings gains one with heard=false.",
+      "why_it_matters": "The register is more powerful empty and honest than full and staged.",
+      "verified": "2026-08-17 — read from amenti-workers/mint, UNVERIFIED against live (the mirror's byte-parity gate has not been run)"
     },
     {
       "id": "the-seal-verifies",
@@ -147,10 +155,11 @@
       "source": "The Silent Signature Rev. A. sealCharges fired a PATCH and never read the response; `sealed++` ran regardless.",
       "states": "A charge counts as sealed only when both halves held, observed from both sides.",
       "forbids": "Counting an outcome that was not confirmed. A case simultaneously decided and still taking evidence.",
-      "holds_in": "amenti-mint · sealCharges",
-      "check": "BLOCKED",
-      "how": "After a seal, no argument on that case may remain visible. Checkable from the tables; the mint's source is out of reach.",
-      "why_it_matters": "Every seal that ever ran would have failed the same way, weekly, in silence."
+      "holds_in": "amenti-mint · sealCharges() · the freeze PATCH",
+      "check": "AUTOMATIC",
+      "how": "VERIFIED IN THE MIRROR. The PATCH sends Prefer: return=representation and counts the rows PostgREST hands back into `froze`; `sealed++` runs only when `clean = (froze !== null && !freezeErr)`. Failures are collected and the function returns ok:false when any heard charge did not freeze — and, critically, an UNHEARD case is excluded from that count, because the rule working is not a failure. The probe check is: after a seal, no argument on a sealed topic remains status='visible'.",
+      "why_it_matters": "Every seal that ever ran would have failed the same way, weekly, in silence.",
+      "verified": "2026-08-17 — read from amenti-workers/mint, UNVERIFIED against live"
     },
     {
       "id": "the-bell-leaves-a-mark",
@@ -160,8 +169,9 @@
       "forbids": "A swallowed throw. A settlesAt computed forward from today presented as a record.",
       "holds_in": "amenti-mint · bell_log · GET /hall",
       "check": "AUTOMATIC",
-      "how": "/hall must expose lastBell as well as settlesAt. null means never, and must be distinguishable from a date.",
-      "why_it_matters": "The entire discipline of observability in one sentence a beginner can hold."
+      "how": "VERIFIED IN THE MIRROR. bellWake() writes the row BEFORE the work with ok:false, on_conflict=period,trigger; bellDone() patches it after. A run that dies mid-settlement leaves ok:false. /hall returns lastBell alongside settlesAt, with the comment naming the distinction: settlesAt is a promise computed from today's date and will assert a confident next Monday forever, rung or not. votesFrom() tries four spellings and returns NULL rather than 0 when it cannot find the count — a null reads as 'not captured', a zero would read as 'empty week'.",
+      "why_it_matters": "The entire discipline of observability in one sentence a beginner can hold.",
+      "verified": "2026-08-17 — read from amenti-workers/mint, UNVERIFIED against live"
     },
     {
       "id": "valhalla-opens-outward",
@@ -263,6 +273,18 @@
       "check": "MANUAL",
       "how": "Not a failure and not a pass. It is carried deliberately and printed as OPEN so that it cannot be quietly forgotten or quietly resolved.",
       "why_it_matters": "There is no prosecutor in the weighing — and the moment the crowd votes, there is one. A book that admits one real contradiction at its centre reads as honest about everything else."
+    },
+    {
+      "id": "an-incomplete-reading-is-refused",
+      "title": "A partial library is worse than none",
+      "source": "amenti-mint getTopics(). Not in Budge — a rule the ship wrote for itself.",
+      "states": "If the table declares N rows and the fetch assembled fewer, the reading is refused and the last known good is served instead.",
+      "forbids": "Serving a truncated library as though it were the whole one.",
+      "holds_in": "amenti-mint · getTopics() · the PAGE loop and the truncation guard",
+      "check": "AUTOMATIC",
+      "how": "The select pages at 500 with Prefer: count=exact and reads the total after the slash in content-range. If rows.length < declared it records _lastTruncation and returns the cache. The probe check is that /admin/topics-status count equals the topics table's own count.",
+      "why_it_matters": "PostgREST caps an unbounded select, commonly at exactly 1000 rows. The earlier guard checked for an EMPTY library, not an INCOMPLETE one — so past the cap the arena would have shown a thousand cards, reported green, and quietly stopped believing in every quiz after that. A silent substitution producing plausible output.",
+      "verified": "2026-08-17 — read from amenti-workers/mint, UNVERIFIED against live"
     }
   ]
 }
