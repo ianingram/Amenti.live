@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-18T06:39:39.680Z",
+  "generated": "2026-08-18T06:40:03.477Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -40,7 +40,7 @@
     "files": 165,
     "plates": 157,
     "keys": 50,
-    "rooms": 51,
+    "rooms": 52,
     "scenes": 1,
     "sceneFiles": 2,
     "figuresWithScenes": 1,
@@ -63,6 +63,7 @@
       ]
     },
     "roomsWithoutPlates": [
+      "augustus-caesar",
       "einstein-albert",
       "ingram"
     ],
@@ -89,7 +90,9 @@
         "note": "the captain. A room and no portrait, by choice."
       }
     ],
-    "unaccepted": [],
+    "unaccepted": [
+      "augustus-caesar"
+    ],
     "scenesWithoutFigure": [],
     "scenesMalformed": [],
     "notPlates": [
