@@ -1,297 +1,231 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Keyring · Amenti Fleet</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Special+Elite&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="amenti.css">
-<!--
-  ==========================================================================
-   THE KEYRING  ·  keyring.html  ·  Fleet-Documents
-  --------------------------------------------------------------------------
-   THIS PANE TYPES NOTHING. It reads KEYS.json, written by tools/keyring.js
-   walking names.csv and PLATES.json, and carried here by the Glass Gate.
+#!/usr/bin/env node
+/* ============================================================================
+   tools/keyring.js  ·  THE KEY REGISTER
+   ----------------------------------------------------------------------------
+   Walks names.csv and img/PLATES.json and writes img/KEYS.json: every key the
+   ship uses, what it resolves to, and — the part that has never existed —
+   WHICH KEYS ARE LOADED.
 
-   WHY IT EXISTS
+     node tools/keyring.js            # write img/KEYS.json
+     node tools/keyring.js --check    # report only, exit 1 on a live collision
+
+   ── WHY THIS EXISTS ───────────────────────────────────────────────────────
    Plates, rooms, scenes and the proxy all point at each other BY KEY, and
-   nothing ever declared what a key is. Not one convention — FOUR, none of
-   them written down. Every checker anyone wrote was a guess at the habit,
-   every guess was approximately right, and the same conversation came round
-   every few weeks.
+   nothing has ever declared what a key is. There is no convention. There are
+   FOUR, and none of them is written down:
 
-   THE STATE THIS PANE EXISTS FOR IS `LOADED`.
-   A key is not wrong until a second soul answers to it. `caesar` was correct
-   for months — one room, one set of plates, one man — and became ambiguous
-   the moment Augustus came aboard. Nothing warned anybody, because nothing
-   was watching the shape of the names.
+       abraham-lincoln    -> lincoln              the forename dropped
+       cleopatra-vii      -> cleopatra            the epithet dropped
+       einstein-albert                            word order, accepted 16 Aug
+       george-washington  -> george-washington    full, because two Washingtons
 
-   EMPTY GLASS: if KEYS.json cannot be read, this pane says so and shows
-   nothing else.
-  ==========================================================================
--->
-<style>
-:root{
-  --gold:#d4a017; --gold-b:#f5c542; --gold-bright:#f5c542; --gold-light:#f0c040;
-  --neon:#00ffe0; --term:#57c98a; --violet:#c4a5ff; --tblue:#57b6ff;
-  --amber:#fbbf24; --red:#f87171;
-  --ink:#08090e; --granite:#11131c; --slate:#232838; --wire:#343b52;
-  --text:#c8ccdc; --dim:#8f95ab;
-  --mono:'Share Tech Mono',monospace; --body:'Rajdhani',sans-serif;
-  --disp:'Amenti Display','Special Elite',serif;
+   Every one was a reasonable decision in the moment. Together they are a
+   HABIT, and a habit cannot be checked — which is why the same conversation
+   has come round every few weeks, and why every checker anyone writes is a
+   guess at the habit that is approximately right.
+
+   ── THE THING THIS FINDS THAT NOTHING ELSE DOES ───────────────────────────
+   A LOADED KEY. `caesar` is not broken. The room holds the Gallic War and the
+   Civil War, the plates are Julius, the manifest says so outright. It is
+   correct today and it BREAKS THE DAY AUGUSTUS COMES ABOARD — because then
+   two souls answer to it and neither can claim it.
+
+   Nothing has ever listed the others. Every short key that already matches
+   more than one roster name is the same trap with a different fuse length, and
+   they are cheap to fix now and a migration later.
+
+       A KEY IS NOT WRONG UNTIL A SECOND SOUL ANSWERS TO IT.
+       BY THEN IT IS EXPENSIVE.
+
+   ── FOUR STATES ───────────────────────────────────────────────────────────
+     RESOLVED   exactly one soul, by exact / suffix / prefix / reversed
+     LOADED     one soul today, MORE THAN ONE NAME on the roster matches it
+     AMBIGUOUS  more than one soul answers to it RIGHT NOW
+     ORPHAN     no soul answers to it at all — drift, or a scene filed as a
+                figure. gw-winter was the last of these.
+
+   THIS WRITES NOTHING BUT KEYS.json. It renames nothing, moves nothing, and
+   touches neither the roster nor MANIFEST.json. It is a reading.
+   ========================================================================== */
+
+'use strict';
+const fs = require('fs');
+const path = require('path');
+
+const ROOT   = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : '.';
+const ROSTER = path.join(ROOT, 'names.csv');
+const PLATES = path.join(ROOT, 'img', 'PLATES.json');
+const LIB    = path.join(ROOT, 'library');
+const OUT    = path.join(ROOT, 'img', 'KEYS.json');
+const CHECK  = process.argv.includes('--check');
+
+function die(m) { console.error('REFUSES: ' + m); process.exit(2); }
+
+/* quoted fields everywhere — every Biography carries a comma */
+function cut(line) {
+  const out = []; let f = '', q = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (q) {
+      if (c === '"' && line[i + 1] === '"') { f += '"'; i++; }
+      else if (c === '"') q = false;
+      else f += c;
+    } else if (c === '"') q = true;
+    else if (c === ',') { out.push(f); f = ''; }
+    else f += c;
+  }
+  out.push(f);
+  return out;
 }
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--ink)}
-body{font-family:var(--body);font-weight:300;font-size:18px;line-height:1.62;color:var(--text);
-  padding:0 0 90px;background-image:radial-gradient(ellipse at 50% -8%,rgba(212,160,23,.10),transparent 60%)}
-main{max-width:1120px;margin:0 auto;padding:26px 30px 0}
 
-.stamp{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 18px;
-  padding:0 2px 12px;border-bottom:1px solid var(--slate);
-  font-family:var(--disp);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-.stamp .doc{color:var(--gold)}.stamp .live{color:var(--term)}.stamp .sep{opacity:.35;margin:0 5px}
-.stamp .sm{flex-basis:100%;order:3;color:var(--gold);opacity:.75}
-@media(min-width:760px){.stamp .sm{flex-basis:auto;order:0}}
+/* the one slug rule. tools/plates.js, ingest.py and probe-spells.mjs carry the
+   same function; if one changes all must. */
+const slug = s => String(s).toLowerCase()
+  .replace(/[.'\u2019]/g, '')
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '');
 
-header{padding:34px 0 6px}
-.eyebrow{font-family:var(--disp);font-size:15px;letter-spacing:.26em;text-transform:uppercase;color:var(--neon);margin:0 0 14px}
-h1{font-family:var(--disp);font-weight:700;font-size:clamp(34px,5.6vw,58px);color:var(--gold-b);line-height:1;margin:0;
-  text-shadow:0 0 34px rgba(245,197,66,.24)}
-h1 .the{display:block;font-size:.27em;letter-spacing:.34em;color:var(--gold);opacity:.85;text-shadow:none;margin-bottom:.04em}
-.tag{font-family:var(--disp);font-weight:500;font-size:clamp(16px,2.1vw,21px);color:#e6e9f2;letter-spacing:.18em;text-transform:uppercase;margin:14px 0 0}
-.rule{width:170px;height:1px;margin:22px 0 26px;background:linear-gradient(90deg,var(--gold),transparent)}
+/* ── THE ROSTER ─────────────────────────────────────────────────────────── */
+if (!fs.existsSync(ROSTER)) die('no names.csv at ' + path.resolve(ROSTER));
+const lines = fs.readFileSync(ROSTER, 'utf8').split(/\r?\n/).filter(l => l.trim());
+if (lines.length < 2) die('names.csv holds no rows.');
 
-h2{font-family:var(--disp);font-weight:600;font-size:clamp(23px,3vw,31px);letter-spacing:.06em;color:var(--gold);
-  margin:48px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--slate)}
-p{max-width:80ch;margin:12px 0}
-em{color:var(--gold-b);font-style:italic}b{font-weight:600;color:#e6e9f2}
-code{font-family:var(--mono);font-size:15px;color:var(--neon);background:rgba(0,255,224,.07);padding:1px 6px;border-radius:3px}
+const head = cut(lines[0]);
+const lower = head.map(s => s.trim().toLowerCase());
+/* BY NAME, NEVER BY POSITION. Column zero on this roster is `Rank`, a number,
+   and a probe that fell back to it searched integers for "cleopatra" and
+   reported eight empty lists with complete confidence. */
+const nameCol = ['full name', 'name'].map(w => lower.indexOf(w)).find(i => i > -1);
+if (nameCol === undefined) die('names.csv has no "Full Name" or "Name" column. Header: ' + head.join(', '));
+const keyCol = lower.indexOf('key');
 
-#glass{display:none;border:1px solid rgba(248,113,113,.34);border-radius:8px;
-  background:rgba(248,113,113,.05);padding:26px 24px;margin:26px 0}
-#glass .gk{font-family:var(--disp);font-size:19px;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
-#glass .gv{margin-top:10px;font-size:17px;max-width:76ch}
+const souls = lines.slice(1).map(cut).map((r, i) => ({
+  row: i + 2,
+  name: (r[nameCol] || '').trim(),
+  declared: keyCol > -1 ? (r[keyCol] || '').trim() : null,
+})).filter(s => s.name);
+souls.forEach(s => { s.slug = slug(s.name); });
 
-.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;
-  background:var(--slate);border:1px solid var(--slate);border-radius:8px;overflow:hidden;margin:22px 0}
-.cell{background:var(--granite);padding:14px 16px}
-.cell .ck{font-family:var(--disp);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-.cell .cv{font-family:var(--disp);font-weight:700;font-size:34px;line-height:1.05;margin-top:6px;color:#fff}
-.cv.n{color:var(--gold-b)}.cv.am{color:var(--amber)}.cv.ok{color:var(--term)}.cv.bad{color:var(--red)}
-.cell .cs{font-family:var(--disp);font-size:13px;letter-spacing:.05em;color:var(--dim);margin-top:4px}
+/* ── WHAT THE SHIP CALLS THEM ───────────────────────────────────────────── */
+let plates = {};
+try { plates = JSON.parse(fs.readFileSync(PLATES, 'utf8')); } catch (e) {}
+const K = plates.keys || {};
+const plateKeys = Object.keys(K).filter(k => Object.keys(K[k].variants || {}).length);
+const roomKeys = fs.existsSync(LIB)
+  ? fs.readdirSync(LIB).filter(f => f.endsWith('.json')).map(f => f.replace(/\.json$/, ''))
+  : [];
+const usedKeys = [...new Set(plateKeys.concat(roomKeys))].sort();
 
-.grp{border-left:3px solid var(--wire);padding:12px 0 12px 20px;margin:18px 0}
-.grp.AMBIGUOUS{border-left-color:var(--red)}
-.grp.LOADED{border-left-color:var(--amber)}
-.grp.ORPHAN{border-left-color:var(--violet)}
-.grp.RESOLVED{border-left-color:var(--term)}
-.grp .gk{font-family:var(--disp);font-size:16px;letter-spacing:.14em;text-transform:uppercase}
-.grp.AMBIGUOUS .gk{color:var(--red)} .grp.LOADED .gk{color:var(--amber)}
-.grp.ORPHAN .gk{color:var(--violet)} .grp.RESOLVED .gk{color:var(--term)}
-.grp .gd{margin-top:5px;font-size:17px;max-width:84ch;color:var(--dim)}
-.grp .rows{margin-top:12px}
-.grp .r{display:grid;grid-template-columns:200px 1fr;gap:14px;padding:6px 0;align-items:baseline;
-  border-top:1px solid #171d29}
-.grp .r:first-child{border-top:none}
-.grp .kk{font-family:var(--mono);font-size:15px;color:var(--gold-b)}
-.grp .kv{font-size:16.5px}
-.grp .kv .soul{color:#e6e9f2}
-.grp .kv .vs{color:var(--red);font-family:var(--mono);font-size:13px;margin:0 8px}
-.grp .kv .fuse{color:var(--amber);font-size:15px}
-@media(max-width:620px){.grp .r{grid-template-columns:1fr;gap:2px}}
+/* ── THE FOUR SHAPES ────────────────────────────────────────────────────── */
+function shapeOf(key, s) {
+  if (s === key) return 'exact';
+  if (s.endsWith('-' + key)) return 'suffix';
+  if (s.startsWith(key + '-')) return 'prefix';
+  if (s.split('-').reverse().join('-') === key) return 'reversed';
+  return null;
+}
 
-table{width:100%;border-collapse:collapse;margin:18px 0;border:1px solid var(--slate)}
-th{font-family:var(--disp);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
-  text-align:left;padding:10px 13px;background:#0d0f17;border-bottom:1px solid var(--slate)}
-td{padding:10px 13px;font-size:16px;border-bottom:1px solid #171d29;vertical-align:top}
-tr:last-child td{border-bottom:none}
-td.m{font-family:var(--mono);font-size:14px}
-td.g{font-family:var(--mono);font-size:14px;color:var(--gold-b);white-space:nowrap}
-td.n{font-family:var(--mono);font-size:14px;color:var(--tblue);text-align:right}
+const entries = usedKeys.map(key => {
+  const hits = [];
+  souls.forEach(s => { const how = shapeOf(key, s.slug); if (how) hits.push({ name: s.name, row: s.row, how }); });
 
-.law{font-family:var(--disp);font-weight:500;font-size:clamp(16px,2vw,20px);letter-spacing:.05em;line-height:1.85;
-  text-align:center;color:var(--gold-b);border:1px solid rgba(245,197,66,.30);border-radius:6px;
-  background:rgba(245,197,66,.05);padding:18px 22px;margin:32px 0}
-.law.red{color:var(--red);border-color:rgba(248,113,113,.30);background:rgba(248,113,113,.05)}
-.empty{font-family:var(--disp);font-size:16px;letter-spacing:.05em;color:var(--term);padding:8px 0}
+  /* RESOLVED means one soul answers. LOADED means one answers TODAY and the
+     key is a substring another name would also answer to — the fuse. */
+  let state;
+  if (hits.length === 0) state = 'ORPHAN';
+  else if (hits.length > 1) state = 'AMBIGUOUS';
+  else state = 'RESOLVED';
 
-.foot{font-family:var(--disp);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
-  text-align:center;line-height:2;border-top:1px solid var(--slate);margin-top:54px;padding-top:22px}
-@media(max-width:640px){main{padding:20px 16px 0}body{font-size:17px}table{display:block;overflow-x:auto}}
-</style>
-</head>
-<body>
-<div id="fleet-nav"></div>
-<script src="fleet-nav.js"></script>
-<main>
+  /* the fuse: any OTHER soul whose name contains this key as a word, even if
+     no shape currently matches. `caesar` vs "Augustus Caesar" is exact-suffix
+     so it is already AMBIGUOUS; but a key like `newton` would be LOADED the
+     moment a second Newton arrives, and this is where that is seen coming. */
+  const word = new RegExp('(^|-)' + key + '($|-)');
+  const couldAlso = souls.filter(s => word.test(s.slug) && !hits.some(h => h.row === s.row))
+                         .map(s => s.name);
+  if (state === 'RESOLVED' && couldAlso.length) state = 'LOADED';
 
-<div class="stamp">
-  <div><span class="doc">Fleet Pane</span><span class="sep">·</span><span>Keyring</span></div>
-  <div class="sm">Ingram Manor LLC</div>
-  <div><span class="live" id="stamp-read">reading KEYS.json…</span></div>
-</div>
-
-<header>
-  <p class="eyebrow">One name · one key · one soul</p>
-  <h1><span class="the">The</span>Keyring</h1>
-  <p class="tag">What every key reaches</p>
-  <div class="rule"></div>
-  <p>Plates, rooms, scenes and the proxy all point at each other <b>by key</b>,
-  and nothing ever declared what a key is. Not one convention — <b>four</b>, and
-  none of them written down. Every checker anyone wrote was a guess at the
-  habit, every guess was approximately right, and the same argument came round
-  every few weeks.</p>
-</header>
-
-<div id="glass">
-  <div class="gk">Empty glass</div>
-  <div class="gv">This pane cannot read <code>KEYS.json</code>. Nothing below is
-  shown. The file is written by <code>tools/keyring.js</code> and carried here
-  by the Glass Gate — if it is missing, the register has not run or the gate is
-  not publishing it.</div>
-</div>
-
-<div id="deck" hidden>
-
-<div class="strip" id="counts"></div>
-<p id="readline"></p>
-
-<h2>What the ship calls people</h2>
-<p>Four shapes, all in use, all legitimate. The register recognises each and
-records which one resolved every key — so a reader can see the habit rather
-than infer it.</p>
-<table>
-  <thead><tr><th>Shape</th><th>What it does</th><th>Keys</th></tr></thead>
-  <tbody id="shapes"></tbody>
-</table>
-
-<h2>The findings</h2>
-<div id="findings"></div>
-
-<div class="law red">A KEY IS NOT WRONG UNTIL A SECOND SOUL ANSWERS TO IT.<br>
-BY THEN IT IS EXPENSIVE.</div>
-
-<p><code>caesar</code> was correct for months. One room holding the Gallic War
-and the Civil War, one set of plates, one man, and the manifest naming Julius
-outright. <b>It became ambiguous the moment Augustus came aboard</b> — and
-nothing warned anybody, because until this register nothing was watching the
-shape of the names.</p>
-
-<h2>Every key</h2>
-<table>
-  <thead><tr><th>Key</th><th>State</th><th>Reaches</th><th>Shape</th><th>Plates</th></tr></thead>
-  <tbody id="all"></tbody>
-</table>
-
-</div>
-
-<p class="foot">
-  Amenti Fleet<br>
-  Ingram Manor LLC<br>
-  Keyring · reads KEYS.json · nothing on this pane was typed
-</p>
-
-<script>
-(async function () {
-  const $ = id => document.getElementById(id);
-  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
-  let R;
-  try {
-    const res = await fetch('KEYS.json', { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    R = await res.json();
-  } catch (e) {
-    $('glass').style.display = 'block';
-    $('stamp-read').textContent = 'empty glass';
-    $('stamp-read').style.color = 'var(--red)';
-    return;
-  }
-
-  const T = R.totals || {}, keys = R.keys || [];
-  $('deck').hidden = false;
-  const when = R.generated ? R.generated.replace('T', ' ').slice(0, 16) + ' UTC' : 'unknown';
-  $('stamp-read').textContent = 'read ' + when;
-
-  /* ── counts ─────────────────────────────────────────────────────────── */
-  const cells = [
-    ['Souls',     T.souls,     'n',  'on the roster'],
-    ['Keys',      T.keys,      '',   T.plates + ' plate · ' + T.rooms + ' room'],
-    ['Resolved',  T.resolved,  'ok', 'one soul each'],
-    ['Loaded',    T.loaded,    T.loaded ? 'am' : 'ok', 'a fuse, not a fault'],
-    ['Ambiguous', T.ambiguous, T.ambiguous ? 'bad' : 'ok', 'two souls answer'],
-    ['Orphan',    T.orphan,    T.orphan ? 'am' : 'ok', 'no soul answers'],
-  ];
-  $('counts').innerHTML = cells.map(([k, v, cls, sub]) =>
-    '<div class="cell"><div class="ck">' + esc(k) + '</div>' +
-    '<div class="cv ' + cls + '">' + esc(v == null ? '—' : v) + '</div>' +
-    '<div class="cs">' + esc(sub) + '</div></div>').join('');
-
-  $('readline').innerHTML = T.declaredColumn
-    ? 'The roster carries a <code>key</code> column, so nothing has to infer. '
-      + 'Every register reads the key rather than guessing at the habit.'
-    : '<b>The roster carries no <code>key</code> column.</b> Every register '
-      + 'downstream infers a key from a name, and four different conventions are '
-      + 'in use. <code>tools/keys.js</code> writes that column from what the ship '
-      + 'already uses — and refuses while any key below is ambiguous, because a '
-      + 'key column with a guess in it is worse than none.';
-
-  /* ── shapes ─────────────────────────────────────────────────────────── */
-  const S = R.shapes || {};
-  const tally = {};
-  keys.forEach(k => { if (k.shape) tally[k.shape] = (tally[k.shape] || 0) + 1; });
-  $('shapes').innerHTML = Object.keys(S).map(s =>
-    '<tr><td class="g">' + esc(s) + '</td><td>' + esc(S[s]) + '</td>'
-    + '<td class="n">' + (tally[s] || 0) + '</td></tr>').join('');
-
-  /* ── findings, worst first ──────────────────────────────────────────── */
-  const D = R.states || {};
-  const NOTE = {
-    AMBIGUOUS: 'Two souls answer to one key. Neither can claim it, and no tool '
-      + 'will choose — picking one would invent an answer to a question the captain '
-      + 'has not been asked. This is a decision, not a defect.',
-    LOADED: 'Correct today. Each of these is a single soul with a short key, and '
-      + 'another name on the roster already contains it. The day that figure is '
-      + 'onboarded, the key becomes ambiguous — cheap to change now, a migration later.',
-    ORPHAN: 'A key no soul answers to. Drift, or a scene filed as a figure. '
-      + '<code>gw-winter</code> was the last of these: George Washington at Valley '
-      + 'Forge, registered as a man called <em>gw</em>.',
+  return {
+    key,
+    state,
+    hasPlates: plateKeys.includes(key),
+    hasRoom: roomKeys.includes(key),
+    resolvesTo: hits.map(h => h.name),
+    shape: hits.length === 1 ? hits[0].how : null,
+    alsoMatches: couldAlso,
+    variants: Object.keys((K[key] || {}).variants || {}),
   };
-  const out = [];
-  for (const st of ['AMBIGUOUS', 'LOADED', 'ORPHAN']) {
-    const rows = keys.filter(k => k.state === st);
-    if (!rows.length) continue;
-    out.push('<div class="grp ' + st + '">'
-      + '<div class="gk">' + st + ' · ' + rows.length + '</div>'
-      + '<div class="gd">' + NOTE[st] + '</div>'
-      + '<div class="rows">' + rows.map(k => {
-          let right;
-          if (st === 'AMBIGUOUS') right = k.resolvesTo.map(n => '<span class="soul">' + esc(n) + '</span>').join('<span class="vs">vs</span>');
-          else if (st === 'LOADED') right = '<span class="soul">' + esc(k.resolvesTo[0]) + '</span>'
-            + '<span class="fuse"> — also matches ' + k.alsoMatches.map(esc).join(', ') + '</span>';
-          else right = '<span class="fuse">' + (k.hasPlates ? 'has plates' : '')
-            + (k.hasRoom ? (k.hasPlates ? ' and a room' : 'has a room') : '')
-            + ' — belongs to nobody the roster carries</span>';
-          return '<div class="r"><div class="kk">' + esc(k.key) + '</div><div class="kv">' + right + '</div></div>';
-        }).join('') + '</div></div>');
-  }
-  $('findings').innerHTML = out.length ? out.join('')
-    : '<div class="empty">Every key reaches exactly one soul, and none is loaded.</div>';
+});
 
-  /* ── every key ──────────────────────────────────────────────────────── */
-  const ORDER = { AMBIGUOUS: 0, ORPHAN: 1, LOADED: 2, RESOLVED: 3 };
-  const sorted = keys.slice().sort((a, b) =>
-    (ORDER[a.state] - ORDER[b.state]) || a.key.localeCompare(b.key));
-  const COL = { AMBIGUOUS: 'var(--red)', LOADED: 'var(--amber)', ORPHAN: 'var(--violet)', RESOLVED: 'var(--term)' };
-  $('all').innerHTML = sorted.map(k =>
-    '<tr><td class="g">' + esc(k.key) + '</td>'
-    + '<td class="m" style="color:' + COL[k.state] + '">' + esc(k.state) + '</td>'
-    + '<td>' + (k.resolvesTo.length ? k.resolvesTo.map(esc).join(' · ') : '<span style="color:var(--dim)">—</span>') + '</td>'
-    + '<td class="m" style="color:var(--dim)">' + esc(k.shape || '—') + '</td>'
-    + '<td class="m" style="color:var(--dim)">' + (k.variants.length ? k.variants.join(' ') : '—') + '</td></tr>').join('');
-})();
-</script>
+const by = st => entries.filter(e => e.state === st);
+const totals = {
+  keys: entries.length,
+  plates: plateKeys.length,
+  rooms: roomKeys.length,
+  souls: souls.length,
+  resolved: by('RESOLVED').length,
+  loaded: by('LOADED').length,
+  ambiguous: by('AMBIGUOUS').length,
+  orphan: by('ORPHAN').length,
+  declaredColumn: keyCol > -1,
+};
 
-</main>
-</body>
-</html>
+const shapes = {};
+entries.forEach(e => { if (e.shape) shapes[e.shape] = (shapes[e.shape] || 0) + 1; });
+
+/* ── REPORT ─────────────────────────────────────────────────────────────── */
+console.log('roster    ' + souls.length + ' souls · name column "' + head[nameCol] + '"'
+          + (keyCol > -1 ? ' · a key column EXISTS' : ' · NO key column'));
+console.log('keys      ' + entries.length + ' in use (' + plateKeys.length + ' plate · ' + roomKeys.length + ' room)');
+console.log('');
+console.log('  resolved   ' + String(totals.resolved).padStart(4) + '   ' +
+  Object.entries(shapes).map(([k, v]) => k + ' ' + v).join(' · '));
+console.log('  loaded     ' + String(totals.loaded).padStart(4) + '   correct today, breaks when a second soul arrives');
+console.log('  ambiguous  ' + String(totals.ambiguous).padStart(4) + '   two souls answer to it NOW');
+console.log('  orphan     ' + String(totals.orphan).padStart(4) + '   no soul answers at all');
+
+if (by('AMBIGUOUS').length) {
+  console.log('\nAMBIGUOUS — a decision the captain owes. This tool will not choose;');
+  console.log('picking one would invent an answer to a question nobody was asked.');
+  by('AMBIGUOUS').forEach(e => console.log('  ' + e.key.padEnd(18) + e.resolvesTo.join('  |  ')));
+}
+if (by('LOADED').length) {
+  console.log('\nLOADED — correct today. Each fires when the named soul comes aboard.');
+  by('LOADED').forEach(e => console.log('  ' + e.key.padEnd(18) + 'is ' + e.resolvesTo[0]
+    + '   · also matches: ' + e.alsoMatches.join(', ')));
+}
+if (by('ORPHAN').length) {
+  console.log('\nORPHAN — a key no soul answers to. Drift, or a scene filed as a figure.');
+  by('ORPHAN').forEach(e => console.log('  ' + e.key.padEnd(18)
+    + (e.hasPlates ? 'plates ' : '') + (e.hasRoom ? 'room' : '')));
+}
+
+if (CHECK) {
+  const bad = totals.ambiguous + totals.orphan;
+  console.log('\n--check: ' + (bad ? bad + ' key(s) resolve to none or many' : 'every key resolves to one soul')
+            + ', nothing written');
+  process.exit(bad ? 1 : 0);
+}
+
+fs.writeFileSync(OUT, JSON.stringify({
+  _: 'GENERATED by tools/keyring.js — do not edit. Every key the ship uses, and what it reaches.',
+  _law: 'A key is not wrong until a second soul answers to it. By then it is expensive.',
+  generated: new Date().toISOString(),
+  generator: 'tools/keyring.js',
+  shapes: {
+    exact:    'the key IS the slugged name',
+    suffix:   'the forename dropped — lincoln in abraham-lincoln',
+    prefix:   'the epithet dropped — cleopatra in cleopatra-vii',
+    reversed: 'word order — einstein-albert of albert-einstein',
+  },
+  states: {
+    RESOLVED:  'exactly one soul answers',
+    LOADED:    'one soul today; another name on the roster would also answer',
+    AMBIGUOUS: 'more than one soul answers right now',
+    ORPHAN:    'no soul answers at all',
+  },
+  totals,
+  keys: entries,
+}, null, 2) + '\n');
+
+console.log('\nwrote ' + OUT);
