@@ -97,10 +97,43 @@ jobs:
             if (!hasCat && !hasDir) { console.log("::error::no room at " + cat + " or " + dir); process.exit(1); }
 
             /* A ROOM IS ONLY A ROOM WHEN BOTH HALVES AGREE. Moving onto a key
-               that already holds either would leave two rooms half-merged, and
-               a reader would get one room resolving to another room texts. */
-            if (fs.existsSync(newCat)) { console.log("::error::" + newCat + " ALREADY EXISTS. Refusing to overwrite a catalog."); process.exit(1); }
-            if (fs.existsSync(newDir)) { console.log("::error::" + newDir + " ALREADY EXISTS. Refusing to merge two rooms silently."); process.exit(1); }
+               that already holds a FOLDER would merge two sets of texts
+               silently, and a reader would get one room's contents under
+               another room's name.
+
+               ── THE HALF-MOVED CASE, 18 AUGUST 2026 ─────────────────────
+               The first cut refused whenever the destination CATALOG existed.
+               That was right for a fresh rename and wrong for the situation it
+               actually met: Julius's catalog had ALREADY been renamed to
+               julius-caesar.json, by a rename that stopped before it reached
+               the folder or the catalog's own contents.
+
+               So the guard blocked the very move that would have finished the
+               job. A destination catalog is not a collision when there is no
+               destination FOLDER — it is the other half of an interrupted
+               operation, waiting.
+
+               THE FOLDER IS THE THING THAT CANNOT BE MERGED. It stays fatal.
+               The catalog is a warning, because overwriting one is recoverable
+               from git and merging two folders of texts is not. */
+            const newDirExists = fs.existsSync(newDir);
+            const newCatExists = fs.existsSync(newCat);
+            if (newDirExists) {
+              console.log("::error::" + newDir + " ALREADY EXISTS. Two folders of texts cannot be merged silently — that is not a rename, it is a decision about which text wins.");
+              process.exit(1);
+            }
+            if (newCatExists && hasCat) {
+              console.log("::error::BOTH " + cat + " AND " + newCat + " exist. Two catalogs for one room: read them and delete the wrong one before moving.");
+              process.exit(1);
+            }
+            if (newCatExists && !hasCat) {
+              console.log("");
+              console.log("HALF-MOVED ROOM. " + newCat + " already exists and " + cat + " does not,");
+              console.log("so the catalog was renamed and the folder was left behind. This move");
+              console.log("finishes it: the texts follow the catalog that is already waiting.");
+              console.log("");
+              console.log("::warning::the destination catalog exists — confirm its file paths point at " + NEW + "/ or the room will resolve and 404 every text.");
+            }
 
             const texts = hasDir ? fs.readdirSync(dir).filter(f => fs.statSync(path.join(dir, f)).isFile()) : [];
 
