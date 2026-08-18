@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-18T06:40:03.477Z",
+  "generated": "2026-08-18T07:14:55.755Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -37,9 +37,9 @@
     "note": "a scene is a moment a figure was in. the figure need not be in the frame — ownership is editorial, not photographic. absence is never a gap. the owner is checkable; the tag is not."
   },
   "totals": {
-    "files": 165,
-    "plates": 157,
-    "keys": 50,
+    "files": 168,
+    "plates": 160,
+    "keys": 51,
     "rooms": 52,
     "scenes": 1,
     "sceneFiles": 2,
@@ -48,12 +48,12 @@
     "rosterColumn": "full name",
     "scenesResolvedByRosterAlone": 0,
     "byVariant": {
-      "card": 50,
-      "thumb": 50,
-      "terminal": 49,
+      "card": 51,
+      "thumb": 51,
+      "terminal": 50,
       "chat": 2
     },
-    "complete": 49,
+    "complete": 50,
     "provenanced": 44
   },
   "gaps": {
@@ -63,7 +63,6 @@
       ]
     },
     "roomsWithoutPlates": [
-      "augustus-caesar",
       "einstein-albert",
       "ingram"
     ],
@@ -90,9 +89,7 @@
         "note": "the captain. A room and no portrait, by choice."
       }
     ],
-    "unaccepted": [
-      "augustus-caesar"
-    ],
+    "unaccepted": [],
     "scenesWithoutFigure": [],
     "scenesMalformed": [],
     "notPlates": [
@@ -184,6 +181,33 @@
         "thumb": [
           {
             "file": "apollo-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "scenes": [],
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "augustus-caesar": {
+      "key": "augustus-caesar",
+      "variants": {
+        "card": [
+          {
+            "file": "augustus-caesar-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "augustus-caesar-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "augustus-caesar-thumb.jpg",
             "n": 1
           }
         ]
@@ -1624,6 +1648,27 @@
       "surface_slug": "thumb",
       "file": "apollo-thumb.jpg",
       "bytes": 34186,
+      "provenance": null
+    },
+    "augustus-caesar-card.jpg": {
+      "key": "augustus-caesar",
+      "surface_slug": "card",
+      "file": "augustus-caesar-card.jpg",
+      "bytes": 195008,
+      "provenance": null
+    },
+    "augustus-caesar-terminal.jpg": {
+      "key": "augustus-caesar",
+      "surface_slug": "terminal",
+      "file": "augustus-caesar-terminal.jpg",
+      "bytes": 216603,
+      "provenance": null
+    },
+    "augustus-caesar-thumb.jpg": {
+      "key": "augustus-caesar",
+      "surface_slug": "thumb",
+      "file": "augustus-caesar-thumb.jpg",
+      "bytes": 39378,
       "provenance": null
     },
     "bram-stoker-card.jpg": {
