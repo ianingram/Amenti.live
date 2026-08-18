@@ -1,0 +1,160 @@
+# ============================================================================
+#  .github/workflows/panes.yml  ·  THE PANE WATCH
+# ----------------------------------------------------------------------------
+#  Walks every pane in fleet-nav.js — on disk and in the world — and commits
+#  PANES.json. Read-only against the site. It observes and does not act.
+#
+#  ── WHY ───────────────────────────────────────────────────────────────────
+#  Every register in this fleet watches something. NOTHING WATCHED THE PANES.
+#
+#  On 17 August index.html — the Harbor, the way in — was replaced by a commit
+#  reading "Update fmt.Println message from 'Hello' to 'Goodbye'". Go. A
+#  hello-world. It sat there for twelve hours and no instrument noticed, in a
+#  fleet built entirely out of instruments. It was found by clicking a link.
+#
+#  The same night: the Plate Deck mounted no nav, so a reader could arrive and
+#  not leave. Nine panes rendered in the fallback face. amenti.css pointed at
+#  fonts that never resolved. All three found by eye.
+#
+#      THE SURFACE A READER ARRIVES ON FIRST
+#      WAS THE ONE SURFACE WITH NOTHING POINTED AT IT.
+#
+#  ── A PROBE, NOT A PANE ───────────────────────────────────────────────────
+#  The findings go on watch.html, which already shows what guards the fleet.
+#  A new pane needs a new SUBJECT, not a new file — "are the panes up" is a
+#  line on the Watch, and a fleet with more mirrors than ship has lost the plot.
+#
+#  ── THE FIFTH STRAND ──────────────────────────────────────────────────────
+#      :07  the panes     this file
+#      :17  the patrol    walks the watches
+#      :27  the scan      walks the wiring
+#      :37  the mirror    pulls six Workers
+#      :47  the weighing  measures the ship against the spells
+#
+#  Ten minutes apart. Two must never occupy one rung — the Siege wrote that law
+#  before the fault existed, and it arrived on schedule the day a second writer
+#  appeared on the same branch.
+#
+#  ── WHAT FAILS THE RUN ────────────────────────────────────────────────────
+#  A pane missing, not a pane, stranding its reader, unreachable, or a ghost.
+#
+#  UNSTYLED DOES NOT FAIL. Nine panes carry it today and failing on it would
+#  make every run red — which teaches a reader to stop looking, and is how a
+#  live finding gets lost among the settled ones.
+#
+#  NO READING does not fail either. Empty glass is correct behaviour.
+# ============================================================================
+name: the pane watch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7 */6 * * *'
+  push:
+    paths:
+      - '*.html'
+      - 'fleet-nav.js'
+      - 'amenti.css'
+      - 'probes/probe-panes.mjs'
+
+permissions:
+  contents: write
+
+env:
+  PANE_BASE: 'https://ianingram.github.io/Fleet-Documents/'
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 0 — a job that commits must be able to see what it
+      # committed. The worker mirror recreated seven files from nothing on
+      # every run for want of this line.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # continue-on-error: a finding must be WRITTEN DOWN before the run is
+      # failed. An alarm that loses its own evidence is not an alarm.
+      - name: Walk the panes
+        id: walk
+        continue-on-error: true
+        run: node probes/probe-panes.mjs . > PANES.json
+
+      - name: Report
+        id: report
+        run: |
+          if [ ! -s PANES.json ]; then
+            echo "::error::the probe produced nothing. Not a clean run — no run at all."
+            exit 1
+          fi
+          node -e '
+            const j = JSON.parse(require("fs").readFileSync("PANES.json","utf8"));
+            const t = j.totals;
+            console.log("");
+            console.log("  " + t.panes + " panes in the registry · world "
+              + (j.worldReachable ? "reachable" : "UNREACHABLE — disk checks only"));
+            console.log("");
+            for (const p of j.panes) {
+              const bad = ["MISSING","NOT A PANE","STRANDING","UNREACHABLE","GHOST"].includes(p.state);
+              console.log("  " + (bad ? "!" : " ") + " " + p.state.padEnd(14) + p.file);
+              if (bad) console.log("::error::" + p.state + " — " + p.file + " :: " + j.states[p.state]);
+            }
+            const bad = t.missing + t.notAPane + t.stranding + t.unreachable + t.ghost;
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              "## The Pane Watch\n\n" +
+              "| | |\n|---|---|\n" +
+              "| panes | " + t.panes + " |\n" +
+              "| good | " + t.good + " |\n" +
+              "| **stranding** | **" + t.stranding + "** |\n" +
+              "| **not a pane** | **" + t.notAPane + "** |\n" +
+              "| unreachable | " + t.unreachable + " |\n" +
+              "| unstyled | " + t.unstyled + " |\n" +
+              "| no reading | " + t.noReading + " |\n\n" +
+              (j.worldReachable ? "" : "> Not one pane served. Reachability is UNKNOWN this run, which is a different answer from BAD.\n\n") +
+              (bad ? j.panes.filter(p => ["MISSING","NOT A PANE","STRANDING","UNREACHABLE","GHOST"]
+                       .includes(p.state)).map(p => "**" + p.file + "** — " + p.state + ": " + j.states[p.state]).join("\n\n")
+                   : "Every pane is on disk, served, navigable and carries its reading."));
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, "bad=" + bad + "\n");
+          '
+
+      - name: Commit the reading
+        run: |
+          git config user.name  "pane-watch"
+          git config user.email "panes@amenti.live"
+          git add -f PANES.json
+          if git diff --staged --quiet -- PANES.json; then
+            echo "the pane watch is unchanged"
+            exit 0
+          fi
+          git commit -m "panes: the watch [skip ci]"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin "${GITHUB_REF_NAME}" \
+               && git push origin "HEAD:${GITHUB_REF_NAME}"; then pushed=1; break; fi
+            echo "push attempt $i did not land; retrying from a clean tree"
+            sleep 5
+          done
+          git rebase --abort 2>/dev/null || true
+          [ "$pushed" = "1" ] || { echo "::error::the pane watch could not be pushed"; exit 1; }
+          echo "committed"
+
+      - name: A pane a reader cannot use does not pass
+        if: steps.report.outputs.bad != '0'
+        run: |
+          echo ""
+          echo "  ══════════════════════════════════════════════════════════"
+          echo "   ${{ steps.report.outputs.bad }} PANE(S) A READER CANNOT USE."
+          echo ""
+          echo "   Read the errors above. STRANDING means a reader can arrive"
+          echo "   and not leave. NOT A PANE means the file is present,"
+          echo "   committed, and is not a pane — the Harbor was a Go"
+          echo "   hello-world for twelve hours and nothing noticed."
+          echo "  ══════════════════════════════════════════════════════════"
+          echo ""
+          exit 1
