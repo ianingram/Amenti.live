@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-18T03:42:09.688Z",
+  "generated": "2026-08-18T03:55:30.100Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -66,7 +66,7 @@
         "caesar"
       ],
       "thumb": [
-        "julius-caesar"
+        "caesar"
       ]
     },
     "roomsWithoutPlates": [
@@ -262,19 +262,14 @@
             "file": "caesar-terminal.jpg",
             "n": 1
           }
-        ],
-        "thumb": [
-          {
-            "file": "caesar-thumb.jpg",
-            "n": 1
-          }
         ]
       },
       "scenes": [],
       "room": true,
       "complete": false,
       "missing": [
-        "card"
+        "card",
+        "thumb"
       ]
     },
     "charles-martel": {
@@ -812,13 +807,18 @@
             "file": "julius-caesar-card.jpg",
             "n": 1
           }
+        ],
+        "thumb": [
+          {
+            "file": "julius-caesar-thumb.jpg",
+            "n": 1
+          }
         ]
       },
       "scenes": [],
       "room": false,
       "complete": false,
       "missing": [
-        "thumb",
         "terminal"
       ]
     },
@@ -1766,13 +1766,6 @@
       "key_side": "LEFT",
       "bytes": 155709
     },
-    "caesar-thumb.jpg": {
-      "key": "caesar",
-      "surface_slug": "thumb",
-      "file": "caesar-thumb.jpg",
-      "bytes": 45186,
-      "provenance": null
-    },
     "charles-martel-card.jpg": {
       "key": "charles-martel",
       "surface_slug": "card",
@@ -2689,6 +2682,13 @@
       "surface_slug": "card",
       "file": "julius-caesar-card.jpg",
       "bytes": 160267,
+      "provenance": null
+    },
+    "julius-caesar-thumb.jpg": {
+      "key": "julius-caesar",
+      "surface_slug": "thumb",
+      "file": "julius-caesar-thumb.jpg",
+      "bytes": 45186,
       "provenance": null
     },
     "king-arthur-card.jpg": {
