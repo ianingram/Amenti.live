@@ -36,6 +36,17 @@
 #  This finishes it. Then `caesar` answers to nobody and Augustus has clean
 #  ground.
 #
+#  ── IT REPOINTS THE CATALOG TOO ───────────────────────────────────────────
+#  Moving the files is not moving the room. A catalog that still says
+#  "key": "caesar" with paths into caesar/ will RESOLVE and then 404 every text
+#  behind it — and look perfect to every register in the fleet.
+#
+#  The first cut did exactly that, twice: Julius needed a hand-written catalog
+#  afterwards and so did Gandhi. The workflow reintroduced the half-moved state
+#  it was written to prevent. It now rewrites the key and the file paths, and
+#  NOTHING ELSE — titles, sources, notes and sections are the part a person
+#  wrote, and this script has no business touching them.
+#
 #  ── IT WILL NOT CLOBBER ───────────────────────────────────────────────────
 #    · refuses if the old room does not exist
 #    · refuses if the new key ALREADY has a catalog or a folder
@@ -147,6 +158,47 @@ jobs:
             const q = s => JSON.stringify(s);
 
             if (P.hasCat) { cp.execSync("git mv " + q(P.cat) + " " + q(P.newCat)); console.log("  catalog moved"); }
+
+            /* ── AND THE CATALOG'S CONTENTS ────────────────────────────────
+               MOVING THE FILE IS NOT MOVING THE ROOM. The first cut renamed
+               the catalog and the texts and left the catalog still saying
+               "key": "caesar" with eleven paths pointing at caesar/.
+
+               That is the HALF-MOVED STATE the whole workflow exists to
+               prevent, reintroduced by the workflow itself: library.js would
+               resolve the catalog and 404 every text behind it, and every
+               register in the fleet would report the room as present and
+               correct. Julius needed a hand-written catalog afterwards.
+               Gandhi needed one too. It would have needed one every time.
+
+               So the key and the paths are repointed here. ONLY those two
+               things — the titles, the sources, the notes and the section
+               names are carried across BYTE FOR BYTE, because they are the
+               part a person wrote and this script has no business touching. */
+            const catPath = P.hasCat ? P.newCat : (fs.existsSync(P.newCat) ? P.newCat : null);
+            if (catPath) {
+              try {
+                const j = JSON.parse(fs.readFileSync(catPath, "utf8"));
+                let touched = 0;
+                if (j.key === P.OLD) { j.key = P.NEW; touched++; }
+                for (const w of (j.works || [])) {
+                  if (typeof w.file === "string" && w.file.startsWith(P.OLD + "/")) {
+                    w.file = P.NEW + "/" + w.file.slice(P.OLD.length + 1);
+                    touched++;
+                  }
+                }
+                if (touched) {
+                  fs.writeFileSync(catPath, JSON.stringify(j, null, 2) + "\n");
+                  cp.execSync("git add " + q(catPath));
+                  console.log("  catalog repointed  " + touched + " field(s): key and file paths now read " + P.NEW);
+                } else {
+                  console.log("  catalog already points at " + P.NEW);
+                }
+              } catch (e) {
+                console.log("::warning::could not repoint " + catPath + " (" + e.message + "). "
+                  + "THE TEXTS MOVED AND THE CATALOG DID NOT — check its key and file paths by hand.");
+              }
+            }
             if (P.hasDir) {
               fs.mkdirSync(P.newDir, { recursive: true });
               for (const f of P.texts) {
