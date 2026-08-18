@@ -33,6 +33,14 @@
    Because that is how `codex: 0 of 51` happened in reverse. A checker that
    answers a question it cannot answer is worse than one that declines.
 
+   ── AND WHERE A CHECK IS WEAKER THAN THE SPELL, IT SAYS SO ────────────────
+   Some checks are patterns over source text rather than analysis, and a
+   pattern can be walked past. Where that is true the note carries the size of
+   the claim — "no literal write method appears" rather than "no probe spends".
+
+   A CONFIRMED THAT OVERSTATES ITSELF IS A GREEN LAMP WITH NOTHING BEHIND IT,
+   and this file exists because that keeps happening.
+
      node probes/probe-spells.mjs > spell-conformance.json
    ========================================================================== */
 
@@ -189,25 +197,56 @@ const add = (id, stamp, saw, note) => results.push({ id, stamp, saw, note: note 
 
 /* the-probe-may-not-spend — probes and tools are GET/HEAD only. The proxy's
    fifteen POSTs to Anthropic are the GENERATOR and are out of scope; a rule
-   scoped wide enough to condemn the engine teaches its reader to ignore it. */
+   scoped wide enough to condemn the engine teaches its reader to ignore it.
+
+   ── THIS CHECK IS A PATTERN, AND A PATTERN CAN BE WALKED PAST ────────────
+   Found by probing this file before it shipped. The detector matches the
+   literal form:
+
+       method: "POST"        FLAGGED
+       method: 'PATCH'       FLAGGED
+       method:  "DELETE"     FLAGGED
+
+   and does not match a method held in a variable:
+
+       const m = "POST"; fetch(u, { method: m });      PASSES
+
+   Nobody writes that by accident, and every probe in this fleet uses the
+   literal form. But the spell says a probe MAY NOT SPEND, and a check that can
+   be evaded while returning CONFIRMED is the exact shape this specification
+   exists to catch — `sealed: 1` over a freeze that 400'd, a cron registered
+   for the wrong day, a font named and never loaded.
+
+   SO THE READING SAYS WHAT IT IS. A CONFIRMED here means "no literal write
+   appears in these files", which is a smaller claim than "no probe spends",
+   and the difference is stated rather than left for a reader to assume.
+
+   A grep that admits it is a grep is worth more than an analysis that
+   overstates itself. */
 (() => {
   const dirs = ['probes', 'tools'].filter(d => exists(d));
   if (!dirs.length) return add('the-probe-may-not-spend', 'UNREACHABLE', 'no probes/ or tools/');
   const offenders = [];
+  let files = 0;
   for (const d of dirs) {
     for (const f of fs.readdirSync(path.join(ROOT, d))) {
       if (!/\.(mjs|js|cjs)$/.test(f)) continue;
+      files++;
       const t = read(path.join(d, f)) || '';
-      /* a write is method: POST/PATCH/PUT/DELETE anywhere in a probe */
+      /* a write is method: POST/PATCH/PUT/DELETE, written literally */
       const m = t.match(/method:\s*['"](POST|PATCH|PUT|DELETE)['"]/g);
       if (m) offenders.push(d + '/' + f + ' (' + m.length + ')');
     }
   }
   add('the-probe-may-not-spend',
       offenders.length ? 'CONTRADICTED' : 'CONFIRMED',
-      dirs.join(', ') + ' walked',
-      offenders.length ? 'writes found in: ' + offenders.join(' · ')
-                       : 'every probe observes and none acts');
+      files + ' files in ' + dirs.join(', ') + ' scanned for a literal write method',
+      offenders.length
+        ? 'writes found in: ' + offenders.join(' · ')
+        : 'no literal write method in any probe. NOTE THE SIZE OF THIS CLAIM: '
+          + 'the check is a pattern over source text, so a method held in a '
+          + 'variable — const m = "POST" — would pass it. That is a known limit '
+          + 'of the instrument, stated here rather than left for a reader to assume.');
 })();
 
 /* the-bell-leaves-a-mark — /hall carries lastBell beside settlesAt. settlesAt
