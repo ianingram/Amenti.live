@@ -1,0 +1,70 @@
+{
+  "key": "augustus-caesar",
+  "name": "Augustus Caesar",
+  "note": "**THIS ROOM HOLDS A MAN'S OWN ACCOUNT OF HIMSELF AND THE GOSSIP OF THE CLERK WHO READ HIS FILES A CENTURY LATER.** They do not agree, and the disagreement is the shelf.\n\nTHE FIRST WORK IS BY AUGUSTUS. The *Res Gestae* is the list of achievements he ordered inscribed on bronze tablets before his mausoleum — dictated in his own voice, in the first person, and posted where every Roman would walk past it. **The original tablets are lost.** What survives is a copy cut into the walls of a temple at Ancyra in Asia Minor, found by a Dutch ambassador in 1555, and recovered properly only in the nineteenth century.\n\n**READ IT FOR WHAT IS NOT IN IT.** Fairley's introduction, work 02 here, sets the omissions out: no domestic affairs; his wife unnamed; not one person outside the imperial household named, not even Maecenas or Agrippa. **His enemies Brutus, Cassius and Antony are alluded to several times and never named.** The annihilation of three legions under Varus does not appear at all. It is a monument, and monuments are edited.\n\nTHE SECOND SOURCE IS SUETONIUS, and he had access to the imperial archives as Hadrian's secretary. He gives what the inscription will not: the proscriptions, the private habits, the dice, the exile of Julia, the omens, the last words. **He is also a collector of gossip who names no sources and never tests a story**, and the room does not treat him as a corrective so much as a second, differently-biased witness.\n\n**THE PAIR THAT SHOWS THE METHOD.** Suetonius reports that Augustus boasted he found Rome brick and left it marble — and, forty pages later, that he lived forty years in the same small bedroom in a modest house on the Palatine with no marble in it. Both are in this room. Neither is corrected.\n\nTRANSLATIONS. Fairley 1898 for the *Res Gestae* — a scholarly edition whose Latin and Greek apparatus is not reproduced here, only his English. Thomson's Suetonius is Victorian and freer than a modern reader expects. **Check wording against the originals before quoting either.**",
+  "works": [
+    {
+      "id": "01-the-deeds",
+      "section": "In his own words",
+      "title": "Res Gestae Divi Augusti — The Deeds of the Divine Augustus",
+      "mode": "stored",
+      "source": "Augustus, *Res Gestae Divi Augusti* (the Monumentum Ancyranum, AD 14) · ed. and trans. William Fairley, *Translations and Reprints from the Original Sources of European History* Vol. V No. 1, University of Pennsylvania, 1898 · Project Gutenberg #66595 · public domain",
+      "note": "The whole inscription in English, thirty-five chapters. It opens without preamble: in his twentieth year, on his own judgment and at his own expense, he raised an army and restored liberty to a commonwealth oppressed by a faction. **Every clause is a claim that somebody at the time could have contested**, and he posted it where they would all read it.",
+      "file": "augustus-caesar/01-the-deeds.md"
+    },
+    {
+      "id": "02-the-inscription",
+      "section": "In his own words",
+      "title": "The history of the inscription, and what it omits",
+      "mode": "stored",
+      "source": "Augustus, *Res Gestae Divi Augusti* (the Monumentum Ancyranum, AD 14) · ed. and trans. William Fairley, *Translations and Reprints from the Original Sources of European History* Vol. V No. 1, University of Pennsylvania, 1898 · Project Gutenberg #66595 · public domain",
+      "note": "Fairley on how the text survived — the lost bronze, the Ancyra copy, Buysbecche in 1555, Mommsen and the Berlin Academy — and then the passage this room turns on: the catalogue of what Augustus left out. **A record of a reign with no wife in it and no defeats in it.**",
+      "file": "augustus-caesar/02-the-inscription.md"
+    },
+    {
+      "id": "03-the-rise",
+      "section": "Suetonius",
+      "title": "Chapters 1–18 — The rise",
+      "mode": "stored",
+      "source": "Suetonius, *The Lives of the Twelve Caesars, Vol. II: Augustus* (c. AD 121) · trans. Alexander Thomson, rev. T. Forester · Project Gutenberg #6387 · public domain",
+      "note": "Birth, the inheritance, the triumvirate, the proscriptions, Actium. Set these chapters beside chapters 1 and 2 of the *Res Gestae*, which cover the same years in eleven lines and describe the proscription of his father's murderers as lawful vengeance.",
+      "file": "augustus-caesar/03-the-rise.md"
+    },
+    {
+      "id": "04-the-settlement",
+      "section": "Suetonius",
+      "title": "Chapters 19–45 — The settlement",
+      "mode": "stored",
+      "source": "Suetonius, *The Lives of the Twelve Caesars, Vol. II: Augustus* (c. AD 121) · trans. Alexander Thomson, rev. T. Forester · Project Gutenberg #6387 · public domain",
+      "note": "The principate as it actually operated: the buildings, the games, the administration. **Contains the brick-and-marble boast**, which Suetonius reports without irony and which work 06 quietly undercuts.",
+      "file": "augustus-caesar/04-the-settlement.md"
+    },
+    {
+      "id": "05-the-reforms",
+      "section": "Suetonius",
+      "title": "Chapters 46–60 — The reforms",
+      "mode": "stored",
+      "source": "Suetonius, *The Lives of the Twelve Caesars, Vol. II: Augustus* (c. AD 121) · trans. Alexander Thomson, rev. T. Forester · Project Gutenberg #6387 · public domain",
+      "note": "Laws, the census, the provinces, the moral legislation. The shortest section here and the one closest in substance to the *Res Gestae* — which is itself a finding: they agree most where the subject is paperwork.",
+      "file": "augustus-caesar/05-the-reforms.md"
+    },
+    {
+      "id": "06-private-life",
+      "section": "Suetonius",
+      "title": "Chapters 61–83 — The private life",
+      "mode": "stored",
+      "source": "Suetonius, *The Lives of the Twelve Caesars, Vol. II: Augustus* (c. AD 121) · trans. Alexander Thomson, rev. T. Forester · Project Gutenberg #6387 · public domain",
+      "note": "The household, the daughter he exiled, the small house on the Palatine with no marble in it and the same bedroom for forty years, the dice, the diet, the sleeplessness. **None of this exists in the inscription.** This is the chapter that makes the room worth having two sources.",
+      "file": "augustus-caesar/06-private-life.md"
+    },
+    {
+      "id": "07-the-death",
+      "section": "Suetonius",
+      "title": "Chapters 84–101 — The death",
+      "mode": "stored",
+      "source": "Suetonius, *The Lives of the Twelve Caesars, Vol. II: Augustus* (c. AD 121) · trans. Alexander Thomson, rev. T. Forester · Project Gutenberg #6387 · public domain",
+      "note": "The omens, the last day, the will — and the passage that closes the circle: Suetonius describing the four sealed documents left with the Vestals, one of which was **the list of achievements he wished inscribed before his mausoleum.** That document is work 01 of this room.",
+      "file": "augustus-caesar/07-the-death.md"
+    }
+  ]
+}
