@@ -1,0 +1,231 @@
+# ============================================================================
+#  .github/workflows/rekey.yml  ·  RENAME A FIGURE'S KEY
+# ----------------------------------------------------------------------------
+#  Renames every file belonging to a plate key, AND MOVES ITS MANIFEST RECORDS
+#  WITH IT. Run it from the Actions tab: type the old key, the new key, click
+#  Run. Nothing is edited by hand.
+#
+#  ── WHY A WORKFLOW AND NOT A RENAME ───────────────────────────────────────
+#  A figure's key is not one file. `caesar` is a card, a thumb, a terminal,
+#  possibly chat variants, possibly scenes — and a set of records in
+#  img/MANIFEST.json keyed BY FILENAME.
+#
+#  Rename the files by hand and the manifest records are ORPHANED. Those
+#  records hold the generation seed, the source brief and the crop notes, and
+#  THEY EXIST NOWHERE ELSE. One of them is the observation that Caesar's plate
+#  shows segmentata armour — Imperial, a century late — accepted knowingly
+#  because the armour is unworn and it is not the identifying image. That
+#  sentence cost somebody a careful look at a picture. Losing it to a file move
+#  would be losing the only copy.
+#
+#  So the rename is a transaction: files and provenance together, or neither.
+#
+#  ── WHY THESE THREE KEYS NEEDED IT ────────────────────────────────────────
+#  Each named TWO souls on a roster of 1,011, so neither could resolve:
+#
+#      caesar      Augustus Caesar   | Julius Caesar
+#      gandhi      Mahatma Gandhi    | Indira Gandhi
+#      washington  George Washington | Denzel Washington
+#
+#  The manifest settled the first two — caesar-card names Julius outright, and
+#  gandhi's brief describes khadi, round spectacles and a spinning wheel, which
+#  is Mohandas and not Indira. The third has NO manifest record and George
+#  already holds complete plates under his full key, so `washington` is a
+#  DUPLICATE and is retired rather than renamed.
+#
+#  ── IT WILL NOT GUESS, AND IT WILL NOT CLOBBER ────────────────────────────
+#    · refuses if the old key matches no files
+#    · refuses if the new key ALREADY has files — a rename that silently
+#      overwrites an existing figure's art is the worst outcome available here
+#    · dry_run defaults TRUE. Nothing moves until you say so.
+#    · uses `git mv`, so history follows every file
+#
+#  ── RETIRE MODE ───────────────────────────────────────────────────────────
+#  Set new_key to `RETIRE` and the files are DELETED rather than renamed, with
+#  their manifest records removed. For a duplicate — art that exists twice
+#  under two keys — that is the honest operation. Renaming a duplicate onto a
+#  key that already has plates would be the clobber this file refuses.
+# ============================================================================
+name: rekey a figure
+
+on:
+  workflow_dispatch:
+    inputs:
+      old_key:
+        description: 'The key as it is now, e.g. caesar'
+        required: true
+      new_key:
+        description: 'The key it should be, e.g. julius-caesar — or RETIRE to delete'
+        required: true
+      dry_run:
+        description: 'Dry run (shows every move, writes nothing)'
+        required: true
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+
+permissions:
+  contents: write
+
+jobs:
+  rekey:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # git mv wants real history
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # ── WHAT WOULD MOVE ───────────────────────────────────────────────────
+      - name: Find the files and the records
+        id: plan
+        env:
+          OLD: ${{ github.event.inputs.old_key }}
+          NEW: ${{ github.event.inputs.new_key }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const OLD = process.env.OLD.trim();
+            const NEW = process.env.NEW.trim();
+            const RETIRE = NEW.toUpperCase() === "RETIRE";
+
+            if (!/^[a-z0-9-]+$/.test(OLD)) { console.log("::error::old_key must be lowercase letters, digits and hyphens"); process.exit(1); }
+            if (!RETIRE && !/^[a-z0-9-]+$/.test(NEW)) { console.log("::error::new_key must be lowercase letters, digits and hyphens, or RETIRE"); process.exit(1); }
+
+            /* THE PLATE GRAMMAR, matched exactly as the register matches it:
+               {key}-{variant}[-n].{ext}. A key is the WHOLE stem before the
+               variant — `caesar` must not match `julius-caesar-card.jpg`. */
+            const V = "(card|thumb|terminal|chat)";
+            const plate = new RegExp("^" + OLD + "-" + V + "(-\\\\d+)?\\\\.(jpg|jpeg|png|webp)$", "i");
+            const taken = new RegExp("^" + (RETIRE ? "\\\\u0000" : NEW) + "-" + V + "(-\\\\d+)?\\\\.(jpg|jpeg|png|webp)$", "i");
+
+            const imgs = fs.existsSync("img") ? fs.readdirSync("img") : [];
+            const moves = imgs.filter(f => plate.test(f))
+                              .map(f => ({ from: "img/" + f, to: RETIRE ? null : "img/" + f.replace(new RegExp("^" + OLD + "-"), NEW + "-") }));
+
+            /* SCENES TOO. img/scene/{owner}--{tag}[-{variant}].ext — an owner
+               rename must carry its moments with it or they orphan. */
+            const scenes = fs.existsSync("img/scene") ? fs.readdirSync("img/scene") : [];
+            const sc = scenes.filter(f => f.startsWith(OLD + "--"))
+                             .map(f => ({ from: "img/scene/" + f, to: RETIRE ? null : "img/scene/" + NEW + "--" + f.slice(OLD.length + 2) }));
+
+            const all = moves.concat(sc);
+
+            if (!all.length) {
+              console.log("::error::no files match key \"" + OLD + "\". Nothing to do — check the spelling against img/PLATES.json.");
+              process.exit(1);
+            }
+            /* A RENAME THAT OVERWRITES A LIVING FIGURE IS THE WORST OUTCOME HERE. */
+            const clash = imgs.filter(f => taken.test(f));
+            if (!RETIRE && clash.length) {
+              console.log("::error::\"" + NEW + "\" ALREADY HAS PLATES: " + clash.join(", "));
+              console.log("::error::Renaming onto it would overwrite a living figure. If these are duplicates, RETIRE the old key instead.");
+              process.exit(1);
+            }
+
+            console.log((RETIRE ? "RETIRE " : "RENAME ") + OLD + (RETIRE ? "" : " -> " + NEW));
+            console.log("");
+            all.forEach(m => console.log("  " + m.from + (RETIRE ? "   DELETE" : "  ->  " + m.to)));
+
+            /* THE MANIFEST RECORDS, KEYED BY FILENAME. These carry seeds and
+               crop notes that exist nowhere else. */
+            let man = null;
+            try { man = JSON.parse(fs.readFileSync("img/MANIFEST.json", "utf8")); } catch (e) {}
+            const recs = man && man.images
+              ? Object.keys(man.images).filter(f => all.some(m => m.from.endsWith("/" + f) || m.from === "img/" + f))
+              : [];
+            console.log("");
+            console.log("manifest records that travel with them: " + recs.length);
+            recs.forEach(r => console.log("  " + r));
+            if (man && man.images && !recs.length) {
+              console.log("  (none — these files carry provenance:null, which is honest, not empty)");
+            }
+
+            fs.writeFileSync("/tmp/plan.json", JSON.stringify({ OLD, NEW, RETIRE, all, recs }));
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, "count=" + all.length + "\n");
+          '
+
+      # ── DO IT ─────────────────────────────────────────────────────────────
+      - name: Move the files and their provenance
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name  "rekey"
+          git config user.email "rekey@amenti.live"
+
+          node -e '
+            const fs = require("fs"), cp = require("child_process");
+            const P = JSON.parse(fs.readFileSync("/tmp/plan.json", "utf8"));
+
+            for (const m of P.all) {
+              if (P.RETIRE) { cp.execSync("git rm -q " + JSON.stringify(m.from)); console.log("  deleted " + m.from); }
+              else {
+                fs.mkdirSync(require("path").dirname(m.to), { recursive: true });
+                cp.execSync("git mv " + JSON.stringify(m.from) + " " + JSON.stringify(m.to));
+                console.log("  moved   " + m.from + "  ->  " + m.to);
+              }
+            }
+
+            /* ── THE PROVENANCE TRAVELS ────────────────────────────────────
+               img/MANIFEST.json is a WRITE TARGET for six Python tools and is
+               read live by amenti-diagnose.js. This touches ONLY the record
+               keys, moving each one to the new filename and changing its `key`
+               and `file` fields to match. Nothing else in the record is
+               altered — the seed, the crop note, the colour audit and the
+               model all carry across BYTE FOR BYTE.
+
+               A generator that rewrote them from scratch would silently
+               destroy the only copy. */
+            let man = null;
+            try { man = JSON.parse(fs.readFileSync("img/MANIFEST.json", "utf8")); } catch (e) {}
+            if (man && man.images && P.recs.length) {
+              for (const old of P.recs) {
+                const rec = man.images[old];
+                delete man.images[old];
+                if (P.RETIRE) { console.log("  record removed  " + old); continue; }
+                const neu = old.replace(new RegExp("^" + P.OLD + "(-|--)"), P.NEW + "$1");
+                if (rec.key === P.OLD) rec.key = P.NEW;
+                if (rec.file) rec.file = rec.file.replace(new RegExp("^" + P.OLD + "(-|--)"), P.NEW + "$1");
+                man.images[neu] = rec;
+                console.log("  record moved    " + old + "  ->  " + neu);
+              }
+              fs.writeFileSync("img/MANIFEST.json", JSON.stringify(man, null, 2) + "\n");
+            }
+          '
+
+          git add -A -- img
+          if git diff --staged --quiet; then
+            echo "::error::nothing staged after the moves — that should be impossible. Stopping."
+            exit 1
+          fi
+          git commit -m "rekey: ${{ github.event.inputs.old_key }} -> ${{ github.event.inputs.new_key }}"
+
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin "${GITHUB_REF_NAME}" \
+               && git push origin "HEAD:${GITHUB_REF_NAME}"; then pushed=1; break; fi
+            echo "push attempt $i did not land; retrying from a clean tree"
+            sleep 5
+          done
+          git rebase --abort 2>/dev/null || true
+          [ "$pushed" = "1" ] || { echo "::error::the rekey could not be pushed"; exit 1; }
+          echo "committed"
+
+      - name: What happens next
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            echo ""
+            echo "  DRY RUN — nothing was written. Read the plan above."
+            echo "  Re-run with dry_run: false to carry it out."
+          else
+            echo ""
+            echo "  Done. The push touches img/, so THE PLATE REGISTER WILL FIRE"
+            echo "  on its own and rewrite img/PLATES.json. Read that run: the old"
+            echo "  key should be gone and the new one present and complete."
+            echo ""
+            echo "  Then tools/keys.js can write the key column, because the"
+            echo "  ambiguity it refused to guess at no longer exists."
+          fi
