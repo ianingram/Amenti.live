@@ -55,6 +55,42 @@ const read = p => { try { return fs.readFileSync(path.join(ROOT, p), 'utf8'); } 
 const json = p => { const t = read(p); if (!t) return null; try { return JSON.parse(t); } catch { return null; } };
 const exists = p => fs.existsSync(path.join(ROOT, p));
 
+/* ── ACCEPTED SPENDERS, AND WHY ───────────────────────────────────────────
+   A ruling the captain made, recorded beside the check so it is not re-argued
+   every run. An acceptance with no reasoning is a rubber stamp, and a register
+   that confirms everything means nothing — so each entry names WHAT it permits
+   and WHY the spell is not violated.
+
+   THE SPELL IS ABOUT COST AND MUTATION, NOT ABOUT VERBS. "A probe that can
+   spend can cause the outage it measures for." A write that cannot mutate and
+   a render that stops after one are neither. The first cut of this check
+   counted write verbs, which is a different question and a worse one.
+
+   ADDING TO THIS TABLE IS A DECISION. A new spender in a new probe still
+   fires, and should. */
+const SPENDERS_ACCEPTED = {
+  'probes/probe-watches.mjs': {
+    on: '2026-08-17',
+    writes: 4,
+    why: [
+      'DATA WATCH · PATCH subscribers?id=eq.<nil UUID> — targets an id that CANNOT '
+      + 'EXIST, so zero rows match and zero rows change whatever RLS decides. It is '
+      + 'not testing whether the write works; it is testing whether RLS LETS IT TRY. '
+      + 'This is the check that found `using (true)` on the unsub policy.',
+      'TREASURY WATCH · POST /quiz/submit with a deliberately forged session — the '
+      + 'refusal IS the reading. A probe that only sent valid sessions would prove '
+      + 'nothing about the door.',
+      'COST WATCH · POST /speak twice, one normal chunk and one 10,000-character '
+      + 'payload. The small one costs a fraction of a cent; the large one must be '
+      + 'REFUSED by the wall and costs nothing when the wall holds.',
+      'ARCHIVE WATCH · POST /speak up to six times, and ABORTS ON THE FIRST MISS. '
+      + 'Its own comment states the reason: six renders every six hours would be '
+      + '"a cost loop with a light on it, built by the instrument that exists to '
+      + 'prevent one." The abort is the guard the spell asks for.',
+    ],
+  },
+};
+
 /* ── SOURCE, WITH THE COMMENTARY TAKEN OUT ────────────────────────────────
    Every check that scans source text must read the CODE, not the prose about
    the code. Found the hard way: the spend-check flagged THIS FILE, three
@@ -292,7 +328,7 @@ const add = (id, stamp, saw, note) => results.push({ id, stamp, saw, note: note 
 (() => {
   const dirs = ['probes', 'tools'].filter(d => exists(d));
   if (!dirs.length) return add('the-probe-may-not-spend', 'UNREACHABLE', 'no probes/ or tools/');
-  const offenders = [], harnesses = [];
+  const offenders = [], harnesses = [], accepted = [];
   let files = 0;
   for (const d of dirs) {
     for (const f of fs.readdirSync(path.join(ROOT, d))) {
@@ -317,18 +353,30 @@ const add = (id, stamp, saw, note) => results.push({ id, stamp, saw, note: note 
 
       const m = t.match(/method:\s*['"](POST|PATCH|PUT|DELETE)['"]/g);
       if (!m) continue;
-      if (isHarness) harnesses.push(d + '/' + f + ' (' + m.length + ' simulated)');
-      else offenders.push(d + '/' + f + ' (' + m.length + ')');
+      const rel = d + '/' + f;
+      const ruled = SPENDERS_ACCEPTED[rel];
+      if (isHarness) harnesses.push(rel + ' (' + m.length + ' simulated)');
+      else if (ruled) accepted.push({ file: rel, found: m.length, ...ruled });
+      else offenders.push(rel + ' (' + m.length + ')');
     }
   }
+  /* AN ACCEPTED SPENDER IS STILL COUNTED. It is not hidden from the reading —
+     hiding it would make this file a claim rather than a register. It simply
+     does not contradict, because a ruling was made and written down. */
   add('the-probe-may-not-spend',
       offenders.length ? 'CONTRADICTED' : 'CONFIRMED',
       files + ' files scanned in ' + dirs.join(', ') + ', comments excluded'
-        + (harnesses.length ? ' · ' + harnesses.length + ' harness(es) set aside' : ''),
+        + (harnesses.length ? ' · ' + harnesses.length + ' harness set aside' : '')
+        + (accepted.length ? ' · ' + accepted.length + ' accepted spender'
+            + (accepted.length === 1 ? '' : 's') : ''),
       offenders.length
-        ? 'writes found in: ' + offenders.join(' · ')
-        : 'no probe reaches the live system with a write.'
-          + (harnesses.length ? ' Simulated writes, against a stubbed fetch, in: ' + harnesses.join(' · ') + '.' : '')
+        ? 'unruled writes in: ' + offenders.join(' · ')
+          + '. Either the probe should not write, or the write is bounded and belongs '
+          + 'in SPENDERS_ACCEPTED with its reasoning.'
+        : 'no unruled write in any probe.'
+          + (harnesses.length ? ' Simulated, against a stubbed fetch: ' + harnesses.join(' · ') + '.' : '')
+          + (accepted.length ? ' Accepted ' + accepted.map(a => a.file + ' (' + a.found + ', ruled ' + a.on + ')').join(' · ')
+              + ' — bounded writes, each named: ' + accepted.flatMap(a => a.why).length + ' reasons on record.' : '')
           + ' NOTE THE SIZE OF THIS CLAIM: the check is a pattern over source with '
           + 'comments stripped, so a method held in a variable would pass it. '
           + 'A known limit of the instrument, stated rather than assumed.');
