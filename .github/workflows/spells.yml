@@ -1,0 +1,195 @@
+# ============================================================================
+#  .github/workflows/spells.yml  ·  THE WEIGHING
+# ----------------------------------------------------------------------------
+#  Runs probes/probe-spells.mjs — the ship measured against spec/spells.json —
+#  and publishes the reading through the Glass Gate so the Thoth pane can show
+#  it. Read-only. It observes and does not act.
+#
+#  WHY THIS EXISTS
+#  The halls came first. The Book of the Dead was treated as a requirements
+#  document and the software was built to satisfy it. That claim is only worth
+#  something if it can be TESTED — and until this file, nothing tested it. A
+#  specification nobody checks is a description, and descriptions rot.
+#
+#  A CONTRADICTION FAILS THE RUN. Unproven and unreachable do not: they are
+#  states of the INSTRUMENT, not of the ship. Four spells are permanently
+#  unproven — nothing can measure whether a summons leaned — and they print as
+#  loudly as a pass rather than being quietly dropped.
+#
+#  WHEN IT RUNS
+#  On any change to the spec, the probe, the roster, the library or the plate
+#  register — the things the checks read. And every six hours at :47, ten
+#  minutes behind the worker mirror at :37, which is ten behind the scan at
+#  :27, which is ten behind the patrol at :17.
+#
+#      :17 patrol   ·   :27 scan   ·   :37 mirror   ·   :47 spells
+#
+#  Four strands, ten minutes apart. TWO MUST NEVER OCCUPY ONE RUNG — the Siege
+#  wrote that law before the fault existed, and it exists here because every
+#  one of these commits to the same branch.
+#
+#  THE HALL IS FETCHED OVER THE PUBLIC ENDPOINT. No secret, no service key. If
+#  it cannot be read, the spells that depend on it come back UNREACHABLE rather
+#  than CONFIRMED — an absence must never read as an agreement.
+# ============================================================================
+name: the weighing
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '47 */6 * * *'
+  push:
+    paths:
+      - 'spec/spells.json'
+      - 'probes/probe-spells.mjs'
+      - 'names.csv'
+      - 'library/**'
+      - 'img/PLATES.json'
+      - 'tools/**'
+
+permissions:
+  contents: write
+
+env:
+  # the mint's public hall. Override here if the endpoint ever moves.
+  HALL_URL: 'https://amenti-mint.ingram-ian.workers.dev/hall'
+  FLEET_TOKEN: ${{ secrets.FLEET_TOKEN }}
+
+jobs:
+  weigh:
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 0 — a job that commits must be able to see what it
+      # committed. The worker mirror recreated seven files from nothing on
+      # every run for want of this line.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      # ── THE READING ───────────────────────────────────────────────────────
+      # continue-on-error because a CONTRADICTION exits 1, and the finding must
+      # be WRITTEN DOWN before the run is failed. An alarm that loses its own
+      # evidence is not an alarm.
+      - name: Weigh the ship against the spells
+        id: weigh
+        continue-on-error: true
+        run: node probes/probe-spells.mjs . > spell-conformance.json
+
+      # ── READ IT ALOUD ─────────────────────────────────────────────────────
+      - name: Report
+        id: report
+        run: |
+          if [ ! -s spell-conformance.json ]; then
+            echo "::error::the probe produced nothing. Not a clean run — no run at all."
+            exit 1
+          fi
+          node -e '
+            const j = JSON.parse(require("fs").readFileSync("spell-conformance.json","utf8"));
+            const t = j.totals;
+            console.log("");
+            console.log("  spec " + (j.spec || "?") + "   hall " + j.hall);
+            console.log("");
+            console.log("  CONFIRMED    " + t.confirmed);
+            console.log("  CONTRADICTED " + t.contradicted);
+            console.log("  UNPROVEN     " + t.unproven + "   (nothing measures these — the honest reading)");
+            console.log("  UNREACHABLE  " + t.unreachable);
+            console.log("");
+            for (const s of j.spells) {
+              if (s.stamp === "CONTRADICTED") {
+                console.log("::error::CONTRADICTED — " + s.title + " :: " + (s.note || s.saw));
+              }
+            }
+            const line = (s) => "| " + s.stamp.padEnd(12) + " | " + s.title + " |";
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              "## The Weighing\n\n" +
+              "| | |\n|---|---|\n" +
+              "| CONFIRMED | **" + t.confirmed + "** |\n" +
+              "| CONTRADICTED | **" + t.contradicted + "** |\n" +
+              "| UNPROVEN | " + t.unproven + " |\n" +
+              "| UNREACHABLE | " + t.unreachable + " |\n\n" +
+              (t.contradicted
+                ? "### Contradicted\n\n" + j.spells.filter(s => s.stamp === "CONTRADICTED")
+                    .map(s => "**" + s.title + "** — " + (s.note || s.saw)).join("\n\n")
+                : "No spell is contradicted.") +
+              "\n\n### Unproven — and why\n\n" +
+              j.spells.filter(s => s.stamp === "UNPROVEN")
+                .map(s => "**" + s.title + "** — " + (s.note || "")).join("\n\n"));
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT,
+              "contradicted=" + t.contradicted + "\n");
+          '
+
+      # ── COMMIT THE READING ────────────────────────────────────────────────
+      # Written by the instrument that took it, in the repo it describes. The
+      # moment a human types it, it stops being a reading and becomes a claim.
+      - name: Commit the reading
+        run: |
+          git config user.name  "the-weigher"
+          git config user.email "weigher@amenti.live"
+          git add -f spell-conformance.json
+          if git diff --staged --quiet -- spell-conformance.json; then
+            echo "the weighing is unchanged"
+            exit 0
+          fi
+          git commit -m "weighing: the ship against the spells [skip ci]"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin "${GITHUB_REF_NAME}" \
+               && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              pushed=1; break
+            fi
+            echo "push attempt $i did not land; retrying from a clean tree"
+            sleep 5
+          done
+          git rebase --abort 2>/dev/null || true
+          if [ "$pushed" != "1" ]; then
+            echo "::error::the weighing could not be pushed — the pane will show a STALE reading"
+            exit 1
+          fi
+          echo "committed"
+
+      # ── THE GLASS GATE ────────────────────────────────────────────────────
+      # One direction. Never back. Without FLEET_TOKEN the step is skipped and
+      # the pane shows empty glass — the correct failure, and better than a
+      # stale reading rendered as current.
+      - name: Publish the weighing through the Glass Gate
+        if: env.FLEET_TOKEN != ''
+        run: |
+          git clone --depth 1 \
+            "https://x-access-token:${FLEET_TOKEN}@github.com/ianingram/Fleet-Documents.git" mirror
+          cp spell-conformance.json mirror/SPELLS.json
+          cd mirror
+          git config user.name  "glass-gate"
+          git config user.email "gate@amenti.live"
+          git add -f SPELLS.json
+          if git diff --cached --quiet -- SPELLS.json; then
+            echo "the reflection is unchanged"
+          else
+            git commit -m "gate: reflect the weighing"
+            git push
+            echo "reflected the weighing through the gate"
+          fi
+
+      # ── AND THE WHOLE POINT ───────────────────────────────────────────────
+      # A ship that contradicts its own specification does not pass.
+      - name: A contradicted spell fails the weighing
+        if: steps.report.outputs.contradicted != '0'
+        run: |
+          echo ""
+          echo "  ══════════════════════════════════════════════════════════"
+          echo "   THE SHIP CONTRADICTS ITS SPECIFICATION."
+          echo ""
+          echo "   ${{ steps.report.outputs.contradicted }} spell(s) checked and found broken."
+          echo "   Read the errors above — each one names the source text it"
+          echo "   came from and what the probe actually saw."
+          echo ""
+          echo "   The halls came first. If the code no longer satisfies them,"
+          echo "   either the code is wrong or the specification has changed"
+          echo "   and nobody wrote it down. BOTH ARE FINDINGS."
+          echo "  ══════════════════════════════════════════════════════════"
+          echo ""
+          exit 1
