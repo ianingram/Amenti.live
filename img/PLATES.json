@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-18T19:48:05.610Z",
+  "generated": "2026-08-18T20:25:48.708Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -547,33 +547,6 @@
       "complete": true,
       "missing": []
     },
-    "gandhi": {
-      "key": "gandhi",
-      "variants": {
-        "card": [
-          {
-            "file": "gandhi-card.jpg",
-            "n": 1
-          }
-        ],
-        "terminal": [
-          {
-            "file": "gandhi-terminal.jpg",
-            "n": 1
-          }
-        ],
-        "thumb": [
-          {
-            "file": "gandhi-thumb.jpg",
-            "n": 1
-          }
-        ]
-      },
-      "scenes": [],
-      "room": true,
-      "complete": true,
-      "missing": []
-    },
     "gautama-buddha": {
       "key": "gautama-buddha",
       "variants": {
@@ -961,6 +934,33 @@
         "thumb": [
           {
             "file": "lycurgus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "scenes": [],
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "mahatma-gandhi": {
+      "key": "mahatma-gandhi",
+      "variants": {
+        "card": [
+          {
+            "file": "mahatma-gandhi-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "mahatma-gandhi-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "mahatma-gandhi-thumb.jpg",
             "n": 1
           }
         ]
@@ -2269,71 +2269,6 @@
       "bytes": 29768,
       "provenance": null
     },
-    "gandhi-card.jpg": {
-      "figure": "Mohandas K. Gandhi",
-      "surface": "hero/arena",
-      "grammar": "presented",
-      "source": "openart-sample_1785301093124_1dadc1c8.png",
-      "crop": "trimmed 32px of height to 0.571",
-      "seed": null,
-      "note": "young hooded khadi in rain, head bowed. GOLD AVIATORS ACCEPTED KNOWINGLY - small round wire spectacles were refused across v4 and v5. Face bowed and hooded; identity is carried by the name label on every surface, not by the plate. Library is Hind Swaraj (1909) and Third Class in Indian Railways (1917) - nothing postdates 1917, so the young prior is the evidence-backed reading.",
-      "model": "flux.2-pro",
-      "service": "OpenArt",
-      "aspect": "9:16",
-      "resolution": "2K",
-      "polish": true,
-      "date": "2026-07-31",
-      "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "audit": {
-        "aspect": 0.571,
-        "key_strength": 0.202,
-        "value_span": 240.667,
-        "accent_sat": 0.188,
-        "tile_contrast": 106.529
-      },
-      "art_sat": 0.558,
-      "file": "gandhi-card.jpg",
-      "key": "gandhi",
-      "surface_slug": "card",
-      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)",
-      "bytes": 140983
-    },
-    "gandhi-terminal.jpg": {
-      "figure": "Mohandas K. Gandhi",
-      "surface": "terminal",
-      "grammar": "absorbed",
-      "source": "openart-sample_1785299306315_232b1589.png",
-      "crop": "trimmed 32px of height to 0.571",
-      "seed": null,
-      "note": "seated, reading a letter, absorbed. WHEEL IS GEAR-DRIVEN, NOT A CHARKHA - accepted knowingly; a charkha is belt-driven and spins thread, not woven cloth on a roller. Mostly below the terminal crop band (rows 11-60%); fully visible in the codex at 340x560.",
-      "model": "flux.2-pro",
-      "service": "OpenArt",
-      "aspect": "9:16",
-      "resolution": "2K",
-      "polish": true,
-      "date": "2026-07-31",
-      "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "audit": {
-        "aspect": 0.571,
-        "key_strength": 0.055,
-        "value_span": 239.667,
-        "accent_sat": 0.136,
-        "tile_contrast": 94.172
-      },
-      "art_sat": 0.773,
-      "file": "gandhi-terminal.jpg",
-      "key": "gandhi",
-      "surface_slug": "terminal",
-      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)",
-      "bytes": 119842
-    },
-    "gandhi-thumb.jpg": {
-      "key": "gandhi",
-      "surface_slug": "thumb",
-      "file": "gandhi-thumb.jpg",
-      "bytes": 41316,
-      "provenance": null
-    },
     "gautama-buddha-card.jpg": {
       "key": "gautama-buddha",
       "surface_slug": "card",
@@ -2858,6 +2793,71 @@
       "surface_slug": "thumb",
       "file": "lycurgus-thumb.jpg",
       "bytes": 45939,
+      "provenance": null
+    },
+    "mahatma-gandhi-card.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785301093124_1dadc1c8.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "young hooded khadi in rain, head bowed. GOLD AVIATORS ACCEPTED KNOWINGLY - small round wire spectacles were refused across v4 and v5. Face bowed and hooded; identity is carried by the name label on every surface, not by the plate. Library is Hind Swaraj (1909) and Third Class in Indian Railways (1917) - nothing postdates 1917, so the young prior is the evidence-backed reading.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.202,
+        "value_span": 240.667,
+        "accent_sat": 0.188,
+        "tile_contrast": 106.529
+      },
+      "art_sat": 0.558,
+      "file": "mahatma-gandhi-card.jpg",
+      "key": "mahatma-gandhi",
+      "surface_slug": "card",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)",
+      "bytes": 140983
+    },
+    "mahatma-gandhi-terminal.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785299306315_232b1589.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "seated, reading a letter, absorbed. WHEEL IS GEAR-DRIVEN, NOT A CHARKHA - accepted knowingly; a charkha is belt-driven and spins thread, not woven cloth on a roller. Mostly below the terminal crop band (rows 11-60%); fully visible in the codex at 340x560.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.055,
+        "value_span": 239.667,
+        "accent_sat": 0.136,
+        "tile_contrast": 94.172
+      },
+      "art_sat": 0.773,
+      "file": "mahatma-gandhi-terminal.jpg",
+      "key": "mahatma-gandhi",
+      "surface_slug": "terminal",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)",
+      "bytes": 119842
+    },
+    "mahatma-gandhi-thumb.jpg": {
+      "key": "mahatma-gandhi",
+      "surface_slug": "thumb",
+      "file": "mahatma-gandhi-thumb.jpg",
+      "bytes": 41316,
       "provenance": null
     },
     "marcus-aurelius-card.jpg": {
