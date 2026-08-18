@@ -95,12 +95,29 @@ jobs:
             if (!/^[a-z0-9-]+$/.test(OLD)) { console.log("::error::old_key must be lowercase letters, digits and hyphens"); process.exit(1); }
             if (!RETIRE && !/^[a-z0-9-]+$/.test(NEW)) { console.log("::error::new_key must be lowercase letters, digits and hyphens, or RETIRE"); process.exit(1); }
 
-            /* THE PLATE GRAMMAR, matched exactly as the register matches it:
+            /* ── OVER-ESCAPED, AND IT MATCHED NOTHING ──────────────────────
+               In a YAML block, \\\\d reaches JavaScript as \\d, and the RegExp
+               CONSTRUCTOR reads that as a literal backslash followed by d —
+               not a digit. Same for \\\\. becoming a literal backslash before
+               a dot. So the pattern compiled to something no filename could
+               ever match, and the workflow refused every key it was given
+               with "no files match".
+
+               THE REFUSAL LOOKED LIKE A FINDING. It read as "you spelled the
+               key wrong", which sent us to check the filenames — and the
+               filenames were right every time. A guard that fails closed is
+               correct; a guard that fails closed FOR THE WRONG REASON sends
+               its reader looking in the wrong place.
+
+               It never showed on Julius because that rename was done by hand.
+               Two backslashes, and they cost an hour.
+
+               THE PLATE GRAMMAR, matched exactly as the register matches it:
                {key}-{variant}[-n].{ext}. A key is the WHOLE stem before the
                variant — `caesar` must not match `julius-caesar-card.jpg`. */
             const V = "(card|thumb|terminal|chat)";
-            const plate = new RegExp("^" + OLD + "-" + V + "(-\\\\d+)?\\\\.(jpg|jpeg|png|webp)$", "i");
-            const taken = new RegExp("^" + (RETIRE ? "\\\\u0000" : NEW) + "-" + V + "(-\\\\d+)?\\\\.(jpg|jpeg|png|webp)$", "i");
+            const plate = new RegExp("^" + OLD + "-" + V + "(-\\d+)?\\.(jpg|jpeg|png|webp)$", "i");
+            const taken = new RegExp("^" + (RETIRE ? "\\u0000" : NEW) + "-" + V + "(-\\d+)?\\.(jpg|jpeg|png|webp)$", "i");
 
             const imgs = fs.existsSync("img") ? fs.readdirSync("img") : [];
             const moves = imgs.filter(f => plate.test(f))
