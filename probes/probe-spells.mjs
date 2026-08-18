@@ -55,6 +55,27 @@ const read = p => { try { return fs.readFileSync(path.join(ROOT, p), 'utf8'); } 
 const json = p => { const t = read(p); if (!t) return null; try { return JSON.parse(t); } catch { return null; } };
 const exists = p => fs.existsSync(path.join(ROOT, p));
 
+/* ── SOURCE, WITH THE COMMENTARY TAKEN OUT ────────────────────────────────
+   Every check that scans source text must read the CODE, not the prose about
+   the code. Found the hard way: the spend-check flagged THIS FILE, three
+   times, because the block explaining what the check catches wrote its own
+   examples out literally —
+
+       method: "POST"        FLAGGED
+       method: 'PATCH'       FLAGGED
+
+   The file was clean. Then I documented the check, and the documentation
+   tripped it. A comment added to make an instrument honest made it report a
+   violation that did not exist.
+
+   That is the fault in its purest form: not a wrong answer, a CONFIDENT one,
+   about a thing nobody had looked at. So comments come out before any grep. */
+function code(t) {
+  return String(t || '')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')   /* block comments */
+    .replace(/(^|[^:])\/\/[^\n]*/g, '$1 '); /* line comments, not :// in a URL */
+}
+
 /* the one slug rule, carried in three languages now — tools/plates.js,
    ingest.py, and here. If one changes all three must. */
 const slug = s => String(s).toLowerCase()
@@ -105,13 +126,29 @@ const add = (id, stamp, saw, note) => results.push({ id, stamp, saw, note: note 
   const csv = read('names.csv');
   if (!csv) return add('ammit-is-a-boundary', 'UNREACHABLE', 'names.csv not found');
   const head = (csv.split(/\r?\n/)[0] || '').toLowerCase();
-  const JUDGE = ['score', 'rank', 'grade', 'tier', 'verdict', 'rating', 'moral', 'good', 'evil'];
+  /* ── RANK IS AN ORDERING, NOT A VERDICT ──────────────────────────────────
+     The roster carries a `rank` column holding 1 to ~1000. The first cut of
+     this check called it a judgement and contradicted the spell.
+
+     It is not one. It is BUILD ORDER — where a row landed while the list was
+     being assembled. Row 47 is not better than row 900. Ammit's rule forbids
+     the roster from JUDGING, and a sort key does not judge; it sorts. Same
+     distinction the ocean view needed for its crew ring: an ordering, not a
+     station.
+
+     Accepted 17 August 2026 by the captain, and recorded here so the check
+     stops raising a settled question. A register that re-asks what has been
+     answered teaches its reader to skim, and skimming is how a live finding
+     gets lost among the closed ones. */
+  const JUDGE = ['score', 'grade', 'tier', 'verdict', 'rating', 'moral', 'worth'];
   const found = JUDGE.filter(w => new RegExp('(^|,)\\s*"?' + w).test(head));
+  const hasRank = /(^|,)\s*"?rank/.test(head);
   add('ammit-is-a-boundary',
       found.length ? 'CONTRADICTED' : 'CONFIRMED',
       'header: ' + head.slice(0, 120),
       found.length ? 'judgement columns present: ' + found.join(', ')
-                   : 'identity and craft only. Being off the list is not damnation and being on it is not approval.');
+                   : 'identity and craft only. Being off the list is not damnation and being on it is not approval.'
+                     + (hasRank ? ' `rank` is present and ACCEPTED: build order, not a verdict — an ordering, not a station.' : ''));
 })();
 
 /* one-slug-rule — every surface reduces a name the same way. wd-gann was one
@@ -136,11 +173,40 @@ const add = (id, stamp, saw, note) => results.push({ id, stamp, saw, note: note 
   const accepted = new Set(((plates.gaps && plates.gaps.accepted) || []).map(a => a.key));
   const open = orphan.filter(k => !accepted.has(k));
 
+  /* ── THE ALIAS MAP IS THE CONVENTION, NOT DRIFT ─────────────────────────
+     caesar · lincoln · tesla · musashi · gandhi · seneca · shaka · hannibal ·
+     cleopatra · gutenberg · lycurgus · cromwell — every one of these is a
+     SHORT-FORM plate key against a full-name roster row, and the proxy carries
+     an alias map for exactly that: gaius-julius-caesar -> caesar,
+     abraham-lincoln -> lincoln, miyamoto-musashi -> musashi.
+
+     The first cut of this check called all twelve drift. They are not. A
+     single-word key for a figure the world knows by one word is the rule the
+     ship actually uses, and a check that condemns the convention is measuring
+     against a spec nobody wrote — the third time this file has done that.
+
+     So a plate key resolves if the roster holds it OR holds a name ENDING in
+     it. `caesar` matches `gaius-julius-caesar`. `washington` does not match
+     `george-washington` cleanly enough to be safe — two Washingtons are on the
+     roster — and that ambiguity is worth reporting rather than resolving. */
+  const suffix = k => [...roster].some(r => r === k || r.endsWith('-' + k));
+  const ambiguous = k => [...roster].filter(r => r.endsWith('-' + k)).length > 1;
+  const aliased = open.filter(k => suffix(k) && !ambiguous(k));
+  const real = open.filter(k => !suffix(k) || ambiguous(k));
+
   add('one-slug-rule',
-      open.length ? 'CONTRADICTED' : 'CONFIRMED',
-      keys.length + ' plate keys against ' + roster.size + ' roster keys, both slugged',
-      open.length ? 'unmatched: ' + open.join(' · ')
-                  : (orphan.length ? orphan.length + ' unmatched, all previously accepted' : 'every plate key resolves to a roster row'));
+      real.length ? 'CONTRADICTED' : 'CONFIRMED',
+      keys.length + ' plate keys against ' + roster.size + ' roster keys, both slugged'
+        + (aliased.length ? ' · ' + aliased.length + ' resolved by short form' : ''),
+      real.length
+        ? 'unmatched: ' + real.join(' · ')
+          + '. A key that matches NO roster row, or matches more than one, cannot be '
+          + 'resolved by convention — that is drift, or a scene filed as a figure.'
+        : (aliased.length
+            ? 'every plate key resolves. ' + aliased.length + ' by short form '
+              + '(' + aliased.slice(0, 6).join(', ') + (aliased.length > 6 ? ' …' : '') + ') '
+              + '— the alias map is the convention, not drift.'
+            : 'every plate key resolves to a roster row'));
 })();
 
 /* scene-inherits-authority — a scene belongs to a figure or it has none.
@@ -226,27 +292,46 @@ const add = (id, stamp, saw, note) => results.push({ id, stamp, saw, note: note 
 (() => {
   const dirs = ['probes', 'tools'].filter(d => exists(d));
   if (!dirs.length) return add('the-probe-may-not-spend', 'UNREACHABLE', 'no probes/ or tools/');
-  const offenders = [];
+  const offenders = [], harnesses = [];
   let files = 0;
   for (const d of dirs) {
     for (const f of fs.readdirSync(path.join(ROOT, d))) {
       if (!/\.(mjs|js|cjs)$/.test(f)) continue;
       files++;
-      const t = read(path.join(d, f)) || '';
-      /* a write is method: POST/PATCH/PUT/DELETE, written literally */
+      const raw = read(path.join(d, f)) || '';
+      const t = code(raw);
+
+      /* ── A HARNESS IS NOT A PROBE ──────────────────────────────────────
+         probe11.mjs POSTs four times — to a FAKE worker, through a stubbed
+         globalThis.fetch, with a Map standing in for KV. Nothing leaves the
+         process and nothing is billed. It was flagged as a spender because
+         the check counted the SHAPE of a request rather than asking where it
+         goes.
+
+         A file that replaces globalThis.fetch, or imports a worker module to
+         call directly, is testing. The spell governs probes that reach the
+         live system; it says nothing about a simulation. */
+      const isHarness = /globalThis\.fetch\s*=/.test(t)
+                     || /import\s+worker\s+from/.test(t)
+                     || /worker\.fetch\s*\(/.test(t);
+
       const m = t.match(/method:\s*['"](POST|PATCH|PUT|DELETE)['"]/g);
-      if (m) offenders.push(d + '/' + f + ' (' + m.length + ')');
+      if (!m) continue;
+      if (isHarness) harnesses.push(d + '/' + f + ' (' + m.length + ' simulated)');
+      else offenders.push(d + '/' + f + ' (' + m.length + ')');
     }
   }
   add('the-probe-may-not-spend',
       offenders.length ? 'CONTRADICTED' : 'CONFIRMED',
-      files + ' files in ' + dirs.join(', ') + ' scanned for a literal write method',
+      files + ' files scanned in ' + dirs.join(', ') + ', comments excluded'
+        + (harnesses.length ? ' · ' + harnesses.length + ' harness(es) set aside' : ''),
       offenders.length
         ? 'writes found in: ' + offenders.join(' · ')
-        : 'no literal write method in any probe. NOTE THE SIZE OF THIS CLAIM: '
-          + 'the check is a pattern over source text, so a method held in a '
-          + 'variable — const m = "POST" — would pass it. That is a known limit '
-          + 'of the instrument, stated here rather than left for a reader to assume.');
+        : 'no probe reaches the live system with a write.'
+          + (harnesses.length ? ' Simulated writes, against a stubbed fetch, in: ' + harnesses.join(' · ') + '.' : '')
+          + ' NOTE THE SIZE OF THIS CLAIM: the check is a pattern over source with '
+          + 'comments stripped, so a method held in a variable would pass it. '
+          + 'A known limit of the instrument, stated rather than assumed.');
 })();
 
 /* the-bell-leaves-a-mark — /hall carries lastBell beside settlesAt. settlesAt
