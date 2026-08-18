@@ -1,0 +1,172 @@
+# ============================================================================
+#  .github/workflows/reroom.yml  ·  MOVE A READING ROOM
+# ----------------------------------------------------------------------------
+#  Renames a room's catalog AND every text inside its folder, in one commit.
+#  Run it from the Actions tab: old key, new key, click Run.
+#
+#      library/caesar.json        ->  library/julius-caesar.json
+#      library/caesar/*.md        ->  library/julius-caesar/*.md
+#
+#  ── WHY A WORKFLOW ────────────────────────────────────────────────────────
+#  GitHub cannot rename a folder. Each file has to be re-pathed by hand, and
+#  Julius's room holds the Gallic War in six parts and the Civil War in three.
+#  Ten separate edits, ten chances to fat-finger a path, and a room is only a
+#  room when its catalog and its texts agree — a half-moved room is worse than
+#  an unmoved one, because library.js would resolve the catalog and 404 every
+#  text behind it.
+#
+#  einstein-albert is the standing proof: ten ingested texts, a full manifest,
+#  a README documenting its own carve-outs, AND NO CATALOG. Everything a room
+#  needs except the one file that makes it resolvable, and the room was
+#  unreachable for who knows how long.
+#
+#  So this moves the catalog and the texts TOGETHER or not at all.
+#
+#  ── WHY JULIUS NEEDS IT ───────────────────────────────────────────────────
+#  `caesar` names two souls — Augustus and Julius, both on the roster — so
+#  neither can claim it. But the room holds the Gallic War and the Civil War,
+#  which are Julius's own commentaries, and the plates are Julius, and the
+#  manifest says so outright.
+#
+#  A rename was begun and STOPPED HALFWAY: `julius-caesar` held a card while
+#  `caesar` held the thumb, the terminal and the room. One figure, two keys,
+#  both reported incomplete for months, and nothing connected the halves
+#  because nothing was watching the shape of the names.
+#
+#  This finishes it. Then `caesar` answers to nobody and Augustus has clean
+#  ground.
+#
+#  ── IT WILL NOT CLOBBER ───────────────────────────────────────────────────
+#    · refuses if the old room does not exist
+#    · refuses if the new key ALREADY has a catalog or a folder
+#    · dry_run defaults TRUE
+#    · git mv, so history follows every text
+# ============================================================================
+name: move a reading room
+
+on:
+  workflow_dispatch:
+    inputs:
+      old_key:
+        description: 'The room as it is now, e.g. caesar'
+        required: true
+      new_key:
+        description: 'The room it should be, e.g. julius-caesar'
+        required: true
+      dry_run:
+        description: 'Dry run (shows every move, writes nothing)'
+        required: true
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+
+permissions:
+  contents: write
+
+jobs:
+  reroom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Plan the move
+        id: plan
+        env:
+          OLD: ${{ github.event.inputs.old_key }}
+          NEW: ${{ github.event.inputs.new_key }}
+        run: |
+          node -e '
+            const fs = require("fs"), path = require("path");
+            const OLD = process.env.OLD.trim(), NEW = process.env.NEW.trim();
+            const ok = k => /^[a-z0-9-]+$/.test(k);
+            if (!ok(OLD) || !ok(NEW)) { console.log("::error::keys must be lowercase letters, digits and hyphens"); process.exit(1); }
+            if (OLD === NEW) { console.log("::error::the two keys are the same"); process.exit(1); }
+
+            const cat = "library/" + OLD + ".json";
+            const dir = "library/" + OLD;
+            const newCat = "library/" + NEW + ".json";
+            const newDir = "library/" + NEW;
+
+            const hasCat = fs.existsSync(cat), hasDir = fs.existsSync(dir);
+            if (!hasCat && !hasDir) { console.log("::error::no room at " + cat + " or " + dir); process.exit(1); }
+
+            /* A ROOM IS ONLY A ROOM WHEN BOTH HALVES AGREE. Moving onto a key
+               that already holds either would leave two rooms half-merged, and
+               a reader would get one room resolving to another room texts. */
+            if (fs.existsSync(newCat)) { console.log("::error::" + newCat + " ALREADY EXISTS. Refusing to overwrite a catalog."); process.exit(1); }
+            if (fs.existsSync(newDir)) { console.log("::error::" + newDir + " ALREADY EXISTS. Refusing to merge two rooms silently."); process.exit(1); }
+
+            const texts = hasDir ? fs.readdirSync(dir).filter(f => fs.statSync(path.join(dir, f)).isFile()) : [];
+
+            console.log("MOVE  " + OLD + "  ->  " + NEW);
+            console.log("");
+            console.log("  catalog   " + (hasCat ? cat + "  ->  " + newCat : "NONE — the room has no catalog, which is the einstein-albert fault"));
+            console.log("  texts     " + texts.length + (hasDir ? "" : "   (no folder)"));
+            texts.forEach(f => console.log("      " + dir + "/" + f + "  ->  " + newDir + "/" + f));
+
+            if (!hasCat) {
+              console.log("");
+              console.log("::warning::THIS ROOM HAS NO CATALOG. Moving the texts will not make it");
+              console.log("::warning::resolvable — library.js reads library/{key}.json. Write the");
+              console.log("::warning::catalog after this move or the room stays unreachable.");
+            }
+
+            fs.writeFileSync("/tmp/room.json", JSON.stringify({ OLD, NEW, cat, dir, newCat, newDir, hasCat, hasDir, texts }));
+          '
+
+      - name: Move it
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name  "reroom"
+          git config user.email "reroom@amenti.live"
+          node -e '
+            const fs = require("fs"), cp = require("child_process");
+            const P = JSON.parse(fs.readFileSync("/tmp/room.json", "utf8"));
+            const q = s => JSON.stringify(s);
+
+            if (P.hasCat) { cp.execSync("git mv " + q(P.cat) + " " + q(P.newCat)); console.log("  catalog moved"); }
+            if (P.hasDir) {
+              fs.mkdirSync(P.newDir, { recursive: true });
+              for (const f of P.texts) {
+                cp.execSync("git mv " + q(P.dir + "/" + f) + " " + q(P.newDir + "/" + f));
+                console.log("  moved  " + f);
+              }
+            }
+          '
+          git add -A -- library
+          if git diff --staged --quiet; then
+            echo "::error::nothing staged after the moves — that should be impossible"
+            exit 1
+          fi
+          git commit -m "room: ${{ github.event.inputs.old_key }} -> ${{ github.event.inputs.new_key }}"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin "${GITHUB_REF_NAME}" \
+               && git push origin "HEAD:${GITHUB_REF_NAME}"; then pushed=1; break; fi
+            echo "push attempt $i did not land; retrying from a clean tree"
+            sleep 5
+          done
+          git rebase --abort 2>/dev/null || true
+          [ "$pushed" = "1" ] || { echo "::error::the move could not be pushed"; exit 1; }
+          echo "committed"
+
+      - name: What happens next
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            echo ""
+            echo "  DRY RUN — nothing written. Re-run with dry_run: false."
+          else
+            echo ""
+            echo "  Done. The push touches library/, so THE PLATE REGISTER FIRES on"
+            echo "  its own and the KEY REGISTER runs behind it."
+            echo ""
+            echo "  Read that run. The old key should have vanished from every list,"
+            echo "  and the new one should hold both plates and a room."
+          fi
