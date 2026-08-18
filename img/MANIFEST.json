@@ -25,7 +25,7 @@
         "accent_sat": 0.1,
         "tile_contrast": 87.03
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "file": "lincoln-card.jpg",
       "key": "lincoln",
       "surface_slug": "card",
@@ -139,7 +139,7 @@
         "accent_sat": 0.064,
         "tile_contrast": 55.731
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "key": "sun-tzu",
       "surface_slug": "card"
     },
@@ -182,11 +182,11 @@
       "audit": {
         "aspect": 0.562,
         "key_strength": 0.288,
-        "value_span": 239.0,
+        "value_span": 239,
         "accent_sat": 0.191,
         "tile_contrast": 150.376
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "file": "lincoln-terminal.jpg",
       "key": "lincoln",
       "surface_slug": "terminal",
@@ -278,7 +278,7 @@
         "accent_sat": 0.003,
         "tile_contrast": 68.495
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "key": "frederick-douglass",
       "surface_slug": "terminal",
       "pool_x": 74,
@@ -308,7 +308,7 @@
         "accent_sat": 0.013,
         "tile_contrast": 82.982
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "key": "sun-tzu",
       "surface_slug": "terminal",
       "pool_x": 74,
@@ -361,7 +361,7 @@
         "accent_sat": 0.078,
         "tile_contrast": 86.108
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "file": "musashi-card.jpg",
       "key": "musashi",
       "surface_slug": "card"
@@ -382,68 +382,12 @@
       "seed": null,
       "date": "2026-07-29",
       "stored_saturation": 0.002,
-      "art_sat": 1.0,
+      "art_sat": 1,
       "colour_note": "stored at full colour; graded in CSS via --art-sat",
       "pool_x": 26,
       "pool_op": 0.92,
       "key_side": "LEFT",
       "prompt_file": null
-    },
-    "gandhi-card.jpg": {
-      "figure": "Mohandas K. Gandhi",
-      "surface": "hero/arena",
-      "grammar": "presented",
-      "source": "openart-sample_1785301093124_1dadc1c8.png",
-      "crop": "trimmed 32px of height to 0.571",
-      "seed": null,
-      "note": "young hooded khadi in rain, head bowed. GOLD AVIATORS ACCEPTED KNOWINGLY - small round wire spectacles were refused across v4 and v5. Face bowed and hooded; identity is carried by the name label on every surface, not by the plate. Library is Hind Swaraj (1909) and Third Class in Indian Railways (1917) - nothing postdates 1917, so the young prior is the evidence-backed reading.",
-      "model": "flux.2-pro",
-      "service": "OpenArt",
-      "aspect": "9:16",
-      "resolution": "2K",
-      "polish": true,
-      "date": "2026-07-31",
-      "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "audit": {
-        "aspect": 0.571,
-        "key_strength": 0.202,
-        "value_span": 240.667,
-        "accent_sat": 0.188,
-        "tile_contrast": 106.529
-      },
-      "art_sat": 0.558,
-      "file": "gandhi-card.jpg",
-      "key": "gandhi",
-      "surface_slug": "card",
-      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)"
-    },
-    "gandhi-terminal.jpg": {
-      "figure": "Mohandas K. Gandhi",
-      "surface": "terminal",
-      "grammar": "absorbed",
-      "source": "openart-sample_1785299306315_232b1589.png",
-      "crop": "trimmed 32px of height to 0.571",
-      "seed": null,
-      "note": "seated, reading a letter, absorbed. WHEEL IS GEAR-DRIVEN, NOT A CHARKHA - accepted knowingly; a charkha is belt-driven and spins thread, not woven cloth on a roller. Mostly below the terminal crop band (rows 11-60%); fully visible in the codex at 340x560.",
-      "model": "flux.2-pro",
-      "service": "OpenArt",
-      "aspect": "9:16",
-      "resolution": "2K",
-      "polish": true,
-      "date": "2026-07-31",
-      "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "audit": {
-        "aspect": 0.571,
-        "key_strength": 0.055,
-        "value_span": 239.667,
-        "accent_sat": 0.136,
-        "tile_contrast": 94.172
-      },
-      "art_sat": 0.773,
-      "file": "gandhi-terminal.jpg",
-      "key": "gandhi",
-      "surface_slug": "terminal",
-      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)"
     },
     "edward-gibbon-card.jpg": {
       "figure": "Edward Gibbon",
@@ -524,7 +468,7 @@
         "key_strength": 0.177,
         "key_radial": 0.327,
         "key_side": "LEFT",
-        "value_span": 217.0,
+        "value_span": 217,
         "accent_sat": 0.116,
         "tile_contrast": 73.628
       },
@@ -558,7 +502,7 @@
         "accent_sat": 0.035,
         "tile_contrast": 85.152
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "file": "oliver-cromwell-terminal.jpg",
       "key": "oliver-cromwell",
       "surface_slug": "terminal"
@@ -584,7 +528,7 @@
         "key_strength": 0.019,
         "key_radial": 0.204,
         "key_side": "RIGHT",
-        "value_span": 232.0,
+        "value_span": 232,
         "accent_sat": 0.252,
         "tile_contrast": 63.984
       },
@@ -618,7 +562,7 @@
         "accent_sat": 0.003,
         "tile_contrast": 95.902
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "file": "moses-terminal.jpg",
       "key": "moses",
       "surface_slug": "terminal"
@@ -643,7 +587,7 @@
         "aspect": 0.571,
         "key_strength": 0.04,
         "key_radial": 0.177,
-        "value_span": 224.0,
+        "value_span": 224,
         "accent_sat": 0.259,
         "tile_contrast": 59.479
       },
@@ -701,7 +645,7 @@
         "aspect": 0.571,
         "key_strength": 0.074,
         "key_radial": 0.083,
-        "value_span": 202.0,
+        "value_span": 202,
         "accent_sat": 0.229,
         "tile_contrast": 51.706
       },
@@ -730,7 +674,7 @@
         "aspect": 0.571,
         "key_strength": 0.273,
         "key_radial": 0.281,
-        "value_span": 210.0,
+        "value_span": 210,
         "accent_sat": 0.303,
         "tile_contrast": 55.2
       },
@@ -788,7 +732,7 @@
         "aspect": 0.571,
         "key_strength": 0.014,
         "key_radial": 0.053,
-        "value_span": 223.0,
+        "value_span": 223,
         "accent_sat": 0.401,
         "tile_contrast": 97.381
       },
@@ -817,11 +761,11 @@
         "aspect": 0.571,
         "key_strength": 0.139,
         "key_radial": 0.272,
-        "value_span": 197.0,
+        "value_span": 197,
         "accent_sat": 0.084,
         "tile_contrast": 95.103
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "file": "hannibal-terminal.jpg",
       "key": "hannibal",
       "surface_slug": "terminal"
@@ -904,7 +848,7 @@
         "aspect": 0.571,
         "key_strength": 0.148,
         "key_radial": 0.247,
-        "value_span": 223.0,
+        "value_span": 223,
         "accent_sat": 0.184,
         "tile_contrast": 72.911
       },
@@ -938,12 +882,12 @@
         "key_strength": 0.081,
         "key_radial": 0.087,
         "key_side": "RIGHT",
-        "value_span": 225.0,
+        "value_span": 225,
         "accent_sat": 0.196,
         "tile_contrast": 66.316,
         "shadow_frac": 0.35,
         "blown_frac": 0.0001,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 66.2
       },
       "art_sat": 0.536,
@@ -979,8 +923,8 @@
         "accent_sat": 0.241,
         "tile_contrast": 43.199,
         "shadow_frac": 0.064,
-        "blown_frac": 0.0,
-        "head_room": 0.0,
+        "blown_frac": 0,
+        "head_room": 0,
         "mean_lum": 73.3
       },
       "art_sat": 0.436,
@@ -1016,8 +960,8 @@
         "accent_sat": 0.243,
         "tile_contrast": 79.364,
         "shadow_frac": 0.047,
-        "blown_frac": 0.0,
-        "head_room": 0.0,
+        "blown_frac": 0,
+        "head_room": 0,
         "mean_lum": 118.3
       },
       "art_sat": 0.433,
@@ -1054,8 +998,8 @@
         "tile_contrast": 84.206,
         "shadow_frac": 0.294,
         "blown_frac": 0.0004,
-        "head_room": 0.0,
-        "mean_lum": 86.0
+        "head_room": 0,
+        "mean_lum": 86
       },
       "art_sat": 0.211,
       "stored_saturation": 0.497,
@@ -1086,13 +1030,13 @@
         "key_strength": 0.034,
         "key_radial": 0.036,
         "key_side": "LEFT",
-        "value_span": 148.0,
+        "value_span": 148,
         "accent_sat": 0.277,
         "tile_contrast": 79.507,
         "shadow_frac": 0.012,
         "blown_frac": 0.0004,
-        "head_room": 0.0,
-        "mean_lum": 153.0
+        "head_room": 0,
+        "mean_lum": 153
       },
       "art_sat": 0.379,
       "stored_saturation": 0.277,
@@ -1123,12 +1067,12 @@
         "key_strength": 0.116,
         "key_radial": 0.281,
         "key_side": "LEFT",
-        "value_span": 219.0,
+        "value_span": 219,
         "accent_sat": 0.244,
         "tile_contrast": 68.005,
         "shadow_frac": 0.373,
-        "blown_frac": 0.0,
-        "head_room": 0.0,
+        "blown_frac": 0,
+        "head_room": 0,
         "mean_lum": 71.4
       },
       "art_sat": 0.43,
@@ -1165,7 +1109,7 @@
         "tile_contrast": 89.311,
         "shadow_frac": 0.093,
         "blown_frac": 0.002,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 117.3
       },
       "art_sat": 0.448,
@@ -1197,12 +1141,12 @@
         "key_strength": 0.023,
         "key_radial": 0.494,
         "key_side": "RIGHT",
-        "value_span": 193.0,
+        "value_span": 193,
         "accent_sat": 0.333,
         "tile_contrast": 91.779,
         "shadow_frac": 0.119,
-        "blown_frac": 0.0,
-        "head_room": 0.0,
+        "blown_frac": 0,
+        "head_room": 0,
         "mean_lum": 113.5
       },
       "art_sat": 0.315,
@@ -1239,7 +1183,7 @@
         "tile_contrast": 68.697,
         "shadow_frac": 0.121,
         "blown_frac": 0.0001,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 92.2
       },
       "art_sat": 0.414,
@@ -1276,7 +1220,7 @@
         "tile_contrast": 75.168,
         "shadow_frac": 0.394,
         "blown_frac": 0.0001,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 71.4
       },
       "art_sat": 0.515,
@@ -1313,7 +1257,7 @@
         "tile_contrast": 71.416,
         "shadow_frac": 0.486,
         "blown_frac": 0.0001,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 55.9
       },
       "art_sat": 0.201,
@@ -1350,7 +1294,7 @@
         "tile_contrast": 107.485,
         "shadow_frac": 0.241,
         "blown_frac": 0.0078,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 97.9
       },
       "art_sat": 0.232,
@@ -1387,7 +1331,7 @@
         "tile_contrast": 63.165,
         "shadow_frac": 0.257,
         "blown_frac": 0.0001,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 76.9
       },
       "art_sat": 0.244,
@@ -1423,11 +1367,67 @@
         "tile_contrast": 76.182,
         "shadow_frac": 0.702,
         "blown_frac": 0.0001,
-        "head_room": 0.0,
+        "head_room": 0,
         "mean_lum": 43.6
       },
-      "art_sat": 1.0,
+      "art_sat": 1,
       "stored_saturation": 0.043
+    },
+    "mahatma-gandhi-card.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "openart-sample_1785301093124_1dadc1c8.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "young hooded khadi in rain, head bowed. GOLD AVIATORS ACCEPTED KNOWINGLY - small round wire spectacles were refused across v4 and v5. Face bowed and hooded; identity is carried by the name label on every surface, not by the plate. Library is Hind Swaraj (1909) and Third Class in Indian Railways (1917) - nothing postdates 1917, so the young prior is the evidence-backed reading.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.202,
+        "value_span": 240.667,
+        "accent_sat": 0.188,
+        "tile_contrast": 106.529
+      },
+      "art_sat": 0.558,
+      "file": "mahatma-gandhi-card.jpg",
+      "key": "mahatma-gandhi",
+      "surface_slug": "card",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)"
+    },
+    "mahatma-gandhi-terminal.jpg": {
+      "figure": "Mohandas K. Gandhi",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "openart-sample_1785299306315_232b1589.png",
+      "crop": "trimmed 32px of height to 0.571",
+      "seed": null,
+      "note": "seated, reading a letter, absorbed. WHEEL IS GEAR-DRIVEN, NOT A CHARKHA - accepted knowingly; a charkha is belt-driven and spins thread, not woven cloth on a roller. Mostly below the terminal crop band (rows 11-60%); fully visible in the codex at 340x560.",
+      "model": "flux.2-pro",
+      "service": "OpenArt",
+      "aspect": "9:16",
+      "resolution": "2K",
+      "polish": true,
+      "date": "2026-07-31",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "aspect": 0.571,
+        "key_strength": 0.055,
+        "value_span": 239.667,
+        "accent_sat": 0.136,
+        "tile_contrast": 94.172
+      },
+      "art_sat": 0.773,
+      "file": "mahatma-gandhi-terminal.jpg",
+      "key": "mahatma-gandhi",
+      "surface_slug": "terminal",
+      "prompt_file": "PROMPTS_BATCH_02.txt#MAHATMA GANDHI (lineage; this plate is a later re-roll)"
     }
   }
 }
