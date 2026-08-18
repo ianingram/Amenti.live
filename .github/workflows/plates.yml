@@ -20,7 +20,10 @@ on:
   push:
     paths:
       - 'img/**'
+      - 'names.csv'
+      - 'library/**'
       - 'tools/plates.js'
+      - 'tools/keyring.js'
 
 jobs:
   register:
@@ -37,11 +40,18 @@ jobs:
       - name: Walk img/ and write PLATES.json
         run: node tools/plates.js
 
+      # THE KEY REGISTER runs immediately after, because it READS PLATES.json.
+      # Two readings, one push: the plates as they are, and what their keys
+      # actually reach on the roster. Order matters — keyring against a stale
+      # register would report yesterday's collisions.
+      - name: Walk the keys and write KEYS.json
+        run: node tools/keyring.js
+
       - name: Commit the register if it changed
         run: |
           git config user.name  "amenti-register"
           git config user.email "register@amenti.live"
-          git add img/PLATES.json
+          git add img/PLATES.json img/KEYS.json
           git diff --staged --quiet && exit 0
           git commit -m "register: regenerate PLATES.json [skip ci]"
           for i in 1 2 3 4 5; do
