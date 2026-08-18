@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-18T03:55:30.100Z",
+  "generated": "2026-08-18T03:56:54.380Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -39,7 +39,7 @@
   "totals": {
     "files": 165,
     "plates": 157,
-    "keys": 51,
+    "keys": 50,
     "rooms": 51,
     "scenes": 1,
     "sceneFiles": 2,
@@ -53,23 +53,17 @@
       "terminal": 49,
       "chat": 2
     },
-    "complete": 48,
-    "provenanced": 45
+    "complete": 49,
+    "provenanced": 44
   },
   "gaps": {
     "missingByVariant": {
       "terminal": [
-        "albert-einstein",
-        "julius-caesar"
-      ],
-      "card": [
-        "caesar"
-      ],
-      "thumb": [
-        "caesar"
+        "albert-einstein"
       ]
     },
     "roomsWithoutPlates": [
+      "caesar",
       "einstein-albert",
       "ingram"
     ],
@@ -98,6 +92,7 @@
       }
     ],
     "unaccepted": [
+      "caesar",
       "julius-caesar"
     ],
     "scenesWithoutFigure": [],
@@ -253,24 +248,6 @@
       "room": true,
       "complete": true,
       "missing": []
-    },
-    "caesar": {
-      "key": "caesar",
-      "variants": {
-        "terminal": [
-          {
-            "file": "caesar-terminal.jpg",
-            "n": 1
-          }
-        ]
-      },
-      "scenes": [],
-      "room": true,
-      "complete": false,
-      "missing": [
-        "card",
-        "thumb"
-      ]
     },
     "charles-martel": {
       "key": "charles-martel",
@@ -808,6 +785,12 @@
             "n": 1
           }
         ],
+        "terminal": [
+          {
+            "file": "julius-caesar-terminal.jpg",
+            "n": 1
+          }
+        ],
         "thumb": [
           {
             "file": "julius-caesar-thumb.jpg",
@@ -817,10 +800,8 @@
       },
       "scenes": [],
       "room": false,
-      "complete": false,
-      "missing": [
-        "terminal"
-      ]
+      "complete": true,
+      "missing": []
     },
     "king-arthur": {
       "key": "king-arthur",
@@ -1734,37 +1715,6 @@
       "file": "brutus-thumb.jpg",
       "bytes": 36823,
       "provenance": null
-    },
-    "caesar-terminal.jpg": {
-      "figure": "Julius Caesar",
-      "surface": "terminal",
-      "grammar": "absorbed",
-      "prompt_file": "PROMPTS_BATCH_04.txt#CAESAR — READING ROOM  (revised)",
-      "note": "0.316 saturation even with the clause leading — the SUBJECT is warm, not the prompt. Armour on the bench is segmentata (Imperial, ~1c late); accepted because it is unworn and this is not the identifying image. | renamed from -reading: these plates go BEHIND the terminal chat stream, not into the reading room. The reading room is for primary sources and takes no image.",
-      "model": "flux.2-pro",
-      "service": "OpenArt",
-      "aspect": "9:16",
-      "resolution": "2K",
-      "polish": true,
-      "date": "2026-07-28",
-      "seed": null,
-      "colour_note": "stored at full colour; graded in CSS via --art-sat",
-      "file": "caesar-terminal.jpg",
-      "source": "openart-sample_1785290401785_c4436a1f.png",
-      "audit": {
-        "aspect": 0.562,
-        "key_strength": 0.092,
-        "value_span": 204.333,
-        "accent_sat": 0.32,
-        "tile_contrast": 79.586
-      },
-      "art_sat": 0.329,
-      "key": "caesar",
-      "surface_slug": "terminal",
-      "pool_x": 26,
-      "pool_op": 0.92,
-      "key_side": "LEFT",
-      "bytes": 155709
     },
     "charles-martel-card.jpg": {
       "key": "charles-martel",
@@ -2682,6 +2632,13 @@
       "surface_slug": "card",
       "file": "julius-caesar-card.jpg",
       "bytes": 160267,
+      "provenance": null
+    },
+    "julius-caesar-terminal.jpg": {
+      "key": "julius-caesar",
+      "surface_slug": "terminal",
+      "file": "julius-caesar-terminal.jpg",
+      "bytes": 155709,
       "provenance": null
     },
     "julius-caesar-thumb.jpg": {
