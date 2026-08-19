@@ -1,7 +1,7 @@
 # ============================================================================
 #  .github/workflows/ark.yml  ·  THE ARK
 # ----------------------------------------------------------------------------
-#  Bundles every repository in the system — FULL HISTORY, every branch, every
+#  Bundles every repository in the system (SIX — see the list in the job) — FULL HISTORY, every branch, every
 #  tag — verifies each bundle, and ships them to R2. Weekly, and on demand.
 #
 #  ── WHY NOT THE ZIP BUTTON ────────────────────────────────────────────────
@@ -86,7 +86,11 @@ jobs:
           # THE FIVE ISLANDS. Named here rather than discovered, because a
           # backup that quietly stops covering a repo nobody removed is the
           # worst failure this job has. If a sixth repo is added, ADD IT HERE.
-          REPOS="Amenti.live Fleet-Documents Amenti-Technical-Briefs Amenti-Workers Admin"
+          # Gameroom0.0 was FOUND, not remembered — 205 commits, a chess-referee
+          # Durable Object, and it was not on any list until somebody happened
+          # to look. That is the failure this comment warns about, and it had
+          # already happened before the first run.
+          REPOS="Amenti.live Fleet-Documents Amenti-Technical-Briefs Amenti-Workers Admin Gameroom0.0"
 
           ok=0; bad=0
           for R in $REPOS; do
