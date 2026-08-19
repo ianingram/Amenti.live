@@ -1,0 +1,203 @@
+# ============================================================================
+#  .github/workflows/ark.yml  ·  THE ARK
+# ----------------------------------------------------------------------------
+#  Bundles every repository in the system — FULL HISTORY, every branch, every
+#  tag — verifies each bundle, and ships them to R2. Weekly, and on demand.
+#
+#  ── WHY NOT THE ZIP BUTTON ────────────────────────────────────────────────
+#  A zip is the working tree at one moment. It contains no history: every
+#  commit, every rename, every recovery is gone. On 17 August index.html was
+#  replaced by a Go hello-world and the Harbor was pulled back out of git —
+#  A ZIP TAKEN THAT AFTERNOON WOULD HAVE PRESERVED THE HELLO-WORLD AND LOST
+#  THE HARBOR, and nothing would have said so.
+#
+#  `git bundle` is one file holding the entire repository. Restore is
+#  `git clone amenti-live.bundle` and you have everything back, history intact.
+#
+#  ── WHY NOT BACK GITHUB UP TO GITHUB ──────────────────────────────────────
+#  Five repos on one account share one failure domain. A suspended account, a
+#  compromised token, a mistaken deletion — none of those are helped by a
+#  second copy on the same platform.
+#
+#  R2 IS A DIFFERENT PROVIDER. That is the whole point of sending it there,
+#  and it is the only thing this job does that the platform does not already
+#  do better than we could.
+#
+#  ── AND IT VERIFIES ───────────────────────────────────────────────────────
+#  `git bundle verify` reads the bundle back and confirms it is a complete,
+#  self-contained repository. A backup job that reports success without
+#  reading its own output is the Silent Signature with the stakes at their
+#  highest: you find out the archive was empty on the day you need it.
+#
+#      A BACKUP THAT WAS NEVER READ BACK IS NOT A BACKUP.
+#      IT IS A FILE WITH A HOPEFUL NAME.
+#
+#  ── THE CREDENTIAL, STATED PLAINLY ────────────────────────────────────────
+#  This job needs READ ACCESS TO EVERY REPOSITORY, including the two private
+#  ones. That makes ARK_TOKEN the broadest credential in the system, sitting
+#  in one repo's secrets.
+#
+#  Use a fine-grained PAT: read-only Contents, scoped to exactly the five
+#  repos below, with an expiry. Not a classic token, not `repo` scope, not
+#  something that can write. A backup job has no business being able to push.
+#
+#  ── SECRETS ───────────────────────────────────────────────────────────────
+#    ARK_TOKEN        fine-grained PAT · Contents:read on the five repos
+#    R2_ACCOUNT_ID    the Cloudflare account id
+#    R2_ACCESS_KEY    R2 API token — Object Read & Write on ONE bucket
+#    R2_SECRET_KEY    its secret
+#    R2_BUCKET        e.g. amenti-ark
+#
+#  Without R2_* the job still bundles and still verifies, and keeps the result
+#  as a workflow artifact — which is a worse backup and is better than none.
+#  It says which of the two happened.
+# ============================================================================
+name: the ark
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Sunday 03:11 UTC — well clear of the four strands at :07/:17/:27/:37/:47
+    # and clear of the bell at Monday 00:00.
+    - cron: '11 3 * * 0'
+
+permissions:
+  contents: read
+
+env:
+  ARK_TOKEN:     ${{ secrets.ARK_TOKEN }}
+  R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+  R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+  R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
+  R2_BUCKET:     ${{ secrets.R2_BUCKET }}
+
+jobs:
+  ark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gather the fleet
+        id: gather
+        run: |
+          set -o pipefail
+          mkdir -p ark
+          STAMP=$(date -u +%Y-%m-%d)
+          echo "stamp=$STAMP" >> "$GITHUB_OUTPUT"
+
+          # THE FIVE ISLANDS. Named here rather than discovered, because a
+          # backup that quietly stops covering a repo nobody removed is the
+          # worst failure this job has. If a sixth repo is added, ADD IT HERE.
+          REPOS="Amenti.live Fleet-Documents Amenti-Technical-Briefs Amenti-Workers Admin"
+
+          ok=0; bad=0
+          for R in $REPOS; do
+            echo ""
+            echo "── $R"
+
+            # --mirror takes every ref: branches, tags, notes. Not just the
+            # default branch, which is what a zip gives you.
+            if ! git clone --quiet --mirror \
+                 "https://x-access-token:${ARK_TOKEN}@github.com/ianingram/$R.git" "work/$R.git"; then
+              echo "::error::$R could not be cloned. THE ARK IS INCOMPLETE."
+              bad=$((bad+1)); continue
+            fi
+
+            ( cd "work/$R.git" && git bundle create "../../ark/$R.bundle" --all ) || {
+              echo "::error::$R could not be bundled"; bad=$((bad+1)); continue; }
+
+            # ── READ IT BACK ────────────────────────────────────────────
+            # The bundle is opened and checked for completeness. Without this
+            # the job would report success on a truncated file, and nobody
+            # would find out until a restore.
+            # RUN FROM INSIDE THE MIRROR. `git bundle verify` needs a repository
+            # to verify against and exits "need a repository to verify a bundle"
+            # from a bare directory — caught by testing the round trip before
+            # shipping this, and it would have failed on all five.
+            if ( cd "work/$R.git" && git bundle verify "../../ark/$R.bundle" ) \
+                 > "ark/$R.verify.txt" 2>&1; then
+              REFS=$( cd "work/$R.git" && git bundle list-heads "../../ark/$R.bundle" | wc -l | tr -d ' ' )
+              SIZE=$(du -h "ark/$R.bundle" | cut -f1)
+              echo "   verified · $REFS refs · $SIZE"
+              echo "$R  refs=$REFS  size=$SIZE  verified" >> ark/MANIFEST.txt
+              ok=$((ok+1))
+            else
+              echo "::error::$R BUNDLED BUT DID NOT VERIFY — the file exists and cannot be trusted"
+              cat "ark/$R.verify.txt"
+              bad=$((bad+1))
+            fi
+          done
+
+          # a checksum per bundle, so a silent corruption in transit is visible
+          ( cd ark && sha256sum *.bundle > SHA256SUMS.txt )
+
+          echo "" >> ark/MANIFEST.txt
+          echo "taken   $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> ark/MANIFEST.txt
+          echo "by      .github/workflows/ark.yml" >> ark/MANIFEST.txt
+          echo "restore git clone <repo>.bundle" >> ark/MANIFEST.txt
+
+          echo ""
+          echo "  $ok bundled and verified · $bad failed"
+          echo "ok=$ok"   >> "$GITHUB_OUTPUT"
+          echo "bad=$bad" >> "$GITHUB_OUTPUT"
+
+          # ONE MISSING REPO IS A FAILED ARK. A partial backup that passes is
+          # how you discover, on the worst day, that the repo you needed was
+          # the one that quietly stopped being included.
+          [ "$bad" = "0" ] || exit 1
+
+      - name: Ship it to R2
+        if: env.R2_ACCESS_KEY != ''
+        run: |
+          set -o pipefail
+          # aws-cli speaks S3, and R2 speaks S3. No SDK, no dependency.
+          export AWS_ACCESS_KEY_ID="$R2_ACCESS_KEY"
+          export AWS_SECRET_ACCESS_KEY="$R2_SECRET_KEY"
+          export AWS_DEFAULT_REGION=auto
+          EP="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          DEST="s3://${R2_BUCKET}/${{ steps.gather.outputs.stamp }}"
+
+          aws s3 cp ark "$DEST/" --recursive --endpoint-url "$EP" --only-show-errors
+
+          # ── AND READ IT BACK FROM THE FAR END ──────────────────────────
+          # An upload that returns 200 is not a file that arrived. This lists
+          # the destination and counts what is actually there.
+          LANDED=$(aws s3 ls "$DEST/" --endpoint-url "$EP" | grep -c '\.bundle$' || true)
+          echo "  $LANDED bundles at $DEST"
+          if [ "$LANDED" != "${{ steps.gather.outputs.ok }}" ]; then
+            echo "::error::${{ steps.gather.outputs.ok }} bundles were sent and $LANDED arrived."
+            echo "::error::The ark is NOT off-provider. Do not treat this run as a backup."
+            exit 1
+          fi
+          echo "  the ark is off-provider"
+
+      # Without R2 the bundles are still kept — as an artifact, on GitHub,
+      # which is the same failure domain and expires. Worse, and better than
+      # nothing, and the summary says which one you got.
+      - name: Keep it here instead
+        if: env.R2_ACCESS_KEY == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ark-${{ steps.gather.outputs.stamp }}
+          path: ark/
+          retention-days: 90
+
+      - name: The reading
+        if: always()
+        run: |
+          {
+            echo "## The Ark"
+            echo ""
+            echo '```'
+            cat ark/MANIFEST.txt 2>/dev/null || echo "no manifest — the gather step did not complete"
+            echo '```'
+            echo ""
+            if [ -n "$R2_ACCESS_KEY" ]; then
+              echo "Shipped to R2 — **a different provider**. This is the copy that survives"
+              echo "an account failure."
+            else
+              echo "> **No R2 credentials.** The bundles are a GitHub artifact and expire in 90"
+              echo "> days. That is the same platform as the thing being backed up, so it"
+              echo "> protects against a bad push and NOT against losing the account."
+            fi
+            echo ""
+            echo "Restore: \`git clone <repo>.bundle\` — full history, every branch."
+          } >> "$GITHUB_STEP_SUMMARY"
