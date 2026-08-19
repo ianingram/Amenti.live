@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Book of the Dead · Amenti</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Special+Elite&family=Rajdhani:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="amenti.css">
+<!--
+  ==========================================================================
+   THE READER  ·  read.html
+  --------------------------------------------------------------------------
+   Opens from READ CHAPTER ONE in the Book Store. Reads BOOK.json — the
+   chapter register — and renders one chapter at a time.
+
+   ── WHY IT EXISTS ─────────────────────────────────────────────────────────
+   The shelf was built before the reader. READ CHAPTER ONE went nowhere: a
+   button on the front of the store promising a thing that did not exist.
+   The same shape as every fault this system was built to catch — a surface
+   that looks finished and is not wired to anything.
+
+   ── IT REFUSES TO INVENT A CHAPTER ────────────────────────────────────────
+   A chapter with no file shows THE UNWRITTEN PAGE, which says plainly that
+   it is not written yet. It does not show a placeholder, an excerpt, or a
+   "coming soon" that could be mistaken for content. The store's own law is
+   printed on its front:
+
+       NO CHAPTER PUBLISHES BEFORE THE THING IT DESCRIBES.
+
+   A reader that faked one would break the only promise the book makes.
+
+   ── THE FIVE BANDS ────────────────────────────────────────────────────────
+   Every chapter runs the same apparatus, and the reader renders each band
+   distinctly so a reader can find the one they came for:
+
+       THE SPELL      the source text. Set in a serif, quiet, unhurried.
+       THE MECHANISM  what the machine does. Terminal type.
+       THE PRIMER     for the reader learning to write code.
+       THE PLATE      the reading, at the hour of writing.
+       THE ROADMAP    what is not built yet.
+
+   Bands are marked in the markdown with a line of the form:
+
+       ## ⟦SPELL⟧  The weighing of the heart
+
+   ── NOTHING HERE IS TYPED ─────────────────────────────────────────────────
+   Chapter titles, numbers, volumes and status all come from BOOK.json.
+   The page states no fact about the book that the register does not hold.
+  ==========================================================================
+-->
+<style>
+:root{
+  --gold:#d4a017; --gold-b:#f5c542; --gold-d:#a87c14;
+  --neon:#00ffe0; --term:#57c98a; --violet:#c4a5ff; --tblue:#57b6ff;
+  --amber:#fbbf24; --red:#f87171;
+  --ink:#07080d; --granite:#101219; --slate:#212636; --wire:#333a50;
+  --text:#cdd2e0; --dim:#8b90a6; --paper:#e8e4d9;
+  --mono:'Share Tech Mono',monospace;
+  --body:'Rajdhani',sans-serif;
+  --read:'Cormorant Garamond',Georgia,serif;
+  --disp:'Amenti Display','Special Elite',cursive;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--body);font-weight:300;
+  font-size:18px;line-height:1.7;
+  background-image:radial-gradient(ellipse at 50% -10%,rgba(212,160,23,.10),transparent 62%)}
+
+/* ── the rail: where you are in the book ─────────────────────────────── */
+.rail{position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:11px 22px;background:rgba(7,8,13,.93);backdrop-filter:blur(9px);
+  border-bottom:1px solid var(--slate);font-family:var(--mono);font-size:12px;letter-spacing:.16em}
+.rail a{color:var(--dim);text-decoration:none;transition:.2s}
+.rail a:hover{color:var(--gold-b)}
+.rail .here{color:var(--gold-b)}
+.rail .sp{flex:1}
+.rail .st{color:var(--term)}
+.rail .st.soon{color:var(--dim)}
+
+/* ── the progress hairline. How far through the chapter. ─────────────── */
+#bar{position:fixed;top:0;left:0;height:2px;width:0;z-index:99;
+  background:linear-gradient(90deg,var(--gold-d),var(--gold-b));transition:width .1s linear}
+
+main{max-width:820px;margin:0 auto;padding:44px 26px 140px}
+
+/* ── the chapter head ────────────────────────────────────────────────── */
+.vol{font-family:var(--mono);font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--neon);margin:0 0 16px}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,6vw,58px);line-height:1.02;
+  color:var(--gold-b);margin:0;text-shadow:0 0 38px rgba(245,197,66,.22)}
+h1 .n{display:block;font-size:.26em;letter-spacing:.34em;color:var(--gold);opacity:.85;
+  text-shadow:none;margin-bottom:.5em}
+.blurb{font-family:var(--read);font-size:21px;font-style:italic;color:#b9bdcd;margin:20px 0 0;max-width:60ch}
+.rule{width:150px;height:1px;margin:28px 0 34px;background:linear-gradient(90deg,var(--gold),transparent)}
+
+/* ── THE UNWRITTEN PAGE ──────────────────────────────────────────────── */
+#unwritten{display:none;border:1px solid var(--wire);border-radius:10px;background:#0b0d14;
+  padding:40px 34px;margin:30px 0;text-align:center}
+#unwritten .k{font-family:var(--disp);font-size:clamp(21px,3.4vw,30px);letter-spacing:.06em;color:var(--gold);margin-bottom:16px}
+#unwritten p{max-width:56ch;margin:12px auto;color:var(--dim)}
+#unwritten .law{font-family:var(--mono);font-size:12.5px;letter-spacing:.15em;color:var(--amber);
+  margin-top:26px;line-height:2}
+
+/* ── the bands ───────────────────────────────────────────────────────── */
+.band{margin:52px 0 0;padding-top:26px;border-top:1px solid var(--slate)}
+.band .tag{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.26em;
+  text-transform:uppercase;padding:4px 12px;border:1px solid;border-radius:20px;margin-bottom:16px}
+.band h2{font-family:var(--disp);font-weight:600;font-size:clamp(22px,3vw,30px);letter-spacing:.04em;
+  color:#e6e9f2;margin:0 0 16px}
+
+.band.spell .tag{color:var(--gold-b);border-color:rgba(245,197,66,.4)}
+.band.spell .body{font-family:var(--read);font-size:22px;line-height:1.78;color:var(--paper)}
+.band.spell .body p:first-of-type::first-letter{font-family:var(--disp);float:left;font-size:3.1em;
+  line-height:.84;padding:6px 12px 0 0;color:var(--gold)}
+
+.band.mechanism .tag{color:var(--tblue);border-color:rgba(87,182,255,.4)}
+.band.primer .tag{color:var(--term);border-color:rgba(87,201,138,.4)}
+.band.plate .tag{color:var(--violet);border-color:rgba(196,165,255,.4)}
+.band.roadmap .tag{color:var(--amber);border-color:rgba(251,191,36,.4)}
+
+.band .body p{margin:14px 0;max-width:74ch}
+.band .body b,.band .body strong{color:#e6e9f2;font-weight:600}
+.band .body em{color:var(--gold-b)}
+.band .body code{font-family:var(--mono);font-size:15px;color:var(--neon);
+  background:rgba(0,255,224,.07);padding:1px 6px;border-radius:3px}
+.band .body pre{background:#0a0c12;border:1px solid var(--slate);border-radius:8px;
+  padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:14.5px;line-height:1.75;color:#b9c4dc}
+.band .body pre code{background:none;padding:0;color:inherit}
+.band .body blockquote{margin:20px 0;padding:2px 0 2px 20px;border-left:2px solid var(--gold-d);
+  font-family:var(--read);font-size:20px;font-style:italic;color:#c6c2b4}
+.band .body hr{border:0;height:1px;background:var(--slate);margin:30px 0}
+.band .body ul,.band .body ol{max-width:74ch}
+.band .body li{margin:7px 0}
+
+/* the plate band is a reading, and says when it was taken */
+.band.plate .taken{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);
+  margin-bottom:14px}
+
+/* ── the foot: what comes next ───────────────────────────────────────── */
+.next{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:70px}
+.next a{display:block;padding:18px 20px;border:1px solid var(--slate);border-radius:9px;
+  background:var(--granite);text-decoration:none;transition:.2s}
+.next a:hover{border-color:var(--gold);background:#141821}
+.next .k{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.next .t{font-family:var(--disp);font-size:19px;color:var(--gold-b);margin-top:6px}
+.next a.off{opacity:.4;pointer-events:none}
+.next a.r{text-align:right}
+@media(max-width:640px){.next{grid-template-columns:1fr}.next a.r{text-align:left}main{padding:32px 18px 100px}}
+
+.foot{margin-top:60px;padding-top:24px;border-top:1px solid var(--slate);text-align:center;
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--dim);line-height:2.1}
+
+#glass{display:none;border:1px solid rgba(248,113,113,.35);border-radius:9px;
+  background:rgba(248,113,113,.05);padding:26px;margin:30px 0;color:#e8b0b0}
+#glass .k{font-family:var(--disp);font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<nav class="rail">
+  <a href="Page1.html#bookstore">◂ THE BOOK STORE</a>
+  <span class="here" id="r-vol">—</span>
+  <span class="sp"></span>
+  <span class="st" id="r-st"></span>
+</nav>
+
+<main>
+  <div id="glass">
+    <div class="k">Empty glass</div>
+    <p style="margin:10px 0 0">This page cannot read <code>BOOK.json</code>, the chapter
+    register. Nothing below is shown — the reader will not invent a book it cannot see.</p>
+  </div>
+
+  <div id="head" hidden>
+    <p class="vol" id="c-vol"></p>
+    <h1><span class="n" id="c-num"></span><span id="c-title"></span></h1>
+    <p class="blurb" id="c-blurb"></p>
+    <div class="rule"></div>
+  </div>
+
+  <div id="unwritten">
+    <div class="k">The unwritten page</div>
+    <p>This chapter is in the plan and is not written yet. There is no excerpt,
+    no placeholder and no summary standing in for it, because a page that looked
+    like a chapter would be the one lie this book cannot afford.</p>
+    <p id="u-why"></p>
+    <div class="law">
+      NO CHAPTER PUBLISHES BEFORE THE THING IT DESCRIBES.<br>
+      BAND TWO IS READ FROM THE LIVE WORKER AT THE HOUR OF WRITING.
+    </div>
+  </div>
+
+  <div id="chapter"></div>
+
+  <div class="next" id="next" hidden></div>
+
+  <p class="foot">
+    The Book of the Dead<br>
+    Ingram Manor LLC · Amenti<br>
+    Nothing on this page was typed twice
+  </p>
+</main>
+
+<script>
+(async function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? '' : s)
+    .replace(/[&<>]/g, function (c) { return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]; }); };
+
+  /* ── the progress hairline ─────────────────────────────────────────── */
+  addEventListener('scroll', function () {
+    var h = document.documentElement;
+    var p = h.scrollTop / ((h.scrollHeight - h.clientHeight) || 1);
+    $('bar').style.width = Math.min(100, p * 100) + '%';
+  }, { passive: true });
+
+  /* ── the register ──────────────────────────────────────────────────── */
+  var reg;
+  try {
+    var r = await fetch('BOOK.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.status);
+    reg = await r.json();
+  } catch (e) {
+    $('glass').style.display = 'block';
+    return;
+  }
+
+  var chapters = reg.chapters || [];
+  var want = new URLSearchParams(location.search).get('ch');
+  var i = want ? chapters.findIndex(function (c) { return String(c.n) === String(want); }) : 0;
+  if (i < 0) i = 0;
+  var c = chapters[i];
+  if (!c) { $('glass').style.display = 'block'; return; }
+
+  /* ── the head ──────────────────────────────────────────────────────── */
+  $('head').hidden = false;
+  $('c-vol').textContent = [c.volume, c.book].filter(Boolean).join(' · ');
+  $('c-num').textContent = c.n === 0 ? 'Prologue' : 'Chapter ' + c.n;
+  $('c-title').textContent = c.title || '';
+  $('c-blurb').textContent = c.blurb || '';
+  $('r-vol').textContent = (c.volume || '') + (c.n === 0 ? ' · PROLOGUE' : ' · CH ' + c.n);
+
+  /* ── the text, or the unwritten page ───────────────────────────────── */
+  var md = null;
+  if (c.file) {
+    try {
+      var t = await fetch(c.file, { cache: 'no-store' });
+      if (t.ok) md = await t.text();
+    } catch (e) {}
+  }
+
+  if (!md) {
+    $('unwritten').style.display = 'block';
+    $('u-why').textContent = c.why || '';
+    $('r-st').textContent = 'NOT YET WRITTEN';
+    $('r-st').className = 'st soon';
+  } else {
+    $('r-st').textContent = 'READING';
+    render(md);
+  }
+
+  /* ── what comes next ───────────────────────────────────────────────── */
+  var prev = chapters[i - 1], next = chapters[i + 1];
+  $('next').hidden = false;
+  $('next').innerHTML =
+    (prev ? '<a href="?ch=' + prev.n + '"><div class="k">◂ before</div><div class="t">'
+          + esc(prev.title) + '</div></a>'
+          : '<a class="off"><div class="k">◂ before</div><div class="t">the beginning</div></a>') +
+    (next ? '<a class="r" href="?ch=' + next.n + '"><div class="k">after ▸</div><div class="t">'
+          + esc(next.title) + '</div></a>'
+          : '<a class="off r"><div class="k">after ▸</div><div class="t">not yet written</div></a>');
+
+  /* ── THE FIVE BANDS ─────────────────────────────────────────────────
+     A band opens with:   ## ⟦SPELL⟧  Title
+     Everything until the next such line belongs to it. Text before the
+     first band is rendered as an untagged opening — the prologue has no
+     apparatus and should not be forced into one. */
+  function render(src) {
+    var BAND = /^##\s*⟦([A-Z]+)⟧\s*(.*)$/;
+    var out = [], cur = null;
+    var flush = function () {
+      if (!cur) return;
+      var cls = cur.kind ? cur.kind.toLowerCase() : 'open';
+      out.push('<section class="band ' + cls + '">'
+        + (cur.kind ? '<span class="tag">' + esc(cur.kind) + '</span>' : '')
+        + (cur.title ? '<h2>' + esc(cur.title) + '</h2>' : '')
+        + (cls === 'plate' && reg.plateNote
+            ? '<div class="taken">' + esc(reg.plateNote) + '</div>' : '')
+        + '<div class="body">' + block(cur.lines.join('\n')) + '</div></section>');
+      cur = null;
+    };
+    src.split(/\r?\n/).forEach(function (line) {
+      var m = line.match(BAND);
+      if (m) { flush(); cur = { kind: m[1], title: m[2].trim(), lines: [] }; }
+      else { if (!cur) cur = { kind: null, title: null, lines: [] }; cur.lines.push(line); }
+    });
+    flush();
+    $('chapter').innerHTML = out.join('');
+  }
+
+  /* A small markdown renderer. Deliberately small: this book is prose,
+     code fences and the occasional quote. Anything more would be a
+     dependency, and the ship carries no dependencies it did not write. */
+  function block(t) {
+    var html = '', fence = null, buf = [], list = null;
+    var closeList = function () { if (list) { html += '</' + list + '>'; list = null; } };
+    t.split(/\r?\n/).forEach(function (ln) {
+      if (/^```/.test(ln)) {
+        if (fence === null) { fence = []; }
+        else { html += '<pre><code>' + esc(fence.join('\n')) + '</code></pre>'; fence = null; }
+        return;
+      }
+      if (fence !== null) { fence.push(ln); return; }
+
+      if (/^\s*$/.test(ln)) { if (buf.length) { closeList(); html += '<p>' + inline(buf.join(' ')) + '</p>'; buf = []; } return; }
+      if (/^---+$/.test(ln)) { if (buf.length) { html += '<p>' + inline(buf.join(' ')) + '</p>'; buf = []; } closeList(); html += '<hr>'; return; }
+      if (/^>\s?/.test(ln)) { if (buf.length) { html += '<p>' + inline(buf.join(' ')) + '</p>'; buf = []; } closeList();
+        html += '<blockquote>' + inline(ln.replace(/^>\s?/, '')) + '</blockquote>'; return; }
+      var ul = ln.match(/^[-*]\s+(.*)$/), ol = ln.match(/^\d+\.\s+(.*)$/);
+      if (ul || ol) {
+        if (buf.length) { html += '<p>' + inline(buf.join(' ')) + '</p>'; buf = []; }
+        var want = ul ? 'ul' : 'ol';
+        if (list !== want) { closeList(); html += '<' + want + '>'; list = want; }
+        html += '<li>' + inline((ul || ol)[1]) + '</li>';
+        return;
+      }
+      closeList();
+      buf.push(ln);
+    });
+    if (fence !== null) html += '<pre><code>' + esc(fence.join('\n')) + '</code></pre>';
+    if (buf.length) html += '<p>' + inline(buf.join(' ')) + '</p>';
+    closeList();
+    return html;
+  }
+
+  function inline(s) {
+    return esc(s)
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+  }
+})();
+</script>
+</body>
+</html>

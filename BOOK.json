@@ -1,0 +1,81 @@
+{
+  "_": "THE CHAPTER REGISTER. read.html walks this and nothing else. A chapter with no `file` shows THE UNWRITTEN PAGE — never a placeholder.",
+  "_law": "No chapter publishes before the thing it describes.",
+  "title": "The Book of the Dead",
+  "subtitle": "How this machine was built, written against the machine",
+  "plateNote": "This band was read from the live system at the hour of writing. It has not been updated since.",
+  "chapters": [
+    {
+      "n": 0,
+      "volume": "Volume I",
+      "book": "Book Zero — The Dry Dock",
+      "title": "The Beach",
+      "blurb": "A man comes out of the sea holding the only object that can release a thousand souls, and what he wants is a cheeseburger.",
+      "file": "book/00-the-beach.md",
+      "why": "The frame. The last human scene in the book, and the one chapter with no apparatus — the prologue carries no bands because it makes no claim a probe could check."
+    },
+    {
+      "n": 1,
+      "volume": "Volume I",
+      "book": "Book Zero — The Dry Dock",
+      "title": "The Siege of Amenti",
+      "blurb": "A midnight raid on the Fourth of July, the gates breached, and a captain who does not come back with his crew.",
+      "file": "book/01-the-siege.md",
+      "why": "The emerald heart comes out of this chapter — the jewel at the fulcrum of the docket scale, and the reason there is a man on a beach at all."
+    },
+    {
+      "n": 2,
+      "volume": "Volume I",
+      "book": "Book Zero — The Dry Dock",
+      "title": "The Specification",
+      "blurb": "The halls, the living library and the emerald tablets — in one head before there was anything to build with.",
+      "file": "book/02-the-specification.md",
+      "why": "The mythology is not a frame laid over the software. It is the requirements document the software was built to satisfy, and this chapter has to establish that before a single line of code appears."
+    },
+    {
+      "n": 3,
+      "volume": "Volume I",
+      "book": "Book Zero — The Dry Dock",
+      "title": "The Three Refusals",
+      "blurb": "Amenti refuses loss. Hades refuses memory, and holds the court. Valhalla refuses return.",
+      "file": "book/03-three-refusals.md",
+      "why": "Three keys are not three powers. A key that only opens is decoration — what makes them load-bearing is what each one will not do."
+    },
+    {
+      "n": 4,
+      "volume": "Volume I",
+      "book": "Book Zero — The Dry Dock",
+      "title": "The Manifest of the Fleet",
+      "blurb": "Every file and its office, and the six that no manifest named.",
+      "file": "book/04-the-manifest.md",
+      "why": "Half-written already as a pane. The reading is live: the manifest reports what is aboard, and it found files nothing had ever declared."
+    },
+    {
+      "n": 5,
+      "volume": "Volume I",
+      "book": "Book Zero — The Dry Dock",
+      "title": "The Descent",
+      "blurb": "Local, deploy, live. Hundreds of times.",
+      "file": "book/05-the-descent.md",
+      "why": "The loop is the work. Most accounts of building software skip it because it is repetitive — which is precisely why it belongs in a book about what building actually costs."
+    },
+    {
+      "n": 6,
+      "volume": "Volume I",
+      "book": "Book Zero — The Dry Dock",
+      "title": "Built at Sea",
+      "blurb": "Thousands of probes. A ship that cannot make port, and the difference between construction and navigation.",
+      "file": "book/06-built-at-sea.md",
+      "why": "Book Zero ends where the Flying Dutchman is explained: not a metaphor for hardship, but for a vessel whose repairs all happen underway."
+    },
+    {
+      "n": 7,
+      "volume": "Volume I",
+      "book": "Book I — Amenti",
+      "title": "The Roster",
+      "blurb": "One thousand and eleven souls in a flat file, and why the list is a boundary rather than a verdict.",
+      "file": null,
+      "why": "Waiting on nothing. The roster is stable and the chapter can be written as soon as Book Zero is out."
+    }
+  ]
+}
