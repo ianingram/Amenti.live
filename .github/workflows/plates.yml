@@ -24,6 +24,7 @@ on:
       - 'library/**'
       - 'tools/plates.js'
       - 'tools/keyring.js'
+      - 'tools/chart.js'
 
 jobs:
   register:
@@ -47,11 +48,32 @@ jobs:
       - name: Walk the keys and write KEYS.json
         run: node tools/keyring.js
 
+      # ── THE CHART ─────────────────────────────────────────────────────────
+      # Third, because it reads what the first two wrote. It records EXISTENCE
+      # AND OWNERSHIP across the whole system — every file, and which register
+      # speaks for it.
+      #
+      # EVERY FAULT THIS WEEK LIVED IN THE WATER BETWEEN TWO REGISTERS. Not one
+      # was an error inside a register: gw-winter was a scene the PLATE register
+      # counted as a figure; Julius was one man across two keys no single
+      # register could see; the Harbor was replaced and nothing watched panes;
+      # eight of forty-one briefs were linked and nothing watched briefs. Every
+      # one of those registers was telling the truth about its own island.
+      #
+      # This is the chart of the water.
+      #
+      # It runs WITHOUT a token, so it charts this repo and records the other
+      # four as UNREACHABLE — which is a different answer from empty, and it
+      # says so. Give it a token later if the fleet-wide reading is wanted; a
+      # partial chart that admits it is partial is worth having today.
+      - name: Chart the archipelago
+        run: node tools/chart.js .
+
       - name: Commit the register if it changed
         run: |
           git config user.name  "amenti-register"
           git config user.email "register@amenti.live"
-          git add img/PLATES.json img/KEYS.json
+          git add img/PLATES.json img/KEYS.json CHART.json
           git diff --staged --quiet && exit 0
           git commit -m "register: regenerate PLATES.json [skip ci]"
           for i in 1 2 3 4 5; do
