@@ -617,12 +617,32 @@ function stripExpressions(raw) {
 /* 6 · WALK                                                                    */
 /* ========================================================================== */
 
-function walkSurface(surface, sidecarGlobals) {
+/* ── THE UNIVERSE OF A SURFACE ───────────────────────────────────────────────
+   The first repo run reported six globals ADRIFT on Page2 — Amenti.voice,
+   throttle, conversation, listen, chat, doctrine — on the grounds that Page2
+   registers them and never calls them. Page2 does not load amenti-core.bundle.js
+   at all. The probe had been handed every global from every readable file and
+   was measuring each surface against a universe it does not live in. "Loaded is
+   not used" about a file that was never loaded is a worse lie than the one this
+   probe was built to catch, because it is confident and specific.
+
+   And in the other direction: Page1 loads amenti-doctrine.js and never names
+   Amenti.doctrine, so it read as adrift — but the platform inside the bundle
+   reads it, in REG(). A reference in a file the surface loads is a reference.
+
+   So a surface's universe is: its own inline code, plus the files it actually
+   loads. Nothing wider, nothing narrower. */
+function walkSurface(surface, sidecarsAll) {
   const raw = surface.raw;
   const tags = scriptTags(raw);
   const hazards = [];
   const stripped = strippedMirror(raw, tags, false, hazards);   // identifiers and scopes
   const literal = strippedMirror(raw, tags, true);     // values, still quoted
+
+  /* only the files THIS surface loads */
+  const loadedSrcs = new Set(tags.filter(t => t.external && !t.remote).map(t => t.src));
+  const sidecarGlobals = (sidecarsAll.globals || sidecarsAll || []).filter(g => loadedSrcs.has(g.source));
+  const loadedFiles = (sidecarsAll.read || []).filter(f => loadedSrcs.has(f.src));
 
   const inlineBlocks = tags.filter(t => !t.external && t.bodyEnd > t.bodyStart);
   const regs = [];
@@ -668,6 +688,11 @@ function walkSurface(surface, sidecarGlobals) {
 
   const speechCandidates = [...candidates].filter(name => {
     if (SPEECH_WORDS.test(name)) return true;
+    /* a global in a loaded file that defines speak() or play() is an engine
+       whatever it is called. Dropping it here because its NAME lacked the word
+       is how a fifth engine arrives unnamed and unwatched. */
+    const side = sidecarGlobals.find(g => g.global === name);
+    if (side && (side.methods || []).some(x => ['speak', 'play'].includes(x))) return true;
     const reg = regs.find(r => r.global === name);
     if (reg && reg.methods && reg.methods.some(x => ['speak', 'play', 'isSpeaking', 'isPlaying'].includes(x))) return true;
     return new RegExp(name.replace(/\./g, '\\.') + '\\s*\\.\\s*(?:speak|play)\\s*\\(').test(stripped);
@@ -752,6 +777,23 @@ function walkSurface(surface, sidecarGlobals) {
     const sidecar = sidecarGlobals.find(g => g.global === name) || null;
     const mine = refs.filter(r => r.global === name);
     const reads = mine.filter(r => r.kind === 'read').sort((a, b2) => a.line - b2.line);
+
+    /* a reference inside a file this surface loads is a reference. Counting only
+       the page's own text called amenti-doctrine.js adrift while the platform
+       was reading it in REG(). */
+    const esc = name.replace(/\./g, '\\.');
+    const readsInFiles = [];
+    for (const f of loadedFiles) {
+      if (!f._code) continue;
+      const re = new RegExp('(?:^|[^.\\w$])(?:window\\.)?' + esc + '\\b', 'g');
+      let m;
+      while ((m = re.exec(f._code))) {
+        const at = m.index + m[0].length - name.length;
+        if (/^\s*=[^=]/.test(f._code.slice(at + name.length, at + name.length + 8))) continue;  // its own registration
+        readsInFiles.push({ file: f.src, line: lineOf(f._code, at) });
+        re.lastIndex = at + name.length;
+      }
+    }
     const firstRead = reads[0] || null;
     const parseTimeReads = reads.filter(r => r.evaluation === 'parse-time');
 
@@ -789,6 +831,8 @@ function walkSurface(surface, sidecarGlobals) {
       hasStop: (inline ? inline.methods : sidecar ? sidecar.methods : []).includes('stop'),
       delegatesStop: !!(inline ? inline.delegatesStop : sidecar ? sidecar.delegatesStop : false),
       reads: reads.length,
+      readsInLoadedFiles: readsInFiles.length,
+      readsInLoadedFilesAt: readsInFiles.slice(0, 6),
       firstRead: firstRead ? firstRead.line : null,
       firstReadEvaluation: firstRead ? firstRead.evaluation : null,
       parseTimeReads: [...new Set(parseTimeReads.map(r => r.line))],
@@ -882,7 +926,7 @@ function readSidecars(surfaceReadings, root) {
       r.delegatesStop = !r.methods.includes('stop') && /\.\s*stop\s*\(/.test(bodyOf(code, r.offset));
       if (SPEECH_WORDS.test(r.global) || (r.methods || []).some(x => ['speak', 'play'].includes(x))) globals.push(r);
     }
-    read.push({ ...w, bytes: Buffer.byteLength(raw), lines: raw.split('\n').length, registers: regs.map(r => r.global).slice(0, 40) });
+    read.push({ ...w, bytes: Buffer.byteLength(raw), lines: raw.split('\n').length, registers: regs.map(r => r.global).slice(0, 40), _code: code });
   }
   return { read, unread, globals };
 }
@@ -947,13 +991,13 @@ function findings(reading, accepted) {
         test: 'unclassifiable read before availability'
       });
       /* ADRIFT — registered and never asked for */
-      if (e.registered !== null && e.reads === 0 && e.role !== 'tell') out.push({
+      if (e.registered !== null && e.reads === 0 && e.readsInLoadedFiles === 0 && e.role !== 'tell') out.push({
         id: 'adrift',
         severity: 'finding',
         surface: s.file,
         global: e.global,
-        detail: `registered on line ${e.registered} in ${e.registeredIn}; no reference anywhere on this surface. Loaded is not used.`,
-        test: 'registration with zero reads'
+        detail: `registered on line ${e.registered} in ${e.registeredIn}, which this surface loads; no reference on the surface and none in any file it loads. Loaded is not used.`,
+        test: 'registration with zero reads across the surface and its loaded files'
       });
       /* STOWAWAY — called and registered by nobody the probe could read */
       if (e.registered === null && e.reads) out.push({
@@ -1121,10 +1165,10 @@ function main(argv) {
   }
 
   const loaded = surfacesIn.map(readSurface);
-  const firstPass = loaded.map(s => walkSurface(s, []));
+  const firstPass = loaded.map(s => walkSurface(s, { globals: [], read: [] }));
   const sidecars = readSidecars(firstPass, root);
   const profiles = declaredProfiles(root);
-  const surfaces = loaded.map(s => walkSurface(s, sidecars.globals));
+  const surfaces = loaded.map(s => walkSurface(s, sidecars));
 
   const reading = {
     probe: PROBE,
@@ -1133,7 +1177,7 @@ function main(argv) {
     root: basename(root),
     profiles,
     surfaces,
-    files: { read: sidecars.read, unread: sidecars.unread },
+    files: { read: sidecars.read.map(({ _code, ...rest }) => rest), unread: sidecars.unread },
     unread: sidecars.unread,
     cacheKey: {
       composition: 'sha256(TTS_MODEL + voice + STYLE + TEXT)',
