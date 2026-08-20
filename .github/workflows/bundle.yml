@@ -1,0 +1,98 @@
+# ============================================================================
+#  .github/workflows/bundle.yml  ·  THE BUNDLE
+# ----------------------------------------------------------------------------
+#  Regenerates BRIEFS.txt whenever a brief changes. Forty-one shop-floor
+#  accounts in one plain-text file, with a table of contents and the date each
+#  one was written.
+#
+#  ── WHY ───────────────────────────────────────────────────────────────────
+#  These briefs have had exactly one reader: the person who wrote them.
+#
+#  Not for want of permission — the repository is public — but because a
+#  session begins with nothing and can only fetch a URL it has already been
+#  shown. So every session started with the captain pasting files by hand, and
+#  on 18 August a whole working night went that way.
+#
+#  ONE FILE CAN BE HANDED OVER IN ONE ACTION. That is the whole idea, and it
+#  is the difference between a session that begins informed and one that
+#  begins by asking.
+#
+#  ── AND IT IS GENERATED, NEVER TYPED ──────────────────────────────────────
+#  A hand-kept list of forty-one files goes stale the moment a forty-second is
+#  written. That is precisely how the hub's Engineering tab came to show EIGHT
+#  of forty-one and say nothing about it — thirty-three briefs unreachable
+#  from any surface, including both of the ones the captain names as the
+#  capabilities that make the site what it is.
+#
+#  The bundle cannot drift, because nothing maintains it.
+# ============================================================================
+name: bundle the briefs
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '*.html'
+      - 'tools/bundle-briefs.js'
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 0 — the bundler reads git for the date each brief was
+      # FIRST committed, and that date is the reader's only way to know which
+      # Tuesday an account describes. A shallow checkout has no history, so
+      # every brief would come out undated.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Bundle
+        run: node tools/bundle-briefs.js .
+
+      - name: Commit it
+        run: |
+          git config user.name  "the-bundler"
+          git config user.email "bundle@amenti.live"
+          git add -f BRIEFS.txt
+          if git diff --staged --quiet -- BRIEFS.txt; then
+            echo "the bundle is unchanged"
+            exit 0
+          fi
+          git commit -m "bundle: the briefs [skip ci]"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin "${GITHUB_REF_NAME}" \
+               && git push origin "HEAD:${GITHUB_REF_NAME}"; then pushed=1; break; fi
+            echo "push attempt $i did not land; retrying from a clean tree"
+            sleep 5
+          done
+          git rebase --abort 2>/dev/null || true
+          [ "$pushed" = "1" ] || { echo "::error::the bundle could not be pushed"; exit 1; }
+          echo "committed"
+
+      - name: The reading
+        if: always()
+        run: |
+          {
+            echo "## The Bundle"
+            echo ""
+            if [ -s BRIEFS.txt ]; then
+              echo '```'
+              sed -n '1,6p' BRIEFS.txt
+              echo '```'
+              echo ""
+              echo "\`BRIEFS.txt\` — $(du -h BRIEFS.txt | cut -f1). Hand this to a session and it"
+              echo "has every account the project has written."
+            else
+              echo "The bundler produced nothing."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
