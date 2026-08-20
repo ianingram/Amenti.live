@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-20T08:09:15.368Z",
+    "generated": "2026-08-20T08:13:40.575Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1213,7 +1213,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46813,
-      "sha256": "6de247544d059819",
+      "sha256": "ac30695eadd58ea4",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1451,7 +1451,7 @@
         "file": "probe-gate.mjs",
         "title": "WHY THIS EXISTS",
         "guards": null,
-        "bytes": 10128
+        "bytes": 11880
       },
       {
         "file": "probe-ordnance.mjs",
