@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-08-20T20:01:32.862Z",
+  "generated": "2026-08-20T20:31:55.663Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -16,7 +16,7 @@
       },
       {
         "file": "amenti-voice.js",
-        "line": 61
+        "line": 106
       }
     ],
     "constants": {
