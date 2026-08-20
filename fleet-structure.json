@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-20T02:17:49.173Z",
+    "generated": "2026-08-20T05:58:03.519Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1213,7 +1213,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46649,
-      "sha256": "adaea986657d59c6",
+      "sha256": "3d02536974ed8e82",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1445,7 +1445,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 22,
+    "count": 23,
     "files": [
       {
         "file": "probe-ordnance.mjs",
@@ -1458,6 +1458,12 @@
         "title": null,
         "guards": null,
         "bytes": 27921
+      },
+      {
+        "file": "probe-voice.mjs",
+        "title": "WHAT THIS IS FOR",
+        "guards": null,
+        "bytes": 50379
       },
       {
         "file": "probe-watches.mjs",
