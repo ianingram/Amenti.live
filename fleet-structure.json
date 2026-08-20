@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-20T06:07:19.165Z",
+    "generated": "2026-08-20T07:05:32.950Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1103,12 +1103,24 @@
     },
     {
       "file": "amenti-voice.js",
-      "bytes": 40260,
-      "sha256": "5ed9a92c8a8b5cfb",
+      "bytes": 28632,
+      "sha256": "fc8ebca6390e9a62",
       "type": "js",
-      "declares": [],
+      "declares": [
+        "Amenti",
+        "Amenti.conversation",
+        "Amenti.throttle",
+        "Amenti.voice"
+      ],
       "loads": [],
-      "calls": [],
+      "calls": [
+        {
+          "global": "Amenti.voice",
+          "line": 48,
+          "when": "iife",
+          "own": true
+        }
+      ],
       "endpoints": [],
       "tables": []
     },
@@ -1200,8 +1212,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 46649,
-      "sha256": "d6b578dc44eab693",
+      "bytes": 46244,
+      "sha256": "6172dce53249d25f",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1210,25 +1222,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1093,
+          "line": 1081,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1094,
+          "line": 1082,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1095,
+          "line": 1083,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1096,
+          "line": 1084,
           "when": "toplevel",
           "own": false
         }
@@ -1714,6 +1726,14 @@
           "AMENTI_STACKS",
           "AmentiRoster",
           "amentiRoster"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-voice.js",
+        "declares": [
+          "Amenti.conversation"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
