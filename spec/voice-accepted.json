@@ -1,0 +1,18 @@
+{
+  "_note": "Rulings on findings from probes/probe-voice.mjs. A finding listed here is NOT silenced — it keeps appearing on every run, marked accepted, carrying the reason and the date somebody ruled on it. Silencing is how a register starts lying. Match on id, and optionally surface and global; omit either to match all.",
+  "accepted": [
+    {
+      "id": "no-brake",
+      "surface": "Page2.html",
+      "global": "Sovereign.Voice",
+      "on": "2026-08-20",
+      "reason": "Bounded and known. The short path posts one reply, plays it once, and stops — no loop, no queue, ceiling of one clip under 700 characters. What is missing is the ability to interrupt that clip: speak() is async, never re-checks AMENTI_VOICE_ON after its await, and carries no AbortController, so toggling voice off during the ~20s render still yields one clip. The long path above STREAM_THRESHOLD goes through AmentiAudio, which has a real stop() with an abort. The repair is the code consolidation, not a patch — Amenti.voice.speak(text, {figure, register:'conversational', profile:'gabriel'}) inherits the brake, the abort and the fast opener and keys identically, since gabriel:700 exists in PROFILES for exactly that call. Deferred because Page2's speech has resisted two prior rebuilds; a surface that has defeated two attempts is saying the estimate is wrong. Revisit when Page2 is opened for another reason."
+    },
+    {
+      "id": "vestigial",
+      "surface": "Page1.html",
+      "on": "2026-08-20",
+      "reason": "VOICE_WORKER, VOICE_STYLE and VOICE_NAME are declared at lines 2916-2918 and nothing calls them. Tackle left on deck when the local engine was moved into amenti-voice.js. Harmless to run. Kept on the register rather than deleted because it reads as live infrastructure to anyone who greps, and the finding is the only thing that says otherwise. Delete on the next legitimate edit to that block."
+    }
+  ]
+}
