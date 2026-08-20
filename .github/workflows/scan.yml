@@ -196,27 +196,54 @@ jobs:
           git clone --depth 1 \
             "https://x-access-token:${FLEET_TOKEN}@github.com/ianingram/Fleet-Documents.git" mirror
           cp fleet-manifest.js mirror/fleet-manifest.js
+
+          # Every register below is COPIED, never authored here — the mirror is a
+          # reflection. Each is conditional rather than fatal: an absent register
+          # makes its pane show EMPTY GLASS, which is the correct failure. A pane
+          # must never show the last thing it saw.
+          CARRIED="fleet-manifest.js"
+
           # THE PLATE REGISTER. Written by tools/plates.js walking img/ in the
-          # commit that changed it; the Plate Deck pane reads it and types
-          # nothing. Copied, never authored here — the mirror is a reflection.
-          # If plates.js has not run yet the file may not exist, so this is
-          # conditional rather than fatal: a missing register makes the pane
-          # show EMPTY GLASS, which is the correct failure.
+          # commit that changed it; the Plate Deck pane reads it and types nothing.
           if [ -f img/PLATES.json ]; then
             cp img/PLATES.json mirror/PLATES.json
+            CARRIED="$CARRIED PLATES.json"
           else
             echo "::warning::img/PLATES.json is absent — the Plate Deck will show empty glass"
           fi
+
+          # THE VOICE REGISTER. Written by probes/probe-voice.mjs on the :52 rung
+          # and on any push touching a surface or the engine. It carries the
+          # readable half of the audio architecture: which globals are registered
+          # and where, load order against use order, which paths chunk and at what
+          # profile, and every call site it could not attribute. The briefs carry
+          # the authored half. The pane links out to them rather than restating.
+          if [ -f VOICE.json ]; then
+            cp VOICE.json mirror/VOICE.json
+            CARRIED="$CARRIED VOICE.json"
+          else
+            echo "::warning::VOICE.json is absent — the voice pane will show empty glass"
+          fi
+
           cd mirror
           git config user.name  "glass-gate"
           git config user.email "gate@amenti.live"
-          git add -f fleet-manifest.js PLATES.json 2>/dev/null || git add -f fleet-manifest.js
-          if git diff --cached --quiet -- fleet-manifest.js PLATES.json; then
+
+          # ADD ONLY WHAT WAS ACTUALLY COPIED.
+          #
+          # This was `git add -f fleet-manifest.js PLATES.json 2>/dev/null ||
+          # git add -f fleet-manifest.js` — a fallback that silently dropped
+          # PLATES whenever the add failed for ANY reason, not only absence, and
+          # said nothing. With a third register the same shape would have hidden
+          # two. $CARRIED is built from the files that were copied, so the add and
+          # the diff cover exactly what crossed and nothing that did not.
+          git add -f $CARRIED
+          if git diff --cached --quiet -- $CARRIED; then
             echo "the reflection is unchanged"
           else
             git commit -m "gate: reflect ${GITHUB_SHA::7}"
             git push
-            echo "reflected ${GITHUB_SHA::7} through the gate"
+            echo "reflected ${GITHUB_SHA::7} through the gate — carried: $CARRIED"
           fi
 
       # ── COMMIT THE READING ──────────────────────────────────────────────
