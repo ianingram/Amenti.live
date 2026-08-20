@@ -1,5 +1,5 @@
 {
-  "at": "2026-08-20T06:29:31.983Z",
+  "at": "2026-08-20T12:29:17.061Z",
   "by": "probes/probe-watches.mjs",
   "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
   "watches": {
@@ -39,13 +39,11 @@
     },
     "ARCHIVE WATCH": {
       "id": "ARCHIVE WATCH",
-      "status": "WARN",
-      "ok": 0,
-      "warn": [
-        "could not load the engine: Unexpected token ':'"
-      ],
+      "status": "OK",
+      "ok": 6,
+      "warn": [],
       "fail": [],
-      "note": "THE INSTRUMENT COULD NOT BE ARMED: Unexpected token ':' — amber, honestly."
+      "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
     }
   }
 }
