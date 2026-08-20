@@ -319,7 +319,23 @@ const WINDOW_ASSIGN = /window\.([A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z0-9_$]+)?)\s
 
 function registrations(code, lineBase, sourceName) {
   const found = new Map();
-  const add = (name, offset) => {
+  /* A file that opens `var A = (window.Amenti = window.Amenti || {});` and then
+     writes `A.chat = {...}` has registered Amenti.chat. Reading only the literal
+     spelling would report the global as never registered while the callers pile
+     up — the unresolved row that means nothing. Normalise the alias first. */
+  const nsAlias = new Map();
+  for (const m of code.matchAll(/\b(?:var|let|const)\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*([^;\n]{0,160})/g)) {
+    const rhs = m[2];
+    const hit = rhs.match(/^\s*\(?\s*(?:window\.)?(Amenti|Sovereign|AMENTI)\b/);
+    if (hit && hit[1] !== m[1]) nsAlias.set(m[1], hit[1]);
+  }
+  const normalise = (name) => {
+    const head = name.split('.')[0];
+    const rest = name.split('.').slice(1).join('.');
+    return (rest && nsAlias.has(head)) ? nsAlias.get(head) + '.' + rest : name;
+  };
+  const add = (rawName, offset) => {
+    const name = rawName && normalise(rawName);
     if (!name) return;
     const line = lineBase + lineOf(code, offset) - 1;
     if (!found.has(name) || found.get(name).line > line) {
@@ -803,6 +819,47 @@ function walkSurface(surface, sidecarGlobals) {
   };
 }
 
+/* ── THE DECLARED PROFILES ───────────────────────────────────────────────────
+   amenti-voice.js declares:
+
+       var PROFILES = { recital: 320, gabriel: 700, counsel: 320 };
+
+   and states why, on the line above it: a surface's chunk boundaries are part
+   of its cache key, so changing them orphans that surface's audio. Each surface
+   keeps its own profile until somebody decides to pay for a re-render.
+
+   That makes Page2's 700 a RULING, not drift. A probe that reports a documented
+   decision as a fault every run teaches its reader to skip the findings, and
+   then the one real fault goes past unread. So: a chunk size that matches a
+   declared profile is ACCEPTED and named. Only an UNDECLARED size is drift.
+
+   Harvested from any amenti-*.js on disk, whether or not a surface loads it —
+   the profile table is a fleet-wide declaration, not a property of one page.
+   Where it was found is recorded, so nothing rests on an unnamed source. */
+function declaredProfiles(root) {
+  const found = { profiles: {}, sources: [], constants: {} };
+  let names = [];
+  try { names = readdirSync(root).filter(f => /^amenti-.*\.js$/.test(f)); } catch (e) { return found; }
+  for (const f of names) {
+    let raw;
+    try { raw = readFileSync(resolve(root, f), 'utf8'); } catch (e) { continue; }
+    const code = stripCode(raw, true);
+    const m = code.match(/\bPROFILES\s*=\s*\{([^}]{0,400})\}/);
+    if (!m) continue;
+    let hit = false;
+    for (const pair of m[1].matchAll(/([A-Za-z_$][A-Za-z0-9_$]*)\s*:\s*(\d+)/g)) {
+      found.profiles[pair[1]] = Number(pair[2]);
+      hit = true;
+    }
+    for (const k of ['CHUNK_MAX', 'CONV_FIRST_MAX']) {
+      const c = code.match(new RegExp('\\b' + k + '\\s*=\\s*(\\d+)'));
+      if (c) found.constants[k] = Number(c[1]);
+    }
+    if (hit) found.sources.push({ file: f, line: lineOf(code, m.index) });
+  }
+  return found;
+}
+
 /* ── sidecar files: read what is on disk, name what is not ────────────────── */
 function readSidecars(surfaceReadings, root) {
   const wanted = new Map();
@@ -951,17 +1008,67 @@ function findings(reading, accepted) {
     }
   }
 
-  /* CHUNK BOUNDARIES ARE THE CACHE NAMESPACE */
-  const chunked = reading.surfaces.filter(s => s.chunking);
-  const sigs = new Map();
-  for (const s of chunked) sigs.set(s.file, JSON.stringify(Object.fromEntries(Object.entries(s.chunking).map(([k, v]) => [k, v.value]))));
-  if (new Set(sigs.values()).size > 1) out.push({
-    id: 'chunk-drift',
-    severity: 'fault',
-    surface: [...sigs.keys()].join(' vs '),
-    detail: `chunk constants differ across surfaces: ${[...sigs.entries()].map(([f, v]) => f + ' ' + v).join(' | ')}. The chunk boundaries ARE the cache namespace; move one byte and the archive orphans, silently, at cost.`,
-    test: 'chunk constant equality across surfaces'
-  });
+  /* ── CHUNK BOUNDARIES ARE THE CACHE NAMESPACE ────────────────────────────
+     But a boundary somebody chose on purpose is not drift. Measured against the
+     declared profile table, not against the other surface. */
+  const declared = reading.profiles && reading.profiles.profiles || {};
+  const declaredValues = new Set(Object.values(declared));
+  const nameFor = v => Object.keys(declared).filter(k => declared[k] === v).join(' / ');
+  const where = (reading.profiles && reading.profiles.sources || []).map(x => x.file).join(', ');
+
+  for (const s of reading.surfaces) {
+    if (!s.chunking) continue;
+    for (const [k, v] of Object.entries(s.chunking)) {
+      if (k === 'MAX_CHARS' || k === 'LOOKAHEAD') continue;   // ceiling and depth, not boundaries
+      if (!Object.keys(declared).length) {
+        out.push({
+          id: 'chunk-undeclared',
+          severity: 'unproven',
+          surface: s.file,
+          detail: `${k} = ${v.value} at line ${v.line}. No profile table was readable, so whether this boundary is a ruling or a drift cannot be told from here.`,
+          test: 'chunk constant with no declared profile table on disk'
+        });
+      } else if (declaredValues.has(v.value)) {
+        out.push({
+          id: 'chunk-profile',
+          severity: 'accepted',
+          surface: s.file,
+          detail: `${k} = ${v.value} at line ${v.line} matches the declared profile '${nameFor(v.value)}' in ${where}. Each surface keeps its own boundaries until somebody pays to re-render; this one is a ruling, not a drift.`,
+          test: 'chunk constant equals a declared profile value',
+          accepted: { reason: 'declared in the profile table', on: null }
+        });
+      } else {
+        out.push({
+          id: 'chunk-drift',
+          severity: 'fault',
+          surface: s.file,
+          detail: `${k} = ${v.value} at line ${v.line} matches NO declared profile (${Object.entries(declared).map(([a, b]) => a + ':' + b).join(', ')} in ${where}). The chunk boundaries ARE the cache namespace — an undeclared size renders its own archive and no invoice says so.`,
+          test: 'chunk constant absent from the declared profile table'
+        });
+      }
+    }
+  }
+
+  /* ── CODE CONSOLIDATED IS NOT CACHE CONSOLIDATED ─────────────────────────
+     Two separable jobs, and amenti-voice.js says so outright: consolidating the
+     CODE is free, consolidating the CACHE KEY is not. A surface can correctly
+     defer the second and still owe the first. Reporting them as one finding is
+     how a free repair gets postponed under cover of a priced one. */
+  if (Object.keys(declared).length) {
+    const platform = (reading.profiles.sources || []).map(x => x.file);
+    for (const s of reading.surfaces) {
+      const inlineEngines = s.engines.filter(e => e.role === 'engine').map(e => e.global);
+      if (!inlineEngines.length) continue;
+      const loadsPlatform = s.scripts.some(t => platform.includes(t.src));
+      if (!loadsPlatform) out.push({
+        id: 'code-not-consolidated',
+        severity: 'finding',
+        surface: s.file,
+        detail: `defines its own engine(s) inline — ${inlineEngines.join(', ')} — and loads none of ${platform.join(', ')}, which exists on disk and offers the same boundaries as a profile. The CACHE consolidation is priced and may be deferred on purpose; the CODE consolidation is free and has not happened here.`,
+        test: 'inline engine present, platform file on disk but not loaded by this surface'
+      });
+    }
+  }
 
   for (const s of reading.surfaces) {
     if (s.parseHazards.length) out.push({
@@ -1016,6 +1123,7 @@ function main(argv) {
   const loaded = surfacesIn.map(readSurface);
   const firstPass = loaded.map(s => walkSurface(s, []));
   const sidecars = readSidecars(firstPass, root);
+  const profiles = declaredProfiles(root);
   const surfaces = loaded.map(s => walkSurface(s, sidecars.globals));
 
   const reading = {
@@ -1023,6 +1131,7 @@ function main(argv) {
     version: VERSION,
     generated: new Date().toISOString(),
     root: basename(root),
+    profiles,
     surfaces,
     files: { read: sidecars.read, unread: sidecars.unread },
     unread: sidecars.unread,
