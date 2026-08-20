@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-20T07:05:32.950Z",
+    "generated": "2026-08-20T07:30:55.045Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1212,8 +1212,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 46244,
-      "sha256": "6172dce53249d25f",
+      "bytes": 46813,
+      "sha256": "335d7f4067fecfcb",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1222,25 +1222,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1081,
+          "line": 1095,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1082,
+          "line": 1096,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1083,
+          "line": 1097,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1084,
+          "line": 1098,
           "when": "toplevel",
           "own": false
         }
@@ -1463,7 +1463,7 @@
         "file": "probe-voice.mjs",
         "title": "WHAT THIS IS FOR",
         "guards": null,
-        "bytes": 50379
+        "bytes": 56246
       },
       {
         "file": "probe-watches.mjs",
