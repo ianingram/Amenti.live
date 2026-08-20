@@ -1,0 +1,118 @@
+# ============================================================================
+#  .github/workflows/guard.yml  ·  THE ENGINE GUARD
+# ----------------------------------------------------------------------------
+#  Asks one question: is the voice platform still the voice platform?
+#
+#  On 20 August 2026 amenti-voice.js was replaced with the contents of
+#  VOICE.json under a signed, Verified commit whose message read "Update print
+#  statement from 'Hello' to 'Goodbye'". Nothing noticed. It was found by
+#  opening the file, forty minutes later.
+#
+#  The file already carried a full header explaining what it was and what
+#  changing it cost. Every line of that header was overwritten too. A WARNING
+#  ONLY WORKS ON SOMEBODY WHO IS READING. This does the part a banner cannot.
+#
+#  IT WATCHES SHAPE, NOT CONTENT. Only that each file is STILL ITSELF — still
+#  JavaScript, still declaring the profile table, still defining the brake,
+#  still roughly its own size. A guard that fires on honest work gets ignored,
+#  and an ignored guard is worse than none.
+#
+#  PAGE1 AND PAGE2 ARE DELIBERATELY NOT WATCHED HERE. The captain edits both
+#  continuously. probe-voice.mjs reads their wiring without objecting to their
+#  changing, which is the right instrument for a surface under active work.
+#
+#  IT WRITES NOTHING. No commit, no push, no register. It reads, it reports,
+#  and it goes red. A watch that repairs what it watches cannot be trusted to
+#  report on it.
+#
+#  SETUP: upload to .github/workflows/guard.yml. Nothing else to configure —
+#         no token, no secret, no Terminal.
+# ============================================================================
+name: Engine Guard
+
+on:
+  push:
+    paths:
+      - 'amenti-voice.js'
+      - 'amenti-core.bundle.js'
+      - 'probes/probe-engine.mjs'
+  pull_request:
+    paths:
+      - 'amenti-voice.js'
+      - 'amenti-core.bundle.js'
+  workflow_dispatch:
+  schedule:
+    - cron: '12 * * * *'      # :12 — clear of all five strands, of :52, and of :02
+
+permissions:
+  contents: read              # it reads. It never writes.
+
+concurrency:
+  group: engine-guard
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the ship
+        uses: actions/checkout@v4
+
+      - name: Confirm the guard is there
+        run: |
+          if [ ! -f probes/probe-engine.mjs ]; then
+            echo "::error::probes/probe-engine.mjs is missing. NOTHING WAS CHECKED. A guard that cannot run must never pass."
+            exit 1
+          fi
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The probe exits 1 when a watched file has stopped being itself, which
+      # fails this step and turns the run red. `tee` keeps the output for the
+      # summary; `pipefail` is set so the pipe does not swallow the exit code.
+      - name: Is the engine still the engine?
+        id: check
+        run: |
+          set -o pipefail
+          node probes/probe-engine.mjs --out ENGINE.json | tee guard-out.txt
+
+      - name: Say it in the summary
+        if: always()
+        run: |
+          {
+            echo '## Engine Guard'
+            echo
+            if [ -f guard-out.txt ]; then
+              echo '```'
+              cat guard-out.txt
+              echo '```'
+            else
+              echo '**The check did not happen.** Nothing below would have meant anything.'
+            fi
+            if [ "${{ steps.check.outcome }}" = "failure" ]; then
+              echo
+              echo '### Recover it — do not retype it'
+              echo
+              echo '1. Open the file on GitHub, click **History**, choose the last good commit.'
+              echo '2. Use the **blob** view, not the diff view. A diff cannot produce a usable'
+              echo '   file, and copying from one is how two pastes failed on 20 August.'
+              echo '3. **Raw** → select all → copy.'
+              echo '4. Back on `main`: the file → pencil → select all → paste over → commit.'
+              echo '5. Re-run this workflow. It should come back green.'
+              echo
+              echo 'If `amenti-voice.js` was repaired but the bundle still fails, **rebuild the'
+              echo 'bundle**. Page1 loads `amenti-core.bundle.js`, not the source — repairing'
+              echo 'one without the other changes nothing on the surface.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the reading
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ENGINE.json
+          path: ENGINE.json
+          if-no-files-found: warn
