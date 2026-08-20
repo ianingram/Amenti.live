@@ -1,0 +1,102 @@
+# ============================================================================
+# .github/workflows/voice.yml  ·  Amenti.live
+# THE VOICE WATCH — runs probe-voice.mjs and commits VOICE.json.
+# ----------------------------------------------------------------------------
+# WHY THIS EXISTS
+#
+# The probe reads the surfaces and writes a register. Nobody should have to be
+# at a terminal for that to happen, and nobody should have to open a 40 KB JSON
+# file to find out what it said. So this runs the probe on a rung of its own and
+# prints the findings into the run summary, where they can be read in a browser.
+#
+# THE RUNG
+#   :52. The five strands are :07 pane watch, :17 patrol, :27 scan, :37 mirror,
+#   :47 weighing. Two must never occupy one rung, so this takes a clear one.
+#   Change the minute if :52 is ever claimed.
+#
+# IT COMMITS ONLY WHEN THE READING CHANGED. A register rewritten every ten
+# minutes with an identical body is noise in the history and hides the day the
+# reading actually moved.
+#
+# IT DOES NOT FAIL ON A FINDING. Findings are the output, not an error. The job
+# fails only if the probe itself could not run or did not write a readable file
+# — a green run with no register is exactly the lie this whole apparatus is
+# built to refuse.
+# ============================================================================
+name: Voice Watch
+
+on:
+  workflow_dispatch:          # the button, for when you want it now
+  schedule:
+    - cron: '52 * * * *'      # :52, clear of all five strands
+  push:
+    branches: [main]
+    paths:                    # a surface or the engine changed — re-read
+      - 'Page1.html'
+      - 'Page2.html'
+      - 'amenti-voice.js'
+      - 'amenti-core.bundle.js'
+      - 'library.js'
+      - 'probes/probe-voice.mjs'
+
+permissions:
+  contents: write             # to commit VOICE.json back
+
+concurrency:                  # never two of these on one rung
+  group: voice-watch
+  cancel-in-progress: false
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the ship
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Confirm the probe is there
+        run: |
+          if [ ! -f probes/probe-voice.mjs ]; then
+            echo "::error::probes/probe-voice.mjs is missing. Nothing was read."
+            exit 1
+          fi
+
+      - name: Read the surfaces
+        id: probe
+        run: |
+          node probes/probe-voice.mjs Page1.html Page2.html --out VOICE.json | tee probe-out.txt
+
+      - name: Confirm the register was written, and is readable
+        run: |
+          if [ ! -f VOICE.json ]; then
+            echo "::error::the probe exited 0 and wrote no VOICE.json."
+            exit 1
+          fi
+          node -e "JSON.parse(require('fs').readFileSync('VOICE.json','utf8'))" \
+            || { echo "::error::VOICE.json is not valid JSON."; exit 1; }
+
+      - name: Put the findings in the summary
+        run: |
+          {
+            echo '## Voice Watch'
+            echo
+            echo '```'
+            cat probe-out.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit, only if the reading moved
+        run: |
+          git config user.name  "voice-watch"
+          git config user.email "actions@github.com"
+          if git diff --quiet -- VOICE.json; then
+            echo "reading unchanged — nothing committed"
+            exit 0
+          fi
+          git add VOICE.json
+          git commit -m "voice watch: VOICE.json"
+          git push
