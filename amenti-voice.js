@@ -1,4 +1,49 @@
-/* ============================================================================
+/* ████████████████████████████████████████████████████████████████████████████
+   ██                                                                        ██
+   ██   WATCHED FILE — amenti-voice.js                                       ██
+   ██   THIS IS THE VOICE PLATFORM. PAGE1 SPEAKS THROUGH IT.                 ██
+   ██                                                                        ██
+   ████████████████████████████████████████████████████████████████████████████
+
+   YOU MAY EDIT THIS FILE. That is not what this notice is about.
+
+   On 20 August 2026 this file was REPLACED, in full, with the contents of
+   VOICE.json. 644 lines of engine became 1,624 lines of JSON. The commit was
+   signed and Verified and its message read "Update print statement from
+   'Hello' to 'Goodbye'". Nothing complained. It was found forty minutes later
+   by somebody opening the file.
+
+   Every line of the header below was overwritten too. A warning only works on
+   somebody who is reading, so the real guard is not this banner:
+
+       probes/probe-engine.mjs   ·   .github/workflows/guard.yml
+
+   It runs on every push that touches this file and hourly at :12. It fails the
+   build — loudly, within about a minute — if this file stops being itself:
+
+       · stops parsing as JavaScript
+       · loses  PROFILES        the chunk profiles ARE the cache namespace
+       · loses  stopReading     the brake; all three facades hang off it
+       · loses  composeStyle    STYLE is an input to the /speak cache key
+       · loses  speak()         the one entry point every facade calls
+       · loses  Amenti.throttle / Amenti.conversation   the facades
+       · falls below 400 lines  a real edit does not halve a file; a paste does
+
+   IF THE GUARD GOES RED, DO NOT RETYPE THIS FILE. Recover it:
+       History → the last good commit → the BLOB view, NOT the diff view
+       → Raw → select all → paste over the current contents.
+   A diff view cannot produce a usable file. Two pastes failed that way on the
+   night this notice was written.
+
+   AND REBUILD THE BUNDLE. Page1 loads amenti-core.bundle.js, not this file.
+   Repairing the source and leaving the bundle stale changes nothing on the
+   surface, and the guard checks both for exactly that reason.
+
+   ────────────────────────────────────────────────────────────────────────────
+   The file's own header begins below. It is older than this notice and it
+   explains WHY the engine is shaped as it is; this notice only explains what
+   happens if it stops being shaped that way.
+   ══════════════════════════════════════════════════════════════════════════ *//* ============================================================================
    amenti-voice.js  ·  Ingram Manor LLC
    THE VOICE PLATFORM — one TTS engine, one chunker, one cache key.
    ----------------------------------------------------------------------------
