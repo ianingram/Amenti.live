@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-08-20T22:00:53.303Z",
+  "generated": "2026-08-20T23:01:43.682Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -1693,7 +1693,21 @@
     "the Worker cache key composition — the Worker cannot be read, so it is asked, elsewhere",
     "intent, doctrine, register choice — those are authored and live in the briefs"
   ],
-  "accepted": [],
+  "accepted": [
+    {
+      "id": "no-brake",
+      "surface": "Page2.html",
+      "global": "Sovereign.Voice",
+      "on": "2026-08-20",
+      "reason": "Bounded and known. The short path posts one reply, plays it once, and stops — no loop, no queue, ceiling of one clip under 700 characters. What is missing is the ability to interrupt that clip: speak() is async, never re-checks AMENTI_VOICE_ON after its await, and carries no AbortController, so toggling voice off during the ~20s render still yields one clip. The long path above STREAM_THRESHOLD goes through AmentiAudio, which has a real stop() with an abort. The repair is the code consolidation, not a patch — Amenti.voice.speak(text, {figure, register:'conversational', profile:'gabriel'}) inherits the brake, the abort and the fast opener and keys identically, since gabriel:700 exists in PROFILES for exactly that call. Deferred because Page2's speech has resisted two prior rebuilds; a surface that has defeated two attempts is saying the estimate is wrong. Revisit when Page2 is opened for another reason."
+    },
+    {
+      "id": "vestigial",
+      "surface": "Page1.html",
+      "on": "2026-08-20",
+      "reason": "VOICE_WORKER, VOICE_STYLE and VOICE_NAME are declared at lines 2916-2918 and nothing calls them. Tackle left on deck when the local engine was moved into amenti-voice.js. Harmless to run. Kept on the register rather than deleted because it reads as live infrastructure to anyone who greps, and the finding is the only thing that says otherwise. Delete on the next legitimate edit to that block."
+    }
+  ],
   "findings": [
     {
       "id": "load-order-clear",
@@ -1721,18 +1735,26 @@
     },
     {
       "id": "no-brake",
-      "severity": "finding",
+      "severity": "accepted",
       "surface": "Page2.html",
       "global": "Sovereign.Voice",
       "detail": "defines speak() and no stop(). A mouth with no brake orphans an in-flight /speak fetch.",
-      "test": "speak without stop"
+      "test": "speak without stop",
+      "accepted": {
+        "reason": "Bounded and known. The short path posts one reply, plays it once, and stops — no loop, no queue, ceiling of one clip under 700 characters. What is missing is the ability to interrupt that clip: speak() is async, never re-checks AMENTI_VOICE_ON after its await, and carries no AbortController, so toggling voice off during the ~20s render still yields one clip. The long path above STREAM_THRESHOLD goes through AmentiAudio, which has a real stop() with an abort. The repair is the code consolidation, not a patch — Amenti.voice.speak(text, {figure, register:'conversational', profile:'gabriel'}) inherits the brake, the abort and the fast opener and keys identically, since gabriel:700 exists in PROFILES for exactly that call. Deferred because Page2's speech has resisted two prior rebuilds; a surface that has defeated two attempts is saying the estimate is wrong. Revisit when Page2 is opened for another reason.",
+        "on": "2026-08-20"
+      }
     },
     {
       "id": "vestigial",
-      "severity": "finding",
+      "severity": "accepted",
       "surface": "Page1.html",
       "detail": "declares a /speak endpoint (VOICE_WORKER) and contains no synthesis site — no fetch to /speak, no Audio built. Tackle left on deck after the engine was moved out. Reads as live infrastructure to anyone who greps.",
-      "test": "endpoint literal declared, zero synthesis sites on the surface"
+      "test": "endpoint literal declared, zero synthesis sites on the surface",
+      "accepted": {
+        "reason": "VOICE_WORKER, VOICE_STYLE and VOICE_NAME are declared at lines 2916-2918 and nothing calls them. Tackle left on deck when the local engine was moved into amenti-voice.js. Harmless to run. Kept on the register rather than deleted because it reads as live infrastructure to anyone who greps, and the finding is the only thing that says otherwise. Delete on the next legitimate edit to that block.",
+        "on": "2026-08-20"
+      }
     },
     {
       "id": "divergence",
@@ -1779,8 +1801,8 @@
     "faults": 0,
     "confirmed": 3,
     "unproven": 0,
-    "findings": 4,
+    "findings": 2,
     "blocking": 0,
-    "accepted": 2
+    "accepted": 4
   }
 }
