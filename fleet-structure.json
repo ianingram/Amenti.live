@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-20T05:58:03.519Z",
+    "generated": "2026-08-20T06:07:19.165Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1103,24 +1103,12 @@
     },
     {
       "file": "amenti-voice.js",
-      "bytes": 28632,
-      "sha256": "fc8ebca6390e9a62",
+      "bytes": 40260,
+      "sha256": "5ed9a92c8a8b5cfb",
       "type": "js",
-      "declares": [
-        "Amenti",
-        "Amenti.conversation",
-        "Amenti.throttle",
-        "Amenti.voice"
-      ],
+      "declares": [],
       "loads": [],
-      "calls": [
-        {
-          "global": "Amenti.voice",
-          "line": 48,
-          "when": "iife",
-          "own": true
-        }
-      ],
+      "calls": [],
       "endpoints": [],
       "tables": []
     },
@@ -1213,7 +1201,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46649,
-      "sha256": "3d02536974ed8e82",
+      "sha256": "d6b578dc44eab693",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1726,14 +1714,6 @@
           "AMENTI_STACKS",
           "AmentiRoster",
           "amentiRoster"
-        ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
-      },
-      {
-        "file": "amenti-voice.js",
-        "declares": [
-          "Amenti.conversation"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"

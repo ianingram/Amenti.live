@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-20T05:58:03.628Z",
-    "reading": "2026-08-20T05:58:03.519Z",
+    "merged": "2026-08-20T06:07:19.240Z",
+    "reading": "2026-08-20T06:07:19.165Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -18,17 +18,10 @@ window.FLEET_MANIFEST = {
     "contradicted": 0,
     "unproven": 4,
     "undeclared": 27,
-    "adrift": 1,
+    "adrift": 0,
     "clean": true
   },
   "drift": [
-    {
-      "stamp": "ADRIFT",
-      "subject": "amenti-voice.js",
-      "claim": "\"The Boatswain of the Voice\" — crew",
-      "reading": "loaded, and NOTHING CALLS Amenti.conversation",
-      "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
-    },
     {
       "stamp": "UNDECLARED",
       "subject": "amenti-art-2.js",
@@ -703,16 +696,11 @@ window.FLEET_MANIFEST = {
       "note": "CONSOLIDATED from four copies — NOT redesigned. chunkText, restFor, plainText and composeStyle are copied BYTE FOR BYTE from amenti-throttle.js. Not improved. Not tidied. Not reformatted — a prettier space changes the /speak cache key and orphans the entire audio archive. probe7 and probe17 exist to prove every hash is identical. THE THROTTLING ARCHITECTURE IS NOT RETIRED. A FILENAME WAS. The engine still meters its own fuel; it simply has one carburettor now instead of four.",
       "group": "crew",
       "stamps": [
-        "ADRIFT"
+        "CONFIRMED"
       ],
-      "bytes": 28632,
-      "sha256": "fc8ebca6390e9a62",
-      "declares": [
-        "Amenti",
-        "Amenti.conversation",
-        "Amenti.throttle",
-        "Amenti.voice"
-      ],
+      "bytes": 40260,
+      "sha256": "5ed9a92c8a8b5cfb",
+      "declares": [],
       "loadedBy": [
         "weighing.html"
       ]
