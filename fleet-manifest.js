@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-20T20:29:03.091Z",
-    "reading": "2026-08-20T20:29:02.983Z",
+    "merged": "2026-08-20T20:31:47.107Z",
+    "reading": "2026-08-20T20:31:46.995Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -705,8 +705,8 @@ window.FLEET_MANIFEST = {
       "stamps": [
         "ADRIFT"
       ],
-      "bytes": 28632,
-      "sha256": "fc8ebca6390e9a62",
+      "bytes": 31914,
+      "sha256": "bbbd7aabc1d3b65e",
       "declares": [
         "Amenti",
         "Amenti.conversation",
