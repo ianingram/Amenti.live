@@ -1,0 +1,114 @@
+# ============================================================================
+#  .github/workflows/gate.yml  ·  THE GATE WATCH
+# ----------------------------------------------------------------------------
+#  Asks one question: does the mirror hold what the ship sent?
+#
+#  "the mirror matches the ship" is one of the eight lies in the handover, and
+#  it was said on a run where EVERY FETCH HAD FAILED. Nothing was compared and
+#  the absence of a difference was reported as a match.
+#
+#  So this workflow separates the two failures that got conflated:
+#
+#      THE CLONE FAILED        -> the job FAILS, loudly, and claims nothing
+#      A REGISTER IS STALE     -> the job REPORTS it, and the reading stands
+#
+#  It writes nothing to either repository. It reads, compares by sha256, and
+#  prints. A watch that repairs what it watches cannot be trusted to report on
+#  it.
+#
+#  THE BRANCH. Fleet-Documents' default branch is named `branch`. Not a
+#  placeholder. A clone that assumes `main` fails, and that failure looks
+#  exactly like a missing register — which is the whole fault this file exists
+#  to keep apart. It is pinned below.
+#
+#  REQUIRES the existing FLEET_TOKEN secret. Without it the clone cannot happen,
+#  and the job says so rather than reporting an empty mirror.
+#
+#  SETUP: upload to .github/workflows/gate.yml — then Actions -> Gate Watch ->
+#         Run workflow. No Terminal. No Node.
+# ============================================================================
+name: Gate Watch
+
+on:
+  workflow_dispatch:          # the button. This one is meant to be pressed.
+  schedule:
+    - cron: '02 */6 * * *'    # :02, clear of all five strands and of :52
+
+permissions:
+  contents: read              # it reads. It never writes.
+
+concurrency:
+  group: gate-watch
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the ship
+        uses: actions/checkout@v4
+
+      - name: Confirm the probe is there
+        run: |
+          if [ ! -f probes/probe-gate.mjs ]; then
+            echo "::error::probes/probe-gate.mjs is missing. Nothing was compared."
+            exit 1
+          fi
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── FETCH THE MIRROR ────────────────────────────────────────────────
+      # If this fails, the job fails HERE. It does not continue into a
+      # comparison against an empty directory and report no differences.
+      - name: Clone the mirror
+        env:
+          FLEET_TOKEN: ${{ secrets.FLEET_TOKEN }}
+        run: |
+          if [ -z "${FLEET_TOKEN}" ]; then
+            echo "::error::FLEET_TOKEN is not set. The mirror cannot be read, so NOTHING was compared. This is unreachable, not absent."
+            exit 1
+          fi
+          # --branch branch is deliberate. Fleet-Documents' default branch is
+          # literally named `branch`; assuming main gives a 404 that reads
+          # exactly like a missing file.
+          if ! git clone --depth 1 --branch branch \
+                "https://x-access-token:${FLEET_TOKEN}@github.com/ianingram/Fleet-Documents.git" mirror; then
+            echo "::error::the mirror could not be cloned. NOTHING was compared and no claim is made about any register."
+            exit 1
+          fi
+          echo "mirror cloned: $(ls mirror | wc -l) entries at the root"
+
+      - name: Compare the mirror against the ship
+        run: |
+          node probes/probe-gate.mjs --mirror ./mirror --out GATE.json | tee gate-out.txt
+
+      - name: Say it in the summary
+        if: always()
+        run: |
+          {
+            echo '## Gate Watch'
+            echo
+            if [ -f gate-out.txt ]; then
+              echo '```'
+              cat gate-out.txt
+              echo '```'
+            else
+              echo '**The comparison did not happen.** The mirror could not be read, so nothing'
+              echo 'below this line would have meant anything. Unreachable is not absent.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # GATE.json is kept as a run artifact, NOT committed. The ship holds
+      # readings about itself; a reading about the RELATIONSHIP between two
+      # repositories belongs to neither, and committing it to one would make
+      # that one appear to be the authority on the other.
+      - name: Keep the reading
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: GATE.json
+          path: GATE.json
+          if-no-files-found: warn
