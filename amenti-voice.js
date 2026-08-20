@@ -1,1624 +1,644 @@
-{
-  "probe": "probe-voice.mjs",
-  "version": "1.0.0",
-  "generated": "2026-08-20T05:51:19.008Z",
-  "root": "work",
-  "surfaces": [
-    {
-      "file": "Page1.html",
-      "bytes": 526379,
-      "lines": 8483,
-      "sha256": "730c0dc26aaa3a06",
-      "scripts": [
-        {
-          "src": "amenti-core.bundle.js",
-          "line": 893,
-          "loading": "blocking",
-          "remote": false
-        },
-        {
-          "src": "amenti-svg-library.js",
-          "line": 5605,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-doctrine.js",
-          "line": 5937,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "library.js",
-          "line": 7104,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-canonical.js",
-          "line": 7115,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",
-          "line": 8003,
-          "loading": "defer",
-          "remote": true
-        },
-        {
-          "src": "amenti-auth.js",
-          "line": 8004,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-quiz.js",
-          "line": 8011,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-roster.js",
-          "line": 8012,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-roster-view.js",
-          "line": 8013,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-bay.js",
-          "line": 8014,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-motion.js",
-          "line": 8015,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-art-2.js",
-          "line": 8016,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-leaderboard.js",
-          "line": 8017,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-readaloud.js",
-          "line": 8018,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-vallhalla-signup.js",
-          "line": 8021,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-flourish.js",
-          "line": 8022,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-mascot.js",
-          "line": 8023,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-profile.js",
-          "line": 8024,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-art-photo.js",
-          "line": 8032,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-art-3.js",
-          "line": 8046,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-dispatch-art.js",
-          "line": 8480,
-          "loading": "defer",
-          "remote": false
-        }
-      ],
-      "inlineBlocks": 27,
-      "engines": [
-        {
-          "global": "Amenti.terminal",
-          "registered": 6292,
-          "registeredIn": "Page1.html",
-          "registeredBy": "inline",
-          "loading": "inline",
-          "availableAt": 6292,
-          "role": "tell",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 0,
-          "firstRead": null,
-          "firstReadEvaluation": null,
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [],
-          "callSites": []
-        },
-        {
-          "global": "AMENTI_VOICE",
-          "registered": 7130,
-          "registeredIn": "Page1.html",
-          "registeredBy": "inline",
-          "loading": "inline",
-          "availableAt": 7130,
-          "role": "facade",
-          "methods": [
-            "speak",
-            "stop",
-            "toggle",
-            "isSpeaking",
-            "styleFor"
-          ],
-          "hasStop": true,
-          "delegatesStop": false,
-          "reads": 15,
-          "firstRead": 6201,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "speak",
-            "stop",
-            "toggle"
-          ],
-          "callSites": [
-            {
-              "line": 6201,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6208,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6325,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7212,
-              "method": "speak",
-              "via": "this",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7225,
-              "method": "toggle",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7591,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.throttle",
-          "registered": null,
-          "registeredIn": null,
-          "registeredBy": null,
-          "loading": null,
-          "availableAt": null,
-          "role": "unresolved",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 10,
-          "firstRead": 3001,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "speak",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 3001,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 3461,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6659,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6665,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6682,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7919,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7939,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.voice",
-          "registered": null,
-          "registeredIn": null,
-          "registeredBy": null,
-          "loading": null,
-          "availableAt": null,
-          "role": "unresolved",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 3,
-          "firstRead": 7590,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "isSpeaking",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 7540,
-              "method": "isSpeaking",
-              "via": "alias",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7590,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.chat",
-          "registered": null,
-          "registeredIn": null,
-          "registeredBy": null,
-          "loading": null,
-          "availableAt": null,
-          "role": "unresolved",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 2,
-          "firstRead": 6096,
-          "firstReadEvaluation": "parse-time",
-          "parseTimeReads": [
-            6096
-          ],
-          "uncertainReads": [],
-          "calls": [],
-          "callSites": []
-        },
-        {
-          "global": "Amenti.conversation",
-          "registered": null,
-          "registeredIn": null,
-          "registeredBy": null,
-          "loading": null,
-          "availableAt": null,
-          "role": "unresolved",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 6,
-          "firstRead": 7160,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "isSpeaking",
-            "speak",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 7181,
-              "method": "speak",
-              "via": "alias",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7186,
-              "method": "stop",
-              "via": "alias",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7191,
-              "method": "isSpeaking",
-              "via": "alias",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.listen",
-          "registered": null,
-          "registeredIn": null,
-          "registeredBy": null,
-          "loading": null,
-          "availableAt": null,
-          "role": "unresolved",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 5,
-          "firstRead": 7526,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "cancel"
-          ],
-          "callSites": [
-            {
-              "line": 7592,
-              "method": "cancel",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        }
-      ],
-      "chunking": null,
-      "styles": [
-        {
-          "key": "VOICE_STYLE",
-          "line": 2917,
-          "value": "Read slowly and clearly, in a measured, formal, dignified tone"
-        },
-        {
-          "key": "VOICE_NAME",
-          "line": 2918,
-          "value": "Kore"
-        },
-        {
-          "key": "VOICE",
-          "line": 6608,
-          "value": "+c.voice):"
-        },
-        {
-          "key": "VOICE_STYLE",
-          "line": 7856,
-          "value": "Read this aloud in a clear, engaging, journalistic voice"
-        },
-        {
-          "key": "VOICE_NAME",
-          "line": 7857,
-          "value": "Kore"
-        }
-      ],
-      "callSites": {
-        "total": 19,
-        "attributed": 19,
-        "unattributed": []
-      },
-      "synthesis": [],
-      "parseHazards": [],
-      "speakEndpointsDeclared": [
-        "VOICE_WORKER"
-      ],
-      "speakPosts": [],
-      "strips": [
-        {
-          "line": 2580,
-          "pattern": "/[&<>\"]/g"
-        },
-        {
-          "line": 2920,
-          "pattern": "/[&<>\"]/g"
-        },
-        {
-          "line": 2922,
-          "pattern": "/^#+\\s*/gm"
-        },
-        {
-          "line": 2922,
-          "pattern": "/\\*\\*([^*]+)\\*\\*/g"
-        },
-        {
-          "line": 2922,
-          "pattern": "/__([^_]+)__/g"
-        },
-        {
-          "line": 2923,
-          "pattern": "/\\*([^*]+)\\*/g"
-        },
-        {
-          "line": 2923,
-          "pattern": "/_([^_]+)_/g"
-        },
-        {
-          "line": 2923,
-          "pattern": "/^\\s*[-*]\\s+/gm"
-        },
-        {
-          "line": 2923,
-          "pattern": "/\\s+/g"
-        },
-        {
-          "line": 2925,
-          "pattern": "/[*_#>`\\[\\]]/g"
-        },
-        {
-          "line": 2925,
-          "pattern": "/\\s+/g"
-        },
-        {
-          "line": 2942,
-          "pattern": "/\\*\\*([^*]+)\\*\\*/g"
-        },
-        {
-          "line": 2942,
-          "pattern": "/__([^_]+)__/g"
-        },
-        {
-          "line": 2943,
-          "pattern": "/\\*([^*]+)\\*/g"
-        },
-        {
-          "line": 2943,
-          "pattern": "/(^|\\s)_([^_]+)_/g"
-        },
-        {
-          "line": 2944,
-          "pattern": "/`([^`]+)`/g"
-        },
-        {
-          "line": 2946,
-          "pattern": "/\\[([^\\]]+)\\]\\((https?:\\/\\/[^\\s)]+)\\)/g"
-        },
-        {
-          "line": 2949,
-          "pattern": "/\\r\\n?/g"
-        },
-        {
-          "line": 2951,
-          "pattern": "/\\n+$/"
-        },
-        {
-          "line": 2963,
-          "pattern": "/^>\\s?/"
-        },
-        {
-          "line": 2971,
-          "pattern": "/^\\s*[-*+]\\s+/"
-        },
-        {
-          "line": 2975,
-          "pattern": "/^\\s*\\d+[.)]\\s+/"
-        },
-        {
-          "line": 2978,
-          "pattern": "/\\n/g"
-        },
-        {
-          "line": 3012,
-          "pattern": "/\\b\\w/g"
-        }
-      ]
-    },
-    {
-      "file": "Page2.html",
-      "bytes": 1500265,
-      "lines": 17386,
-      "sha256": "e28377dd4617b299",
-      "scripts": [
-        {
-          "src": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
-          "line": 9,
-          "loading": "blocking",
-          "remote": true
-        },
-        {
-          "src": "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js",
-          "line": 10,
-          "loading": "blocking",
-          "remote": true
-        },
-        {
-          "src": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
-          "line": 11,
-          "loading": "blocking",
-          "remote": true
-        },
-        {
-          "src": "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js",
-          "line": 12,
-          "loading": "blocking",
-          "remote": true
-        },
-        {
-          "src": "https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js",
-          "line": 13,
-          "loading": "blocking",
-          "remote": true
-        },
-        {
-          "src": "https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js",
-          "line": 14,
-          "loading": "blocking",
-          "remote": true
-        },
-        {
-          "src": "https://cdn.tailwindcss.com",
-          "line": 15,
-          "loading": "blocking",
-          "remote": true
-        },
-        {
-          "src": "config.js",
-          "line": 22,
-          "loading": "blocking",
-          "remote": false
-        }
-      ],
-      "inlineBlocks": 4,
-      "engines": [
-        {
-          "global": "Sovereign.Atlantica",
-          "registered": 15402,
-          "registeredIn": "Page2.html",
-          "registeredBy": "inline",
-          "loading": "inline",
-          "availableAt": 15402,
-          "role": "facade",
-          "methods": [
-            "speak"
-          ],
-          "hasStop": false,
-          "delegatesStop": true,
-          "reads": 14,
-          "firstRead": 15364,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [
-            15585,
-            15597
-          ],
-          "uncertainReads": [],
-          "calls": [
-            "speak"
-          ],
-          "callSites": [
-            {
-              "line": 15548,
-              "method": "speak",
-              "via": "markup",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Sovereign.Voice",
-          "registered": 16768,
-          "registeredIn": "Page2.html",
-          "registeredBy": "inline",
-          "loading": "inline",
-          "availableAt": 16768,
-          "role": "engine",
-          "methods": [
-            "speak",
-            "toggle",
-            "composeFor"
-          ],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 2,
-          "firstRead": 9286,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [
-            16833
-          ],
-          "uncertainReads": [],
-          "calls": [
-            "speak",
-            "toggle"
-          ],
-          "callSites": [
-            {
-              "line": 9286,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 16821,
-              "method": "speak",
-              "via": "this",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 16833,
-              "method": "toggle",
-              "via": "direct",
-              "evaluation": "parse-time"
-            }
-          ]
-        },
-        {
-          "global": "AmentiAudio",
-          "registered": 17210,
-          "registeredIn": "Page2.html",
-          "registeredBy": "inline",
-          "loading": "inline",
-          "availableAt": 17210,
-          "role": "engine",
-          "methods": [
-            "play",
-            "stop",
-            "isPlaying",
-            "isBusy"
-          ],
-          "hasStop": true,
-          "delegatesStop": false,
-          "reads": 9,
-          "firstRead": 15481,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "isBusy",
-            "play",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 15481,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 15559,
-              "method": "isBusy",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 15559,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 15575,
-              "method": "play",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 16799,
-              "method": "play",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        }
-      ],
-      "chunking": {
-        "TARGET_CHARS": {
-          "value": 700,
-          "line": 16914
-        },
-        "MAX_CHARS": {
-          "value": 1100,
-          "line": 16915
-        },
-        "LOOKAHEAD": {
-          "value": 3,
-          "line": 16916
-        },
-        "STREAM_THRESHOLD": {
-          "value": 700,
-          "line": 16793
-        }
-      },
-      "styles": [
-        {
-          "key": "VOICE_STYLE",
-          "line": 15407,
-          "value": "Read slowly and clearly, in a measured, formal, dignified tone"
-        },
-        {
-          "key": "VOICE_NAME",
-          "line": 15408,
-          "value": "Kore"
-        },
-        {
-          "key": "STYLE",
-          "line": 16770,
-          "value": "Say the following in a clear, natural, conversational voice"
-        },
-        {
-          "key": "VOICE",
-          "line": 16771,
-          "value": "Kore"
-        }
-      ],
-      "callSites": {
-        "total": 11,
-        "attributed": 9,
-        "unattributed": [
-          {
-            "line": 16811,
-            "method": "play",
-            "receiver": "this.current",
-            "via": "direct",
-            "evaluation": "deferred"
-          },
-          {
-            "line": 17153,
-            "method": "play",
-            "receiver": "el",
-            "via": "direct",
-            "evaluation": "deferred"
-          }
-        ]
-      },
-      "synthesis": [
-        {
-          "line": 16802,
-          "kind": "posts to /speak",
-          "owner": "Sovereign.Voice",
-          "attribution": "in body"
-        },
-        {
-          "line": 16810,
-          "kind": "builds Audio",
-          "owner": "Sovereign.Voice",
-          "attribution": "in body"
-        },
-        {
-          "line": 17037,
-          "kind": "posts to /speak",
-          "owner": "AmentiAudio",
-          "attribution": "same script block"
-        },
-        {
-          "line": 17136,
-          "kind": "builds Audio",
-          "owner": "AmentiAudio",
-          "attribution": "same script block"
-        }
-      ],
-      "parseHazards": [],
-      "speakEndpointsDeclared": [
-        "WORKER"
-      ],
-      "speakPosts": [
-        {
-          "line": 16805,
-          "keys": [
-            "text",
-            "style",
-            "voice"
-          ]
-        },
-        {
-          "line": 17040,
-          "keys": [
-            "text",
-            "style",
-            "voice"
-          ]
-        }
-      ],
-      "strips": [
-        {
-          "line": 6455,
-          "pattern": "/&/g"
-        },
-        {
-          "line": 6455,
-          "pattern": "/</g"
-        },
-        {
-          "line": 6455,
-          "pattern": "/>/g"
-        },
-        {
-          "line": 6456,
-          "pattern": "/\"/g"
-        },
-        {
-          "line": 6456,
-          "pattern": "/'/g"
-        },
-        {
-          "line": 6603,
-          "pattern": "/^https?:\\/\\//"
-        },
-        {
-          "line": 6955,
-          "pattern": "/[^A-Za-z]/g"
-        },
-        {
-          "line": 8297,
-          "pattern": "/\\r\\n/g"
-        },
-        {
-          "line": 8433,
-          "pattern": "/^```(?:json)?\\s*/i"
-        },
-        {
-          "line": 8433,
-          "pattern": "/\\s*```$/i"
-        },
-        {
-          "line": 9660,
-          "pattern": "/^```(?:json)?\\s*/i"
-        },
-        {
-          "line": 9660,
-          "pattern": "/\\s*```$/i"
-        },
-        {
-          "line": 11345,
-          "pattern": "/<(h2|h3)>([^<]+)<\\/\\1>/g"
-        },
-        {
-          "line": 11346,
-          "pattern": "/[^a-z0-9]+/g"
-        },
-        {
-          "line": 11346,
-          "pattern": "/^-+|-+$/g"
-        },
-        {
-          "line": 14209,
-          "pattern": "/^#/"
-        },
-        {
-          "line": 14216,
-          "pattern": "/\\+/g"
-        },
-        {
-          "line": 14243,
-          "pattern": "/^#/"
-        },
-        {
-          "line": 14345,
-          "pattern": "/[&<>\"']/g"
-        },
-        {
-          "line": 14352,
-          "pattern": "/'/g"
-        },
-        {
-          "line": 14353,
-          "pattern": "/'/g"
-        },
-        {
-          "line": 15093,
-          "pattern": "/\\s+/g"
-        },
-        {
-          "line": 15424,
-          "pattern": "/\\b\\w/g"
-        },
-        {
-          "line": 15557,
-          "pattern": "/^#+\\s*/gm"
-        }
-      ]
+/* ============================================================================
+   amenti-voice.js  ·  Ingram Manor LLC
+   THE VOICE PLATFORM — one TTS engine, one chunker, one cache key.
+   ----------------------------------------------------------------------------
+   WHAT THIS REPLACES, AND WHY IT HAD TO
+
+   Four copies of one engine were running, all POSTing the same { text, style,
+   voice } to the same /speak:
+
+     library.js (~494)       reading room        chunk 320   own VOICE_WORKER
+     amenti-throttle.js      Page1 buttons       chunk 320   the "mother ship"
+     AMENTI_VOICE (Page1)    THE COUNSEL         no chunking, NO stop()
+     Page2.html (~16893)     Gabriel             chunk 700/1100
+
+   The Worker keys every clip:
+
+       audioKey = sha256(TTS_MODEL + voice + STYLE + TEXT)
+
+   TEXT is in the key. So the chunk boundaries ARE the cache key — and a 320-char
+   chunk and a 700-char chunk of the same essay hash differently. The reading
+   room and Page2 share NOTHING. The archive is being rendered more than once
+   and no invoice ever says so.
+
+   STYLE is in the key too. Which is why composeStyle / VOICE_REGISTER /
+   PACE_DIRECTION / chunkText / plainText below are copied BYTE-FOR-BYTE from the
+   deployed reading room. Not improved. Not tidied. Not reformatted. A prettier
+   string re-renders the whole archive and re-bills it.
+
+   TWO REGISTERS, AND THEY MUST NOT MIX
+     RECITAL        composeStyle(). The archive. CACHED. Never varies. Locked.
+     CONVERSATIONAL The counsel. Unique text every turn, so it never hits the
+                    cache anyway — which is exactly why the per-move instrument
+                    panel (warm/cool/sharp/grave/danger/humour) is FREE here and
+                    FORBIDDEN on the recital path.
+
+   MIGRATION IS OPT-IN, PER SURFACE, BECAUSE IT HAS A BILL ATTACHED
+   Changing a surface's chunk size orphans that surface's cached audio. So the
+   chunker is a PROFILE, and each surface keeps its own until you decide to
+   re-render on purpose. Consolidating the CODE is free; consolidating the CACHE
+   KEY is not, and the two are separable. Do the free one now.
+
+   FACADES: Amenti.throttle.* and window.AMENTI_VOICE.* keep working, unchanged,
+   over this core. Nothing is renamed until every caller has been grepped.
+   ============================================================================ */
+(function () {
+  'use strict';
+  var Amenti = (window.Amenti = window.Amenti || {});
+  if (Amenti.voice && Amenti.voice.__v) return;   // include-once guard
+
+  /* ---- config / constants (LOCKED — identical to deployed reading room) ---- */
+  var VOICE_WORKER       = 'https://amenti-proxy.ingram-ian.workers.dev/speak';
+  var VOICE_REGISTER     = 'Read clearly, in a measured, dignified tone';
+  var VOICE_NAME_DEFAULT = 'Kore';
+  var CHUNK_MAX       = 320;   // LOCKED — the reading room + Page1. Do not change.
+
+  /* Chunk PROFILES. Each surface's boundaries are part of its cache key, so a
+     surface keeps its own profile until it is deliberately re-rendered.
+       recital : 320   — the reading room, Page1, and the existing archive
+       gabriel : 700   — Page2's engine, as deployed
+     Unify these ONLY when you are willing to pay to regenerate the audio. */
+  var PROFILES = { recital: 320, gabriel: 700, counsel: 320 };
+  var CHUNK_LOOKAHEAD = 2;
+  var CHUNK_TIMEOUT   = 60000;
+  var START_TIMEOUT   = 40000;
+
+  /* ── THE FAST OPENING MEASURE ─────────────────────────────────────────────
+     CONVERSATIONAL ONLY. FORBIDDEN ON THE RECITAL PATH.
+
+     The counsel's text is unique every turn and NEVER hits the archive, so its
+     chunk boundaries are FREE to move. The recital's boundaries ARE the cache
+     key — move them and every clip in R2 is orphaned. Same law as the register:
+     free here, forbidden there.
+
+     probe20 measured the engine on live hardware:
+
+         render_ms  =  7510  +  18.25 x chars          (R2 miss, one measure)
+
+     So the mouth opens sooner if the FIRST measure is short:
+
+         320-char opener ....... 13.0 s
+         110-char opener ........ 9.5 s
+          80-char opener ........ 9.0 s
+           the floor ............ 7.5 s
+
+     It cannot go arbitrarily small. Measure 2 (320 chars) lands at ~13.3s, and
+     an opener of C chars plays for roughly C/15 seconds. Below ~70 chars the
+     opener finishes speaking before measure 2 arrives and the voice STUTTERS.
+     110 is the floor plus margin.
+
+     Do not "unify" this with CHUNK_MAX. It is a different register with a
+     different bill. See fleet-semantics. */
+  var CONV_FIRST_MAX = 110;
+
+  var RATE_FAST = 1.0;
+  var RATE_SLOW = 1.0;
+  var REST_SOFT     = 0.16;
+  var REST_SENTENCE = 0.38;
+  var REST_PARA     = 0.85;
+  var PACE_DIRECTION = 'Speak at a brisk, lively, natural pace, as a person speaking energetically — not slow or ponderous';
+
+  var READ_ALOUD = '\ud83d\udd0a Read aloud';
+  var READ_STOP  = '\u23f9 Stop';
+  var READ_RETRY = '\u21bb Retry';
+
+  var voicePlayer = null;
+  var audioCtx = null;
+
+  function getAudioCtx() {
+    if (!audioCtx) {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new Ctx();
     }
-  ],
-  "files": {
-    "read": [],
-    "unread": [
-      {
-        "src": "amenti-core.bundle.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 893,
-            "loading": "blocking"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-svg-library.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 5605,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-doctrine.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 5937,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "library.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 7104,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-canonical.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 7115,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-auth.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8004,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-quiz.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8011,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-roster.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8012,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-roster-view.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8013,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-bay.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8014,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-motion.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8015,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-art-2.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8016,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-leaderboard.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8017,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-readaloud.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8018,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-vallhalla-signup.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8021,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-flourish.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8022,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-mascot.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8023,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-profile.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8024,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-art-photo.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8032,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-art-3.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8046,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "amenti-dispatch-art.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8480,
-            "loading": "defer"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      },
-      {
-        "src": "config.js",
-        "requestedBy": [
-          {
-            "surface": "Page2.html",
-            "line": 22,
-            "loading": "blocking"
-          }
-        ],
-        "reason": "not on disk at probe time"
-      }
-    ]
-  },
-  "unread": [
-    {
-      "src": "amenti-core.bundle.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 893,
-          "loading": "blocking"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-svg-library.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 5605,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-doctrine.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 5937,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "library.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 7104,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-canonical.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 7115,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-auth.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8004,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-quiz.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8011,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-roster.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8012,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-roster-view.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8013,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-bay.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8014,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-motion.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8015,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-art-2.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8016,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-leaderboard.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8017,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-readaloud.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8018,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-vallhalla-signup.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8021,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-flourish.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8022,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-mascot.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8023,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-profile.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8024,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-art-photo.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8032,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-art-3.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8046,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "amenti-dispatch-art.js",
-      "requestedBy": [
-        {
-          "surface": "Page1.html",
-          "line": 8480,
-          "loading": "defer"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    },
-    {
-      "src": "config.js",
-      "requestedBy": [
-        {
-          "surface": "Page2.html",
-          "line": 22,
-          "loading": "blocking"
-        }
-      ],
-      "reason": "not on disk at probe time"
-    }
-  ],
-  "cacheKey": {
-    "composition": "sha256(TTS_MODEL + voice + STYLE + TEXT)",
-    "composedIn": "proxy worker.js — PRIVATE, NOT READ BY THIS PROBE",
-    "readFromSource": false,
-    "note": "The inputs below are what each surface SENDS. Whether the Worker hashes them in this order is not readable from here and is not claimed.",
-    "posts": [
-      {
-        "surface": "Page1.html",
-        "sites": []
-      },
-      {
-        "surface": "Page2.html",
-        "sites": [
-          {
-            "line": 16805,
-            "keys": [
-              "text",
-              "style",
-              "voice"
-            ]
-          },
-          {
-            "line": 17040,
-            "keys": [
-              "text",
-              "style",
-              "voice"
-            ]
-          }
-        ]
-      }
-    ],
-    "chunking": [
-      {
-        "surface": "Page1.html",
-        "constants": null
-      },
-      {
-        "surface": "Page2.html",
-        "constants": {
-          "TARGET_CHARS": {
-            "value": 700,
-            "line": 16914
-          },
-          "MAX_CHARS": {
-            "value": 1100,
-            "line": 16915
-          },
-          "LOOKAHEAD": {
-            "value": 3,
-            "line": 16916
-          },
-          "STREAM_THRESHOLD": {
-            "value": 700,
-            "line": 16793
-          }
-        }
-      }
-    ]
-  },
-  "notMeasured": [
-    "whether any path produces sound — source order proves a global exists when asked for, nothing more",
-    "archive health — that is the ARCHIVE WATCH, six wires, every six hours",
-    "the Worker cache key composition — the Worker cannot be read, so it is asked, elsewhere",
-    "intent, doctrine, register choice — those are authored and live in the briefs"
-  ],
-  "accepted": [],
-  "findings": [
-    {
-      "id": "unresolved",
-      "severity": "finding",
-      "surface": "Page1.html",
-      "global": "Amenti.throttle",
-      "detail": "called 10x, first at line 3001; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
-      "test": "reads with no registration"
-    },
-    {
-      "id": "unresolved",
-      "severity": "finding",
-      "surface": "Page1.html",
-      "global": "Amenti.voice",
-      "detail": "called 3x, first at line 7590; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
-      "test": "reads with no registration"
-    },
-    {
-      "id": "unresolved",
-      "severity": "finding",
-      "surface": "Page1.html",
-      "global": "Amenti.chat",
-      "detail": "called 2x, first at line 6096; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
-      "test": "reads with no registration"
-    },
-    {
-      "id": "unresolved",
-      "severity": "finding",
-      "surface": "Page1.html",
-      "global": "Amenti.conversation",
-      "detail": "called 6x, first at line 7160; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
-      "test": "reads with no registration"
-    },
-    {
-      "id": "unresolved",
-      "severity": "finding",
-      "surface": "Page1.html",
-      "global": "Amenti.listen",
-      "detail": "called 5x, first at line 7526; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
-      "test": "reads with no registration"
-    },
-    {
-      "id": "load-order-clear",
-      "severity": "confirmed",
-      "surface": "Page2.html",
-      "global": "Sovereign.Atlantica",
-      "detail": "read at PARSE TIME on line 15585; available from line 15402 (Page2.html, inline). 183 lines of margin.",
-      "test": "first parse-time read >= availability line"
-    },
-    {
-      "id": "load-order-clear",
-      "severity": "confirmed",
-      "surface": "Page2.html",
-      "global": "Sovereign.Voice",
-      "detail": "read at PARSE TIME on line 16833; available from line 16768 (Page2.html, inline). 65 lines of margin.",
-      "test": "first parse-time read >= availability line"
-    },
-    {
-      "id": "no-brake",
-      "severity": "finding",
-      "surface": "Page2.html",
-      "global": "Sovereign.Voice",
-      "detail": "defines speak() and no stop(). A mouth with no brake orphans an in-flight /speak fetch.",
-      "test": "speak without stop"
-    },
-    {
-      "id": "vestigial",
-      "severity": "finding",
-      "surface": "Page1.html",
-      "detail": "declares a /speak endpoint (VOICE_WORKER) and contains no synthesis site — no fetch to /speak, no Audio built. Tackle left on deck after the engine was moved out. Reads as live infrastructure to anyone who greps.",
-      "test": "endpoint literal declared, zero synthesis sites on the surface"
-    },
-    {
-      "id": "divergence",
-      "severity": "finding",
-      "surface": "Page1.html vs Page2.html",
-      "detail": "synthesis engines defined inline on one surface and not the other — Page1.html: [none]; Page2.html: [Sovereign.Voice, AmentiAudio]. An engine composes its own style and cuts its own chunks, and chunk boundaries ARE the cache namespace.",
-      "test": "inline engines (post to /speak or build Audio), set difference across surfaces"
-    },
-    {
-      "id": "unread",
-      "severity": "blocking",
-      "detail": "22 referenced file(s) could not be opened: amenti-core.bundle.js, amenti-svg-library.js, amenti-doctrine.js, library.js, amenti-canonical.js, amenti-auth.js, amenti-quiz.js, amenti-roster.js, amenti-roster-view.js, amenti-bay.js, amenti-motion.js, amenti-art-2.js, amenti-leaderboard.js, amenti-readaloud.js, amenti-vallhalla-signup.js, amenti-flourish.js, amenti-mascot.js, amenti-profile.js, amenti-art-photo.js, amenti-art-3.js, amenti-dispatch-art.js, config.js. No verdict above covers them.",
-      "test": "existsSync on every local <script src>"
-    }
-  ],
-  "counts": {
-    "surfaces": 2,
-    "engines": 10,
-    "filesRead": 0,
-    "filesUnread": 22,
-    "faults": 0,
-    "confirmed": 2,
-    "unproven": 0,
-    "findings": 8,
-    "blocking": 1,
-    "accepted": 0
+    if (audioCtx.state === 'suspended') { try { audioCtx.resume(); } catch (e) {} }
+    return audioCtx;
   }
-}
+
+  /* ---- Embodiment: resolve a figure's voice from the published roster ------ */
+  var LEDGER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
+  var rosterPromise = null;
+
+  function baseVoiceFor(gender) {
+    var g = String(gender || '').toLowerCase();
+    if (g.charAt(0) === 'm') return 'Charon';
+    if (g.charAt(0) === 'f') return 'Kore';
+    return VOICE_NAME_DEFAULT;
+  }
+  /* ── THE CONVERSATIONAL REGISTER ─────────────────────────────────────────
+     The Terminal talks WITH you; it does not recite AT you. Separate register,
+     separate cache space, and — because its text is unique every turn — a place
+     where prosody may vary per utterance at no cost.
+
+     THE INSTRUMENT PANEL. Tone is not decoration; a shift in temperature is a
+     PROBE. Bound to the figure and not the utterance, every register collapses
+     into one voice and the probe returns nothing.
+     ──────────────────────────────────────────────────────────────────────── */
+  var CONV_REGISTER = 'Say the following in a clear, natural, conversational voice';
+
+  /* THE REGISTERS LIVE IN amenti-doctrine.js. ONE COPY.
+     They were duplicated here AND in Page1's AMENTI_VOICE — byte-identical, kept
+     in step BY HAND, with nothing enforcing it. That is composeStyle again, and
+     it is the exact disease probe7 exists to prevent. The fallback below is for
+     a surface that has not loaded the doctrine; it is not a second source. */
+  function REG() {
+    var d = window.Amenti && window.Amenti.doctrine;
+    return (d && d.REGISTERS) || {
+      warm:   'Speak gently, unhurried, with evident care.',
+      cool:   'Speak with clinical distance, level and unhurried.',
+      sharp:  'Speak with sudden edge — clipped, direct, harder than before.',
+      grave:  'Speak slowly and heavily, as one who has paid for what he says.',
+      danger: 'Speak quietly, and let the quiet be worse than shouting.',
+      humour: 'Let there be dry amusement in the voice, and something rueful under it.'
+    };
+  }
+
+  /* The conversational style. NEVER call this for the archive. */
+  function composeConversational(fig, move) {
+    var s = CONV_REGISTER;
+    if (fig && fig.dialect) s += '. Accent and dialect: ' + String(fig.dialect).trim();
+    if (fig && fig.voice)   s += '. Voice character: ' + String(fig.voice).trim();
+    s += '. ' + PACE_DIRECTION;
+    var reg = move && REG()[move];
+    if (reg) s += ' ' + reg;
+    return s;
+  }
+
+  /* ⚠ LOCKED — byte-for-byte from the deployed reading room. This string is
+     part of the /speak cache key. Changing it orphans the entire archive. */
+  function composeStyle(fig) {
+    var s = VOICE_REGISTER;
+    if (fig && fig.dialect) s += '. Accent and dialect: ' + fig.dialect;
+    if (fig && fig.voice)   s += '. Voice character: ' + fig.voice;
+    s += '. ' + PACE_DIRECTION;
+    return s;
+  }
+  function parseCsv(text) {
+    var rows = [], row = [], field = '', inQ = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (inQ) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+        else field += c;
+      } else {
+        if (c === '"') inQ = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c === '\r') { /* ignore */ }
+        else field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    if (!rows.length) return [];
+    var header = rows[0].map(function (h) { return h.trim(); });
+    var out = [];
+    for (var r = 1; r < rows.length; r++) {
+      if (rows[r].length === 1 && rows[r][0] === '') continue;
+      var obj = {};
+      for (var k = 0; k < header.length; k++) obj[header[k]] = (rows[r][k] || '').trim();
+      out.push(obj);
+    }
+    return out;
+  }
+  function rowToFigure(row) {
+    var name = row['Full Name'] || row['Name'] || '';
+    if (!name) return null;
+    return {
+      key: name.toLowerCase().trim(),
+      name: name,
+      gender: row['Gender'] || '',
+      dialect: row['Dialect'] || '',
+      voice: row['Voice'] || ''
+    };
+  }
+  function loadRoster() {
+    if (rosterPromise) return rosterPromise;
+    rosterPromise = fetch(LEDGER_CSV_URL, { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('roster CSV ' + r.status); return r.text(); })
+      .then(function (text) {
+        var map = {};
+        parseCsv(text).forEach(function (row) { var f = rowToFigure(row); if (f) map[f.key] = f; });
+        return map;
+      })['catch'](function (err) {
+        console.warn('Throttle: roster unavailable, using neutral voice:', err && err.message);
+        return {};
+      });
+    return rosterPromise;
+  }
+  function resolveVoice(name) {
+    return loadRoster().then(function (map) {
+      var fig = map[String(name || '').toLowerCase().trim()];
+      return { voice: baseVoiceFor(fig && fig.gender), style: composeStyle(fig), figure: fig || null };
+    });
+  }
+
+  function decodeAudio(ctx, bytes) {
+    return new Promise(function (resolve, reject) {
+      var p;
+      try { p = ctx.decodeAudioData(bytes, resolve, reject); }
+      catch (e) { reject(e); return; }
+      if (p && typeof p.then === 'function') p.then(resolve, reject);
+    });
+  }
+
+  /* ---- canonical strip (LOCKED) -------------------------------------------- */
+  function plainText(md) {
+    return String(md || '')
+      .replace(/\r\n?/g, '\n')
+      .replace(/^#+\s*/gm, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/__([^_]+)__/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/_([^_]+)_/g, '$1')
+      .replace(/^\s*[-*]\s+/gm, '')
+      .replace(/[ \t]+/g, ' ')
+      .replace(/\n{3,}/g, '\n\n')
+      .replace(/[ \t]*\n[ \t]*/g, '\n')
+      .trim();
+  }
+
+  /* ---- cadence + deterministic chunker (LOCKED) ---------------------------- */
+  function restFor(chunkTextStr, endsParagraph) {
+    if (endsParagraph) return REST_PARA;
+    var last = chunkTextStr.replace(/["')\]\u201d\u2019]+$/, '').slice(-1);
+    if (last === '.' || last === '!' || last === '?') return REST_SENTENCE;
+    if (last === ',' || last === ';' || last === ':' || last === '\u2014' || last === '-') return REST_SOFT;
+    return REST_SENTENCE;
+  }
+  function splitSentences(text) {
+    var parts = String(text).match(/[^.!?]+[.!?]+[)\]"'\u201d\u2019]*\s*|[^.!?]+$/g);
+    if (!parts) { var t = String(text).trim(); return t ? [t] : []; }
+    var out = [];
+    for (var i = 0; i < parts.length; i++) { var s = parts[i].trim(); if (s) out.push(s); }
+    return out;
+  }
+  function hardSplit(sentence, maxChars) {
+    var words = sentence.split(/\s+/), out = [], cur = '';
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      if (cur && cur.length + 1 + w.length > maxChars) { out.push(cur); cur = w; }
+      else cur = cur ? cur + ' ' + w : w;
+    }
+    if (cur) out.push(cur);
+    return out;
+  }
+  function chunkText(text, maxChars) {
+    var paragraphs = String(text).split(/\n{2,}/);
+    var chunks = [];
+    for (var p = 0; p < paragraphs.length; p++) {
+      var para = paragraphs[p].replace(/\n/g, ' ').trim();
+      if (!para) continue;
+      var sentences = splitSentences(para), pieces = [], cur = '';
+      for (var i = 0; i < sentences.length; i++) {
+        var s = sentences[i];
+        if (s.length > maxChars) {
+          if (cur) { pieces.push(cur); cur = ''; }
+          var hs = hardSplit(s, maxChars);
+          for (var j = 0; j < hs.length; j++) pieces.push(hs[j]);
+          continue;
+        }
+        if (cur && cur.length + 1 + s.length > maxChars) { pieces.push(cur); cur = s; }
+        else cur = cur ? cur + ' ' + s : s;
+      }
+      if (cur) pieces.push(cur);
+      for (var k = 0; k < pieces.length; k++) {
+        var endsPara = (k === pieces.length - 1);
+        chunks.push({ text: pieces[k], rest: restFor(pieces[k], endsPara), rate: endsPara ? RATE_SLOW : RATE_FAST });
+      }
+    }
+    return chunks;
+  }
+
+  /* ⚠ CONVERSATIONAL ONLY. Never call this for the archive.
+     It does not re-implement the chunker — it CALLS the locked one and re-cuts
+     ONLY the opening measure. chunkText below is untouched, byte for byte,
+     because its boundaries are the cache key. A second copy of a chunker is how
+     an archive forks.
+
+     ONLY THE OPENER IS SHORT. Every measure pays the same ~7.5s render floor,
+     so cutting the whole reply into small pieces would buy a fast start and then
+     pay the floor over and over — more requests, more cost, and a voice that can
+     run dry between them. So: one short opener, then the remainder rejoined, then
+     the rest of the reply at its normal 320. */
+  function chunkConversational(text, maxChars, firstMax) {
+    var all = chunkText(text, maxChars);
+    if (!all.length || !firstMax || firstMax >= maxChars) return all;
+
+    var head = all[0];
+    if (head.text.length <= firstMax) return all;      // already short enough
+
+    var cut = chunkText(head.text, firstMax);
+    if (cut.length < 2) return all;                    // one sentence, too long to cut
+
+    var opener = cut[0];
+    var remainder = [];
+    for (var i = 1; i < cut.length; i++) remainder.push(cut[i].text);
+
+    /* The opener ends a breath, not a paragraph. chunkText would have given the
+       last piece a full paragraph rest; that would put a long silence in the
+       middle of the figure's first sentence. */
+    opener.rest = restFor(opener.text, false);
+    opener.rate = RATE_FAST;
+
+    var rejoined = { text: remainder.join(' '), rest: head.rest, rate: head.rate };
+
+    return [opener, rejoined].concat(all.slice(1));
+  }
+
+  /* ---- engine: fetch, schedule, watchdog (verbatim) ------------------------ */
+  function fetchChunkBytes(chunk, style, voice, signal) {
+    var attempts = 0;
+    function go() {
+      var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+      var timer = null, onAbort = null;
+      function cleanup() {
+        if (timer) { clearTimeout(timer); timer = null; }
+        if (signal && onAbort) { try { signal.removeEventListener('abort', onAbort); } catch (e) {} onAbort = null; }
+      }
+      if (ctrl) {
+        timer = setTimeout(function () { try { ctrl.abort(); } catch (e) {} }, CHUNK_TIMEOUT);
+        if (signal) {
+          if (signal.aborted) { try { ctrl.abort(); } catch (e) {} }
+          else { onAbort = function () { try { ctrl.abort(); } catch (e) {} }; try { signal.addEventListener('abort', onAbort); } catch (e) {} }
+        }
+      }
+      return fetch(VOICE_WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: (chunk && chunk.text != null) ? chunk.text : chunk, style: style, voice: voice }),
+        signal: ctrl ? ctrl.signal : signal
+      }).then(function (r) {
+        if (r.ok) return r.arrayBuffer();
+        return r.json().then(function (j) { return j; }, function () { return null; })
+          .then(function (j) {
+            var msg = (j && j.error) || ('voice ' + r.status);
+            if (msg === 'no_audio' && attempts < 2) { attempts++; cleanup(); return go(); }
+            throw new Error(msg);
+          });
+      }).then(
+        function (out) { cleanup(); return out; },
+        function (err) { cleanup(); throw err; }
+      );
+    }
+    return go();
+  }
+
+  function clearWatchdog(p) { if (p && p.watchdog) { clearTimeout(p.watchdog); p.watchdog = null; } }
+
+  function stopReading() {
+    var p = voicePlayer;
+    voicePlayer = null;
+    if (!p) return;
+    p.cancelled = true;
+    clearWatchdog(p);
+    if (p.abort) { try { p.abort.abort(); } catch (e) {} }
+    for (var i = 0; i < p.sources.length; i++) {
+      try { p.sources[i].onended = null; p.sources[i].stop(); } catch (e) {}
+    }
+    p.sources = [];
+    if (p.btn) { p.btn.textContent = READ_ALOUD; p.btn.disabled = false; }
+  }
+
+  function failStart(p) {
+    if (!p || p.cancelled) return;
+    p.cancelled = true;
+    clearWatchdog(p);
+    if (p.abort) { try { p.abort.abort(); } catch (e) {} }
+    for (var i = 0; i < p.sources.length; i++) {
+      try { p.sources[i].onended = null; p.sources[i].stop(); } catch (e) {}
+    }
+    p.sources = [];
+    if (voicePlayer === p) voicePlayer = null;
+    if (p.btn) { p.btn.textContent = READ_RETRY; p.btn.disabled = false; }
+  }
+
+  function startReading(text, btn, style, voice, onDone, max, firstMax) {
+    max = max || CHUNK_MAX;      // the surface's chunk PROFILE — part of its cache key
+    var ctx;
+    try { ctx = getAudioCtx(); }
+    catch (e) {
+      console.error('Throttle: audio unavailable:', e && e.message);
+      if (btn) { btn.textContent = READ_RETRY; btn.disabled = false; }
+      return;
+    }
+    /* firstMax is set ONLY on the conversational path. The recital path calls the
+       locked chunker exactly as it always has — byte-identical boundaries,
+       byte-identical keys, the archive untouched. */
+    var chunks = firstMax
+      ? chunkConversational(plainText(text), max, firstMax)
+      : chunkText(plainText(text), max);
+    if (!chunks.length) { if (btn) { btn.textContent = READ_ALOUD; btn.disabled = false; } return; }
+
+    var useStyle = style || composeStyle(null);
+    var useVoice = voice || VOICE_NAME_DEFAULT;
+
+    var player = {
+      cancelled: false,
+      abort: (typeof AbortController !== 'undefined') ? new AbortController() : null,
+      sources: [], nextStart: 0, ready: {}, toSchedule: 0,
+      scheduled: 0, total: chunks.length, producerDone: false, started: false,
+      btn: btn, watchdog: null, onDone: (typeof onDone === 'function' ? onDone : null)
+    };
+    voicePlayer = player;
+
+    player.watchdog = setTimeout(function () {
+      if (player.cancelled || player.started) return;
+      console.error('Throttle: no audio after ' + START_TIMEOUT + 'ms — offering retry.');
+      failStart(player);
+    }, START_TIMEOUT);
+
+    function finish() {
+      if (player.cancelled) return;
+      if (player.producerDone && player.scheduled === player.total && player.sources.length === 0) {
+        clearWatchdog(player);
+        if (player.btn) { player.btn.textContent = player.started ? READ_ALOUD : READ_RETRY; player.btn.disabled = false; }
+        if (voicePlayer === player) voicePlayer = null;
+        // Natural completion only (a Stop sets cancelled=true and returns above).
+        if (player.started && player.onDone) { try { player.onDone(); } catch (e) {} }
+      }
+    }
+    function scheduleBuf(buf, rest, rate) {
+      if (player.cancelled) return;
+      var useRate = rate || RATE_FAST;
+      var src = ctx.createBufferSource();
+      src.buffer = buf;
+      try { src.playbackRate.value = useRate; } catch (e) {}
+      src.connect(ctx.destination);
+      var at = Math.max(player.nextStart, ctx.currentTime + 0.05);
+      src.start(at);
+      var played = buf.duration / (useRate || 1);
+      player.nextStart = at + played + (rest || 0);
+      player.scheduled++;
+      player.sources.push(src);
+      if (!player.started) {
+        player.started = true;
+        clearWatchdog(player);
+        if (player.btn) { player.btn.textContent = READ_STOP; player.btn.disabled = false; }
+      }
+      src.onended = function () {
+        var k = player.sources.indexOf(src);
+        if (k >= 0) player.sources.splice(k, 1);
+        finish();
+      };
+    }
+    function drain() {
+      while (Object.prototype.hasOwnProperty.call(player.ready, player.toSchedule)) {
+        var entry = player.ready[player.toSchedule];
+        delete player.ready[player.toSchedule];
+        player.toSchedule++;
+        if (entry && entry.buf) scheduleBuf(entry.buf, entry.rest, entry.rate);
+        else { player.scheduled++; finish(); }
+      }
+    }
+
+    var cap = CHUNK_LOOKAHEAD + 1, next = 0, inflight = 0;
+    function done() {
+      inflight--;
+      if (player.cancelled) return;
+      if (next >= chunks.length && inflight === 0) { player.producerDone = true; finish(); }
+      else pump();
+    }
+    function pump() {
+      while (!player.cancelled && inflight < cap && next < chunks.length) {
+        (function (idx) {
+          inflight++;
+          fetchChunkBytes(chunks[idx], useStyle, useVoice, player.abort ? player.abort.signal : null)
+            .then(function (bytes) {
+              if (player.cancelled) return null;
+              return decodeAudio(ctx, bytes);
+            })
+            .then(function (buf) {
+              if (!player.cancelled) { player.ready[idx] = buf ? { buf: buf, rest: chunks[idx].rest, rate: chunks[idx].rate } : null; drain(); }
+              done();
+            }, function (err) {
+              if (!player.cancelled) {
+                console.error('Throttle chunk ' + idx + ' failed:', err && err.message);
+                player.ready[idx] = null; drain();
+              }
+              done();
+            });
+        })(next);
+        next++;
+      }
+    }
+    pump();
+  }
+
+  /* speakReading() is retired — Amenti.throttle.speak is now a facade over speak(). */
+
+  /* ---- attach: make any existing button a Read-aloud toggle ---------------- */
+  // opts.text   : string OR function returning the text/markdown to read
+  // opts.figure : display name (string OR function) for embodiment; optional
+  // opts.label  : initial button label (default "🔊 Read aloud")
+  function attach(btn, opts) {
+    if (!btn) { console.warn('Throttle.attach: no button given'); return; }
+    opts = opts || {};
+    if (opts.label != null) btn.textContent = opts.label;
+    else if (!btn.textContent) btn.textContent = READ_ALOUD;
+    function val(x) { return (typeof x === 'function') ? x() : x; }
+    btn.addEventListener('click', function () {
+      var text = val(opts.text);
+      var figure = val(opts.figure);
+      speak(text || '', { btn: btn, figure: figure || '', register: 'recital' });
+    });
+    return btn;
+  }
+
+  /* ── THE ONE ENTRY POINT ─────────────────────────────────────────────────
+     speak(text, opts)
+       opts.figure    display name — resolves dialect/voice from the roster
+       opts.register  'recital' (archive, cached, locked) | 'conversational'
+       opts.move      warm|cool|sharp|grave|danger|humour — conversational ONLY
+       opts.profile   'recital' | 'gabriel' | 'counsel' — the chunker
+       opts.btn       optional button to drive (Read aloud / Stop / Retry)
+       opts.onDone    natural end of speech
+     ──────────────────────────────────────────────────────────────────────── */
+  function speak(text, opts) {
+    opts = opts || {};
+    var conversational = (opts.register === 'conversational');
+    var max = PROFILES[opts.profile] || (conversational ? PROFILES.counsel : CHUNK_MAX);
+    var firstMax = conversational ? CONV_FIRST_MAX : 0;   // 0 on the recital path. Always.
+    var btn = opts.btn || null;
+
+    try {
+      var active = voicePlayer;
+      if (active) {
+        var sameBtn = (active.btn === btn);
+        stopReading();
+        if (sameBtn && btn) return;          // a second tap on the same button = Stop
+      }
+      if (btn) { btn.textContent = '\u2026 generating'; btn.disabled = true; }
+
+      resolveVoice(opts.figure).then(function (v) {
+        if (btn && btn.disabled === false) return;
+        var style = conversational
+          ? composeConversational(v && v.figure, opts.move)     // varies freely — never cached
+          : (v && v.style);                                     // LOCKED — the archive
+        startReading(text, btn, style, (v && v.voice) || VOICE_NAME_DEFAULT, opts.onDone, max, firstMax);
+      }, function () {
+        var style = conversational ? composeConversational(null, opts.move) : composeStyle(null);
+        startReading(text, btn, style, VOICE_NAME_DEFAULT, opts.onDone, max, firstMax);
+      });
+    } catch (e) {
+      console.error('Voice start failed:', e && e.message);
+      if (btn) { btn.textContent = READ_RETRY; btn.disabled = false; }
+      if (typeof opts.onDone === 'function') { try { opts.onDone(); } catch (e2) {} }
+    }
+  }
+
+  Amenti.voice = {
+    __v: 2,        /* 2 = the conversational fast opener. Recital boundaries UNCHANGED. */
+    speak: speak,
+    stop: stopReading,
+    isSpeaking: function () { return !!voicePlayer; },
+    attach: attach,
+    chunk: function (t, profile) { return chunkText(plainText(t), PROFILES[profile] || CHUNK_MAX); },
+    chunkConv: function (t) { return chunkConversational(plainText(t), PROFILES.counsel, CONV_FIRST_MAX); },
+    plainText: plainText,
+    resolveVoice: resolveVoice,
+    REGISTERS: REG(),
+    PROFILES: PROFILES,
+    CONV_FIRST_MAX: CONV_FIRST_MAX,
+    CHUNK_MAX: CHUNK_MAX
+  };
+
+  /* ── FACADES ─────────────────────────────────────────────────────────────
+     Amenti.throttle has EIGHT call sites in Page1 alone, and library.js and
+     Page2 have engines of their own that will be retired one at a time. Nothing
+     is renamed until every caller has been grepped — that assumption is exactly
+     what burned the last session. These are the old doors, opening onto the new
+     room. Identical behaviour, byte-identical cache keys.
+     ──────────────────────────────────────────────────────────────────────── */
+  Amenti.throttle = {
+    __v: 1,
+    attach: attach,
+    speak: function (text, btn, figureName, onDone) {
+      return speak(text, { btn: btn, figure: figureName, onDone: onDone, register: 'recital' });
+    },
+    stop: stopReading,
+    isReading: function () { return !!voicePlayer; },
+    chunk: function (t) { return chunkText(plainText(t), CHUNK_MAX); },
+    plainText: plainText,
+    resolveVoice: resolveVoice,
+    CHUNK_MAX: CHUNK_MAX
+  };
+
+  /* The counsel's speaker. Was an inline half-copy in Page1 with no chunking and
+     — critically — NO stop(), which is why the figure could not be interrupted.
+     Now it is the real engine: chunked, streaming, and cancellable. */
+  Amenti.conversation = {
+    on: false,
+    speak: function (text, figureName, onDone, meta) {
+      if (!this.on) { if (typeof onDone === 'function') onDone(); return; }
+      speak(text, {
+        figure: figureName,
+        register: 'conversational',
+        move: meta && meta.register,          // the DECLARED move's register
+        profile: 'counsel',
+        onDone: onDone
+      });
+    },
+    stop: stopReading,
+    isSpeaking: function () { return !!voicePlayer; },
+    styleFor: composeConversational
+  };
+})();
