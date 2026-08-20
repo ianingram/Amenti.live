@@ -69,6 +69,34 @@ const CARRIED = [
 
 const sha = (buf) => createHash('sha256').update(buf).digest('hex');
 
+/* ── WHERE, NOT JUST WHETHER ─────────────────────────────────────────────────
+   "differs" is a verdict nobody can act on. Two files of identical length and
+   different content differ SOMEWHERE, and that somewhere is usually one line —
+   a timestamp, a sha, a count. Naming it turns a fault into a five-second
+   decision.
+
+   Returns the first differing line and both sides of it, truncated. It reports
+   the FIRST difference only: a full diff of a 46 KB register in a run log is a
+   wall nobody reads, which is its own way of hiding a finding. */
+function firstDifference(a, b) {
+  const A = a.toString('utf8').split('\n');
+  const B = b.toString('utf8').split('\n');
+  const n = Math.max(A.length, B.length);
+  let differing = 0;
+  let first = null;
+  for (let i = 0; i < n; i++) {
+    if (A[i] !== B[i]) {
+      differing++;
+      if (!first) first = {
+        line: i + 1,
+        ship: (A[i] === undefined ? '(no such line)' : A[i].trim()).slice(0, 160),
+        mirror: (B[i] === undefined ? '(no such line)' : B[i].trim()).slice(0, 160)
+      };
+    }
+  }
+  return first ? { ...first, differingLines: differing, totalLines: n } : null;
+}
+
 function readIf(path) {
   try {
     if (!existsSync(path) || !statSync(path).isFile()) return null;
@@ -176,9 +204,20 @@ function main(argv) {
       });
     } else {
       row.state = 'differs';
+      const d = firstDifference(onShip, inMirror);
+      row.difference = d;
+      let where = '';
+      if (d) {
+        where = ` ${d.differingLines} of ${d.totalLines} lines differ; the first is line ${d.line} —\n` +
+                `        ship   : ${d.ship}\n` +
+                `        mirror : ${d.mirror}`;
+      } else {
+        where = ' The bytes differ but no line does, which means the difference is in line endings or a trailing byte.';
+      }
       reading.findings.push({
         id: 'stale', severity: 'fault', register: r.name,
-        detail: `present on both sides and DIFFERENT — ship ${onShip.length} bytes / ${row.shipSha}, mirror ${inMirror.length} bytes / ${row.mirrorSha}. ${r.pane} is showing a reading the ship no longer holds. A size check would have missed this if the sizes matched.`
+        detail: `present on both sides and DIFFERENT — ship ${onShip.length} bytes / ${row.shipSha}, mirror ${inMirror.length} bytes / ${row.mirrorSha}. ${r.pane} is showing a reading the ship no longer holds. A size check would have missed this: the sizes match.${where}`,
+        firstDifference: d
       });
     }
 
