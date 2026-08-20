@@ -52,6 +52,8 @@ jobs:
     steps:
       - name: Check out the ship
         uses: actions/checkout@v4
+        with:
+          ref: main             # the schedule has no branch of its own
 
       - name: Node
         uses: actions/setup-node@v4
@@ -92,11 +94,43 @@ jobs:
       - name: Commit, only if the reading moved
         run: |
           git config user.name  "voice-watch"
-          git config user.email "actions@github.com"
-          if git diff --quiet -- VOICE.json; then
+          git config user.email "watch@amenti.live"
+
+          # STAGE FIRST, THEN COMPARE. `git diff` does not look at untracked
+          # files, so on the first run — when VOICE.json does not yet exist in
+          # the tree — a bare diff reports NO DIFFERENCE, the step announces
+          # "nothing to commit", and exits 0. The register would never land and
+          # the run would be green. scan.yml records catching this exact fault
+          # in itself on 16 August; there was no reason to repeat it here.
+          git add -f VOICE.json
+
+          if git diff --cached --quiet -- VOICE.json; then
             echo "reading unchanged — nothing committed"
-            exit 0
+          else
+            # [skip ci] because scan.yml wakes on every push to every branch,
+            # and a register commit is not a change to the tree it describes.
+            git commit -m "voice watch: VOICE.json [skip ci]"
+
+            # REBASE BEFORE PUSHING. scan.yml and the plate register both write
+            # to main. A bare push loses whichever race it finishes second and
+            # git is right to refuse it — that is fault 1 in scan.yml's own
+            # header, and the first version of this file had it. Five attempts,
+            # then SAY SO and fail. Never a silent give-up.
+            pushed=0
+            BRANCH="main"
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin "$BRANCH" && git push origin "HEAD:$BRANCH"; then
+                pushed=1
+                echo "committed the reading (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::could not push VOICE.json after 5 attempts — the register is now BEHIND the surfaces"
+              exit 1
+            fi
           fi
-          git add VOICE.json
-          git commit -m "voice watch: VOICE.json"
-          git push
+
+          echo "VOICE.json is $(wc -c < VOICE.json) bytes"
