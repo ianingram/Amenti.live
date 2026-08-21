@@ -1,81 +1,422 @@
 {
-  "_": "THE CHAPTER REGISTER. read.html walks this and nothing else. A chapter with no `file` shows THE UNWRITTEN PAGE — never a placeholder.",
+  "_": "THE REGISTER OF THE WORK. Every movement, every chapter, its form and its source. read.html walks this. probes/probe-production.mjs measures against it. Nothing else is authoritative.",
+  "_why": "Until 20 August the outline lived in four planning documents and none of them was read by anything. BOOK.json knew eight chapters — all of Movement IV — and the movements existed only in prose nobody parsed. That is how forty-one briefs came to have eight linked: WITHOUT A REGISTER, COPIES ACCUMULATE, each correct about a different day.",
   "_law": "No chapter publishes before the thing it describes.",
   "title": "The Book of the Dead",
   "subtitle": "How this machine was built, written against the machine",
+  "through": "We built to spec in order to unlock the gates.",
+  "_through_note": "A spell is named and numbered and invoked at a particular gate, and calling the wrong one does nothing at all. Every register in this system is one of those invocations. A green lamp with nothing behind it is a spell miscalled: the gate does not open, and nothing tells you.",
   "plateNote": "This band was read from the live system at the hour of writing. It has not been updated since.",
+  "forms": {
+    "prose": "No apparatus. Nothing was measurable yet — a chapter about June cannot show a live number and will not pretend to.",
+    "field": "A chronicle written during the days it describes. A primary source. It must not be smoothed.",
+    "apparatus": "Five bands — SPELL · MECHANISM · PRIMER · PLATE · ROADMAP. By this point the system could be READ."
+  },
+  "_turn": "THE TURN BETWEEN THE FORMS IS NOT A CHANGE OF STYLE. IT IS THE MOMENT THE THING BECAME MEASURABLE.",
+  "illustration": {
+    "narrative": "unillustrated — a man face down on shingle speaking byte parity is better in a reader's head than on a screen",
+    "mechanism": "diagrams where the subject is spatial",
+    "plate": "READ, NEVER DRAWN. If a chart in a Plate band was authored, it is not a plate."
+  },
+  "movements": [
+    {
+      "id": "I",
+      "name": "ASCENSION",
+      "when": "June 2026",
+      "form": "prose",
+      "state": "planned",
+      "what": "How the site learned to think, and then to speak.",
+      "source": "Amenti_Book_Blueprint.md · four session transcripts",
+      "note": "Sixteen chapters in four acts, prologue included. Opens in medias res on failure and ends at a threshold deliberately uncrossed."
+    },
+    {
+      "id": "II",
+      "name": "THE LONG CLIMB",
+      "when": "April–May, and July 2026",
+      "form": "prose",
+      "state": "written",
+      "what": "The threshold crossed. The helix, and the black heart of Page 2.",
+      "source": "Book_of_Amenti.html",
+      "note": "The one movement that is finished — typeset and illustrated. It also spans the UNDOCUMENTED PERIOD: no briefs before 29 June."
+    },
+    {
+      "id": "III",
+      "name": "THE SIEGE",
+      "when": "4–7 July 2026",
+      "form": "field",
+      "state": "written",
+      "what": "Three days. The gates were not breached — they were read.",
+      "source": "The Siege.html — 6,651 words, nine books plus a field journal",
+      "note": "The gates were closed by TIME, not an enemy. You cannot out-fight time, only outwork it — which is why the fleet is instruments rather than warships."
+    },
+    {
+      "id": "IV",
+      "name": "THE SHIP",
+      "when": "July–August 2026",
+      "form": "apparatus",
+      "state": "serialising",
+      "what": "Registers, probes, watches, the ark. The system becomes readable.",
+      "source": "39 briefs · the live registers"
+    }
+  ],
   "chapters": [
     {
       "n": 0,
-      "volume": "Volume I",
-      "book": "Book Zero — The Dry Dock",
+      "movement": null,
+      "form": "prose",
+      "volume": "The frame",
+      "book": "Outside the chronology",
       "title": "The Beach",
       "blurb": "A man comes out of the sea holding the only object that can release a thousand souls, and what he wants is a cheeseburger.",
       "file": "book/00-the-beach.md",
-      "why": "The frame. The last human scene in the book, and the one chapter with no apparatus — the prologue carries no bands because it makes no claim a probe could check."
+      "why": "THE FRAME, and it belongs to no movement — what he reads is all four. Opened once and never closed. The last human scene in the work, and the one chapter with no apparatus because it makes no claim a probe could check."
     },
     {
       "n": 1,
-      "volume": "Volume I",
-      "book": "Book Zero — The Dry Dock",
-      "title": "The Siege of Amenti",
-      "blurb": "A midnight raid on the Fourth of July, the gates breached, and a captain who does not come back with his crew.",
-      "file": "book/01-the-siege.md",
-      "why": "The emerald heart comes out of this chapter — the jewel at the fulcrum of the docket scale, and the reason there is a man on a beach at all."
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Prologue",
+      "title": "The Sound of a Sawmill",
+      "blurb": "Parler-TTS in a Colab notebook producing a grinding mechanical roar instead of a voice. The dream of a speaking library, and the wall.",
+      "file": null,
+      "why": "WRITE THIS FIRST — the author's own build order: lock the tone before proceeding. Ends on the question that reframes everything: what if one machine was never meant to both think and speak? Needs the 19 June transcript."
     },
     {
       "n": 2,
-      "volume": "Volume I",
-      "book": "Book Zero — The Dry Dock",
-      "title": "The Specification",
-      "blurb": "The halls, the living library and the emerald tablets — in one head before there was anything to build with.",
-      "file": "book/02-the-specification.md",
-      "why": "The mythology is not a frame laid over the software. It is the requirements document the software was built to satisfy, and this chapter has to establish that before a single line of code appears."
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act I · Cognition",
+      "title": "The Library of the Dead",
+      "blurb": "What Amenti is and why. The roster of eleven hundred. The constraint that became a philosophy: variety is the magic, not accuracy.",
+      "file": null,
+      "why": null
     },
     {
       "n": 3,
-      "volume": "Volume I",
-      "book": "Book Zero — The Dry Dock",
-      "title": "The Three Refusals",
-      "blurb": "Amenti refuses loss. Hades refuses memory, and holds the court. Valhalla refuses return.",
-      "file": "book/03-three-refusals.md",
-      "why": "Three keys are not three powers. A key that only opens is decoration — what makes them load-bearing is what each one will not do."
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act I · Cognition",
+      "title": "A Mind in a Box",
+      "blurb": "Claude as the cognition layer, the Worker as broker. First contact: a historical figure answering in character.",
+      "file": null,
+      "why": "The first code scene — the proxy, and the system prompt that makes a figure BE the figure."
     },
     {
       "n": 4,
-      "volume": "Volume I",
-      "book": "Book Zero — The Dry Dock",
-      "title": "The Manifest of the Fleet",
-      "blurb": "Every file and its office, and the six that no manifest named.",
-      "file": "book/04-the-manifest.md",
-      "why": "Half-written already as a pane. The reading is live: the manifest reports what is aboard, and it found files nothing had ever declared."
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act I · Cognition",
+      "title": "The Paradigm Shift",
+      "blurb": "Cognition and voice are different faculties and must be sequenced like a brain, not braided.",
+      "file": null,
+      "why": "THE HINGE OF THE WHOLE WORK. A mind, a voice, one nervous system — do not braid them."
     },
     {
       "n": 5,
-      "volume": "Volume I",
-      "book": "Book Zero — The Dry Dock",
-      "title": "The Descent",
-      "blurb": "Local, deploy, live. Hundreds of times.",
-      "file": "book/05-the-descent.md",
-      "why": "The loop is the work. Most accounts of building software skip it because it is repetitive — which is precisely why it belongs in a book about what building actually costs."
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act II · Voice",
+      "title": "The First Word",
+      "blurb": "The first time a figure speaks. The discovery that nearly did not happen.",
+      "file": null,
+      "why": null
     },
     {
       "n": 6,
-      "volume": "Volume I",
-      "book": "Book Zero — The Dry Dock",
-      "title": "Built at Sea",
-      "blurb": "Thousands of probes. A ship that cannot make port, and the difference between construction and navigation.",
-      "file": "book/06-built-at-sea.md",
-      "why": "Book Zero ends where the Flying Dutchman is explained: not a metaphor for hardship, but for a vessel whose repairs all happen underway."
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act II · Voice",
+      "title": "Direction, Not Cloning",
+      "blurb": "Convincing accents from a STYLE string, without cloning. An actor that takes stage direction.",
+      "file": null,
+      "why": "The moment cloning became unnecessary."
     },
     {
       "n": 7,
-      "volume": "Volume I",
-      "book": "Book I — Amenti",
-      "title": "The Roster",
-      "blurb": "One thousand and eleven souls in a flat file, and why the list is a boundary rather than a verdict.",
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act II · Voice",
+      "title": "The Vault",
+      "blurb": "Amenti becomes a publisher, not a chat machine. Generate once, cache forever.",
       "file": null,
-      "why": "Waiting on nothing. The roster is stable and the chapter can be written as soon as Book Zero is out."
+      "why": "The economic insight planted here pays off in the cost wall three movements later."
+    },
+    {
+      "n": 8,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act II · Voice",
+      "title": "The Sawmill, Redeemed",
+      "blurb": "Why the dead end was necessary. It cleared the ground for the hosted-faculty architecture.",
+      "file": null,
+      "why": "Callback to the prologue. Owning versus brokering."
+    },
+    {
+      "n": 9,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act III · Multiplicity",
+      "title": "The Five Columns",
+      "blurb": "The voice-identity schema. Gender, Dialect, Voice, Region, Location. Designing for where you are going.",
+      "file": null,
+      "why": null
+    },
+    {
+      "n": 10,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act III · Multiplicity",
+      "title": "The Casting of Eleven Hundred",
+      "blurb": "The rejected hash engine — Shakespeare comes out female, Dante speaks Arabic — and the pivot to knowledge-based casting.",
+      "file": null,
+      "why": "A genuine failure scene. Failure scenes are kept, not hidden."
+    },
+    {
+      "n": 11,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act III · Multiplicity",
+      "title": "Two Loaders, One Soul",
+      "blurb": "Two pages, two completely different roster loaders. The migration, and the architecture wisely not unified.",
+      "file": null,
+      "why": null
+    },
+    {
+      "n": 12,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act III · Multiplicity",
+      "title": "The Wall of Money",
+      "blurb": "The 429. The free-tier quota. Bounded downside, unbounded upside.",
+      "file": null,
+      "why": null
+    },
+    {
+      "n": 13,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act III · Multiplicity",
+      "title": "Charles Martel Speaks in a Woman's Voice",
+      "blurb": "A small-stakes mystery that teaches the whole composition system. The bug, the hunt, the fix.",
+      "file": null,
+      "why": "Ends with figures finally speaking as themselves across every surface."
+    },
+    {
+      "n": 14,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act IV · Ascension",
+      "title": "The Architect Enters the Library",
+      "blurb": "Ian Ingram added to the curated roster beside Cromwell. The creator becomes one of the legends.",
+      "file": null,
+      "why": "A quiet, resonant beat."
+    },
+    {
+      "n": 15,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act IV · Ascension",
+      "title": "The Handoff",
+      "blurb": "The system documented, banked, handed off. A private build becomes a transferable thing.",
+      "file": null,
+      "why": "Ascension status reached: it thinks, it publishes, it speaks."
+    },
+    {
+      "n": 16,
+      "movement": "I",
+      "form": "prose",
+      "volume": "Movement I",
+      "book": "ASCENSION — Act IV · Ascension",
+      "title": "The Last Threshold",
+      "blurb": "The chunked-audio dilemma, and the realisation that this is how speech itself works.",
+      "file": null,
+      "why": "ENDS UNCROSSED, deliberately. The next movement opens by crossing it — a stronger join than a resolution."
+    },
+    {
+      "n": 17,
+      "movement": "II",
+      "form": "prose",
+      "volume": "Movement II",
+      "book": "THE LONG CLIMB",
+      "title": "The Chunking Dilemma",
+      "blurb": "Two days back. The threshold Ascension left uncrossed, crossed.",
+      "file": null,
+      "why": "WRITTEN — in Book_of_Amenti.html. Needs setting, not composing."
+    },
+    {
+      "n": 18,
+      "movement": "II",
+      "form": "prose",
+      "volume": "Movement II",
+      "book": "THE LONG CLIMB",
+      "title": "One Engine, Many Surfaces",
+      "blurb": "The unmaking of duplicates. Four TTS engines become one.",
+      "file": null,
+      "why": "WRITTEN."
+    },
+    {
+      "n": 19,
+      "movement": "II",
+      "form": "prose",
+      "volume": "Movement II",
+      "book": "THE LONG CLIMB",
+      "title": "The Doctrine",
+      "blurb": "The rules of the soul.",
+      "file": null,
+      "why": "WRITTEN."
+    },
+    {
+      "n": 20,
+      "movement": "II",
+      "form": "prose",
+      "volume": "Movement II",
+      "book": "THE LONG CLIMB",
+      "title": "The Guardians",
+      "blurb": "Lanterns on the wall.",
+      "file": null,
+      "why": "WRITTEN."
+    },
+    {
+      "n": 21,
+      "movement": "II",
+      "form": "prose",
+      "volume": "Movement II",
+      "book": "THE LONG CLIMB",
+      "title": "The Proxy",
+      "blurb": "The engine wakes its ears.",
+      "file": null,
+      "why": "WRITTEN."
+    },
+    {
+      "n": 22,
+      "movement": "II",
+      "form": "prose",
+      "volume": "Movement II",
+      "book": "THE LONG CLIMB",
+      "title": "The Black Heart of Page 2",
+      "blurb": "The double helix, the Axis of Truth, and a scene dying at four frames a second.",
+      "file": null,
+      "why": "WRITTEN. It describes the UNDOCUMENTED PERIOD — April and May, no briefs — and the reader can go and look: the helix is live on the Interface tab. A chapter written from memory pointing at something that is not memory. CAUTION: a link is a claim."
+    },
+    {
+      "n": 23,
+      "movement": "III",
+      "form": "field",
+      "volume": "Movement III",
+      "book": "THE SIEGE",
+      "title": "The Siege of Amenti",
+      "blurb": "A midnight raid on the Fourth of July, the gates breached, and a docket that had seeded itself.",
+      "file": null,
+      "why": "WRITTEN THAT WEEK — 6,651 words, nine books. A primary source, not a brief to be adapted, and it must not be smoothed. OPEN: how much goes in."
+    },
+    {
+      "n": 24,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Specification",
+      "blurb": "A hundred and ninety spells, each named and numbered and invoked to pass a gate. That is a function signature.",
+      "file": "book/02-the-specification.md",
+      "why": "The first chapter through the full apparatus. Its Plate reads spell-conformance.json."
+    },
+    {
+      "n": 25,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Three Refusals",
+      "blurb": "Amenti refuses loss. Hades refuses memory, and holds the court. Valhalla refuses return.",
+      "file": null,
+      "why": "A key that only opens is decoration."
+    },
+    {
+      "n": 26,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Manifest of the Fleet",
+      "blurb": "Every file and its office — and the twenty-six that no manifest named.",
+      "file": null,
+      "why": "Band two reads fleet-manifest.js."
+    },
+    {
+      "n": 27,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Keyring",
+      "blurb": "Four conventions and none of them written down. A key is not wrong until a second soul answers to it.",
+      "file": null,
+      "why": "Band two reads KEYS.json."
+    },
+    {
+      "n": 28,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Two Ghosts",
+      "blurb": "A moment mistaken for a man, and a man split into two ghosts.",
+      "file": null,
+      "why": "Band two reads PLATES.json. Authority is what makes error possible."
+    },
+    {
+      "n": 29,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Water Between",
+      "blurb": "Six registers, each perfect about its own island, and every fault living in the water between them.",
+      "file": null,
+      "why": "Band two reads CHART.json."
+    },
+    {
+      "n": 30,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Ark",
+      "blurb": "A backup that was never read back is not a backup. It is a file with a hopeful name.",
+      "file": null,
+      "why": "Band two reads ARK.json."
+    },
+    {
+      "n": 31,
+      "movement": "IV",
+      "form": "apparatus",
+      "volume": "Movement IV",
+      "book": "THE SHIP",
+      "title": "The Weighing",
+      "blurb": "The court convenes in a hall nobody sees, decides, records, and is gone.",
+      "file": null,
+      "why": "BLOCKED. The bell has rung by hand and it has been registered for the wrong day. It has not yet rung correctly and unattended."
     }
+  ],
+  "open": [
+    "Volume grouping. Four movements are a FACT; volumes are packaging, and the material is not fully inventoried. Decide after the inventory.",
+    "The store's front matter claims the same apparatus in every chapter. True of one movement. Redrafted in BOOKSTORE-FRONT-MATTER-DRAFT.md.",
+    "Three prose voices — mythic, field chronicle, and Movement I unwritten. Unify or keep distinct?",
+    "The April–May gap. No briefs before 29 June."
   ]
 }
