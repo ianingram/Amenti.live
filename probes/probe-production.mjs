@@ -102,8 +102,15 @@ const BAND = /^##\s*⟦([A-Z]+)⟧\s*(.*)$/gm;
 const FIVE = ['SPELL', 'MECHANISM', 'PRIMER', 'PLATE', 'ROADMAP'];
 
 const rows = reg.chapters.map(c => {
+  /* A PREAMBLE IS NOT A CHAPTER. It carries no number, no apparatus, and it is
+     not counted against the work — so it is reported separately rather than
+     folded into a chapter tally it was never part of. Counting two preambles
+     as chapters would make the book look two chapters further along than it
+     is, which is a small lie and therefore exactly the kind this fleet
+     refuses. */
   const r = {
-    n: c.n, movement: c.movement || null,
+    n: c.n, kind: c.kind || 'chapter', order: c.order || null,
+    movement: c.movement || null,
     title: c.title, volume: c.volume || null, book: c.book || null,
     blurb: c.blurb || null, file: c.file || null,
     why: c.why || null,
@@ -152,12 +159,18 @@ const rows = reg.chapters.map(c => {
 
 const by = s => rows.filter(r => r.state.startsWith(s)).length;
 const written = rows.filter(r => r.words);
+const pre = rows.filter(r => r.kind === 'preamble');
+const chs = rows.filter(r => r.kind !== 'preamble');
 const totals = {
-  chapters: rows.length,
-  written: written.length,
-  planned: by('PLANNED'),
+  preambles: pre.length,
+  preamblesWritten: pre.filter(r => r.words).length,
+  preambleWords: pre.reduce((n, r) => n + (r.words || 0), 0),
+  chapters: chs.length,
+  written: chs.filter(r => r.words).length,
+  planned: chs.filter(r => r.state === 'PLANNED').length,
   declaredNotWritten: by('DECLARED'),
   words: written.reduce((n, r) => n + r.words, 0),
+  chapterWords: chs.reduce((n, r) => n + (r.words || 0), 0),
   prose: written.filter(r => r.form === 'prose').length,
   apparatus: written.filter(r => r.form === 'apparatus').length,
 };
@@ -168,7 +181,7 @@ const totals = {
    reads as 0 of 6 here, which is TRUE OF THIS REPOSITORY and not true of the
    work. The note on each movement says so. */
 for (const m of MOVEMENTS) {
-  const mine = rows.filter(r => r.movement === m.id);
+  const mine = chs.filter(r => r.movement === m.id);
   m.chapters = mine.length;
   m.writtenHere = mine.filter(r => r.words).length;
   m.words = mine.reduce((n, r) => n + (r.words || 0), 0);
