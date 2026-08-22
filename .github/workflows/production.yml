@@ -1,0 +1,174 @@
+# ============================================================================
+#  .github/workflows/production.yml  ·  THE BOOK, MEASURED
+# ----------------------------------------------------------------------------
+#  Runs probes/probe-production.mjs and commits PRODUCTION.json: every chapter,
+#  its state, its size, the bands it carries, and the day it landed.
+#
+#  ── WHY ITS OWN WORKFLOW ──────────────────────────────────────────────────
+#  The obvious place was the plate register, which already runs plates.js,
+#  keyring.js and chart.js in one job. It would have worked and it would have
+#  been WRONG: that job fires on img/, names.csv and library/ — the art and the
+#  roster. It does not fire when a chapter lands.
+#
+#  A production reading that updates when the ART changes and not when the BOOK
+#  changes is a reading about the wrong thing wearing the right name.
+#
+#  So this watches what it measures: book/ and BOOK.json.
+#
+#  ── AND IT FIRES ON THE REGISTER, NOT JUST THE PROSE ──────────────────────
+#  BOOK.json is the register of the whole work — four movements, every chapter,
+#  its form and its source. A chapter can change state WITHOUT ITS FILE
+#  CHANGING: a planned chapter becomes declared, a declared chapter gets a file
+#  path, a movement's state moves from planned to written. All of that happens
+#  in the register, and the reading has to follow it.
+#
+#  ── NOTHING HERE FAILS THE RUN ────────────────────────────────────────────
+#  An unwritten chapter is not a fault. It is a chapter that has not been
+#  written, and a red light every day until it is would teach its reader to
+#  stop looking — which is how a live finding gets lost among the settled ones.
+#
+#  The store's law holds here too: NO CHAPTER PUBLISHES BEFORE THE THING IT
+#  DESCRIBES. Chapter 31 waits on the bell ringing correctly and unattended.
+#  It is CORRECTLY WAITING, not overdue, and this job will never say otherwise.
+# ============================================================================
+name: the production
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'book/**'
+      - 'BOOK.json'
+      - 'probes/probe-production.mjs'
+
+permissions:
+  contents: write
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 0 — the probe reads git for the day each chapter FIRST
+      # landed, and that date is the whole point of the timeline. A shallow
+      # checkout has no history, so every chapter would come out undated and
+      # the timeline would be empty while looking fine.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Measure the book
+        run: node probes/probe-production.mjs . > PRODUCTION.json
+
+      - name: Report
+        run: |
+          if [ ! -s PRODUCTION.json ]; then
+            echo "::error::the probe produced nothing. Not a clean run — no run at all."
+            exit 1
+          fi
+          node -e '
+            const j = JSON.parse(require("fs").readFileSync("PRODUCTION.json","utf8"));
+            const t = j.totals;
+            console.log("");
+            console.log("  " + (j.title || "the book"));
+            console.log("  " + (j.through || ""));
+            console.log("");
+            console.log("  preambles  " + t.preamblesWritten + " / " + t.preambles +
+                        "   " + t.preambleWords.toLocaleString() + " words");
+            console.log("  chapters   " + t.written + " / " + t.chapters +
+                        "   " + t.chapterWords.toLocaleString() + " words");
+            console.log("");
+            for (const m of (j.movements || [])) {
+              console.log("  " + m.id.padEnd(4) + m.name.padEnd(18) +
+                          (m.writtenHere + "/" + m.chapters).padEnd(8) +
+                          String(m.words).padStart(6) + "w   " + m.state);
+            }
+            console.log("");
+            console.log("  TIMELINE");
+            for (const e of (j.timeline || [])) {
+              console.log("    " + e.on + "  " +
+                (e.kind === "preamble" ? "preamble" : "ch " + e.n).padEnd(10) +
+                String(e.words).padStart(6) + "w  " + e.title);
+            }
+
+            /* DECLARED AND ABSENT is worth naming. A chapter that claims a file
+               it does not have will show THE UNWRITTEN PAGE in the reader —
+               correct behaviour — but it is a different state from one that
+               never claimed a file, and the difference is usually a typo in a
+               path. */
+            const ghosts = (j.chapters || []).filter(c => c.state && c.state.indexOf("DECLARED") > -1);
+            if (ghosts.length) {
+              console.log("");
+              for (const g of ghosts) {
+                console.log("::warning::declares a file it does not have — " + g.file + "  (" + g.title + ")");
+              }
+            }
+
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              "## The Production\n\n" +
+              "_" + (j.through || "") + "_\n\n" +
+              "| | |\n|---|---|\n" +
+              "| preambles | " + t.preamblesWritten + " / " + t.preambles +
+                " · " + t.preambleWords.toLocaleString() + " words |\n" +
+              "| chapters | " + t.written + " / " + t.chapters +
+                " · " + t.chapterWords.toLocaleString() + " words |\n\n" +
+              "### The movements\n\n| | | | |\n|---|---|---|---|\n" +
+              (j.movements || []).map(m =>
+                "| " + m.id + " | " + m.name + " | " + m.writtenHere + " / " + m.chapters +
+                " in `book/` | " + m.state + " |").join("\n") + "\n\n" +
+              "### Landed\n\n" +
+              ((j.timeline || []).length
+                ? (j.timeline).map(e => "- **" + e.on + "** — " + e.title +
+                    " · " + e.words.toLocaleString() + " words").join("\n")
+                : "_Nothing has landed yet. A timeline is a record, and there is nothing to record._"));
+          '
+
+      - name: Commit the reading
+        run: |
+          git config user.name  "the-production"
+          git config user.email "production@amenti.live"
+          git add -f PRODUCTION.json
+          if git diff --staged --quiet -- PRODUCTION.json; then
+            echo "the reading is unchanged"
+            exit 0
+          fi
+          git commit -m "production: the book measured [skip ci]"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            git rebase --abort 2>/dev/null || true
+            if git pull --rebase origin "${GITHUB_REF_NAME}" \
+               && git push origin "HEAD:${GITHUB_REF_NAME}"; then pushed=1; break; fi
+            echo "push attempt $i did not land; retrying from a clean tree"
+            sleep 5
+          done
+          git rebase --abort 2>/dev/null || true
+          [ "$pushed" = "1" ] || { echo "::error::the reading could not be pushed"; exit 1; }
+          echo "committed"
+
+      # ── AND THROUGH THE GATE ──────────────────────────────────────────────
+      # The scan carries PRODUCTION.json to Fleet-Documents on its own six-hour
+      # rhythm. This pushes it immediately, because a chapter landing is the one
+      # moment somebody actually wants to look at the pane — and waiting up to
+      # six hours to see it would make the pane feel like a document.
+      - name: Publish through the Glass Gate
+        if: env.FLEET_TOKEN != ''
+        env:
+          FLEET_TOKEN: ${{ secrets.FLEET_TOKEN }}
+        run: |
+          git clone --depth 1 \
+            "https://x-access-token:${FLEET_TOKEN}@github.com/ianingram/Fleet-Documents.git" mirror
+          cp PRODUCTION.json mirror/PRODUCTION.json
+          cd mirror
+          git config user.name  "glass-gate"
+          git config user.email "gate@amenti.live"
+          git add -f PRODUCTION.json
+          if git diff --cached --quiet -- PRODUCTION.json; then
+            echo "the reflection is unchanged"
+          else
+            git commit -m "gate: reflect the production"
+            git push
+            echo "reflected the production through the gate"
+          fi
