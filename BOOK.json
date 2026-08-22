@@ -284,70 +284,10 @@
       "form": "prose",
       "volume": "Movement II",
       "book": "THE LONG CLIMB",
-      "title": "The Chunking Dilemma",
-      "blurb": "Two days back. The threshold Ascension left uncrossed, crossed.",
-      "file": null,
-      "why": "WRITTEN — in Book_of_Amenti.html. Needs setting, not composing.",
-      "kind": "chapter"
-    },
-    {
-      "n": 18,
-      "movement": "II",
-      "form": "prose",
-      "volume": "Movement II",
-      "book": "THE LONG CLIMB",
-      "title": "One Engine, Many Surfaces",
-      "blurb": "The unmaking of duplicates. Four TTS engines become one.",
-      "file": null,
-      "why": "WRITTEN.",
-      "kind": "chapter"
-    },
-    {
-      "n": 19,
-      "movement": "II",
-      "form": "prose",
-      "volume": "Movement II",
-      "book": "THE LONG CLIMB",
-      "title": "The Doctrine",
-      "blurb": "The rules of the soul.",
-      "file": null,
-      "why": "WRITTEN.",
-      "kind": "chapter"
-    },
-    {
-      "n": 20,
-      "movement": "II",
-      "form": "prose",
-      "volume": "Movement II",
-      "book": "THE LONG CLIMB",
-      "title": "The Guardians",
-      "blurb": "Lanterns on the wall.",
-      "file": null,
-      "why": "WRITTEN.",
-      "kind": "chapter"
-    },
-    {
-      "n": 21,
-      "movement": "II",
-      "form": "prose",
-      "volume": "Movement II",
-      "book": "THE LONG CLIMB",
-      "title": "The Proxy",
-      "blurb": "The engine wakes its ears.",
-      "file": null,
-      "why": "WRITTEN.",
-      "kind": "chapter"
-    },
-    {
-      "n": 22,
-      "movement": "II",
-      "form": "prose",
-      "volume": "Movement II",
-      "book": "THE LONG CLIMB",
-      "title": "The Black Heart of Page 2",
-      "blurb": "The double helix, the Axis of Truth, and a scene dying at four frames a second.",
-      "file": null,
-      "why": "WRITTEN. It describes the UNDOCUMENTED PERIOD — April and May, no briefs — and the reader can go and look: the helix is live on the Interface tab. A chapter written from memory pointing at something that is not memory. CAUTION: a link is a claim.",
+      "title": "The Long Climb",
+      "blurb": "How a voice that stuttered became a voice that sings — and the descent into the black heart of Page 2, where the soul of the library was drawn as a turning helix and had begun to die.",
+      "file": "book/17-the-long-climb.md",
+      "why": "WRITTEN AND TYPESET before the Siege. All six parts entire: the chunking dilemma, one engine many surfaces, the doctrine, the guardians, the proxy, and the black heart. Kept as ONE chapter rather than six — at roughly four hundred words each they would give a reader six pages that end almost as they begin, and the three laws at the close are the payoff for all six. It ends in a handover written for whoever came next; that turned out to be the same person, seven weeks later.",
       "kind": "chapter"
     },
     {
@@ -465,5 +405,7 @@
     "Three prose voices — mythic, field chronicle, and Movement I unwritten. Unify or keep distinct?",
     "The April–May gap. No briefs before 29 June."
   ],
-  "_preamble": "A PREAMBLE IS NOT A CHAPTER. It carries no number and no apparatus, and it is not counted against the work. Two of them stand at the front, and they do different jobs: THE DESCENT is what happened — a man alone at a door under a river. THE BEACH is somebody telling you about it. The event comes first and the frame second, so the beach lands as a reveal rather than an introduction, and the instruction it ends on — WRITE IT — arrives with evidence already behind it."
+  "_preamble": "A PREAMBLE IS NOT A CHAPTER. It carries no number and no apparatus, and it is not counted against the work. Two of them stand at the front, and they do different jobs: THE DESCENT is what happened — a man alone at a door under a river. THE BEACH is somebody telling you about it. The event comes first and the frame second, so the beach lands as a reveal rather than an introduction, and the instruction it ends on — WRITE IT — arrives with evidence already behind it.",
+  "_folded": "Chapters 18–22 were the remaining parts of THE LONG CLIMB and are folded into chapter 17, which carries all six. They are recorded here so the fold is visible rather than looking like five chapters that quietly went missing: One Engine, Many Surfaces · The Doctrine · The Guardians · The Proxy · The Black Heart of Page 2",
+  "_numbering": "Chapter numbers have GAPS where chapters were folded or dropped. The gaps are left in place deliberately: renumbering would silently change what a number refers to, and somebody may have linked to one."
 }
