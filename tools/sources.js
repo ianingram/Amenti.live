@@ -71,6 +71,12 @@ const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
 const RAW   = 'https://raw.githubusercontent.com/';
 
 function die(m) { console.error('REFUSES: ' + m); process.exit(2); }
+
+/* A path may be written encoded in the semantics and plain by the walk.
+   `The%20Siege.html` and `The Siege.html` are ONE file. Compared raw, the
+   walk reports a phantom appearing and the index reports nothing gone —
+   both true of the strings, both false of the repository. Compare decoded. */
+function norm(p) { try { return decodeURIComponent(p); } catch (e) { return p; } }
 const say = m => console.log(m);
 
 /* ── ONE TIME: split the hand-made index into its authored half ──────────── */
@@ -109,7 +115,10 @@ if (!fs.existsSync(SEMANTICS))
     + '         existing hand-made SOURCES.json, then read what it produced.');
 
 const sem = JSON.parse(fs.readFileSync(SEMANTICS, 'utf8'));
-const meaning = sem.meaning || {};
+const authored = sem.meaning || {};
+/* keyed by decoded path; the value keeps whatever path was authored */
+const meaning = {};
+for (const [k, v] of Object.entries(authored)) meaning[norm(k)] = { ...v, _authoredAs: k };
 const pre = sem.preamble || {};
 
 /* ── ENUMERATE. The API is used to LIST and for nothing else. ────────────── */
@@ -167,14 +176,14 @@ async function pool(items, n, fn) {
     say('walked        nothing — SOURCES.semantics.json declares no `walk` entries');
 
   /* every path we know of, from either side */
-  const all = [...new Set([...Object.keys(meaning), ...walked])].sort();
+  const all = [...new Set([...Object.keys(meaning), ...[...walked].map(norm)])].sort();
   say(`verifying     ${all.length} paths by raw HTTP status …`);
 
-  const codes = await pool(all, 12, statusOf);
+  const codes = await pool(all, 12, p => statusOf((meaning[p] && meaning[p]._authoredAs) || p));
   const status = Object.fromEntries(all.map((p, i) => [p, codes[i]]));
 
   const gone     = all.filter(p => meaning[p] && status[p] !== 200);
-  const appeared = [...walked].filter(p => !meaning[p]).sort();
+  const appeared = [...walked].map(norm).filter(p => !meaning[p]).sort();
   const live     = all.filter(p => status[p] === 200);
 
   say('');
@@ -198,7 +207,7 @@ async function pool(items, n, fn) {
     const m = meaning[p];
     const g = m ? m.section : (sem.walk.find(w => p.startsWith(w.repo + '/' + w.branch + '/')) || {}).group || 'unindexed';
     (groups[g] ||= []).push({
-      ...(m ? (({ section, ...r }) => r)(m) : { id: path.basename(p).replace(/\.[^.]+$/, '').toLowerCase() }),
+      ...(m ? (({ section, _authoredAs, ...r }) => r)(m) : { id: path.basename(p).replace(/\.[^.]+$/, '').toLowerCase() }),
       path: p,
       ...(status[p] === 200 ? {} : { unreachable: status[p] }),
       ...(m ? {} : { authority: 'UNDESCRIBED — walked, not yet authored' }),
