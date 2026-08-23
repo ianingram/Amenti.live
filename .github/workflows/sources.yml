@@ -1,0 +1,61 @@
+# THE SOURCE INDEX
+#
+# Walks the repositories, verifies every path by raw HTTP status, merges the
+# authored semantics from SOURCES.semantics.json, writes SOURCES.json.
+#
+# GITHUB_TOKEN is supplied by Actions. It is needed because the unauthenticated
+# API returns an error object rather than a listing, and tools/sources.js
+# REFUSES rather than writing a register from one.
+#
+# To reach repositories other than this one, GITHUB_TOKEN is not enough —
+# it is scoped to this repo. Add a PAT with `repo` read as SOURCES_TOKEN and
+# it will be used instead.
+
+name: the source index
+
+on:
+  schedule:
+    # :22 — the strands hold :07 :17 :27 :37 :47, the third tier holds :52.
+    - cron: '22 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: source-index
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: walk, verify, write
+        env:
+          GITHUB_TOKEN: ${{ secrets.SOURCES_TOKEN || secrets.GITHUB_TOKEN }}
+        run: node tools/sources.js .
+
+      - name: commit if changed
+        run: |
+          if [ -z "$(git status --porcelain SOURCES.json)" ]; then
+            echo "no drift — nothing to commit"
+            exit 0
+          fi
+          git config user.name  "the source index"
+          git config user.email "actions@users.noreply.github.com"
+          git add SOURCES.json
+          git commit -m "the source index: walked $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: report
+        if: always()
+        run: |
+          if [ -f SOURCES.json ]; then
+            node -e "const d=require('./SOURCES.json');console.log(JSON.stringify(d.counts));console.log(JSON.stringify(d.drift,null,1))"
+          fi
