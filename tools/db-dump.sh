@@ -61,18 +61,47 @@ say "── the third tier ─────────────────�
        Supabase dashboard → Project Settings → Database → Connection string.
        Use the session-pooler or direct URI. Export it, do not paste it in chat."
 
+# Do not trust PATH to hand over the right binary.
+#
+# Read on 23 Aug, from the .deb and from pg_wrapper's source:
+#   · postgresql-client-N installs pg_dump ONLY to /usr/lib/postgresql/N/bin
+#   · /usr/bin/pg_dump is a symlink to pg_wrapper, which picks the newest
+#     installed version when none is given
+#   · and yet `pg_dump --version` on a GitHub runner with 16 and 17 both
+#     installed reported 16 — so something ahead of /usr/bin answered first.
+#
+# The cause of that precedence was never established. This resolves the
+# binary by looking on disk instead, which does not depend on knowing it.
+resolve_pg_dump() {
+  local newest="" v
+  for d in /usr/lib/postgresql/*/bin /opt/homebrew/opt/libpq/bin \
+           /usr/local/opt/libpq/bin /Library/PostgreSQL/*/bin; do
+    [ -x "$d/pg_dump" ] || continue
+    v=$("$d/pg_dump" --version 2>/dev/null | grep -oE '[0-9]+' | head -1)
+    [ -n "$v" ] || continue
+    if [ -z "$newest" ] || [ "$v" -gt "$newest" ]; then
+      newest="$v"; PGDUMP="$d/pg_dump"
+    fi
+  done
+  # Only fall back to PATH if nothing was found on disk.
+  [ -n "${PGDUMP:-}" ] || PGDUMP=$(command -v pg_dump 2>/dev/null)
+}
+
 TOOL=""
+PGDUMP=""
 if command -v supabase >/dev/null 2>&1; then
   TOOL="supabase"
-elif command -v pg_dump >/dev/null 2>&1; then
-  TOOL="pg_dump"
 else
-  fail "neither the supabase CLI nor pg_dump is on PATH.
+  resolve_pg_dump
+  [ -n "$PGDUMP" ] || fail "neither the supabase CLI nor any pg_dump was found.
        supabase CLI:  https://supabase.com/docs/guides/local-development
-       or pg_dump:    brew install libpq  /  apt install postgresql-client
-       The supabase CLI is preferred — it matches the server's Postgres version."
+       or pg_dump:    apt install postgresql-client-17  /  brew install libpq
+       Looked in /usr/lib/postgresql/*/bin and on PATH."
+  TOOL="pg_dump"
+  say "tool          $PGDUMP"
+  say "              $("$PGDUMP" --version)"
 fi
-say "tool          $TOOL"
+[ "$TOOL" = "supabase" ] && say "tool          supabase CLI"
 say "schemas       $SCHEMAS"
 
 # ── 2. the dump ────────────────────────────────────────────────
@@ -85,7 +114,7 @@ else
   SCHEMA_ARGS=""
   for s in $SCHEMAS; do SCHEMA_ARGS="$SCHEMA_ARGS --schema=$s"; done
   # shellcheck disable=SC2086
-  pg_dump "$SUPABASE_DB_URL" \
+  "$PGDUMP" "$SUPABASE_DB_URL" \
     --schema-only --no-owner --no-privileges --no-comments \
     $SCHEMA_ARGS > "$TMP_SQL" 2> >(sed 's/^/              /' >&2)
   RC=$?
@@ -94,7 +123,8 @@ fi
 if [ "$RC" -ne 0 ]; then
   mark_failed "dump exited $RC"
   fail "the dump failed (exit $RC). Nothing was written.
-       If pg_dump reports a server version mismatch, use the supabase CLI instead."
+       A server version mismatch means the newest pg_dump on this machine is
+       older than the server. Install postgresql-client matching the server."
 fi
 
 if [ ! -s "$TMP_SQL" ]; then mark_failed "dump was empty"; fi
@@ -175,7 +205,7 @@ cat > "$OUT_JSON" <<JSON
 {
   "_": "The third tier, read. Written by tools/db-dump.sh. A register is a reading, not a memory — regenerate it, never edit it.",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "tool": "$TOOL",
+  "tool": "${PGDUMP:-$TOOL}",
   "schemas_requested": "$SCHEMAS",
   "schemas_found": "$FOUND_SCHEMAS",
   "dump": {
