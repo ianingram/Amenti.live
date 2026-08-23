@@ -513,6 +513,85 @@
       "id": "gameroom-names",
       "what": "name.csv — SINGULAR, in a repo with a chess game. Either a second roster or a stray. Unexamined.",
       "authority": "unknown"
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-THE-ARK.html": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "architecture",
+      "id": "brief-the-ark",
+      "what": "THE ARK, 19 Aug 2026. Six repositories with full history bundled off-provider to R2, and the case for why a zip is not a backup — a zip keeps the working tree and discards the history that is the whole safety net. Cites the Harbor index.html replaced by a hello-world commit on 17 Aug, unnoticed for twelve hours, recovered from git.",
+      "authority": "canonical"
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-THE-SALVAGE.html": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "architecture",
+      "id": "brief-the-salvage",
+      "what": "THE SALVAGE, 22 Aug 2026. Recovering a mid-July session from a browser tab too long to open — 764 turns, 41,351 words, pulled by a scrolling scraper. Explains why select-all silently loses the middle of a virtualised thread: a copy that looks complete and is not.",
+      "authority": "canonical"
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-THE-WATER-BETWEEN.html": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "architecture",
+      "id": "brief-the-water-between",
+      "what": "THE WATER BETWEEN, 17-20 Aug 2026. A shop-floor account of one long session, and the finding that names it: every fault found lived between two registers, not one inside a register. Lays the gw-winter ghost, builds four instruments, and bundles six repos off-provider.",
+      "authority": "shop-floor account. Correct about the days it describes; makes no claim about today. Its counts are of its own week."
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-THE-INSTRUMENT-IS-NOT-EXEMPT.html": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "doctrine",
+      "id": "brief-the-instrument-is-not-exempt",
+      "what": "THE INSTRUMENT IS NOT EXEMPT, 19-20 Aug 2026. Begins where The Water Between stops. Almost every fault was in the thing doing the looking: the probe built to watch the voice pane lied four times before it was allowed to speak. A probe that reports on a file it did not verify is the Silent Signature wearing a probe's coat.",
+      "authority": "shop-floor account. Correct about the days it describes; makes no claim about today."
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-THE-UNVERSIONED-STORE.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "architecture",
+      "id": "brief-the-unversioned-store",
+      "what": "THE UNVERSIONED STORE, 23 Aug 2026. The application is three tiers — Cloudflare runs it, GitHub defines it, Supabase remembers it — and the third was under no version control and in no ark bundle. Closed the same night: 25 tables, 16 functions, RLS on 25 of 25, now dumped to db/schema.sql every six hours.",
+      "authority": "canonical. Sections 1-9 were written before any probe looked; section 10 is the reading and wins where they disagree."
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-WHERE-POSE-LIVES.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "image",
+      "id": "brief-where-pose-lives",
+      "what": "WHERE POSE LIVES, 26 July 2026. Recovered 22 Aug as the thirteenth, on no list. A pose had no home: rig_views holds the products of a pose and no definition, scenes has no pose column, the worker hardcodes 'standing', and the joint rotations lived in a container that wipes.",
+      "authority": "METHOD RETIRED — figures are now generated from an outside source via prompts. Sections 2-8 are a record of a method, not an order list. Section 1's register gap and the live worker lookup remain open."
+    },
+    "Amenti-Technical-Briefs/main/README.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "business",
+      "id": "briefs-readme",
+      "what": "The repository's own README. Three lines: the two domains and the copyright.",
+      "authority": "canonical"
+    },
+    "Amenti.live/main/book/preamble-01-the-descent.md": {
+      "section": "the book itself",
+      "id": "prologue-descent",
+      "what": "The Descent. Preamble I. Fifty miles above the Catskills, a man fires himself into the Hudson to find a door — and the door takes him.",
+      "authority": "canonical. BOOK.json is the register; this is the chapter text."
+    },
+    "Amenti.live/main/book/preamble-02-the-beach.md": {
+      "section": "the book itself",
+      "id": "prologue",
+      "what": "The Beach. Preamble II. A man comes out of the sea holding the only object that can release a thousand souls, and what he wants is a cheeseburger. THE PROLOGUE MOVED HERE from book/00-the-beach.md; the old path 404s and the index pointed at it until 23 Aug.",
+      "authority": "canonical. BOOK.json is the register; this is the chapter text."
+    },
+    "Amenti.live/main/book/17-the-long-climb.md": {
+      "section": "the book itself",
+      "id": "ch-long-climb",
+      "what": "The Long Climb. Movement II. How a voice that stuttered became a voice that sings — and the descent into Page 2, where the soul of the library was drawn as a turning helix and had begun to die.",
+      "authority": "canonical. BOOK.json is the register; this is the chapter text."
+    },
+    "Amenti.live/main/book/23-the-siege.md": {
+      "section": "the book itself",
+      "id": "ch-siege",
+      "what": "The Siege of Amenti. Movement III. A midnight raid on the Fourth of July, the gates breached, and a docket that had seeded itself.",
+      "authority": "canonical. BOOK.json is the register; this is the chapter text."
+    },
+    "Amenti.live/main/book/02-the-specification.md": {
+      "section": "the book itself",
+      "id": "ch-specification",
+      "what": "The Specification. Movement IV. A hundred and ninety spells, each named and numbered and invoked to pass a gate. That is a function signature.",
+      "authority": "canonical. BOOK.json is the register; this is the chapter text."
     }
   },
   "owner": "ianingram",
