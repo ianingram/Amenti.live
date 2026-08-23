@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict MUFaRHoQz8W8DOpeCJdCfqya1ceVLiQbRsdZWUUK6vNUearPKbMbl3p4xWv9QYq
+\restrict 3FpA3EmCRDdGZllPSRSxeBmUUloghTVPgoV1jH80D2cmrccGYGsZu1AAndI3fG1
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.11 (Ubuntu 17.11-1.pgdg24.04+2)
@@ -1960,5 +1960,5 @@ CREATE POLICY verdicts_public_read ON public.verdicts FOR SELECT USING (true);
 -- PostgreSQL database dump complete
 --
 
-\unrestrict MUFaRHoQz8W8DOpeCJdCfqya1ceVLiQbRsdZWUUK6vNUearPKbMbl3p4xWv9QYq
+\unrestrict 3FpA3EmCRDdGZllPSRSxeBmUUloghTVPgoV1jH80D2cmrccGYGsZu1AAndI3fG1
 
