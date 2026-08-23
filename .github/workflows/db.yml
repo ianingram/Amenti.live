@@ -1,0 +1,80 @@
+# THE THIRD TIER
+#
+# Dumps the Supabase schema to plain text, reads it, and commits both.
+# Schema only — no rows ever leave the provider.
+#
+# WHY THIS IS A WORKFLOW AND NOT A SCRIPT ON A MACHINE
+# A dump taken by hand is a memory: it is as current as the day somebody
+# remembered to run it. This is the same argument as mirror.yml, which exists
+# because a Worker's only copy was with its provider.
+#
+# SETUP — once
+#   Repo → Settings → Secrets and variables → Actions → New repository secret
+#   Name:  SUPABASE_DB_URL
+#   Value: Supabase dashboard → Settings → Database → Connection string (URI)
+#          Use a READ-ONLY role if one exists. A connection string can write.
+#
+# WRITES
+#   db/schema.sql   the schema as CREATE statements
+#   db/SCHEMA.json  the register — counts, drift, scan state
+
+name: the third tier
+
+on:
+  schedule:
+    # :52 — the five strands hold :07 :17 :27 :37 :47. Two must never
+    # occupy one rung.
+    - cron: '52 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: third-tier
+  cancel-in-progress: false
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install postgresql-client 17
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+            https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] \
+            https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+            | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-17
+          pg_dump --version
+
+      - name: dump and read
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: bash tools/db-dump.sh
+
+      - name: commit if changed
+        run: |
+          if [ -z "$(git status --porcelain db/)" ]; then
+            echo "no drift — nothing to commit"
+            exit 0
+          fi
+          git config user.name  "the third tier"
+          git config user.email "actions@users.noreply.github.com"
+          git add db/
+          git commit -m "the third tier: schema reading $(date -u +%Y-%m-%d)"
+          git push
+
+      # A flagged dump exits 2 and quarantines the file. The step above will
+      # not have run, and this run is red on purpose.
+      - name: report
+        if: always()
+        run: |
+          if [ -f db/SCHEMA.json ]; then cat db/SCHEMA.json; fi
+          if [ -f db/schema.sql.REVIEW ]; then
+            echo "::error::the secret scan flagged the dump. It was quarantined, not committed."
+          fi
