@@ -50,15 +50,12 @@ jobs:
             | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
           sudo apt-get update -qq
           sudo apt-get install -y -qq -t "$(lsb_release -cs)-pgdg" postgresql-client-17
-          pg_dump --version
-          # Ubuntu's own archive also ships a postgresql-client and answered
-          # first on the run of 23 Aug, giving 16.15 against a 17.6 server.
-          # pg_dump refuses to dump a server newer than itself. Fail loudly
-          # here rather than in the dump step.
-          pg_dump --version | grep -q ' 17\.' || {
-            echo "::error::got $(pg_dump --version), needed 17.x"
-            exit 1
-          }
+          # Verify the binary on disk, not whatever PATH resolves to. On the
+          # run of 23 Aug `pg_dump --version` reported 16 while 17 was
+          # installed — the runner ships its own Postgres and something ahead
+          # of /usr/bin answered first. tools/db-dump.sh resolves the newest
+          # /usr/lib/postgresql/*/bin/pg_dump itself for the same reason.
+          /usr/lib/postgresql/17/bin/pg_dump --version
 
       - name: dump and read
         env:
