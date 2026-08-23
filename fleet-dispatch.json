@@ -1,5 +1,5 @@
 {
-  "at": "2026-08-22T18:28:04.754Z",
+  "at": "2026-08-23T00:30:16.478Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
     "count": 103,
@@ -9,8 +9,8 @@
       "week:": 6
     }
   },
-  "today": "2026-08-22",
-  "thisWeek": "2026-08-16",
+  "today": "2026-08-23",
+  "thisWeek": "2026-08-23",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
     "ATLANTICA": {
@@ -22,8 +22,9 @@
         "date": "2026-08-06",
         "figure": "shaka"
       },
-      "lastAgeDays": 16,
+      "lastAgeDays": 17,
       "missedLast14": [
+        "2026-08-22",
         "2026-08-21",
         "2026-08-20",
         "2026-08-19",
@@ -36,8 +37,7 @@
         "2026-08-12",
         "2026-08-11",
         "2026-08-10",
-        "2026-08-09",
-        "2026-08-08"
+        "2026-08-09"
       ],
       "recent": [
         {
@@ -125,7 +125,7 @@
         "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
       },
       "fired": 0,
-      "thisWeek": "2026-08-16",
+      "thisWeek": "2026-08-23",
       "assembled": false,
       "delivered": false,
       "schedule": {
@@ -136,14 +136,14 @@
       "lastDelivery": null,
       "recent": [],
       "missedLast8": [
+        "2026-08-16",
         "2026-08-09",
         "2026-08-02",
         "2026-07-26",
         "2026-07-19",
         "2026-07-12",
         "2026-07-05",
-        "2026-06-28",
-        "2026-06-21"
+        "2026-06-28"
       ],
       "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 2 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
@@ -154,7 +154,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -78,
+      "lastAgeDays": -77,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
