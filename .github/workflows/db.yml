@@ -64,7 +64,10 @@ jobs:
 
       - name: commit if changed
         run: |
-          if [ -z "$(git status --porcelain db/)" ]; then
+          # Check schema.sql alone. SCHEMA.json carries a `generated`
+          # timestamp that moves every run, so `git status db/` is never
+          # empty and would commit forever regardless of drift.
+          if [ -z "$(git status --porcelain db/schema.sql)" ]; then
             echo "no drift — nothing to commit"
             exit 0
           fi
