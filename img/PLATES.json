@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-18T20:25:48.708Z",
+  "generated": "2026-08-24T21:22:31.536Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -37,7 +37,7 @@
     "note": "a scene is a moment a figure was in. the figure need not be in the frame — ownership is editorial, not photographic. absence is never a gap. the owner is checkable; the tag is not."
   },
   "totals": {
-    "files": 168,
+    "files": 169,
     "plates": 160,
     "keys": 51,
     "rooms": 52,
@@ -94,6 +94,7 @@
     "scenesMalformed": [],
     "notPlates": [
       "0_2-22.png",
+      "0_2.png",
       "book-vol1-cover.jpg",
       "counsel-bg-a.webp",
       "counsel-bg-b.jpg",
