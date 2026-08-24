@@ -30,31 +30,69 @@
   :root { color-scheme: dark light; }
   body {
     margin: 0; min-height: 100vh;
-    background: #0d0f14; color: #e8e4d8;
+    color: #e8e4d8;
     font: 16px/1.6 Georgia, 'Times New Roman', serif;
     display: flex; flex-direction: column; align-items: center;
+    position: relative;
   }
-  header { text-align: center; padding: 3.5rem 1rem 0.5rem; }
+  /* THE PYRAMID AND THE PLANET — drawn, not fetched.
+     Lifted from Brief XII (Amenti_Separation_of_Power.html), where the hero is
+     pure CSS: a gold-lit planet (stacked radial gradients) with the near-black
+     CSS-triangle pyramid in front of it. No image file — it renders on first
+     paint, in a preview, and inside an iframe on any wall, with nothing to
+     404. The house visual, reusable the way this project trusts: as code. */
+  #hero-bg { position: fixed; inset: 0; z-index: 0; background: #06060e; overflow: hidden; }
+  #hero-bg .planet {
+    position: absolute; left: 50%; bottom: 20%; transform: translateX(-50%);
+    width: min(74vw,760px); height: min(74vw,760px); border-radius: 50%;
+    background:
+      radial-gradient(circle at 38% 34%, rgba(217,169,58,.30), rgba(217,169,58,.10) 40%, transparent 62%),
+      radial-gradient(circle at 62% 66%, #2a3342, #141c28 70%);
+    box-shadow: 0 0 120px 24px rgba(217,169,58,.14), inset -40px -30px 90px rgba(0,0,0,.6);
+  }
+  #hero-bg .pyramid {
+    position: absolute; left: 50%; bottom: 20%; transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: min(42vw,440px) solid transparent;
+    border-right: min(42vw,440px) solid transparent;
+    border-bottom: min(40vw,420px) solid #060b12;
+    filter: drop-shadow(0 -2px 30px rgba(0,0,0,.7));
+  }
+  #hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 55%,
+      transparent 0%, rgba(6,6,14,.35) 60%, rgba(6,6,14,.65) 100%);
+  }
+  header { text-align: center; padding: 4.5rem 1rem 0.5rem; text-shadow: 0 2px 24px rgba(0,0,0,.7); }
   header h1 { font-size: 1.9rem; font-weight: normal; letter-spacing: .12em; margin: 0; }
   header p  { opacity: .6; font-size: .95rem; margin: .4rem 0 0; font-style: italic; }
   main { width: 100%; }
   footer { margin-top: auto; padding: 2rem 1rem; opacity: .45; font-size: .8rem; text-align: center; }
+  footer .aa-links { display: flex; flex-direction: column; align-items: center; gap: .55rem; }
+  footer .aa-llc { margin-top: 1rem; }
   footer a { color: inherit; }
   /* the box styles itself; #roster is absent here by design — it mounts at top of main */
   #ask-amenti { margin-top: 1rem; }
+  header, main, footer { position: relative; z-index: 1; }
+
 </style>
 </head>
 <body>
 
+<div id="hero-bg" aria-hidden="true"><div class="planet"></div><div class="pyramid"></div></div>
+
 <header>
   <h1>ASK&nbsp;AMENTI</h1>
-  <p>the hall is a doorway; the souls are the destination</p>
 </header>
 
 <main id="hall-main"></main>
 
 <footer>
-  <a href="Page1.html">enter the library</a> &nbsp;·&nbsp; Ingram Manor LLC
+  <div class="aa-links">
+    <a href="Page1.html">enter the Living Library</a>
+    <a href="Amenti_Separation_of_Power.html">The Separation of Power</a>
+  </div>
+  <div class="aa-llc">Ingram Manor LLC</div>
 </footer>
 
 <script>
