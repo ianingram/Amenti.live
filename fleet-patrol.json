@@ -1,5 +1,5 @@
 {
-  "at": "2026-08-24T06:29:53.899Z",
+  "at": "2026-08-24T12:29:24.628Z",
   "by": "probes/probe-watches.mjs",
   "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
   "watches": {
