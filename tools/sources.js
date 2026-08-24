@@ -144,11 +144,20 @@ async function listRepo(w) {
 }
 
 /* ── VERIFY. Judge by raw file HTTP status, never by the API. ────────────── */
+/* raw.githubusercontent.com is served through a CDN that caches for minutes.
+   A fetch taken shortly after a commit returns the OLD bytes with a 200 and
+   nothing to say it is stale. On 23 Aug this produced three consecutive false
+   readings of this very file — reported as "the upload did not land" when it
+   had landed every time.
+
+   A cache buster and a no-store header cost nothing and make the reading a
+   reading. The instrument is not exempt. */
+const BUST = Date.now() + '-' + Math.random().toString(36).slice(2);
+
 async function statusOf(p) {
-  const url = RAW + (sem.owner || 'ianingram') + '/' + p.split('/').map(encodeURIComponent).join('/')
-    .replace(/%2F/g, '/');
+  const url = RAW + (sem.owner || 'ianingram') + '/' + p + '?_=' + BUST;
   try {
-    const r = await fetch(RAW + (sem.owner || 'ianingram') + '/' + p, { method: 'GET' });
+    const r = await fetch(url, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } });
     return r.status;
   } catch (e) { return 0; }
 }
