@@ -35,33 +35,25 @@
     display: flex; flex-direction: column; align-items: center;
     position: relative;
   }
-  /* THE PYRAMID AND THE PLANET — drawn, not fetched.
-     Lifted from Brief XII (Amenti_Separation_of_Power.html), where the hero is
-     pure CSS: a gold-lit planet (stacked radial gradients) with the near-black
-     CSS-triangle pyramid in front of it. No image file — it renders on first
-     paint, in a preview, and inside an iframe on any wall, with nothing to
-     404. The house visual, reusable the way this project trusts: as code. */
-  #hero-bg { position: fixed; inset: 0; z-index: 0; background: #06060e; overflow: hidden; }
-  #hero-bg .planet {
-    position: absolute; left: 50%; bottom: 20%; transform: translateX(-50%);
-    width: min(74vw,760px); height: min(74vw,760px); border-radius: 50%;
-    background:
-      radial-gradient(circle at 38% 34%, rgba(217,169,58,.30), rgba(217,169,58,.10) 40%, transparent 62%),
-      radial-gradient(circle at 62% 66%, #2a3342, #141c28 70%);
-    box-shadow: 0 0 120px 24px rgba(217,169,58,.14), inset -40px -30px 90px rgba(0,0,0,.6);
-  }
-  #hero-bg .pyramid {
-    position: absolute; left: 50%; bottom: 20%; transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: min(42vw,440px) solid transparent;
-    border-right: min(42vw,440px) solid transparent;
-    border-bottom: min(40vw,420px) solid #060b12;
-    filter: drop-shadow(0 -2px 30px rgba(0,0,0,.7));
+  /* THE GATE — thoth-terminal-2: the planet risen behind the pyramid, framed
+     by two dark columns. Full-bleed cover. A REAL FILE (img/), so it will not
+     show in a detached preview — only on the live site beside img/. If it ever
+     goes missing the #06060e beneath shows through rather than a broken frame.
+     The image's top-centre is bright (where ASK AMENTI sits), so the overlay
+     darkens that band specifically, not just the edges — otherwise the title
+     washes out against the sky. */
+  #hero-bg {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden;
+    background: #06060e url('img/thoth-terminal-2.jpg') center center/cover no-repeat;
   }
   #hero-bg::after {
     content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 55%,
-      transparent 0%, rgba(6,6,14,.35) 60%, rgba(6,6,14,.65) 100%);
+    background:
+      linear-gradient(to bottom,
+        rgba(6,6,14,.62) 0%, rgba(6,6,14,.30) 22%, rgba(6,6,14,.12) 45%,
+        rgba(6,6,14,.35) 78%, rgba(6,6,14,.70) 100%),
+      radial-gradient(ellipse at 50% 30%,
+        rgba(6,6,14,.30) 0%, transparent 55%);
   }
   header { text-align: center; padding: 4.5rem 1rem 0.5rem; text-shadow: 0 2px 24px rgba(0,0,0,.7); }
   header h1 { font-size: 1.9rem; font-weight: normal; letter-spacing: .12em; margin: 0; }
@@ -79,7 +71,7 @@
 </head>
 <body>
 
-<div id="hero-bg" aria-hidden="true"><div class="planet"></div><div class="pyramid"></div></div>
+<div id="hero-bg" aria-hidden="true"></div>
 
 <header>
   <h1>ASK&nbsp;AMENTI</h1>
