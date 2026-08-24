@@ -128,6 +128,11 @@
     var q = input.value.trim();
     answer.style.display = 'none'; note.style.display = 'none';
     if (!q) { results.innerHTML = ''; return; }
+    /* A question is for answering, not for document-matching. Once the text
+       reads as a question, stop live-searching its fragments — otherwise a
+       half-typed question matches no document and prints a false "nothing
+       aboard" under a box that is about to answer perfectly. */
+    if (window.AmentiHall.isQuestion(q)) { results.innerHTML = ''; return; }
     t = setTimeout(function () { search(q); }, 160);
   });
 
@@ -135,7 +140,7 @@
     if (e.key === 'Enter') {
       var q = input.value.trim();
       if (!q) return;
-      if (window.AmentiHall.isQuestion(q)) ask(q);
+      if (window.AmentiHall.isQuestion(q)) { results.innerHTML = ''; ask(q); }
       else search(q, true);
     }
   });
@@ -145,7 +150,9 @@
     window.AmentiHall.find(q).then(function (r) {
       results.innerHTML = '';
       if (logged) log(q, 'search');
-      if (!r.length) {
+      /* Only say "nothing matches" for a deliberate search (Enter on a
+         non-question). A live keystroke that finds nothing stays silent. */
+      if (!r.length && logged) {
         var li = el('li', null, 'nothing aboard matches \u201c' + q + '\u201d');
         li.style.cursor = 'default'; li.style.opacity = '.6';
         results.appendChild(li);
