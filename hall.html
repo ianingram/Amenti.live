@@ -27,11 +27,18 @@
 <title>Ask Amenti · The Hall</title>
 <meta name="description" content="Speak to the hall. Search the library of Amenti, and ask the building itself.">
 <style>
+  /* THE SHIP'S TYPEFACE — Amenti Display, the same @font-face the flagship
+     uses (fonts/amenti-display-*.woff2). Relative path works because hall.html
+     sits at the repo root beside Page1. Georgia was a stand-in; this is the
+     ship's own letterform, so ASK AMENTI here matches ASK AMENTI in the nav. */
+  @font-face { font-family:'Amenti Display'; font-weight:400; font-display:swap; src:url('fonts/amenti-display-400.woff2') format('woff2'); }
+  @font-face { font-family:'Amenti Display'; font-weight:600; font-display:swap; src:url('fonts/amenti-display-600.woff2') format('woff2'); }
+  @font-face { font-family:'Amenti Display'; font-weight:700; font-display:swap; src:url('fonts/amenti-display-700.woff2') format('woff2'); }
   :root { color-scheme: dark light; }
   body {
     margin: 0; min-height: 100vh;
     color: #e8e4d8;
-    font: 16px/1.6 Georgia, 'Times New Roman', serif;
+    font: 16px/1.6 'Amenti Display', Georgia, 'Times New Roman', serif;
     display: flex; flex-direction: column; align-items: center;
     position: relative;
   }
@@ -63,7 +70,7 @@
     #hero-bg .frame { transition: none; }
   }
   header { text-align: center; padding: 4.5rem 1rem 0.5rem; text-shadow: 0 2px 24px rgba(0,0,0,.7); }
-  header h1 { font-size: 1.9rem; font-weight: normal; letter-spacing: .12em; margin: 0; }
+  header h1 { font-family: 'Amenti Display', Georgia, serif; font-size: 2.1rem; font-weight: 700; letter-spacing: .14em; margin: 0; }
   header p  { opacity: .6; font-size: .95rem; margin: .4rem 0 0; font-style: italic; }
   main { width: 100%; }
   footer { margin-top: auto; padding: 2rem 1rem; opacity: .45; font-size: .8rem; text-align: center; }
