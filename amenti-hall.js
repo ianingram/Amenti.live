@@ -50,8 +50,12 @@
   var RAW  = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var BUST = function () { return '?_=' + Date.now() + '-' + Math.random().toString(36).slice(2); };
 
-  var MAX_BRIEFS   = 2;      // fetched per answer. They run 20-30 KB.
-  var BRIEF_SLICE  = 6000;   // chars taken from each
+  /* Slices disabled for launch: the proxy's system ceiling (413 seen 24 Aug)
+     will not carry HALL.md + counts + catalogue + two 6 KB slices. The hall
+     CITES every brief from the catalogue and points; it does not quote. When
+     the gate's lanes raise the ceiling, set MAX_BRIEFS back to 2. */
+  var MAX_BRIEFS   = 0;
+  var BRIEF_SLICE  = 6000;
   var CACHE_MS     = 5 * 60 * 1000;
 
   var cache = {};            // url -> { at, body }
@@ -95,9 +99,17 @@
   }
 
   /* Every document, one line each. ~4,000 tokens for the lot. */
+  /* Cite-length, not quote-length. The proxy has a smaller system ceiling than
+     the model — a 413 system_too_long on 24 Aug proved the full catalogue plus
+     slices overran it. Each line is trimmed to a gloss the hall can cite from;
+     the brief itself is one click away for the whole argument. */
   function catalogueText(items) {
     return items.filter(function (i) { return !i.unreachable; })
-      .map(function (i) { return '· ' + i.id + ' — ' + i.what; })
+      .map(function (i) {
+        var w = String(i.what || '');
+        if (w.length > 90) w = w.slice(0, 88).replace(/\s+\S*$/, '') + '\u2026';
+        return '\u00b7 ' + i.id + ' \u2014 ' + w;
+      })
       .join('\n');
   }
 
