@@ -35,25 +35,32 @@
     display: flex; flex-direction: column; align-items: center;
     position: relative;
   }
-  /* THE GATE — thoth-terminal-2: the planet risen behind the pyramid, framed
-     by two dark columns. Full-bleed cover. A REAL FILE (img/), so it will not
-     show in a detached preview — only on the live site beside img/. If it ever
-     goes missing the #06060e beneath shows through rather than a broken frame.
-     The image's top-centre is bright (where ASK AMENTI sits), so the overlay
-     darkens that band specifically, not just the edges — otherwise the title
-     washes out against the sky. */
-  #hero-bg {
-    position: fixed; inset: 0; z-index: 0; overflow: hidden;
-    background: #06060e url('img/thoth-terminal-2.jpg') center center/cover no-repeat;
+  /* THE GATE — slow cross-fade through the terminal scenes (thoth-terminal-2,
+     -3): the planet risen behind the pyramid, framed by dark columns. Two
+     stacked layers fade between images on a timer (script below). REAL FILES
+     (img/), so they will not show in a detached preview — only live, beside
+     img/. If one goes missing the #06060e beneath shows rather than a broken
+     frame. Both images are bright at top-centre where ASK AMENTI sits, so the
+     overlay — which rides ABOVE both layers — darkens that band on every
+     scene. Reduced-motion holds a single still, no fade. */
+  #hero-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #06060e; }
+  #hero-bg .frame {
+    position: absolute; inset: 0; background-size: cover;
+    background-position: center 22%; background-repeat: no-repeat;
+    opacity: 0; transition: opacity 2s ease-in-out;
   }
-  #hero-bg::after {
-    content: ''; position: absolute; inset: 0;
+  #hero-bg .frame.show { opacity: 1; }
+  #hero-bg .veil {
+    position: absolute; inset: 0; z-index: 1;
     background:
       linear-gradient(to bottom,
         rgba(6,6,14,.62) 0%, rgba(6,6,14,.30) 22%, rgba(6,6,14,.12) 45%,
         rgba(6,6,14,.35) 78%, rgba(6,6,14,.70) 100%),
       radial-gradient(ellipse at 50% 30%,
         rgba(6,6,14,.30) 0%, transparent 55%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #hero-bg .frame { transition: none; }
   }
   header { text-align: center; padding: 4.5rem 1rem 0.5rem; text-shadow: 0 2px 24px rgba(0,0,0,.7); }
   header h1 { font-size: 1.9rem; font-weight: normal; letter-spacing: .12em; margin: 0; }
@@ -71,7 +78,11 @@
 </head>
 <body>
 
-<div id="hero-bg" aria-hidden="true"></div>
+<div id="hero-bg" aria-hidden="true">
+  <div class="frame" id="frameA"></div>
+  <div class="frame" id="frameB"></div>
+  <div class="veil"></div>
+</div>
 
 <header>
   <h1>ASK&nbsp;AMENTI</h1>
@@ -86,6 +97,40 @@
   </div>
   <div class="aa-llc">Ingram Manor LLC</div>
 </footer>
+
+<script>
+/* THE GATE ROTATES. Cross-fade through the terminal scenes on a slow timer.
+   Two layers: one shown, one hidden and preloading the next; swap, fade, repeat.
+   ~60s hold, 2s fade (the CSS transition). A single scene never flashes empty —
+   the outgoing layer holds until the incoming has faded in over it.
+   Reduced-motion: show the first and stop. */
+(function () {
+  var SCENES = ['img/thoth-terminal-2.jpg', 'img/thoth-terminal-3.jpg'];
+  var HOLD = 60000;
+  var a = document.getElementById('frameA'),
+      b = document.getElementById('frameB');
+  if (!a || !b || !SCENES.length) return;
+
+  a.style.backgroundImage = "url('" + SCENES[0] + "')";
+  a.classList.add('show');
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || SCENES.length < 2) return;
+
+  var i = 0, front = a, back = b;
+  setInterval(function () {
+    i = (i + 1) % SCENES.length;
+    back.style.backgroundImage = "url('" + SCENES[i] + "')";
+    /* let the image decode a beat before fading it up */
+    var img = new Image(); img.src = SCENES[i];
+    img.onload = img.onerror = function () {
+      back.classList.add('show');
+      front.classList.remove('show');
+      var t = front; front = back; back = t;
+    };
+  }, HOLD);
+})();
+</script>
 
 <script>
 /* The one door, carried by this page. Same Worker, same shape as Page1's
