@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-24T02:23:36.447Z",
+    "generated": "2026-08-24T03:17:23.100Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -649,6 +649,19 @@
       "tables": []
     },
     {
+      "file": "amenti-hall-box.js",
+      "bytes": 9539,
+      "sha256": "50e3556af19ddf95",
+      "type": "js",
+      "declares": [
+        "AmentiCodexOpen"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-hall.js",
       "bytes": 14255,
       "sha256": "f9d9f386d6eb77a5",
@@ -1226,7 +1239,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46923,
-      "sha256": "630a1c680c901abd",
+      "sha256": "ba5225d8a2dfd165",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1324,6 +1337,37 @@
       ],
       "loads": [],
       "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "hall.html",
+      "bytes": 4209,
+      "sha256": "8fb68543ecc28c55",
+      "type": "html",
+      "declares": [
+        "AmentiCost",
+        "AmentiModel",
+        "claude"
+      ],
+      "loads": [
+        {
+          "file": "amenti-hall.js",
+          "line": 99
+        },
+        {
+          "file": "amenti-hall-box.js",
+          "line": 100
+        }
+      ],
+      "calls": [
+        {
+          "global": "AmentiCost",
+          "line": 89,
+          "when": "function",
+          "own": true
+        }
+      ],
       "endpoints": [],
       "tables": []
     },
@@ -1701,12 +1745,20 @@
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
+        "file": "amenti-hall-box.js",
+        "declares": [
+          "AmentiCodexOpen"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
         "file": "amenti-hall.js",
         "declares": [
           "AmentiHall"
         ],
-        "loadedByAPage": false,
-        "note": "declares globals that nothing calls"
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-mascot.js",
