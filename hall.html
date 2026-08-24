@@ -1,0 +1,103 @@
+<!doctype html>
+<!-- ==========================================================================
+  hall.html · ASK AMENTI — THE HALL'S OWN DOOR
+  ---------------------------------------------------------------------------
+  A standalone surface in Amenti.live. Page1 is NOT touched: this page carries
+  its own proxy client (the same thirty lines, the same Worker, the same one
+  door) and loads the hall scripts itself.
+
+  Ruled 24 Aug: the hall lives with the ship, on its own page. It earns a link
+  from the flagship's nav by proving itself here first — a link is one line;
+  an injection is a graft.
+
+  Serves at:  https://ianingram.github.io/Amenti.live/hall.html
+
+  Needs, in this repo:
+    HALL.md                 the meaning (authored)
+    HALL-STATE.json         the counts (probes/probe-hall.mjs)
+    ROSTER-INDEX.json       the souls  (probes/probe-roster.mjs)
+    SOURCES.json            the catalogue (tools/sources.js — already live)
+    amenti-hall.js          the answer path
+    amenti-hall-box.js      the box
+=========================================================================== -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ask Amenti · The Hall</title>
+<meta name="description" content="Speak to the hall. Search the library of Amenti, and ask the building itself.">
+<style>
+  :root { color-scheme: dark light; }
+  body {
+    margin: 0; min-height: 100vh;
+    background: #0d0f14; color: #e8e4d8;
+    font: 16px/1.6 Georgia, 'Times New Roman', serif;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  header { text-align: center; padding: 3.5rem 1rem 0.5rem; }
+  header h1 { font-size: 1.9rem; font-weight: normal; letter-spacing: .12em; margin: 0; }
+  header p  { opacity: .6; font-size: .95rem; margin: .4rem 0 0; font-style: italic; }
+  main { width: 100%; }
+  footer { margin-top: auto; padding: 2rem 1rem; opacity: .45; font-size: .8rem; text-align: center; }
+  footer a { color: inherit; }
+  /* the box styles itself; #roster is absent here by design — it mounts at top of main */
+  #ask-amenti { margin-top: 1rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ASK&nbsp;AMENTI</h1>
+  <p>the hall is a doorway; the souls are the destination</p>
+</header>
+
+<main id="hall-main"></main>
+
+<footer>
+  <a href="Page1.html">enter the library</a> &nbsp;·&nbsp; Ingram Manor LLC
+</footer>
+
+<script>
+/* The one door, carried by this page. Same Worker, same shape as Page1's
+   client — duplicated DELIBERATELY so this page depends on nothing Page1
+   loads. If the proxy contract changes, both clients change; that is the
+   accepted cost of the flagship staying untouched. */
+(function(){
+  var PROXY = 'https://amenti-proxy.ingram-ian.workers.dev';
+  var MODELS = ['claude-haiku-4-5-20251001','claude-sonnet-4-6'];
+  var MODEL  = 'claude-sonnet-4-6';
+  window.AmentiModel = { options: MODELS, DEFAULT: MODEL, get: function(){ return MODEL; }, set: function(){} };
+  window.claude = {
+    complete: async function(opts){
+      opts = opts || {};
+      var res = await fetch(PROXY, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system: opts.system || '',
+          messages: opts.messages || [],
+          model: opts.model || MODEL
+        })
+      });
+      if (!res.ok) {
+        var t = await res.text().catch(function(){ return ''; });
+        throw new Error('proxy ' + res.status + (t ? ' \u00b7 ' + t.slice(0,140) : ''));
+      }
+      var data = await res.json();
+      if (data && data.usage) {
+        window.AmentiCost = window.AmentiCost || { turns:0, inputTokens:0, outputTokens:0, last:null };
+        window.AmentiCost.turns++;
+        window.AmentiCost.inputTokens  += (data.usage.input_tokens  || 0);
+        window.AmentiCost.outputTokens += (data.usage.output_tokens || 0);
+        window.AmentiCost.last = { model: data.model, usage: data.usage, at: Date.now() };
+      }
+      return (data && data.reply ? String(data.reply) : '').trim();
+    }
+  };
+})();
+</script>
+<script src="amenti-hall.js" defer></script>
+<script src="amenti-hall-box.js" defer></script>
+
+</body>
+</html>
