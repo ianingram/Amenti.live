@@ -50,10 +50,15 @@
   var RAW  = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var BUST = function () { return '?_=' + Date.now() + '-' + Math.random().toString(36).slice(2); };
 
-  /* Slices disabled for launch: the proxy's system ceiling (413 seen 24 Aug)
-     will not carry HALL.md + counts + catalogue + two 6 KB slices. The hall
-     CITES every brief from the catalogue and points; it does not quote. When
-     the gate's lanes raise the ceiling, set MAX_BRIEFS back to 2. */
+  /* Slices disabled for launch. The proxy enforces SYSTEM_CHARS = 20000 by
+     policy (Amenti-Workers), with a standing order in the captain's hand: "If
+     a surface 413s here, CHUNK THE SURFACE. Do not raise this." These limits
+     are scar tissue from a real $118 input-overrun. HALL.md + counts +
+     catalogue + two 6 KB slices was ~24000 chars and 413'd on 24 Aug. The hall
+     obeys the order: it CITES every brief from the catalogue and points; it
+     does not quote. To restore quoting, do NOT raise the wall — send ONE short
+     slice (<= ~2000 chars) only when a question needs it, staying under 20000.
+     Set MAX_BRIEFS to 1 and BRIEF_SLICE to ~2000 for that; never 2 x 6000. */
   var MAX_BRIEFS   = 0;
   var BRIEF_SLICE  = 6000;
   var CACHE_MS     = 5 * 60 * 1000;
