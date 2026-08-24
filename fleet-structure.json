@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-24T02:03:13.091Z",
+    "generated": "2026-08-24T02:23:03.751Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -649,6 +649,19 @@
       "tables": []
     },
     {
+      "file": "amenti-hall.js",
+      "bytes": 14255,
+      "sha256": "f9d9f386d6eb77a5",
+      "type": "js",
+      "declares": [
+        "AmentiHall"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-leaderboard.js",
       "bytes": 10857,
       "sha256": "33bc8cf90ffee319",
@@ -1213,7 +1226,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 46673,
-      "sha256": "1d1499e66438f5cb",
+      "sha256": "c8d0eab35a9dfff9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1680,6 +1693,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-hall.js",
+        "declares": [
+          "AmentiHall"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-mascot.js",
