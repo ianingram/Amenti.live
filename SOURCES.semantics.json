@@ -86,6 +86,14 @@
       "dir": "",
       "group": "the gameroom — found 19 Aug, on no list until then",
       "match": "\\.html$"
+    },
+    {
+      "repo": "Amenti.live",
+      "branch": "main",
+      "dir": "",
+      "group": "the book itself",
+      "match": "^[^/]+\\.(md|json)$",
+      "_why": "Root-level documents and registers. Added 24 Aug after GLOSSARY.md landed at the root and the walk could not see it — book/, tools/ and probes/ were covered and the root was not. Deliberately .md and .json only: the root's runtime .js files are the manifest's business (fleet-manifest.js), not this index's."
     }
   ],
   "meaning": {
@@ -772,6 +780,12 @@
       "id": "chess-test-client",
       "what": "A test client for the chess referee. Development scaffolding, not a surface the reader meets.",
       "authority": "UNRULED — walked, not confirmed in use."
+    },
+    "Amenti.live/main/GLOSSARY.md": {
+      "section": "the book itself",
+      "id": "glossary",
+      "what": "THE GLOSSARY. The vocabulary of the ship — soul, key, plate, spell, register, probe, rung, ark, the Silent Signature, empty glass, the water between, drift, stranded, unindexed. Forty briefs use these words and none defined them. Doubles as the hall's vocabulary: a visitor asking what a spell is and a new session reading a brief get the same answer.",
+      "authority": "canonical. Its counts are of 24 Aug 2026 and are illustrative — the register named in each entry is the source. Entries marked with a flag are inferred from usage and await the proprietor's eye."
     }
   },
   "owner": "ianingram",
