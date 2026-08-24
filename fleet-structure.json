@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-24T03:17:23.100Z",
+    "generated": "2026-08-24T03:17:56.250Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1238,8 +1238,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 46923,
-      "sha256": "ba5225d8a2dfd165",
+      "bytes": 47464,
+      "sha256": "b5b52827b516f119",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1248,25 +1248,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1101,
+          "line": 1115,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1102,
+          "line": 1116,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1103,
+          "line": 1117,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1104,
+          "line": 1118,
           "when": "toplevel",
           "own": false
         }
@@ -1502,7 +1502,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 27,
+    "count": 28,
     "files": [
       {
         "file": "probe-engine.mjs",
@@ -1515,6 +1515,12 @@
         "title": "WHY THIS EXISTS",
         "guards": null,
         "bytes": 11880
+      },
+      {
+        "file": "probe-hall.mjs",
+        "title": "THE HALL'S COUNTS",
+        "guards": null,
+        "bytes": 5218
       },
       {
         "file": "probe-ordnance.mjs",
