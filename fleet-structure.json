@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-24T02:23:03.751Z",
+    "generated": "2026-08-24T02:23:36.447Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1225,8 +1225,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 46673,
-      "sha256": "c8d0eab35a9dfff9",
+      "bytes": 46923,
+      "sha256": "630a1c680c901abd",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1235,25 +1235,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1094,
+          "line": 1101,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1095,
+          "line": 1102,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1096,
+          "line": 1103,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1097,
+          "line": 1104,
           "when": "toplevel",
           "own": false
         }
@@ -1458,7 +1458,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 26,
+    "count": 27,
     "files": [
       {
         "file": "probe-engine.mjs",
@@ -1483,6 +1483,12 @@
         "title": null,
         "guards": null,
         "bytes": 10459
+      },
+      {
+        "file": "probe-roster.mjs",
+        "title": "THE ROSTER INDEX",
+        "guards": null,
+        "bytes": 8015
       },
       {
         "file": "probe-spells.mjs",
