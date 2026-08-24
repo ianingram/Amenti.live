@@ -131,6 +131,24 @@ if [ ! -s "$TMP_SQL" ]; then mark_failed "dump was empty"; fi
 [ -s "$TMP_SQL" ] || fail "the dump produced an empty file. Nothing was written.
        An empty dump is not an empty database — treat it as a failed reading."
 
+# ── 2a. strip what changes for no reason ───────────────────────
+#
+# pg_dump 17 emits a random guard token on every run:
+#     \restrict   3FpA3EmCRDdG...
+#     \unrestrict 3FpA3EmCRDdG...
+# It is a psql-injection guard, not schema. It is the same LENGTH every time,
+# so the byte count never moves and the file looks unchanged while its md5
+# differs. Read 23 Aug: five consecutive runs each committed a "change" that
+# was these two lines and nothing else.
+#
+# A drift detector measuring a random number reports drift forever, and the
+# day the schema really moves that signal is buried in five months of noise.
+STRIPPED=$(grep -cE '^\\(un)?restrict ' "$TMP_SQL" || true)
+if [ "${STRIPPED:-0}" -gt 0 ]; then
+  grep -vE '^\\(un)?restrict ' "$TMP_SQL" > "$TMP_SQL.n" && mv "$TMP_SQL.n" "$TMP_SQL"
+  say "normalised    dropped $STRIPPED volatile guard line(s)"
+fi
+
 BYTES=$(wc -c < "$TMP_SQL" | tr -d ' ')
 say "dumped        $BYTES bytes"
 
