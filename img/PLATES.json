@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-25T05:46:37.999Z",
+  "generated": "2026-08-25T06:17:48.442Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -1703,7 +1703,7 @@
       "file": "bram-stoker-card.jpg",
       "key": "bram-stoker",
       "surface_slug": "card",
-      "bytes": 174451
+      "bytes": 201505
     },
     "bram-stoker-terminal.jpg": {
       "figure": "Bram Stoker",
