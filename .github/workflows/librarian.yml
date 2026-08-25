@@ -39,12 +39,12 @@ jobs:
 
       - name: Commit the reading if it changed
         run: |
-          if git diff --quiet -- LIBRARY.json; then
+          git add LIBRARY.json
+          if git diff --cached --quiet -- LIBRARY.json; then
             echo "LIBRARY.json unchanged — nothing to commit."
           else
             git config user.name  "amenti-librarian"
             git config user.email "librarian@amenti.live"
-            git add LIBRARY.json
             git commit -m "librarian: re-read the library [skip ci]"
             git push
           fi
