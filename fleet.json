@@ -31,13 +31,13 @@
       "surface": "THE WEEK",
       "state": "live",
       "cadence": "weekly",
-      "cron": "0 12 * * 0",
+      "cron": "0 0 * * mon",
       "form": "the assembled weekly issue (VAL·HAL·LA)",
       "prefixes": [
         "week:"
       ],
-      "note": "6 issues loaded in the hold, ARMED cron expected Sunday 12:00 UTC. Diagnosed 13 July and again 24 Aug: has fired ZERO times, almost certainly because the [triggers] cron block was never registered in the Worker's wrangler.toml. The content is ready; the switch was never wired.",
-      "state_reason": "declared live and meant to fire; a quiet tube here IS a fault — this is the one to wire first.",
+      "note": "CORRECTED 25 Aug (read from amenti-mint source). The cron is NOT missing and NOT commented out — it is DEPLOYED and ARMED as 0 0 * * mon (Monday 00:00 UTC) on the amenti-mint Worker. Firing is a SETTLEMENT, not a plain publish: the bell rings every Monday and settles that week's votes into verdicts. The reason the log shows 0 fired is that the bell has been RINGING INTO EMPTY WEEKS — votes_found=0, which the mint's own comment calls 'a fact, not a fault.' A cron that rings with zero votes and a cron never registered look identical from outside; the bell_log row is what tells them apart. THE FIX IS NOT A CRON EDIT — it is getting votes into the pool (quizzes taken / arguments cast) before the Monday bell. Manual settle for testing: POST /pool/settle (admin-guarded) rings the bell by hand without waiting for Monday. The earlier '0 12 * * 0 Sunday, commented out' reading was wrong.",
+      "state_reason": "armed and ringing weekly; shows 0 delivered because the vote pool is empty, not because the schedule is broken. Feed the pool, don't touch the cron.",
       "logId": "THE WEEK"
     },
     {
