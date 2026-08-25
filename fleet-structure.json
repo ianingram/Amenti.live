@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-25T22:29:55.841Z",
+    "generated": "2026-08-25T23:10:10.846Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1486,7 +1486,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 28,
+    "count": 29,
     "files": [
       {
         "file": "probe-engine.mjs",
@@ -1505,6 +1505,12 @@
         "title": "THE HALL'S COUNTS",
         "guards": null,
         "bytes": 5218
+      },
+      {
+        "file": "probe-library.mjs",
+        "title": "THE LIBRARIAN",
+        "guards": null,
+        "bytes": 6900
       },
       {
         "file": "probe-ordnance.mjs",
