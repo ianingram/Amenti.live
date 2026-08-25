@@ -1,0 +1,50 @@
+# .github/workflows/librarian.yml
+# THE LIBRARIAN — reads library/ and writes LIBRARY.json (a reading, not a memory).
+# Runs when the library changes, and on a daily schedule as a backstop, so the
+# Codex's "unlocked" count is always a reading of the real shelves.
+name: librarian
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'library/**'          # any room or manifest change re-reads the library
+  workflow_dispatch: {}        # run by hand from the Actions tab
+  schedule:
+    - cron: '0 6 * * *'        # daily 06:00 UTC backstop
+
+# the job commits LIBRARY.json back to the repo, so it needs write access
+permissions:
+  contents: write
+
+concurrency:
+  group: librarian
+  cancel-in-progress: false
+
+jobs:
+  read-the-library:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run the librarian
+        run: node probes/probe-library.mjs
+        env:
+          LIBRARY_DIR: library
+          LIBRARY_OUT: LIBRARY.json
+
+      - name: Commit the reading if it changed
+        run: |
+          if git diff --quiet -- LIBRARY.json; then
+            echo "LIBRARY.json unchanged — nothing to commit."
+          else
+            git config user.name  "amenti-librarian"
+            git config user.email "librarian@amenti.live"
+            git add LIBRARY.json
+            git commit -m "librarian: re-read the library [skip ci]"
+            git push
+          fi
