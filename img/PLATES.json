@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-08-24T21:24:23.750Z",
+  "generated": "2026-08-25T05:46:37.999Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -1703,7 +1703,7 @@
       "file": "bram-stoker-card.jpg",
       "key": "bram-stoker",
       "surface_slug": "card",
-      "bytes": 126080
+      "bytes": 174451
     },
     "bram-stoker-terminal.jpg": {
       "figure": "Bram Stoker",
@@ -2256,7 +2256,7 @@
       "key": "galileo-galilei",
       "surface_slug": "card",
       "file": "galileo-galilei-card.jpg",
-      "bytes": 144156,
+      "bytes": 161407,
       "provenance": null
     },
     "galileo-galilei-terminal.jpg": {
@@ -2407,7 +2407,7 @@
       "key": "helen-keller",
       "surface_slug": "card",
       "file": "helen-keller-card.jpg",
-      "bytes": 194337,
+      "bytes": 178351,
       "provenance": null
     },
     "helen-keller-terminal.jpg": {
@@ -3163,7 +3163,7 @@
       "file": "plato-card.jpg",
       "key": "plato",
       "surface_slug": "card",
-      "bytes": 126198
+      "bytes": 187457
     },
     "plato-terminal.jpg": {
       "figure": "Plato",
@@ -3280,7 +3280,7 @@
       "art_sat": 0.433,
       "stored_saturation": 0.243,
       "prompt_file": "PROMPT_seneca.txt#CARD",
-      "bytes": 106184
+      "bytes": 135552
     },
     "seneca-terminal.jpg": {
       "figure": "Seneca the Younger",
