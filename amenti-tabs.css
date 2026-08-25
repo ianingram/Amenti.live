@@ -104,7 +104,7 @@ body[data-page="codex"] .btn-secondary:hover{background:var(--neon-dim);}
 .cdx-art-frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none;}
 .cdx-art-frame::after{bottom:-1px;right:-1px;border-left:none;border-top:none;}
 
-.cdx-info{padding:40px 64px 40px 56px !important;}
+.cdx-info{padding:20px 64px 40px 56px !important;}
 .cdx-eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--neon);letter-spacing:.22em;margin-bottom:8px;}
 .cdx-name{font-family:var(--font-elite);font-size:42px;color:#fff;line-height:1;letter-spacing:.01em;margin-bottom:6px;}
 .cdx-title{font-family:var(--font-script);font-size:20px;color:var(--gold);font-style:italic;margin-bottom:16px;}
@@ -461,7 +461,7 @@ body[data-page="codex"] .cdx-openfile{
 }
 
 /* TALK TO — emerald, right, PULSING */
-body[data-page="codex"] .btn-primary{
+body[data-page="codex"] .cdx-talk{
   background:
     radial-gradient(120% 140% at 40% 25%, #9ff5bd 0%, #2ea86a 32%, #125a3a 75%, #0a3826 100%) !important;
   color:#eafff2 !important;
@@ -473,7 +473,7 @@ body[data-page="codex"] .btn-primary{
   50%    { box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 6px 22px rgba(0,0,0,.5), 0 0 26px 4px rgba(60,224,150,.45); }
 }
 @media (prefers-reduced-motion:reduce){
-  body[data-page="codex"] .btn-primary{ animation:none !important; }
+  body[data-page="codex"] .cdx-talk{ animation:none !important; }
 }
 
 /* SEE IN TIMELINE — quieter, keeps the cyan outline */
@@ -487,4 +487,25 @@ body[data-page="codex"] .btn-primary::before{
   content:'' !important; position:absolute !important; left:6px; right:6px; top:4px; height:34% !important;
   background:linear-gradient(180deg, rgba(255,255,255,.28), transparent) !important;
   border-radius:4px !important; pointer-events:none !important;
+}
+
+
+/* OPEN THE FULL FILE — force GARNET (it was inheriting the emerald btn-primary
+   look; this wins on specificity + !important). Keeps the green/red pair. */
+body[data-page="codex"] .cdx-info .cdx-openfile,
+body[data-page="codex"] button.cdx-openfile{
+  background:
+    radial-gradient(120% 140% at 40% 25%, #ffc0a8 0%, #d24a3a 32%, #7a1e1a 75%, #380c0a 100%) !important;
+  color:#fff0ea !important;
+  animation:none !important;
+}
+
+/* ABILITY CHIPS — calm them: softer border, restore inner padding so the left
+   edge isn't clipped by the codex reset, gentler background. */
+body[data-page="codex"] .cdx-ability{
+  padding:6px 16px !important;
+  border:1px solid rgba(0,255,224,0.22) !important;
+  background:rgba(0,255,224,0.04) !important;
+  border-radius:3px !important;
+  clip-path:none !important;
 }
