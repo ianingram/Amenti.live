@@ -1,0 +1,120 @@
+<!doctype html>
+<!-- ==========================================================================
+  fleet-status.html · WHAT IS MEANT TO FIRE, AND WHAT DID
+  ---------------------------------------------------------------------------
+  The captain's window on the fleet. Reads two registers, live, and lays them
+  side by side:
+    fleet.json           the INTENT  — what each tube is meant to do (authored)
+    fleet-dispatch.json  the REALITY — what each tube actually fired (probed)
+
+  Keyed together: fleet.json by `surface` / `mechanism`, the firing log by its
+  tube id. State-aware: a PAUSED tube that is quiet reads calm; a LIVE tube that
+  is quiet reads as a fault. This is the difference the `state` field bought.
+
+  Self-contained, no dependencies, reads from Amenti.live root beside it.
+  Serves at: https://ianingram.github.io/Amenti.live/fleet-status.html
+=========================================================================== -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleet Status · Amenti</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; background:#0b0d12; color:#c9d3e0;
+    font:15px/1.5 'Amenti Display', Georgia, serif; padding:2rem 1rem 4rem; }
+  @font-face { font-family:'Amenti Display'; font-weight:400; font-display:swap; src:url('fonts/amenti-display-400.woff2') format('woff2'); }
+  @font-face { font-family:'Amenti Display'; font-weight:700; font-display:swap; src:url('fonts/amenti-display-700.woff2') format('woff2'); }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-weight:700; letter-spacing:.08em; font-size:1.5rem; color:#57b6ff; margin:0 0 .2rem; }
+  .sub { opacity:.55; font-size:.85rem; margin:0 0 1.6rem; }
+  .tube { border:1px solid rgba(120,140,170,.2); border-radius:10px; padding:1rem 1.1rem; margin:.7rem 0;
+    background:rgba(120,140,170,.05); }
+  .tube-head { display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; }
+  .surface { font-size:1.15rem; font-weight:700; color:#e8e4d8; }
+  .mech { font-size:.78rem; opacity:.5; font-family:ui-monospace,monospace; }
+  .badge { font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; padding:.15em .6em; border-radius:999px; margin-left:auto; }
+  .b-live{background:rgba(74,222,128,.15);color:#4ade80} .b-paused{background:rgba(245,197,66,.15);color:#f5c542}
+  .b-planned{background:rgba(87,182,255,.15);color:#57b6ff} .b-retired{background:rgba(150,150,160,.15);color:#999}
+  .b-percase{background:rgba(180,150,255,.15);color:#b496ff}
+  .row { display:flex; gap:1.4rem; margin-top:.55rem; font-size:.85rem; flex-wrap:wrap; }
+  .cell .k { opacity:.45; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; }
+  .cell .v { color:#c9d3e0; }
+  .verdict { margin-top:.6rem; font-size:.85rem; padding:.4rem .7rem; border-radius:6px; }
+  .ok{background:rgba(74,222,128,.08);color:#7fe0a0} .warn{background:rgba(245,197,66,.08);color:#f5c542}
+  .fault{background:rgba(255,120,120,.1);color:#ff9090} .calm{background:rgba(120,140,170,.08);opacity:.75}
+  .note { margin-top:.5rem; font-size:.8rem; opacity:.6; line-height:1.5; }
+  .loading,.err { opacity:.6; padding:2rem 0; } .err{color:#ff9090}
+  footer { max-width:960px; margin:2rem auto 0; opacity:.4; font-size:.78rem; }
+  a { color:#57b6ff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>FLEET STATUS</h1>
+  <p class="sub">what is meant to fire · and what did — read live from fleet.json and the firing log</p>
+  <div id="out"><div class="loading">reading the registers…</div></div>
+</div>
+<footer><a href="Page1.html">enter the Living Library</a> &nbsp;·&nbsp; Ingram Manor LLC</footer>
+
+<script>
+(function () {
+  var BUST = '?_=' + Date.now();
+  var out = document.getElementById('out');
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+
+  Promise.all([
+    fetch('fleet.json'+BUST,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+    fetch('fleet-dispatch.json'+BUST,{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;})
+  ]).then(function(res){
+    var fleet = res[0], log = res[1];
+    if (!fleet) { out.innerHTML = '<div class="err">fleet.json could not be read — no intent to show.</div>'; return; }
+    var fired = (log && log.tubes) || {};
+    var asOf = (log && log.today) || 'unknown';
+
+    var html = '';
+    (fleet.tubes||[]).forEach(function(t){
+      // match the firing log by surface name (log uses surface-ish ids like "THE WEEK","THE DAILY PLANET")
+      // use the explicit logId the declaration carries — no guessing the mapping
+      var f = (t.logId && fired[t.logId]) || null;
+      var age = f && typeof f==='object' ? f.lastAgeDays : null;
+      var firedN = f && typeof f==='object' ? f.fired : (typeof f==='number'?f:null);
+
+      // state-aware verdict — the whole point of the `state` field
+      var vClass='calm', vText='';
+      if (t.state==='paused')      { vClass='calm';  vText='paused by intent — quiet is expected'; }
+      else if (t.state==='planned'){ vClass='calm';  vText='planned — not built yet, not a fault'; }
+      else if (t.state==='retired'){ vClass='calm';  vText='retired at surface'; }
+      else if (t.state==='live') {
+        if (firedN===0 || firedN==null) { vClass='fault'; vText='LIVE but has never fired — this is a fault'; }
+        else if (age!=null && age<0)    { vClass='warn';  vText='reports a future date (age '+age+') — sensor bug'; }
+        else if (age!=null && age>10)   { vClass='warn';  vText='LIVE but quiet '+age+' days'; }
+        else if (age!=null)             { vClass='ok';    vText='firing · last '+age+' day(s) ago'; }
+        else                            { vClass='warn';  vText='live — firing state unknown'; }
+      }
+
+      var badge = 'b-'+(t.state==='per case'?'percase':t.state);
+      html += '<div class="tube">'+
+        '<div class="tube-head"><span class="surface">'+esc(t.surface)+'</span>'+
+        '<span class="mech">'+esc(t.mechanism)+'</span>'+
+        '<span class="badge '+badge+'">'+esc(t.state)+'</span></div>'+
+        '<div class="row">'+
+          '<div class="cell"><div class="k">cadence</div><div class="v">'+esc(t.cadence)+'</div></div>'+
+          '<div class="cell"><div class="k">fired</div><div class="v">'+(firedN==null?'—':firedN)+'</div></div>'+
+          '<div class="cell"><div class="k">last</div><div class="v">'+(age==null?'—':age+'d ago')+'</div></div>'+
+          '<div class="cell"><div class="k">form</div><div class="v">'+esc(t.form||'')+'</div></div>'+
+        '</div>'+
+        '<div class="verdict '+vClass+'">'+esc(vText)+'</div>'+
+        (t.note?'<div class="note">'+esc(t.note)+'</div>':'')+
+      '</div>';
+    });
+
+    html += '<p class="sub" style="margin-top:1.4rem">firing log as of '+esc(asOf)+
+            (log?'':' · <span style="color:#ff9090">firing log unreadable — showing intent only</span>')+'</p>';
+    out.innerHTML = html;
+  });
+})();
+</script>
+</body>
+</html>

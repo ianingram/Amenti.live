@@ -7,11 +7,11 @@
     "state      — live | paused | retired-at-surface. The probe reads THIS before crying WARN: a paused tube that is quiet is behaving; a live tube that is quiet is a fault.",
     "cadence    — how often it is MEANT to fire. The probe measures lastAgeDays against this.",
     "cron       — the schedule string the trigger SHOULD carry, for the probe's armed/not-armed check. The trigger itself lives in the private Amenti-Workers; this is the expected value, not the source of truth for the trigger.",
-    "prefixes   — the KV key prefixes this tube's output is stored under, so the probe knows where to look."
+    "prefixes   — the KV key prefixes this tube's output is stored under, so the probe knows where to look.",
+    "logId     — the exact tube id used in fleet-dispatch.json (the firing log). The log keeps mechanism-flavoured names (e.g. 'THE DAILY PLANET' for the Dispatch); this states the link explicitly so no reader has to guess the mapping."
   ],
   "_note": "This declares INTENT. It does not fire anything and it does not store content. The triggers live in Amenti-Workers (private); the content lives in KV. This is the third layer — what the captain decided — made readable so a session reads it instead of asking.",
   "generated": "2026-08-24 (authored by hand; not probe-generated — this is the intent the probe checks against)",
-
   "tubes": [
     {
       "mechanism": "atlantica",
@@ -19,9 +19,12 @@
       "state": "paused",
       "cadence": "weekly",
       "form": "the blog / recitation — one figure's essay",
-      "prefixes": ["atlantica:"],
+      "prefixes": [
+        "atlantica:"
+      ],
       "note": "Fired 64× then stood down deliberately while the ship's foundation was rebuilt (Supabase versioning, the source index, the hall). CONTENT AND HISTORY ARE REAL — 77 in the hold. Restarting is RESUMPTION, not construction. Was daily; the fleet is weekly now.",
-      "state_reason": "paused by the captain, not failed. A WARN from age alone is expected until resumed."
+      "state_reason": "paused by the captain, not failed. A WARN from age alone is expected until resumed.",
+      "logId": "ATLANTICA"
     },
     {
       "mechanism": "week",
@@ -30,9 +33,12 @@
       "cadence": "weekly",
       "cron": "0 12 * * 0",
       "form": "the assembled weekly issue (VAL·HAL·LA)",
-      "prefixes": ["week:"],
+      "prefixes": [
+        "week:"
+      ],
       "note": "6 issues loaded in the hold, ARMED cron expected Sunday 12:00 UTC. Diagnosed 13 July and again 24 Aug: has fired ZERO times, almost certainly because the [triggers] cron block was never registered in the Worker's wrangler.toml. The content is ready; the switch was never wired.",
-      "state_reason": "declared live and meant to fire; a quiet tube here IS a fault — this is the one to wire first."
+      "state_reason": "declared live and meant to fire; a quiet tube here IS a fault — this is the one to wire first.",
+      "logId": "THE WEEK"
     },
     {
       "mechanism": "dailyplanet",
@@ -40,9 +46,14 @@
       "state": "live",
       "cadence": "weekly",
       "form": "the newsroom / journalistic — themed cast + docket + court reporters",
-      "prefixes": ["dailyplanet:", "planet:", "article:"],
+      "prefixes": [
+        "dailyplanet:",
+        "planet:",
+        "article:"
+      ],
       "note": "THE NAME MISMATCH IS DELIBERATE — see RULING-THE-DISPATCH-TWO-NAMES.md. The mechanism keeps `dailyplanet:` because it is wired into the docket, the court-reporter slots, the feed index and the weekly manifest; renaming the code would break surfaces AND reopen a trademark exposure. The reader sees ONLY 'Amenti Dispatch'. Was daily; now weekly. A probe reporting 'THE DAILY PLANET' is naming the mechanism, not a dead surface — the tube is LIVE.",
-      "known_defect": "The date sensor reads a last-fired date in the FUTURE (age negative), which passes a `< threshold` test and shows green. Sensor bug, unrelated to the name; fixing it must not touch the `dailyplanet:` mechanism name."
+      "known_defect": "The date sensor reads a last-fired date in the FUTURE (age negative), which passes a `< threshold` test and shows green. Sensor bug, unrelated to the name; fixing it must not touch the `dailyplanet:` mechanism name.",
+      "logId": "THE DAILY PLANET"
     },
     {
       "mechanism": "audio:atlantica",
@@ -50,9 +61,14 @@
       "state": "planned",
       "cadence": "weekly",
       "form": "the spoken edition of Atlantica — NOT separate content",
-      "prefixes": ["podcast:", "pod:", "audio:"],
+      "prefixes": [
+        "podcast:",
+        "pod:",
+        "audio:"
+      ],
       "note": "Per Amenti Studios (SOURCE MATERIAL, an old idea, part true / part false — not a spec): the podcast is the spoken edition of Atlantica, not a separate tube. Today's dispatch is the featured episode; the archive is the back-catalogue. Keystone (/speak content-addressed R2 caching) was described as buildable, status unconfirmed. Treat as PLANNED until Phase One is verified shipped.",
-      "state_reason": "planned, not failed. A probe FAIL here means 'not built yet', which is correct — not an alarm."
+      "state_reason": "planned, not failed. A probe FAIL here means 'not built yet', which is correct — not an alarm.",
+      "logId": "THE PODCAST"
     },
     {
       "mechanism": "docket",
@@ -62,10 +78,10 @@
       "form": "the court — cases weighed, settled on a fixed day",
       "prefixes": [],
       "note": "Lives in the MINT worker (/quiz/topics, /hall), NOT the proxy. probe-ordnance does not walk this tube yet — it says so honestly rather than draw an empty tube. First case-set closed 13 July 2026 with ZERO arguments submitted, learned because a human read a date, not because anything watched. Wiring the probe to the mint is an open item.",
-      "state_reason": "live but UNWATCHED by the probe — the gap that let the empty close go unnoticed."
+      "state_reason": "live but UNWATCHED by the probe — the gap that let the empty close go unnoticed.",
+      "logId": "THE DOCKET"
     }
   ],
-
   "_open_items_this_declaration_surfaces": [
     "THE WEEK: wire the cron in Amenti-Workers/wrangler.toml — content is loaded, switch never armed.",
     "Amenti Dispatch: fix the future-date sensor bug (negative age reads green).",
