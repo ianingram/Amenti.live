@@ -105,19 +105,19 @@ body[data-page="codex"] .btn-secondary:hover{background:var(--neon-dim);}
 .cdx-art-frame::after{bottom:-1px;right:-1px;border-left:none;border-top:none;}
 
 .cdx-info{padding:40px 64px 40px 56px !important;}
-.cdx-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--neon);letter-spacing:.22em;margin-bottom:8px;}
+.cdx-eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--neon);letter-spacing:.22em;margin-bottom:8px;}
 .cdx-name{font-family:var(--font-elite);font-size:42px;color:#fff;line-height:1;letter-spacing:.01em;margin-bottom:6px;}
 .cdx-title{font-family:var(--font-script);font-size:20px;color:var(--gold);font-style:italic;margin-bottom:16px;}
-.cdx-quote{border-left:2px solid var(--gold);padding:6px 14px;font-family:var(--font-script);font-size:18px;color:#fff;margin-bottom:22px;line-height:1.4;font-style:italic;opacity:.85;}
-.cdx-meta-row{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:22px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;}
+.cdx-quote{border-left:2px solid var(--gold);padding:6px 14px;font-family:var(--font-script);font-size:21px;color:#fff;margin-bottom:22px;line-height:1.4;font-style:italic;opacity:.85;}
+.cdx-meta-row{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:22px;font-family:var(--font-mono);font-size:13px;letter-spacing:.12em;}
 .cdx-meta-cell{display:flex;flex-direction:column;gap:2px;}
 .cdx-meta-lbl{color:var(--text-dim);font-size:9px;}
 .cdx-meta-val{color:var(--text);}
 
 .cdx-section{margin-bottom:24px;}
-.cdx-sect-h{font-family:var(--font-mono);font-size:10px;color:var(--gold);letter-spacing:.22em;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.cdx-sect-h{font-family:var(--font-mono);font-size:12px;color:var(--gold);letter-spacing:.22em;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
 .cdx-sect-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--wire),transparent);}
-.cdx-bio{font-family:var(--font-script);font-size:17px;color:var(--text);line-height:1.7;text-wrap:pretty;}
+.cdx-bio{font-family:var(--font-script);font-size:20px;color:var(--text);line-height:1.7;text-wrap:pretty;}
 .cdx-abilities{display:flex;flex-wrap:wrap;gap:8px;}
 .cdx-ability{font-family:var(--font-mono);font-size:11px;color:var(--neon);letter-spacing:.1em;padding:5px 12px;border:1px solid rgba(0,255,224,0.4);background:rgba(0,255,224,0.05);clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);}
 .cdx-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;}
@@ -126,7 +126,7 @@ body[data-page="codex"] .btn-secondary:hover{background:var(--neon-dim);}
 .cdx-stat-row span:last-child{color:var(--gold);}
 .cdx-stat-bar{height:5px;background:var(--granite);position:relative;overflow:hidden;}
 .cdx-stat-fill{height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold-light));}
-.cdx-voice{font-family:var(--font-script);font-size:16px;color:var(--text);font-style:italic;line-height:1.7;opacity:.85;border-top:1px dashed var(--wire);padding-top:14px;}
+.cdx-voice{font-family:var(--font-script);font-size:19px;color:var(--text);font-style:italic;line-height:1.7;opacity:.85;border-top:1px dashed var(--wire);padding-top:14px;}
 
 .cdx-actions{display:flex;gap:16px;margin-top:22px;flex-wrap:wrap;align-items:center;}
 
@@ -422,3 +422,69 @@ body[data-page="codex"] .btn-secondary { padding:12px 30px !important; }
 body[data-page="codex"] .cdx-openfile { display:inline-block; }
 /* the section that holds OPEN THE FULL FILE — clearance below it */
 body[data-page="codex"] .cdx-info .cdx-section:has(.cdx-openfile){ margin-bottom:22px !important; }
+
+
+/* ── CODEX GEM BUTTONS — set stones in gold (25 Aug) ───────────────────────
+   OPEN THE FULL FILE = garnet (left) · TALK TO = emerald (right, slow pulse).
+   Gold setting = layered border + gradient; gem face = radial gradient;
+   glow = box-shadow. Reset-proof padding via !important (the codex wildcard
+   reset zeroes padding otherwise). Row is space-between so the pair frames a
+   centre gap; SEE IN TIMELINE (btn-secondary) sits quieter. */
+
+/* the row: OPEN left, TALK right, gap between */
+body[data-page="codex"] .cdx-actions{
+  display:flex !important; justify-content:space-between !important;
+  align-items:center !important; gap:20px !important; flex-wrap:wrap !important;
+  margin-top:24px !important; width:100% !important;
+}
+
+/* shared gem body */
+body[data-page="codex"] .cdx-openfile,
+body[data-page="codex"] .btn-primary{
+  position:relative !important;
+  padding:16px 34px !important;
+  border:2px solid !important; border-radius:5px !important;
+  border-image:linear-gradient(180deg,#f4d47a,#d4a028 55%,#8a6414) 1 !important;
+  font-family:var(--font-mono) !important; font-size:14px !important;
+  letter-spacing:.16em !important; text-transform:uppercase !important;
+  font-weight:700 !important; cursor:pointer !important; text-decoration:none !important;
+  display:inline-block !important;
+  box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.45) !important;
+}
+
+/* OPEN THE FULL FILE — garnet, left */
+body[data-page="codex"] .cdx-openfile{
+  background:
+    radial-gradient(120% 140% at 40% 25%, #ffc0a8 0%, #d24a3a 32%, #7a1e1a 75%, #380c0a 100%) !important;
+  color:#fff0ea !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.55) !important;
+}
+
+/* TALK TO — emerald, right, PULSING */
+body[data-page="codex"] .btn-primary{
+  background:
+    radial-gradient(120% 140% at 40% 25%, #9ff5bd 0%, #2ea86a 32%, #125a3a 75%, #0a3826 100%) !important;
+  color:#eafff2 !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.5) !important;
+  animation:gemPulse 3.2s ease-in-out infinite !important;
+}
+@keyframes gemPulse{
+  0%,100%{ box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.45), 0 0 0 0 rgba(46,168,106,.0); }
+  50%    { box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 6px 22px rgba(0,0,0,.5), 0 0 26px 4px rgba(60,224,150,.45); }
+}
+@media (prefers-reduced-motion:reduce){
+  body[data-page="codex"] .btn-primary{ animation:none !important; }
+}
+
+/* SEE IN TIMELINE — quieter, keeps the cyan outline */
+body[data-page="codex"] .btn-secondary{
+  padding:13px 28px !important; border-radius:5px !important;
+}
+
+/* top light streak on the gems */
+body[data-page="codex"] .cdx-openfile::before,
+body[data-page="codex"] .btn-primary::before{
+  content:'' !important; position:absolute !important; left:6px; right:6px; top:4px; height:34% !important;
+  background:linear-gradient(180deg, rgba(255,255,255,.28), transparent) !important;
+  border-radius:4px !important; pointer-events:none !important;
+}
