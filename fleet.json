@@ -1,0 +1,76 @@
+{
+  "_": "THE FLEET, DECLARED. What each publishing tube IS and IS MEANT TO DO — the intent probe-ordnance.mjs checks reality against. Lifted 24 Aug 2026 from the cadences that were hardcoded inside probe-ordnance itself, plus three things the probe could not know: the SURFACE name a reader sees, the declared STATE (live/paused/retired), and the reason. Edit the fleet HERE; the probe reads this and stops carrying the schedule in its own body.",
+  "_law": "A schedule that nobody checks is a promise nobody keeps. This file is the promise; probe-ordnance is the checking. Neither is complete without the other.",
+  "_howToRead": [
+    "mechanism  — the KV prefix / internal name the code and firing log use. PERMANENT. Never rename (see RULING-THE-DISPATCH-TWO-NAMES).",
+    "surface    — what a reader sees. The public name. May differ from mechanism, deliberately.",
+    "state      — live | paused | retired-at-surface. The probe reads THIS before crying WARN: a paused tube that is quiet is behaving; a live tube that is quiet is a fault.",
+    "cadence    — how often it is MEANT to fire. The probe measures lastAgeDays against this.",
+    "cron       — the schedule string the trigger SHOULD carry, for the probe's armed/not-armed check. The trigger itself lives in the private Amenti-Workers; this is the expected value, not the source of truth for the trigger.",
+    "prefixes   — the KV key prefixes this tube's output is stored under, so the probe knows where to look."
+  ],
+  "_note": "This declares INTENT. It does not fire anything and it does not store content. The triggers live in Amenti-Workers (private); the content lives in KV. This is the third layer — what the captain decided — made readable so a session reads it instead of asking.",
+  "generated": "2026-08-24 (authored by hand; not probe-generated — this is the intent the probe checks against)",
+
+  "tubes": [
+    {
+      "mechanism": "atlantica",
+      "surface": "Atlantica",
+      "state": "paused",
+      "cadence": "weekly",
+      "form": "the blog / recitation — one figure's essay",
+      "prefixes": ["atlantica:"],
+      "note": "Fired 64× then stood down deliberately while the ship's foundation was rebuilt (Supabase versioning, the source index, the hall). CONTENT AND HISTORY ARE REAL — 77 in the hold. Restarting is RESUMPTION, not construction. Was daily; the fleet is weekly now.",
+      "state_reason": "paused by the captain, not failed. A WARN from age alone is expected until resumed."
+    },
+    {
+      "mechanism": "week",
+      "surface": "THE WEEK",
+      "state": "live",
+      "cadence": "weekly",
+      "cron": "0 12 * * 0",
+      "form": "the assembled weekly issue (VAL·HAL·LA)",
+      "prefixes": ["week:"],
+      "note": "6 issues loaded in the hold, ARMED cron expected Sunday 12:00 UTC. Diagnosed 13 July and again 24 Aug: has fired ZERO times, almost certainly because the [triggers] cron block was never registered in the Worker's wrangler.toml. The content is ready; the switch was never wired.",
+      "state_reason": "declared live and meant to fire; a quiet tube here IS a fault — this is the one to wire first."
+    },
+    {
+      "mechanism": "dailyplanet",
+      "surface": "Amenti Dispatch",
+      "state": "live",
+      "cadence": "weekly",
+      "form": "the newsroom / journalistic — themed cast + docket + court reporters",
+      "prefixes": ["dailyplanet:", "planet:", "article:"],
+      "note": "THE NAME MISMATCH IS DELIBERATE — see RULING-THE-DISPATCH-TWO-NAMES.md. The mechanism keeps `dailyplanet:` because it is wired into the docket, the court-reporter slots, the feed index and the weekly manifest; renaming the code would break surfaces AND reopen a trademark exposure. The reader sees ONLY 'Amenti Dispatch'. Was daily; now weekly. A probe reporting 'THE DAILY PLANET' is naming the mechanism, not a dead surface — the tube is LIVE.",
+      "known_defect": "The date sensor reads a last-fired date in the FUTURE (age negative), which passes a `< threshold` test and shows green. Sensor bug, unrelated to the name; fixing it must not touch the `dailyplanet:` mechanism name."
+    },
+    {
+      "mechanism": "audio:atlantica",
+      "surface": "the Podcast",
+      "state": "planned",
+      "cadence": "weekly",
+      "form": "the spoken edition of Atlantica — NOT separate content",
+      "prefixes": ["podcast:", "pod:", "audio:"],
+      "note": "Per Amenti Studios (SOURCE MATERIAL, an old idea, part true / part false — not a spec): the podcast is the spoken edition of Atlantica, not a separate tube. Today's dispatch is the featured episode; the archive is the back-catalogue. Keystone (/speak content-addressed R2 caching) was described as buildable, status unconfirmed. Treat as PLANNED until Phase One is verified shipped.",
+      "state_reason": "planned, not failed. A probe FAIL here means 'not built yet', which is correct — not an alarm."
+    },
+    {
+      "mechanism": "docket",
+      "surface": "the Docket",
+      "state": "live",
+      "cadence": "per case",
+      "form": "the court — cases weighed, settled on a fixed day",
+      "prefixes": [],
+      "note": "Lives in the MINT worker (/quiz/topics, /hall), NOT the proxy. probe-ordnance does not walk this tube yet — it says so honestly rather than draw an empty tube. First case-set closed 13 July 2026 with ZERO arguments submitted, learned because a human read a date, not because anything watched. Wiring the probe to the mint is an open item.",
+      "state_reason": "live but UNWATCHED by the probe — the gap that let the empty close go unnoticed."
+    }
+  ],
+
+  "_open_items_this_declaration_surfaces": [
+    "THE WEEK: wire the cron in Amenti-Workers/wrangler.toml — content is loaded, switch never armed.",
+    "Amenti Dispatch: fix the future-date sensor bug (negative age reads green).",
+    "the Podcast: verify whether Studios Phase One (/speak R2 caching) actually shipped before treating the tube as buildable.",
+    "the Docket: teach probe-ordnance (or a sibling) to walk the mint tube, so a silent court is seen by an instrument, not a human.",
+    "probe-ordnance: read THIS file instead of its hardcoded cadences, and read `state` before raising WARN so paused/planned tubes are not cried as faults."
+  ]
+}
