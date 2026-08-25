@@ -104,7 +104,7 @@ body[data-page="codex"] .btn-secondary:hover{background:var(--neon-dim);}
 .cdx-art-frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none;}
 .cdx-art-frame::after{bottom:-1px;right:-1px;border-left:none;border-top:none;}
 
-.cdx-info{padding:40px 64px 40px 56px;}
+.cdx-info{padding:40px 64px 40px 56px !important;}
 .cdx-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--neon);letter-spacing:.22em;margin-bottom:8px;}
 .cdx-name{font-family:var(--font-elite);font-size:42px;color:#fff;line-height:1;letter-spacing:.01em;margin-bottom:6px;}
 .cdx-title{font-family:var(--font-script);font-size:20px;color:var(--gold);font-style:italic;margin-bottom:16px;}
