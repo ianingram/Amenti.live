@@ -128,7 +128,7 @@ body[data-page="codex"] .btn-secondary:hover{background:var(--neon-dim);}
 .cdx-stat-fill{height:100%;background:linear-gradient(90deg,var(--gold-deep),var(--gold-light));}
 .cdx-voice{font-family:var(--font-script);font-size:16px;color:var(--text);font-style:italic;line-height:1.7;opacity:.85;border-top:1px dashed var(--wire);padding-top:14px;}
 
-.cdx-actions{display:flex;gap:12px;margin-top:26px;}
+.cdx-actions{display:flex;gap:16px;margin-top:22px;flex-wrap:wrap;align-items:center;}
 
 @media (max-width:1100px){.cdx-detail{grid-template-columns:1fr;} .cdx-art{min-height:420px;}}
 @media (max-width:780px){.codex-shell{grid-template-columns:1fr;}.cdx-side{border-right:none;border-bottom:1px solid var(--wire);}}
@@ -409,3 +409,16 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
    sit in a bare :root here, so it overrode the ARENA too — the arena declares
    #a87c14 and never once received it. Scoped to this page instead. */
 body[data-page="terminal"]{--gold-deep:#8a6810;}
+
+
+/* ── CODEX ACTION BUTTONS — reset-proof padding + spacing (25 Aug) ──────────
+   The codex page carries a wildcard reset (body[data-page="codex"] *{padding:0})
+   that zeroes button padding and CLIPS the label text ("OPEN"->"PEN","TALK" cut).
+   Restore padding with !important so it beats the reset. Separate the stacked
+   gold buttons: OPEN THE FULL FILE sits on its own line above the actions row. */
+body[data-page="codex"] .btn-primary,
+body[data-page="codex"] .cdx-openfile { padding:14px 32px !important; }
+body[data-page="codex"] .btn-secondary { padding:12px 30px !important; }
+body[data-page="codex"] .cdx-openfile { display:inline-block; }
+/* the section that holds OPEN THE FULL FILE — clearance below it */
+body[data-page="codex"] .cdx-info .cdx-section:has(.cdx-openfile){ margin-bottom:22px !important; }
