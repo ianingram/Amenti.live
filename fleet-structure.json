@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-26T02:03:57.351Z",
+    "generated": "2026-08-26T04:20:41.929Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1486,7 +1486,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 29,
+    "count": 30,
     "files": [
       {
         "file": "probe-engine.mjs",
@@ -1517,6 +1517,12 @@
         "title": "THE ORDNANCE PROBE",
         "guards": null,
         "bytes": 16341
+      },
+      {
+        "file": "probe-page1.mjs",
+        "title": null,
+        "guards": null,
+        "bytes": 21126
       },
       {
         "file": "probe-production.mjs",
