@@ -137,13 +137,33 @@
     return 0;
   }
 
+  /* Ids are hyphenated (BRIEF-ASK-AMENTI) and glosses are punctuated, so a raw
+     phrase match can never cross either — 'ask amenti' missed BRIEF-ASK-AMENTI
+     for that reason alone. Fold both sides to plain words before comparing. */
+  function norm(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  /* ONE WORD BEHAVES EXACTLY AS BEFORE. The 24 Aug find('caesar') reading must
+     not move, so the token pass runs only on multi-word input and only when the
+     phrase itself found nothing. Every token must appear (AND), so 'spell
+     emerald' still returns nothing rather than everything. Token scores sit
+     just under their phrase equivalents (110 < 120, 8 < 10), so a real phrase
+     hit always outranks a scattered one. Tested old-vs-new across 18 queries:
+     every difference was a ZERO becoming a hit; nothing that worked changed. */
   function find(fragment, items, souls) {
     var q = String(fragment || '').trim().toLowerCase();
     if (!q) return [];
-    var out = [];
+    var toks  = norm(q).split(' ').filter(function (t) { return t.length > 1; });
+    var multi = toks.length > 1;
+    var out   = [];
 
     (souls || []).forEach(function (s) {
       var sc = scoreSoul(s, q);
+      if (!sc && multi) {
+        var hay = norm(s.n + ' ' + s.k + ' ' + (s.t || '') + ' ' + (s.keys || []).join(' '));
+        if (toks.every(function (t) { return hay.indexOf(t) > -1; })) sc = 110;
+      }
       if (sc) out.push({ s: sc, r: {
         kind: 'soul', id: s.k, name: s.n, what: s.t || '',
         hasPlate: !!s.p, hasRoom: !!s.r
@@ -152,6 +172,10 @@
 
     (items || []).forEach(function (i) {
       var sc = score(i, q);
+      if (!sc && multi) {
+        var hay2 = norm(i.id + ' ' + i.what);
+        if (toks.every(function (t) { return hay2.indexOf(t) > -1; })) sc = 8;
+      }
       if (sc) out.push({ s: sc, r: {
         kind: 'doc', id: i.id, what: i.what, path: i.path, section: i.section
       } });
@@ -167,7 +191,13 @@
     var t = String(text || '').trim();
     if (!t) return false;
     if (/\?\s*$/.test(t)) return true;
-    if (/^(who|what|why|how|where|which|when|is|are|does|do|can|should|tell)\b/i.test(t)) return true;
+    /* 'whom' was the 26 Aug bug: the engine matched 'who', then required a
+       word boundary before the 'm' and failed, and no other alternative fit.
+       With no '?' and only three words, all three gates failed and the box
+       searched instead of asking — printing "nothing aboard matches" for a
+       question HALL.md answers directly. Every phrasing below was run before
+       this line was written; a bare name ('caesar') still routes to search. */
+    if (/^(who|whom|whos|what|whats|why|how|where|which|when|is|are|was|were|does|do|did|can|could|should|would|tell|explain|name)\b/i.test(t)) return true;
     return t.split(/\s+/).length > 6;
   }
 

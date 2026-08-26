@@ -149,6 +149,16 @@
     if (!window.AmentiHall) return;
     window.AmentiHall.find(q).then(function (r) {
       results.innerHTML = '';
+      /* A deliberate search that finds nothing is not an answer. If there was
+         more than one word the visitor was probably ASKING and the router
+         missed — escalate rather than print a false "nothing aboard". This is
+         the second half of the 26 Aug "whom made amenti" fix: the first half
+         widens isQuestion(), this half stops a router miss from ever being
+         terminal. A single word is a name or a fragment: if it is not aboard,
+         say so plainly and spend nothing.
+         ask() does its own logging, so the tally below is skipped on escalate
+         or the same text is counted twice under two different kinds. */
+      if (!r.length && logged && q.split(/\s+/).length > 1) { ask(q); return; }
       if (logged) log(q, 'search');
       /* Only say "nothing matches" for a deliberate search (Enter on a
          non-question). A live keystroke that finds nothing stays silent. */

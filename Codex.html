@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Codex — Amenti</title>
+<meta name="robots" content="noindex">
+<script>
+  /* The Codex is a tab in Page1.html now. This file exists only so that any
+     reference that bypasses the click-map in Page1 — an onclick assignment, a
+     bookmark, an old outbound link — still lands in the right place instead of
+     404ing. Page1 honours ?char= on load and #codex selects the tab. */
+  location.replace('Page1.html' + location.search + '#codex');
+</script>
+<noscript><a href="Page1.html#codex">Continue to the Codex</a></noscript>
