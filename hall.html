@@ -101,9 +101,23 @@
      It sits with the other footer links and looks like them until tapped.
      The plate itself stays WHITE — not decoration: a code on #06060e with no
      quiet zone is the commonest reason a phone will not read it. */
+  /* PINNED BOTTOM-LEFT. Out of the page's way entirely: the hall keeps its
+     centred column, and the hand-over waits in the corner until reached for.
+     Opens UPWARD (column-reverse) so the code never runs off the bottom edge.
+     z-index 2 clears the fixed gate (0) and the page column (1). */
+  #amenti-handover { position: fixed; left: 1.25rem; bottom: 1.25rem; z-index: 2; }
+  #amenti-handover .aqr-q { flex-direction: column-reverse; align-items: flex-start; }
+  #amenti-handover .aqr-drop { align-items: flex-start; margin-bottom: .5rem; }
   #amenti-handover .aqr-toggle,
-  #amenti-handover .aqr-mini { color: #e8e4d8; font-family: inherit; }
-  #amenti-handover .aqr-drop { margin-top: .35rem; }
+  #amenti-handover .aqr-mini { color: #e8e4d8; font-family: inherit;
+    text-shadow: 0 1px 10px rgba(6,6,14,.9); }
+  #amenti-handover .aqr-toggle { font-size: .8rem; }
+  /* on a narrow screen the corner is where a thumb lives — keep it clear of
+     the footer text and shrink the code so it never fills the viewport */
+  @media (max-width: 560px) {
+    #amenti-handover { left: .9rem; bottom: .9rem; }
+    #amenti-handover .aqr-plate svg { width: 118px; height: 118px; }
+  }
 
 </style>
 </head>
@@ -121,11 +135,12 @@
 
 <main id="hall-main"></main>
 
+<div id="amenti-handover" data-label="hand over the hall" data-mode="quiet"></div>
+
 <footer>
   <div class="aa-links">
     <a href="Page1.html">enter the Living Library</a>
     <a href="Amenti_Separation_of_Power.html">The Separation of Power</a>
-    <div id="amenti-handover" data-label="hand over the hall" data-mode="quiet"></div>
   </div>
   <div class="aa-llc">Ingram Manor LLC</div>
 </footer>
@@ -205,7 +220,7 @@
 </script>
 <script src="amenti-hall.js" defer></script>
 <script src="amenti-hall-box.js" defer></script>
-<script src="amenti-qr.js?v=2" defer></script>
+<script src="amenti-qr.js?v=3" defer></script>
 
 </body>
 </html>
