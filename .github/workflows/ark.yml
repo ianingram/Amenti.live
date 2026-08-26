@@ -57,9 +57,10 @@ name: the ark
 on:
   workflow_dispatch:
   schedule:
-    # Sunday 03:11 UTC — well clear of the four strands at :07/:17/:27/:37/:47
-    # and clear of the bell at Monday 00:00.
-    - cron: '11 3 * * 0'
+    # DAILY at 03:11 UTC — well clear of the four strands at :07/:17/:27/:37/:47
+    # and clear of the bell at Monday 00:00. Changed from weekly (Sun) to daily
+    # 25 Aug 2026: a week of exposure was too much for the build pace.
+    - cron: '11 3 * * *'
 
 permissions:
   contents: read
