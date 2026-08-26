@@ -94,6 +94,28 @@
   header h1 { color: #57b6ff; }
 
 
+  /* ── THE HAND-OVER ────────────────────────────────────────────────────────
+     amenti-qr.js draws the QR. Its own CSS reaches for --gold-b / --granite /
+     --slate, which this page does not define — hall has a bespoke palette, not
+     the flagship's variables. So the hall states them here and the widget
+     wears the terminal voice like everything else on this page.
+     The PLATE STAYS WHITE. It is not decoration: a QR on #06060e with no quiet
+     zone is the most common reason a code will not scan. */
+  #amenti-handover { position: relative; z-index: 1; max-width: 640px;
+    margin: 0 auto 2.5rem; padding: 0 1rem; }
+  #amenti-handover .aqr { background: rgba(6,6,14,.55);
+    border: 1px solid rgba(87,182,255,.28); border-radius: 14px;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  #amenti-handover .aqr-k { font-family: 'Amenti Display', Georgia, serif;
+    color: #57b6ff; font-weight: 700; }
+  #amenti-handover .aqr-v { color: #e8e4d8; opacity: .78;
+    font-family: 'Amenti Display', Georgia, serif; }
+  #amenti-handover .aqr-btn { background: #57b6ff; color: #06060e;
+    font-family: 'Amenti Display', Georgia, serif; font-weight: 700; }
+  #amenti-handover .aqr-btn.ghost { background: transparent; color: #57b6ff;
+    border-color: rgba(87,182,255,.4); }
+  #amenti-handover .aqr-url { color: #e8e4d8; opacity: .42; }
+
 </style>
 </head>
 <body>
@@ -109,6 +131,8 @@
 </header>
 
 <main id="hall-main"></main>
+
+<div id="amenti-handover" data-label="Hand over the hall"></div>
 
 <footer>
   <div class="aa-links">
@@ -193,6 +217,7 @@
 </script>
 <script src="amenti-hall.js" defer></script>
 <script src="amenti-hall-box.js" defer></script>
+<script src="amenti-qr.js?v=1" defer></script>
 
 </body>
 </html>
