@@ -85,13 +85,40 @@
   header, main, footer { position: relative; z-index: 1; }
 
   /* TERMINAL BLUE — #57b6ff, the text colour amenti-chat.js speaks in. The hall
-     speaks through the same door, so its box and title wear the terminal voice. */
+     speaks through the same door, so its TITLE and its INPUT wear the terminal
+     voice. The ANSWER does not — see below. */
   #ask-amenti input { color: #57b6ff; }
   #ask-amenti input::placeholder { color: #57b6ff; opacity: .55; }
   #ask-amenti .aa-box { border-color: rgba(87,182,255,.45); }
   #ask-amenti .aa-seed { color: #57b6ff; border-color: rgba(87,182,255,.4); }
-  #ask-amenti .aa-answer { color: #57b6ff; }
   header h1 { color: #57b6ff; }
+
+  /* ── THE ANSWER ───────────────────────────────────────────────────────────
+     The answer was blue too, and it did not hold. The gate ROTATES, and its
+     frames are brightest — pale cloud — exactly where a long answer sits. Blue
+     read well over the pyramid's dark face and washed out over the sky, in the
+     same paragraph. No single text colour survives every scene, so the fix is
+     not a different blue: it is giving the answer A GROUND OF ITS OWN.
+
+     White, on a dark panel, legible on every frame the gate can show. Not pure
+     #fff — that glares on dark and reads like a system dialog; #f2f4f8 is white
+     to the eye and sits in the page.
+
+     The blue is not lost, it MOVES: it holds the left edge as a rule. The hall
+     still speaks in its colour; the answer just no longer has to carry it.
+
+     Selectors cover both containers because the box's own id belongs to
+     amenti-hall-box.js, not to this page. */
+  #ask-amenti .aa-answer,
+  #hall-main .aa-answer {
+    color: #f2f4f8;
+    background: rgba(6,6,14,.72);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    border-left: 2px solid rgba(87,182,255,.45);
+    border-radius: 10px;
+    padding: 1.1rem 1.35rem;
+    text-shadow: 0 1px 12px rgba(6,6,14,.9);
+  }
 
 
   /* ── THE HAND-OVER ────────────────────────────────────────────────────────
@@ -140,7 +167,13 @@
 <footer>
   <div class="aa-links">
     <a href="Page1.html">enter the Living Library</a>
-    <a href="Amenti_Separation_of_Power.html">The Separation of Power</a>
+    <!-- ABSOLUTE, and it has to be. This file lives in Amenti-Technical-Briefs,
+         which is a DIFFERENT Pages site. The link was written relative —
+         href="Amenti_Separation_of_Power.html" — which resolves against
+         whichever site is serving the hall, where no such file exists. It was
+         not a missing document; it was a link pointing at the wrong building.
+         Anything in the briefs repo linked from here needs the full URL. -->
+    <a href="https://ianingram.github.io/Amenti-Technical-Briefs/Amenti_Separation_of_Power.html">The Separation of Power</a>
   </div>
   <div class="aa-llc">Ingram Manor LLC</div>
 </footer>
