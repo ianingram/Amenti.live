@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-26T21:58:06.477Z",
+    "generated": "2026-08-26T22:39:53.625Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -661,8 +661,8 @@
     },
     {
       "file": "amenti-hall-box.js",
-      "bytes": 10841,
-      "sha256": "0b5b9ebddf43531c",
+      "bytes": 14033,
+      "sha256": "4ef3e37f4228152f",
       "type": "js",
       "declares": [
         "AmentiCodexOpen"
@@ -674,8 +674,8 @@
     },
     {
       "file": "amenti-hall.js",
-      "bytes": 17250,
-      "sha256": "cac981e8ecd3dab5",
+      "bytes": 20303,
+      "sha256": "a70ef3c35a0a205c",
       "type": "js",
       "declares": [
         "AmentiHall"
