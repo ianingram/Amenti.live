@@ -1,0 +1,92 @@
+# ============================================================================
+#  .github/workflows/flagship.yml  ·  THE FLAGSHIP PROBE
+#  repo: Amenti.live
+# ----------------------------------------------------------------------------
+#  Runs probes/probe-page1.mjs and commits PAGE1.json.
+#
+#  Fires on every push that touches Page1.html or anything it loads, because
+#  the reading that matters is the one taken right after the change — not the
+#  one taken at 06:00 the next morning, by which time three more changes have
+#  landed on top of it and the finding has no author.
+#
+#  ── IT DOES NOT FAIL THE BUILD ────────────────────────────────────────────
+#  No `--strict`. On the day an instrument is installed its counts are all
+#  non-zero, and a probe that turns its first honest reading into a red X
+#  across the repo gets switched off within a week. The counts are the point.
+#  Drive them down, THEN add --strict, and they stay down.
+#
+#  The one exception is worth making early: `assetsMissing`. A page that
+#  references a file which is not in the repo is broken for every reader, right
+#  now, with no judgement required. Uncomment the guard at the bottom when
+#  that count is zero.
+#
+#  ── EMPTY GLASS ───────────────────────────────────────────────────────────
+#  If Page1.html cannot be read the probe exits 2 and writes NOTHING. The old
+#  PAGE1.json is left in place and the pane's staleAfterDays will mark it. A
+#  fresh file full of zeros would be worse: the pane would render "0 problems"
+#  over a page nobody could open.
+# ============================================================================
+name: the flagship
+
+on:
+  push:
+    paths:
+      - 'Page1.html'
+      - 'amenti-*.js'
+      - 'amenti_*.js'
+      - 'library.js'
+      - 'amenti-*.css'
+      - 'probes/probe-page1.mjs'
+      - '.github/workflows/flagship.yml'
+  schedule:
+    # 06:20 UTC — after the librarian at 06:00, clear of the ark at 03:11 and
+    # of the four strands at :07/:17/:27/:37/:47.
+    - cron: '20 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: flagship
+  cancel-in-progress: false
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Read the flagship
+        id: read
+        run: node probes/probe-page1.mjs --page Page1.html --out PAGE1.json
+
+      # ── THE REGISTER ────────────────────────────────────────────────────
+      # `git add` BEFORE `git diff --cached`. The librarian's first run failed
+      # on exactly this: an untracked new file is invisible to a staged diff,
+      # so the job reported "unchanged" and never committed its first reading.
+      - name: Commit the reading
+        run: |
+          git config user.name  "the-flagship-probe"
+          git config user.email "probe@amenti.live"
+          git add -f PAGE1.json
+          if git diff --cached --quiet -- PAGE1.json; then
+            echo "the reading is unchanged"
+          else
+            git commit -m "probe: read the flagship"
+            git push
+            echo "committed a new reading"
+          fi
+
+      # ── THE GUARD, FOR WHEN IT IS EARNED ────────────────────────────────
+      # Uncomment once `assetsMissing` is 0. A referenced file that is not in
+      # the repo is a broken page for every reader, and needs no judgement.
+      #
+      # - name: A reference with no file is a broken page
+      #   run: |
+      #     N=$(node -p "require('./PAGE1.json').totals.assetsMissing")
+      #     [ "$N" = "0" ] || { echo "::error::$N referenced asset(s) are not in the repo"; exit 1; }
