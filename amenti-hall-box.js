@@ -66,7 +66,11 @@
     '#ask-amenti .aa-kind{opacity:.55;font-size:.78rem;margin-right:.5rem;text-transform:uppercase;letter-spacing:.04em}',
     '#ask-amenti .aa-answer{margin:.9rem 0 0;padding:.9rem 1rem;border-left:3px solid rgba(127,127,127,.5);white-space:pre-wrap;font-size:.97rem;line-height:1.55}',
     '#ask-amenti .aa-note{margin:.5rem 0 0;font-size:.82rem;opacity:.65}',
-    '#ask-amenti .aa-busy{opacity:.6;font-style:italic}'
+    '#ask-amenti .aa-busy{opacity:.6;font-style:italic}',
+    '#ask-amenti .aa-cite{color:inherit;text-decoration:underline;text-underline-offset:2px;opacity:.9}',
+    '#ask-amenti .aa-cite:hover{opacity:1}',
+    '#ask-amenti .aa-answer strong{font-weight:600}',
+    '#ask-amenti .aa-answer code{font-family:ui-monospace,Menlo,monospace;font-size:.9em;opacity:.9}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -192,6 +196,61 @@
     });
   }
 
+  /* ── turning a cited id into a door ───────────────────────────────────── */
+
+  /* The answer is MODEL OUTPUT. It has been written into the page with
+     textContent until now, which is why nothing here has ever had to think
+     about markup. Linking means innerHTML, so the text is escaped FIRST and
+     the anchors are added second — in ONE pass, so a replacement can never be
+     rescanned and an id sitting inside another document's filename cannot be
+     linkified a second time inside an href. */
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function linkify(text, links) {
+    var ids = Object.keys(links || {});
+    if (!ids.length) return esc(text);
+    /* Longest first, so 'amenti-brief-the-docket' wins over any shorter id
+       that is a prefix of it. */
+    ids.sort(function (a, b) { return b.length - a.length; });
+    var alt = ids.map(function (id) {
+      return id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }).join('|');
+    /* Not \b — ids contain hyphens and underscores, which \b treats as
+       boundaries and would match the middle of a longer name. */
+    var re = new RegExp('(^|[^A-Za-z0-9_-])(' + alt + ')(?![A-Za-z0-9_-])', 'g');
+    return esc(text).replace(re, function (m, pre, hit) {
+      return pre + '<a class="aa-cite" href="' + links[hit] +
+             '" target="_blank" rel="noopener">' + hit + '</a>';
+    });
+  }
+
+
+  /* The model writes markdown whether or not it is asked not to, and until now
+     it reached the page as literal asterisks: **The Hall**. Rather than spend
+     system characters telling it to stop — and lose the emphasis, which is
+     worth keeping — the surface renders the little of it that actually shows
+     up. Deliberately tiny: bold, italic, inline code. Nothing block-level.
+
+     ASTERISKS ONLY. Underscore emphasis is NOT supported and must not be
+     added: 'amenti_foundation_sovereignty' is a real catalogue id, and a
+     renderer that treats _x_ as italic would eat citations alive.
+
+     Runs AFTER linkify, on already-escaped text. The only markup present at
+     that point is anchors whose hrefs come from the register, and no path in
+     it contains an asterisk or a backtick — so these patterns cannot reach
+     inside a tag. Bold runs before italic so '**' is consumed first.
+     Known limit: markdown inside a code span is still rendered. */
+  function mdLite(html) {
+    return String(html)
+      .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^\s*][^*]*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^\s*][^*]*?)\*(?!\*)/g, '$1<em>$2</em>');
+  }
+
   /* ── the hall answers ─────────────────────────────────────────────────── */
 
   var busy = false;
@@ -208,7 +267,8 @@
 
     window.AmentiHall.ask(q).then(function (r) {
       answer.className = 'aa-answer';
-      answer.textContent = r.answer;
+      /* A citation the reader cannot open is half a citation. */
+      answer.innerHTML = mdLite(linkify(r.answer, r.links));
       var bits = [];
       if (r.cited && r.cited.length) bits.push('drawn from: ' + r.cited.join(', '));
       if (r.degraded && r.degraded.length) bits.push('could not be read this turn: ' + r.degraded.join('; '));

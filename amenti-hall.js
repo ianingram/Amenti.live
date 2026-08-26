@@ -275,6 +275,62 @@
       .trim();
   }
 
+  /* ── the reader's door to a cited document ────────────────────────────── */
+
+  /* The catalogue holds repo-relative paths for RAW fetching. A reader needs
+     the Pages URL, which is the same path with the branch removed:
+       Amenti-Technical-Briefs/main/X.html
+       -> https://ianingram.github.io/Amenti-Technical-Briefs/X.html
+     Verified against the live Separation-of-Power link already in hall.html.
+     Confirmed 26 Aug that .md serves RAW there — Jekyll is not converting, so
+     a .md path is a real address and not a redirect to a .html twin.
+
+     LINK ONLY WHAT A READER CAN READ. .js/.mjs/.json/.csv are source and
+     registers; handing someone a scraper is not a citation.
+
+     SERVED is a whitelist, not a guess. Both repos below have been seen to
+     serve. Fleet-Documents and Gameroom0.0 also appear in the catalogue and
+     are NOT listed — their Pages status is unconfirmed, and an unchecked repo
+     yields a plain citation rather than a 404 in a reader's face. Add them
+     here once someone has opened one. */
+  var PAGES    = 'https://ianingram.github.io/';
+  var SERVED   = { 'Amenti-Technical-Briefs': 1, 'Amenti.live': 1 };
+  var READABLE = /\.(html|pdf|md)$/i;
+
+  function docUrl(path) {
+    if (!path || !READABLE.test(path)) return null;
+    var bits = String(path).split('/');
+    var repo = bits.shift();
+    if (!SERVED[repo]) return null;
+    bits.shift();                       // the branch segment
+    if (!bits.length) return null;
+    /* At least one path in the register carries a space ("The Siege.html").
+       Encode each segment, never the whole string, or the slashes go too. */
+    return PAGES + repo + '/' + bits.map(encodeURIComponent).join('/');
+  }
+
+  /* A citation is only worth linking if the id could not be an ordinary word.
+     Twelve linkable ids are single bare words — hall, glossary, pipeline,
+     prologue, reader, readme, todo — and linking those turns any sentence
+     containing them into a false citation. Caught on 26 Aug when a test render
+     of a real answer linked the word "hall" in "the machines this hall runs
+     on". Require a hyphen, underscore or dot: a compound id is a name, a bare
+     word is English. */
+  function linkable(id) {
+    return /[-_.]/.test(String(id || ''));
+  }
+
+  /* id -> url, for every catalogue entry a reader could actually open. */
+  function linkMap(items) {
+    var m = {};
+    (items || []).forEach(function (i) {
+      if (i.unreachable || !linkable(i.id)) return;
+      var u = docUrl(i.path);
+      if (u) m[i.id] = u;
+    });
+    return m;
+  }
+
   /* ── ask ──────────────────────────────────────────────────────────────── */
 
   function ask(question) {
@@ -318,6 +374,12 @@
             cited: slices.map(function (s) { return s.id; }),
             counts: state,
             sources: items.length,
+            /* The URLs are NOT sent to the model — 147 of them overruns
+               SYSTEM_CHARS on their own (measured: 20,532 with HALL.md, wall
+               is 20,000). The hall cites by id and the surface resolves the
+               id to a door afterwards, which also means a link can only ever
+               point at something the register knows. */
+            links: linkMap(items),
             degraded: degraded
           };
         });
