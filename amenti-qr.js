@@ -407,59 +407,115 @@
      THE QUIET ZONE AND THE WHITE BACKGROUND ARE NOT DECORATION. A QR on a dark
      background with no margin is the single most common reason a code does not
      scan. The site is near-black; the code stays on white. */
-  function mount(el, url, label) {
+  /* ── THE PANEL ────────────────────────────────────────────────────────────
+     Two shapes, because the right one depends on the page.
+
+     'full'  — plate, heading, copy, share. For a page with room for it.
+     'quiet' — ONE SMALL LINE. The code appears only when someone asks. This is
+               the default, and it is the default because the first version was
+               not: a 200px plate with a paragraph and two buttons went onto a
+               page that is a title and a question over a slow pyramid, and it
+               ate the page. A hand-over is a thing you reach for once, at the
+               end. It should not outweigh the reason anyone came.
+
+     Encodes location.href at draw time, so it survives a move of domain. */
+  function mount(el, url, label, mode) {
     url = url || global.location.href;
+    label = label || 'Hand it over';
+    mode = mode || el.getAttribute('data-mode') || 'quiet';
+
     var s;
-    try { s = svg(url, { size: 200 }); }
+    try { s = svg(url, { size: mode === 'quiet' ? 148 : 200 }); }
     catch (e) {
       /* EMPTY GLASS: say there is no code rather than showing a broken one */
       el.innerHTML = '<div class="aqr-none">No code — this address is too long to encode.</div>';
       return;
     }
-    el.innerHTML =
-      '<div class="aqr">' +
-        '<div class="aqr-plate">' + s + '</div>' +
-        '<div class="aqr-side">' +
-          '<div class="aqr-k">' + (label || 'Hand it over') + '</div>' +
-          '<div class="aqr-v">Point a camera at this and Amenti opens where you are standing.</div>' +
-          '<div class="aqr-row">' +
-            '<button type="button" class="aqr-btn" data-aqr="copy">Copy link</button>' +
-            (global.navigator && global.navigator.share
-              ? '<button type="button" class="aqr-btn ghost" data-aqr="share">Share</button>' : '') +
+
+    if (mode === 'quiet') {
+      el.innerHTML =
+        '<div class="aqr-q">' +
+          '<button type="button" class="aqr-toggle" aria-expanded="false">' +
+            '<span class="aqr-glyph" aria-hidden="true">▚</span>' + esc(label) +
+          '</button>' +
+          '<div class="aqr-drop" hidden>' +
+            '<div class="aqr-plate">' + s + '</div>' +
+            '<button type="button" class="aqr-mini" data-aqr="copy">copy link</button>' +
           '</div>' +
-          '<div class="aqr-url"></div>' +
-        '</div>' +
-      '</div>';
-    el.querySelector('.aqr-url').textContent = url;
+        '</div>';
+      var tog = el.querySelector('.aqr-toggle'), drop = el.querySelector('.aqr-drop');
+      tog.addEventListener('click', function () {
+        var open = drop.hasAttribute('hidden');
+        if (open) drop.removeAttribute('hidden'); else drop.setAttribute('hidden', '');
+        tog.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    } else {
+      el.innerHTML =
+        '<div class="aqr">' +
+          '<div class="aqr-plate">' + s + '</div>' +
+          '<div class="aqr-side">' +
+            '<div class="aqr-k">' + esc(label) + '</div>' +
+            '<div class="aqr-v">Point a camera at this and Amenti opens where you are standing.</div>' +
+            '<div class="aqr-row">' +
+              '<button type="button" class="aqr-btn" data-aqr="copy">Copy link</button>' +
+              (global.navigator && global.navigator.share
+                ? '<button type="button" class="aqr-btn ghost" data-aqr="share">Share</button>' : '') +
+            '</div>' +
+            '<div class="aqr-url"></div>' +
+          '</div>' +
+        '</div>';
+      el.querySelector('.aqr-url').textContent = url;
+    }
 
     var copy = el.querySelector('[data-aqr="copy"]');
-    if (copy) copy.addEventListener('click', function () {
-      var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy link'; }, 1600); };
-      if (global.navigator && navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(done, function () { copy.textContent = 'Copy failed'; });
-      } else {
-        /* older iOS Safari has no clipboard API in some contexts */
-        var ta = document.createElement('textarea');
-        ta.value = url; ta.setAttribute('readonly', '');
-        ta.style.cssText = 'position:absolute;left:-9999px';
-        document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); done(); } catch (e) { copy.textContent = 'Copy failed'; }
-        ta.remove();
-      }
-    });
+    if (copy) {
+      var was = copy.textContent;
+      copy.addEventListener('click', function () {
+        var done = function () { copy.textContent = 'copied'; setTimeout(function () { copy.textContent = was; }, 1600); };
+        if (global.navigator && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done, function () { copy.textContent = 'copy failed'; });
+        } else {
+          /* older iOS Safari has no clipboard API in some contexts */
+          var ta = document.createElement('textarea');
+          ta.value = url; ta.setAttribute('readonly', '');
+          ta.style.cssText = 'position:absolute;left:-9999px';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); done(); } catch (e2) { copy.textContent = 'copy failed'; }
+          ta.remove();
+        }
+      });
+    }
 
     var share = el.querySelector('[data-aqr="share"]');
     if (share) share.addEventListener('click', function () {
-      navigator.share({ title: 'Ask Amenti', url: url }).catch(function () {});
+      navigator.share({ title: document.title, url: url }).catch(function () {});
+    });
+  }
+
+  function esc(s2) {
+    return String(s2 == null ? '' : s2).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
   }
 
   var CSS =
+    /* quiet: a line of text that opens a small code. The default. */
+    '.aqr-q{display:inline-flex;flex-direction:column;align-items:center;gap:10px}' +
+    '.aqr-toggle{background:none;border:0;padding:0;cursor:pointer;font:inherit;' +
+      'color:inherit;opacity:.55;letter-spacing:.08em;transition:opacity .2s}' +
+    '.aqr-toggle:hover,.aqr-toggle[aria-expanded="true"]{opacity:.95}' +
+    '.aqr-glyph{margin-right:.5em;font-size:.9em}' +
+    '.aqr-drop{display:flex;flex-direction:column;align-items:center;gap:8px}' +
+    '.aqr-mini{background:none;border:0;padding:0;cursor:pointer;font:inherit;' +
+      'font-size:.8em;color:inherit;opacity:.45;letter-spacing:.06em}' +
+    '.aqr-mini:hover{opacity:.8}' +
+    /* the plate is white in both modes, always. see the note in mount(). */
+    '.aqr-plate{background:#fff;padding:10px;border-radius:8px;line-height:0;flex:0 0 auto}' +
+    '.aqr-plate svg{display:block}' +
+    /* full: the larger panel, for pages with room */
     '.aqr{display:flex;gap:22px;align-items:center;flex-wrap:wrap;' +
       'background:var(--granite,#11131c);border:1px solid var(--slate,#232838);' +
       'border-radius:12px;padding:20px 22px}' +
-    '.aqr-plate{background:#fff;padding:10px;border-radius:8px;line-height:0;flex:0 0 auto}' +
-    '.aqr-plate svg{display:block}' +
     '.aqr-side{flex:1 1 240px;min-width:0}' +
     '.aqr-k{font-family:var(--disp,serif);letter-spacing:.16em;text-transform:uppercase;' +
       'font-size:15px;color:var(--gold-b,#f5c542)}' +
@@ -484,7 +540,9 @@
       st.id = 'amenti-qr-css'; st.textContent = CSS;
       document.head.appendChild(st);
     }
-    mount(el, el.getAttribute('data-url') || null, el.getAttribute('data-label') || null);
+    mount(el, el.getAttribute('data-url') || null,
+              el.getAttribute('data-label') || null,
+              el.getAttribute('data-mode') || null);
   }
 
   global.AmentiQR = { matrix: matrix, svg: svg, mount: mount, css: CSS };

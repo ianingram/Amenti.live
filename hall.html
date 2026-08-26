@@ -95,26 +95,15 @@
 
 
   /* ── THE HAND-OVER ────────────────────────────────────────────────────────
-     amenti-qr.js draws the QR. Its own CSS reaches for --gold-b / --granite /
-     --slate, which this page does not define — hall has a bespoke palette, not
-     the flagship's variables. So the hall states them here and the widget
-     wears the terminal voice like everything else on this page.
-     The PLATE STAYS WHITE. It is not decoration: a QR on #06060e with no quiet
-     zone is the most common reason a code will not scan. */
-  #amenti-handover { position: relative; z-index: 1; max-width: 640px;
-    margin: 0 auto 2.5rem; padding: 0 1rem; }
-  #amenti-handover .aqr { background: rgba(6,6,14,.55);
-    border: 1px solid rgba(87,182,255,.28); border-radius: 14px;
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  #amenti-handover .aqr-k { font-family: 'Amenti Display', Georgia, serif;
-    color: #57b6ff; font-weight: 700; }
-  #amenti-handover .aqr-v { color: #e8e4d8; opacity: .78;
-    font-family: 'Amenti Display', Georgia, serif; }
-  #amenti-handover .aqr-btn { background: #57b6ff; color: #06060e;
-    font-family: 'Amenti Display', Georgia, serif; font-weight: 700; }
-  #amenti-handover .aqr-btn.ghost { background: transparent; color: #57b6ff;
-    border-color: rgba(87,182,255,.4); }
-  #amenti-handover .aqr-url { color: #e8e4d8; opacity: .42; }
+     A LINE, not a panel. The first version was a 200px plate with a heading,
+     a paragraph and two buttons, and it ate a page that is a title and a
+     question over a slow pyramid. A hand-over is reached for once, at the end.
+     It sits with the other footer links and looks like them until tapped.
+     The plate itself stays WHITE — not decoration: a code on #06060e with no
+     quiet zone is the commonest reason a phone will not read it. */
+  #amenti-handover .aqr-toggle,
+  #amenti-handover .aqr-mini { color: #e8e4d8; font-family: inherit; }
+  #amenti-handover .aqr-drop { margin-top: .35rem; }
 
 </style>
 </head>
@@ -132,12 +121,11 @@
 
 <main id="hall-main"></main>
 
-<div id="amenti-handover" data-label="Hand over the hall"></div>
-
 <footer>
   <div class="aa-links">
     <a href="Page1.html">enter the Living Library</a>
     <a href="Amenti_Separation_of_Power.html">The Separation of Power</a>
+    <div id="amenti-handover" data-label="hand over the hall" data-mode="quiet"></div>
   </div>
   <div class="aa-llc">Ingram Manor LLC</div>
 </footer>
@@ -217,7 +205,7 @@
 </script>
 <script src="amenti-hall.js" defer></script>
 <script src="amenti-hall-box.js" defer></script>
-<script src="amenti-qr.js?v=1" defer></script>
+<script src="amenti-qr.js?v=2" defer></script>
 
 </body>
 </html>
