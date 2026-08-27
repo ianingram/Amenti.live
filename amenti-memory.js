@@ -89,6 +89,97 @@
     } catch (e) { return Promise.resolve(null); }
   }
 
+
+  /* ══ THE WRITER ═════════════════════════════════════════════════════════
+     At the end of a conversation, one model call decides what was worth
+     keeping. BRIEF-THE-FIGURE-REMEMBERS §5 calls this the place the quality of
+     the whole feature lives, and it is right: get this wrong and the list
+     fills with noise that a figure then recites back at people.
+
+     ── IT SPEAKS THROUGH THE ONE DOOR ────────────────────────────────────
+     window.claude.complete — the same proxy every other call uses. Not a new
+     route, not a new credential. The alternative was giving the mint an
+     Anthropic key so it could do this server-side, which would put the same
+     secret in two Workers and undo the separation the architecture rests on.
+     It also means the spend lands in window.AmentiCost with everything else,
+     rather than being a cost nobody counted.
+
+     ── IT READS THE TRANSCRIPT, NOT A SUMMARY ────────────────────────────
+     The chat core's rolling summary is the confirmed Turn, and the Turn is
+     COUNSEL ONLY. In character mode there is nothing to read but the turns
+     themselves, so that is what goes in — bounded, and the visitor's half
+     weighted, because the facts are about them.
+
+     ── IT IS GIVEN THE OLD LIST ──────────────────────────────────────────
+     So a correction REPLACES rather than accumulating. "My aunt is May, and I
+     live in Portland now" has to overwrite, or the figure ends up holding two
+     aunts and two cities. The merge happens HERE and only here: the route does
+     not merge, deliberately, because two places deciding the same thing is how
+     they come to disagree.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* Enough conversation to have learned anything. Below this, a call would
+     mostly return nothing and always cost something. */
+  var MIN_TURNS = 4;
+  /* The transcript is unbounded; this is not. Recent turns matter more — a
+     person says who they are early and then talks. */
+  var MAX_CHARS = 12000;
+
+  function transcript(history) {
+    var h = (history || []).slice(-40);
+    var lines = h.map(function (m) {
+      return (m.role === 'user' ? 'VISITOR: ' : 'FIGURE: ') + String(m.content || '');
+    });
+    var out = lines.join('\n');
+    if (out.length > MAX_CHARS) out = out.slice(-MAX_CHARS);
+    return out;
+  }
+
+  function writerSystem(figureName, known) {
+    var lines = [
+      'You are reading one conversation between a visitor and ' + (figureName || 'a figure') +
+        ' in the library of Amenti. Your only job is to note what a person would naturally remember about THE VISITOR afterwards.',
+      '',
+      'ALREADY REMEMBERED about this visitor:',
+      (known && known.length) ? known.map(function (f) { return '  \u00b7 ' + f; }).join('\n')
+                              : '  (nothing yet — this is the first time)',
+      '',
+      'Where something in the conversation covers the same ground as one of those, REPLACE it. Do not accumulate. If they say they have moved, the old place is gone.',
+      '',
+      'Return the WHOLE list as it should now stand, one fact per line, nothing else. No numbering, no preamble, no commentary. At most 8 lines, each under twelve words.',
+      'Returning the list unchanged is a correct answer. So is returning fewer lines than you were given, if something was corrected away.',
+      '',
+      'KEEP only what is about the visitor and still true in a year: people in their life, what kind of work they do, what part of the world they are in, what they care about, something they said they would do.',
+      '',
+      'KEEP IT COARSE. A region or a state, NEVER a town or an address. A kind of work, never an employer or a rank. "Virginia" is a talking point; "Richmond" is an address — keep the first and drop the second, EVEN IF the visitor volunteered both. Never an age, a birthday, a school, or a surname.',
+      '',
+      'A TITLE IS NOT A NAME. If they say they are a senator or a doctor, keep the work. The figure will ask how the session went; it will never call them Senator.',
+      '',
+      'THE NAME. If they gave a first name, keep it as the FIRST line, in exactly this form:  Name: Roger',
+      'Use the form they used — Roger, not Roger Whitfield. If no name was given, no Name line.',
+      '',
+      'DO NOT KEEP: anything the figure said; what the conversation was about; questions the visitor asked; their mood or circumstances that day; anything they seem to regret saying.',
+      '',
+      'Keep only what a reasonable person would take at face value. If the visitor is clearly playing, testing you, or being absurd, keep nothing from it. A PERSON WHO IS JOKING HAS TOLD YOU NOTHING ABOUT THEMSELVES.',
+      '',
+      'Write each fact as a plain statement, not a quote. "Has an aunt, Jane" — not "said his aunt Jane is unwell".',
+    ];
+    return lines.join('\n');
+  }
+
+  /* Every bound is enforced here as well as in the prompt. A model that
+     decides to return twenty lines is a model that changed; the caps should
+     not depend on it having behaved. */
+  function clean(raw) {
+    return String(raw || '')
+      .split('\n')
+      .map(function (l) { return l.replace(/^[\s\-\u2022\u00b7*\d.)]+/, '').trim(); })
+      .filter(Boolean)
+      .filter(function (l) { return l.length <= 140; })
+      .filter(function (l) { return !/^\(?nothing/i.test(l); })
+      .slice(0, 8);
+  }
+
   window.AmentiMemory = {
 
     /* Load this figure's memory of this reader into a live chat.
@@ -128,8 +219,45 @@
       } catch (e) { return Promise.resolve(false); }
     },
 
+    /* Read a finished conversation and write back what is worth keeping.
+       Returns the list written, or null if nothing was (signed out, too short,
+       the door missing, or the model returning nothing usable).
+
+       CALL IT WHEN A CONVERSATION ENDS — on leaving a figure, or explicitly.
+       It never throws, and a failure simply leaves the previous list standing,
+       which is the correct outcome: an old memory is better than a lost one. */
+    remember: function (figureKey, figureName, history, known) {
+      var tok = token();
+      if (!tok) return Promise.resolve(null);                     /* signed out */
+      if (!window.claude || typeof window.claude.complete !== 'function') return Promise.resolve(null);
+      var h = history || [];
+      if (h.length < MIN_TURNS) return Promise.resolve(null);      /* too little said */
+
+      var self = this;
+      var body = transcript(h);
+      if (!body.trim()) return Promise.resolve(null);
+
+      try {
+        return window.claude.complete({
+          system: writerSystem(figureName, known || []),
+          messages: [{ role: 'user', content: body }],
+        }).then(function (raw) {
+          var facts = clean(raw);
+          /* An empty result is a REFUSAL, not a failure — most conversations
+             contain nothing worth keeping, and the prompt says so. But it must
+             not wipe a list that already exists. */
+          if (!facts.length) return null;
+          return self.save(figureKey, facts).then(function (ok) { return ok ? facts : null; });
+        }).catch(function () { return null; });
+      } catch (e) { return Promise.resolve(null); }
+    },
+
     /* exposed for probes and for the writer, which needs the same split */
     _splitName: splitName,
     _signedIn: function () { return !!token(); },
+    _writerSystem: writerSystem,
+    _clean: clean,
+    _transcript: transcript,
+    MIN_TURNS: MIN_TURNS,
   };
 })();
