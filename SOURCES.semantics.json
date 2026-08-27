@@ -854,7 +854,7 @@
       "section": "the book itself",
       "id": "conversation-doctrine",
       "group": "doctrine",
-      "what": "THE CONVERSATION DOCTRINE. The governing logic for two-way voice and text conversation between a seeker and a figure — the spec the chat core's state machine and system prompt are built from. Deliberately a doctrine and not a feature list, so every mount (Terminal, reading vault, Atlantica, news article) inherits one coherent character instead of four drifting ones. Its one line above all others: patient with humans, stingy with waste, never hang up on someone who is present or hurting.",
+      "what": "THE CONVERSATION DOCTRINE. The governing logic for two-way voice and text conversation between a seeker and a figure — the spec the chat core's state machine and system prompt are built from. Deliberately a doctrine and not a feature list, so every mount (Terminal, reading vault, Atlantica, news article) inherits one coherent character instead of four drifting ones. Its one line above all others: patient with humans, stingy with waste, never hang up on someone who is present or hurting. Extended 27 Aug 2026 with §4.6, WHAT THE FIGURE REMEMBERS: the figure never asks for more than a name, but may remember what it was told. Holds the coarseness rule that makes memory safe — a region never a town, a kind of work never an employer, no age and no surname, because many users are young — and the rule that recognition is in the answering, not in a recital.",
       "authority": "canonical, and LIVE — this is a governing document, not an account of a day. If it and amenti-chat.js disagree, that is a finding."
     },
     "Amenti.live/main/PIPELINE.md": {
