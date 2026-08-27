@@ -494,7 +494,7 @@
       "section": "the briefs — 41 files, 8 of them linked anywhere",
       "id": "amenti_foundation_sovereignty",
       "what": "The shore-side stack as it stood in 2026 — Cloudflare, Supabase, Resend, ranked by exit difficulty. Vendor risk, NOT ownership or authorship.",
-      "supersededBy": "brief-the-unversioned-store",
+      "supersededBy": "amenti-foundation-sovereignty-html",
       "group": "business",
       "authority": "primary"
     },
@@ -891,6 +891,27 @@
       "group": "business",
       "what": "THE CAPTAIN'S WINDOW ON THE FLEET. Reads fleet.json (intent) and fleet-dispatch.json (reality) live and lays them side by side: for each tube, what it is meant to do against what it actually fired. State-aware — a paused tube reading quiet is calm; a live tube that has never fired shows red. The map of the presses, self-reading, so the fleet can be read at a glance instead of interrogated.",
       "authority": "canonical surface. Reads two registers and renders them; it stores nothing and decides nothing. If it disagrees with the registers, the registers are right and this has a display bug."
+    },
+    "Amenti-Technical-Briefs/main/THE-CHAMBER.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "doctrine",
+      "id": "the-chamber",
+      "what": "THE CHAMBER, 26 Aug 2026. What a chamber is — a named list of soul keys read together, never a container — and why presidents must NOT go into the Browse keyword taxonomy. Holds the eighteen-term `type` vocabulary every room now shares, and the rule that its match ORDER is the decision: debate before reply, inaugural before address.",
+      "authority": "canonical spec"
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-THE-FIGURE-REMEMBERS.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "doctrine",
+      "id": "brief-the-figure-remembers",
+      "what": "THE FIGURE REMEMBERS, 26 Aug 2026. A design for a soul recalling a signed-in reader across weeks — three or four short facts per reader-and-figure, never a transcript, no leakage between souls, no captain's view, no delete button. Correction happens by telling the figure. Nothing built; slip 17 is a prerequisite.",
+      "authority": "canonical spec"
+    },
+    "Amenti-Technical-Briefs/main/Amenti_Foundation_Sovereignty.html": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "business",
+      "id": "amenti-foundation-sovereignty-html",
+      "what": "THE THREE GATES, 26 Aug 2026. The stack as it stands: the gates above — truth, memory, generator, brokered by a Worker that holds nothing — and the ground beneath. SUPERSEDES the PDF of the same name, which named neither GitHub nor Google.",
+      "authority": "canonical"
     }
   },
   "owner": "ianingram",
