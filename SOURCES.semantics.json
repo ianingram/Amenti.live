@@ -493,7 +493,8 @@
     "Amenti-Technical-Briefs/main/Amenti_Foundation_Sovereignty.pdf": {
       "section": "the briefs — 41 files, 8 of them linked anywhere",
       "id": "amenti_foundation_sovereignty",
-      "what": "Foundation and sovereignty. PDF.",
+      "what": "The shore-side stack as it stood in 2026 — Cloudflare, Supabase, Resend, ranked by exit difficulty. Vendor risk, NOT ownership or authorship.",
+      "supersededBy": "brief-the-unversioned-store",
       "group": "business",
       "authority": "primary"
     },
