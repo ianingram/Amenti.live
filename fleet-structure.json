@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-27T23:00:31.124Z",
+    "generated": "2026-08-27T23:18:06.700Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -503,8 +503,8 @@
     },
     {
       "file": "amenti-chat.js",
-      "bytes": 106614,
-      "sha256": "59dad63e2701136c",
+      "bytes": 110122,
+      "sha256": "ac8c8be47dcb0fac",
       "type": "js",
       "declares": [
         "Amenti",
@@ -514,13 +514,13 @@
       "calls": [
         {
           "global": "Sovereign.Angels",
-          "line": 513,
+          "line": 561,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 855,
+          "line": 903,
           "when": "function",
           "own": false
         }
@@ -824,6 +824,19 @@
       "type": "js",
       "declares": [
         "amentiMascot"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-memory.js",
+      "bytes": 6792,
+      "sha256": "4b033491bbd4dac9",
+      "type": "js",
+      "declares": [
+        "AmentiMemory"
       ],
       "loads": [],
       "calls": [],
@@ -1853,6 +1866,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-memory.js",
+        "declares": [
+          "AmentiMemory"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-migration-audit.js",
