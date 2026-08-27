@@ -58,6 +58,39 @@
       '- Once you have riffed on their name, HOLD it afterward — use it sparingly, at re-engagement, emphasis, or farewell, never as filler.\n';
   }
 
+  /* ── WHAT YOU RECALL OF THIS VISITOR ──────────────────────────────────
+     CONVERSATION_DOCTRINE.md §4.6. A few short facts a figure kept from
+     earlier conversations with this signed-in reader — never a transcript,
+     never more than a handful.
+
+     THIS FILE DOES NOT FETCH THEM. It holds no token and no Worker URL and
+     should not start; the host reads /memory and hands the result in through
+     setRecollection(). Same division as `context`: the core renders what it
+     is given.
+
+     The name is NOT here. A remembered name goes through setUserName() into
+     nameGuidance() above, which already says exactly the right thing — hold
+     it in reserve, never filler. Memory extends that rule across sessions
+     rather than writing a second one beside it.
+
+     THE HARD PART IS RESTRAINT. Almost all the value is in being KNOWN, not
+     in being told what is known: the recognition lands in the answering. A
+     figure that opens every call with "how is your aunt Jane" has turned a
+     memory into a greeting card. */
+  function recollectionGuidance(facts) {
+    var list = (facts || []).map(function (f) { return String(f || '').trim(); })
+                            .filter(Boolean);
+    if (!list.length) return '';
+    return '\n\nWHAT YOU RECALL OF THIS VISITOR — you have spoken before:\n' +
+      list.map(function (f) { return '  \u00b7 ' + f; }).join('\n') + '\n' +
+      '- YOU KNOW THESE THINGS; YOU ARE NOT RECITING THEM. The recognition is in the ANSWERING — that you know them at all, and that this is not the first time. That alone is the whole of it.\n' +
+      '- Do NOT open by producing one of these. No "how is your aunt?" as a greeting. Greet them as someone whose voice you know.\n' +
+      '- In a lull, you may reach for ONE — at most one in a conversation, and only if there is room for it.\n' +
+      '- If they ASK whether you remember them, answer properly. They opened the door.\n' +
+      '- These are things you were told, not facts you verified. Hold them the way a person holds a half-recalled detail — you may be wrong, and "last I recall" is honest.\n' +
+      '- Never adopt a title as a form of address. You may know what a person does; you do not call them Senator.\n';
+  }
+
   /* ── THE MOVE PROTOCOL ────────────────────────────────────────────────
      ⚠ COUNSEL ONLY. IT MUST NEVER BE APPENDED IN CHARACTER MODE.
 
@@ -234,7 +267,7 @@
       '- Do not make them explain themselves from the beginning. ' + from + ' sent them for a reason. Meet it.\n';
   }
 
-  function defaultBuildSystem(c, mode, context, knownName, converse, summonedBy) {
+  function defaultBuildSystem(c, mode, context, knownName, converse, summonedBy, recalled) {
     var hasContext = !!(context && String(context).trim());
     var era = [c.era, c.year].filter(Boolean).join(', ');
     var voiceLine = c.voice
@@ -266,7 +299,7 @@
         '- Take a clear position and give a concrete next step.\n' +
         '- Be substantive but economical — every sentence earns its place. Up to ~150 words; shorter is fine if you\'ve said what matters.\n' +
         '- Be supportive; never give harmful, dangerous, or reckless advice. For serious matters — mental health, self-harm, medical, legal, or financial crisis — be kind and gently point them toward a qualified professional or someone they trust, rather than carrying it alone.\n' +
-        '- Plain prose, your own voice. No lists, no headers.' + threshold(c) + moveProtocol(hasContext) + HALL + summonedLine(summonedBy);
+        '- Plain prose, your own voice. No lists, no headers.' + recollectionGuidance(recalled) + threshold(c) + moveProtocol(hasContext) + HALL + summonedLine(summonedBy);
     }
     return base + converseGuidance(converse) +
       '\nSpeak as ' + c.name + ', never as an AI assistant — but be genuinely worth listening to, not a caricature.\n' +
@@ -289,7 +322,7 @@
       'OPENING & THEIR NAME — how to build rapport:\n' +
       '- Open with an icebreaker that is an offering OF YOURSELF, not a service desk. Never "how may I help you?" — instead a question or provocation that invites them in. ("They tell me you\'ve come to ask me something. Most want the lightning — but I\'d rather know what brought YOU here.")\n' +
       nameGuidance(knownName, c) +
-      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c) + HALL + summonedLine(summonedBy);
+      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + recollectionGuidance(recalled) + threshold(c) + HALL + summonedLine(summonedBy);
   }
 
   /* ── THE ENGINE READS THE DOCTRINE ────────────────────────────────────
@@ -329,8 +362,8 @@
      real, tell them the truth. The spell is the product, but it is never worth
      a lie.
      ─────────────────────────────────────────────────────────────────────── */
-  function leanBuildSystem(c, mode, context, knownName, converse, summonedBy) {
-    if (mode === 'counsel') return defaultBuildSystem(c, mode, context, knownName, converse, summonedBy);
+  function leanBuildSystem(c, mode, context, knownName, converse, summonedBy, recalled) {
+    if (mode === 'counsel') return defaultBuildSystem(c, mode, context, knownName, converse, summonedBy, recalled);
 
     var era = [c.era, c.year].filter(Boolean).join(', ');
     var titleEra = [c.title, era].filter(Boolean);
@@ -366,7 +399,11 @@
       out.push('', 'THE VISITOR IS LOOKING AT THIS TEXT OF YOURS RIGHT NOW. Quote or paraphrase it accurately.',
                '--- BEGIN TEXT ---', String(context).trim(), '--- END TEXT ---');
     }
-    return out.join('\n') + HALL + summonedLine(summonedBy);
+    /* The lean prompt carries the recollection too. It is a SHORTER prompt,
+       not a different figure — a memory that works on one path and silently
+       vanishes on the other is worse than no memory, because nothing would
+       say which path a reader was on. */
+    return out.join('\n') + recollectionGuidance(recalled) + HALL + summonedLine(summonedBy);
   }
 
   function create(opts) {
@@ -418,6 +455,9 @@
       _MAX_BREAKDOWNS: 3,
       _sttFailed: false,     // the last empty transcript was an OUTAGE, not silence
       userName: opts.userName || '',   // first name, once freely given (rapport, not data)
+      /* §4.6. Short facts a figure kept from earlier conversations with this
+         reader. Supplied by the host from /memory — this file never fetches. */
+      recalled: Array.isArray(opts.recalled) ? opts.recalled : [],
 
       _setState: function (s) {
         this.state = s;
@@ -455,7 +495,10 @@
         this.modality = 'voice';
       },
 
-      setFigure: function (f) { this.figure = f; this._reset(); this.userName = ''; },
+      /* Clearing `recalled` here is the NO-LEAKAGE rule at the surface: tuning
+         to a different figure must never carry the last one's memory across.
+         The host reloads it for the new figure, or leaves it empty. */
+      setFigure: function (f) { this.figure = f; this._reset(); this.userName = ''; this.recalled = []; },
       setMode:   function (m) { this.mode = m; },
       setPrompt: function (p) {
         var k = String(p || '').toLowerCase();
@@ -470,6 +513,11 @@
       },
       setContext:function (t) { this.context = t || ''; },
       setUserName: function (n) { this.userName = String(n || '').trim(); },
+      /* The host calls this after reading /memory for THIS figure. Passing []
+         or nothing is the correct state for a reader who has not been met. */
+      setRecollection: function (facts) {
+        this.recalled = Array.isArray(facts) ? facts.slice(0, 10) : [];
+      },
       clear:     function () { this._reset(); },
 
       /* ── THE ANCHORED WINDOW ───────────────────────────────────────────
@@ -938,7 +986,7 @@
         var build = (this.prompt === 'lean' && this._getSystem === defaultBuildSystem)
           ? leanBuildSystem
           : this._getSystem;
-        var sys = build(this.figure, this.mode, this.context, this.userName, this.converse, this.summonedBy);
+        var sys = build(this.figure, this.mode, this.context, this.userName, this.converse, this.summonedBy, this.recalled);
         // THE PAYLOAD is bounded. THE TRANSCRIPT (this.history, pushed below) is not.
         var messages = this._payload(text);
 
