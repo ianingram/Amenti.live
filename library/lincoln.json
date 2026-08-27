@@ -6,6 +6,8 @@
       "id": "r01",
       "section": "Early Years · 1832–1853",
       "title": "Lincoln's First Public Speech. From an Address to the People of Sangamon County. March 9, 1832",
+      "type": "speech",
+      "year": 1832,
       "mode": "stored",
       "file": "lincoln/lincoln/01-lincoln-s-first-public-speech-from-an-ad.md"
     },
@@ -13,6 +15,8 @@
       "id": "r02",
       "section": "Early Years · 1832–1853",
       "title": "Letter to Colonel Robert Allen. June 21, 1836",
+      "type": "letter",
+      "year": 1836,
       "mode": "stored",
       "file": "lincoln/lincoln/02-letter-to-colonel-robert-allen-june-21-1.md"
     },
@@ -20,6 +24,8 @@
       "id": "r03",
       "section": "Early Years · 1832–1853",
       "title": "Lincoln's Opinion on Universal Suffrage. From a Letter published in the Sangamon \"Journal.\" June 13, 1836",
+      "type": "opinion",
+      "year": 1836,
       "mode": "stored",
       "file": "lincoln/lincoln/03-lincoln-s-opinion-on-universal-suffrage.md"
     },
@@ -27,6 +33,8 @@
       "id": "r04",
       "section": "Early Years · 1832–1853",
       "title": "From an Address before the Young Men's Lyceum of Springfield, Illinois. January 27, 1837",
+      "type": "address",
+      "year": 1837,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/04-an-address-before-the-young-men-s-lyceum.md"
@@ -35,6 +43,8 @@
       "id": "r05",
       "section": "Early Years · 1832–1853",
       "title": "A Letter to Mrs. O.H. Browning. Springfield, Illinois. April 1, 1838",
+      "type": "letter",
+      "year": 1838,
       "mode": "stored",
       "file": "lincoln/lincoln/05-letter-to-mrs-o-h-browning-springfield-i.md"
     },
@@ -42,6 +52,8 @@
       "id": "r06",
       "section": "Early Years · 1832–1853",
       "title": "Letter to W.G. Anderson. Lawrenceville, Illinois. October 31, 1840",
+      "type": "letter",
+      "year": 1840,
       "mode": "stored",
       "file": "lincoln/lincoln/06-letter-to-w-g-anderson-lawrenceville-ill.md"
     },
@@ -49,6 +61,8 @@
       "id": "r07",
       "section": "Early Years · 1832–1853",
       "title": "Extract from a Letter to John T. Stuart. Springfield Illinois. January 23, 1841",
+      "type": "letter",
+      "year": 1841,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/07-from-a-letter-to-john-t-stuart-springfie.md"
@@ -57,6 +71,8 @@
       "id": "r08",
       "section": "Early Years · 1832–1853",
       "title": "From an Address before the Washingtonian Temperance Society. Springfield, Illinois. February 22, 1842",
+      "type": "address",
+      "year": 1842,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/08-an-address-before-the-washingtonian-temp.md"
@@ -65,6 +81,8 @@
       "id": "r09",
       "section": "Early Years · 1832–1853",
       "title": "From the Circular of the Whig Committee. An Address to the People of Illinois. March 4, 1843",
+      "type": "address",
+      "year": 1843,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/09-the-circular-of-the-whig-committee-an-ad.md"
@@ -73,6 +91,8 @@
       "id": "r10",
       "section": "Early Years · 1832–1853",
       "title": "From a Letter to Martin M. Morris. Springfield, Illinois. March 26, 1843",
+      "type": "letter",
+      "year": 1843,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/10-a-letter-to-martin-m-morris-springfield.md"
@@ -81,6 +101,8 @@
       "id": "r11",
       "section": "Early Years · 1832–1853",
       "title": "From a Letter to Joshua F. Speed. Springfield. October 22, 1846",
+      "type": "letter",
+      "year": 1846,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/11-a-letter-to-joshua-f-speed-springfield-o.md"
@@ -89,6 +111,8 @@
       "id": "r12",
       "section": "Early Years · 1832–1853",
       "title": "From a Letter to William H. Herndon. Washington. January 8, 1848",
+      "type": "letter",
+      "year": 1848,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/12-a-letter-to-william-h-herndon-washington.md"
@@ -97,6 +121,8 @@
       "id": "r13",
       "section": "Early Years · 1832–1853",
       "title": "From a Letter to William H. Herndon. Washington. June 22, 1848",
+      "type": "letter",
+      "year": 1848,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/13-a-letter-to-william-h-herndon-washington-2.md"
@@ -105,6 +131,8 @@
       "id": "r14",
       "section": "Early Years · 1832–1853",
       "title": "From a Letter to William H. Herndon. Washington, July 10, 1848",
+      "type": "letter",
+      "year": 1848,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/14-a-letter-to-william-h-herndon-washington-3.md"
@@ -113,6 +141,8 @@
       "id": "r15",
       "section": "Early Years · 1832–1853",
       "title": "Letter to John D. Johnston. January 2, 1851",
+      "type": "letter",
+      "year": 1851,
       "mode": "stored",
       "file": "lincoln/lincoln/15-letter-to-john-d-johnston-january-2-1851.md"
     },
@@ -120,6 +150,8 @@
       "id": "r16",
       "section": "Early Years · 1832–1853",
       "title": "Letter to John D. Johnston. Shelbyville. November 4, 1851",
+      "type": "letter",
+      "year": 1851,
       "mode": "stored",
       "file": "lincoln/lincoln/16-letter-to-john-d-johnston-shelbyville-no.md"
     },
@@ -127,6 +159,8 @@
       "id": "r17",
       "section": "Early Years · 1832–1853",
       "title": "Note for Law Lecture. Written about July 1, 1850",
+      "type": "note",
+      "year": 1850,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/17-note-for-law-lecture-written-about-july.md"
@@ -135,6 +169,8 @@
       "id": "r18",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "A Fragment. Written about July 1, 1854",
+      "type": "fragment",
+      "year": 1854,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/18-fragment-written-about-july-1-1854.md"
@@ -143,6 +179,8 @@
       "id": "r19",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "A Fragment on Slavery. July 1854",
+      "type": "fragment",
+      "year": 1854,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/19-fragment-on-slavery-july-1854.md"
@@ -151,6 +189,8 @@
       "id": "r20",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Lincoln's Reply to Senator Douglas at Peoria, Illinois. The Origin of the Wilmot Proviso. October 16, 1854",
+      "type": "reply",
+      "year": 1854,
       "mode": "stored",
       "file": "lincoln/lincoln/20-lincoln-s-reply-to-senator-douglas-at-pe.md"
     },
@@ -158,6 +198,8 @@
       "id": "r21",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From Letter to the Hon. Geo. Robertson, Lexington, Kentucky. Springfield, Illinois. August 15, 1855",
+      "type": "letter",
+      "year": 1855,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/21-letter-to-the-hon-geo-robertson-lexingto.md"
@@ -166,6 +208,8 @@
       "id": "r22",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Extracts from Letter to Joshua F. Speed. August 24, 1855",
+      "type": "letter",
+      "year": 1855,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/22-from-letter-to-joshua-f-speed-august-24.md"
@@ -174,6 +218,8 @@
       "id": "r23",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Mr. Lincoln's Speech. May 19, 1856",
+      "type": "speech",
+      "year": 1856,
       "mode": "stored",
       "file": "lincoln/lincoln/23-mr-lincoln-s-speech-may-19-1856.md"
     },
@@ -181,6 +227,8 @@
       "id": "r24",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From his Speech on the Dred Scott Decision. Springfield, Illinois. June 26, 1857",
+      "type": "speech",
+      "year": 1857,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/24-his-speech-on-the-dred-scott-decision-sp.md"
@@ -189,6 +237,8 @@
       "id": "r25",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Lincoln's Reply to Judge Douglas at Chicago on Popular Sovereignty, the Nebraska Bill, etc. July 10, 1858",
+      "type": "reply",
+      "year": 1858,
       "mode": "stored",
       "file": "lincoln/lincoln/25-lincoln-s-reply-to-judge-douglas-at-chic.md"
     },
@@ -196,6 +246,8 @@
       "id": "r26",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From a Speech at Springfield, Illinois. July 17, 1858",
+      "type": "speech",
+      "year": 1858,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/26-a-speech-at-springfield-illinois-july-17.md"
@@ -204,6 +256,8 @@
       "id": "r27",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From Lincoln's Reply to Douglas in the First Joint Debate at Ottawa, Illinois. August 21, 1858",
+      "type": "debate",
+      "year": 1858,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/27-lincoln-s-reply-to-douglas-in-the-first.md"
@@ -212,6 +266,8 @@
       "id": "r28",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Lincoln's Reply to Judge Douglas in the Second Joint Debate. Freeport, Illinois. August 27, 1858",
+      "type": "debate",
+      "year": 1858,
       "mode": "stored",
       "file": "lincoln/lincoln/28-lincoln-s-reply-to-judge-douglas-in-the.md"
     },
@@ -219,6 +275,8 @@
       "id": "r29",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From Lincoln's Reply at Jonesboro'. September 15, 1858",
+      "type": "reply",
+      "year": 1858,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/29-lincoln-s-reply-at-jonesboro-september-1.md"
@@ -227,6 +285,8 @@
       "id": "r30",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From Lincoln's Reply to Judge Douglas at Charleston, Illinois. September 18, 1858",
+      "type": "reply",
+      "year": 1858,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/30-lincoln-s-reply-to-judge-douglas-at-char.md"
@@ -235,6 +295,8 @@
       "id": "r31",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From Lincoln's Reply to Judge Douglas at Galesburg, Illinois. October 7, 1858",
+      "type": "reply",
+      "year": 1858,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/31-lincoln-s-reply-to-judge-douglas-at-gale.md"
@@ -243,6 +305,8 @@
       "id": "r32",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Notes for Speeches. October 1858",
+      "type": "speech",
+      "year": 1858,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/32-notes-for-speeches-october-1858.md"
@@ -251,6 +315,8 @@
       "id": "r33",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Mr. Lincoln's Reply to Judge Douglas in the Seventh and Last Debate. Alton, Illinois. October 15, 1858",
+      "type": "debate",
+      "year": 1858,
       "mode": "stored",
       "file": "lincoln/lincoln/33-mr-lincoln-s-reply-to-judge-douglas-in-t.md"
     },
@@ -258,6 +324,8 @@
       "id": "r34",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From a Speech at Columbus, Ohio, on the Slave Trade, Popular Sovereignty, etc. September 16, 1859",
+      "type": "speech",
+      "year": 1859,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/34-a-speech-at-columbus-ohio-on-the-slave-t.md"
@@ -266,6 +334,8 @@
       "id": "r35",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From a Letter to J.W. Fell. December 20, 1859",
+      "type": "letter",
+      "year": 1859,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/35-a-letter-to-j-w-fell-december-20-1859.md"
@@ -274,6 +344,8 @@
       "id": "r36",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "From an Address delivered at Cooper Institute, New York. February 27, 1860",
+      "type": "address",
+      "year": 1860,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/36-an-address-delivered-at-cooper-institute.md"
@@ -282,6 +354,8 @@
       "id": "r37",
       "section": "President & War · 1861–1865",
       "title": "Lincoln's Farewell Address at Springfield, Illinois. February 11, 1861",
+      "type": "address",
+      "year": 1861,
       "mode": "stored",
       "file": "lincoln/lincoln/37-lincoln-s-farewell-address-at-springfiel.md"
     },
@@ -289,6 +363,8 @@
       "id": "r38",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "A Letter to the Hon. Geo. Ashmun accepting his Nomination for the Presidency. May 23, 1860",
+      "type": "letter",
+      "year": 1860,
       "mode": "stored",
       "file": "lincoln/lincoln/38-letter-to-the-hon-geo-ashmun-accepting-h.md"
     },
@@ -296,6 +372,8 @@
       "id": "r39",
       "section": "Rise to the Presidency · 1854–1860",
       "title": "Letter to Miss Grace Bedell. Springfield, Illinois. October 19, 1860",
+      "type": "letter",
+      "year": 1860,
       "mode": "stored",
       "file": "lincoln/lincoln/39-letter-to-miss-grace-bedell-springfield.md"
     },
@@ -303,6 +381,8 @@
       "id": "r40",
       "section": "President & War · 1861–1865",
       "title": "From an Address to the Legislature at Indianapolis, Indiana. February 12, 1861",
+      "type": "address",
+      "year": 1861,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/40-an-address-to-the-legislature-at-indiana.md"
@@ -311,6 +391,8 @@
       "id": "r41",
       "section": "President & War · 1861–1865",
       "title": "From his Address to the Legislature at Columbus, Ohio. February 13, 1861",
+      "type": "address",
+      "year": 1861,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/41-his-address-to-the-legislature-at-columb.md"
@@ -319,6 +401,8 @@
       "id": "r42",
       "section": "President & War · 1861–1865",
       "title": "From his Remarks at Pittsburgh, Pennsylvania. February 15, 1861",
+      "type": "remarks",
+      "year": 1861,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/42-his-remarks-at-pittsburgh-pennsylvania-f.md"
@@ -327,6 +411,8 @@
       "id": "r43",
       "section": "President & War · 1861–1865",
       "title": "From his Speech at Trenton to the Senate of New Jersey. February 21, 1861",
+      "type": "speech",
+      "year": 1861,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/43-his-speech-at-trenton-to-the-senate-of-n.md"
@@ -335,6 +421,8 @@
       "id": "r44",
       "section": "President & War · 1861–1865",
       "title": "Address in Independence Hall, Philadelphia. February 22, 1861",
+      "type": "address",
+      "year": 1861,
       "mode": "stored",
       "file": "lincoln/lincoln/44-address-in-independence-hall-philadelphi.md"
     },
@@ -342,6 +430,8 @@
       "id": "r45",
       "section": "President & War · 1861–1865",
       "title": "Reply to the Mayor of Washington, D.C. February 27, 1861",
+      "type": "reply",
+      "year": 1861,
       "mode": "stored",
       "file": "lincoln/lincoln/45-reply-to-the-mayor-of-washington-d-c-feb.md"
     },
@@ -349,6 +439,8 @@
       "id": "r46",
       "section": "President & War · 1861–1865",
       "title": "First Inaugural Address. March 4, 1861",
+      "type": "inaugural",
+      "year": 1861,
       "mode": "stored",
       "file": "lincoln/lincoln/46-first-inaugural-address-march-4-1861.md"
     },
@@ -356,6 +448,8 @@
       "id": "r47",
       "section": "President & War · 1861–1865",
       "title": "Address at Utica, New York. February 18, 1861",
+      "type": "address",
+      "year": 1861,
       "mode": "stored",
       "file": "lincoln/lincoln/47-address-at-utica-new-york-february-18-18.md"
     },
@@ -363,6 +457,8 @@
       "id": "r48",
       "section": "President & War · 1861–1865",
       "title": "From his First Message to Congress, at the Special Session. July 4, 1861",
+      "type": "message",
+      "year": 1861,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/48-his-first-message-to-congress-at-the-spe.md"
@@ -371,6 +467,8 @@
       "id": "r49",
       "section": "President & War · 1861–1865",
       "title": "From his Message to Congress at its Regular Session. December 3, 1861",
+      "type": "message",
+      "year": 1861,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/49-his-message-to-congress-at-its-regular-s.md"
@@ -379,6 +477,8 @@
       "id": "r50",
       "section": "President & War · 1861–1865",
       "title": "Letter to General G.B. McClellan. Washington. February 3, 1862",
+      "type": "letter",
+      "year": 1862,
       "mode": "stored",
       "file": "lincoln/lincoln/50-letter-to-general-g-b-mcclellan-washingt.md"
     },
@@ -386,6 +486,8 @@
       "id": "r51",
       "section": "President & War · 1861–1865",
       "title": "Lincoln's Proclamation revoking General Hunter's Order setting the Slaves free. May 19, 1862",
+      "type": "proclamation",
+      "year": 1862,
       "mode": "stored",
       "file": "lincoln/lincoln/51-lincoln-s-proclamation-revoking-general.md"
     },
@@ -393,6 +495,8 @@
       "id": "r52",
       "section": "President & War · 1861–1865",
       "title": "Appeal to the Border States in behalf of Compensated Emancipation. July 12, 1862",
+      "type": "appeal",
+      "year": 1862,
       "mode": "stored",
       "file": "lincoln/lincoln/52-appeal-to-the-border-states-in-behalf-of.md"
     },
@@ -400,6 +504,8 @@
       "id": "r53",
       "section": "President & War · 1861–1865",
       "title": "From a Letter to Cuthbert Bullitt. July 28, 1862",
+      "type": "letter",
+      "year": 1862,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/53-a-letter-to-cuthbert-bullitt-july-28-186.md"
@@ -408,6 +514,8 @@
       "id": "r54",
       "section": "President & War · 1861–1865",
       "title": "Letter to August Belmont. July 31, 1862",
+      "type": "letter",
+      "year": 1862,
       "mode": "stored",
       "file": "lincoln/lincoln/54-letter-to-august-belmont-july-31-1862.md"
     },
@@ -415,6 +523,8 @@
       "id": "greeley-letter",
       "section": "President & War · 1861–1865",
       "title": "His Letter to Horace Greeley. August 22, 1862",
+      "type": "letter",
+      "year": 1862,
       "mode": "stored",
       "source": "Project Gutenberg #14721 · public domain",
       "file": "lincoln/greeley-letter.md"
@@ -423,6 +533,8 @@
       "id": "r56",
       "section": "President & War · 1861–1865",
       "title": "From his Reply to the Chicago Committee of United Religious Denominations. September 13, 1862",
+      "type": "reply",
+      "year": 1862,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/56-his-reply-to-the-chicago-committee-of-un.md"
@@ -431,6 +543,8 @@
       "id": "r57",
       "section": "President & War · 1861–1865",
       "title": "From the Annual Message to Congress. December 1, 1862",
+      "type": "annual-message",
+      "year": 1862,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/57-the-annual-message-to-congress-december.md"
@@ -439,6 +553,8 @@
       "id": "emancipation",
       "section": "President & War · 1861–1865",
       "title": "Emancipation Proclamation. January 1, 1863",
+      "type": "proclamation",
+      "year": 1863,
       "mode": "stored",
       "source": "Project Gutenberg #22082 · public domain",
       "file": "lincoln/emancipation.md"
@@ -447,6 +563,8 @@
       "id": "r59",
       "section": "President & War · 1861–1865",
       "title": "Letter to General Grant. July 13, 1863",
+      "type": "letter",
+      "year": 1863,
       "mode": "stored",
       "file": "lincoln/lincoln/59-letter-to-general-grant-july-13-1863.md"
     },
@@ -454,6 +572,8 @@
       "id": "r60",
       "section": "President & War · 1861–1865",
       "title": "Letter to ---- Moulton. Washington. July 31, 1863",
+      "type": "letter",
+      "year": 1863,
       "mode": "stored",
       "file": "lincoln/lincoln/60-letter-to-moulton-washington-july-31-186.md"
     },
@@ -461,6 +581,8 @@
       "id": "r61",
       "section": "President & War · 1861–1865",
       "title": "Letter to Mrs. Lincoln. Washington. August 8, 1863",
+      "type": "letter",
+      "year": 1863,
       "mode": "stored",
       "file": "lincoln/lincoln/61-letter-to-mrs-lincoln-washington-august.md"
     },
@@ -468,6 +590,8 @@
       "id": "r62",
       "section": "President & War · 1861–1865",
       "title": "Letter to James H. Hackett. Washington. August 17, 1863",
+      "type": "letter",
+      "year": 1863,
       "mode": "stored",
       "file": "lincoln/lincoln/62-letter-to-james-h-hackett-washington-aug.md"
     },
@@ -475,6 +599,8 @@
       "id": "r63",
       "section": "President & War · 1861–1865",
       "title": "Note to Secretary Stanton. Washington. November 11, 1863",
+      "type": "note",
+      "year": 1863,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/63-note-to-secretary-stanton-washington-nov.md"
@@ -483,6 +609,8 @@
       "id": "r64",
       "section": "President & War · 1861–1865",
       "title": "The Letter to James C. Conkling. August 26, 1863",
+      "type": "letter",
+      "year": 1863,
       "mode": "stored",
       "file": "lincoln/lincoln/64-letter-to-james-c-conkling-august-26-186.md"
     },
@@ -490,6 +618,8 @@
       "id": "r65",
       "section": "President & War · 1861–1865",
       "title": "His Proclamation for a Day of Thanksgiving. October 3, 1863",
+      "type": "proclamation",
+      "year": 1863,
       "mode": "stored",
       "file": "lincoln/lincoln/65-his-proclamation-for-a-day-of-thanksgivi.md"
     },
@@ -497,6 +627,8 @@
       "id": "gettysburg",
       "section": "President & War · 1861–1865",
       "title": "Address at the Dedication of the National Cemetery at Gettysburg. November 19, 1863",
+      "type": "address",
+      "year": 1863,
       "mode": "stored",
       "source": "Bliss copy · public domain",
       "file": "lincoln/gettysburg.md"
@@ -505,6 +637,8 @@
       "id": "r67",
       "section": "President & War · 1861–1865",
       "title": "From the Annual Message to Congress. December 8, 1863",
+      "type": "annual-message",
+      "year": 1863,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/67-the-annual-message-to-congress-december-2.md"
@@ -513,6 +647,8 @@
       "id": "r68",
       "section": "President & War · 1861–1865",
       "title": "Letter to Secretary Stanton. Washington. March 1, 1864",
+      "type": "letter",
+      "year": 1864,
       "mode": "stored",
       "file": "lincoln/lincoln/68-letter-to-secretary-stanton-washington-m.md"
     },
@@ -520,6 +656,8 @@
       "id": "r69",
       "section": "President & War · 1861–1865",
       "title": "Letter to Governor Michael Hahn. Washington. March 13, 1864",
+      "type": "letter",
+      "year": 1864,
       "mode": "stored",
       "file": "lincoln/lincoln/69-letter-to-governor-michael-hahn-washingt.md"
     },
@@ -527,6 +665,8 @@
       "id": "r70",
       "section": "President & War · 1861–1865",
       "title": "An Address at a Fair for the Sanitary Commission. March 18, 1864",
+      "type": "address",
+      "year": 1864,
       "mode": "stored",
       "file": "lincoln/lincoln/70-address-at-a-fair-for-the-sanitary-commi.md"
     },
@@ -534,6 +674,8 @@
       "id": "r71",
       "section": "President & War · 1861–1865",
       "title": "Letter to A.G. Hodges, of Kentucky. April 4, 1864",
+      "type": "letter",
+      "year": 1864,
       "mode": "stored",
       "file": "lincoln/lincoln/71-letter-to-a-g-hodges-of-kentucky-april-4.md"
     },
@@ -541,6 +683,8 @@
       "id": "r72",
       "section": "President & War · 1861–1865",
       "title": "From an Address at a Sanitary Fair in Baltimore. April 18, 1864",
+      "type": "address",
+      "year": 1864,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/72-an-address-at-a-sanitary-fair-in-baltimo.md"
@@ -549,6 +693,8 @@
       "id": "r73",
       "section": "President & War · 1861–1865",
       "title": "Letter to General Grant. April 30, 1864",
+      "type": "letter",
+      "year": 1864,
       "mode": "stored",
       "file": "lincoln/lincoln/73-letter-to-general-grant-april-30-1864.md"
     },
@@ -556,6 +702,8 @@
       "id": "r74",
       "section": "President & War · 1861–1865",
       "title": "From an Address to the 166th Ohio Regiment. August 22, 1864",
+      "type": "address",
+      "year": 1864,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/74-an-address-to-the-166th-ohio-regiment-au.md"
@@ -564,6 +712,8 @@
       "id": "r75",
       "section": "President & War · 1861–1865",
       "title": "Reply to a Serenade. November 10, 1864",
+      "type": "reply",
+      "year": 1864,
       "mode": "stored",
       "file": "lincoln/lincoln/75-reply-to-a-serenade-november-10-1864.md"
     },
@@ -571,6 +721,8 @@
       "id": "r76",
       "section": "President & War · 1861–1865",
       "title": "A Letter to Mrs. Bixley, of Boston. November 21, 1864",
+      "type": "letter",
+      "year": 1864,
       "mode": "stored",
       "file": "lincoln/lincoln/76-letter-to-mrs-bixley-of-boston-november.md"
     },
@@ -578,6 +730,8 @@
       "id": "r77",
       "section": "President & War · 1861–1865",
       "title": "Letter to General Grant. Washington. January 19, 1865",
+      "type": "letter",
+      "year": 1865,
       "mode": "stored",
       "file": "lincoln/lincoln/77-letter-to-general-grant-washington-janua.md"
     },
@@ -585,6 +739,8 @@
       "id": "second-inaugural",
       "section": "President & War · 1861–1865",
       "title": "The Second Inaugural Address. March 4, 1865",
+      "type": "inaugural",
+      "year": 1865,
       "mode": "stored",
       "source": "public domain",
       "file": "lincoln/second-inaugural.md"
@@ -593,6 +749,8 @@
       "id": "r79",
       "section": "President & War · 1861–1865",
       "title": "A Letter to Thurlow Weed. Executive Mansion, Washington. March 15, 1865",
+      "type": "letter",
+      "year": 1865,
       "mode": "stored",
       "file": "lincoln/lincoln/79-letter-to-thurlow-weed-executive-mansion.md"
     },
@@ -600,6 +758,8 @@
       "id": "r80",
       "section": "President & War · 1861–1865",
       "title": "From an Address to an Indiana Regiment. March 17, 1865",
+      "type": "address",
+      "year": 1865,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/80-an-address-to-an-indiana-regiment-march.md"
@@ -608,6 +768,8 @@
       "id": "r81",
       "section": "President & War · 1861–1865",
       "title": "From his Reply to a Serenade. Lincoln's Last Public Address. April 11, 1865",
+      "type": "reply",
+      "year": 1865,
       "mode": "stored",
       "note": "Excerpt, as selected by the editor.",
       "file": "lincoln/lincoln/81-his-reply-to-a-serenade-lincoln-s-last-p.md"
@@ -616,6 +778,7 @@
       "id": "complete",
       "section": "The Complete Record",
       "title": "Collected Works — the complete papers",
+      "type": "collected",
       "mode": "link",
       "note": "Every document, in full (Lapsley edition).",
       "url": "https://www.gutenberg.org/ebooks/3253"
