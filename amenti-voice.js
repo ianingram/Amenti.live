@@ -517,6 +517,15 @@
       if (!player.started) {
         player.started = true;
         clearWatchdog(player);
+        /* THE FIRST SOUND — added 26 Aug for amenti-dial.js.
+           Nothing outside this file could know the moment audio actually
+           begins: voicePlayer is set at line ~486, BEFORE the fetch, so
+           isSpeaking() is already true throughout the wait. The dial needs
+           this exact instant so the ring stops ON the first word instead of
+           before it.
+           Additive and inert: no symbol removed, no cache key touched, no
+           chunk boundary moved. If nobody is listening, nothing happens. */
+        try { window.dispatchEvent(new CustomEvent('amenti:voice-started')); } catch (e) {}
         if (player.btn) { player.btn.textContent = READ_STOP; player.btn.disabled = false; }
       }
       src.onended = function () {

@@ -166,5 +166,36 @@
     };
   }
 
-  window.AmentiDial = { open: open, ANNOUNCEMENT: ANNOUNCEMENT, MAX_RING: MAX_RING };
+  /* ── WIRING ────────────────────────────────────────────────────────────
+     The engine dispatches `amenti:voice-started` at the instant the first
+     buffer is scheduled — the only moment that means "the soul is speaking".
+     It is NOT isSpeaking(): that goes true when the player is created, which
+     is before the fetch, so it is already true for the whole wait this
+     sequence exists to cover.
+
+     One call is live at a time, so a single listener is enough. It is
+     registered once, at load, and simply finds nothing to answer when no
+     call is open. */
+  var current = null;
+
+  window.addEventListener('amenti:voice-started', function () {
+    if (current && current.live) current.answered();
+    current = null;
+  });
+
+  /* auto: opened by press, closed by the first sound, with no caller in
+     between having to remember to do it. */
+  function place(opts) {
+    if (current && current.live) current.cancel();
+    current = open(opts);
+    return current;
+  }
+
+  window.AmentiDial = {
+    open: open,            /* manual — the caller ends it */
+    place: place,          /* wired — the first sound ends it */
+    get current() { return current; },
+    ANNOUNCEMENT: ANNOUNCEMENT,
+    MAX_RING: MAX_RING
+  };
 })();

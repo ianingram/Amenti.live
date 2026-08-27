@@ -891,6 +891,13 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 
      REBUILD IT if you edit any of the six. It is generated, not authored. -->
 <script src="amenti-core.bundle.js"></script>
+<!-- amenti-dial.js — THE DIAL SEQUENCE. Announcement, tone, ring, until the
+     figure speaks. Listens for `amenti:voice-started`, which the voice engine
+     dispatches at the instant the first buffer is scheduled; deferred because
+     nothing can press a button before the page is parsed. Depends on nothing
+     in the bundle — if the bundle fails, the dial simply never gets answered
+     and its own backstop ends the call. -->
+<script src="amenti-dial.js?v=1" defer></script>
 <!-- THE RESOLVER · LOADED HERE, AND HERE FOR A REASON.
      One name, one person, exact match or null. Three things now depend on it:
      amenti-roster.js for every card's face and bars, library.js for casting a
@@ -6368,7 +6375,17 @@ if(modelPicker && window.AmentiModel){
 window.AmentiTerminal = {
   tuneByKey: function(key){
     var i = AMENTI_CHARS.findIndex(function(c){ return c.key === key; });
-    if(i >= 0){ tune(i); return true; }
+    if(i >= 0){
+      // YOU WERE NEVER CONNECTED TO THIS ONE. Tuning to a different figure
+      // closes the line to the last: the voice goes off, so the reader dials
+      // the new figure deliberately and hears them answer. Without this the
+      // new figure simply starts talking on a line opened to somebody else.
+      // Same-figure re-tune is not a hang-up, so it is guarded.
+      var wasOn = window.AMENTI_VOICE && window.AMENTI_VOICE.on;
+      var changing = (typeof active === "undefined") || !active || active.key !== key;
+      if (wasOn && changing) { try { window.AMENTI_VOICE.toggle(); } catch (e) {} }
+      tune(i); return true;
+    }
     return false;
   },
   chat: termChat
@@ -7216,6 +7233,12 @@ window.AMENTI_VOICE = {
     // it arrives fast. The greeting pre-renders itself, for free, forever.
     if (this.on) {
       var who = (typeof active !== "undefined" && active) ? active.name : "";
+      // THE DIAL. Opening the line is placing a call, so it is announced,
+      // toned and rung — and the ring stops on the figure's first word, not a
+      // beat before it. Placed HERE and nowhere else: this is the only branch
+      // that is followed by a greeting, and a ring with nothing to answer it
+      // is worse than no ring. Absent dial, absent behaviour; nothing breaks.
+      if (window.AmentiDial) window.AmentiDial.place();
       this.speak(who ? "I am here." : "Voice enabled.", who, null, { register: "warm" });
     }
   }
