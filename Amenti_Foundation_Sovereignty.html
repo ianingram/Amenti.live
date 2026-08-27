@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Foundation &amp; Sovereignty · The Three Gates · Amenti</title>
+<meta name="description" content="The three gates of Amenti and the ground they stand on — the same separation, at two scales.">
+<style>
+  /* ═══════════════════════════════════════════════════════════════════════
+     FOUNDATION & SOVEREIGNTY · THE THREE GATES AND THE GROUND
+
+     Replaces Amenti_Foundation_Sovereignty.pdf, which is KEPT as the record
+     of what was believed in 2026 and marked superseded in the source index.
+     This is the document the hall points at when a reader asks what Amenti
+     is founded on, so it is built to be read by strangers, not by the yard.
+
+     THE SHAPE — AS ABOVE, SO BELOW
+     The PDF described one triad: three vendors, ranked by exit cost. That
+     was a procurement argument, and it is over — the application is built
+     and distributed, and Engineering Brief XII already ruled on whether to
+     consolidate. What the PDF never showed is that the separation happens
+     TWICE, at two scales, and that is the actual foundation:
+
+       ABOVE  the gates   truth · generation · memory, brokered by a
+                          Worker that holds nothing
+       BELOW  the ground  Cloudflare runs it · GitHub defines it ·
+                          Supabase remembers it
+
+     Neither triad can be captured whole. That is what sovereignty means
+     here — not independence from vendors, which nobody has.
+
+     WHAT THE OLD EDITION GOT WRONG, TWICE
+       1. It called three vendors "the whole off-fleet surface" and omitted
+          GitHub — which holds the substance, serves the surfaces and runs
+          every instrument. Named on 23 Aug in BRIEF-THE-UNVERSIONED-STORE.
+       2. It never named Gemini at all, though the generator is one of the
+          three gates and a live dependency on a fourth company.
+
+     EASILY UPDATED — READ THIS BEFORE EDITING
+     Every fact lives in ONE object, FACTS, at the top of the script below.
+     The prose never names a vendor, a count or a status. Change FACTS and
+     move FACTS.stated forward; touch nothing else.
+
+     No fetch, no register: no probe in a browser can see these accounts, so
+     these are STATED facts and a fetch would only dress them as readings.
+     The date is on the document's face for that reason.
+
+     THE WIREFRAME is drawn here rather than copied from Brief XII, small and
+     once — three gates, no edges between them, and an empty centre. The
+     corners never speak to each other; that absence IS the separation, so
+     the diagram earns its place by having nothing where a reader expects a
+     line. Brief XII holds the full set of views and is linked below.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  @font-face { font-family:'Amenti Display'; font-weight:400; font-display:swap;
+    src:url('https://ianingram.github.io/Amenti.live/fonts/amenti-display-400.woff2') format('woff2'); }
+  @font-face { font-family:'Amenti Display'; font-weight:600; font-display:swap;
+    src:url('https://ianingram.github.io/Amenti.live/fonts/amenti-display-600.woff2') format('woff2'); }
+  @font-face { font-family:'Amenti Display'; font-weight:700; font-display:swap;
+    src:url('https://ianingram.github.io/Amenti.live/fonts/amenti-display-700.woff2') format('woff2'); }
+
+  :root{
+    /* the original's ground — navy, not black — and its type colours */
+    --ground:#0d1220; --body:#e8e4d8; --dim:#93a3bd;
+    --title:#b8d4f0; --eyebrow:#5ee9a8; --blue:#57b6ff;
+    --panel:rgba(255,255,255,.018); --rule:rgba(232,228,216,.13);
+    --mono:ui-monospace,'SF Mono',Menlo,monospace;
+
+    /* ONE COLOUR PER POWER, CARRIED ACROSS BOTH SHEETS. The gate above and
+       the company below share a hue, so the eye makes the "as above, so
+       below" link without a sentence asking it to. Gold, vault-blue and
+       relay-green are the original edition's own keys, kept. */
+    --c-truth:#a78bfa;   /* GIT      · GitHub    */
+    --c-mem:#e0a83c;     /* R2       · Cloudflare */
+    --c-gen:#f0857a;     /* GEMINI   · Google     */
+    --c-vault:#5b9bd5;   /* Supabase              */
+    --c-relay:#5ee9a8;   /* Resend                */
+    --c-broker:#e8e4d8;  /* the Worker — no colour of its own; it holds nothing */
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:transparent;color:var(--body);
+       font:16px/1.65 'Amenti Display',Georgia,'Times New Roman',serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:60rem;margin:0 auto;padding:0 1.5rem}
+
+  /* ── THE BACKDROP ──────────────────────────────────────────────────────
+     The scene is held FIXED behind the whole document and the text scrolls
+     in front of it. A fixed element rather than background-attachment:fixed,
+     which iOS Safari collapses.
+
+     Darkening is three multiplied layers and they compound — brightness on
+     the image, a flat veil above it, and the content's own scrim. Set at
+     .62 / .72 / .80 they left about 3.5% of the scene showing behind the
+     text: effectively black. Each looked reasonable alone.
+
+     Now .82 / .24 / .56, which leaves roughly 62% of the scene visible at the
+     cover and 27% behind the body. The BLUR does the legibility work instead
+     of opacity — 6px, so the marble reads as texture rather than as detail
+     competing with letterforms, and the scene stays a scene.
+
+     The veil is flat rather than a gradient on purpose: the backdrop is
+     fixed, so text keeps travelling across it, and a gradient would leave
+     some paragraphs on glare and others in shadow.
+
+     If the image 404s the ground colour shows and nothing else changes. */
+  .backdrop{position:fixed;inset:0;z-index:-2;background:var(--ground)
+    url('https://ianingram.github.io/Amenti.live/img/thoth-terminal.jpg')
+    center 32% / cover no-repeat;
+    filter:brightness(.82) saturate(.95)}
+  .backdrop::after{content:'';position:absolute;inset:0;background:rgba(13,18,32,.24)}
+  body>*{position:relative;z-index:1}
+
+  /* ── THE COVER ─────────────────────────────────────────────────────────
+     Not a banner with an image in it — just open space, so the scene behind
+     is what the reader sees first and the title sits in the middle of it. */
+  .cover{min-height:82vh;display:flex;align-items:center;justify-content:center;
+         text-align:center}
+  .cover .inner{padding:3rem 1.5rem;max-width:52rem}
+  .cover .eyebrow{margin-bottom:1rem;text-shadow:0 2px 18px rgba(0,0,0,.9)}
+  .cover h1{border-bottom:0;padding-bottom:0;margin:0;text-align:center;
+            font-size:clamp(1.9rem,4.4vw,2.9rem);font-weight:600;letter-spacing:.07em;
+            text-shadow:0 2px 30px rgba(0,0,0,.95)}
+  .cover .llc{margin:1.4rem 0 0;font-family:var(--mono);font-size:.68rem;
+              letter-spacing:.24em;text-transform:uppercase;color:var(--dim);
+              text-shadow:0 2px 18px rgba(0,0,0,.9)}
+
+  .sheet{padding:4rem 0 2.25rem;border-bottom:1px solid var(--rule)}
+  .wrap{background:rgba(13,18,32,.56);backdrop-filter:blur(6px);
+        -webkit-backdrop-filter:blur(6px)}
+  .sheet:last-of-type{border-bottom:0;padding-bottom:3rem}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;
+           color:var(--eyebrow);margin:0 0 .8rem}
+  h1{font-size:clamp(2rem,5.5vw,3.1rem);font-weight:700;letter-spacing:.01em;
+     line-height:1.08;margin:0 0 .8rem;color:var(--title);
+     padding-bottom:.7rem;border-bottom:1px solid var(--rule)}
+  h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:700;letter-spacing:.01em;margin:0 0 .8rem;
+     color:var(--title);padding-bottom:.7rem;border-bottom:1px solid var(--rule)}
+  h3{font-size:1.05rem;font-weight:600;margin:1.8rem 0 .4rem}
+  .sub{margin:0 0 2rem;color:var(--dim);max-width:45rem;font-size:1.05rem}
+  /* the paragraph that introduces the drawing is centred with it, and carries
+     the drawing's name at its end — one centred block, then the figure */
+  #lede{max-width:46rem;margin-left:auto;margin-right:auto;text-align:center;
+        margin-bottom:.4rem}
+  p{max-width:45rem}
+  .foot{display:flex;justify-content:space-between;gap:1rem;margin:2.75rem 0 0;
+        font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+        color:var(--dim);opacity:.5}
+  .stated{margin:1.5rem 0 0;font-size:.82rem;opacity:.52;font-style:italic;max-width:45rem}
+  .creed{margin:1.8rem 0 0;padding-left:1.1rem;border-left:2px solid var(--eyebrow);
+         font-size:1.1rem;line-height:1.5;max-width:41rem;color:var(--body)}
+
+  /* ── THE WIREFRAME ─────────────────────────────────────────────────────
+     The page's one piece of motion, spent on its one idea. A pulse travels
+     out from the empty centre to each gate and back — nothing ever crosses
+     between the corners, because nothing does. */
+  figure{margin:2.25rem 0 0}
+  svg{width:100%;height:auto;display:block;max-width:44rem;margin:0 auto}
+  .wf-edge{fill:none;stroke-width:1.2;opacity:.5}
+  .wf-node{fill:var(--ground);stroke-width:1.4}
+  .wf-hub{fill:none;stroke:var(--c-broker);stroke-width:1;stroke-dasharray:3 4;opacity:.55}
+  .wf-name{font:700 22px 'Amenti Display',Georgia,serif;fill:var(--body);letter-spacing:.06em}
+  .wf-role{font:14px var(--mono);fill:var(--blue);letter-spacing:.06em}
+  .wf-empty{font:italic 15px 'Amenti Display',Georgia,serif;fill:var(--blue);opacity:.85}
+  
+  figcaption{margin:1.1rem auto 0;max-width:41rem;font-size:.92rem;color:var(--blue);text-align:center}
+  /* the drawing's name closes the paragraph that introduces it, rather than
+     sitting over the drawing as a second heading */
+  .figname{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;
+           text-transform:uppercase;color:var(--blue);white-space:nowrap}
+  @media (prefers-reduced-motion:reduce){ .pulse{display:none} }
+
+  /* ── THE BOXES ─────────────────────────────────────────────────────────
+     The original edition's card, kept: a full hairline border in the power's
+     colour with a heavy left edge, a mono role label, the name large in
+     caps, the parts in mono, then one line of plain description.
+     Each box is closed on all four sides and touches no other — three
+     pillars, no shared apex, which is the same claim the wireframe makes. */
+  .rows{margin:0;padding:0;list-style:none;display:grid;gap:1.1rem}
+
+  /* THE GATES sit three across, the way they sit in the drawing — a triad,
+     not a queue. The broker spans all three beneath them: it is not a fourth
+     gate, it is what the three pass through, and its box is uncoloured and
+     dashed because it holds nothing. Below 52rem the grid collapses and the
+     order still reads GIT, R2, GEMINI — truth, memory, generator: the
+     lifecycle order, memory always asked before the generator. */
+  .gates{grid-template-columns:repeat(3,1fr);align-items:start}
+  .gates .broker{grid-column:1 / -1;border-style:dashed;border-left-style:dashed;
+                 border-left-width:1px;opacity:.92}
+  .gates .broker .name{font-size:1.35rem}
+  @media (max-width:52rem){ .gates{grid-template-columns:1fr} }
+  .box{border:1px solid var(--c);border-left:4px solid var(--c);border-radius:8px;
+       background:var(--panel);padding:1.25rem 1.5rem}
+  .kind{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+        color:var(--c);margin:0 0 .5rem}
+  .name{font-size:1.6rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;
+        margin:0 0 .45rem;line-height:1}
+  .parts{font-family:var(--mono);font-size:.8rem;color:var(--dim);margin:0 0 .6rem}
+  .is{margin:0}
+  .isnot{margin:.5rem 0 0;font-size:.94rem;color:var(--dim)}
+  .isnot b{font-weight:600;color:var(--c);opacity:.85}
+
+  .correction{background:var(--panel);border-left:2px solid var(--blue);
+              border-radius:10px;padding:1.05rem 1.3rem;margin:1.8rem 0 0;max-width:45rem}
+  .correction .k{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
+                 color:var(--blue);display:block;margin-bottom:.4rem}
+  .correction p{margin:0 0 .55rem;font-size:.94rem;opacity:.9}
+  .correction p:last-child{margin-bottom:0}
+
+  .links{display:flex;flex-wrap:wrap;gap:.55rem;margin:1.3rem 0 0;padding:0;list-style:none}
+  .links a{display:inline-block;color:var(--blue);text-decoration:none;
+           border:1px solid rgba(87,182,255,.4);border-radius:999px;
+           padding:.28rem .85rem;font-size:.85rem}
+  .links a:hover,.links a:focus-visible{background:rgba(87,182,255,.1)}
+  .close{margin:0;padding:2.1rem 0 0;font-size:1.15rem;line-height:1.5;
+         max-width:40rem;border-top:1px solid var(--rule)}
+  footer{padding:2.5rem 0 4rem;font-size:.77rem;opacity:.42;max-width:45rem}
+  a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  @media (max-width:34rem){ .row{grid-template-columns:1fr;gap:.35rem} }
+</style>
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+
+<header class="cover">
+  <div class="inner">
+    <p class="eyebrow">The Foundation · as it stands</p>
+    <h1>The Three Gates</h1>
+    <p class="llc">Amenti.live · Ingram Manor LLC</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="sheet">
+    <p class="sub" id="lede"></p>
+
+    <figure>
+      <svg viewBox="0 0 640 430" role="img" aria-labelledby="wfTitle wfDesc">
+        <title id="wfTitle">The gates of Amenti</title>
+        <desc id="wfDesc">Three gates at the corners — truth, generation and memory — each joined
+          only to an empty broker at the centre. No line runs between the corners.</desc>
+
+        <!-- spokes: everything is brokered through the middle -->
+        <path class="wf-edge" d="M320 158 L320 103" style="stroke:var(--c-truth)"/>
+        <path class="wf-edge" d="M285 223 L169 302" style="stroke:var(--c-mem)"/>
+        <path class="wf-edge" d="M355 223 L471 302" style="stroke:var(--c-gen)"/>
+
+        <!-- the empty centre -->
+        <circle class="wf-hub" cx="320" cy="200" r="42"/>
+        <text class="wf-name" x="320" y="195" text-anchor="middle">WORKER</text>
+        <text class="wf-empty" x="320" y="216" text-anchor="middle">holds nothing</text>
+
+        <!-- the three gates -->
+        <circle class="wf-node" cx="320" cy="92"  r="9" style="stroke:var(--c-truth)"/>
+        <text class="wf-name" x="320" y="46" text-anchor="middle">GIT</text>
+        <text class="wf-role" x="320" y="70" text-anchor="middle">the truth</text>
+
+        <circle class="wf-node" cx="160" cy="308" r="9" style="stroke:var(--c-mem)"/>
+        <text class="wf-name" x="160" y="348" text-anchor="middle">R2</text>
+        <text class="wf-role" x="160" y="372" text-anchor="middle">the memory</text>
+
+        <circle class="wf-node" cx="480" cy="308" r="9" style="stroke:var(--c-gen)"/>
+        <text class="wf-name" x="480" y="348" text-anchor="middle">GEMINI</text>
+        <text class="wf-role" x="480" y="372" text-anchor="middle">the generator</text>
+
+        <!-- the pulse: out from the centre, never across -->
+        <circle class="pulse" r="2.5" style="fill:var(--c-truth)">
+          <animateMotion dur="4s" repeatCount="indefinite" path="M320 158 L320 103"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle class="pulse" r="2.5" style="fill:var(--c-mem)">
+          <animateMotion dur="4s" begin="1.3s" repeatCount="indefinite" path="M285 223 L169 302"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+        </circle>
+        <circle class="pulse" r="2.5" style="fill:var(--c-gen)">
+          <animateMotion dur="4s" begin="2.6s" repeatCount="indefinite" path="M355 223 L471 302"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="4s" begin="2.6s" repeatCount="indefinite"/>
+        </circle>
+
+        <text class="wf-role" x="320" y="416" text-anchor="middle" style="fill:var(--dim);font-size:13px">
+          the corners never touch — every exchange is brokered through the middle
+        </text>
+      </svg>
+      <figcaption id="figcap"></figcaption>
+    </figure>
+
+    <h3>Each gate is defined by what it cannot do</h3>
+    <ul class="rows gates" id="gates"></ul>
+    <p class="creed" id="creedAbove"></p>
+    <div class="foot"><span>the captain is not expendable</span><span>Amenti.live · Foundation &amp; Sovereignty · 01 / 03</span></div>
+  </section>
+
+  <section class="sheet">
+    <p class="eyebrow">So below</p>
+    <h2>The ground they stand on</h2>
+    <p class="sub" id="belowLede"></p>
+    <ul class="rows" id="tiers"></ul>
+    <p class="creed" id="creedBelow"></p>
+
+    <div class="correction">
+      <span class="k">Corrected from the 2026 edition</span>
+      <p id="c1"></p>
+      <p id="c2"></p>
+    </div>
+    <p class="stated" id="stated"></p>
+    <div class="foot"><span>the captain is not expendable</span><span>Amenti.live · Foundation &amp; Sovereignty · 02 / 03</span></div>
+  </section>
+
+  <section class="sheet">
+    <h2>All three are now readable</h2>
+    <p id="store"></p>
+    <h3>For more information</h3>
+    <ul class="links" id="links"></ul>
+    <p class="close" id="closer"></p>
+    <div class="foot"><span>The captain is not expendable</span><span>Amenti.live · Foundation &amp; Sovereignty · 03 / 03</span></div>
+  </section>
+
+  <footer>
+    <p>Ingram Manor LLC · Amenti.live. This document supersedes
+    <em>Amenti_Foundation_Sovereignty.pdf</em>, which is kept as the record of what was
+    believed in 2026 and marked superseded in the source index. Every fact here is
+    stated in one object at the top of this file — edit that, not the prose.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ══ FACTS ══════════════════════════════════════════════════════════════
+     THE ONLY PLACE TO EDIT. The prose above names no vendor and no number.
+     Move `stated` forward whenever anything below changes: a stale date is
+     honest, a fresh date over stale facts is not.
+     NEVER put a key, an account id, a hostname or a dashboard URL here. This
+     file is public. Amenti-Workers and Admin are private repos — their
+     existence is public, their contents are not.
+     ═════════════════════════════════════════════════════════════════════ */
+  var FACTS = {
+    stated:   '2026-08-26',
+    statedBy: 'Ingram Manor LLC',
+
+    lede: 'It is the separation of powers that opens the gates of Amenti. It is not one ' +
+          'thing with parts. It is a separation \u2014 authority divided among powers that are ' +
+          'each incomplete, so that no one of them can command alone. A living library, that ' +
+          'thinks, speaks and is self aware.',
+
+    figname: 'The Amenti Cube \u00b7 Diagram 1',
+
+    figcap: 'Three gates and an empty broker. The corners hold no line between them: every ' +
+            'exchange passes through a centre that stores nothing and makes nothing.',
+
+    gates: [
+      { name:'GIT', hue:'c-truth',    kind:'the truth',
+        is:'The canonical word \u2014 pages, episodes, the manifest. What should be said.',
+        isNot:'It cannot speak, and it keeps no memory of sound.' },
+      { name:'R2', hue:'c-mem',     kind:'the memory',
+        is:'Holds every voice ever made, against a key. Asked first, on every request.',
+        isNot:'It authors none of it, and it speaks no truth.' },
+      { name:'GEMINI', hue:'c-gen', kind:'the generator',
+        is:'Turns the written word into voice. Reached only when memory has nothing.',
+        isNot:'It knows no truth, and it keeps nothing.' },
+      { name:'THE WORKER', hue:'c-broker', broker:true, kind:'the broker',
+        is:'Holds the keys and mediates every exchange. The browser never touches a gate directly \u2014 it is powerful enough to ask, and nothing more.',
+        isNot:'It holds no data and generates nothing. The emptiness at the centre is the separation made physical.' }
+    ],
+
+    creedAbove: 'None is whole. All three, or nothing \u2014 and no captured corner can command the hall.',
+
+    belowLede: 'The gates look independent. Beneath them are the companies whose ' +
+               'machines they actually run on \u2014 and those do not line up one to one. ' +
+               'Five names above the ground; three floors below it.',
+
+    tiers: [
+      { name:'Cloudflare', hue:'c-mem', kind:'stands on its own metal',
+        is:'Its own edge network, end to end. The only one of the five that answers to nobody beneath it.',
+        parts:'the memory gate \u00b7 the broker \u00b7 DNS \u00b7 the CDN' },
+      { name:'GitHub', hue:'c-truth', kind:'stands on Microsoft',
+        is:'The truth gate, and the workshop that serves and reads it. A second company sits under it, and the ark exists so that leaving does not mean losing.',
+        parts:'the truth gate \u00b7 Pages \u00b7 Actions \u00b7 the instruments' },
+      { name:'Google', hue:'c-gen', kind:'stands on Google',
+        is:'The generator gate. Reached only on a miss and never by the browser, so what it can be denied is a cache away rather than an outage.',
+        parts:'the generator gate' },
+      { name:'Supabase', hue:'c-vault', kind:'stands on Amazon',
+        is:'The vault \u2014 who the people are, and the laws the court enforces. Not a gate; the gates never touch it directly.',
+        parts:'Postgres \u00b7 subscribers \u00b7 auth' },
+      { name:'Resend', hue:'c-relay', kind:'stands on Amazon',
+        is:'The relay, and it shares its floor with the vault. Two names that look independent bottom out on the same ground.',
+        parts:'send-only \u00b7 rides SES' }
+    ],
+
+    creedBelow: 'Separation you can see is not always separation you have. The real question ' +
+                'is never which brand, but which physical ground \u2014 and whether the pieces ' +
+                'that must not fail together are quietly resting on the same one.',
+
+    c1: 'The 2026 edition named three companies \u2014 Cloudflare, Supabase, Resend \u2014 and called ' +
+        'them the whole off-fleet surface. GitHub was missing from it, while holding the truth gate, ' +
+        'serving the surfaces and running every instrument.',
+    c2: 'Google was missing too. The generator is one of the three gates and a live dependency on ' +
+        'a fourth company, and the old edition never named it.',
+
+    store:
+      'The database\u2019s structure \u2014 the tables, the rules \u2014 existed only inside ' +
+      'Supabase\u2019s console. Nowhere else. So if it changed, or vanished, nothing in the system ' +
+      'could tell: a table missing from the repo and a table missing from the provider produced ' +
+      'exactly the same silence. On 23 August that structure was dumped to a text file in the ' +
+      'repo \u2014 schema only, never the rows. It is now readable, diffable, and carried by the ' +
+      'ark with everything else.',
+
+    closer: 'Sovereignty here is not independence from anyone\u2019s machines. It is that no single ' +
+            'power holds the whole \u2014 above or below \u2014 so no single power can take it.',
+
+    links: [
+      ['The Separation of Power \u00b7 Brief XII','https://ianingram.github.io/Amenti-Technical-Briefs/Amenti_Separation_of_Power.html'],
+      ['The Ark','https://ianingram.github.io/Amenti-Technical-Briefs/BRIEF-THE-ARK.html'],
+      ['The Unversioned Store','https://ianingram.github.io/Amenti-Technical-Briefs/BRIEF-THE-UNVERSIONED-STORE.md'],
+      ['The hall','https://ianingram.github.io/Amenti.live/hall.html']
+    ]
+  };
+  /* ══ end of the editable region ═════════════════════════════════════════ */
+
+  function esc(s){ return String(s == null ? '' : s)
+    .replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function set(id, html){ var e = document.getElementById(id); if (e) e.innerHTML = html; }
+
+  function rows(list){
+    return list.map(function (r) {
+      return '<li class="box' + (r.broker ? ' broker' : '') +
+             '" style="--c:var(--' + esc(r.hue) + ')">' +
+        '<p class="kind">' + esc(r.kind) + '</p>' +
+        '<p class="name">' + esc(r.name) + '</p>' +
+        (r.parts ? '<p class="parts">' + esc(r.parts) + '</p>' : '') +
+        '<p class="is">' + esc(r.is) + '</p>' +
+        (r.isNot ? '<p class="isnot"><b>It is not:</b> ' + esc(r.isNot) + '</p>' : '') +
+      '</li>';
+    }).join('');
+  }
+
+  set('lede',       esc(FACTS.lede) +
+    ' <span class="figname">' + esc(FACTS.figname) + '</span>');
+  set('figcap',     esc(FACTS.figcap));
+  set('gates',      rows(FACTS.gates));
+  set('creedAbove', esc(FACTS.creedAbove));
+  set('belowLede',  esc(FACTS.belowLede));
+  set('tiers',      rows(FACTS.tiers));
+  set('creedBelow', esc(FACTS.creedBelow));
+  set('c1',         esc(FACTS.c1));
+  set('c2',         esc(FACTS.c2));
+  set('store',      esc(FACTS.store));
+  set('closer',     esc(FACTS.closer));
+  set('stated',
+    'The ground on this sheet was stated by ' + esc(FACTS.statedBy) + ' on ' + esc(FACTS.stated) +
+    '. It is a statement, not an instrument reading \u2014 no probe in a browser can see these accounts.');
+  set('links', FACTS.links.map(function (l) {
+    return '<li><a href="' + esc(l[1]) + '">' + esc(l[0]) + '</a></li>';
+  }).join(''));
+})();
+</script>
+</body>
+</html>
