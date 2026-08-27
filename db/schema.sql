@@ -654,6 +654,20 @@ CREATE VIEW public.emerald_balance WITH (security_invoker='true') AS
 
 
 --
+-- Name: figure_memory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.figure_memory (
+    user_id uuid NOT NULL,
+    figure_key text NOT NULL,
+    facts jsonb DEFAULT '[]'::jsonb NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT figure_memory_facts_shape CHECK (((jsonb_typeof(facts) = 'array'::text) AND (jsonb_array_length(facts) <= 10)))
+);
+
+
+--
 -- Name: profiles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1184,6 +1198,14 @@ ALTER TABLE ONLY public.emerald_ledger
 
 
 --
+-- Name: figure_memory figure_memory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.figure_memory
+    ADD CONSTRAINT figure_memory_pkey PRIMARY KEY (user_id, figure_key);
+
+
+--
 -- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1680,6 +1702,14 @@ ALTER TABLE ONLY public.emerald_ledger
 
 
 --
+-- Name: figure_memory figure_memory_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.figure_memory
+    ADD CONSTRAINT figure_memory_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: profiles profiles_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1811,6 +1841,12 @@ ALTER TABLE public.characters ENABLE ROW LEVEL SECURITY;
 --
 
 ALTER TABLE public.emerald_ledger ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: figure_memory; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.figure_memory ENABLE ROW LEVEL SECURITY;
 
 --
 -- Name: emerald_ledger ledger_read_own; Type: POLICY; Schema: public; Owner: -
