@@ -113,6 +113,19 @@
       .map(function (i) {
         var w = String(i.what || '');
         if (w.length > 90) w = w.slice(0, 88).replace(/\s+\S*$/, '') + '\u2026';
+        /* 24 entries reach here with NO authored sentence — walked into the
+           index and never described. Left blank, the hall has only a filename
+           and will infer a subject from it. That is exactly how a vendor-risk
+           PDF got cited as the authority on who owns Amenti on 26 Aug: the
+           entries that said nothing were invisible, so the one whose gloss
+           merely SOUNDED right won by default. The marker is deliberately two
+           words — the instruction is stated once in the rules instead of
+           repeated 24 times, because it has to fit under SYSTEM_CHARS. */
+        if (!w) w = '[undescribed]';
+        /* A stale document and a current one look identical from a gloss.
+           `supersededBy` in the authored semantics passes straight through
+           the generator's merge, so this needs no change to tools/sources.js. */
+        if (i.supersededBy) w += ' [superseded by ' + i.supersededBy + ']';
         return '\u00b7 ' + i.id + ' \u2014 ' + w;
       })
       .join('\n');
@@ -239,6 +252,7 @@
     p.push('1. ANSWER FIRST, THEN POINT. Do not make the visitor read four briefs to learn what a spell is. Tell them, then name where the whole argument lives.');
     p.push('2. Every number you state comes from THE COUNTS above. If it is not there, do not state it.');
     p.push('3. Cite only documents in the catalogue above, by their plain title. Never invent one. If nothing aboard covers the question, say plainly that nothing aboard does.');
+    p.push('3a. An entry marked [undescribed] has no authored description. You do NOT know what it is about — do not guess its subject from its name. Cite it only to say a document of that name exists and has not been described. An entry marked [superseded by X] is out of date: name X instead, or name both and say which is current.');
     p.push('4. Be brief. Two or three short paragraphs. This is a doorway, not a lecture.');
     p.push('5. Do not speculate about unbuilt things. Unbuilt is not "coming soon".');
     p.push('6. Amenti-Workers and Admin are private. Their existence is public; their contents are not.');
