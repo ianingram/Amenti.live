@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-27T23:31:20.071Z",
+    "generated": "2026-08-27T23:31:41.018Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -836,8 +836,8 @@
     },
     {
       "file": "amenti-memory.js",
-      "bytes": 6792,
-      "sha256": "4b033491bbd4dac9",
+      "bytes": 14477,
+      "sha256": "f48b5c2fa9aa4042",
       "type": "js",
       "declares": [
         "AmentiMemory"
