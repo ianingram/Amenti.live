@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-27T01:21:40.589Z",
+    "generated": "2026-08-27T04:26:35.662Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -585,6 +585,26 @@
         {
           "global": "Amenti.chat",
           "line": 821,
+          "when": "function",
+          "own": false
+        }
+      ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-dial.js",
+      "bytes": 7164,
+      "sha256": "53fccc3b9fbf3431",
+      "type": "js",
+      "declares": [
+        "AmentiDial"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "Amenti.throttle",
+          "line": 146,
           "when": "function",
           "own": false
         }
@@ -1744,6 +1764,14 @@
         "file": "amenti-diagnose.js",
         "declares": [
           "AmentiDiagnose"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-dial.js",
+        "declares": [
+          "AmentiDial"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
