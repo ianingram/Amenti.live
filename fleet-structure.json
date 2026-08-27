@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-27T05:54:19.015Z",
+    "generated": "2026-08-27T06:10:43.583Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1390,8 +1390,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 12722,
-      "sha256": "9d5a98232555674b",
+      "bytes": 13289,
+      "sha256": "f5bc9444305738a0",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1401,21 +1401,21 @@
       "loads": [
         {
           "file": "amenti-hall.js?v=1",
-          "line": 254
+          "line": 261
         },
         {
           "file": "amenti-hall-box.js?v=1",
-          "line": 255
+          "line": 262
         },
         {
           "file": "amenti-qr.js?v=3",
-          "line": 256
+          "line": 263
         }
       ],
       "calls": [
         {
           "global": "AmentiCost",
-          "line": 244,
+          "line": 251,
           "when": "function",
           "own": true
         }
