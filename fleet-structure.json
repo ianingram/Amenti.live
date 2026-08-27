@@ -1,11 +1,29 @@
 {
   "meta": {
-    "generated": "2026-08-27T05:40:24.060Z",
+    "generated": "2026-08-27T05:54:19.015Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
   },
   "files": [
+    {
+      "file": "Amenti_Foundation_Sovereignty.html",
+      "bytes": 26522,
+      "sha256": "a6f6d7a03b8ddfe2",
+      "type": "html",
+      "declares": [],
+      "loads": [],
+      "calls": [
+        {
+          "global": "Amenti.live",
+          "line": 320,
+          "when": "toplevel",
+          "own": false
+        }
+      ],
+      "endpoints": [],
+      "tables": []
+    },
     {
       "file": "Codex.html",
       "bytes": 579,
@@ -1721,7 +1739,15 @@
     ]
   },
   "findings": {
-    "wiring": [],
+    "wiring": [
+      {
+        "kind": "STOWAWAY",
+        "page": "Amenti_Foundation_Sovereignty.html",
+        "global": "Amenti.live",
+        "line": 320,
+        "note": "used at parse time, and NO FILE IN THE REPO DECLARES IT"
+      }
+    ],
     "adrift": [
       {
         "file": "amenti-art-photo.js",
