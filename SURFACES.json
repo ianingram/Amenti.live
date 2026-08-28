@@ -4,17 +4,17 @@
   "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
   "_reaches": "The four booleans are why this register exists. On 27 Aug 2026 each was an argument, six times in one day, because nothing could be looked up.",
   "_honesty": "null in `reaches` means NOT CHECKED. It is not false. False is a claim.",
-  "generated": "2026-08-28T23:27:41.651Z",
+  "generated": "2026-08-28T23:28:21.072Z",
   "generator": "probes/probe-surfaces.mjs",
   "counts": {
     "authored": 19,
-    "walkedControls": 96,
-    "confirmed": 1,
+    "walkedControls": 122,
+    "confirmed": 8,
     "offWalk": 11,
-    "adrift": 7,
-    "undeclared": 63,
-    "unresolved": 0,
-    "duplicate": 33
+    "adrift": 0,
+    "undeclared": 81,
+    "unresolved": 1,
+    "duplicate": 34
   },
   "reach": {
     "conversationSurfaces": 4,
@@ -47,46 +47,125 @@
   ],
   "drift": [
     {
-      "stamp": "ADRIFT",
-      "id": "terminal-input",
-      "claim": "the terminal",
-      "reading": "declares #input and no element carries that id"
+      "stamp": "UNDECLARED",
+      "id": "gw-doorway",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · arena"
     },
     {
-      "stamp": "ADRIFT",
-      "id": "terminal-mode",
-      "claim": "the mode toggle",
-      "reading": "declares #modeToggle and no element carries that id"
+      "stamp": "UNDECLARED",
+      "id": "hero-cta-quiz",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · arena"
     },
     {
-      "stamp": "ADRIFT",
-      "id": "counsel-input",
-      "claim": "Personal Counsel",
-      "reading": "declares #cnsQ and no element carries that id"
+      "stamp": "UNDECLARED",
+      "id": "hero-cta-library",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · arena"
     },
     {
-      "stamp": "ADRIFT",
-      "id": "counsel-speak-all",
-      "claim": "read the counsel aloud",
-      "reading": "declares #cnsPlayAll and no element carries that id"
+      "stamp": "UNDECLARED",
+      "id": "mp-prev",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · arena"
     },
     {
-      "stamp": "ADRIFT",
-      "id": "codex-search",
-      "claim": "the codex search",
-      "reading": "declares #cdx-q and no element carries that id"
+      "stamp": "UNDECLARED",
+      "id": "mp-play",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · arena"
     },
     {
-      "stamp": "ADRIFT",
-      "id": "browse-search",
-      "claim": "the browse search",
-      "reading": "declares #brw-q and no element carries that id"
+      "stamp": "UNDECLARED",
+      "id": "mp-next",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · arena"
     },
     {
-      "stamp": "ADRIFT",
-      "id": "newsletter-signup",
-      "claim": "the newsletter signup",
-      "reading": "declares #nl-input and no element carries that id"
+      "stamp": "UNDECLARED",
+      "id": "mp-close",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · arena"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "councilBtn",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · terminal"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "cnsBack",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "cnsFilter",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "cnsAuto",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "cnsGo",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "quiz-close",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel, Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "DUPLICATE",
+      "id": "quiz-close",
+      "claim": "— nothing claims it —",
+      "reading": "2 elements carry this id",
+      "note": "getElementById returns the first; every later one is unreachable."
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "quiz-shop",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "quiz-listen",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "quiz-retry",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNRESOLVED",
+      "id": "'+co.id+'",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "any",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "dp-reader-close",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/Page1.html · counsel"
     },
     {
       "stamp": "UNDECLARED",
@@ -770,7 +849,14 @@
       },
       "note": "THE ONLY SURFACE THAT REACHES ALL FOUR, and the reason BRIEF-WHAT-AN-HOUR-COSTS prices one surface and calls it the product. Every instrument built on 26–27 Aug hangs off tune(), which serves this and nothing else.",
       "id": "terminal-input",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/Page1.html",
+          "kind": "input",
+          "sectionGuess": "terminal"
+        }
+      ]
     },
     {
       "name": "the terminal's microphone",
@@ -815,7 +901,13 @@
       },
       "note": "Switches character/counsel. Costs nothing itself and changes which prompt the next turn uses.",
       "id": "terminal-mode",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/Page1.html",
+          "kind": "mount"
+        }
+      ]
     },
     {
       "name": "Personal Counsel",
@@ -840,7 +932,14 @@
       },
       "note": "A FULL CONVERSATION SURFACE THAT NO INSTRUMENT WATCHES. The visit reading fires from tune(), which counsel does not go through; AmentiMemory.load is never called here. Not a decision — an omission, and the first one the register was built to make visible. `dial` is null because whether the speaker toggle reaches this path has not been checked.",
       "id": "counsel-input",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/Page1.html",
+          "kind": "textarea",
+          "sectionGuess": "counsel"
+        }
+      ]
     },
     {
       "name": "read the counsel aloud",
@@ -864,7 +963,14 @@
       },
       "note": "NEVER HITS THE ARCHIVE. amenti-voice.js is explicit: the counsel's text is unique every turn, so every render is a fresh charge. The R2 archive serves the RECITAL path, not this one.",
       "id": "counsel-speak-all",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/Page1.html",
+          "kind": "button",
+          "sectionGuess": "counsel"
+        }
+      ]
     },
     {
       "name": "the codex search",
@@ -886,7 +992,14 @@
       },
       "note": "Local filter over AMENTI_CHARS. No model call, no cost.",
       "id": "codex-search",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/Page1.html",
+          "kind": "input",
+          "sectionGuess": "codex"
+        }
+      ]
     },
     {
       "name": "the browse search",
@@ -908,7 +1021,14 @@
       },
       "note": "Local. The walk files this under `timeline` because it reports the nearest preceding data-page; the authored section is right and the walked one is not.",
       "id": "browse-search",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/Page1.html",
+          "kind": "input",
+          "sectionGuess": "timeline"
+        }
+      ]
     },
     {
       "name": "TALK TO — the door to a soul",
@@ -975,7 +1095,14 @@
       },
       "note": "The only surface that WRITES to the vault directly from the browser. The anon key can insert a signup and execute an unsubscribe and nothing else — RLS on 25 of 25 tables.",
       "id": "newsletter-signup",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/Page1.html",
+          "kind": "input",
+          "sectionGuess": "arena"
+        }
+      ]
     },
     {
       "name": "the quiz",
