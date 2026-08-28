@@ -1,29 +1,11 @@
 {
   "meta": {
-    "generated": "2026-08-28T21:57:02.891Z",
+    "generated": "2026-08-28T22:10:03.592Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
   },
   "files": [
-    {
-      "file": "Amenti_Foundation_Sovereignty.html",
-      "bytes": 26522,
-      "sha256": "a6f6d7a03b8ddfe2",
-      "type": "html",
-      "declares": [],
-      "loads": [],
-      "calls": [
-        {
-          "global": "Amenti.live",
-          "line": 320,
-          "when": "toplevel",
-          "own": false
-        }
-      ],
-      "endpoints": [],
-      "tables": []
-    },
     {
       "file": "Codex.html",
       "bytes": 579,
@@ -1333,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49225,
-      "sha256": "30b7e8b3aab785e3",
+      "sha256": "d12aec734f119d6d",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1802,15 +1784,7 @@
     ]
   },
   "findings": {
-    "wiring": [
-      {
-        "kind": "STOWAWAY",
-        "page": "Amenti_Foundation_Sovereignty.html",
-        "global": "Amenti.live",
-        "line": 320,
-        "note": "used at parse time, and NO FILE IN THE REPO DECLARES IT"
-      }
-    ],
+    "wiring": [],
     "adrift": [
       {
         "file": "amenti-art-photo.js",

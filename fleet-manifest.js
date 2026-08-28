@@ -8,18 +8,18 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-28T21:57:02.998Z",
-    "reading": "2026-08-28T21:57:02.891Z",
+    "merged": "2026-08-28T22:10:03.668Z",
+    "reading": "2026-08-28T22:10:03.592Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
-    "contradicted": 1,
+    "contradicted": 0,
     "unproven": 4,
-    "undeclared": 36,
+    "undeclared": 35,
     "adrift": 1,
-    "clean": false
+    "clean": true
   },
   "drift": [
     {
@@ -28,13 +28,6 @@ window.FLEET_MANIFEST = {
       "claim": "\"The Boatswain of the Voice\" — crew",
       "reading": "loaded, and NOTHING CALLS Amenti.conversation",
       "note": "Shipped weight — and it will mislead the next reader into thinking it does something."
-    },
-    {
-      "stamp": "UNDECLARED",
-      "subject": "Amenti_Foundation_Sovereignty.html",
-      "claim": "— nothing claims it —",
-      "reading": "in the repo",
-      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
     },
     {
       "stamp": "UNDECLARED",
@@ -280,13 +273,6 @@ window.FLEET_MANIFEST = {
       "claim": "— nothing claims it —",
       "reading": "in the repo",
       "note": "A file aboard that no manifest names. Six of these were invisible to every view."
-    },
-    {
-      "stamp": "CONTRADICTED",
-      "subject": "Amenti_Foundation_Sovereignty.html",
-      "claim": "Amenti.live is provided by something",
-      "reading": "NO FILE IN THE REPO DECLARES IT",
-      "note": "A call into the void. It has been failing silently."
     },
     {
       "stamp": "UNPROVEN",
