@@ -325,7 +325,10 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 
 .term-shell::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,160,0.03) 2px,rgba(0,255,160,0.03) 3px);pointer-events:none;}
 
-/* CHARACTER LIST */ .term-roster{border-right:1px solid rgba(0,255,160,0.2);background:rgba(0,8,4,0.5);position:relative;}
+/* CHARACTER LIST */ /* a COLUMN, so the mode block's margin-top:auto can fall to the foot.
+   It was a plain block; the list simply stacked and nothing could reach the
+   bottom of the column. */
+.term-roster{border-right:1px solid rgba(0,255,160,0.2);background:rgba(0,8,4,0.5);position:relative;display:flex;flex-direction:column;}
 .term-h{padding:14px 18px;border-bottom:1px solid rgba(0,255,160,0.2);font-size:10px;color:#80ffc0;letter-spacing:.18em;display:flex;justify-content:space-between;}
 .term-h::before{content:"●";color:#00ff80;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
@@ -361,15 +364,32 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 }
 .term-btn{background:transparent;border:1px solid rgba(0,255,160,0.4);color:#80ffc0;font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;padding:5px 10px;cursor:pointer;}
 .term-btn:hover{background:rgba(0,255,160,0.08);color:#fff;}
-/* The MODE label on the input rail. Small, gold, and it does not compete with
-   the prompt — it names the control rather than announcing itself. */
+/* ── THE MODE, AT THE FOOT OF THE ROSTER ──────────────────────────────────
+   Pushed to the bottom of the column by margin-top:auto, so it sits on the
+   black beneath the figure list however long that list is.
+   The roster picks WHO; this picks WHAT FOR. */
+/* The list scrolls; the mode block does not. Without this a roster of any
+   length pushes the mode box below the fold and margin-top:auto has nothing
+   left to push against. */
+#charList{overflow-y:auto;flex:1 1 auto;min-height:0;}
+
+.term-mode-wrap{
+  margin-top:auto;
+  padding:14px;
+  border-top:1px solid rgba(0,255,160,0.2);
+  display:flex;flex-direction:column;gap:6px;
+}
 .term-mode-label{
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.22em;
   color:var(--gold);opacity:.75;user-select:none;white-space:nowrap;
 }
-/* The mode select sits on the rail rather than the toolbar, so it may be a
-   touch larger than the model picker above without crowding anything. */
-.term-mode{font-size:10px;padding:5px 8px;}
+/* Larger than the model picker above: this is a decision a reader makes and
+   returns to, not a setting they touch once. */
+.term-mode{
+  width:100%;
+  font-size:11px;letter-spacing:.1em;
+  padding:8px 10px;
+}
 
 .term-select{background:rgba(0,8,4,0.6);border:1px solid rgba(0,255,160,0.4);color:#80ffc0;font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;padding:4px 6px;cursor:pointer;outline:none;}
 .term-select:hover{color:#fff;border-color:#80ffc0;}
