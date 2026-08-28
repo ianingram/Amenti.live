@@ -218,7 +218,8 @@
     "Fleet-Documents/branch/index.html": {
       "section": "the surfaces",
       "id": "harbor",
-      "what": "The Harbor. Thirteen panes."
+      "what": "The Harbor. The way in. Its pane grid is BUILT from window.FLEET_PANES in fleet-nav.js — hand-written until 28 Aug 2026, when it was found holding thirteen cards against a registry of eighteen, with two panes sharing the number Pane IV. One list now, numbered positionally, so neither fault can recur.",
+      "authority": "LIVE, and a reflection — it states no fact about the fleet except the health tally, which it reads. If fleet-nav.js does not load it shows nothing and says so."
     },
     "Fleet-Documents/branch/fleet-nav.js": {
       "section": "the surfaces",
