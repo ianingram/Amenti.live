@@ -1033,6 +1033,13 @@
       "id": "pane-surfaces",
       "what": "THE SURFACE MANIFEST. The eighteenth pane. Reads SURFACES.json and shows every place a person can act on this system, with four columns saying what reaches each: counted, memory, dial, voice. A checked-false renders as a dot and an UNCHECKED as a question mark, because false is a claim and null is an admission.",
       "authority": "LIVE. A reflection, generated at open, holding no list of its own — and it appears in the register it renders, because a map that omits itself is the fault it was built to catch."
+    },
+    "Amenti.live/main/CAPTAINS-LOG-27-28-AUGUST.md": {
+      "section": "the book itself",
+      "group": "log",
+      "id": "captains-log-27-28-august",
+      "what": "CAPTAIN'S LOG, 27–28 Aug 2026. What was built, what was FOUND, what is running, and what is still only claimed — across a session that shipped three ReferenceError fixes, figure memory end to end, the visit reading, prompt caching, voice priced and metered, and the surface register from brief to pane. §III holds the findings and §IV holds the assistant's own errors, because a log that records only the wins is a log nobody can trust the rest of.",
+      "authority": "an ACCOUNT OF A DAY, not a governing document. Deploy states are the captain's confirmations, not the assistant's assumptions. Where this and a register disagree, the register is right."
     }
   },
   "owner": "ianingram",
