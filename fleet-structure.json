@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-28T04:09:46.114Z",
+    "generated": "2026-08-28T04:12:20.542Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -965,8 +965,8 @@
     },
     {
       "file": "amenti-qr.js",
-      "bytes": 25885,
-      "sha256": "35d4f2941c61ee60",
+      "bytes": 27496,
+      "sha256": "4490f28a916dde85",
       "type": "js",
       "declares": [],
       "loads": [],
