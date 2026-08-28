@@ -323,21 +323,52 @@ jobs:
           fi
 
       # ── AND THE WHOLE POINT ─────────────────────────────────────────────
+      # ── SAY WHICH ONE ───────────────────────────────────────────────────
+      # This gate fires on TWO conditions and used to print ONE message.
+      #
+      # From 24 to 28 August 2026 every run was red because merge.js was
+      # throwing — fleet-semantics.js had been overwritten with the source
+      # index — and this step announced, four times a day, that a script tag
+      # was in the wrong place. NOT WIRED was 0 the whole time. It said so in
+      # its own summary table, two sections above, while this text said the
+      # opposite in capital letters.
+      #
+      # The real error sat one collapsed `continue-on-error` section away and
+      # nobody opened it, because the gate had already told them what was
+      # wrong. THE ALARM WAS ACCURATE ABOUT THERE BEING A FIRE AND WRONG ABOUT
+      # WHICH BUILDING.
+      #
+      # PROBE CORPS, RULE 2: ATTRIBUTE, NEVER INFER. Read the body, name the
+      # actual cause — the rule this workflow's own header cites, broken here.
       - name: A commit that makes the manifest lie does not merge
         if: steps.report.outputs.notwired != '0' || steps.merge.outcome == 'failure'
         run: |
           echo ""
           echo "  ══════════════════════════════════════════════════════════"
-          echo "   NOT WIRED."
-          echo ""
-          echo "   A file is being called BEFORE it is loaded. The guard will"
-          echo "   fail silently, the caller will get undefined, and the code"
-          echo "   will quietly take a fallback path that nobody is watching."
-          echo ""
-          echo "   THIS IS THE TERMINAL BUG. It hid for the entire life of"
-          echo "   this system and fourteen test harnesses reported green."
-          echo ""
-          echo "   Move the <script src> tag ABOVE the code that calls it."
+          if [ "${{ steps.report.outputs.notwired }}" != "0" ]; then
+            echo "   NOT WIRED — ${{ steps.report.outputs.notwired }} finding(s)."
+            echo ""
+            echo "   A file is being called BEFORE it is loaded. The guard will"
+            echo "   fail silently, the caller will get undefined, and the code"
+            echo "   will quietly take a fallback path that nobody is watching."
+            echo ""
+            echo "   THIS IS THE TERMINAL BUG. It hid for the entire life of"
+            echo "   this system and fourteen test harnesses reported green."
+            echo ""
+            echo "   Move the <script src> tag ABOVE the code that calls it."
+          fi
+          if [ "${{ steps.merge.outcome }}" = "failure" ]; then
+            echo "   THE MERGE FAILED — the claims could not be reconciled."
+            echo ""
+            echo "   The wiring may be perfectly clean; this is a different"
+            echo "   fault. OPEN THE 'Merge — claims vs reading' STEP ABOVE:"
+            echo "   it runs with continue-on-error, so its output is"
+            echo "   COLLAPSED and its error does not appear here."
+            echo ""
+            echo "   Most likely: fleet-semantics.js is missing, will not"
+            echo "   parse, or no longer sets window.FLEET_SEMANTICS."
+            echo "   merge.js names which — in its own words, not Node's."
+          fi
           echo "  ══════════════════════════════════════════════════════════"
           echo ""
           exit 1
