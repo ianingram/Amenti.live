@@ -68,10 +68,65 @@ function patrolFor(id) {
   return { ...patrol.watches[id], ageH, stale: !(ageH < PATROL_MAX_H) };
 }
 
+/* ── THE CLAIMS ARE GUARDED THE WAY THE READING IS ────────────────────────
+   The structure file above gets a clear MERGE REFUSES if it is missing. The
+   semantics file used to go straight into new Function(), and that asymmetry
+   cost four days.
+
+   ON 24 AUGUST 2026 fleet-semantics.js was overwritten wholesale with the
+   contents of SOURCES.semantics.json — two registers, similar names, one paste
+   into the wrong editor tab. From then on this line threw a raw Node
+   SyntaxError:
+
+       SyntaxError: Unexpected token ':'
+         at new Function (<anonymous>)
+         at merge.js:72
+
+   and because the workflow runs this step with continue-on-error, the message
+   was collapsed in the UI. The gate downstream fires on `notwired != 0 OR
+   merge failed` and prints ONLY the NOT WIRED text — so for four days every
+   run reported a script-tag ordering bug that did not exist, while the real
+   fault sat one collapsed section away. The manifest froze at 90 hours old and
+   every pane showed the last good reading from the 25th.
+
+   THAT IS RULE 2 OF THE PROBE CORPS — attribute, never infer — broken by the
+   instrument that exists to enforce it.
+
+   So: the file must exist, it must parse, and it must set the global. Each
+   failure says which, and each says it in this tool's own voice rather than
+   Node's. */
+if (!fs.existsSync(SEM_PATH)) {
+  console.error(`MERGE REFUSES: no claims at ${SEM_PATH}.\n` +
+                `  There is nothing to reconcile AGAINST the reading.\n` +
+                `  This is the AUTHORED half — a human writes it and no machine can.`);
+  process.exit(2);
+}
+
 const win = {};
-new Function('window', fs.readFileSync(SEM_PATH, 'utf8'))(win);
+try {
+  new Function('window', fs.readFileSync(SEM_PATH, 'utf8'))(win);
+} catch (e) {
+  const head = fs.readFileSync(SEM_PATH, 'utf8').slice(0, 80).replace(/\s+/g, ' ');
+  console.error(`MERGE REFUSES: ${SEM_PATH} would not parse as JavaScript.\n` +
+                `  ${e && e.message}\n` +
+                `  it begins: ${head}\n` +
+                (/^\s*\{\s*"/.test(fs.readFileSync(SEM_PATH, 'utf8'))
+                  ? `  THAT IS JSON, NOT JAVASCRIPT. This file must be a SCRIPT that sets\n` +
+                    `  window.FLEET_SEMANTICS. A bare JSON object is almost certainly\n` +
+                    `  SOURCES.semantics.json pasted over the wrong file — it happened on\n` +
+                    `  24 Aug 2026 and cost four days of stale manifest.\n`
+                  : '') +
+                `  Restore it from git history; the last good copy is one commit back.`);
+  process.exit(2);
+}
+
 const S = win.FLEET_SEMANTICS;
-if (!S) { console.error('MERGE REFUSES: fleet-semantics.js did not set window.FLEET_SEMANTICS'); process.exit(2); }
+if (!S) {
+  console.error(`MERGE REFUSES: ${SEM_PATH} parsed but did not set window.FLEET_SEMANTICS.\n` +
+                `  The file ran and claimed nothing. Check that it still ends with the\n` +
+                `  assignment, and that nothing above it threw first.`);
+  process.exit(2);
+}
 
 /* ── index the reading ────────────────────────────────────────────────────── */
 const seen       = new Map(structure.files.map(f => [f.file, f]));
