@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-28T04:25:01.816Z",
+    "generated": "2026-08-28T04:33:14.637Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1584,7 +1584,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 30,
+    "count": 31,
     "files": [
       {
         "file": "probe-engine.mjs",
@@ -1639,6 +1639,12 @@
         "title": null,
         "guards": null,
         "bytes": 27921
+      },
+      {
+        "file": "probe-surfaces.mjs",
+        "title": "THE SURFACE WALK",
+        "guards": null,
+        "bytes": 16947
       },
       {
         "file": "probe-voice.mjs",
