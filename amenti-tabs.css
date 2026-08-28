@@ -342,12 +342,23 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 .term-char-status.offline{color:#406050;}
 
 /* MAIN CHAT */ .term-main{display:flex;flex-direction:column;background:rgba(0,4,2,0.6);position:relative;}
-.term-bar{padding:12px 20px;border-bottom:1px solid rgba(0,255,160,0.2);display:flex;align-items:center;gap:14px;}
+.term-bar{padding:12px 20px;border-bottom:1px solid rgba(0,255,160,0.2);display:flex;align-items:center;gap:14px;position:relative;}
 .term-bar-glyph{font-size:22px;color:var(--gold);width:32px;text-align:center;}
 .term-bar-info{flex:1;}
 .term-bar-name{font-family:var(--font-elite);font-size:16px;color:#fff;letter-spacing:.04em;}
 .term-bar-meta{font-size:9px;color:#80ffc0;letter-spacing:.16em;margin-top:2px;}
-.term-bar-buttons{display:flex;gap:8px;}
+/* ── LIFTED OUT OF THE BAR · 28 AUG 2026 ───────────────────────────────────
+   These four sat in .term-bar's flex row, which runs through the same corner
+   the plate control is pinned to — so the model picker, IN CHARACTER, CLEAR,
+   CODEX and COUNSEL overlapped it and "PLATE 35%" was read THROUGH the buttons
+   on top of it.
+   Raised into the dark band above the plate. The slider stays where it is;
+   it belongs with the image. */
+.term-bar-buttons{
+  display:flex;gap:8px;
+  position:absolute;bottom:100%;right:0;
+  margin-bottom:10px;
+}
 .term-btn{background:transparent;border:1px solid rgba(0,255,160,0.4);color:#80ffc0;font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;padding:5px 10px;cursor:pointer;}
 .term-btn:hover{background:rgba(0,255,160,0.08);color:#fff;}
 .term-select{background:rgba(0,8,4,0.6);border:1px solid rgba(0,255,160,0.4);color:#80ffc0;font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;padding:4px 6px;cursor:pointer;outline:none;}
