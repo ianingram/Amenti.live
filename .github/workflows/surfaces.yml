@@ -1,0 +1,195 @@
+# ============================================================================
+#  .github/workflows/surfaces.yml  ·  THE SURFACE WALK
+# ----------------------------------------------------------------------------
+#  Walks the public repositories for INTERACTION POINTS, merges the authored
+#  semantics, and writes SURFACES.json.
+#
+#  WHY THIS EXISTS
+#  Every register on this ship maps the MACHINERY. SOURCES.json maps documents,
+#  FLEET_MANIFEST maps files, PANES maps panes, KEYS maps keys.
+#
+#      NOTHING MAPPED THE PLACES A PERSON CAN ACT.
+#
+#  On 27 August 2026 the same gap was found nine times in one day — the dial
+#  and counsel, a memory feature that worked on one prompt path and silently
+#  vanished on the other, a visit reading that measures one surface of many, a
+#  whole game in a seventh repository, and hall.html in no register at all.
+#
+#  EVERY ONE OF THOSE WAS FOUND BY TRIPPING OVER IT.
+#
+#  See BRIEF-NOTHING-MAPS-THE-SURFACES.md and SPEC-SURFACES.md.
+#
+#  ── THE RUNG ───────────────────────────────────────────────────────────────
+#  scan.yml's header states the law and the reason:
+#
+#      "the herald was set to TRAIL THE BELL, NOT RACE IT"
+#      The bell is :17. The herald is :27. Ten minutes is the stagger.
+#      TWO STRANDS MUST NEVER OCCUPY ONE RUNG.
+#
+#  So this is :37 — a further ten minutes on, reading a tree the herald has
+#  already settled. It writes ONE file that nothing else writes, so it cannot
+#  lose a push race the way the plate register and the scanner once did.
+#
+#  ── WHY IT RUNS HERE AND NOT IN A BROWSER ─────────────────────────────────
+#  Two of the seven repositories are private, and the OPERATOR surfaces live in
+#  exactly those two. A browser-side walk could map only half the subject and
+#  would report that half as the whole — which is the fault this register
+#  exists to fix, rebuilt as its own solution.
+#
+#  ── THE TOKEN ──────────────────────────────────────────────────────────────
+#  GITHUB_TOKEN is issued automatically to every run; nothing has to be
+#  provisioned. It is passed because the walk enumerates through the GitHub
+#  API, and the UNAUTHENTICATED API returns an ERROR OBJECT rather than data:
+#
+#      403 {"message":"API rate limit exceeded for 34.24.99.5. ..."}
+#
+#  A walk that reads that as a listing reports every surface missing, with
+#  complete confidence. probe-surfaces REFUSES rather than writing an empty
+#  register — §4, inherited from tools/sources.js — but a token means it does
+#  not have to.
+# ============================================================================
+name: The Surfaces
+
+on:
+  push:
+    branches: ['**']
+    # Only when something that could CHANGE a surface moves. A push that edits
+    # a brief does not need a surface walk, and a workflow that fires on
+    # everything is a workflow whose red nobody reads.
+    paths:
+      - '**.html'
+      - 'SURFACES.semantics.json'
+      - 'probes/probe-surfaces.mjs'
+      - '.github/workflows/surfaces.yml'
+  workflow_dispatch:
+  schedule:
+    # :37 — ten minutes behind the herald, which is ten behind the bell.
+    - cron: '37 */6 * * *'
+
+permissions:
+  contents: write           # so it can commit the register back
+
+jobs:
+  surfaces:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the fleet
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── WALK ────────────────────────────────────────────────────────────
+      # probe-surfaces.mjs prints its reading to the log and writes
+      # SURFACES.json. It REFUSES — exit 2, nothing written — if the semantics
+      # file is missing or an enumeration fails, rather than publishing a
+      # register that says everything is gone.
+      - name: Walk the surfaces
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node probes/probe-surfaces.mjs
+
+      # ── COMMIT THE READING ──────────────────────────────────────────────
+      # Written by the probe, in the repo it describes, in the commit that
+      # changed it. The moment a human types it, it stops being a READING and
+      # becomes a CLAIM — and it rots.
+      #
+      # [skip ci] so it cannot start a loop: this workflow fires on **.html,
+      # and without the marker its own commit would wake the whole fleet.
+      - name: Commit SURFACES.json
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name  "surface-walk"
+          git config user.email "surfaces@amenti.live"
+
+          # STAGE FIRST, THEN COMPARE. `git diff --quiet` does not look at
+          # untracked files, so on the FIRST run — when SURFACES.json does not
+          # exist yet — an unstaged compare reports NO DIFFERENCE and the step
+          # announces "nothing to commit" and exits 0.
+          #
+          # That is exactly how scan.yml once ran twice, reported success, and
+          # committed nothing. It is written down there; there is no excuse for
+          # repeating it here.
+          git add -f SURFACES.json
+
+          if git diff --cached --quiet -- SURFACES.json; then
+            echo "the surfaces are unchanged — nothing to commit"
+          else
+            git commit -m "surfaces: the walk [skip ci]"
+
+            # REBASE BEFORE PUSHING. Several workflows write to main and a bare
+            # push loses whichever race it finishes second. Five attempts, then
+            # SAY SO and fail — never a silent give-up.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "committed the surface register (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::could not push the register after 5 attempts — SURFACES.json is now BEHIND the tree"
+              exit 1
+            fi
+          fi
+
+          # And SAY what happened, so a silent no-op can never look like success.
+          if [ -f SURFACES.json ]; then
+            echo "SURFACES.json is $(wc -c < SURFACES.json) bytes"
+          else
+            echo "::error::the walk produced no SURFACES.json"
+            exit 1
+          fi
+
+      # ── THE FINDINGS, WHERE A HUMAN WILL SEE THEM ───────────────────────
+      # A register nobody opens is a register nobody reads. The summary puts
+      # the four questions on the run page itself.
+      #
+      # THIS STEP DOES NOT FAIL THE BUILD. UNDECLARED is not an error — it is
+      # a surface waiting for a sentence — and a check that goes red on a
+      # normal condition teaches people to ignore red. Only ADRIFT and
+      # DUPLICATE are faults, and they are reported as warnings for now:
+      # the register is one day old and its first job is to be READ.
+      - name: Report
+        if: always()
+        run: |
+          node -e '
+            const fs = require("fs");
+            if (!fs.existsSync("SURFACES.json")) {
+              console.log("no register was written — see the walk step above");
+              process.exit(0);
+            }
+            const d = JSON.parse(fs.readFileSync("SURFACES.json", "utf8"));
+            const c = d.counts || {}, r = d.reach || {};
+
+            const line = (k, v) => `| ${k} | ${v == null ? "—" : v} |`;
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+              "## The Surfaces\n\n" +
+              "| | |\n|---|---|\n" +
+              line("surfaces", (d.surfaces || []).length) +
+              "\n" + line("confirmed", c.confirmed) +
+              "\n" + line("undeclared", c.undeclared) +
+              "\n" + line("adrift", c.adrift) +
+              "\n" + line("duplicate ids", c.duplicate) +
+              "\n\n### What is not measured\n\n" +
+              `**${r.conversationSurfaces || 0}** surfaces hold a conversation and cost model tokens. ` +
+              `**${r.countedOfThose || 0}** of them ${(r.countedOfThose===1?"is":"are")} seen by the visit reading.\n\n` +
+              (r.uncounted && r.uncounted.length
+                ? `**NOT COUNTED:** ${r.uncounted.join(", ")}\n\n` : "") +
+              (r.unknown && r.unknown.length
+                ? `**NOT CHECKED:** ${r.unknown.join(", ")}\n\n` : "") +
+              (d.stillUnknown && d.stillUnknown.length
+                ? "### Not yet known\n\n" + d.stillUnknown.map(x => "- " + x).join("\n") + "\n" : ""));
+
+            for (const x of (d.drift || [])) {
+              if (x.stamp === "ADRIFT" || x.stamp === "DUPLICATE")
+                console.log("::warning::" + x.stamp + " — " + x.id + ": " + (x.reading || ""));
+            }
+            console.log(`${(d.surfaces||[]).length} surfaces · ${c.undeclared||0} undeclared · ${c.adrift||0} adrift`);
+          '
