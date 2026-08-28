@@ -1040,6 +1040,27 @@
       "id": "captains-log-27-28-august",
       "what": "CAPTAIN'S LOG, 27–28 Aug 2026. What was built, what was FOUND, what is running, and what is still only claimed — across a session that shipped three ReferenceError fixes, figure memory end to end, the visit reading, prompt caching, voice priced and metered, and the surface register from brief to pane. §III holds the findings and §IV holds the assistant's own errors, because a log that records only the wins is a log nobody can trust the rest of.",
       "authority": "an ACCOUNT OF A DAY, not a governing document. Deploy states are the captain's confirmations, not the assistant's assumptions. Where this and a register disagree, the register is right."
+    },
+    "Amenti.live/main/SLIP-ADDENDUM-THE-DAILY-ROTATION.md": {
+      "section": "the book itself",
+      "group": "slipway",
+      "id": "slip-addendum-daily-rotation",
+      "what": "THREE MOVES FOR THE STANDING SLIP, 28 Aug 2026 — Quote, Note and Quiz of the Day. Argues they are siblings of Person of the Day and should share ONE written register rather than four rotations that drift, and rules that the QUOTE MUST BE A CITATION INTO THE CORPUS and never generated: a fabricated quotation on the front page is the moat breached in the most quotable place on the site.",
+      "authority": "a slip addendum. Nothing built. Paste into THE STANDING SLIP and number there."
+    },
+    "Amenti.live/main/SLIP-ADDENDUM-THE-SECOND-VOICE.md": {
+      "section": "the book itself",
+      "group": "slipway",
+      "id": "slip-addendum-second-voice",
+      "what": "TWO MOVES, 28 Aug 2026. THE SECOND VOICE — two figures on one question, a scene not a room, because one-on-one is intense and intensity is a demand; the counsel already does most of it, so it is a change of STAGING not a new system. And THE WAY IN — a page asking what a reader wants rather than who they have heard of, with categories as TAGS on figures so the roster can surprise: nobody clicks Caesar to ask about religion, and he was Pontifex Maximus for twenty years. Also records why letters from figures were parked.",
+      "authority": "a slip addendum. Nothing built. The scene must be TESTED by hand before it is built — two dollars decides it. The categories are the captain’s to set."
+    },
+    "Amenti-Technical-Briefs/main/BUILD-THE-WAY-IN.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "doctrine",
+      "id": "build-the-way-in",
+      "what": "THE WAY IN, 28 Aug 2026. A build document for the page that asks what a reader WANTS rather than who they have heard of. Its finding: the taxonomy already exists — thirteen groups in Page1 — and its flaw is one line of its own comment, FIRST KEYWORD HIT WINS. Caesar matches “general” and is filed as a warrior; his twenty years as Pontifex Maximus are invisible. THE CATEGORIES ARE NOT MISSING, THEY ARE SINGLE-VALUED, and a second value per figure is the whole build.",
+      "authority": "a build document. §1 is MEASURED against Page1.html — the thirteen groups, the first-hit rule and where Caesar lands are read from the file. Three decisions are marked CAPTAIN’S and none should be made by drafting."
     }
   },
   "owner": "ianingram",
