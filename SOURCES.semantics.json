@@ -114,10 +114,10 @@
     },
     "Amenti.live/main/book/00-the-beach.md": {
       "section": "the book itself",
-      "id": "prologue",
-      "what": "The Beach. The frame, and the last human scene in the book.",
-      "kb": 7,
-      "authority": "canonical"
+      "id": "prologue-moved",
+      "what": "MOVED. The prologue lived here and now lives at book/preamble-02-the-beach.md. This path 404s and the entry is kept only so the move is on the record — deleting it would erase the fact that anything moved.",
+      "supersededBy": "prologue",
+      "authority": "GONE — 404, and the only unreachable path in the index. Kept deliberately. Both entries carried the id `prologue` until 27 Aug, so a lookup by id returned whichever came last: one id, two paths, one of them dead."
     },
     "Amenti.live/main/read.html": {
       "section": "the book itself",
