@@ -36,6 +36,7 @@
 
    Or call it yourself:
      AmentiQR.svg('https://amenti.live/hall.html', { size: 220 })  -> SVG string
+     AmentiQR.withVia(url, 'qr')                                 -> the tagged URL
      AmentiQR.matrix('...')                                        -> [[0|1]]
 
    Byte mode, error correction M (~15% recoverable — survives a thumb over a
@@ -419,8 +420,35 @@
                end. It should not outweigh the reason anyone came.
 
      Encodes location.href at draw time, so it survives a move of domain. */
+  /* ── TAGGING THE ARRIVAL ───────────────────────────────────────────────
+     A scan is a SURFACE — a place a person acts on the system, and the only
+     one that begins entirely off it. SPEC-SURFACES §4.
+
+     ?via=qr makes a scan countable: the visit reading already carries a `via`
+     field, so every arrival by code separates from a typed one, and a poster,
+     a placard and a card can each carry their own value later. The page
+     ignores an unknown parameter, so nothing changes for a reader.
+
+     WHY IT IS DONE HERE AND NOT IN THE PRINTED URL: this widget encodes
+     location.href at draw time — it hands over whatever the reader is
+     currently looking at. There is no fixed printed URL to tag. So the tag is
+     added to the current address as the code is drawn.
+
+     Never doubled: an address that already carries a via is left alone, so a
+     reader who arrived by QR and hands the page on does not become qr twice.
+     The hash is preserved and kept last, because a query after a fragment is
+     not a query. */
+  function withVia(u, tag) {
+    try {
+      var hash = '', i = u.indexOf('#');
+      if (i > -1) { hash = u.slice(i); u = u.slice(0, i); }
+      if (/[?&]via=/.test(u)) return u + hash;
+      return u + (u.indexOf('?') > -1 ? '&' : '?') + 'via=' + encodeURIComponent(tag) + hash;
+    } catch (e) { return u; }
+  }
+
   function mount(el, url, label, mode) {
-    url = url || global.location.href;
+    url = withVia(url || global.location.href, el.getAttribute('data-via') || 'qr');
     label = label || 'Hand it over';
     mode = mode || el.getAttribute('data-mode') || 'quiet';
 
@@ -545,7 +573,7 @@
               el.getAttribute('data-mode') || null);
   }
 
-  global.AmentiQR = { matrix: matrix, svg: svg, mount: mount, css: CSS };
+  global.AmentiQR = { matrix: matrix, svg: svg, mount: mount, css: CSS, withVia: withVia };
 
   if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', autoMount);
