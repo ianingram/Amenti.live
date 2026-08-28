@@ -110,6 +110,14 @@
       "group": "the log",
       "match": "^\\d{4}-\\d{2}-\\d{2}\\.md$",
       "_why": "THE CAPTAIN'S LOG, one file per session. A FOLDER rather than a growing document: a single file spanning fifty sessions puts every diff on one blob and lets one bad paste damage every log at once — the same argument that makes db/migrations date-prefixed and append-only, and the briefs 41 files rather than one. A log is an account of a day, and a day does not change.\nDATE-FIRST NAMING because it must SORT: 27-28-AUGUST interleaves wrongly with September and 2026-08-27 never will.\nAdded 28 Aug 2026 because the root walk matches ^[^/]+ — ONE path segment — so a logs/ folder would have fallen through the seam exactly as hall.html did."
+    },
+    {
+      "repo": "Amenti.live",
+      "branch": "main",
+      "dir": "slip",
+      "group": "the slipway",
+      "match": "\\.md$",
+      "_why": "THE SLIPWAY. The standing slip and its addenda, together in one folder.\nA FOLDER because the root was filling: the log went to logs/ for the same reason on the same day, and the same seam applies — the root walk matches ^[^/]+, ONE path segment, so anything in a subdirectory falls through unless it is named here.\nNote the folder is `slip`, singular, as the captain created it."
     }
   ],
   "meaning": {
@@ -1043,20 +1051,6 @@
       "what": "THE SURFACE MANIFEST. The eighteenth pane. Reads SURFACES.json and shows every place a person can act on this system, with four columns saying what reaches each: counted, memory, dial, voice. A checked-false renders as a dot and an UNCHECKED as a question mark, because false is a claim and null is an admission.",
       "authority": "LIVE. A reflection, generated at open, holding no list of its own — and it appears in the register it renders, because a map that omits itself is the fault it was built to catch."
     },
-    "Amenti.live/main/SLIP-ADDENDUM-THE-DAILY-ROTATION.md": {
-      "section": "the book itself",
-      "group": "slipway",
-      "id": "slip-addendum-daily-rotation",
-      "what": "THREE MOVES FOR THE STANDING SLIP, 28 Aug 2026 — Quote, Note and Quiz of the Day. Argues they are siblings of Person of the Day and should share ONE written register rather than four rotations that drift, and rules that the QUOTE MUST BE A CITATION INTO THE CORPUS and never generated: a fabricated quotation on the front page is the moat breached in the most quotable place on the site.",
-      "authority": "a slip addendum. Nothing built. Paste into THE STANDING SLIP and number there."
-    },
-    "Amenti.live/main/SLIP-ADDENDUM-THE-SECOND-VOICE.md": {
-      "section": "the book itself",
-      "group": "slipway",
-      "id": "slip-addendum-second-voice",
-      "what": "TWO MOVES, 28 Aug 2026. THE SECOND VOICE — two figures on one question, a scene not a room, because one-on-one is intense and intensity is a demand; the counsel already does most of it, so it is a change of STAGING not a new system. And THE WAY IN — a page asking what a reader wants rather than who they have heard of, with categories as TAGS on figures so the roster can surprise: nobody clicks Caesar to ask about religion, and he was Pontifex Maximus for twenty years. Also records why letters from figures were parked.",
-      "authority": "a slip addendum. Nothing built. The scene must be TESTED by hand before it is built — two dollars decides it. The categories are the captain’s to set."
-    },
     "Amenti-Technical-Briefs/main/BUILD-THE-WAY-IN.md": {
       "section": "the briefs — 41 files, 8 of them linked anywhere",
       "group": "doctrine",
@@ -1078,6 +1072,20 @@
       "id": "captains-log-2026-08-27",
       "what": "CAPTAIN'S LOG, 27–28 Aug 2026. What was built, what was FOUND, what is running, and what is still only claimed — across a session that shipped three ReferenceError fixes, figure memory end to end, the visit reading, prompt caching, voice priced and metered, and the surface register from brief to pane. §III holds the findings and §IV holds the assistant's own errors, because a log that records only the wins is a log nobody can trust the rest of. Also records the FOUR-DAY BLINDNESS: fleet-semantics.js overwritten with the source index on 24 Aug, hidden because merge.js threw a raw SyntaxError under continue-on-error while the gate announced a wiring bug that did not exist — and the correction that the commit which destroyed the Harbor in August was never foreign, but a Copilot-suggested message nobody read.",
       "authority": "an ACCOUNT OF A DAY, not a governing document. Deploy states are the captain's confirmations, not the assistant's assumptions. Where this and a register disagree, the register is right."
+    },
+    "Amenti.live/main/slip/SLIP-ADDENDUM-THE-DAILY-ROTATION.md": {
+      "section": "the slipway",
+      "group": "slipway",
+      "id": "slip-addendum-daily-rotation",
+      "what": "THREE MOVES FOR THE STANDING SLIP, 28 Aug 2026 — Quote, Note and Quiz of the Day. Argues they are siblings of Person of the Day and should share ONE written register rather than four rotations that drift, and rules that the QUOTE MUST BE A CITATION INTO THE CORPUS and never generated: a fabricated quotation on the front page is the moat breached in the most quotable place on the site.",
+      "authority": "a slip addendum. Nothing built. Paste into THE STANDING SLIP and number there."
+    },
+    "Amenti.live/main/slip/SLIP-ADDENDUM-THE-SECOND-VOICE.md": {
+      "section": "the slipway",
+      "group": "slipway",
+      "id": "slip-addendum-second-voice",
+      "what": "TWO MOVES, 28 Aug 2026. THE SECOND VOICE — two figures on one question, a scene not a room, because one-on-one is intense and intensity is a demand; the counsel already does most of it, so it is a change of STAGING not a new system. And THE WAY IN — a page asking what a reader wants rather than who they have heard of, with categories as TAGS on figures so the roster can surprise: nobody clicks Caesar to ask about religion, and he was Pontifex Maximus for twenty years. Also records why letters from figures were parked.",
+      "authority": "a slip addendum. Nothing built. The scene must be TESTED by hand before it is built — two dollars decides it. The categories are the captain’s to set."
     }
   },
   "owner": "ianingram",
