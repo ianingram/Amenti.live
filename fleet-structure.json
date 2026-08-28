@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-28T19:52:25.857Z",
+    "generated": "2026-08-28T20:41:41.180Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1370,12 +1370,39 @@
     },
     {
       "file": "fleet-semantics.js",
-      "bytes": 54012,
-      "sha256": "05f4571614e86c41",
+      "bytes": 32917,
+      "sha256": "47a01f2ffb2ed8f6",
       "type": "js",
-      "declares": [],
+      "declares": [
+        "FLEET_SEMANTICS"
+      ],
       "loads": [],
-      "calls": [],
+      "calls": [
+        {
+          "global": "Amenti.chat",
+          "line": 324,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.listen",
+          "line": 325,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.voice",
+          "line": 326,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 327,
+          "when": "toplevel",
+          "own": false
+        }
+      ],
       "endpoints": [],
       "tables": []
     },
@@ -1977,6 +2004,14 @@
         "file": "fleet-manifest.js",
         "declares": [
           "FLEET_MANIFEST"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "fleet-semantics.js",
+        "declares": [
+          "FLEET_SEMANTICS"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
