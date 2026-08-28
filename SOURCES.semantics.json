@@ -991,6 +991,20 @@
       "id": "amenti-what-an-hour-costs-html",
       "what": "WHAT AN HOUR COSTS, charted. Four drawings, each making one claim: the system prompt is 55% of every turn and is re-sent; the anchored window is what makes any of it priceable; the daily breaker allows 48 ten-turn visits, not five and not five hundred; and prompt caching is the only lever that takes nothing away. $1.24 an hour typing, $2.48 talking.",
       "authority": "canonical, and MEASURED. Every figure comes from one FACTS block and the charts draw from it — the prose names no number of its own. Prices are Sonnet 4.6 and Haiku 4.5 list at the date of writing and will drift; one figure, the caching saving, is an ASSUMPTION and is marked with an asterisk on its own chart."
+    },
+    "Amenti-Technical-Briefs/main/BRIEF-THE-PROMPT-NOBODY-CACHES.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "business",
+      "id": "brief-the-prompt-nobody-caches",
+      "what": "THE PROMPT NOBODY CACHES, 27 Aug 2026. The 2,244-token system prompt is byte-identical every turn and re-sent every time. Caching saves 22% as the prompt stands and 33% if the reader's name and recollection move to the tail — the cacheable prefix goes 56% to 85%. The cache is PER FIGURE, not per conversation, so it compounds with concurrency. The only lever that removes nothing.",
+      "authority": "canonical spec, and MEASURED — the same prompt was built for two readers and the strings compared. Cache pricing is Anthropic's published 1.25× write and 0.1× read. §6 names the one real design decision (where the client and proxy agree the seam is) and §9 what is still unknown."
+    },
+    "Amenti-Technical-Briefs/main/SPEC-SURFACES.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "doctrine",
+      "id": "spec-surfaces",
+      "what": "SURFACES.json AND THE SURFACE MANIFEST, 28 Aug 2026. The shape that fills the gap BRIEF-NOTHING-MAPS-THE-SURFACES names. Two rulings: a surface is a USER INTERFACE POINT — the hall's Ask box, not hall.html — and it gets its OWN register, because the manifest is already carrying everything else. Holds the record shape, the five stamps, and the `reaches` booleans that turn six arguments into lookups.",
+      "authority": "canonical spec. The walk figures in §2 are MEASURED against Page1.html — 27 named interaction points, and the walk re-found the duplicate quiz-close of slip #3 in its first minute. Nothing is built."
     }
   },
   "owner": "ianingram",
