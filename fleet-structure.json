@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-28T04:00:54.765Z",
+    "generated": "2026-08-28T04:09:46.114Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1209,6 +1209,19 @@
       "tables": []
     },
     {
+      "file": "amenti-visits.js",
+      "bytes": 6639,
+      "sha256": "8f302cbf30c3e1a5",
+      "type": "js",
+      "declares": [
+        "AmentiVisits"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-voice.js",
       "bytes": 32544,
       "sha256": "ff95a705533b4faa",
@@ -1937,6 +1950,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-visits.js",
+        "declares": [
+          "AmentiVisits"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-voice.js",
