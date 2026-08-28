@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-08-28T22:56:25.039Z",
+  "generated": "2026-08-28T23:04:25.102Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -29,7 +29,7 @@
       "file": "Page1.html",
       "bytes": 532363,
       "lines": 8573,
-      "sha256": "e9029741d1ac504d",
+      "sha256": "028df20b5d63f99b",
       "scripts": [
         {
           "src": "amenti-core.bundle.js",
