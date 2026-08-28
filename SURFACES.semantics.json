@@ -1,0 +1,440 @@
+{
+  "_": "AUTHORED BY HAND. What each surface IS, who it serves, and what reaches it. No walk can know these. probes/probe-surfaces.mjs merges this with a repo walk to write SURFACES.json.",
+  "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
+  "_howToEdit": "Add an entry when an interaction point acquires meaning. Never edit SURFACES.json — it is generated. If the walk reports UNDECLARED, that is a surface waiting for a sentence, not an error.",
+  "_theFourQuestions": "`reaches` exists because these four were asked six times in one day on 27 Aug 2026 and could not be answered once: is it counted, does memory reach it, does the dial fire there, does it cost voice. A page-level register could answer none of them.",
+  "_honesty": "Where a value is not known it is written as null, NOT as false. False is a claim; null is an admission. A register that guesses is worse than one that says it does not know.",
+  "_walkNote": "The walk finds named interaction points by attribute — an id on an input, button or textarea. Its SECTION attribution is approximate: it reports the nearest preceding data-page, so a control inside a modal is filed under whichever section the modal happens to sit after in the source. Trust the authored `where.section` over the walked one.",
+  "owner": "ianingram",
+  "walk": [
+    {
+      "repo": "Amenti.live",
+      "branch": "main",
+      "files": "^[^/]+\\.html$",
+      "find": "named interaction points: id on input|textarea|button, plus data-page sections and nav anchors"
+    },
+    {
+      "repo": "Fleet-Documents",
+      "branch": "branch",
+      "files": "^[^/]+\\.html$",
+      "find": "the panes. Their nav comes from fleet-nav.js, which is the pane registry and should be read as one."
+    },
+    {
+      "repo": "Gameroom0.0",
+      "branch": "main",
+      "files": "^[^/]+\\.html$",
+      "find": "the gameroom. Linked from Page1's nav as GAMEROOM and in no surface map until now."
+    },
+    {
+      "repo": "Amenti-Technical-Briefs",
+      "branch": "main",
+      "files": "^[^/]+\\.html$",
+      "find": "the briefs as a stranger reads them. Reader surfaces with no interaction beyond links."
+    }
+  ],
+  "_notWalked": "Admin and Amenti-Workers are private and cannot be walked from a runner without a token. Operator surfaces live in exactly those repos, which is why the probe belongs in Actions and not in a browser: a browser-side walk could map only half the subject and would report that half as the whole.",
+  "surfaces": {
+    "hall-ask": {
+      "name": "Ask Amenti",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "hall.html",
+        "section": "the hall"
+      },
+      "engine": "AmentiHall.ask",
+      "costs": [
+        "anthropic"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "qr-handover",
+        "direct"
+      ],
+      "note": "The hall's ONE interaction; everything else on that page is a link. Answers from HALL.md and HALL-STATE.json, citing documents by name. Neither hall.html nor this surface was in any register until 27 Aug 2026."
+    },
+    "hall-search": {
+      "name": "the hall's fragment search",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "hall.html",
+        "section": "the hall"
+      },
+      "engine": "AmentiHall.find",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "THE SAME BOX as hall-ask. isQuestion() decides which of the two a keystroke becomes — a question goes to the model, a fragment searches the catalogue for nothing. One element, two surfaces, and the routing between them was the 26 Aug 'whom made amenti' bug."
+    },
+    "terminal-input": {
+      "name": "the terminal",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "terminal",
+        "element": "#input"
+      },
+      "engine": "Amenti.chat",
+      "costs": [
+        "anthropic",
+        "gemini"
+      ],
+      "reaches": {
+        "counted": true,
+        "memory": true,
+        "dial": true,
+        "voice": true
+      },
+      "note": "THE ONLY SURFACE THAT REACHES ALL FOUR, and the reason BRIEF-WHAT-AN-HOUR-COSTS prices one surface and calls it the product. Every instrument built on 26–27 Aug hangs off tune(), which serves this and nothing else."
+    },
+    "terminal-mic": {
+      "name": "the terminal's microphone",
+      "kind": "mic",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "terminal"
+      },
+      "engine": "Amenti.chat + /listen",
+      "costs": [
+        "gemini"
+      ],
+      "reaches": {
+        "counted": true,
+        "memory": true,
+        "dial": true,
+        "voice": true
+      },
+      "note": "Push-to-talk. Costs Gemini on BOTH legs — STT in, TTS out — and /listen was metered on no axis at all until 28 Aug."
+    },
+    "terminal-mode": {
+      "name": "the mode toggle",
+      "kind": "toggle",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "terminal",
+        "element": "#modeToggle"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "Switches character/counsel. Costs nothing itself and changes which prompt the next turn uses."
+    },
+    "counsel-input": {
+      "name": "Personal Counsel",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "counsel",
+        "element": "#cnsQ"
+      },
+      "engine": "Amenti.chat",
+      "costs": [
+        "anthropic",
+        "gemini"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": null,
+        "voice": true
+      },
+      "note": "A FULL CONVERSATION SURFACE THAT NO INSTRUMENT WATCHES. The visit reading fires from tune(), which counsel does not go through; AmentiMemory.load is never called here. Not a decision — an omission, and the first one the register was built to make visible. `dial` is null because whether the speaker toggle reaches this path has not been checked."
+    },
+    "counsel-speak-all": {
+      "name": "read the counsel aloud",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "counsel",
+        "element": "#cnsPlayAll"
+      },
+      "engine": "/speak",
+      "costs": [
+        "gemini"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "note": "NEVER HITS THE ARCHIVE. amenti-voice.js is explicit: the counsel's text is unique every turn, so every render is a fresh charge. The R2 archive serves the RECITAL path, not this one."
+    },
+    "codex-search": {
+      "name": "the codex search",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "codex",
+        "element": "#cdx-q"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "Local filter over AMENTI_CHARS. No model call, no cost."
+    },
+    "browse-search": {
+      "name": "the browse search",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "browse",
+        "element": "#brw-q"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "Local. The walk files this under `timeline` because it reports the nearest preceding data-page; the authored section is right and the walked one is not."
+    },
+    "talk-to-figure": {
+      "name": "TALK TO — the door to a soul",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "codex",
+        "element": ".cdx-talk"
+      },
+      "engine": "AmentiTerminal.tuneByKey",
+      "costs": [],
+      "reaches": {
+        "counted": true,
+        "memory": true,
+        "dial": false,
+        "voice": false
+      },
+      "note": "Not a conversation itself — it TUNES the terminal, and tune() is where the visit reading, the memory load and the memory writer all fire. The most load-bearing button in the application. Its drawer twin at Page1:5861 bypassed the click-map and 404'd until Codex.html was built on 26 Aug."
+    },
+    "speaker-toggle": {
+      "name": "the speaker",
+      "kind": "toggle",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "terminal"
+      },
+      "engine": "AMENTI_VOICE.toggle",
+      "costs": [
+        "gemini"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": true,
+        "voice": true
+      },
+      "note": "THE ONLY SURFACE THE DIAL FIRES ON. Opening the line places a call — announcement, tone, ring — and the ring stops on the figure's first word. It covers a MEASURED silence: probe20 found render_ms = 7510 + 18.25 x chars, so a 110-char opener takes 9.5s to come back."
+    },
+    "newsletter-signup": {
+      "name": "the newsletter signup",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "arena",
+        "element": "#nl-input"
+      },
+      "engine": "supabase",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "The only surface that WRITES to the vault directly from the browser. The anon key can insert a signup and execute an unsubscribe and nothing else — RLS on 25 of 25 tables."
+    },
+    "quiz-answers": {
+      "name": "the quiz",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "a modal, not a section"
+      },
+      "engine": "amenti-mint",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "Scored server-side; the answers never reach the browser. TWO ELEMENTS CARRY id=quiz-close — STANDING SLIP #3, found by hand weeks ago and re-found by the first test run of the walk that does not exist yet."
+    },
+    "page2": {
+      "name": "The Sovereign Instrument",
+      "kind": "page",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page2.html"
+      },
+      "engine": "its own",
+      "costs": [
+        "anthropic",
+        "gemini"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "linkedFrom": [
+        "page1"
+      ],
+      "note": "A SECOND APPLICATION with its own microphone, its own chunker (MAX_CHARS 1100, cited in the proxy's cost caps) and its own daily generation path. Named in FLEET_MANIFEST as a ship and ABSENT from SOURCES.json entirely until 27 Aug. Its own interaction points have not been enumerated — this entry is a placeholder for a page, which is precisely what §1 of the spec says a surface is not."
+    },
+    "gameroom": {
+      "name": "the gameroom",
+      "kind": "page",
+      "audience": "reader",
+      "where": {
+        "repo": "Gameroom0.0",
+        "file": "game01.html"
+      },
+      "engine": "chess-referee (Worker + Durable Object)",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "page1#nav"
+      ],
+      "note": "A WHOLE SURFACE IN A SEVENTH REPOSITORY. SOURCES.json has described it for weeks — 'linked from Page1's nav as GAMEROOM' — and nothing that maps surfaces could see it. Its interaction points are not enumerated. Its Pages site is unconfirmed, which is why doors.html leaves it named but unlinked."
+    },
+    "qr-handover": {
+      "name": "the hand-over code",
+      "kind": "scan",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "amenti-qr.js",
+        "element": "#amenti-handover"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": true,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "THE ONLY INTERACTION POINT THAT BEGINS OFF THE SYSTEM — a person points a camera and arrives, and no code walk can ever find it. It encodes location.href AT DRAW TIME, so it hands over whichever tab, figure or reading room the reader is on; there is no fixed printed URL. Tagged ?via=qr on 28 Aug, while nothing was printed, so a scan is countable from the first one."
+    },
+    "doors": {
+      "name": "THE DOORS",
+      "kind": "page",
+      "audience": "operator",
+      "where": {
+        "repo": "Fleet-Documents",
+        "file": "doors.html"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "The seventeenth pane, built 26 Aug: one anchor per reachable document in SOURCES.json. Built with a reader half in mind, which is why it whitelists only repos whose Pages sites were confirmed — for an OPERATOR surface that is the wrong rule, since the captain wants to know a thing exists whether or not it serves."
+    },
+    "spend": {
+      "name": "the spend reading",
+      "kind": "route",
+      "audience": "operator",
+      "where": {
+        "repo": "Amenti-Workers",
+        "file": "amenti-proxy",
+        "element": "GET /spend"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "note": "NOT A SURFACE YET — a route with no interface on it. Recorded here so that when the Ledger pane is built it has something to point at, and so the register shows what is measured but not yet SHOWN. A route a person reads as raw JSON is an instrument without a face."
+    },
+    "surface-manifest": {
+      "name": "The Surface Manifest",
+      "kind": "page",
+      "audience": "operator",
+      "where": {
+        "repo": "Fleet-Documents",
+        "file": "surfaces.html"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "fleet-nav"
+      ],
+      "note": "The eighteenth pane, and the one that renders this register. IT APPEARS IN ITS OWN MAP DELIBERATELY — a map that omits itself is exactly the fault it was built to catch. Reads SURFACES.json; holds no list of its own."
+    }
+  },
+  "_stillUnknown": [
+    "Page2's own interaction points. It is entered here as a page, which the spec says a surface is not — a placeholder until somebody walks it.",
+    "The gameroom's interaction points, for the same reason.",
+    "The seventeen panes. Each is an operator surface and none is entered; fleet-nav.js is their registry and should be read rather than retyped.",
+    "The reading vaults. Per-figure, generated, and their chat box is a conversation surface nobody has counted.",
+    "Whether the dial fires on counsel. Written as null rather than false, because nobody has checked."
+  ]
+}
