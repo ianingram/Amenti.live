@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-28T21:08:34.848Z",
+    "generated": "2026-08-28T21:24:25.685Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -507,8 +507,8 @@
     },
     {
       "file": "amenti-chat.js",
-      "bytes": 110122,
-      "sha256": "ac8c8be47dcb0fac",
+      "bytes": 124327,
+      "sha256": "aed9446c3af9d9fc",
       "type": "js",
       "declares": [
         "Amenti",
@@ -518,13 +518,13 @@
       "calls": [
         {
           "global": "Sovereign.Angels",
-          "line": 561,
+          "line": 739,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 903,
+          "line": 1081,
           "when": "function",
           "own": false
         }
@@ -1333,7 +1333,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49225,
-      "sha256": "ee920ab357f2ef0d",
+      "sha256": "54353417f327eb6b",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
