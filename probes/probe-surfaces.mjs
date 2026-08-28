@@ -320,6 +320,11 @@ async function readFile(repo, branch, p) {
     generated: new Date().toISOString(),
     generator: 'probes/probe-surfaces.mjs',
     counts, reach,
+    /* CARRIED THROUGH FROM THE SEMANTICS. The authored file names what it does
+       not know; the pane renders it. Without this the gaps are written down
+       once and never seen again — a gap nobody can see is a gap nobody
+       closes, which is the whole complaint this register was built on. */
+    stillUnknown: sem._stillUnknown || undefined,
     unread: unread.length ? unread : undefined,
     drift,
     surfaces,
