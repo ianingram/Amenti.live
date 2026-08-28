@@ -1059,8 +1059,16 @@
       "section": "the briefs — 41 files, 8 of them linked anywhere",
       "group": "doctrine",
       "id": "build-the-way-in",
-      "what": "THE WAY IN, 28 Aug 2026. A build document for the page that asks what a reader WANTS rather than who they have heard of. Its finding: the taxonomy already exists — thirteen groups in Page1 — and its flaw is one line of its own comment, FIRST KEYWORD HIT WINS. Caesar matches “general” and is filed as a warrior; his twenty years as Pontifex Maximus are invisible. THE CATEGORIES ARE NOT MISSING, THEY ARE SINGLE-VALUED, and a second value per figure is the whole build.",
-      "authority": "a build document. §1 is MEASURED against Page1.html — the thirteen groups, the first-hit rule and where Caesar lands are read from the file. Three decisions are marked CAPTAIN’S and none should be made by drafting."
+      "what": "THE WAY IN, 28 Aug 2026. A build document for the page that asks what a reader WANTS rather than who they have heard of. Its finding: the taxonomy already exists — thirteen groups in Page1 — and its flaw is one line of its own comment, FIRST KEYWORD HIT WINS. Caesar matches “general” and is filed as a warrior; his twenty years as Pontifex Maximus are invisible. THE CATEGORIES ARE NOT MISSING, THEY ARE SINGLE-VALUED, and a second value per figure is the whole build. SUPERSEDED by BUILD-THE-THREE-MODES: the chamber is the room, so no landing page is needed. Its §1 finding stands — the categories are single-valued and Caesar cannot be offered for faith — and remains the NEXT move rather than this one.",
+      "authority": "a build document. §1 is MEASURED against Page1.html — the thirteen groups, the first-hit rule and where Caesar lands are read from the file. Three decisions are marked CAPTAIN’S and none should be made by drafting.",
+      "supersededBy": "build-the-modes"
+    },
+    "Amenti-Technical-Briefs/main/BUILD-THE-MODES.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "doctrine",
+      "id": "build-the-modes",
+      "what": "THE MODES, 28 Aug 2026. The counsel chamber is the room — it already picks figures and takes a question, and setMode already exists. So the build is THREE REGISTER BLOCKS beside the counsel branch: tutor, adversary and witness. Names the trap (a mode that changes the label and not the prompt is theatre, exposed in two turns) and carries the adversary’s YIELD RULE: press the argument, never the person, and the moment a conviction turns out to be a grief, stop being the adversary. The witness is the mode that needs the CORPUS — what a figure SAW rather than what they thought — and it carries the mirror of the adversary’s rule: where the record is silent, say so, and never furnish a detail because the question invited one.",
+      "authority": "a build document, and it SUPERSEDES BUILD-THE-WAY-IN, which proposed a landing page the captain rightly refused. §1 is read from Page1.html and amenti-chat.js. The yield rule is not a preference — it is CONVERSATION_DOCTRINE §2, and the doctrine governs."
     }
   },
   "owner": "ianingram",
