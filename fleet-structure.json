@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-28T04:12:20.542Z",
+    "generated": "2026-08-28T04:17:24.636Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1421,7 +1421,7 @@
     {
       "file": "hall.html",
       "bytes": 13289,
-      "sha256": "f5bc9444305738a0",
+      "sha256": "cd7a3cf74e42b6ed",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1438,7 +1438,7 @@
           "line": 262
         },
         {
-          "file": "amenti-qr.js?v=3",
+          "file": "amenti-qr.js?v=4",
           "line": 263
         }
       ],
