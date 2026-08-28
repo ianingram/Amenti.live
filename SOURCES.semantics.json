@@ -1039,7 +1039,7 @@
       "section": "the book itself",
       "group": "log",
       "id": "captains-log-27-28-august",
-      "what": "CAPTAIN'S LOG, 27–28 Aug 2026. What was built, what was FOUND, what is running, and what is still only claimed — across a session that shipped three ReferenceError fixes, figure memory end to end, the visit reading, prompt caching, voice priced and metered, and the surface register from brief to pane. §III holds the findings and §IV holds the assistant's own errors, because a log that records only the wins is a log nobody can trust the rest of.",
+      "what": "CAPTAIN'S LOG, 27–28 Aug 2026. What was built, what was FOUND, what is running, and what is still only claimed — across a session that shipped three ReferenceError fixes, figure memory end to end, the visit reading, prompt caching, voice priced and metered, and the surface register from brief to pane. §III holds the findings and §IV holds the assistant's own errors, because a log that records only the wins is a log nobody can trust the rest of. Also records the FOUR-DAY BLINDNESS: fleet-semantics.js overwritten with the source index on 24 Aug, hidden because merge.js threw a raw SyntaxError under continue-on-error while the gate announced a wiring bug that did not exist — and the correction that the commit which destroyed the Harbor in August was never foreign, but a Copilot-suggested message nobody read.",
       "authority": "an ACCOUNT OF A DAY, not a governing document. Deploy states are the captain's confirmations, not the assistant's assumptions. Where this and a register disagree, the register is right."
     },
     "Amenti.live/main/SLIP-ADDENDUM-THE-DAILY-ROTATION.md": {
