@@ -989,8 +989,8 @@
       "section": "the briefs — 41 files, 8 of them linked anywhere",
       "group": "business",
       "id": "amenti-what-an-hour-costs-html",
-      "what": "WHAT AN HOUR COSTS, charted. Four drawings, each making one claim: the system prompt is 55% of every turn and is re-sent; the anchored window is what makes any of it priceable; the daily breaker allows 48 ten-turn visits, not five and not five hundred; and prompt caching is the only lever that takes nothing away. $1.24 an hour typing, $2.48 talking.",
-      "authority": "canonical, and MEASURED. Every figure comes from one FACTS block and the charts draw from it — the prose names no number of its own. Prices are Sonnet 4.6 and Haiku 4.5 list at the date of writing and will drift; one figure, the caching saving, is an ASSUMPTION and is marked with an asterisk on its own chart."
+      "what": "WHAT AN HOUR COSTS, charted — COMPLETE EDITION, 28 Aug 2026. BOTH halves of the bill. $1.85 an hour typing, $3.69 talking: text inference is the floor and voice is about a third on top. Five drawings. The system prompt is 55% of every turn and re-sent; the anchored window makes it priceable; the breaker allows 48 ten-turn visits; and there are TWO VOICE ECONOMIES — the recital hits the R2 archive and conversation never does, so a spoken conversation pays full price every turn. Wired to GET /spend: the modelled figures and the live reading are shown APART and never merged.",
+      "authority": "canonical, and MEASURED. Text from prompts built and counted; voice from Google's published Gemini 2.5 Flash TTS rate at 25 audio tokens per second, converted at C/15 seconds per character — probe20's measurement on live hardware, not an assumption. Supersedes the text-only first edition, which priced one half of the hour in its own title."
     },
     "Amenti-Technical-Briefs/main/BRIEF-THE-PROMPT-NOBODY-CACHES.md": {
       "section": "the briefs — 41 files, 8 of them linked anywhere",
