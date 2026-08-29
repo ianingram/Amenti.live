@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-08-29T00:25:24.373Z",
+  "generated": "2026-08-29T00:41:26.552Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -198,15 +198,15 @@
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1332
+              "line": 1387
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1332
+              "line": 1387
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2211
+              "line": 2266
             },
             {
               "file": "amenti-doctrine.js",
@@ -262,7 +262,7 @@
         },
         {
           "global": "Amenti.voice",
-          "registered": 1202,
+          "registered": 1257,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -312,7 +312,7 @@
         },
         {
           "global": "Amenti.throttle",
-          "registered": 1225,
+          "registered": 1280,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -329,15 +329,15 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1296
+              "line": 1351
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1296
+              "line": 1351
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1297
+              "line": 1352
             }
           ],
           "firstRead": 3023,
@@ -395,7 +395,7 @@
         },
         {
           "global": "Amenti.conversation",
-          "registered": 1242,
+          "registered": 1297,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -444,7 +444,7 @@
         },
         {
           "global": "Amenti.listen",
-          "registered": 1714,
+          "registered": 1769,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -458,27 +458,27 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1291
+              "line": 1346
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2800
+              "line": 2855
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2800
+              "line": 2855
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2845
+              "line": 2900
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2845
+              "line": 2900
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2846
+              "line": 2901
             }
           ],
           "firstRead": 7448,
@@ -506,7 +506,7 @@
         },
         {
           "global": "Amenti.chat",
-          "registered": 3744,
+          "registered": 3799,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -520,7 +520,7 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1765
+              "line": 1820
             }
           ],
           "firstRead": 6191,
@@ -1200,8 +1200,8 @@
             "loading": "blocking"
           }
         ],
-        "bytes": 206712,
-        "lines": 3752,
+        "bytes": 209109,
+        "lines": 3807,
         "registers": [
           "AMENTI_CONFIG",
           "AmentiResolve.report",
@@ -1241,8 +1241,8 @@
           "Ctx",
           "LEDGER_CSV_URL",
           "CONV_REGISTER",
-          "Amenti.voice",
-          "Amenti.throttle"
+          "LOCAL_CSV",
+          "Amenti.voice"
         ]
       },
       {
