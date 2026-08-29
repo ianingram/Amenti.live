@@ -411,6 +411,9 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
      measures from the last thing it saw, and the last thing it saw was a
      man's shoulder. Small increments were the wrong instinct here. */
   padding:0 22px 0 44px;
+  /* everything in here shares one left edge: the headers, their rules, the
+     connection rows, the dossier and the tags. Nothing sticks out into the
+     gutter and nothing sits in from it. */
 }
 
 .term-mode-wrap{
@@ -585,7 +588,20 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
    which draws the eye to the border and makes the gutter look thinner than
    it is. Stopping them a little short does more for the crowding than the
    padding does. */
-.term-ctx-h{font-size:9px;color:var(--gold);letter-spacing:.22em;margin:18px 0 9px;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:5px;margin-right:4px;}
+/* ── THE RULES ARE WHAT THE EYE READS AS THE EDGE ─────────────────────────
+   The gutter was raised three times and each time it still LOOKED jammed,
+   because these header rules ran the full width of the scroller — starting
+   at the very left of the padding box, before the text does. A horizontal
+   line reaching further left than the words beneath it IS the left margin as
+   far as the eye is concerned, and no amount of padding could be seen behind
+   it.
+   The rules now begin where the text begins. Nothing else changed. */
+.term-ctx-h{
+  font-size:9px;color:var(--gold);letter-spacing:.22em;
+  margin:18px 4px 9px 0;
+  border-bottom:1px solid rgba(212,160,23,0.2);
+  padding-bottom:5px;
+}
 .term-ctx-h:first-child{margin-top:0;}
 .term-ctx pre{font-family:var(--font-mono);font-size:9px;color:#60ffaa;line-height:1.4;white-space:pre-wrap;}
 /* ── THE CONNECTION BLOCK ─────────────────────────────────────────────────
