@@ -121,6 +121,42 @@
   }
 
 
+  /* ── THE VIEW · CLICK THE SCENE TO CLEAR IT ───────────────────────────────
+     The hall stands in a room, and the room is a photograph. Every other
+     surface in this fleet puts its reading ON that photograph and never once
+     lets a person LOOK at it.
+
+     Click anywhere that is not a control and the reading fades out. Click
+     again and it returns. Nothing is destroyed and nothing is re-fetched —
+     the answer is still there, unchanged, behind a fade.
+
+     opacity + visibility rather than display:none, so the return is a fade
+     rather than a jump, and so a screen reader is told the text is gone
+     instead of finding it and reading it aloud invisibly. */
+  #hall-main, .hall-chrome {
+    transition: opacity .45s ease, visibility .45s;
+  }
+  body.scene-bare #hall-main,
+  body.scene-bare .hall-chrome {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* The one thing that stays: a line telling you how to get the reading back.
+     A view with no way out of it is a trap, not a feature. */
+  #scene-hint {
+    position: fixed; left: 0; right: 0; bottom: 26px;
+    text-align: center; z-index: 4;
+    font: 400 11px/1.6 ui-monospace, Menlo, monospace;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(210,225,245,.5);
+    text-shadow: 0 1px 10px rgba(6,6,14,.95);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .45s ease .15s, visibility .45s;
+  }
+  body.scene-bare #scene-hint { opacity: 1; visibility: visible; }
+
   /* ── THE HAND-OVER ────────────────────────────────────────────────────────
      A LINE, not a panel. The first version was a 200px plate with a heading,
      a paragraph and two buttons, and it ate a page that is a title and a
@@ -161,6 +197,7 @@
 </header>
 
 <main id="hall-main"></main>
+<div id="scene-hint" aria-hidden="true">click anywhere to bring the hall back</div>
 
 <div id="amenti-handover" data-label="hand over the hall" data-mode="quiet"></div>
 
@@ -260,7 +297,71 @@
 </script>
 <script src="amenti-hall.js?v=1" defer></script>
 <script src="amenti-hall-box.js?v=1" defer></script>
-<script src="amenti-qr.js?v=4" defer></script>
+<script src="amenti-qr.js?v=3" defer></script>
+
+
+<!-- ── CLICK THE SCENE ──────────────────────────────────────────────────────
+     Click the photograph and the reading clears; click again and it returns.
+     Depends on nothing, breaks nothing if it fails, and touches no state that
+     is not its own body class. -->
+<script>
+(function () {
+  'use strict';
+
+  /* WHAT MUST NEVER TRIGGER IT. This is the whole of the work — a toggle that
+     fires on every click is not a feature, it is a page that will not let you
+     type. A click is "on the scene" only if it landed on nothing that does
+     anything: no input, no button, no link, no select, nothing a person is
+     part-way through using. */
+  var CONTROLS = 'input, textarea, select, button, a, [role="button"], [contenteditable], label, summary';
+
+  function isControl(node) {
+    for (var el = node; el && el !== document.body; el = el.parentElement) {
+      if (el.matches && el.matches(CONTROLS)) return true;
+      /* the hand-over widget draws its own controls and owns its clicks */
+      if (el.id === 'amenti-handover') return true;
+    }
+    return false;
+  }
+
+  /* A DRAG IS NOT A CLICK. Selecting a line of the answer to copy it ends in
+     a click event, and hiding the text the moment somebody finishes
+     highlighting it would be maddening. If anything is selected, or the
+     pointer travelled, it was not a click on the scene. */
+  var downX = 0, downY = 0;
+  document.addEventListener('pointerdown', function (e) { downX = e.clientX; downY = e.clientY; }, true);
+
+  function moved(e) {
+    return Math.abs(e.clientX - downX) > 4 || Math.abs(e.clientY - downY) > 4;
+  }
+  function selecting() {
+    var sel = window.getSelection && window.getSelection();
+    return !!(sel && String(sel).trim().length);
+  }
+
+  document.addEventListener('click', function (e) {
+    if (isControl(e.target)) return;
+    if (moved(e)) return;
+    if (selecting()) return;
+    document.body.classList.toggle('scene-bare');
+  });
+
+  /* ESCAPE ALWAYS RESTORES. A person who has hidden the reading and forgotten
+     how should not have to guess; the hint says click, and Escape agrees. */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('scene-bare')) {
+      document.body.classList.remove('scene-bare');
+    }
+  });
+
+  /* AND ASKING BRINGS IT BACK BY ITSELF. If the reading is hidden and a
+     question is sent, the answer would arrive into a pane nobody can see.
+     Any keystroke into a field restores the hall first. */
+  document.addEventListener('focusin', function (e) {
+    if (isControl(e.target)) document.body.classList.remove('scene-bare');
+  });
+})();
+</script>
 
 </body>
 </html>
