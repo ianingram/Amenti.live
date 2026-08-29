@@ -383,27 +383,39 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
    scroll removed in the same edit that explained why it had never engaged. */
 #charList{overflow-y:auto;flex:1 1 auto;min-height:0;}
 
-/* ── THE MODE, AT THE BOTTOM RIGHT · MOVED 28 AUG 2026 ────────────────────
-   It sat at the foot of the roster column, on what looked like empty black.
-   It is not empty: that column holds the thousand-name frequency list, and
-   with the shell's ceiling in place the list scrolls THROUGH that space. A
-   control parked there is a control the roster runs behind.
+/* ── THE MODE · PINNED TO THE FOOT OF THE PANEL ───────────────────────────
+   FOURTH PLACEMENT. Told "bottom right" and put it in the toolbar, then the
+   roster foot, then the input rail, then the MIDDLE of the right panel —
+   which is where it lands if you simply append it, because everything above
+   it is short and the panel is tall.
 
-   The input rail's right end conflicts with nothing — the prompt and the box
-   grow from the left, the hint sits beside it, and margin-left:auto pushes
-   the mode to the far corner where nothing else ever reaches. */
+   Bottom right means the BOTTOM. So the panel becomes a flex column and this
+   block gets margin-top:auto, which pushes it against the floor no matter how
+   long or short the dossier above it runs.
+
+   A control that moves depending on how much a figure's biography ran to is
+   not placed. It is merely somewhere. */
+.term-ctx{display:flex;flex-direction:column;}
+.term-ctx > *{flex:0 0 auto;}
+
 .term-mode-wrap{
-  margin-left:auto;
-  display:flex;align-items:center;gap:7px;
-  flex:0 0 auto;
+  margin-top:auto;              /* THE FLOOR. This is the whole fix. */
+  padding-top:14px;
+  border-top:1px solid rgba(212,160,23,0.2);
 }
-.term-mode-label{
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;
-  color:var(--gold);opacity:.75;user-select:none;white-space:nowrap;
-}
+.term-mode-wrap .term-ctx-h{ margin-top:0; }
 .term-mode{
-  font-size:10px;letter-spacing:.08em;
-  padding:6px 8px;
+  width:100%;
+  font-size:11px;
+  letter-spacing:.1em;
+  padding:8px 9px;
+  cursor:pointer;
+}
+.term-mode:hover{ border-color:var(--gold); }
+.term-mode-note{
+  margin-top:6px;
+  font-size:9px;line-height:1.5;letter-spacing:.04em;
+  color:#60a080;
 }
 
 .term-call{
