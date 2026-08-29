@@ -394,33 +394,77 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
    column is the positioning context; this block is pinned to its bottom edge
    and the scrolling content above is given padding so it can never run
    underneath. */
+/* ── THE PADDING MOVED OFF THE PANEL AND ONTO ITS HALVES ─────────────────
+   The panel had padding AND overflow:hidden, so its 22px bottom sat inside
+   the clip: the mode's note ran into it and was cut in half. And a single
+   left padding on the panel could not be seen at all, because the scrollbar
+   and the border both live on the panel, not on the text.
+   Each half carries its own gutter now. Nothing is clipped and the text has
+   real distance from the plate. */
 .term-ctx-scroll{
   flex:1 1 auto;
   min-height:0;
   overflow-y:auto;
-  padding-right:2px;
+  padding:0 20px 0 30px;         /* 30 on the left — it is measured against a
+                                    PHOTOGRAPH, not against empty space */
 }
 
 .term-mode-wrap{
   flex:0 0 auto;                 /* the foot. Not scrolled, not pushed. */
-  margin-top:12px;
-  padding-top:12px;
+  margin:12px 20px 0 30px;       /* the same gutters as the scroller above */
+  padding:12px 0 26px;           /* lifted off the floor, and INSIDE the clip
+                                    so the note is never cut */
   border-top:1px solid rgba(212,160,23,0.25);
-  background:rgba(0,6,3,0.5);
 }
-.term-mode-wrap .term-ctx-h{ margin-top:0; }
+/* ── THE ONE HEADER THAT IS NOT A LABEL ───────────────────────────────────
+   CONNECTION, DOSSIER, ABILITIES and HINTS all name something to READ. MODE
+   names something to CHOOSE, and it is the only one in the panel that does.
+   It gets the gold treatment the others have plus a little more weight, so
+   the eye stops there instead of reading past it as a fifth caption. */
+.term-mode-wrap .term-ctx-h{
+  margin-top:0;
+  font-size:10px;
+  color:var(--gold-light,#f0c040);
+  border-bottom-color:rgba(212,160,23,0.35);
+}
+
+/* ── IT IS A BOX, NOT A BAR ───────────────────────────────────────────────
+   width:100% made it span the whole panel, and a control that runs edge to
+   edge reads as a toolbar — something the interface does — rather than as a
+   field holding one value. A drop-down is a box: it should be as wide as the
+   longest thing it can say and no wider.
+   max-content is that width exactly. IN CHARACTER is the longest label, so
+   the box fits it and stops. */
+/* NUDGED UP, NOT BLOWN UP. This is the control that decides what the figure
+   is FOR, and a reader who never notices it never meets four of the five ways
+   this thing can talk. But it is still a field in a dossier panel, so it must
+   not shout: 12.5px against the panel's 10px, a gold edge, and a faint glow
+   so it reads as lit rather than large. */
 .term-mode{
-  width:100%;
-  font-size:11px;
-  letter-spacing:.1em;
-  padding:8px 9px;
+  width:max-content;
+  max-width:100%;                /* never overrun the panel on a narrow view */
+  min-width:0;
+  font-size:12.5px;
+  letter-spacing:.12em;
+  padding:10px 30px 10px 13px;   /* right padding leaves room for the arrows */
   cursor:pointer;
+  color:#eafff2;
+  border:1px solid rgba(212,160,23,0.55);
+  background:rgba(0,10,6,0.75);
+  box-shadow:0 0 14px rgba(212,160,23,0.10) inset;
 }
-.term-mode:hover{ border-color:var(--gold); }
+.term-mode:hover{
+  border-color:var(--gold);
+  background:rgba(0,14,8,0.9);
+  box-shadow:0 0 16px rgba(212,160,23,0.22) inset;
+}
+.term-mode:focus{ outline:none; border-color:var(--gold-light,#f0c040); }
+/* The sentence follows the box up a step too — it is the part that tells a
+   reader WHY they would change it, and at 9px nobody was reading it. */
 .term-mode-note{
-  margin-top:6px;
-  font-size:9px;line-height:1.5;letter-spacing:.04em;
-  color:#60a080;
+  margin-top:7px;
+  font-size:10px;line-height:1.55;letter-spacing:.04em;
+  color:#78b89a;
 }
 
 .term-call{
@@ -509,16 +553,32 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 .term-ctx{
   display:flex;flex-direction:column;
   min-height:0;
+  /* The divider is this panel's own left border, so it sits ON the plate with
+     no dark margin between. A few pixels of the panel's background bleeding
+     left of the line separates the photograph from the reading. */
   border-left:1px solid rgba(0,255,160,0.2);
+  box-shadow:-6px 0 0 rgba(0,6,3,0.85);
   background:rgba(0,6,3,0.5);
-  padding:18px 22px 22px 20px;
+  /* ── THE GUTTER · 28 AUG 2026 ──────────────────────────────────────────
+     20px on the left read as jammed, because it is not measured from what the
+     eye sees. The border sits hard against the PLATE — a full-bleed photograph
+     — so the text begins almost immediately after the image with nothing
+     between the two columns but a hairline.
+     A gutter beside a picture has to be wider than a gutter beside empty
+     space. 28px on the left, and the right keeps its own for the scrollbar. */
+  padding:18px 0 0 0;            /* the CHILDREN carry the padding now, so the
+                                    foot cannot be clipped by the panel's own */
   font-size:10px;letter-spacing:.06em;line-height:1.6;
   color:#80c0a0;
   overflow:hidden;               /* the INNER half scrolls, not this */
 }
 /* The first header had a 14px top margin like the rest, so it sat lower than
    the panel's own padding intends. It leads; it needs no gap above it. */
-.term-ctx-h{font-size:9px;color:var(--gold);letter-spacing:.22em;margin:18px 0 9px;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:5px;}
+/* The header rules ran the full width, ending flush against the panel edge,
+   which draws the eye to the border and makes the gutter look thinner than
+   it is. Stopping them a little short does more for the crowding than the
+   padding does. */
+.term-ctx-h{font-size:9px;color:var(--gold);letter-spacing:.22em;margin:18px 0 9px;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:5px;margin-right:4px;}
 .term-ctx-h:first-child{margin-top:0;}
 .term-ctx pre{font-family:var(--font-mono);font-size:9px;color:#60ffaa;line-height:1.4;white-space:pre-wrap;}
 /* ── THE CONNECTION BLOCK ─────────────────────────────────────────────────
