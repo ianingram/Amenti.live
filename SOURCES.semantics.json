@@ -834,7 +834,7 @@
     "Amenti.live/main/fleet-dispatch.json": {
       "section": "the registers — read at the hour of writing",
       "id": "fleet-dispatch",
-      "what": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV — five tubes with cadence, status, fire count and last-fired date. A schedule that nobody checks is a promise nobody keeps.",
+      "what": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV — five tubes with cadence, status, fire count and last-fired date. A schedule that nobody checks is a promise nobody keeps. THE `dailyplanet:` TUBE PUBLISHES AS THE AMENTI DISPATCH — mechanism name and surface name, both correct at once, and RULING-THE-DISPATCH-TWO-NAMES forbids reconciling them. Read a `dailyplanet:` entry as the Dispatch’s live storage, not as residue or a retired tube; that misreading has already happened once.",
       "authority": "LIVE. Written by probes/probe-ordnance.mjs. READ IT: on 24 Aug it reported THE WEEK fired 0 (the bell the 13 July handoff diagnosed), ATLANTICA silent 18 days, THE PODCAST 0, and THE DAILY PLANET green on a last-fired date 76 days in the FUTURE."
     },
     "Amenti.live/main/fleet-patrol.json": {
@@ -1093,6 +1093,34 @@
       "id": "speech-manual",
       "what": "THE SPEECH AND AUDIO MANUAL, 28 Aug 2026. Everything about voice out, voice in, the dial, the cost and the cache in one place — because seven briefs describe this system and each is correct only about the day it was written. Holds the cache-key formula and why the archive must not be touched, the two registers and why the counsel NEVER caches, the roster columns a voice is assembled from, the four failure modes and what each SOUNDS like, the dial’s measured gap, the ear’s dials, and what a spoken turn costs.",
       "authority": "canonical, and READ — every constant in it was taken from amenti-core.bundle.js and amenti-dial.js as deployed on 28 Aug 2026, not remembered. Where it and the code disagree, THE CODE IS RIGHT and this file has rotted; regenerate it by reading, the way it was written."
+    },
+    "Amenti-Technical-Briefs/main/THE-STANDING-SLIP.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "slipway",
+      "id": "the-standing-slip",
+      "what": "THE STANDING SLIP, opened 24 Aug 2026. THE YARD'S OPEN WORK — the loose items and the recorded-not-chased, so a session does not rediscover them by accident. Ten moves, ordered by how much it hurts to leave undone, each ending in a check THE CAPTAIN CAN PERFORM BY OPENING SOMETHING. Carries the critical path, and a list of DECISIONS THE ASSISTANT SHOULD NOT MAKE ALONE: arming THE WEEK's cron, any change to the `dailyplanet:` name, which deck cards are wrong, and adopting direct push.",
+      "authority": "LIVE, and kept BY HAND — read at the TOP of a session, not the bottom. Its law: A MOVE IS NOT DONE WHEN THE FILE IS UPLOADED. IT IS DONE WHEN ITS ACCEPTANCE TEST PASSES. Note the split: the slip lives here while its addenda live in Amenti.live/slip/ — two halves of one document in two repos."
+    },
+    "Amenti-Technical-Briefs/main/RULING-THE-DISPATCH-TWO-NAMES.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "doctrine",
+      "id": "ruling-dispatch-two-names",
+      "what": "THE DISPATCH, AND THE TWO NAMES — 24 Aug 2026. THE MECHANISM IS `dailyplanet:`; THE PUBLICATION IS THE AMENTI DISPATCH; DO NOT RECONCILE THEM. \"The Daily Planet\" is a well-known fictional newspaper under trademark, so the exposure exists ONLY AT THE SURFACE — in what is published and seen, not in a KV key nobody reads. The fix therefore lives only at the surface. Renaming the code would break several wired surfaces AND reopen the exposure the surface rename closed: the worst of both, for no gain.",
+      "authority": "A STANDING RULING, NOT AN ACCOUNT. Seeing `dailyplanet:` in the code and \"Amenti Dispatch\" on the page is NOT A BUG — it is this ruling working. The mismatch is not debt; it is the shape of a correct decision, and it must stay."
+    },
+    "Amenti-Technical-Briefs/main/RULING-ONE-ENGINE-SEPARATE-LANES.md": {
+      "section": "the briefs — 41 files, 8 of them linked anywhere",
+      "group": "architecture",
+      "id": "ruling-one-engine-separate-lanes",
+      "what": "ONE ENGINE, SEPARATE LANES, SEPARATE BUDGETS — 24 Aug 2026. One Worker, one key, one gate; what changes is that THE GATE LEARNS TO TELL ITS DOORS APART. Every surface declares a lane — the terminal, the hall, any future ad embed — each with its own rate, ceiling and daily cap, each failing to a SENTENCE rather than a broken box, each shut off in one line without the others feeling it. ENGINES ARE FOR CAPABILITY; LANES ARE FOR BLAST RADIUS. A flood through the ad door must never starve Caesar’s terminal.",
+      "authority": "RULED, NOT BUILT — no code exists, and the note contains NO reading of amenti-proxy’s current shape. THE PRECONDITION FOR ANY EMBED: the proxy today answers anyone who can load a page, with no origin check, no rate limit and no spend ceiling. NO AD RUNS BEFORE THE GATE CAN SAY NO. The build session writes THE TWO THROTTLES, which supersedes this."
+    },
+    "Amenti.live/main/MANUAL.md": {
+      "section": "the book itself",
+      "group": "doctrine",
+      "id": "manual",
+      "what": "THE MANUAL, 29 Aug 2026. HOW TO USE AMENTI, written twice over: part one for somebody who has just arrived and wants to know what this is, part two for somebody already inside who wants to know what a particular room does. Covers all eleven doors, and gives THE FIVE MODES the space nothing on the site gives them — what to BRING to each, the adversary's yield rule and the witness's silence rule. Also states the things a reader cannot discover by clicking: that a figure answers honestly when asked what it is, that it will not recite your own words back, that it may send you to another figure, that nothing overheard is recorded, and what an hour costs.",
+      "authority": "canonical, and CHECKED — every behavioural claim in it was verified against amenti-core.bundle.js, Page1.html or hall.html at the hour of writing, not described from memory. It is the only document in the fleet aimed OUTWARD: GLOSSARY.md holds the ship’s vocabulary and MANUEL.md names Page2’s parts, both for the crew. If this and the site disagree, THE SITE IS RIGHT and this has gone stale."
     }
   },
   "owner": "ianingram",
