@@ -405,13 +405,17 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
   flex:1 1 auto;
   min-height:0;
   overflow-y:auto;
-  padding:0 20px 0 30px;         /* 30 on the left — it is measured against a
-                                    PHOTOGRAPH, not against empty space */
+  /* 44, not 30. The gutter has been raised twice — 20, 28, 30 — and each time
+     it still read as jammed, because a gutter beside a PHOTOGRAPH is not
+     judged against the border; it is judged against the picture. The eye
+     measures from the last thing it saw, and the last thing it saw was a
+     man's shoulder. Small increments were the wrong instinct here. */
+  padding:0 22px 0 44px;
 }
 
 .term-mode-wrap{
   flex:0 0 auto;                 /* the foot. Not scrolled, not pushed. */
-  margin:12px 20px 0 30px;       /* the same gutters as the scroller above */
+  margin:12px 22px 0 44px;       /* the same gutters as the scroller above */
   padding:12px 0 26px;           /* lifted off the floor, and INSIDE the clip
                                     so the note is never cut */
   border-top:1px solid rgba(212,160,23,0.25);
@@ -556,8 +560,11 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
   /* The divider is this panel's own left border, so it sits ON the plate with
      no dark margin between. A few pixels of the panel's background bleeding
      left of the line separates the photograph from the reading. */
+  /* A 14px band of the panel's own dark bleeding LEFT of the divider, so the
+     photograph ends, then there is night, then there is a line, then there is
+     reading. A hairline between an image and text is not a separation. */
   border-left:1px solid rgba(0,255,160,0.2);
-  box-shadow:-6px 0 0 rgba(0,6,3,0.85);
+  box-shadow:-14px 0 0 rgba(0,4,2,0.92);
   background:rgba(0,6,3,0.5);
   /* ── THE GUTTER · 28 AUG 2026 ──────────────────────────────────────────
      20px on the left read as jammed, because it is not measured from what the
