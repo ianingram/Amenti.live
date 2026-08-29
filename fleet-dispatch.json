@@ -1,10 +1,10 @@
 {
-  "at": "2026-08-29T00:52:52.017Z",
+  "at": "2026-08-29T06:36:08.433Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 114,
+    "count": 115,
     "prefixes": {
-      "atlantica:": 80,
+      "atlantica:": 81,
       "dailyplanet:": 20,
       "watch:": 8,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 67,
+      "fired": 68,
       "last": {
-        "date": "2026-08-28",
-        "figure": "akhenaten"
+        "date": "2026-08-29",
+        "figure": "ingram"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-08-26",
         "2026-08-25",
@@ -39,6 +39,11 @@
         "2026-08-15"
       ],
       "recent": [
+        {
+          "figure": "ingram",
+          "date": "2026-08-29",
+          "key": "atlantica:ingram:2026-08-29"
+        },
         {
           "figure": "akhenaten",
           "date": "2026-08-28",
@@ -103,14 +108,9 @@
           "figure": "ayn-rand",
           "date": "2026-08-03",
           "key": "atlantica:ayn-rand:2026-08-03"
-        },
-        {
-          "figure": "helen-keller",
-          "date": "2026-08-03",
-          "key": "atlantica:helen-keller:2026-08-03"
         }
       ],
-      "note": "67 dispatch(es) in the hold · last 2026-08-28 (akhenaten) · MISSED 12 of the last 14 days"
+      "note": "68 dispatch(es) in the hold · last 2026-08-29 (ingram) · MISSED 12 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
