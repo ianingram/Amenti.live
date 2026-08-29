@@ -1,5 +1,5 @@
 {
-  "at": "2026-08-29T06:36:06.471Z",
+  "at": "2026-08-29T12:32:02.736Z",
   "by": "probes/probe-watches.mjs",
   "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
   "watches": {
@@ -21,13 +21,11 @@
     },
     "TREASURY WATCH": {
       "id": "TREASURY WATCH",
-      "status": "WARN",
-      "ok": 1,
-      "warn": [
-        "/quiz/start unreachable (fetch failed)"
-      ],
+      "status": "OK",
+      "ok": 2,
+      "warn": [],
       "fail": [],
-      "note": "/quiz/submit refused a forged session (401) · /quiz/start unreachable (fetch failed)"
+      "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
     },
     "HULL WATCH": {
       "id": "HULL WATCH",
