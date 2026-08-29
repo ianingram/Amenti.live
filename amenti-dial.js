@@ -63,9 +63,47 @@
      is a backstop against a fetch that never lands, not a normal path. */
   var MAX_RING = 30000;
 
+  /* ── THE CONTEXT MUST BE RESUMED · FOUND ON GLASS 28 AUG 2026 ────────────
+     This returned `new C()` and nothing else, and the dial was SILENT on real
+     hardware while every stub reported it firing.
+
+     A browser creates an AudioContext SUSPENDED and keeps it suspended until a
+     user gesture resumes it. Notes scheduled into a suspended context do not
+     play, do not queue, and DO NOT THROW — osc.start() succeeds and no sound
+     is made. There is nothing in a console to see.
+
+     The announcement was audible because the TTS engine has its own context,
+     already resumed by an earlier press. The dial's was brand new and asleep.
+
+     resume() returns a promise and the notes are scheduled against ac.currentTime,
+     which does not advance while suspended — so the schedule is built AFTER the
+     resume settles, never before.
+
+     A NOTE THAT IS SCHEDULED AND SILENT IS THE HARDEST KIND OF FAULT: it looks
+     exactly like success from the inside. */
   function ctx() {
     var C = window.AudioContext || window.webkitAudioContext;
-    return C ? new C() : null;
+    if (!C) return null;
+    var ac = new C();
+    if (ac.state === 'suspended' && ac.resume) {
+      try { ac.resume(); } catch (e) {}
+    }
+    return ac;
+  }
+
+  /* Wait for the context to actually be running before scheduling against its
+     clock. Resolves immediately when it already is. If a browser refuses to
+     resume — no gesture in the stack — this still resolves, and the caller
+     proceeds: a dial that hangs is worse than a dial that is quiet. */
+  function ready(ac) {
+    return new Promise(function (res) {
+      if (!ac || ac.state === 'running') return res(ac);
+      var done = false;
+      var go = function () { if (!done) { done = true; res(ac); } };
+      if (ac.resume) { try { ac.resume().then(go, go); } catch (e) { go(); } }
+      else go();
+      setTimeout(go, 400);
+    });
   }
 
   /* Every note is enveloped. A bare gain switch clicks, and a click at the
@@ -124,11 +162,23 @@
       timers.push(stopAt);
     }
 
+    /* THE FIRST SOUND THIS SEQUENCE MAKES ITSELF, so the resume is waited on
+       here and nowhere else. The announcement above goes through the TTS
+       engine, whose context is already running; only these notes need a
+       context of our own.
+
+       ac.currentTime DOES NOT ADVANCE while a context is suspended, so
+       scheduling before the resume settles puts every note at a timestamp
+       already in the past — which is silently dropped. Schedule after. */
     function tone() {
       if (!live) return;
       state = 'tone';
-      if (ac) note(ac, TONE_HZ, ac.currentTime + 0.02, TONE_LEN, 0.06);
-      after((TONE_LEN + TONE_GAP) * 1000, startRinging);
+      if (!ac) { after((TONE_LEN + TONE_GAP) * 1000, startRinging); return; }
+      ready(ac).then(function () {
+        if (!live) return;
+        note(ac, TONE_HZ, ac.currentTime + 0.02, TONE_LEN, 0.06);
+        after((TONE_LEN + TONE_GAP) * 1000, startRinging);
+      });
     }
 
     function finish(why) {

@@ -373,6 +373,24 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
    left to push against. */
 #charList{overflow-y:auto;flex:1 1 auto;min-height:0;}
 
+/* ── CALL ─────────────────────────────────────────────────────────────────
+   The one button that places the whole call, so it does not look like CLEAR
+   or CODEX. Gold rather than green: those are actions on the transcript; this
+   opens a line. Green when live, so a reader can see at a glance that a
+   microphone is open. */
+.term-call{
+  border-color:rgba(212,160,23,.55);
+  color:var(--gold-bright,#f5c542);
+  letter-spacing:.16em;
+  padding:6px 12px;
+}
+.term-call:hover{ background:rgba(212,160,23,.1); }
+.term-call.active{
+  border-color:rgba(0,255,160,.75);
+  color:#80ffc0;
+  background:rgba(0,255,160,.08);
+}
+
 .term-mode-wrap{
   margin-top:auto;
   padding:14px;

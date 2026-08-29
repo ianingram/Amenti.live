@@ -897,7 +897,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
      nothing can press a button before the page is parsed. Depends on nothing
      in the bundle — if the bundle fails, the dial simply never gets answered
      and its own backstop ends the call. -->
-<script src="amenti-dial.js?v=1" defer></script>
+<script src="amenti-dial.js?v=2" defer></script>
 <!-- amenti-memory.js — WHAT A FIGURE RECALLS OF A SIGNED-IN READER.
      CONVERSATION_DOCTRINE.md §4.6. The only file that knows where memory
      lives: it reads the mint's /memory and hands the result to the chat core
@@ -7394,6 +7394,93 @@ window.AMENTI_VOICE = {
     if (c) c.micToggle();
   };
   if (hint) { wrap.insertBefore(mic, hint); } else { wrap.appendChild(mic); }
+
+  /* ── CALL · ONE PRESS PLACES THE WHOLE CALL ─────────────────────────────
+     Opening a line used to take TWO presses of two different glyphs — 🔇 for
+     voice, 🎙 for the microphone — and the dial hangs off the FIRST of them,
+     so a reader had to press the speaker to hear the phone ring. Nobody
+     reading that rail would guess it.
+
+     A phone has one button. So:
+
+         CALL → voice on → the dial announces, tones and rings
+              → the figure answers with "I am here"
+              → and ONLY THEN does the microphone open
+
+     THE ORDER IS NOT COSMETIC. The mic must open AFTER the greeting, or the
+     figure hears itself and answers itself — the unbounded overnight loop
+     COST WATCH exists to stop. So this waits for `amenti:voice-started`,
+     which the engine fires when the first buffer is scheduled, and gives the
+     greeting time to finish before arming the ear.
+
+     THE TWO GLYPHS STAY. Someone may want to listen without their mic open,
+     or type while hearing the reply. This is a shortcut over them, not a
+     replacement — nothing that worked before stops working.
+
+     Pressing it again HANGS UP: voice off, mic closed. Like a phone. */
+  var GREETING_MS = 2600;   /* "I am here." at ~15 chars/sec, plus a breath. */
+  var calling = false, callTimers = [];
+  function clearCall(){ callTimers.forEach(clearTimeout); callTimers = []; }
+
+  function onCall(){ return !!(window.AMENTI_VOICE && window.AMENTI_VOICE.on); }
+
+  function refreshCall(){
+    var live = onCall();
+    call.textContent = live ? '📞 END' : '📞 CALL';
+    call.title = live
+      ? 'Hang up — voice off, microphone closed'
+      : 'Place the call — the line opens, the figure answers, then your microphone';
+    call.classList.toggle('active', live);
+  }
+
+  var call = document.createElement('button');
+  call.id = 'term-call';
+  call.type = 'button';
+  call.className = 'term-btn term-call';
+  call.textContent = '📞 CALL';
+  call.onclick = function () {
+    var V = window.AMENTI_VOICE;
+    var c = window.AmentiTerminal && window.AmentiTerminal.chat;
+
+    /* HANG UP. Everything closes, in the order that leaves nothing running. */
+    if (onCall()) {
+      calling = false; clearCall();
+      try { if (c && c.state === 'listening' && window.Amenti && Amenti.listen) Amenti.listen.stop(); } catch (e) {}
+      try { if (V) V.toggle(); } catch (e) {}
+      refreshCall();
+      return;
+    }
+
+    /* PLACE IT. V.toggle() turns voice on, which is what fires the dial and
+       the greeting — this does not reach past it into the dial directly,
+       because the dial belongs to the voice coming on and nothing else. */
+    if (!V) { console.warn('amenti: no voice engine, so no call could be placed.'); return; }
+    calling = true;
+    V.toggle();
+    refreshCall();
+
+    /* ARM THE EAR ONLY AFTER THE FIGURE HAS SPOKEN. `amenti:voice-started`
+       fires when the first buffer is scheduled, so the greeting is beginning,
+       not ending — hence the wait after it. The 12s backstop covers a
+       greeting that never arrives: a call that opens no ear is a dead line,
+       and dead air is what this whole sequence exists to prevent. */
+    var armed = false;
+    function arm(){
+      if (armed || !calling) return;
+      armed = true;
+      window.removeEventListener('amenti:voice-started', onStarted);
+      if (c && c.state !== 'listening') { try { c.micToggle(); } catch (e) {} }
+    }
+    function onStarted(){ callTimers.push(setTimeout(arm, GREETING_MS)); }
+    window.addEventListener('amenti:voice-started', onStarted, { once: true });
+    callTimers.push(setTimeout(arm, 12000));
+  };
+  if (hint) { wrap.insertBefore(call, hint); } else { wrap.appendChild(call); }
+  refreshCall();
+
+  /* The two glyphs can still be pressed on their own, so the label must follow
+     the real state rather than remember what this button last did. */
+  btn.addEventListener('click', function(){ setTimeout(refreshCall, 0); });
 })();
 </script>
 
