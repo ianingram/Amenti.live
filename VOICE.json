@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-08-29T00:19:47.802Z",
+  "generated": "2026-08-29T00:25:24.373Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -198,15 +198,15 @@
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1333
+              "line": 1332
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1333
+              "line": 1332
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2212
+              "line": 2211
             },
             {
               "file": "amenti-doctrine.js",
@@ -262,7 +262,7 @@
         },
         {
           "global": "Amenti.voice",
-          "registered": 1203,
+          "registered": 1202,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -312,7 +312,7 @@
         },
         {
           "global": "Amenti.throttle",
-          "registered": 1226,
+          "registered": 1225,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -329,15 +329,15 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1297
+              "line": 1296
+            },
+            {
+              "file": "amenti-core.bundle.js",
+              "line": 1296
             },
             {
               "file": "amenti-core.bundle.js",
               "line": 1297
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1298
             }
           ],
           "firstRead": 3023,
@@ -395,7 +395,7 @@
         },
         {
           "global": "Amenti.conversation",
-          "registered": 1243,
+          "registered": 1242,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -444,7 +444,7 @@
         },
         {
           "global": "Amenti.listen",
-          "registered": 1715,
+          "registered": 1714,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -458,27 +458,27 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1292
+              "line": 1291
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2801
+              "line": 2800
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2801
+              "line": 2800
+            },
+            {
+              "file": "amenti-core.bundle.js",
+              "line": 2845
+            },
+            {
+              "file": "amenti-core.bundle.js",
+              "line": 2845
             },
             {
               "file": "amenti-core.bundle.js",
               "line": 2846
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2846
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2847
             }
           ],
           "firstRead": 7448,
@@ -506,7 +506,7 @@
         },
         {
           "global": "Amenti.chat",
-          "registered": 3745,
+          "registered": 3744,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -520,7 +520,7 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1766
+              "line": 1765
             }
           ],
           "firstRead": 6191,
@@ -1200,8 +1200,8 @@
             "loading": "blocking"
           }
         ],
-        "bytes": 206513,
-        "lines": 3753,
+        "bytes": 206712,
+        "lines": 3752,
         "registers": [
           "AMENTI_CONFIG",
           "AmentiResolve.report",
