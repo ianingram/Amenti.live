@@ -431,23 +431,12 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
   background:rgba(0,255,160,.08);
 }
 
-.term-mode-wrap{
-  margin-top:auto;
-  padding:14px;
-  border-top:1px solid rgba(0,255,160,0.2);
-  display:flex;flex-direction:column;gap:6px;
-}
-.term-mode-label{
-  font-family:var(--font-mono);font-size:9px;letter-spacing:.22em;
-  color:var(--gold);opacity:.75;user-select:none;white-space:nowrap;
-}
-/* Larger than the model picker above: this is a decision a reader makes and
-   returns to, not a setting they touch once. */
-.term-mode{
-  width:100%;
-  font-size:11px;letter-spacing:.1em;
-  padding:8px 10px;
-}
+/* The stale block that stood here is GONE, 28 Aug 2026. It was the roster-foot
+   version — its own .term-mode-wrap, its own .term-mode, and a .term-mode-label
+   for a label the markup no longer has. Left behind when the block above was
+   rewritten, and it sat LATER IN THE FILE, so it was the one actually applying.
+   The rules I had just written and tested were being overridden by a copy of
+   themselves that nobody had deleted. */
 
 .term-select{background:rgba(0,8,4,0.6);border:1px solid rgba(0,255,160,0.4);color:#80ffc0;font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;padding:4px 6px;cursor:pointer;outline:none;}
 .term-select:hover{color:#fff;border-color:#80ffc0;}
@@ -505,7 +494,6 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 /* The first header had a 14px top margin like the rest, so it sat lower than
    the panel's own padding intends. It leads; it needs no gap above it. */
 .term-ctx-h{font-size:9px;color:var(--gold);letter-spacing:.22em;margin:18px 0 9px;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:5px;}
-.term-ctx-h:first-child{margin-top:0;}
 .term-ctx-h:first-child{margin-top:0;}
 .term-ctx pre{font-family:var(--font-mono);font-size:9px;color:#60ffaa;line-height:1.4;white-space:pre-wrap;}
 /* ── THE CONNECTION BLOCK ─────────────────────────────────────────────────
