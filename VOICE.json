@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-08-29T05:12:56.669Z",
+  "generated": "2026-08-29T05:37:08.797Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -27,9 +27,9 @@
   "surfaces": [
     {
       "file": "Page1.html",
-      "bytes": 543529,
-      "lines": 8773,
-      "sha256": "a96460835c229073",
+      "bytes": 544295,
+      "lines": 8784,
+      "sha256": "647001bb6ffef087",
       "scripts": [
         {
           "src": "amenti-core.bundle.js",
@@ -75,103 +75,103 @@
         },
         {
           "src": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",
-          "line": 8272,
+          "line": 8283,
           "loading": "defer",
           "remote": true
         },
         {
           "src": "amenti-auth.js",
-          "line": 8273,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-quiz.js",
-          "line": 8280,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-roster.js",
-          "line": 8281,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-roster-view.js",
-          "line": 8282,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-bay.js",
-          "line": 8283,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-motion.js",
           "line": 8284,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-art-2.js",
-          "line": 8285,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-leaderboard.js",
-          "line": 8286,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-readaloud.js",
-          "line": 8287,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-vallhalla-signup.js",
-          "line": 8290,
-          "loading": "defer",
-          "remote": false
-        },
-        {
-          "src": "amenti-flourish.js",
+          "src": "amenti-quiz.js",
           "line": 8291,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-mascot.js",
+          "src": "amenti-roster.js",
           "line": 8292,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-profile.js",
+          "src": "amenti-roster-view.js",
           "line": 8293,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-art-photo.js",
+          "src": "amenti-bay.js",
+          "line": 8294,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-motion.js",
+          "line": 8295,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-art-2.js",
+          "line": 8296,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-leaderboard.js",
+          "line": 8297,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-readaloud.js",
+          "line": 8298,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-vallhalla-signup.js",
           "line": 8301,
           "loading": "defer",
           "remote": false
         },
         {
+          "src": "amenti-flourish.js",
+          "line": 8302,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-mascot.js",
+          "line": 8303,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-profile.js",
+          "line": 8304,
+          "loading": "defer",
+          "remote": false
+        },
+        {
+          "src": "amenti-art-photo.js",
+          "line": 8312,
+          "loading": "defer",
+          "remote": false
+        },
+        {
           "src": "amenti-art-3.js",
-          "line": 8315,
+          "line": 8326,
           "loading": "defer",
           "remote": false
         },
         {
           "src": "amenti-dispatch-art.js",
-          "line": 8749,
+          "line": 8760,
           "loading": "defer",
           "remote": false
         }
@@ -287,7 +287,7 @@
               "line": 629
             }
           ],
-          "firstRead": 7859,
+          "firstRead": 7870,
           "firstReadEvaluation": "deferred",
           "parseTimeReads": [],
           "uncertainReads": [],
@@ -297,13 +297,13 @@
           ],
           "callSites": [
             {
-              "line": 7809,
+              "line": 7820,
               "method": "isSpeaking",
               "via": "alias",
               "evaluation": "deferred"
             },
             {
-              "line": 7859,
+              "line": 7870,
               "method": "stop",
               "via": "direct",
               "evaluation": "deferred"
@@ -380,13 +380,13 @@
               "evaluation": "deferred"
             },
             {
-              "line": 8188,
+              "line": 8199,
               "method": "stop",
               "via": "direct",
               "evaluation": "deferred"
             },
             {
-              "line": 8208,
+              "line": 8219,
               "method": "speak",
               "via": "direct",
               "evaluation": "deferred"
@@ -497,7 +497,7 @@
               "evaluation": "deferred"
             },
             {
-              "line": 7861,
+              "line": 7872,
               "method": "cancel",
               "via": "direct",
               "evaluation": "deferred"
@@ -626,7 +626,7 @@
               "evaluation": "deferred"
             },
             {
-              "line": 7860,
+              "line": 7871,
               "method": "stop",
               "via": "direct",
               "evaluation": "deferred"
@@ -653,12 +653,12 @@
         },
         {
           "key": "VOICE_STYLE",
-          "line": 8125,
+          "line": 8136,
           "value": "Read this aloud in a clear, engaging, journalistic voice"
         },
         {
           "key": "VOICE_NAME",
-          "line": 8126,
+          "line": 8137,
           "value": "Kore"
         }
       ],
@@ -1352,7 +1352,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8273,
+            "line": 8284,
             "loading": "defer"
           }
         ],
@@ -1370,7 +1370,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8280,
+            "line": 8291,
             "loading": "defer"
           }
         ],
@@ -1390,7 +1390,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8281,
+            "line": 8292,
             "loading": "defer"
           }
         ],
@@ -1424,7 +1424,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8282,
+            "line": 8293,
             "loading": "defer"
           }
         ],
@@ -1440,7 +1440,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8283,
+            "line": 8294,
             "loading": "defer"
           }
         ],
@@ -1456,7 +1456,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8284,
+            "line": 8295,
             "loading": "defer"
           }
         ],
@@ -1471,7 +1471,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8285,
+            "line": 8296,
             "loading": "defer"
           }
         ],
@@ -1487,7 +1487,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8286,
+            "line": 8297,
             "loading": "defer"
           }
         ],
@@ -1510,7 +1510,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8287,
+            "line": 8298,
             "loading": "defer"
           }
         ],
@@ -1531,7 +1531,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8290,
+            "line": 8301,
             "loading": "defer"
           }
         ],
@@ -1546,7 +1546,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8291,
+            "line": 8302,
             "loading": "defer"
           }
         ],
@@ -1564,7 +1564,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8292,
+            "line": 8303,
             "loading": "defer"
           }
         ],
@@ -1584,7 +1584,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8293,
+            "line": 8304,
             "loading": "defer"
           }
         ],
@@ -1599,7 +1599,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8301,
+            "line": 8312,
             "loading": "defer"
           }
         ],
@@ -1616,7 +1616,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8315,
+            "line": 8326,
             "loading": "defer"
           }
         ],
@@ -1635,7 +1635,7 @@
         "requestedBy": [
           {
             "surface": "Page1.html",
-            "line": 8749,
+            "line": 8760,
             "loading": "defer"
           }
         ],
