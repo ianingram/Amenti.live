@@ -842,8 +842,8 @@ body::after{
 </style>
 <!-- Codex/timeline/terminal styling. Nothing here is visible on landing, so it
      loads in parallel instead of blocking first paint. See amenti-tabs.css. -->
-<link rel="preload" href="amenti-tabs.css?v=23" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="amenti-tabs.css?v=23"></noscript>
+<link rel="preload" href="amenti-tabs.css?v=24" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="amenti-tabs.css?v=24"></noscript>
 
 
 <style>
@@ -4445,7 +4445,7 @@ RELAY:     AMENTI-MAIN-01</pre>
            connection. CONNECTION says how you are joined, DOSSIER who they
            are, and MODE what you are asking them for. It reads as a fourth
            section because it is one. -->
-      <div class="term-mode-wrap">
+      <div class="term-mode-wrap" data-mode="character">
         <div class="term-ctx-h">▸ MODE</div>
         <select class="term-select term-mode" id="modeToggle">
           <option value="character" title="The figure speaks as themselves. Talk about anything.">◈ IN CHARACTER</option>
@@ -6487,6 +6487,13 @@ function refreshModeBtn(){
      This needs none of the three. */
   var modeNote = document.getElementById('modeNote');
   if (modeNote) modeNote.textContent = MODE_HELP[mode] || MODE_HELP.character;
+  /* THE COLOUR FOLLOWS THE CHOICE. data-mode on the wrap drives five CSS
+     custom-property sets, so the plate, its header and its sentence all move
+     together — a reader can tell which mode is live without reading a word.
+     Set here rather than in the stylesheet because CSS cannot see a select's
+     value; :has() could, and is not safe to rely on yet. */
+  var modeWrap = document.querySelector('.term-mode-wrap');
+  if (modeWrap) modeWrap.setAttribute('data-mode', mode);
 }
 if(modeBtn) modeBtn.addEventListener('change', function(){
   const want = modeBtn.value;

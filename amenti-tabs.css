@@ -432,57 +432,103 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
   flex:0 0 auto;                 /* the foot. Not scrolled, not pushed. */
   margin:12px 22px 0 44px !important;   /* beats the wildcard reset — see above */
   padding:12px 0 26px !important;       /* beats the wildcard reset */
-  border-top:1px solid rgba(212,160,23,0.25);
+  border-top:1px solid var(--mode-edge,rgba(212,160,23,0.25));
 }
 /* ── THE ONE HEADER THAT IS NOT A LABEL ───────────────────────────────────
    CONNECTION, DOSSIER, ABILITIES and HINTS all name something to READ. MODE
    names something to CHOOSE, and it is the only one in the panel that does.
    It gets the gold treatment the others have plus a little more weight, so
    the eye stops there instead of reading past it as a fifth caption. */
+/* THE ONE HEADER THAT IS NOT A LABEL. The other four name something to READ;
+   this names something to CHOOSE. It takes the live mode's colour. */
 .term-mode-wrap .term-ctx-h{
   margin-top:0;
   font-size:10px;
-  color:var(--gold-light,#f0c040);
-  border-bottom-color:rgba(212,160,23,0.35);
+  color:var(--mode-edge,var(--gold-light,#f0c040)) !important;
+  border-bottom-color:var(--mode-edge,rgba(212,160,23,0.35)) !important;
 }
 
-/* ── IT IS A BOX, NOT A BAR ───────────────────────────────────────────────
-   width:100% made it span the whole panel, and a control that runs edge to
-   edge reads as a toolbar — something the interface does — rather than as a
-   field holding one value. A drop-down is a box: it should be as wide as the
-   longest thing it can say and no wider.
-   max-content is that width exactly. IN CHARACTER is the longest label, so
-   the box fits it and stops. */
-/* NUDGED UP, NOT BLOWN UP. This is the control that decides what the figure
-   is FOR, and a reader who never notices it never meets four of the five ways
-   this thing can talk. But it is still a field in a dossier panel, so it must
-   not shout: 12.5px against the panel's 10px, a gold edge, and a faint glow
-   so it reads as lit rather than large. */
+/* ── THE MODE · THE CONTROL NOBODY MAY MISS ───────────────────────────────
+   This decides what the figure is FOR, and a reader who never notices it never
+   meets four of the five ways this thing can talk. It has been nudged twice
+   and is still being missed, so it stops being a field in a panel and becomes
+   a PLATE: rectangular, square-cornered, larger than anything else in this
+   column, and lit in the mode's own colour.
+
+   Square corners on purpose. Every other control here is a soft field; the
+   only rectangle in the panel is the one thing you are meant to reach for. */
 .term-mode{
-  width:max-content;
-  max-width:100%;                /* never overrun the panel on a narrow view */
-  min-width:0;
-  font-size:12.5px;
-  letter-spacing:.12em;
-  padding:10px 30px 10px 13px !important;  /* beats the wildcard reset */
+  display:block;
+  width:100% !important;
+  max-width:none;
+  font-size:14px !important;
+  font-weight:500;
+  letter-spacing:.14em;
+  text-align:left;
+  padding:12px 30px 12px 13px !important;
   cursor:pointer;
-  color:#eafff2;
-  border:1px solid rgba(212,160,23,0.55);
-  background:rgba(0,10,6,0.75);
-  box-shadow:0 0 14px rgba(212,160,23,0.10) inset;
+  border-radius:0 !important;      /* A PLATE, NOT A PILL. */
+  -webkit-appearance:none; appearance:none;
+  color:var(--mode-ink,#eafff2);
+  border:1px solid var(--mode-edge,rgba(212,160,23,.7)) !important;
+  background:var(--mode-fill,rgba(0,12,7,.85));
+  box-shadow:0 0 16px var(--mode-glow,rgba(212,160,23,.13)) inset;
+  transition:border-color .18s, box-shadow .18s, background .18s;
+  /* the browser's arrow, drawn in the mode's colour */
+  background-image:
+    linear-gradient(45deg,transparent 50%,var(--mode-ink,#eafff2) 50%),
+    linear-gradient(135deg,var(--mode-ink,#eafff2) 50%,transparent 50%);
+  background-position:calc(100% - 19px) calc(50% + 2px),
+                      calc(100% - 13px) calc(50% + 2px);
+  background-size:6px 6px,6px 6px;
+  background-repeat:no-repeat;
 }
 .term-mode:hover{
-  border-color:var(--gold);
-  background:rgba(0,14,8,0.9);
-  box-shadow:0 0 16px rgba(212,160,23,0.22) inset;
+  box-shadow:0 0 20px var(--mode-glow,rgba(212,160,23,.24)) inset;
 }
-.term-mode:focus{ outline:none; border-color:var(--gold-light,#f0c040); }
-/* The sentence follows the box up a step too — it is the part that tells a
-   reader WHY they would change it, and at 9px nobody was reading it. */
+.term-mode:focus{ outline:none; }
+
+/* ── EACH MODE ITS OWN COLOUR ─────────────────────────────────────────────
+   Set on .term-mode-wrap so the plate, its header and its sentence all move
+   together — five states a reader can tell apart at a glance, without reading
+   a word. The colours are the registers themselves:
+       CHARACTER  green   the figure as they are · the resting state
+       COUNSEL    gold    the house colour. Advice, and it costs.
+       TUTOR      blue    a lesson. Cool, patient, not the same act.
+       WITNESS    violet  testimony. The rarest thing here.
+       ADVERSARY  red     it will argue with you. It should LOOK like it will. */
+.term-mode-wrap[data-mode="character"]{
+  --mode-edge:rgba(0,255,156,.75); --mode-ink:#a8ffd8;
+  --mode-fill:rgba(0,18,11,.85);   --mode-glow:rgba(0,255,156,.16);
+}
+.term-mode-wrap[data-mode="counsel"]{
+  --mode-edge:rgba(245,197,66,.8); --mode-ink:#ffe6a0;
+  --mode-fill:rgba(20,13,0,.85);   --mode-glow:rgba(245,197,66,.18);
+}
+.term-mode-wrap[data-mode="tutor"]{
+  --mode-edge:rgba(90,170,255,.8); --mode-ink:#bcdcff;
+  --mode-fill:rgba(0,10,22,.85);   --mode-glow:rgba(90,170,255,.18);
+}
+.term-mode-wrap[data-mode="witness"]{
+  --mode-edge:rgba(186,140,255,.8); --mode-ink:#dcc8ff;
+  --mode-fill:rgba(14,6,24,.85);    --mode-glow:rgba(186,140,255,.18);
+}
+.term-mode-wrap[data-mode="adversary"]{
+  --mode-edge:rgba(255,110,90,.85); --mode-ink:#ffc4b4;
+  --mode-fill:rgba(24,5,2,.88);     --mode-glow:rgba(255,110,90,.20);
+}
+/* The header and the top rule take the colour too. These properties live in
+   the ONE .term-mode-wrap and .term-mode-wrap .term-ctx-h declarations above,
+   not in a second copy down here — which is what the first draft of this
+   block did, and what csstest caught before it shipped. */
+
+/* The sentence takes the mode's ink too, one step down in weight. It is the
+   part that says WHY you would change it, and at 9px nobody read it. */
 .term-mode-note{
-  margin-top:7px !important;
-  font-size:10px;line-height:1.55;letter-spacing:.04em;
-  color:#78b89a;
+  margin-top:9px !important;
+  font-size:10.5px;line-height:1.55;letter-spacing:.03em;
+  color:var(--mode-ink,#78b89a);
+  opacity:.82;
 }
 
 .term-call{
