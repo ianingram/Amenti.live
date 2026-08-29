@@ -299,16 +299,14 @@
   }
   function resolveVoice(name) {
     return loadRoster().then(function (map) {
-      var key = String(name || '').toLowerCase().trim();
-      var fig = map[key];
-      /* THE KEY IS THE FULL NAME. A caller passing "Lincoln" where the roster
-         holds "Abraham Lincoln" gets nothing back and is handed the default —
-         so a near miss is tried before giving up, and it is SAID either way. */
-      if (!fig && key) {
-        for (var k in map) {
-          if (k === key || k.split(' ').pop() === key) { fig = map[k]; break; }
-        }
-      }
+      /* THE LOOKUP IS UNCHANGED, DELIBERATELY. A surname fallback was written
+         here on 28 Aug and REMOVED before it shipped: the cache key is
+         sha256(model + VOICE + style + text), so changing which voice a name
+         resolves to ORPHANS every clip already rendered for it. That is real
+         spend, for a fault nobody had confirmed — every known caller passes
+         the full name. The warning below names the failure; when a real
+         mismatch is found, THEN change this, knowing what it costs. */
+      var fig = map[String(name || '').toLowerCase().trim()];
       return { voice: baseVoiceFor(fig && fig.gender, name), style: composeStyle(fig), figure: fig || null };
     });
   }
