@@ -489,7 +489,9 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
   border-color:rgba(212,160,23,.55);
   color:var(--gold-bright,#f5c542);
   letter-spacing:.16em;
-  padding:6px 12px;
+  /* the press that starts a conversation — larger than the glyphs beside it */
+  font-size:12px !important;
+  padding:8px 15px !important;
 }
 .term-call:hover{ background:rgba(212,160,23,.1); }
 .term-call.active{
@@ -543,11 +545,31 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 
 .term-cursor{display:inline-block;width:8px;height:14px;background:#00ff80;animation:blink .8s infinite;vertical-align:-2px;margin-left:2px;}
 
-.term-input-wrap{border-top:1px solid rgba(0,255,160,0.2);padding:14px 20px;display:flex;align-items:center;gap:10px;background:rgba(0,4,2,0.85);}
-.term-input-prompt{font-size:13px;color:#00ff80;letter-spacing:.06em;}
-.term-input{flex:1;background:transparent;border:none;color:#fff;font-family:var(--font-mono);font-size:14px;letter-spacing:.02em;outline:none;}
-.term-input::placeholder{color:#406050;}
-.term-input-hint{font-size:9px;color:#406050;letter-spacing:.14em;}
+/* ── THE RAIL, A STEP UP · 28 AUG 2026 ────────────────────────────────────
+   This is the line a reader spends the whole visit on, and it was set smaller
+   than the dossier panel beside it — a 9px hint, 14px input, and glyph buttons
+   scaled for a toolbar. Everything here moves up one step: the prompt, the
+   box, the hint, and the icons.
+   ⚠ !important on the padding — body[data-page="terminal"] *{padding:0} at
+   line 279 outranks a single class and zeroes it, which is what swallowed the
+   context panel's gutter for four attempts. */
+.term-input-wrap{border-top:1px solid rgba(0,255,160,0.2);padding:15px 22px !important;display:flex;align-items:center;gap:12px;background:rgba(0,4,2,0.85);}
+.term-input-prompt{font-size:15px;color:#00ff80;letter-spacing:.06em;}
+.term-input{flex:1;background:transparent;border:none;color:#fff;font-family:var(--font-mono);font-size:15.5px;letter-spacing:.02em;outline:none;}
+.term-input::placeholder{color:#4c6f5c;}
+.term-input-hint{font-size:10.5px;color:#4c6f5c;letter-spacing:.14em;white-space:nowrap;}
+
+/* The glyph buttons — speaker, microphone, stop. They carry an emoji as their
+   label, so font-size IS the icon size. */
+.term-input-wrap button{
+  font-size:16px !important;
+  line-height:1 !important;
+  padding:7px 9px !important;
+}
+/* CALL's size lives in its ONE declaration above, with its colours. It was
+   briefly split across two blocks 95 lines apart — the same fault that cost
+   an hour on .term-mode-wrap and .term-ctx tonight, caught this time by
+   running csstest BEFORE handing the file over rather than after. */
 
 /* SIDE CONTEXT */ /* the dossier can be long; it scrolls rather than growing the shell */
 /* ── ROOM TO BREATHE · 28 AUG 2026 ────────────────────────────────────────

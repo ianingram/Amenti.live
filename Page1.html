@@ -842,8 +842,8 @@ body::after{
 </style>
 <!-- Codex/timeline/terminal styling. Nothing here is visible on landing, so it
      loads in parallel instead of blocking first paint. See amenti-tabs.css. -->
-<link rel="preload" href="amenti-tabs.css?v=22" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="amenti-tabs.css?v=22"></noscript>
+<link rel="preload" href="amenti-tabs.css?v=23" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="amenti-tabs.css?v=23"></noscript>
 
 
 <style>
@@ -7502,7 +7502,18 @@ window.AMENTI_VOICE = {
     window.addEventListener('amenti:voice-started', onStarted, { once: true });
     callTimers.push(setTimeout(arm, 12000));
   };
-  if (hint) { wrap.insertBefore(call, hint); } else { wrap.appendChild(call); }
+  /* ── CALL GOES FIRST · 28 AUG 2026 ────────────────────────────────────
+     Every control on this rail was inserted with insertBefore(hint), which
+     means they land in whatever order their scripts happen to run — and CALL,
+     wired last, ended up third: after the speaker and the microphone, two
+     glyphs that do less.
+     CALL is the one press that starts a conversation. It goes immediately
+     after the box you type in, before the glyphs, and its position is now
+     DECLARED rather than inherited from load order. */
+  var railInput = wrap.querySelector('.term-input');
+  if (railInput && railInput.nextSibling) wrap.insertBefore(call, railInput.nextSibling);
+  else if (hint) { wrap.insertBefore(call, hint); }
+  else { wrap.appendChild(call); }
   refreshCall();
 
   /* The two glyphs can still be pressed on their own, so the label must follow
