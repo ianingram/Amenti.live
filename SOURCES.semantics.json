@@ -1121,6 +1121,13 @@
       "id": "manual",
       "what": "THE MANUAL, 29 Aug 2026. HOW TO USE AMENTI, written twice over: part one for somebody who has just arrived and wants to know what this is, part two for somebody already inside who wants to know what a particular room does. Covers all eleven doors, and gives THE FIVE MODES the space nothing on the site gives them — what to BRING to each, the adversary's yield rule and the witness's silence rule. Also states the things a reader cannot discover by clicking: that a figure answers honestly when asked what it is, that it will not recite your own words back, that it may send you to another figure, that nothing overheard is recorded, and what an hour costs.",
       "authority": "canonical, and CHECKED — every behavioural claim in it was verified against amenti-core.bundle.js, Page1.html or hall.html at the hour of writing, not described from memory. It is the only document in the fleet aimed OUTWARD: GLOSSARY.md holds the ship’s vocabulary and MANUEL.md names Page2’s parts, both for the crew. If this and the site disagree, THE SITE IS RIGHT and this has gone stale."
+    },
+    "Amenti.live/main/PAGE1.md": {
+      "section": "the book itself",
+      "group": "surfaces",
+      "id": "page1-operators-map",
+      "what": "THE OPERATOR'S MAP, 29 Aug 2026. For whoever edits Page1.html next — and deliberately NOT an enumeration: every named control, its engine and its cost live in SURFACES.json, and this holds ONLY WHAT A WALK CANNOT DERIVE. Opens with the three things that cost a session: THE BUNDLE (the page loads amenti-core.bundle.js, so pushing a loose source does nothing), THE WILDCARD RESET (a two-selector rule zeroes padding inside the terminal and outranks any single class), and DUPLICATE SELECTORS (three declared twice in one night; quiz-close is declared twice in the markup and the second binding is unreachable). Names the six real data-page sections against the eleven nav tabs — they are not the same list — and THE FOUR CONVERSATION SURFACES THAT DO NOT SHARE A PROMPT, including that cnsGo runs its own counselSys() and is four model calls that cache nothing.",
+      "authority": "canonical, and CHECKED — fifteen claims verified against Page1.html, amenti-tabs.css and the bundle at the hour of writing. Its first draft claimed `browse` was a section; the check caught it, and `timeline` turned out to be the sixth and is in no register at all. Complements SURFACES.json (the parts), SPEECH.md (the voice) and MANUAL.md (the reader's side). If this and the register disagree, THE REGISTER IS RIGHT."
     }
   },
   "owner": "ianingram",
