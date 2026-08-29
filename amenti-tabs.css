@@ -321,7 +321,21 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 .btn-ghost{border:1px solid var(--wire);color:var(--text);background:transparent;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:8px 16px;cursor:pointer;}
 .btn-ghost:hover{border-color:var(--neon);color:var(--neon);}
 
-.term-shell{display:grid;grid-template-columns:260px 1fr 280px;gap:0;border:1px solid var(--gold);background:linear-gradient(180deg,rgba(8,16,12,0.85),rgba(4,8,6,0.9));min-height:78vh;position:relative;font-family:var(--font-mono);box-shadow:0 0 60px rgba(0,255,160,0.04) inset;}
+/* ── THE SHELL NEEDS A CEILING, NOT JUST A FLOOR · 28 AUG 2026 ────────────
+   min-height:78vh with no max let the grid row grow to whatever the tallest
+   column contained — and one column holds a roster of a THOUSAND NAMES. So
+   the shell became thousands of pixels tall: the plate stretched to fill it,
+   and the input rail was dragged far below the fold.
+
+   #charList's own overflow:auto could never engage, because scrolling only
+   happens inside a box with a bounded height and its column had none.
+
+   height + min-height:0 on the children is the whole fix. The columns now
+   scroll INSIDE the shell instead of stretching it. */
+.term-shell{display:grid;grid-template-columns:260px 1fr 280px;gap:0;border:1px solid var(--gold);background:linear-gradient(180deg,rgba(8,16,12,0.85),rgba(4,8,6,0.9));height:78vh;min-height:78vh;max-height:78vh;position:relative;font-family:var(--font-mono);box-shadow:0 0 60px rgba(0,255,160,0.04) inset;}
+/* A grid child's default min-height is auto — it REFUSES to shrink below its
+   content, which defeats the ceiling above. Every column must be told it may. */
+.term-shell > *{min-height:0;overflow:hidden;}
 
 .term-shell::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,160,0.03) 2px,rgba(0,255,160,0.03) 3px);pointer-events:none;}
 
@@ -364,20 +378,34 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 }
 .term-btn{background:transparent;border:1px solid rgba(0,255,160,0.4);color:#80ffc0;font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;padding:5px 10px;cursor:pointer;}
 .term-btn:hover{background:rgba(0,255,160,0.08);color:#fff;}
-/* ── THE MODE, AT THE FOOT OF THE ROSTER ──────────────────────────────────
-   Pushed to the bottom of the column by margin-top:auto, so it sits on the
-   black beneath the figure list however long that list is.
-   The roster picks WHO; this picks WHAT FOR. */
-/* The list scrolls; the mode block does not. Without this a roster of any
-   length pushes the mode box below the fold and margin-top:auto has nothing
-   left to push against. */
+/* The list scrolls INSIDE its column, now that the column has a ceiling.
+   This rule was briefly DELETED while the comment above was written — the
+   scroll removed in the same edit that explained why it had never engaged. */
 #charList{overflow-y:auto;flex:1 1 auto;min-height:0;}
 
-/* ── CALL ─────────────────────────────────────────────────────────────────
-   The one button that places the whole call, so it does not look like CLEAR
-   or CODEX. Gold rather than green: those are actions on the transcript; this
-   opens a line. Green when live, so a reader can see at a glance that a
-   microphone is open. */
+/* ── THE MODE, AT THE BOTTOM RIGHT · MOVED 28 AUG 2026 ────────────────────
+   It sat at the foot of the roster column, on what looked like empty black.
+   It is not empty: that column holds the thousand-name frequency list, and
+   with the shell's ceiling in place the list scrolls THROUGH that space. A
+   control parked there is a control the roster runs behind.
+
+   The input rail's right end conflicts with nothing — the prompt and the box
+   grow from the left, the hint sits beside it, and margin-left:auto pushes
+   the mode to the far corner where nothing else ever reaches. */
+.term-mode-wrap{
+  margin-left:auto;
+  display:flex;align-items:center;gap:7px;
+  flex:0 0 auto;
+}
+.term-mode-label{
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;
+  color:var(--gold);opacity:.75;user-select:none;white-space:nowrap;
+}
+.term-mode{
+  font-size:10px;letter-spacing:.08em;
+  padding:6px 8px;
+}
+
 .term-call{
   border-color:rgba(212,160,23,.55);
   color:var(--gold-bright,#f5c542);
@@ -453,11 +481,46 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
 .term-input::placeholder{color:#406050;}
 .term-input-hint{font-size:9px;color:#406050;letter-spacing:.14em;}
 
-/* SIDE CONTEXT */ .term-ctx{border-left:1px solid rgba(0,255,160,0.2);background:rgba(0,6,3,0.5);padding:18px;font-size:10px;letter-spacing:.06em;line-height:1.6;color:#80c0a0;overflow-y:auto;}
-.term-ctx-h{font-size:9px;color:var(--gold);letter-spacing:.22em;margin:14px 0 8px;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:4px;}
+/* SIDE CONTEXT */ /* the dossier can be long; it scrolls rather than growing the shell */
+/* ── ROOM TO BREATHE · 28 AUG 2026 ────────────────────────────────────────
+   18px all round read as cramped, and for a reason the number does not show:
+   the panel is only 280px wide, the dossier is set in a SCRIPT face that wants
+   more measure than a mono of the same size, and a scrollbar eats into the
+   right edge whenever the content is long — which it usually is.
+   So the sides get more than the top and bottom, and the right gets most, to
+   pay for the scrollbar. */
+.term-ctx{min-height:0;border-left:1px solid rgba(0,255,160,0.2);background:rgba(0,6,3,0.5);padding:18px 22px 22px 20px;font-size:10px;letter-spacing:.06em;line-height:1.6;color:#80c0a0;overflow-y:auto;}
+/* The first header had a 14px top margin like the rest, so it sat lower than
+   the panel's own padding intends. It leads; it needs no gap above it. */
+.term-ctx-h{font-size:9px;color:var(--gold);letter-spacing:.22em;margin:18px 0 9px;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:5px;}
+.term-ctx-h:first-child{margin-top:0;}
 .term-ctx-h:first-child{margin-top:0;}
 .term-ctx pre{font-family:var(--font-mono);font-size:9px;color:#60ffaa;line-height:1.4;white-space:pre-wrap;}
-.term-ctx-tag{display:inline-block;padding:2px 6px;border:1px solid rgba(0,255,160,0.3);font-size:8px;color:#80ffc0;margin:0 4px 4px 0;}
+/* ── THE CONNECTION BLOCK ─────────────────────────────────────────────────
+   #ctxConn is a bare <pre> with no rule of its own, so it took the browser's
+   default margin and its own monospace default size — which is why the rows
+   read larger and tighter than everything around them, and ran to both edges.
+   A <pre> also never wraps: a long value pushed the panel's own scrollbar
+   sideways rather than folding. */
+#ctxConn{
+  margin:0 0 4px;
+  font-family:var(--font-mono);
+  font-size:10px;
+  line-height:1.75;
+  color:#80ffc0;
+  white-space:pre-wrap;      /* fold rather than force a sideways scroll */
+  word-break:break-word;
+}
+
+/* The dossier is a SCRIPT face at 14px in a 280px column. 1.4 was set for a
+   mono of that size and crowds the ascenders and descenders of this one. */
+#ctxDossier{
+  line-height:1.65 !important;
+  margin-bottom:4px;
+  hyphens:auto;
+}
+
+.term-ctx-tag{display:inline-block;padding:3px 7px;border:1px solid rgba(0,255,160,0.3);font-size:8px;color:#80ffc0;margin:0 5px 5px 0;line-height:1.4;}
 
 /* ASCII pyramid */ .term-ascii{font-family:var(--font-mono);font-size:9px;color:var(--gold);line-height:1;white-space:pre;opacity:.6;letter-spacing:0;}
 

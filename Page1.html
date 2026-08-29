@@ -842,8 +842,8 @@ body::after{
 </style>
 <!-- Codex/timeline/terminal styling. Nothing here is visible on landing, so it
      loads in parallel instead of blocking first paint. See amenti-tabs.css. -->
-<link rel="preload" href="amenti-tabs.css?v=9" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="amenti-tabs.css?v=9"></noscript>
+<link rel="preload" href="amenti-tabs.css?v=11" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="amenti-tabs.css?v=11"></noscript>
 
 
 <style>
@@ -4358,32 +4358,6 @@ document.querySelectorAll('#bookstore .vol-btn, #bookstore .vol-btn-ghost')
       <div class="term-h"><span>FREQUENCIES</span><span id="onlineCount">9</span></div>
       <div id="charList"></div>
 
-      <!-- ── THE MODE, AT THE FOOT OF THE ROSTER ────────────────────────────
-           It began as a button in the top toolbar, wedged between CLEAR and
-           CODEX where it read as one more action. It is not an action — it
-           decides what the figure is FOR, and it holds across every turn.
-
-           So it sits with the choosing rather than the doing: the roster picks
-           WHO, this picks WHAT FOR, and the pair sit in one column with the
-           empty black beneath the list finally carrying something.
-
-           A native select opens whichever way it has room for; at the foot of
-           a tall column browsers flip it upward on their own. That is theirs
-           to decide and CSS cannot force it.
-
-           Each option carries its own title, and the select's title is
-           rewritten on every change — option tooltips work in some browsers
-           and not others; the select's always shows. -->
-      <div class="term-mode-wrap">
-        <label class="term-mode-label" for="modeToggle">MODE:</label>
-        <select class="term-select term-mode" id="modeToggle">
-          <option value="character" title="The figure speaks as themselves. Talk about anything.">◈ IN CHARACTER</option>
-          <option value="counsel"   title="Bring a problem from your own life. They advise you directly.">◈ COUNSEL</option>
-          <option value="tutor"     title="Bring something you want to understand. They teach it from their own work.">◈ TUTOR</option>
-          <option value="witness"   title="Bring curiosity. They answer from what they SAW — and say so where the record is silent.">◈ WITNESS</option>
-          <option value="adversary" title="Bring a conviction. They take the other side and press it — but never the person.">◈ ADVERSARY</option>
-        </select>
-      </div>
     </aside>
 
     <!-- CHAT -->
@@ -4424,6 +4398,36 @@ document.querySelectorAll('#bookstore .vol-btn, #bookstore .vol-btn-ghost')
         <span class="term-input-prompt">›</span>
         <input class="term-input" id="input" placeholder="speak to the dead… (enter to send)" disabled>
         <span class="term-input-hint">↵ SEND · ESC CLEAR</span>
+
+        <!-- ── THE MODE · BOTTOM RIGHT ────────────────────────────────────
+             It began as a button in the top toolbar, wedged between CLEAR and
+             CODEX where it read as one more action. It is not an action — it
+             decides what the figure is FOR, and it holds across every turn.
+
+             It then spent an hour at the foot of the FREQUENCIES column, on
+             what looked like empty black. That column is not empty: it holds
+             the thousand-name roster, and the list scrolls through that space.
+
+             The input rail's right end conflicts with nothing. margin-left:auto
+             pushes it to the far corner, beside the question it governs.
+
+             A native select opens whichever way it has room for; at the foot
+             of the window browsers flip it upward on their own. That is
+             theirs to decide and CSS cannot force it.
+
+             Each option carries its own title, and the select's title is
+             rewritten on every change — option tooltips work in some browsers
+             and not others; the select's always shows. -->
+        <div class="term-mode-wrap">
+          <label class="term-mode-label" for="modeToggle">MODE:</label>
+          <select class="term-select term-mode" id="modeToggle">
+            <option value="character" title="The figure speaks as themselves. Talk about anything.">◈ IN CHARACTER</option>
+            <option value="counsel"   title="Bring a problem from your own life. They advise you directly.">◈ COUNSEL</option>
+            <option value="tutor"     title="Bring something you want to understand. They teach it from their own work.">◈ TUTOR</option>
+            <option value="witness"   title="Bring curiosity. They answer from what they SAW — and say so where the record is silent.">◈ WITNESS</option>
+            <option value="adversary" title="Bring a conviction. They take the other side and press it — but never the person.">◈ ADVERSARY</option>
+          </select>
+        </div>
       </div>
     </section>
 
@@ -4438,14 +4442,13 @@ RELAY:     AMENTI-MAIN-01</pre>
       <div id="ctxDossier" style="font-family:var(--font-script);font-size:14px;color:#c8e8d8;line-height:1.4;">— select a legend —</div>
       <div class="term-ctx-h">▸ ABILITIES</div>
       <div id="ctxAbilities">—</div>
-      <div class="term-ctx-h">▸ PYRAMID</div>
-      <pre class="term-ascii" id="ctxAscii">      △
-     ╱│╲
-    ╱ │ ╲
-   ╱  ★  ╲
-  ╱   │   ╲
- ╱    │    ╲
-╱_____│_____╲</pre>
+      <!-- THE ASCII PYRAMID IS GONE, 28 Aug 2026. It sat between ABILITIES
+           and HINTS as a fixed drawing that never changed for any figure and
+           carried no reading — the same seven lines under Lincoln, Caesar and
+           Cleopatra alike. Decoration wearing an instrument's frame: it had a
+           ▸ header like CONNECTION and DOSSIER, which say something.
+           If a per-figure pyramid ever means something, it comes back as a
+           READING and earns the header. -->
       <div class="term-ctx-h">▸ HINTS</div>
       <div style="color:#60a080;font-size:10px;line-height:1.5;">Try: "What did you fear?" · "Strategy advice" · "Speak in your voice."</div>
     </aside>
