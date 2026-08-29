@@ -88,7 +88,12 @@ const OWNER    = sem.owner || 'ianingram';
    That is a real limit and it is stated rather than hidden: the walk sees
    fewer surfaces than exist. It reports what can be NAMED. */
 const CONTROL = /<(input|textarea|button)\b([^>]*)>/gi;
-const ID_ATTR = /\bid\s*=\s*"([^"]*)"/i;
+/* SAME LOOKBEHIND AS ANY_ID BELOW, AND FOR THE SAME REASON. This one was
+   missed when that one was fixed on 28 Aug — the identical fault in two
+   places, and patching one of them left `data-id="any"` still being read as
+   a control's id and filed as an UNDECLARED surface.
+   A FIX APPLIED TO ONE COPY OF A FAULT IS NOT A FIX. */
+const ID_ATTR = /(?<![-\w])id\s*=\s*"([^"]*)"/i;
 
 /* A page can declare sections; a control's section is the nearest one BEFORE
    it in the source. That is approximate — a control inside a modal is filed
@@ -119,7 +124,15 @@ function findControls(html, file) {
      against any element. Checking only controls reported the hand-over code
      as ADRIFT when it was sitting in hall.html the whole time. */
   const allIds = new Set();
-  const ANY_ID = /\bid\s*=\s*"([^"]*)"/gi;
+  /* (?<![-\w]) NOT \b · FOUND 28 AUG 2026.
+     \bid= matches data-id= too, because a hyphen is a word boundary — so
+     `data-id="any"` was read as an element with the id "any" and filed as an
+     UNDECLARED SURFACE. Somebody would have gone looking for #any and found
+     nothing, and the register would have been confidently wrong about a
+     control that does not exist.
+     A lookbehind that refuses a preceding hyphen or word character keeps
+     data-id, aria-id and their kind out. */
+  const ANY_ID = /(?<![-\w])id\s*=\s*"([^"]*)"/gi;
   let a;
   while ((a = ANY_ID.exec(html))) allIds.add(a[1]);
 

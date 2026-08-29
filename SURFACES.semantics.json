@@ -428,6 +428,391 @@
         "fleet-nav"
       ],
       "note": "The eighteenth pane, and the one that renders this register. IT APPEARS IN ITS OWN MAP DELIBERATELY — a map that omits itself is exactly the fault it was built to catch. Reads SURFACES.json; holds no list of its own."
+    },
+    "gw-doorway": {
+      "name": "The Gateway Doorway",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "arena"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "direct"
+      ],
+      "note": "THE FIRST THING ANYBODY TOUCHES. The gateway animation's own door — it opens the Interface and is, for most arrivals, the only control they meet before the site begins. Costs nothing and reaches nothing; its whole job is to be pressed once."
+    },
+    "hero-cta-quiz": {
+      "name": "Start a Quiz",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "arena"
+      },
+      "engine": "AmentiQuiz",
+      "costs": [
+        "mint"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "arena"
+      ],
+      "note": "The arena's primary call to action. Opens the quiz surface, which mints against the emerald ledger — so it spends on the MINT rather than on Anthropic. One of the two doors the hero offers a stranger."
+    },
+    "hero-cta-library": {
+      "name": "Browse the Library",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "arena"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "arena"
+      ],
+      "note": "The hero's second door, and the quieter one: it goes to the reading rooms rather than the economy. The pair is the whole of what the arena asks a stranger to choose between."
+    },
+    "mp-play": {
+      "name": "Play / Pause",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "media player"
+      },
+      "engine": "AmentiAudio",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "linkedFrom": [
+        "reading rooms",
+        "broadcast"
+      ],
+      "note": "The transport for ALREADY-RENDERED audio — it plays what the archive holds and renders nothing. costs is empty for that reason: the bill was paid when the clip was made. voice:true because it is an audio surface, not because it spends."
+    },
+    "mp-prev": {
+      "name": "Previous",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "media player"
+      },
+      "engine": "AmentiAudio",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "linkedFrom": [
+        "reading rooms"
+      ],
+      "note": "Steps back one track in the player's queue. Chrome around mp-play."
+    },
+    "mp-next": {
+      "name": "Next",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "media player"
+      },
+      "engine": "AmentiAudio",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "linkedFrom": [
+        "reading rooms"
+      ],
+      "note": "Steps forward one track. Chrome around mp-play."
+    },
+    "mp-close": {
+      "name": "Close the player",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "media player"
+      },
+      "engine": "AmentiAudio",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "linkedFrom": [
+        "reading rooms"
+      ],
+      "note": "Dismisses the player bar. It STOPS playback as well as hiding it — a player that keeps speaking from behind a closed panel is the forgotten tab in another costume."
+    },
+    "councilBtn": {
+      "name": "Convene the Counsel",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "terminal"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "terminal"
+      ],
+      "note": "THE DOOR BETWEEN THE TWO CONVERSATION SURFACES. It sits on the terminal and opens the counsel chamber — the one control that carries a reader from talking to ONE figure to convening THREE. Costs nothing itself; what it opens does."
+    },
+    "cnsBack": {
+      "name": "Back to the benches",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "counsel"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "counsel"
+      ],
+      "note": "Returns from a convened bench to the council tiles. Navigation only."
+    },
+    "cnsFilter": {
+      "name": "Filter the bench",
+      "kind": "input",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "counsel"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "counsel"
+      ],
+      "note": "Narrows the figure picker by name. Hidden until a bench is open. It is an INPUT that holds no conversation — the register's own reminder that kind:input does not imply a model call."
+    },
+    "cnsAuto": {
+      "name": "Auto-pick",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "counsel"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "counsel"
+      ],
+      "note": "Lets the council choose its own three, so a reader who does not know the roster is not stopped by it. The gentlest door into the chamber, and the one that most needs the `speaks` tags BUILD-THE-WAY-IN describes — without them it can only offer the obvious."
+    },
+    "cnsGo": {
+      "name": "CONVENE",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "counsel"
+      },
+      "engine": "counselSys + window.claude.complete",
+      "costs": [
+        "anthropic"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "linkedFrom": [
+        "counsel",
+        "councilBtn"
+      ],
+      "note": "THE MOST EXPENSIVE PRESS IN THE PRODUCT. One convene is FOUR model calls — three figures answering in parallel, then a synthesis — and every one is unique text, so none of it caches. It does NOT use Amenti.chat: the chamber has its own counselSys(), a second counsel prompt that the chat core knows nothing about. Not counted by the visit reading."
+    },
+    "quiz-close": {
+      "name": "Close the quiz",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "quiz"
+      },
+      "engine": "AmentiQuiz",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "quiz"
+      ],
+      "duplicated": 2,
+      "note": "⚠ DECLARED TWICE IN Page1.html — slip #3, found by hand weeks before the walk re-found it in its first minute. The second binding is unreachable, because getElementById returns the first. Fixing the page is a ten-minute job; the register keeps flagging it until somebody does."
+    },
+    "quiz-shop": {
+      "name": "Claim and shop",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "quiz"
+      },
+      "engine": "AmentiQuiz",
+      "costs": [
+        "mint"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "quiz"
+      ],
+      "note": "The reward path off a passed quiz — claims the emeralds and opens the shop. Its label is BUILT FROM THE RESULT, so the walk sees a template rather than text."
+    },
+    "quiz-listen": {
+      "name": "Listen to the reading",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "quiz"
+      },
+      "engine": "Amenti.throttle.speak",
+      "costs": [
+        "google-tts"
+      ],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": true
+      },
+      "linkedFrom": [
+        "quiz"
+      ],
+      "note": "Reads the quiz passage aloud. RECITAL register, so it hits the R2 archive — fixed text, fixed boundaries, and a passage anybody has heard before is free. The opposite economics to cnsGo, on the same page."
+    },
+    "quiz-retry": {
+      "name": "Try again / Next legend",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "quiz"
+      },
+      "engine": "AmentiQuiz",
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "quiz"
+      ],
+      "note": "One button with two meanings, chosen by whether the quiz was passed. Costs nothing; the mint decides whether a retry can pay again."
+    },
+    "dp-reader-close": {
+      "name": "Close the dispatch reader",
+      "kind": "button",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "Page1.html",
+        "section": "dispatch"
+      },
+      "engine": null,
+      "costs": [],
+      "reaches": {
+        "counted": false,
+        "memory": false,
+        "dial": false,
+        "voice": false
+      },
+      "linkedFrom": [
+        "dispatch"
+      ],
+      "note": "Dismisses the day's dispatch reader. Navigation only — the dispatch is already rendered when it opens."
     }
   },
   "_stillUnknown": [
