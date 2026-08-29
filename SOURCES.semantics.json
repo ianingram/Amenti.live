@@ -1128,6 +1128,13 @@
       "id": "page1-operators-map",
       "what": "THE OPERATOR'S MAP, 29 Aug 2026. For whoever edits Page1.html next — and deliberately NOT an enumeration: every named control, its engine and its cost live in SURFACES.json, and this holds ONLY WHAT A WALK CANNOT DERIVE. Opens with the three things that cost a session: THE BUNDLE (the page loads amenti-core.bundle.js, so pushing a loose source does nothing), THE WILDCARD RESET (a two-selector rule zeroes padding inside the terminal and outranks any single class), and DUPLICATE SELECTORS (three declared twice in one night; quiz-close is declared twice in the markup and the second binding is unreachable). Names the six real data-page sections against the eleven nav tabs — they are not the same list — and THE FOUR CONVERSATION SURFACES THAT DO NOT SHARE A PROMPT, including that cnsGo runs its own counselSys() and is four model calls that cache nothing.",
       "authority": "canonical, and CHECKED — fifteen claims verified against Page1.html, amenti-tabs.css and the bundle at the hour of writing. Its first draft claimed `browse` was a section; the check caught it, and `timeline` turned out to be the sixth and is in no register at all. Complements SURFACES.json (the parts), SPEECH.md (the voice) and MANUAL.md (the reader's side). If this and the register disagree, THE REGISTER IS RIGHT."
+    },
+    "Fleet-Documents/branch/library.html": {
+      "section": "the surfaces",
+      "group": "surfaces",
+      "id": "pane-library",
+      "what": "THE READING DESK. The nineteenth pane. Every markdown document in the fleet, RENDERED — and printable to PDF through the browser's own dialog. It exists because eleven documents sat in the flagship's root and the only way to read one was a monospaced blob on GitHub. Filing them into docs/ was the other answer and was refused: three are FETCHED AT RUNTIME by their root path, and a tidy folder that breaks the hall is not tidy.",
+      "authority": "LIVE, and A REFLECTION — it holds no list of its own. The shelf is built from SOURCES.json, so a document that acquires a sentence appears here and one nobody has described appears marked undescribed. Its markdown renderer is small and local by choice, and was found wrong by testing it against the REAL documents: bold that opened on one line and closed on the next survived as asterisks, because blockquote lines were formatted separately. A sample would never have caught it."
     }
   },
   "owner": "ianingram",
