@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-08-29T00:05:28.169Z",
+  "generated": "2026-08-29T00:19:47.802Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -194,19 +194,19 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 725
+              "line": 738
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1308
+              "line": 1333
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1308
+              "line": 1333
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2000
+              "line": 2212
             },
             {
               "file": "amenti-doctrine.js",
@@ -262,7 +262,7 @@
         },
         {
           "global": "Amenti.voice",
-          "registered": 1178,
+          "registered": 1203,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -312,7 +312,7 @@
         },
         {
           "global": "Amenti.throttle",
-          "registered": 1201,
+          "registered": 1226,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -329,15 +329,15 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1272
+              "line": 1297
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1272
+              "line": 1297
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 1273
+              "line": 1298
             }
           ],
           "firstRead": 3023,
@@ -395,7 +395,7 @@
         },
         {
           "global": "Amenti.conversation",
-          "registered": 1218,
+          "registered": 1243,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -444,7 +444,7 @@
         },
         {
           "global": "Amenti.listen",
-          "registered": 1690,
+          "registered": 1715,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -458,27 +458,27 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1267
+              "line": 1292
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2550
+              "line": 2801
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2550
+              "line": 2801
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2595
+              "line": 2846
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2595
+              "line": 2846
             },
             {
               "file": "amenti-core.bundle.js",
-              "line": 2596
+              "line": 2847
             }
           ],
           "firstRead": 7448,
@@ -506,7 +506,7 @@
         },
         {
           "global": "Amenti.chat",
-          "registered": 3482,
+          "registered": 3745,
           "registeredIn": "amenti-core.bundle.js",
           "registeredBy": "file",
           "loading": "blocking",
@@ -520,7 +520,7 @@
           "readsInLoadedFilesAt": [
             {
               "file": "amenti-core.bundle.js",
-              "line": 1741
+              "line": 1766
             }
           ],
           "firstRead": 6191,
@@ -1200,14 +1200,15 @@
             "loading": "blocking"
           }
         ],
-        "bytes": 187331,
-        "lines": 3490,
+        "bytes": 206513,
+        "lines": 3753,
         "registers": [
           "AMENTI_CONFIG",
           "AmentiResolve.report",
           "AmentiResolve",
           "Amenti",
           "Amenti.listen",
+          "claude.acceptsSystemTail",
           "Amenti.chat",
           "VERSION",
           "SAME_PERSON",
@@ -1241,8 +1242,7 @@
           "LEDGER_CSV_URL",
           "CONV_REGISTER",
           "Amenti.voice",
-          "Amenti.throttle",
-          "Amenti.conversation"
+          "Amenti.throttle"
         ]
       },
       {
