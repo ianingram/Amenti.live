@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-29T00:25:18.186Z",
+    "generated": "2026-08-29T00:41:24.010Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -516,8 +516,8 @@
     },
     {
       "file": "amenti-core.bundle.js",
-      "bytes": 206712,
-      "sha256": "6541305727ab1328",
+      "bytes": 209109,
+      "sha256": "3fc5a04cd40115c3",
       "type": "js",
       "declares": [
         "AMENTI_CONFIG",
@@ -551,25 +551,25 @@
         },
         {
           "global": "Amenti.throttle",
-          "line": 1296,
+          "line": 1351,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1332,
+          "line": 1387,
           "when": "function",
           "own": false
         },
         {
           "global": "Sovereign.Angels",
-          "line": 2458,
+          "line": 2513,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 2800,
+          "line": 2855,
           "when": "function",
           "own": true
         }
@@ -1205,8 +1205,8 @@
     },
     {
       "file": "amenti-voice.js",
-      "bytes": 34802,
-      "sha256": "5f717aa474ccda8d",
+      "bytes": 37120,
+      "sha256": "f91554e70337ea66",
       "type": "js",
       "declares": [
         "Amenti",
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48680,
-      "sha256": "cdfd03e1ad75a08a",
+      "sha256": "840249327fd89171",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
