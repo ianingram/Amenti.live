@@ -897,7 +897,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
      nothing can press a button before the page is parsed. Depends on nothing
      in the bundle — if the bundle fails, the dial simply never gets answered
      and its own backstop ends the call. -->
-<script src="amenti-dial.js?v=2" defer></script>
+<script src="amenti-dial.js?v=3" defer></script>
 <!-- amenti-memory.js — WHAT A FIGURE RECALLS OF A SIGNED-IN READER.
      CONVERSATION_DOCTRINE.md §4.6. The only file that knows where memory
      lives: it reads the mint's /memory and hands the result to the chat core
@@ -7363,8 +7363,21 @@ window.AMENTI_VOICE = {
       // beat before it. Placed HERE and nowhere else: this is the only branch
       // that is followed by a greeting, and a ring with nothing to answer it
       // is worse than no ring. Absent dial, absent behaviour; nothing breaks.
-      if (window.AmentiDial) window.AmentiDial.place();
-      this.speak(who ? "I am here." : "Voice enabled.", who, null, { register: "warm" });
+      /* THE GREETING ANSWERS THE RING. It used to be the line below this one,
+         fired at the same instant as place() — and both played, over each
+         other: the hall announcing itself while the figure was already
+         speaking. Each call waits on resolveVoice before it schedules, so the
+         engine's own stopReading never got the chance to arbitrate.
+
+         Now the dial places it, at the moment the line starts ringing. If the
+         dial is absent the greeting still happens immediately, which is the
+         old behaviour for a page that never had a dial. */
+      var self = this;
+      var greet = function () {
+        self.speak(who ? "I am here." : "Voice enabled.", who, null, { register: "warm" });
+      };
+      if (window.AmentiDial) window.AmentiDial.place({ onRinging: greet });
+      else greet();
     }
   }
 };

@@ -1086,6 +1086,13 @@
       "id": "slip-addendum-second-voice",
       "what": "TWO MOVES, 28 Aug 2026. THE SECOND VOICE — two figures on one question, a scene not a room, because one-on-one is intense and intensity is a demand; the counsel already does most of it, so it is a change of STAGING not a new system. And THE WAY IN — a page asking what a reader wants rather than who they have heard of, with categories as TAGS on figures so the roster can surprise: nobody clicks Caesar to ask about religion, and he was Pontifex Maximus for twenty years. Also records why letters from figures were parked.",
       "authority": "a slip addendum. Nothing built. The scene must be TESTED by hand before it is built — two dollars decides it. The categories are the captain’s to set."
+    },
+    "Amenti.live/main/SPEECH.md": {
+      "section": "the book itself",
+      "group": "voice",
+      "id": "speech-manual",
+      "what": "THE SPEECH AND AUDIO MANUAL, 28 Aug 2026. Everything about voice out, voice in, the dial, the cost and the cache in one place — because seven briefs describe this system and each is correct only about the day it was written. Holds the cache-key formula and why the archive must not be touched, the two registers and why the counsel NEVER caches, the roster columns a voice is assembled from, the four failure modes and what each SOUNDS like, the dial’s measured gap, the ear’s dials, and what a spoken turn costs.",
+      "authority": "canonical, and READ — every constant in it was taken from amenti-core.bundle.js and amenti-dial.js as deployed on 28 Aug 2026, not remembered. Where it and the code disagree, THE CODE IS RIGHT and this file has rotted; regenerate it by reading, the way it was written."
     }
   },
   "owner": "ianingram",

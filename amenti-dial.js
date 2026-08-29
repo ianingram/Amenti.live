@@ -141,11 +141,34 @@
       note(ac, RING_B, t, RING_ON, 0.09);
     }
 
+    /* ── THE ANSWER IS PLACED HERE, NOT BY THE CALLER ────────────────────
+       Page1 used to do this, on two consecutive lines with nothing between:
+
+           AmentiDial.place();
+           this.speak("I am here.");
+
+       Both fired at once. The engine's stopReading() does not save it either,
+       because each call waits on resolveVoice() before it schedules — so both
+       resolve, both schedule onto the AudioContext, and BOTH PLAY. The hall
+       announced itself while the figure was already answering, over the top of
+       it.
+
+       THE GREETING IS THE ANSWER TO THE RING, NOT A SECOND ANNOUNCEMENT. So
+       the dial fires it, at the one moment that is correct: the line is open,
+       the phone is ringing, and there is something for the ring to end on.
+
+       It is optional. A caller that passes no onRinging gets exactly the old
+       behaviour minus the collision — an unanswered ring that times out and
+       says so. */
     function startRinging() {
       if (!live) return;
       state = 'ringing';
       ringing = true;
       ringOnce();
+      if (typeof opts.onRinging === 'function') {
+        try { opts.onRinging(); }
+        catch (e) { console.warn('amenti-dial: the answer could not be placed —', e); }
+      }
       var loop = setInterval(function () {
         if (!live) { clearInterval(loop); return; }
         ringOnce();
