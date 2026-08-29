@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-29T04:25:03.861Z",
+    "generated": "2026-08-29T04:30:35.724Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -19,8 +19,8 @@
     },
     {
       "file": "Page1.html",
-      "bytes": 543200,
-      "sha256": "3e7e5a7b40f2a4c9",
+      "bytes": 543529,
+      "sha256": "b844609bb827fd57",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -62,83 +62,83 @@
         },
         {
           "file": "amenti-svg-library.js",
-          "line": 5668
+          "line": 5674
         },
         {
           "file": "amenti-doctrine.js",
-          "line": 6001
+          "line": 6007
         },
         {
           "file": "library.js",
-          "line": 7261
+          "line": 7267
         },
         {
           "file": "amenti-canonical.js",
-          "line": 7272
+          "line": 7278
         },
         {
           "file": "amenti-auth.js",
-          "line": 8267
+          "line": 8273
         },
         {
           "file": "amenti-quiz.js",
-          "line": 8274
-        },
-        {
-          "file": "amenti-roster.js",
-          "line": 8275
-        },
-        {
-          "file": "amenti-roster-view.js",
-          "line": 8276
-        },
-        {
-          "file": "amenti-bay.js",
-          "line": 8277
-        },
-        {
-          "file": "amenti-motion.js",
-          "line": 8278
-        },
-        {
-          "file": "amenti-art-2.js",
-          "line": 8279
-        },
-        {
-          "file": "amenti-leaderboard.js",
           "line": 8280
         },
         {
-          "file": "amenti-readaloud.js",
+          "file": "amenti-roster.js",
           "line": 8281
         },
         {
-          "file": "amenti-vallhalla-signup.js",
+          "file": "amenti-roster-view.js",
+          "line": 8282
+        },
+        {
+          "file": "amenti-bay.js",
+          "line": 8283
+        },
+        {
+          "file": "amenti-motion.js",
           "line": 8284
         },
         {
-          "file": "amenti-flourish.js",
+          "file": "amenti-art-2.js",
           "line": 8285
         },
         {
-          "file": "amenti-mascot.js",
+          "file": "amenti-leaderboard.js",
           "line": 8286
         },
         {
-          "file": "amenti-profile.js",
+          "file": "amenti-readaloud.js",
           "line": 8287
         },
         {
+          "file": "amenti-vallhalla-signup.js",
+          "line": 8290
+        },
+        {
+          "file": "amenti-flourish.js",
+          "line": 8291
+        },
+        {
+          "file": "amenti-mascot.js",
+          "line": 8292
+        },
+        {
+          "file": "amenti-profile.js",
+          "line": 8293
+        },
+        {
           "file": "amenti-art-photo.js",
-          "line": 8295
+          "line": 8301
         },
         {
           "file": "amenti-art-3.js",
-          "line": 8309
+          "line": 8315
         },
         {
           "file": "amenti-dispatch-art.js",
-          "line": 8743
+          "line": 8749
         }
       ],
       "calls": [
@@ -168,55 +168,55 @@
         },
         {
           "global": "AmentiTerminal",
-          "line": 4539,
+          "line": 4545,
           "when": "function",
           "own": true
         },
         {
           "global": "AMENTI_CHARS",
-          "line": 5766,
+          "line": 5772,
           "when": "iife",
           "own": true
         },
         {
           "global": "AMENTI_ERAS",
-          "line": 5869,
+          "line": 5875,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.chat",
-          "line": 6193,
+          "line": 6199,
           "when": "iife",
           "own": false
         },
         {
           "global": "Amenti.micLamp",
-          "line": 6330,
+          "line": 6336,
           "when": "function",
           "own": true
         },
         {
           "global": "AMENTI_VOICE",
-          "line": 6517,
+          "line": 6523,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.listen",
-          "line": 7469,
+          "line": 7475,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.silence",
-          "line": 7828,
+          "line": 7834,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.voice",
-          "line": 7853,
+          "line": 7859,
           "when": "function",
           "own": false
         }
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48644,
-      "sha256": "a7d6d923c491ba09",
+      "sha256": "40a87b3ec739d6b3",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
