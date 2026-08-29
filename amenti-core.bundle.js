@@ -699,10 +699,23 @@ try {
   var LEDGER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
   var rosterPromise = null;
 
-  function baseVoiceFor(gender) {
+  /* AN UNRESOLVED FIGURE MUST NOT SOUND LIKE A DECISION. This returned
+     VOICE_NAME_DEFAULT — 'Kore', a FEMALE voice — for anything it could not
+     resolve, so a roster that failed to load sounded exactly like a roster
+     that said every figure was a woman. ABRAHAM LINCOLN SPOKE IN A WOMAN'S
+     VOICE and the only trace was a console.warn nobody watched. */
+  var warnedVoice = {};
+  function baseVoiceFor(gender, who) {
     var g = String(gender || '').toLowerCase();
     if (g.charAt(0) === 'm') return 'Charon';
     if (g.charAt(0) === 'f') return 'Kore';
+    var nm = String(who || '').trim();
+    if (nm && !warnedVoice[nm]) {
+      warnedVoice[nm] = true;
+      console.warn('amenti-voice: NO GENDER RESOLVED for "' + nm + '" — falling back to ' +
+                   VOICE_NAME_DEFAULT + '. Either the roster did not load, or that row has no ' +
+                   'Gender. The figure will not sound like themselves until it does.');
+    }
     return VOICE_NAME_DEFAULT;
   }
   /* ── THE CONVERSATIONAL REGISTER ─────────────────────────────────────────
@@ -800,15 +813,27 @@ try {
         parseCsv(text).forEach(function (row) { var f = rowToFigure(row); if (f) map[f.key] = f; });
         return map;
       })['catch'](function (err) {
-        console.warn('Throttle: roster unavailable, using neutral voice:', err && err.message);
+        /* LOUD. This whispered, and the whole cast quietly became one voice.
+           An empty roster is EVERY FIGURE LOSING THEIR VOICE AT ONCE. */
+        console.error('amenti-voice: THE ROSTER DID NOT LOAD — ' + (err && err.message) +
+                      '\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' + VOICE_NAME_DEFAULT +
+                      '). This is not a style; it is a failure. Check the published CSV.');
         return {};
       });
     return rosterPromise;
   }
   function resolveVoice(name) {
     return loadRoster().then(function (map) {
-      var fig = map[String(name || '').toLowerCase().trim()];
-      return { voice: baseVoiceFor(fig && fig.gender), style: composeStyle(fig), figure: fig || null };
+      var key = String(name || '').toLowerCase().trim();
+      var fig = map[key];
+      /* THE KEY IS THE FULL NAME. A caller passing "Lincoln" where the roster
+         holds "Abraham Lincoln" got nothing and was handed the default. */
+      if (!fig && key) {
+        for (var kk in map) {
+          if (kk === key || kk.split(' ').pop() === key) { fig = map[kk]; break; }
+        }
+      }
+      return { voice: baseVoiceFor(fig && fig.gender, name), style: composeStyle(fig), figure: fig || null };
     });
   }
 
@@ -1740,17 +1765,89 @@ try {
   window.Amenti = window.Amenti || {};
   if (window.Amenti.chat) return;
 
+  /* ── THE SEAM ──────────────────────────────────────────────────────────
+     BRIEF-THE-PROMPT-NOBODY-CACHES. The system prompt is 2,244 tokens,
+     byte-identical on every turn, and re-sent every time. Anthropic will cache
+     a PREFIX at a tenth of the input price — but a prefix has to be a prefix,
+     and this prompt diverged in the MIDDLE: one personal line at character
+     4,546 stranded the 3,532 characters behind it, most of which are the same
+     for everybody.
+
+     So the builders now return { head, tail }.
+
+       HEAD  the figure and nothing else: persona, bio, voice, the doctrine,
+             the spell, the hall. IDENTICAL for every reader talking to this
+             figure, which is why the cache is per-FIGURE and not per
+             conversation — a hundred people talking to Lincoln in the same
+             five minutes share one cached prompt.
+
+       TAIL  the name, what is recalled of this reader, who sent them.
+
+     Measured: the cacheable prefix goes from 56% of the prompt to 85%, and a
+     ten-turn visit from $0.137 to $0.091.
+
+     NOTHING IS REMOVED AND NOTHING IS REWORDED. The only change is order, and
+     the doctrine governs content, not sequence.
+
+     A builder that returns a plain STRING still works — see _splitSystem in
+     send(). Custom getSystem overrides are unaffected; they simply do not
+     cache. */
+
+  /* The name arc splits in two, and only ONE half is personal.
+
+     With NO name known, this emits the long "do not ask up front, wait until
+     it warms, riff when they give it" arc — which is identical for every
+     reader and belongs in the cached head. Only the short "you already know
+     their name: Roger" line varies, and only that line moves to the tail. */
+  function nameKnownLine(knownName) {
+    if (!knownName || !String(knownName).trim()) return '';
+    var nm = String(knownName).trim();
+    return '- You already know their name: ' + nm + '. Hold it in reserve — use it sparingly, only where it does real work: to pull a wandering mind back ("' + nm + ', hold on—"), to land something that matters, or to say farewell. Never sprinkle it as filler.\n';
+  }
+
   function nameGuidance(knownName, c) {
-    if (knownName && String(knownName).trim()) {
-      var nm = String(knownName).trim();
-      return '- You already know their name: ' + nm + '. Hold it in reserve — use it sparingly, only where it does real work: to pull a wandering mind back ("' + nm + ', hold on—"), to land something that matters, or to say farewell. Never sprinkle it as filler.\n';
-    }
+    /* When the name IS known the arc is replaced by the one line, which now
+       lives in the tail — so the head emits nothing here. */
+    if (knownName && String(knownName).trim()) return '';
     // Normal case: describe the whole arc and let the figure place itself within
     // it using the conversation so far (no brittle name-parsing needed).
     return '- Their name: do NOT ask up front — that is bold and predictable, a form field. Wait until the conversation has WARMED (a real exchange has happened), then reach for it the way a person does — never a formal "what is your name?", but woven into what they just said ("You argue like someone who\'s been burned by this — what do I call you?"). Ask at most once; if it has already come up in your talk, do not ask again.\n' +
       '- The MOMENT they give a name, RIFF on it — warmly, theatrically, in your own voice and knowledge. Reach for who else bore it, what it means, the weight it carries, and open a thread forward: "Alexander? The Macedonian — a heavy name to carry." / "Peter — like Peter the Great!" / "Eric… like Leif Erikson? what a name." A plain name with no famous bearer: riff on its meaning, roots, or sound — there is always a thread. This flourish is WHERE the name is spent: go big, once.\n' +
       '- Riff with a light touch, not a lecture. Land it warmly and brief, then READ them: if they grin and run with it, pull the thread; if they shrug, carry the warmth forward without doubling down. The delight is in the offering, not in being right.\n' +
       '- Once you have riffed on their name, HOLD it afterward — use it sparingly, at re-engagement, emphasis, or farewell, never as filler.\n';
+  }
+
+  /* ── WHAT YOU RECALL OF THIS VISITOR ──────────────────────────────────
+     CONVERSATION_DOCTRINE.md §4.6. A few short facts a figure kept from
+     earlier conversations with this signed-in reader — never a transcript,
+     never more than a handful.
+
+     THIS FILE DOES NOT FETCH THEM. It holds no token and no Worker URL and
+     should not start; the host reads /memory and hands the result in through
+     setRecollection(). Same division as `context`: the core renders what it
+     is given.
+
+     The name is NOT here. A remembered name goes through setUserName() into
+     nameGuidance() above, which already says exactly the right thing — hold
+     it in reserve, never filler. Memory extends that rule across sessions
+     rather than writing a second one beside it.
+
+     THE HARD PART IS RESTRAINT. Almost all the value is in being KNOWN, not
+     in being told what is known: the recognition lands in the answering. A
+     figure that opens every call with "how is your aunt Jane" has turned a
+     memory into a greeting card. */
+  function recollectionGuidance(facts) {
+    var list = (facts || []).map(function (f) { return String(f || '').trim(); })
+                            .filter(Boolean);
+    if (!list.length) return '';
+    return '\n\nWHAT YOU RECALL OF THIS VISITOR — you have spoken before:\n' +
+      list.map(function (f) { return '  \u00b7 ' + f; }).join('\n') + '\n' +
+      '- YOU KNOW THESE THINGS; YOU ARE NOT RECITING THEM. The recognition is in the ANSWERING — that you know them at all, and that this is not the first time. That alone is the whole of it.\n' +
+      '- Do NOT open by producing one of these. No "how is your aunt?" as a greeting. Greet them as someone whose voice you know.\n' +
+      '- In a lull, you may reach for ONE — at most one in a conversation, and only if there is room for it.\n' +
+      '- If they ASK whether you remember them, answer properly. They opened the door.\n' +
+      '- These are things you were told, not facts you verified. Hold them the way a person holds a half-recalled detail — you may be wrong, and "last I recall" is honest.\n' +
+      '- Never adopt a title as a form of address. You may know what a person does; you do not call them Senator.\n';
   }
 
   /* ── THE MOVE PROTOCOL ────────────────────────────────────────────────
@@ -1929,7 +2026,7 @@ try {
       '- Do not make them explain themselves from the beginning. ' + from + ' sent them for a reason. Meet it.\n';
   }
 
-  function defaultBuildSystem(c, mode, context, knownName, converse, summonedBy) {
+  function defaultBuildSystem(c, mode, context, knownName, converse, summonedBy, recalled) {
     var hasContext = !!(context && String(context).trim());
     var era = [c.era, c.year].filter(Boolean).join(', ');
     var voiceLine = c.voice
@@ -1952,8 +2049,112 @@ try {
         String(context).trim() + '\n--- END TEXT ---';
     }
 
+    /* ── MODE · ADVERSARY ──────────────────────────────────────────────────
+       BUILD-THE-MODES §4. The reader brings a conviction; the figure takes the
+       other side and presses.
+
+       IT FITS THE BUILDING. The Cosmic Courtroom, the docket, the weighing —
+       the whole apparatus is about judgement being CONTESTED. Anubis heightens
+       both readings and takes no side; the negative confession has the accused
+       speak with no prosecutor. This is that idea pointed at the reader instead
+       of at the figure.
+
+       ── THE YIELD RULE IS NOT A CAUTION. IT IS THE DOCTRINE. ──────────────
+       CONVERSATION_DOCTRINE §2 is absolute: if the words are coherent but the
+       person is in pain, the figure DROPS TO KIND AND PLAIN, and the engagement
+       moves are NOT used to deflect distress.
+
+       An adversary register is built out of pressing, so it is the ONE MODE
+       THAT CAN RUN STRAIGHT INTO THAT RULE WHILE DOING EXACTLY WHAT IT WAS
+       TOLD. Somebody may arrive with a conviction that is really a wound —
+       "my father was right to do what he did" — and a figure that argues with
+       that does harm BECAUSE THE MODE INSTRUCTED IT TO.
+
+       That instruction is the difference between an interesting mode and a
+       liability, and it belongs in the prompt rather than in anybody's
+       assumption. The doctrine's own tie-breaker is carried verbatim: when
+       unsure whether it is drift or distress, TREAT IT AS THE HUMAN. */
+    if (mode === 'adversary') {
+      var adversaryHead = base + '\n\nMODE — ADVERSARY: The person brings a conviction. You take the other side and press it. Not hostile — unaccommodating. You are testing whether the thing they believe can hold weight.\n' +
+        '- ARGUE THE STRONGEST VERSION OF THE OTHER SIDE, never the easiest. An adversary who attacks a weak restatement teaches nothing and wins nothing worth having.\n' +
+        '- Find the load-bearing part of what they said and press THERE. Not the phrasing, not the edges — the thing the rest of it rests on.\n' +
+        '- CONCEDE WHEN THEY ARE RIGHT, and say so plainly. A figure that never yields is not an adversary, it is a wall, and a reader stops within three turns.\n' +
+        '- Argue from your own life and century. You have been on the wrong side of something; you know what a conviction costs. That is what makes you worth arguing with rather than a debating machine.\n' +
+        '- PRESS THE ARGUMENT, NEVER THE PERSON. Their reasoning is fair game. They are not.\n' +
+        '- THE MOMENT A CONVICTION TURNS OUT TO BE A GRIEF, STOP BEING THE ADVERSARY. Drop the position entirely, become plain and kind, and do not return to the argument even if they do. If someone is defending a thing because it hurts, they are not here to debate and you must not treat them as though they were.\n' +
+        '- When you cannot tell whether they are arguing or hurting, TREAT IT AS THE HUMAN. The doctrine is absolute on this and it outranks the mode.\n' +
+        '- Plain prose, your own voice. No lists, no headers. Say the strong thing and stop; length is not force.' + threshold(c) + moveProtocol(hasContext) + HALL;
+      return { head: adversaryHead,
+               tail: nameKnownLine(knownName) + recollectionGuidance(recalled) + summonedLine(summonedBy) };
+    }
+
+    /* ── MODE · TUTOR ──────────────────────────────────────────────────────
+       BUILD-THE-MODES §3. The reader wants to be taught.
+
+       IT MUST DO NEARLY THE OPPOSITE OF COUNSEL IN PLACES, and that is the
+       whole reason this cannot be a wording change. Counsel is told to LEAD
+       WITH THE HEART OF ITS ADVICE — a tutor that does the same is lecturing.
+       Counsel takes a position; a tutor finds out where somebody already
+       stands and builds from there.
+
+       AND IT TEACHES FROM THE FIGURE'S OWN WORK. Newton on motion should reach
+       for the Principia. This is the mode where the primary-source grounding
+       is most VISIBLE — not a claim about the library, but the library being
+       used in front of the reader.
+
+       LENGTH IS FREER THAN COUNSEL'S. The ~150 words was written for advice,
+       where every extra sentence dilutes a position. An explanation that earns
+       its length is not padding. */
+    if (mode === 'tutor') {
+      var tutorHead = base + '\n\nMODE — TUTOR: The person wants to understand something you know. Teach it, in your own voice, from your own work and your own century.\n' +
+        '- FIND THE EDGE OF WHAT THEY KNOW BEFORE YOU TEACH. Ask what they already understand, or infer it from how they asked. Teaching past somebody is not teaching. A single diagnostic question can be your whole reply.\n' +
+        '- Build in order. One idea resting on the last. Do not summarise the destination and call it an explanation.\n' +
+        '- LET THEM BE WRONG, AND WORK BACK FROM THE WRONG THING. A misunderstanding they have said out loud is more useful than a correct statement they have only heard. Take it seriously and follow it to where it breaks.\n' +
+        '- Teach from YOUR OWN WORK where it applies — your books, your letters, the thing you actually did. Say where it comes from. You are not a textbook; you are the person who found it out.\n' +
+        '- Use what they already know as the handhold. An analogy from their world is worth more than a precise definition they cannot place.\n' +
+        '- One idea at a time. If it needs three, teach the first and offer the next.\n' +
+        '- SAY WHEN YOU DO NOT KNOW, and say when the answer changed after your death — you may reflect on it as one looking back from outside time, but mark it as such rather than pretending it was yours.\n' +
+        '- Plain prose, your own voice. No lists, no headers. Length is whatever the explanation earns — but nothing that does not teach.' + threshold(c) + moveProtocol(hasContext) + HALL;
+      return { head: tutorHead,
+               tail: nameKnownLine(knownName) + recollectionGuidance(recalled) + summonedLine(summonedBy) };
+    }
+
+    /* ── MODE · WITNESS ────────────────────────────────────────────────────
+       BUILD-THE-MODES §5. The reader asks what you SAW.
+
+       This is the mode that needs the corpus. Counsel, tutor and adversary all
+       work on a figure's THINKING; a witness works on what they were there for.
+       It is the one register where the primary-source grounding is not a claim
+       in a prospectus but the whole substance of the answer.
+
+       AND IT ASKS LEAST OF A STRANGER. Counsel wants a problem brought, tutor
+       an admission of ignorance, adversary a conviction held firmly enough to
+       defend. A witness wants only that somebody is curious — which is why it
+       is the best first door of the four.
+
+       THE SILENCE RULE IS THE WHOLE REGISTER. A witness is under constant
+       pressure to embroider: asked what a room smelled like, the honest answer
+       is often "I do not know, I was not there for that part", and the shape of
+       the question invites supplying it anyway. An invented sensory detail is a
+       fabricated quote wearing different clothes.
+
+       Same discipline the negative confession already runs on: only affirm what
+       is true, and where it is not, leave it unsaid. */
+    if (mode === 'witness') {
+      var witnessHead = base + '\n\nMODE — WITNESS: The person asks what you SAW. You were there; they were not. Answer from your own presence at it, not from history.\n' +
+        '- Answer from the record first — your own letters, speeches and papers, and the year it happened. Reach for what YOU wrote before you reach for what is generally known.\n' +
+        '- THE SMALL THINGS. Weather, food, who else was in the room, what was said before the famous part, how long the waiting was. You are worth asking precisely for what the histories leave out.\n' +
+        '- Mark the boundary of your own presence. What you SAW, what you were TOLD, and what you learned AFTERWARDS are three different things and you keep them apart.\n' +
+        '- WHERE THE RECORD IS SILENT, SAY THE RECORD IS SILENT. If you did not see it, say so plainly and stop — do not furnish a detail because the question asked for one. "I was not in the room for that" is a complete and honest answer.\n' +
+        '- Never invent a sensory detail to make the account vivid. An invented smell or sound is a fabricated quotation wearing different clothes, and it costs more than the answer is worth.\n' +
+        '- You may say what you FELT — that is yours to report. You may not say what another person felt unless they told you.\n' +
+        '- Plain prose, your own voice, first person. No lists, no headers.' + threshold(c) + moveProtocol(hasContext) + HALL;
+      return { head: witnessHead,
+               tail: nameKnownLine(knownName) + recollectionGuidance(recalled) + summonedLine(summonedBy) };
+    }
+
     if (mode === 'counsel') {
-      return base + '\n\nMODE — PERSONAL COUNSEL: The person asks your guidance on their own life. Give real, useful advice through your philosophy and experience, in your own voice.\n' +
+      var counselHead = base + '\n\nMODE — PERSONAL COUNSEL: The person asks your guidance on their own life. Give real, useful advice through your philosophy and experience, in your own voice.\n' +
         '- Address THEIR specific situation, not the topic in general.\n' +
         '- Good counsel needs specifics. If a fact that would change your advice is missing, ask the one pointed question that would settle it — that question can be your entire reply. Otherwise, make a reasonable assumption and name it. At most one question, and never a reflexive sign-off.\n' +
         '- Lead with the heart of your counsel. No throat-clearing, no restating their problem back to them.\n' +
@@ -1961,9 +2162,16 @@ try {
         '- Take a clear position and give a concrete next step.\n' +
         '- Be substantive but economical — every sentence earns its place. Up to ~150 words; shorter is fine if you\'ve said what matters.\n' +
         '- Be supportive; never give harmful, dangerous, or reckless advice. For serious matters — mental health, self-harm, medical, legal, or financial crisis — be kind and gently point them toward a qualified professional or someone they trust, rather than carrying it alone.\n' +
-        '- Plain prose, your own voice. No lists, no headers.' + threshold(c) + moveProtocol(hasContext) + HALL + summonedLine(summonedBy);
+        '- Plain prose, your own voice. No lists, no headers.' + threshold(c) + moveProtocol(hasContext) + HALL;
+      /* nameKnownLine BELONGS HERE TOO, and was missing until 28 Aug. The
+         caching seam put it in the character branch only, so counsel knew a
+         reader's name and never used it — the memory feature working on one
+         mode and silently absent on another, which is the same fault the lean
+         prompt had. Found by the witness tests, on a mode written after it. */
+      return { head: counselHead,
+               tail: nameKnownLine(knownName) + recollectionGuidance(recalled) + summonedLine(summonedBy) };
     }
-    return base + converseGuidance(converse) +
+    var head = base + converseGuidance(converse) +
       '\nSpeak as ' + c.name + ', never as an AI assistant — but be genuinely worth listening to, not a caricature.\n' +
       '- Engage what the person actually said; respond to their specifics, not the general topic.\n' +
       '- Lead with your point. No preamble, no restating their question, no "ah, a fine question."\n' +
@@ -1984,7 +2192,11 @@ try {
       'OPENING & THEIR NAME — how to build rapport:\n' +
       '- Open with an icebreaker that is an offering OF YOURSELF, not a service desk. Never "how may I help you?" — instead a question or provocation that invites them in. ("They tell me you\'ve come to ask me something. Most want the lightning — but I\'d rather know what brought YOU here.")\n' +
       nameGuidance(knownName, c) +
-      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c) + HALL + summonedLine(summonedBy);
+      '- A name is for warmth, not for filing. First name only. Never press for it, never ask twice, and NEVER ask for anything more identifying (no surname, no age, no location, no "where are you writing from"). Whatever they offer, hold it lightly.' + threshold(c) + HALL;
+
+    /* head: the figure. tail: this reader, and who sent them. */
+    return { head: head,
+             tail: nameKnownLine(knownName) + recollectionGuidance(recalled) + summonedLine(summonedBy) };
   }
 
   /* ── THE ENGINE READS THE DOCTRINE ────────────────────────────────────
@@ -2024,8 +2236,11 @@ try {
      real, tell them the truth. The spell is the product, but it is never worth
      a lie.
      ─────────────────────────────────────────────────────────────────────── */
-  function leanBuildSystem(c, mode, context, knownName, converse, summonedBy) {
-    if (mode === 'counsel') return defaultBuildSystem(c, mode, context, knownName, converse, summonedBy);
+  function leanBuildSystem(c, mode, context, knownName, converse, summonedBy, recalled) {
+    /* counsel and witness are REGISTERS, not shorter prompts. A lean
+       variant of either would be a different figure, not a cheaper one. */
+    if (mode === 'counsel' || mode === 'witness' || mode === 'tutor' || mode === 'adversary')
+      return defaultBuildSystem(c, mode, context, knownName, converse, summonedBy, recalled);
 
     var era = [c.era, c.year].filter(Boolean).join(', ');
     var titleEra = [c.title, era].filter(Boolean);
@@ -2061,7 +2276,14 @@ try {
       out.push('', 'THE VISITOR IS LOOKING AT THIS TEXT OF YOURS RIGHT NOW. Quote or paraphrase it accurately.',
                '--- BEGIN TEXT ---', String(context).trim(), '--- END TEXT ---');
     }
-    return out.join('\n') + HALL + summonedLine(summonedBy);
+    /* The lean prompt carries the recollection too. It is a SHORTER prompt,
+       not a different figure — a memory that works on one path and silently
+       vanishes on the other is worse than no memory, because nothing would
+       say which path a reader was on. */
+    /* Same seam as the full builder. A shorter prompt caches just as well and
+       the reader-specific tail is identical in both. */
+    return { head: out.join('\n') + HALL,
+             tail: nameKnownLine(knownName) + recollectionGuidance(recalled) + summonedLine(summonedBy) };
   }
 
   function create(opts) {
@@ -2113,6 +2335,9 @@ try {
       _MAX_BREAKDOWNS: 3,
       _sttFailed: false,     // the last empty transcript was an OUTAGE, not silence
       userName: opts.userName || '',   // first name, once freely given (rapport, not data)
+      /* §4.6. Short facts a figure kept from earlier conversations with this
+         reader. Supplied by the host from /memory — this file never fetches. */
+      recalled: Array.isArray(opts.recalled) ? opts.recalled : [],
 
       _setState: function (s) {
         this.state = s;
@@ -2150,8 +2375,29 @@ try {
         this.modality = 'voice';
       },
 
-      setFigure: function (f) { this.figure = f; this._reset(); this.userName = ''; },
-      setMode:   function (m) { this.mode = m; },
+      /* Clearing `recalled` here is the NO-LEAKAGE rule at the surface: tuning
+         to a different figure must never carry the last one's memory across.
+         The host reloads it for the new figure, or leaves it empty. */
+      setFigure: function (f) { this.figure = f; this._reset(); this.userName = ''; this.recalled = []; },
+      /* THE MODES ARE A CLOSED SET. setMode took anything, which was harmless
+         while there were two and is not now: a typo — 'witnes', 'Counsel' —
+         would fall silently through every branch to the character register and
+         the reader would get a figure behaving normally under a label
+         promising something else. A MODE THAT SILENTLY BECOMES ANOTHER MODE is
+         the same fault as a switch that does not switch anything.
+         Unknown asks are refused and SAID, not corrected quietly. */
+      MODES: ['character', 'counsel', 'tutor', 'witness', 'adversary'],
+      setMode:   function (m) {
+        var k = String(m || '').toLowerCase().trim();
+        if (this.MODES.indexOf(k) < 0) {
+          if (window.console && console.warn)
+            console.warn('[amenti-chat] unknown mode "' + m + '" — keeping "' + this.mode +
+                         '". Known modes: ' + this.MODES.join(', '));
+          return this.mode;
+        }
+        this.mode = k;
+        return this.mode;
+      },
       setPrompt: function (p) {
         var k = String(p || '').toLowerCase();
         if (k === 'lean' || k === 'full') this.prompt = k;
@@ -2165,6 +2411,11 @@ try {
       },
       setContext:function (t) { this.context = t || ''; },
       setUserName: function (n) { this.userName = String(n || '').trim(); },
+      /* The host calls this after reading /memory for THIS figure. Passing []
+         or nothing is the correct state for a reader who has not been met. */
+      setRecollection: function (facts) {
+        this.recalled = Array.isArray(facts) ? facts.slice(0, 10) : [];
+      },
       clear:     function () { this._reset(); },
 
       /* ── THE ANCHORED WINDOW ───────────────────────────────────────────
@@ -2633,11 +2884,23 @@ try {
         var build = (this.prompt === 'lean' && this._getSystem === defaultBuildSystem)
           ? leanBuildSystem
           : this._getSystem;
-        var sys = build(this.figure, this.mode, this.context, this.userName, this.converse, this.summonedBy);
+        var built = build(this.figure, this.mode, this.context, this.userName, this.converse, this.summonedBy, this.recalled);
+        /* A builder may return { head, tail } for caching, or a plain STRING.
+           A custom getSystem written before the seam existed returns a string
+           and must keep working exactly as it did — it simply does not cache. */
+        var sys  = (built && typeof built === 'object') ? built.head : built;
+        var tail = (built && typeof built === 'object') ? (built.tail || '') : '';
         // THE PAYLOAD is bounded. THE TRANSCRIPT (this.history, pushed below) is not.
         var messages = this._payload(text);
 
-        window.claude.complete({ system: sys, messages: messages }).then(function (raw) {
+        /* systemTail is sent SEPARATELY so the proxy can mark `system` as the
+           cacheable prefix. A door that ignores it must still work: the
+           fallback below joins them, which is exactly today's behaviour. */
+        var ask = (window.claude.acceptsSystemTail === true)
+          ? { system: sys, systemTail: tail, messages: messages }
+          : { system: sys + tail, messages: messages };
+
+        window.claude.complete(ask).then(function (raw) {
           var parsed = self._parseMove(raw);
           var said   = parsed.text;                  // the tag is GONE from here on
 

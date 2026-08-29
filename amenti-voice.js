@@ -163,10 +163,33 @@
   var LEDGER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
   var rosterPromise = null;
 
-  function baseVoiceFor(gender) {
+  /* ── AN UNRESOLVED FIGURE MUST NOT SOUND LIKE A DECISION ─────────────────
+     This returned VOICE_NAME_DEFAULT — 'Kore', a FEMALE voice — for anything
+     it could not resolve. So a roster that failed to load sounded exactly like
+     a roster that had loaded and said every figure was a woman.
+
+     ABRAHAM LINCOLN SPOKE IN A WOMAN'S VOICE and nothing anywhere said why:
+     the only trace was a console.warn nobody was watching, and the product
+     carried on sounding deliberate.
+
+     A FALLBACK THAT LOOKS LIKE A CHOICE IS THE SILENT SIGNATURE. It is the
+     same shape as `sealed: 1`, as the cron set to Sunday, as a green tick with
+     no probe behind it.
+
+     It still has to say SOMETHING — going mute would be worse — but it now
+     says so out loud, once per figure, naming who could not be resolved. */
+  var warnedVoice = {};
+  function baseVoiceFor(gender, who) {
     var g = String(gender || '').toLowerCase();
     if (g.charAt(0) === 'm') return 'Charon';
     if (g.charAt(0) === 'f') return 'Kore';
+    var name = String(who || '').trim();
+    if (name && !warnedVoice[name]) {
+      warnedVoice[name] = true;
+      console.warn('amenti-voice: NO GENDER RESOLVED for "' + name + '" — falling back to ' +
+                   VOICE_NAME_DEFAULT + '. Either the roster did not load, or that row has no ' +
+                   'Gender. The figure will not sound like themselves until it does.');
+    }
     return VOICE_NAME_DEFAULT;
   }
   /* ── THE CONVERSATIONAL REGISTER ─────────────────────────────────────────
@@ -264,15 +287,29 @@
         parseCsv(text).forEach(function (row) { var f = rowToFigure(row); if (f) map[f.key] = f; });
         return map;
       })['catch'](function (err) {
-        console.warn('Throttle: roster unavailable, using neutral voice:', err && err.message);
+        /* LOUD. This used to whisper, and the whole cast quietly became one
+           voice. An empty roster is not a degraded reading — it is EVERY
+           FIGURE LOSING THEIR VOICE AT ONCE, and it should read that way. */
+        console.error('amenti-voice: THE ROSTER DID NOT LOAD — ' + (err && err.message) +
+                      '\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' + VOICE_NAME_DEFAULT +
+                      '). This is not a style; it is a failure. Check the published CSV.');
         return {};
       });
     return rosterPromise;
   }
   function resolveVoice(name) {
     return loadRoster().then(function (map) {
-      var fig = map[String(name || '').toLowerCase().trim()];
-      return { voice: baseVoiceFor(fig && fig.gender), style: composeStyle(fig), figure: fig || null };
+      var key = String(name || '').toLowerCase().trim();
+      var fig = map[key];
+      /* THE KEY IS THE FULL NAME. A caller passing "Lincoln" where the roster
+         holds "Abraham Lincoln" gets nothing back and is handed the default —
+         so a near miss is tried before giving up, and it is SAID either way. */
+      if (!fig && key) {
+        for (var k in map) {
+          if (k === key || k.split(' ').pop() === key) { fig = map[k]; break; }
+        }
+      }
+      return { voice: baseVoiceFor(fig && fig.gender, name), style: composeStyle(fig), figure: fig || null };
     });
   }
 
