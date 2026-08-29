@@ -8,15 +8,15 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-08-29T05:53:52.515Z",
-    "reading": "2026-08-29T05:53:52.387Z",
+    "merged": "2026-08-29T07:13:50.732Z",
+    "reading": "2026-08-29T07:13:50.610Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
   },
   "health": {
     "contradicted": 0,
-    "unproven": 4,
+    "unproven": 5,
     "undeclared": 35,
     "adrift": 1,
     "clean": true
@@ -276,6 +276,13 @@ window.FLEET_MANIFEST = {
     },
     {
       "stamp": "UNPROVEN",
+      "subject": "TREASURY WATCH",
+      "claim": "guards: The Mint Worker and the emerald ledger",
+      "reading": "THE PATROL COULD NOT PROVE IT: /quiz/submit refused a forged session (401) · /quiz/start unreachable (fetch failed)",
+      "note": "The instrument ran but returned WARN — it could not reach, or is a stub. Amber, honestly."
+    },
+    {
+      "stamp": "UNPROVEN",
       "subject": "HULL WATCH",
       "claim": "guards: File integrity across the fleet",
       "reading": "THE PATROL COULD NOT PROVE IT: Hull integrity is checked by comparing fleet-structure.json file hashes against a committed baseline. That comparison is not yet wired. Reporting WARN, not OK — a stub that returned green would be the very lie this whole system exists to kill.",
@@ -304,12 +311,12 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-08-29T00:52:52.017Z",
+    "at": "2026-08-29T06:36:08.433Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 114,
+      "count": 115,
       "prefixes": {
-        "atlantica:": 80,
+        "atlantica:": 81,
         "dailyplanet:": 20,
         "watch:": 8,
         "week:": 6
@@ -323,12 +330,12 @@ window.FLEET_MANIFEST = {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 67,
+        "fired": 68,
         "last": {
-          "date": "2026-08-28",
-          "figure": "akhenaten"
+          "date": "2026-08-29",
+          "figure": "ingram"
         },
-        "lastAgeDays": 1,
+        "lastAgeDays": 0,
         "missedLast14": [
           "2026-08-26",
           "2026-08-25",
@@ -344,6 +351,11 @@ window.FLEET_MANIFEST = {
           "2026-08-15"
         ],
         "recent": [
+          {
+            "figure": "ingram",
+            "date": "2026-08-29",
+            "key": "atlantica:ingram:2026-08-29"
+          },
           {
             "figure": "akhenaten",
             "date": "2026-08-28",
@@ -408,14 +420,9 @@ window.FLEET_MANIFEST = {
             "figure": "ayn-rand",
             "date": "2026-08-03",
             "key": "atlantica:ayn-rand:2026-08-03"
-          },
-          {
-            "figure": "helen-keller",
-            "date": "2026-08-03",
-            "key": "atlantica:helen-keller:2026-08-03"
           }
         ],
-        "note": "67 dispatch(es) in the hold · last 2026-08-28 (akhenaten) · MISSED 12 of the last 14 days"
+        "note": "68 dispatch(es) in the hold · last 2026-08-29 (ingram) · MISSED 12 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -1028,7 +1035,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-29T00:52:50.832Z",
+        "at": "2026-08-29T06:36:06.471Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -1044,12 +1051,7 @@ window.FLEET_MANIFEST = {
       "threat": "A forged /quiz/submit minting emeralds without earning them.",
       "probe": "probes/probe-watches.mjs",
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
-      "stamp": "CONFIRMED",
-      "patrol": {
-        "at": "2026-08-29T00:52:50.832Z",
-        "status": "OK",
-        "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
-      }
+      "stamp": "UNPROVEN"
     },
     {
       "id": "DATA WATCH",
@@ -1064,7 +1066,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-29T00:52:50.832Z",
+        "at": "2026-08-29T06:36:06.471Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -1095,7 +1097,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-08-29T00:52:50.832Z",
+        "at": "2026-08-29T06:36:06.471Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
