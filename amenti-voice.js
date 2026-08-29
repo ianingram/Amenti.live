@@ -278,25 +278,79 @@
       voice: row['Voice'] || ''
     };
   }
+  /* ── LOCAL FIRST, THE SHEET SECOND · FOUND ON GLASS 28 AUG 2026 ──────────
+     This went straight to the Google Sheet and had nothing to fall back on.
+     On 28 Aug that fetch threw "Load failed" from the page — and because an
+     unresolved figure falls back to Kore, ABRAHAM LINCOLN SPOKE IN A WOMAN'S
+     VOICE with nothing anywhere saying why.
+
+     THE FLAGSHIP HAD ALREADY SOLVED THIS AND THIS FILE DID NOT KNOW. Page1
+     logs its own load as "via ./names.csv (local, first)" and then "via the
+     sheet (authoritative)" — it reads the committed copy, then upgrades when
+     the network allows. Same repo, same columns, same 1,011 rows, sitting
+     there unfetched by the one module whose whole job depends on them.
+
+     TWO REGISTERS OF ONE THING, AND ONLY ONE OF THEM KNEW HOW TO SURVIVE.
+
+     The local file is committed beside the code, so it cannot fail for a
+     network reason. The sheet still wins when it answers, because it is the
+     ledger the captain actually edits — but its failure can no longer take
+     the roster down with it. */
+  var LOCAL_CSV = './names.csv';
+
+  function fromCsv(text) {
+    var map = {};
+    parseCsv(text).forEach(function (row) { var f = rowToFigure(row); if (f) map[f.key] = f; });
+    return map;
+  }
+
+  function fetchCsv(url) {
+    return fetch(url, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error(url + ' → HTTP ' + r.status);
+      return r.text();
+    }).then(function (t) {
+      var m = fromCsv(t);
+      if (!Object.keys(m).length) throw new Error(url + ' → parsed to nothing');
+      return m;
+    });
+  }
+
   function loadRoster() {
     if (rosterPromise) return rosterPromise;
-    rosterPromise = fetch(LEDGER_CSV_URL, { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw new Error('roster CSV ' + r.status); return r.text(); })
-      .then(function (text) {
-        var map = {};
-        parseCsv(text).forEach(function (row) { var f = rowToFigure(row); if (f) map[f.key] = f; });
-        return map;
-      })['catch'](function (err) {
-        /* LOUD. This used to whisper, and the whole cast quietly became one
-           voice. An empty roster is not a degraded reading — it is EVERY
-           FIGURE LOSING THEIR VOICE AT ONCE, and it should read that way. */
-        console.error('amenti-voice: THE ROSTER DID NOT LOAD — ' + (err && err.message) +
-                      '\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' + VOICE_NAME_DEFAULT +
-                      '). This is not a style; it is a failure. Check the published CSV.');
+
+    rosterPromise = fetchCsv(LOCAL_CSV).then(function (local) {
+      console.log('amenti-voice: roster ' + Object.keys(local).length +
+                  ' figures via ' + LOCAL_CSV + ' (local, first)');
+      /* The ledger is tried too, but its failure NEVER takes the local roster
+         down — that is the entire reason this fallback exists. */
+      fetchCsv(LEDGER_CSV_URL).then(function (sheet) {
+        for (var k in sheet) local[k] = sheet[k];
+        console.log('amenti-voice: roster upgraded to ' + Object.keys(sheet).length +
+                    ' figures via the sheet (authoritative)');
+      })['catch'](function (e) {
+        console.warn('amenti-voice: the sheet did not answer (' + (e && e.message) +
+                     ') — the local roster stands.');
+      });
+      return local;
+
+    })['catch'](function (e1) {
+      console.warn('amenti-voice: ' + LOCAL_CSV + ' unavailable (' + (e1 && e1.message) +
+                   ') — trying the sheet alone.');
+      return fetchCsv(LEDGER_CSV_URL)['catch'](function (e2) {
+        /* LOUD. This whispered, and the whole cast quietly became one voice.
+           BOTH sources have now failed, which is EVERY FIGURE LOSING THEIR
+           VOICE AT ONCE. */
+        console.error('amenti-voice: THE ROSTER DID NOT LOAD — neither ' + LOCAL_CSV +
+                      ' nor the sheet. ' + (e2 && e2.message) +
+                      '\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' +
+                      VOICE_NAME_DEFAULT + '). This is not a style; it is a failure.');
         return {};
       });
+    });
+
     return rosterPromise;
   }
+
   function resolveVoice(name) {
     return loadRoster().then(function (map) {
       /* THE LOOKUP IS UNCHANGED, DELIBERATELY. A surname fallback was written
