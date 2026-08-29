@@ -842,8 +842,8 @@ body::after{
 </style>
 <!-- Codex/timeline/terminal styling. Nothing here is visible on landing, so it
      loads in parallel instead of blocking first paint. See amenti-tabs.css. -->
-<link rel="preload" href="amenti-tabs.css?v=15" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="amenti-tabs.css?v=15"></noscript>
+<link rel="preload" href="amenti-tabs.css?v=16" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="amenti-tabs.css?v=16"></noscript>
 
 
 <style>
@@ -4403,6 +4403,10 @@ document.querySelectorAll('#bookstore .vol-btn, #bookstore .vol-btn-ghost')
 
     <!-- CONTEXT -->
     <aside class="term-ctx">
+      <!-- THE SCROLLING HALF. Everything that can grow lives in here, so the
+           MODE block below it is a sibling of the scroller rather than an item
+           inside it — which is what lets it sit on the floor at all. -->
+      <div class="term-ctx-scroll">
       <div class="term-ctx-h">▸ CONNECTION</div>
       <pre id="ctxConn">STATUS:    AWAITING_TUNE
 PROTOCOL:  GLYPH/0.4.9
@@ -4422,7 +4426,9 @@ RELAY:     AMENTI-MAIN-01</pre>
       <div class="term-ctx-h">▸ HINTS</div>
       <div style="color:#60a080;font-size:10px;line-height:1.5;">Try: "What did you fear?" · "Strategy advice" · "Speak in your voice."</div>
 
-      <!-- ── THE MODE · IN THE PANEL, WHERE THE SPACE IS ──────────────────
+      </div><!-- /term-ctx-scroll -->
+
+      <!-- ── THE MODE · THE PANEL'S FIXED FOOT ────────────────────────────
            Third position and the right one. It began in the top toolbar,
            wedged between CLEAR and CODEX where it read as one more action —
            and it is not an action; it decides what the figure is FOR and it

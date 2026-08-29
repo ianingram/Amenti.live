@@ -383,24 +383,30 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
    scroll removed in the same edit that explained why it had never engaged. */
 #charList{overflow-y:auto;flex:1 1 auto;min-height:0;}
 
-/* ── THE MODE · PINNED TO THE FOOT OF THE PANEL ───────────────────────────
-   FOURTH PLACEMENT. Told "bottom right" and put it in the toolbar, then the
-   roster foot, then the input rail, then the MIDDLE of the right panel —
-   which is where it lands if you simply append it, because everything above
-   it is short and the panel is tall.
+/* ── THE MODE · NAILED TO THE BOTTOM OF THE COLUMN ────────────────────────
+   margin-top:auto was tried three times and failed three times. It pushes a
+   flex item to the end of the FREE SPACE — and a panel with overflow-y:auto
+   sizes itself to its content, so as far as the layout is concerned there is
+   no free space to push into. The rule was correct and the container was
+   wrong for it, and I kept re-applying the rule.
 
-   Bottom right means the BOTTOM. So the panel becomes a flex column and this
-   block gets margin-top:auto, which pushes it against the floor no matter how
-   long or short the dossier above it runs.
-
-   A control that moves depending on how much a figure's biography ran to is
-   not placed. It is merely somewhere. */
-.term-ctx > *{flex:0 0 auto;}
+   Absolute positioning asks nothing of the container's flex behaviour. The
+   column is the positioning context; this block is pinned to its bottom edge
+   and the scrolling content above is given padding so it can never run
+   underneath. */
+.term-ctx-scroll{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  padding-right:2px;
+}
 
 .term-mode-wrap{
-  margin-top:auto;              /* THE FLOOR. This is the whole fix. */
-  padding-top:14px;
-  border-top:1px solid rgba(212,160,23,0.2);
+  flex:0 0 auto;                 /* the foot. Not scrolled, not pushed. */
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid rgba(212,160,23,0.25);
+  background:rgba(0,6,3,0.5);
 }
 .term-mode-wrap .term-ctx-h{ margin-top:0; }
 .term-mode{
@@ -494,6 +500,12 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
    cost an hour on .term-mode-wrap, repeated one selector down and missed by
    the guard I had just written, because that guard did not name .term-ctx.
    Every property the panel needs is here, in one place, once. */
+/* THE PANEL NO LONGER SCROLLS — ITS UPPER HALF DOES.
+   That is the whole difference. A scrolling box grows with its content, so
+   nothing inside it can be "at the bottom": there is no bottom until the
+   content stops. Split it in two — a scrolling region that takes the slack,
+   and a fixed foot that cannot move — and the foot is at the floor by
+   construction rather than by a margin that has to win an argument. */
 .term-ctx{
   display:flex;flex-direction:column;
   min-height:0;
@@ -502,7 +514,7 @@ body[data-page="terminal"] .btn-secondary:hover{background:var(--neon-dim);}
   padding:18px 22px 22px 20px;
   font-size:10px;letter-spacing:.06em;line-height:1.6;
   color:#80c0a0;
-  overflow-y:auto;
+  overflow:hidden;               /* the INNER half scrolls, not this */
 }
 /* The first header had a 14px top margin like the rest, so it sat lower than
    the panel's own padding intends. It leads; it needs no gap above it. */
