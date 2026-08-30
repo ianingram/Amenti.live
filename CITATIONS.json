@@ -1,12 +1,12 @@
 {
-  "generated": "2026-08-30T23:08:56.790Z",
+  "generated": "2026-08-30T23:25:31.217Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-08-30T23:08:56.737Z",
+  "libraryGenerated": "2026-08-30T23:25:31.180Z",
   "totals": {
     "works": 550,
-    "CITED": 482,
+    "CITED": 487,
     "DATED": 7,
-    "THIN": 52,
+    "THIN": 47,
     "EMPTY": 0,
     "LINKED": 9
   },
@@ -103,9 +103,9 @@
     },
     "david-hume": {
       "works": 16,
-      "CITED": 3,
+      "CITED": 8,
       "DATED": 0,
-      "THIN": 13,
+      "THIN": 8,
       "EMPTY": 0,
       "LINKED": 0,
       "needs": "names a work, nothing to find it by"
