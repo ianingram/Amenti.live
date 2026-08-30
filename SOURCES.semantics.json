@@ -108,8 +108,9 @@
       "branch": "main",
       "dir": "logs",
       "group": "the log",
-      "match": "^\\d{4}-\\d{2}-\\d{2}\\.md$",
-      "_why": "THE CAPTAIN'S LOG, one file per session. A FOLDER rather than a growing document: a single file spanning fifty sessions puts every diff on one blob and lets one bad paste damage every log at once — the same argument that makes db/migrations date-prefixed and append-only, and the briefs 41 files rather than one. A log is an account of a day, and a day does not change.\nDATE-FIRST NAMING because it must SORT: 27-28-AUGUST interleaves wrongly with September and 2026-08-27 never will.\nAdded 28 Aug 2026 because the root walk matches ^[^/]+ — ONE path segment — so a logs/ folder would have fallen through the seam exactly as hall.html did."
+      "match": "^\\d{4}-\\d{2}-\\d{2}(-[a-z0-9-]+)?\\.md$",
+      "_why": "THE CAPTAIN'S LOG, one file per session. A FOLDER rather than a growing document: a single file spanning fifty sessions puts every diff on one blob and lets one bad paste damage every log at once — the same argument that makes db/migrations date-prefixed and append-only, and the briefs 41 files rather than one. A log is an account of a day, and a day does not change.\nDATE-FIRST NAMING because it must SORT: 27-28-AUGUST interleaves wrongly with September and 2026-08-27 never will.\nAdded 28 Aug 2026 because the root walk matches ^[^/]+ — ONE path segment — so a logs/ folder would have fallen through the seam exactly as hall.html did.\nWIDENED 30 Aug 2026 to admit HANDOFF-*.md. The handoff belongs beside the log — it is the same session's document, written for the next reader instead of the record — and the root was where it was first put by habit. But the date-first pattern would not have walked it, so it would have sat in logs/ INVISIBLE TO THE INDEX, which is the seam this entry was created to close.",
+      "note": "DATE FIRST, AND ONE CONVENTION ONLY. The pattern allowed two shapes — ^\\d{4}-\\d{2}-\\d{2}\\.md$ for a log and ^HANDOFF-[A-Z0-9-]+\\.md$ beside it — so a folder ordered by date held one file that sorted anywhere. Now a handoff is 2026-08-30-handoff.md: it files itself next to the log of the session it hands over, and the folder reads in order without being told to."
     },
     {
       "repo": "Amenti.live",
@@ -1234,7 +1235,7 @@
       "what": "CAPTAIN'S LOG, 29–30 Aug 2026. A session that began with Abraham Lincoln speaking in a woman's voice and ended with every work in the library carrying a source. §I holds the findings — the roster never reaching the voice, the wildcard reset that swallowed four gutter fixes, four duplicate selectors in one night, the announcement and the greeting playing together, the Links column that cites nothing, and 77 of Lincoln's 82 works with no source. §III is the reading: 482 of 550 cited, EMPTY zero. §V is the assistant's own errors, and is the longest section.",
       "authority": "an ACCOUNT OF A DAY, not a governing document. Its numbers were READ from CITATIONS.json at 06:56:42Z and are stamped with that hour. Where this and a register disagree, the register is right."
     },
-    "Amenti.live/main/HANDOFF-30AUG.md": {
+    "Amenti.live/main/logs/2026-08-30-handoff.md": {
       "section": "the log",
       "group": "log",
       "id": "handoff-30-aug",
