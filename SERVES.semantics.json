@@ -1,0 +1,226 @@
+{
+  "_": "WHAT ALREADY SERVES THIS. A register keyed by the QUESTION a builder asks, not by the file that answers it.",
+
+  "_why": [
+    "There is a standing rule in this yard: BEFORE BUILDING ON A SURFACE, ASK WHAT",
+    "ALREADY SERVES IT. It has been a rule with no instrument behind it, and on 29 Aug",
+    "2026 the same fault happened twice in one session.",
+    "",
+    "WORKS.semantics.json was written to hold what each figure wrote — six figures, twelve",
+    "works, every url null — while LIBRARY.json sat in the repo holding 550 works across 52",
+    "rooms, most of them with translator, edition and Gutenberg number. Its path was in the",
+    "unindexed list, read twice, and passed over both times, because the index says WHERE a",
+    "file is and not WHAT NEED IT MEETS.",
+    "",
+    "And MANUAL.md was written for a reader when the request had been for an operator's map.",
+    "",
+    "EVERY REGISTER IN THIS FLEET IS KEYED BY PATH. To learn whether a corpus exists you",
+    "must read 181 glosses and recognise one. Nobody does that, so things get built twice."
+  ],
+
+  "_law": "A CAPABILITY THAT IS NOT IN THIS FILE WILL BE BUILT AGAIN. That is not a threat, it is what happened.",
+
+  "_howToUse": [
+    "BEFORE BUILDING ANYTHING, look up the need here.",
+    "",
+    "  · If it is here and `servedBy` is populated — READ THOSE FILES FIRST. The thing",
+    "    probably exists and needs joining up, not building.",
+    "  · If it is here and `servedBy` is null — nothing serves it. Build, and fill this in.",
+    "  · IF THE NEED IS NOT HERE AT ALL, THAT IS THE FINDING. Add the entry before you write",
+    "    a line of code. Naming the need is most of the work of not duplicating it.",
+    "",
+    "`doesNotAnswer` is as load-bearing as `servedBy`. A register that says what it covers",
+    "and not what it omits invites the second mistake: trusting it too far. LIBRARY.json",
+    "holds every citation and cannot tell you whether a quotation is really in the work."
+  ],
+
+  "_verification": "probe-serves.mjs checks that every file named here exists in SOURCES.json, and reports any need whose server has gone missing. AN ENTRY POINTING AT A FILE THAT IS NOT THERE IS WORSE THAN NO ENTRY.",
+
+  "serves": {
+
+    "the corpus": {
+      "question": "What did a figure actually write, and where can it be read?",
+      "servedBy": ["Amenti.live/main/LIBRARY.json", "Amenti.live/main/library/{key}.json",
+                   "Amenti.live/main/probes/probe-library.mjs"],
+      "answers": "52 rooms, 550 works, 31 MB of text. Each work carries a title, a section and a SOURCE — for most, translator, edition and Project Gutenberg number.",
+      "doesNotAnswer": "Whether a given quotation is really IN the work it is attributed to. Nothing here can, short of holding the text and searching it.",
+      "note": "THIS IS THE ONE THAT WAS BUILT TWICE. If you are about to write a register of what figures wrote, you are writing this one again."
+    },
+
+    "whether a citation can be traced": {
+      "question": "Can this quotation be checked back to a findable edition?",
+      "servedBy": ["Amenti.live/main/CITATIONS.json",
+                   "Amenti.live/main/probes/probe-citations.mjs"],
+      "answers": "Every work graded CITED, DATED, THIN, EMPTY or LINKED, with a sentence per room saying what it still needs.",
+      "doesNotAnswer": "Whether the cited edition is the right one for a particular line. A translator's choices are not in scope."
+    },
+
+    "moving a citation onto works that lack one": {
+      "question": "A room's works have no source and I know the edition. Now what?",
+      "servedBy": ["Amenti.live/main/tools/cite.js"],
+      "answers": "Stamps a source onto every stored work in a manifest that has none. Report-only unless --write, never overwrites, never touches a link-out.",
+      "doesNotAnswer": "What the edition IS. It will not guess, and run without --source it reports the gap and exits non-zero."
+    },
+
+    "the surfaces": {
+      "question": "Where can a person act on this system, and what reaches each place?",
+      "servedBy": ["Amenti.live/main/SURFACES.json", "Amenti.live/main/SURFACES.semantics.json",
+                   "Amenti.live/main/probes/probe-surfaces.mjs",
+                   "Fleet-Documents/branch/surfaces.html"],
+      "answers": "Every named interaction point, its engine, what it costs, and four booleans: counted, memory, dial, voice.",
+      "doesNotAnswer": "Page2's own points, the gameroom's, or the reading vaults' — all entered as pages rather than surfaces and named as gaps in the register itself."
+    },
+
+    "the voice": {
+      "question": "How does a figure speak, what does it cost, and what must not be touched?",
+      "servedBy": ["Amenti.live/main/SPEECH.md", "Amenti.live/main/VOICE.json",
+                   "Amenti.live/main/probes/probe-voice.mjs"],
+      "answers": "The cache-key formula, the two registers and why the counsel never caches, the roster columns a voice is assembled from, the failure modes and what each SOUNDS like, the dial's measured gap, the ear's dials, what a spoken turn costs.",
+      "doesNotAnswer": "Whether the deployed bundle matches. SPEECH.md was read from the code on 28 Aug; where they disagree the code is right."
+    },
+
+    "what a figure says and refuses": {
+      "question": "What governs how a figure behaves in conversation?",
+      "servedBy": ["Amenti.live/main/CONVERSATION_DOCTRINE.md",
+                   "Amenti-Technical-Briefs/main/AMENTI-SPEECH-DOCTRINE.html",
+                   "Amenti.live/main/amenti-doctrine.js"],
+      "answers": "The governing logic every mount inherits, the registers, the moves, and §4.6 on what a figure may remember.",
+      "doesNotAnswer": "The counsel chamber's prompt. cnsGo runs its own counselSys() in Page1.html and the chat core knows nothing about it \u2014 two prompts exist."
+    },
+
+    "every document in the fleet": {
+      "question": "Where is a document, is it reachable, and what is it?",
+      "servedBy": ["Amenti.live/main/SOURCES.json", "Amenti.live/main/SOURCES.semantics.json",
+                   "Amenti.live/main/tools/sources.js", "Fleet-Documents/branch/library.html"],
+      "answers": "181 paths with a gloss and a verified HTTP status, plus a drift report naming what is unreachable and what nobody has described.",
+      "doesNotAnswer": "WHAT NEED A FILE MEETS. It is keyed by path. That gap is the reason this file exists."
+    },
+
+    "the roster": {
+      "question": "Who are the figures, and what is known about each?",
+      "servedBy": ["Amenti.live/main/names.csv", "Amenti.live/main/ROSTER-INDEX.json"],
+      "answers": "1,011 souls with 21 columns \u2014 Gender, Dialect and Voice drive speech; Appearance and Dress drive the plate.",
+      "doesNotAnswer": "What they wrote. The `Links` column is a Wikipedia SEARCH-BOX url generated from the name and cites nothing.",
+      "note": "Column zero is Rank. READ THE NAME BY HEADER. BC dates are stored as NEGATIVE NUMBERS, not as letters \u2014 Caesar's Death-Date is \"-44\"."
+    },
+
+    "the plates": {
+      "question": "Which figures have art, and where did it come from?",
+      "servedBy": ["Amenti.live/main/img/PLATES.json", "Amenti.live/main/img/MANIFEST.json",
+                   "Amenti.live/main/PIPELINE.md"],
+      "answers": "Keys, variants, scenes, gaps, accepted mismatches \u2014 and the generation seeds and crop notes.",
+      "doesNotAnswer": "Whether a plate HOLDS. That judgement needs a person; the pipeline says so."
+    },
+
+    "what the fleet has published": {
+      "question": "Did the scheduled thing actually fire?",
+      "servedBy": ["Amenti.live/main/fleet-dispatch.json", "Amenti.live/main/fleet.json",
+                   "Amenti.live/main/probes/probe-ordnance.mjs",
+                   "Amenti.live/main/fleet-status.html"],
+      "answers": "Intent beside reality, per tube: cadence, status, fire count, last-fired date.",
+      "doesNotAnswer": "Whether what fired was any good."
+    },
+
+    "the book": {
+      "question": "What chapters exist and what state are they in?",
+      "servedBy": ["Amenti.live/main/BOOK.json", "Amenti.live/main/PRODUCTION.json",
+                   "Amenti.live/main/probes/probe-production.mjs", "Amenti.live/main/read.html"],
+      "answers": "Every chapter measured against the register: state, size, bands, the day it landed."
+    },
+
+    "the vocabulary": {
+      "question": "What does this word mean on this ship?",
+      "servedBy": ["Amenti.live/main/GLOSSARY.md", "Amenti.live/main/MANUEL.md"],
+      "answers": "The fleet's terms \u2014 soul, key, plate, spell, register, probe, the Silent Signature, empty glass, the water between. MANUEL covers Page2's own parts.",
+      "doesNotAnswer": "Page1's parts, which is what PAGE1.md is for."
+    },
+
+    "how to use the site": {
+      "question": "What is Amenti and how does a reader use a room?",
+      "servedBy": ["Amenti.live/main/MANUAL.md", "Amenti.live/main/HALL.md",
+                   "Amenti.live/main/hall.html"],
+      "answers": "All eleven doors, the five modes and what to bring to each, and the things a reader cannot discover by clicking.",
+      "note": "AIMED OUTWARD. The crew's version of the same page is PAGE1.md, and confusing the two is the second thing that was built wrong on 29 Aug."
+    },
+
+    "how to edit Page1": {
+      "question": "I am about to change the flagship. What will bite me?",
+      "servedBy": ["Amenti.live/main/PAGE1.md"],
+      "answers": "The bundle, the wildcard reset, duplicate selectors, the six real data-page sections against eleven nav tabs, and the four conversation surfaces that do not share a prompt.",
+      "doesNotAnswer": "The enumeration of controls \u2014 that is SURFACES.json, deliberately."
+    },
+
+    "the yard's open work": {
+      "question": "What is still undone, and what has been recorded but not chased?",
+      "servedBy": ["Amenti-Technical-Briefs/main/THE-STANDING-SLIP.md",
+                   "Amenti.live/main/slip/", "Amenti.live/main/TODO.md"],
+      "answers": "Ten moves, each ending in a check the captain can perform by opening something.",
+      "note": "The slip is kept BY HAND and read at the TOP of a session. TODO.md is stale in places and nothing checks it."
+    },
+
+    "what the repo actually contains": {
+      "question": "What is really in there \u2014 not what a document claims?",
+      "servedBy": ["Amenti.live/main/fleet-structure.json", "Amenti.live/main/tools/scan.js",
+                   "Amenti.live/main/CHART.json"],
+      "answers": "Files, globals, who loads whom, who calls whom, endpoints, load order. Its findings.adrift names files a page loads that nobody calls.",
+      "doesNotAnswer": "Anything about intent. The scanner observes and has no opinion."
+    },
+
+    "a post that names a real person": {
+      "question": "Is this safe to publish with a dead person's name on it?",
+      "servedBy": ["Amenti.live/main/probes/probe-post.mjs"],
+      "answers": "Refuses an unsourced quotation, a note written in the figure's voice, a figure not on the roster, and anyone inside the living-memory line.",
+      "doesNotAnswer": "Whether a sourced quotation is REAL. It cannot check the corpus; it forces the citation to exist so a fabrication is deliberate rather than accidental.",
+      "note": "COULD BE WIRED TO LIBRARY.json and check the source against the corpus. It is not, yet."
+    },
+
+    "the panes": {
+      "question": "What operator surfaces exist in Fleet-Documents?",
+      "servedBy": ["Fleet-Documents/branch/fleet-nav.js", "Fleet-Documents/branch/PANES.json",
+                   "Fleet-Documents/branch/index.html"],
+      "answers": "19 panes, registered once. The Harbor builds its grid from the registry rather than a hand-typed list.",
+      "note": "READ THE REGISTRY, NEVER RETYPE IT. The grid was hand-written until 28 Aug and held 13 cards against 18 panes."
+    },
+
+    "the workers": {
+      "question": "What runs server-side, on what schedule, with what bindings?",
+      "servedBy": ["Fleet-Documents/branch/WORKERS.json"],
+      "answers": "Six Workers: crons, bindings, secret NAMES. No values.",
+      "doesNotAnswer": "Their source, which is in a private repo."
+    },
+
+    "rate limiting and spend ceilings": {
+      "question": "Can the gate refuse a flood through one door without starving another?",
+      "servedBy": null,
+      "answers": null,
+      "doesNotAnswer": null,
+      "note": "NOTHING SERVES THIS. RULING-ONE-ENGINE-SEPARATE-LANES rules the shape and no code exists. The proxy today answers anyone who can load a page, with no origin check, no rate limit and no spend ceiling. NO AD RUNS BEFORE THE GATE CAN SAY NO."
+    },
+
+    "prompt caching": {
+      "question": "Is the 2,244-token system prompt being re-sent every turn?",
+      "servedBy": null,
+      "answers": null,
+      "doesNotAnswer": null,
+      "note": "NOTHING SERVES THIS. BRIEF-THE-PROMPT-NOBODY-CACHES measures a 33% saving and the builders return { head, tail }. `window.claude.acceptsSystemTail` is not set, so it does not engage."
+    },
+
+    "counting what a visit costs": {
+      "question": "How much did a reader's visit actually spend?",
+      "servedBy": ["Amenti.live/main/amenti-visits.js",
+                   "Amenti-Technical-Briefs/main/Amenti_What_An_Hour_Costs.html"],
+      "answers": "The modelled cost of an hour, both halves, measured rather than estimated.",
+      "note": "PARTIALLY SERVED. amenti-visits.js is NOT WIRED INTO Page1 \u2014 AmentiVisits.begin and .end appear nowhere in the file \u2014 and of five conversation surfaces only one is counted."
+    }
+  },
+
+  "_stillToName": [
+    "This register is as good as the needs somebody has thought to write down, and it was",
+    "opened with twenty. THE ONES THAT MATTER ARE THE ONES NOT HERE, and there is no probe",
+    "that can find them: a walk can verify that a named file exists and cannot invent the",
+    "question it answers.",
+    "",
+    "So the discipline is the whole instrument. When a session begins a build, the first",
+    "move is to look the need up here. When it is not here, the entry goes in FIRST."
+  ]
+}

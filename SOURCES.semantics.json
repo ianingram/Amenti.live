@@ -1198,6 +1198,20 @@
       "id": "citations-reading",
       "what": "THE CITATION READING. Every reading room graded on whether its works can be traced back to a findable edition, and a plain sentence per room saying what it still needs. The answer to 'can this quotation be checked?' for 550 works at once.",
       "authority": "LIVE. Written by probes/probe-citations.mjs from LIBRARY.json. It records the timestamp of the reading it audited, so an audit of a stale library says so rather than passing for current."
+    },
+    "Amenti.live/main/SERVES.semantics.json": {
+      "section": "the registers — read at the hour of writing",
+      "group": "doctrine",
+      "id": "serves-semantics",
+      "what": "WHAT ALREADY SERVES THIS. The register keyed by the QUESTION A BUILDER ASKS rather than by the file that answers it — 22 needs, each with what serves it, WHAT IT DOES NOT ANSWER, and a note. Opened 29 Aug 2026 after the same fault twice in one session: a corpus written while LIBRARY.json held 550 works, and a reader's manual written when an operator's map had been asked for. Every other register in this fleet is keyed by PATH, so learning whether a capability exists means reading 181 glosses and recognising one. Nobody does that, and things get built twice.",
+      "authority": "AUTHORED BY HAND, and READ AT THE TOP OF A BUILD. Its law: A CAPABILITY THAT IS NOT IN THIS FILE WILL BE BUILT AGAIN — not a threat, a description of what happened. `doesNotAnswer` is as load-bearing as `servedBy`: a register that says what it covers and not what it omits invites the second mistake, trusting it too far. Needs with servedBy null are the honest state, not a gap — a need written down and unbuilt is a need that will not be built twice."
+    },
+    "Amenti.live/main/probes/probe-serves.mjs": {
+      "section": "the instruments",
+      "group": "doctrine",
+      "id": "probe-serves",
+      "what": "Checks every file named in SERVES.semantics.json against SOURCES.json and writes SERVES.json. Five states: SERVED, PARTIAL (built and not wired), UNSERVED (nothing built, and it says so), BROKEN (points at nothing), UNWALKED (real, and outside what the index covers).",
+      "authority": "LIVE. Its reason: AN ENTRY POINTING AT A FILE THAT IS NOT THERE IS WORSE THAN NO ENTRY — a builder sent down a dead path by a confident document. Its first run called amenti-doctrine.js and amenti-visits.js BROKEN; both exist, and the finding was that SOURCES.json WALKS ONLY .md AND .json AT THE ROOT, so the entire engine is invisible to the index. That became the UNWALKED state. IT CANNOT FIND A NEED NOBODY HAS WRITTEN DOWN, and says so: a walk verifies a named file exists and cannot invent the question it answers."
     }
   },
   "owner": "ianingram",
