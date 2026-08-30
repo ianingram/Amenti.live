@@ -1212,6 +1212,13 @@
       "id": "probe-serves",
       "what": "Checks every file named in SERVES.semantics.json against SOURCES.json and writes SERVES.json. Five states: SERVED, PARTIAL (built and not wired), UNSERVED (nothing built, and it says so), BROKEN (points at nothing), UNWALKED (real, and outside what the index covers).",
       "authority": "LIVE. Its reason: AN ENTRY POINTING AT A FILE THAT IS NOT THERE IS WORSE THAN NO ENTRY — a builder sent down a dead path by a confident document. Its first run called amenti-doctrine.js and amenti-visits.js BROKEN; both exist, and the finding was that SOURCES.json WALKS ONLY .md AND .json AT THE ROOT, so the entire engine is invisible to the index. That became the UNWALKED state. IT CANNOT FIND A NEED NOBODY HAS WRITTEN DOWN, and says so: a walk verifies a named file exists and cannot invent the question it answers."
+    },
+    "Amenti.live/main/.github/workflows/citations.yml": {
+      "section": "the instruments",
+      "group": "doctrine",
+      "id": "workflow-citations",
+      "what": "THE CITATIONS WATCH. Reads the library and grades every source — on every change to library/, on a :47 rung, and by hand. Fires on CHANGE rather than only on a clock, because the moment to ask where a text came from is while whoever added it still remembers. EMPTY fails the run; THIN and DATED report and do not, so a room whose translator is named and whose edition is not yet found is mid-work rather than broken.",
+      "authority": "LIVE. NO continue-on-error ANYWHERE, deliberately: on 24 Aug 2026 merge.js threw under it and the manifest froze for ninety hours behind a green tick. Its audit step tells a CRASH apart from a FINDING — exit 2 means the instrument did not run and says NOTHING BELOW IS A READING, exit 1 means a work has no source. The first draft used `|| echo empty=1`, which is the same blindness written small: it would have reported a missing LIBRARY.json as an empty citation. The readings are committed BEFORE the gate, so a red run still leaves a register behind."
     }
   },
   "owner": "ianingram",
