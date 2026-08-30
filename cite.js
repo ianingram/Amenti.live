@@ -28,7 +28,7 @@
        has checked it. This tool moves a citation; it does not invent one.
    ========================================================================== */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -36,14 +36,38 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const LIBRARY_DIR = process.env.LIBRARY_DIR || join(HERE, '..', 'library');
 
 const args = process.argv.slice(2);
-const key = args[0];
+/* TRIM. A room key typed into a web form arrives with whatever whitespace came
+   with it, and on 30 Aug 2026 a leading space sent this tool looking for
+   `library/ lincoln.json` and exiting 2 as though the manifest were gone. The
+   argument was fine; the tool was brittle. A room key is a filename component
+   and never contains whitespace, so there is nothing to preserve. */
+const key = (args[0] || '').trim();
 const write = args.includes('--write');
 const flag = (name) => {
   const i = args.indexOf('--' + name);
   return i > -1 && args[i + 1] ? args[i + 1] : null;
 };
-const source  = flag('source');
-const section = flag('section');   /* optional: limit to one section */
+const source  = (flag('source')  || '').trim() || null;
+const section = (flag('section') || '').trim() || null;   /* optional */
+/* ── UPGRADING A SOURCE THAT IS ALREADY THERE ─────────────────────────────
+   --match "<text>"  --replace "<text>"
+
+   A SECOND OPERATION, AND DELIBERATELY NOT THE FIRST. Stamping fills a blank;
+   upgrading edits a citation somebody already wrote, and that is the thing
+   this tool otherwise refuses to do.
+
+   It is safe only because it is narrow. It requires BOTH the exact text to
+   find and the exact text to put in its place, and it touches only works whose
+   source contains that text — so it cannot blanket-overwrite a room, and what
+   it will do is legible before it does it.
+
+   Found on 30 Aug 2026: David Hume's thirteen portraits each named their part
+   of the History of England and then said "Project Gutenberg" WITH NO NUMBER
+   AFTER IT. Not blank, so cite.js could not touch them; not findable, so the
+   audit called them THIN. The numbers were in the same file all along, in the
+   link-out's note: Parts A-F, #19211-19216. */
+const match   = (flag('match')   || '').trim() || null;
+const replace = flag('replace') !== null ? String(flag('replace')).trim() : null;
 
 if (!key || key.startsWith('--')) {
   console.error('usage: node tools/cite.js <key> [--source "<citation>"] [--section "<name>"] [--write]');
@@ -52,7 +76,20 @@ if (!key || key.startsWith('--')) {
 
 const path = join(LIBRARY_DIR, key + '.json');
 if (!existsSync(path)) {
-  console.error('cite: no manifest at ' + path);
+  /* NAME WHAT WAS LOOKED FOR AND WHAT IS THERE. "no manifest at <path>" sends
+     the reader to check a path they cannot see the inside of; the rooms that
+     DO exist are the fastest way to spot a typo or a wrong key. */
+  console.error('cite: no manifest for room ' + JSON.stringify(key));
+  console.error('      looked at ' + path);
+  try {
+    const rooms = readdirSync(LIBRARY_DIR)
+      .filter(f => f.endsWith('.json'))
+      .map(f => f.replace(/\.json$/, ''));
+    const near = rooms.filter(r => r.includes(key) || key.includes(r));
+    if (near.length) console.error('      did you mean: ' + near.join(', '));
+    else console.error('      rooms here: ' + rooms.slice(0, 12).join(', ') +
+                       (rooms.length > 12 ? ', … ' + (rooms.length - 12) + ' more' : ''));
+  } catch (e) { console.error('      and library/ could not be listed: ' + e.message); }
   process.exit(2);
 }
 const manifest = JSON.parse(readFileSync(path, 'utf8'));
@@ -65,6 +102,50 @@ console.log('  ' + line());
 
 let cited = 0, missing = 0, links = 0, stamped = 0, skipped = 0;
 const gaps = [];
+
+/* ── the upgrade path runs INSTEAD of the stamp, and returns early ─────── */
+if (match) {
+  if (replace === null) {
+    console.error('cite: --match needs --replace. Say what goes in its place.');
+    process.exit(2);
+  }
+  const hits = [];
+  for (const w of works) {
+    if (w.mode === 'link') continue;
+    if (section && w.section !== section) continue;
+    const src = String(w.source || '');
+    if (!src.includes(match)) continue;
+    const after = src.split(match).join(replace);
+    hits.push({ id: w.id, title: w.title, before: src, after });
+    if (write) w.source = after;
+  }
+  console.log('  matching : ' + JSON.stringify(match));
+  console.log('  becomes  : ' + JSON.stringify(replace));
+  console.log('  works hit: ' + hits.length);
+  console.log('');
+  if (!hits.length) {
+    console.log('  NOTHING MATCHED. That is a finding, not a no-op — the text you asked');
+    console.log('  for is not in any source in this room. Check it against the manifest');
+    console.log('  before assuming the room is already done.');
+    console.log('');
+    process.exit(1);
+  }
+  hits.slice(0, 8).forEach(h => {
+    console.log('     ' + (h.id || '?'));
+    console.log('       was ' + h.before.slice(0, 88));
+    console.log('       now ' + h.after.slice(0, 88));
+  });
+  if (hits.length > 8) console.log('     … and ' + (hits.length - 8) + ' more');
+  console.log('');
+  if (write) {
+    writeFileSync(path, JSON.stringify(manifest, null, 2) + '\n');
+    console.log('  wrote ' + path);
+  } else {
+    console.log('  (report only — pass --write to save)');
+  }
+  console.log('');
+  process.exit(0);
+}
 
 for (const w of works) {
   if (w.mode === 'link') { links++; continue; }
