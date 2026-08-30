@@ -1,0 +1,118 @@
+# ============================================================================
+#  THE CITATIONS WATCH
+#  ---------------------------------------------------------------------------
+#  Reads the library and grades every work's source. Fires when a room CHANGES,
+#  not only on a clock, because the moment to ask where a text came from is
+#  while whoever added it still remembers.
+#
+#  WHY IT EXISTS. probe-library.mjs has always recorded what the manifests say
+#  and NOTHING READ WHAT IT RECORDED. Seventy-seven blank sources sat in the
+#  Lincoln room — the most-quoted figure on the site — for as long as they had
+#  been blank, because AN EMPTY SOURCE STRING READS AS A FIELD RATHER THAN A
+#  GAP. This is the thing that reads.
+#
+#  ⚠ NO continue-on-error ANYWHERE IN THIS FILE, AND THAT IS DELIBERATE.
+#  On 24 Aug 2026 merge.js threw a raw SyntaxError under continue-on-error and
+#  the gate announced a wiring bug that did not exist. The manifest froze for
+#  NINETY HOURS behind a green tick. A step that is allowed to fail quietly is
+#  a green lamp with nothing behind it, and this workflow exists to stop
+#  exactly that class of silence.
+# ============================================================================
+
+name: the citations
+
+on:
+  push:
+    paths:
+      - 'library/**'                      # a room changed
+      - 'probes/probe-library.mjs'
+      - 'probes/probe-citations.mjs'
+      - 'tools/cite.js'
+      - '.github/workflows/citations.yml' # itself
+  schedule:
+    - cron: '47 */6 * * *'                # :47 — the bell is :17, herald :27, walk :37
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: citations
+  cancel-in-progress: false               # never abandon a half-written register
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── THE READING ─────────────────────────────────────────────────────
+      # The library first: the audit reads its reading, so auditing a stale
+      # LIBRARY.json would grade yesterday's rooms and say nothing about it.
+      - name: read the library
+        run: node probes/probe-library.mjs
+
+      # ── THE AUDIT ───────────────────────────────────────────────────────
+      # Written whatever the verdict, so the register is on the record even
+      # when the run goes red. A failing check that leaves no reading behind
+      # tells the next session only that something was wrong.
+      - name: grade every citation
+        id: audit
+        run: |
+          # `|| echo empty=1` was the first version of this line and it is the
+          # four-day blindness written small: it swallows EVERY non-zero exit,
+          # so a crash, a missing LIBRARY.json and a genuine empty source all
+          # report as the same thing, and the gate below announces a condition
+          # that may not be the one that happened.
+          #
+          # The probe distinguishes them and this must too:
+          #   0  every work carries a source
+          #   1  at least one is EMPTY   ← a finding, gate on it
+          #   2  the probe could not run ← a fault, fail here and now
+          set +e
+          node probes/probe-citations.mjs --write
+          code=$?
+          set -e
+          if [ "$code" -eq 2 ]; then
+            echo "::error title=The audit could not run::probe-citations.mjs exited 2 —"\
+                 "it could not read LIBRARY.json. This is not a citation finding; the"\
+                 "instrument did not run. NOTHING BELOW IS A READING."
+            exit 2
+          fi
+          echo "empty=$([ "$code" -eq 1 ] && echo 1 || echo 0)" >> "$GITHUB_OUTPUT"
+
+      - name: commit the readings
+        run: |
+          git config user.name  "amenti-probe"
+          git config user.email "probe@amenti.live"
+          git add -f LIBRARY.json CITATIONS.json
+          if git diff --cached --quiet; then
+            echo "nothing changed"
+          else
+            git commit -m "the citations: LIBRARY.json and CITATIONS.json, read at $(date -u +%FT%TZ) [skip ci]"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push
+          fi
+
+      # ── THE GATE ────────────────────────────────────────────────────────
+      # It names WHICH condition tripped. "FAILED" on its own sends the next
+      # reader to the logs to find out what this step already knew — and a
+      # gate that announced the wrong condition is what hid the four-day
+      # blindness in the first place.
+      - name: the gate
+        run: |
+          if [ "${{ steps.audit.outputs.empty }}" = "1" ]; then
+            echo "::error title=A work has NO source::A quotation with no source is a"\
+                 "fabrication waiting to be unattributable. Find the edition, then:"\
+                 "node tools/cite.js <room> --source \"<citation>\" --write"
+            echo ""
+            echo "  Run 'node probes/probe-citations.mjs' locally to see which rooms."
+            echo "  THIN and DATED do NOT fail this gate — a room whose translator is"
+            echo "  named and whose edition is not yet found is mid-work, not broken."
+            exit 1
+          fi
+          echo "Every work in every room carries a source."
