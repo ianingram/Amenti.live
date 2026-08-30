@@ -69,6 +69,31 @@ const section = (flag('section') || '').trim() || null;   /* optional */
 const match   = (flag('match')   || '').trim() || null;
 const replace = flag('replace') !== null ? String(flag('replace')).trim() : null;
 
+/* ── MANY UPGRADES IN ONE RUN ─────────────────────────────────────────────
+   --map "find => put | find => put | find => put"
+
+   One --match fixes one thing. David Hume's thirteen portraits needed SIX,
+   one per volume of the History of England, and six dispatches of a web form
+   with two hand-typed fields each is where a `·` separator gets mistyped and
+   nobody notices until a citation points at nothing.
+
+   Pairs are split on |, and each pair on =>. Whitespace around both is
+   trimmed, so the field can be written on one line or six.
+
+   EACH PAIR IS STILL AN EXACT SUBSTRING SWAP. This is not a shortcut past the
+   narrowness that makes the upgrade safe — it is the same operation, six
+   times, in one pass. A pair that matches nothing is REPORTED AS MATCHING
+   NOTHING rather than passed over, because a silent no-op in a batch is how
+   you come to believe a room is done when a sixth of it is not. */
+const mapArg = (flag('map') || '').trim() || null;
+const pairs = mapArg
+  ? mapArg.split('|').map(p => p.trim()).filter(Boolean).map(p => {
+      const i = p.indexOf('=>');
+      if (i < 0) return { bad: p };
+      return { find: p.slice(0, i).trim(), put: p.slice(i + 2).trim() };
+    })
+  : (match ? [{ find: match, put: replace }] : []);
+
 if (!key || key.startsWith('--')) {
   console.error('usage: node tools/cite.js <key> [--source "<citation>"] [--section "<name>"] [--write]');
   process.exit(2);
@@ -104,47 +129,66 @@ let cited = 0, missing = 0, links = 0, stamped = 0, skipped = 0;
 const gaps = [];
 
 /* ── the upgrade path runs INSTEAD of the stamp, and returns early ─────── */
-if (match) {
-  if (replace === null) {
+if (pairs.length) {
+  const malformed = pairs.filter(p => p.bad);
+  if (malformed.length) {
+    console.error('cite: --map pairs are "find => put", separated by |');
+    malformed.forEach(m => console.error('      no => in: ' + JSON.stringify(m.bad)));
+    process.exit(2);
+  }
+  if (pairs.some(p => p.put === null || p.put === undefined)) {
     console.error('cite: --match needs --replace. Say what goes in its place.');
     process.exit(2);
   }
-  const hits = [];
-  for (const w of works) {
-    if (w.mode === 'link') continue;
-    if (section && w.section !== section) continue;
-    const src = String(w.source || '');
-    if (!src.includes(match)) continue;
-    const after = src.split(match).join(replace);
-    hits.push({ id: w.id, title: w.title, before: src, after });
-    if (write) w.source = after;
-  }
-  console.log('  matching : ' + JSON.stringify(match));
-  console.log('  becomes  : ' + JSON.stringify(replace));
-  console.log('  works hit: ' + hits.length);
-  console.log('');
-  if (!hits.length) {
-    console.log('  NOTHING MATCHED. That is a finding, not a no-op — the text you asked');
-    console.log('  for is not in any source in this room. Check it against the manifest');
-    console.log('  before assuming the room is already done.');
+
+  let total = 0;
+  const empty = [];
+  for (const pair of pairs) {
+    const hits = [];
+    for (const w of works) {
+      if (w.mode === 'link') continue;
+      if (section && w.section !== section) continue;
+      const src = String(w.source || '');
+      if (!src.includes(pair.find)) continue;
+      const after = src.split(pair.find).join(pair.put);
+      hits.push({ id: w.id, before: src, after });
+      if (write) w.source = after;
+    }
+    total += hits.length;
+    if (!hits.length) empty.push(pair.find);
+
+    console.log('  ' + JSON.stringify(pair.find));
+    console.log('    becomes ' + JSON.stringify(pair.put));
+    console.log('    works hit: ' + hits.length + (hits.length ? '' : '   ← NOTHING MATCHED'));
+    hits.slice(0, 4).forEach(h => console.log('       ' + (h.id || '?') + '  ' + h.after.slice(0, 78)));
+    if (hits.length > 4) console.log('       … and ' + (hits.length - 4) + ' more');
     console.log('');
-    process.exit(1);
   }
-  hits.slice(0, 8).forEach(h => {
-    console.log('     ' + (h.id || '?'));
-    console.log('       was ' + h.before.slice(0, 88));
-    console.log('       now ' + h.after.slice(0, 88));
-  });
-  if (hits.length > 8) console.log('     … and ' + (hits.length - 8) + ' more');
+
+  console.log('  ' + line());
+  console.log('  ' + pairs.length + ' pair' + (pairs.length === 1 ? '' : 's') +
+              ' · ' + total + ' work' + (total === 1 ? '' : 's') + ' changed');
   console.log('');
-  if (write) {
+
+  if (empty.length) {
+    /* A PAIR THAT MATCHED NOTHING IS A FINDING. In a batch it is the dangerous
+       kind: five pairs land, one does not, and the run looks like a success. */
+    console.log('  ✕ ' + empty.length + ' pair' + (empty.length === 1 ? '' : 's') +
+                ' matched NOTHING. The text asked for is not in any source in');
+    console.log('    this room — check it against the manifest before assuming the');
+    console.log('    room is done.');
+    empty.forEach(e => console.log('       ' + JSON.stringify(e)));
+    console.log('');
+  }
+
+  if (write && total) {
     writeFileSync(path, JSON.stringify(manifest, null, 2) + '\n');
     console.log('  wrote ' + path);
-  } else {
+  } else if (!write) {
     console.log('  (report only — pass --write to save)');
   }
   console.log('');
-  process.exit(0);
+  process.exit(empty.length ? 1 : 0);
 }
 
 for (const w of works) {
