@@ -43,6 +43,14 @@ on:
         description: 'optional — limit to one section of the room'
         required: false
         type: string
+      match:
+        description: 'UPGRADE INSTEAD — the exact text to find in an existing source. Leave the citation blank when using this.'
+        required: false
+        type: string
+      replace:
+        description: 'what that text becomes. e.g. "Part A · Project Gutenberg #19211 ·"'
+        required: false
+        type: string
       dry_run:
         description: 'show what would change and write nothing'
         required: false
@@ -74,8 +82,41 @@ jobs:
           node tools/cite.js "${{ inputs.room }}"
           echo "----------------------------------------------------------------"
 
+      # ── THE UPGRADE PATH ────────────────────────────────────────────────
+      # For a source that EXISTS and cannot be found again — Hume's thirteen
+      # portraits each named their part of the History of England and then
+      # said "Project Gutenberg" with no number after it. Not blank, so the
+      # stamp could not touch them; not findable, so the audit called them
+      # THIN. This edits a citation somebody already wrote, which is the thing
+      # this tool otherwise refuses to do, and it is safe only because it must
+      # be shown BOTH the exact text to find and the exact text to put there.
+      - name: upgrade a source
+        if: inputs.match != ''
+        run: |
+          node tools/cite.js "${{ inputs.room }}" \
+            --match "${{ inputs.match }}" \
+            --replace "${{ inputs.replace }}" \
+            ${{ inputs.dry_run && ' ' || '--write' }}
+
+      - name: commit the upgrade
+        if: inputs.match != '' && !inputs.dry_run
+        run: |
+          node probes/probe-library.mjs
+          set +e; node probes/probe-citations.mjs --write; code=$?; set -e
+          if [ "$code" -eq 2 ]; then echo "::error::the audit could not run"; exit 2; fi
+          git config user.name  "amenti-probe"
+          git config user.email "probe@amenti.live"
+          git add -f "library/${{ inputs.room }}.json" LIBRARY.json CITATIONS.json
+          if git diff --cached --quiet; then
+            echo "::notice title=Nothing changed::No source in this room contained that text."
+          else
+            git commit -m "cite ${{ inputs.room }}: a source made findable [skip ci]"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push
+          fi
+
       - name: stop here — no source given
-        if: inputs.source == ''
+        if: inputs.source == '' && inputs.match == ''
         run: |
           echo "::notice title=Report only::No source was given, so nothing was"\
                "changed. That is the correct first run. Find the edition, then run"\
@@ -88,7 +129,7 @@ jobs:
           exit 0
 
       - name: what would change
-        if: inputs.source != '' && inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && inputs.dry_run
         run: |
           node tools/cite.js "${{ inputs.room }}" \
             --source "${{ inputs.source }}" \
@@ -99,7 +140,7 @@ jobs:
 
       # ── THE STAMP ───────────────────────────────────────────────────────
       - name: stamp the citation
-        if: inputs.source != '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
         run: |
           node tools/cite.js "${{ inputs.room }}" \
             --source "${{ inputs.source }}" \
@@ -109,11 +150,11 @@ jobs:
       # Both readings, because a stamped manifest that nothing re-reads leaves
       # LIBRARY.json still saying the source is empty.
       - name: read the library again
-        if: inputs.source != '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
         run: node probes/probe-library.mjs
 
       - name: grade every citation again
-        if: inputs.source != '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
         run: |
           set +e
           node probes/probe-citations.mjs --write
@@ -128,7 +169,7 @@ jobs:
           fi
 
       - name: commit
-        if: inputs.source != '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
         run: |
           git config user.name  "amenti-probe"
           git config user.email "probe@amenti.live"
