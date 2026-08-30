@@ -28,7 +28,7 @@
        has checked it. This tool moves a citation; it does not invent one.
    ========================================================================== */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -36,14 +36,19 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const LIBRARY_DIR = process.env.LIBRARY_DIR || join(HERE, '..', 'library');
 
 const args = process.argv.slice(2);
-const key = args[0];
+/* TRIM. A room key typed into a web form arrives with whatever whitespace came
+   with it, and on 30 Aug 2026 a leading space sent this tool looking for
+   `library/ lincoln.json` and exiting 2 as though the manifest were gone. The
+   argument was fine; the tool was brittle. A room key is a filename component
+   and never contains whitespace, so there is nothing to preserve. */
+const key = (args[0] || '').trim();
 const write = args.includes('--write');
 const flag = (name) => {
   const i = args.indexOf('--' + name);
   return i > -1 && args[i + 1] ? args[i + 1] : null;
 };
-const source  = flag('source');
-const section = flag('section');   /* optional: limit to one section */
+const source  = (flag('source')  || '').trim() || null;
+const section = (flag('section') || '').trim() || null;   /* optional */
 
 if (!key || key.startsWith('--')) {
   console.error('usage: node tools/cite.js <key> [--source "<citation>"] [--section "<name>"] [--write]');
@@ -52,7 +57,20 @@ if (!key || key.startsWith('--')) {
 
 const path = join(LIBRARY_DIR, key + '.json');
 if (!existsSync(path)) {
-  console.error('cite: no manifest at ' + path);
+  /* NAME WHAT WAS LOOKED FOR AND WHAT IS THERE. "no manifest at <path>" sends
+     the reader to check a path they cannot see the inside of; the rooms that
+     DO exist are the fastest way to spot a typo or a wrong key. */
+  console.error('cite: no manifest for room ' + JSON.stringify(key));
+  console.error('      looked at ' + path);
+  try {
+    const rooms = readdirSync(LIBRARY_DIR)
+      .filter(f => f.endsWith('.json'))
+      .map(f => f.replace(/\.json$/, ''));
+    const near = rooms.filter(r => r.includes(key) || key.includes(r));
+    if (near.length) console.error('      did you mean: ' + near.join(', '));
+    else console.error('      rooms here: ' + rooms.slice(0, 12).join(', ') +
+                       (rooms.length > 12 ? ', … ' + (rooms.length - 12) + ' more' : ''));
+  } catch (e) { console.error('      and library/ could not be listed: ' + e.message); }
   process.exit(2);
 }
 const manifest = JSON.parse(readFileSync(path, 'utf8'));
