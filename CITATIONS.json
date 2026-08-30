@@ -1,0 +1,483 @@
+{
+  "generated": "2026-08-30T06:29:22.830Z",
+  "source": "LIBRARY.json",
+  "libraryGenerated": "2026-08-30T06:29:22.789Z",
+  "totals": {
+    "works": 550,
+    "CITED": 405,
+    "DATED": 7,
+    "THIN": 52,
+    "EMPTY": 77,
+    "LINKED": 9
+  },
+  "rooms": {
+    "akhenaten": {
+      "works": 6,
+      "CITED": 0,
+      "DATED": 0,
+      "THIN": 6,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a translator, not an edition"
+    },
+    "apollo": {
+      "works": 8,
+      "CITED": 8,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "augustus-caesar": {
+      "works": 7,
+      "CITED": 7,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "bram-stoker": {
+      "works": 7,
+      "CITED": 7,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "brutus": {
+      "works": 5,
+      "CITED": 5,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "charles-martel": {
+      "works": 3,
+      "CITED": 3,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "christopher-columbus": {
+      "works": 6,
+      "CITED": 6,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "cleopatra": {
+      "works": 7,
+      "CITED": 7,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "confucius": {
+      "works": 6,
+      "CITED": 0,
+      "DATED": 0,
+      "THIN": 6,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a translator, not an edition"
+    },
+    "dante-alighieri": {
+      "works": 10,
+      "CITED": 10,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "david-hume": {
+      "works": 16,
+      "CITED": 3,
+      "DATED": 0,
+      "THIN": 13,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a work, nothing to find it by"
+    },
+    "edward-gibbon": {
+      "works": 8,
+      "CITED": 8,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "einstein-albert": {
+      "works": 10,
+      "CITED": 7,
+      "DATED": 1,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 2,
+      "needs": "a year but no edition identifier"
+    },
+    "flavius-josephus": {
+      "works": 29,
+      "CITED": 29,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "frederick-douglass": {
+      "works": 6,
+      "CITED": 0,
+      "DATED": 6,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "a year but no edition identifier"
+    },
+    "galileo-galilei": {
+      "works": 6,
+      "CITED": 6,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "gautama-buddha": {
+      "works": 8,
+      "CITED": 8,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "george-washington": {
+      "works": 5,
+      "CITED": 5,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "gutenberg": {
+      "works": 7,
+      "CITED": 7,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "hannibal": {
+      "works": 5,
+      "CITED": 5,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "helen-keller": {
+      "works": 10,
+      "CITED": 10,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "herodotus": {
+      "works": 4,
+      "CITED": 4,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "ingram": {
+      "works": 6,
+      "CITED": 6,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "isaac-newton": {
+      "works": 6,
+      "CITED": 6,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "john-milton": {
+      "works": 6,
+      "CITED": 0,
+      "DATED": 0,
+      "THIN": 6,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a work, nothing to find it by"
+    },
+    "julius-caesar": {
+      "works": 11,
+      "CITED": 11,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "king-arthur": {
+      "works": 34,
+      "CITED": 34,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "leif-erikson": {
+      "works": 11,
+      "CITED": 11,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "lincoln": {
+      "works": 81,
+      "CITED": 2,
+      "DATED": 0,
+      "THIN": 2,
+      "EMPTY": 77,
+      "LINKED": 0,
+      "needs": "no source at all — find the edition, then tools/cite.js"
+    },
+    "livy": {
+      "works": 10,
+      "CITED": 10,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "lycurgus": {
+      "works": 6,
+      "CITED": 6,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "mahatma-gandhi": {
+      "works": 20,
+      "CITED": 20,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "marcus-aurelius": {
+      "works": 12,
+      "CITED": 12,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "moses": {
+      "works": 8,
+      "CITED": 8,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "musashi": {
+      "works": 6,
+      "CITED": 0,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 6,
+      "needs": ""
+    },
+    "nimrod": {
+      "works": 4,
+      "CITED": 3,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 1,
+      "needs": ""
+    },
+    "oliver-cromwell": {
+      "works": 7,
+      "CITED": 3,
+      "DATED": 0,
+      "THIN": 4,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a work, nothing to find it by"
+    },
+    "plato": {
+      "works": 6,
+      "CITED": 0,
+      "DATED": 0,
+      "THIN": 6,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a translator, not an edition"
+    },
+    "plutarch": {
+      "works": 10,
+      "CITED": 10,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "romulus": {
+      "works": 7,
+      "CITED": 7,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "seneca": {
+      "works": 6,
+      "CITED": 0,
+      "DATED": 0,
+      "THIN": 6,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a translator, not an edition"
+    },
+    "shaka": {
+      "works": 6,
+      "CITED": 3,
+      "DATED": 0,
+      "THIN": 3,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": "names a translator, not an edition"
+    },
+    "shakespeare-william": {
+      "works": 45,
+      "CITED": 45,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "solon": {
+      "works": 8,
+      "CITED": 8,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "sun-tzu": {
+      "works": 13,
+      "CITED": 13,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "tacitus": {
+      "works": 4,
+      "CITED": 4,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "tesla": {
+      "works": 3,
+      "CITED": 3,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "theseus": {
+      "works": 6,
+      "CITED": 6,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "thomas-jefferson": {
+      "works": 4,
+      "CITED": 4,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "thoth": {
+      "works": 9,
+      "CITED": 9,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "thucydides": {
+      "works": 6,
+      "CITED": 6,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "wd-gann": {
+      "works": 10,
+      "CITED": 10,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    }
+  }
+}
