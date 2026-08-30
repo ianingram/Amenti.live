@@ -1,17 +1,17 @@
 {
-  "at": "2026-08-29T18:27:42.008Z",
+  "at": "2026-08-30T01:04:02.545Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 115,
+    "count": 116,
     "prefixes": {
       "atlantica:": 81,
       "dailyplanet:": 20,
-      "watch:": 8,
+      "watch:": 9,
       "week:": 6
     }
   },
-  "today": "2026-08-29",
-  "thisWeek": "2026-08-23",
+  "today": "2026-08-30",
+  "thisWeek": "2026-08-30",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
     "ATLANTICA": {
@@ -23,7 +23,7 @@
         "date": "2026-08-29",
         "figure": "ingram"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-08-26",
         "2026-08-25",
@@ -35,8 +35,7 @@
         "2026-08-19",
         "2026-08-18",
         "2026-08-17",
-        "2026-08-16",
-        "2026-08-15"
+        "2026-08-16"
       ],
       "recent": [
         {
@@ -110,7 +109,7 @@
           "key": "atlantica:ayn-rand:2026-08-03"
         }
       ],
-      "note": "68 dispatch(es) in the hold · last 2026-08-29 (ingram) · MISSED 12 of the last 14 days"
+      "note": "68 dispatch(es) in the hold · last 2026-08-29 (ingram) · MISSED 11 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -124,7 +123,7 @@
         "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
       },
       "fired": 0,
-      "thisWeek": "2026-08-23",
+      "thisWeek": "2026-08-30",
       "assembled": false,
       "delivered": false,
       "schedule": {
@@ -135,14 +134,14 @@
       "lastDelivery": null,
       "recent": [],
       "missedLast8": [
+        "2026-08-23",
         "2026-08-16",
         "2026-08-09",
         "2026-08-02",
         "2026-07-26",
         "2026-07-19",
         "2026-07-12",
-        "2026-07-05",
-        "2026-06-28"
+        "2026-07-05"
       ],
       "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 2 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
@@ -153,7 +152,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -71,
+      "lastAgeDays": -70,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
