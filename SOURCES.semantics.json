@@ -1219,6 +1219,13 @@
       "id": "workflow-citations",
       "what": "THE CITATIONS WATCH. Reads the library and grades every source — on every change to library/, on a :47 rung, and by hand. Fires on CHANGE rather than only on a clock, because the moment to ask where a text came from is while whoever added it still remembers. EMPTY fails the run; THIN and DATED report and do not, so a room whose translator is named and whose edition is not yet found is mid-work rather than broken.",
       "authority": "LIVE. NO continue-on-error ANYWHERE, deliberately: on 24 Aug 2026 merge.js threw under it and the manifest froze for ninety hours behind a green tick. Its audit step tells a CRASH apart from a FINDING — exit 2 means the instrument did not run and says NOTHING BELOW IS A READING, exit 1 means a work has no source. The first draft used `|| echo empty=1`, which is the same blindness written small: it would have reported a missing LIBRARY.json as an empty citation. The readings are committed BEFORE the gate, so a red run still leaves a register behind."
+    },
+    "Amenti.live/main/.github/workflows/cite-a-room.yml": {
+      "section": "the instruments",
+      "group": "doctrine",
+      "id": "workflow-cite-a-room",
+      "what": "CITE A ROOM. Run from the Actions tab: give a room key and a citation, and it stamps every work in that room that has none, regenerates LIBRARY.json and CITATIONS.json, and commits. DRY RUN IS ON BY DEFAULT — the first run shows exactly what would change and writes nothing. With the source left blank it reports the gap and stops, which is the correct first run.",
+      "authority": "LIVE. IT EXISTS BECAUSE tools/cite.js WAS BUILT AS A COMMAND FOR A CAPTAIN WHO WORKS FROM GITHUB IN A BROWSER AND HAS NO TERMINAL TO TYPE IT INTO. A tool that cannot be reached by the person who needs it is not a tool; it is a file. Shares the `citations` concurrency lane with the citations watch so the two can never write LIBRARY.json over each other. Other rooms still holding empty sources do NOT fail this run — it stamped the room it was asked to stamp — but a crashed audit does."
     }
   },
   "owner": "ianingram",
