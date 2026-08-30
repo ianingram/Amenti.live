@@ -1,0 +1,145 @@
+# ============================================================================
+#  CITE A ROOM
+#  ---------------------------------------------------------------------------
+#  Stamps a source onto every work in a reading room that has none, then
+#  regenerates both readings and commits. Run it from the Actions tab:
+#
+#      Actions → cite a room → Run workflow
+#          room    lincoln
+#          source  Speeches and Letters of Abraham Lincoln, 1832–1865 · ed.
+#                  Merwin Roe, introduction by James Bryce · Project Gutenberg
+#                  #14721 · public domain
+#          dry run ✓  ← leave ticked the first time
+#
+#  WHY IT IS A WORKFLOW AND NOT A COMMAND. tools/cite.js was written as
+#  something to type at a terminal, for a captain who works from GitHub in a
+#  browser and has no terminal to type it into. A tool that cannot be reached
+#  by the person who needs it is not a tool; it is a file. This is the door.
+#
+#  DRY RUN IS ON BY DEFAULT, and that is the whole safety of it. The first run
+#  shows exactly which works would be stamped and changes nothing. Untick it
+#  only once the list looks right.
+#
+#  IT STILL WILL NOT INVENT A CITATION. The source comes from a person who has
+#  checked the edition — usually by matching the room's titles against the
+#  book's table of contents, which is how #14721 was identified. Nothing here
+#  guesses, and an existing source is never overwritten.
+# ============================================================================
+
+name: cite a room
+
+on:
+  workflow_dispatch:
+    inputs:
+      room:
+        description: 'the room key — e.g. lincoln, plato, seneca, david-hume'
+        required: true
+        type: string
+      source:
+        description: 'the citation. Translator, edition, Gutenberg number. Leave blank to only SEE what is missing.'
+        required: false
+        type: string
+      section:
+        description: 'optional — limit to one section of the room'
+        required: false
+        type: string
+      dry_run:
+        description: 'show what would change and write nothing'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: citations          # shares a lane with the citations watch, so the two
+  cancel-in-progress: false # can never write LIBRARY.json over each other
+
+jobs:
+  cite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── WHAT IS MISSING ─────────────────────────────────────────────────
+      # Always, before anything is touched. With no source this is the whole
+      # run: a question, not a change.
+      - name: what has no source
+        run: |
+          set +e
+          node tools/cite.js "${{ inputs.room }}"
+          echo "----------------------------------------------------------------"
+
+      - name: stop here — no source given
+        if: inputs.source == ''
+        run: |
+          echo "::notice title=Report only::No source was given, so nothing was"\
+               "changed. That is the correct first run. Find the edition, then run"\
+               "this again with it filled in."
+          echo ""
+          echo "  TO FIND AN EDITION: the room's titles, in their order, usually"
+          echo "  identify the book exactly. Lincoln's 77 were one table of"
+          echo "  contents — Speeches and Letters of Abraham Lincoln 1832-1865,"
+          echo "  ed. Merwin Roe, Project Gutenberg #14721."
+          exit 0
+
+      - name: what would change
+        if: inputs.source != '' && inputs.dry_run
+        run: |
+          node tools/cite.js "${{ inputs.room }}" \
+            --source "${{ inputs.source }}" \
+            ${{ inputs.section != '' && format('--section "{0}"', inputs.section) || '' }}
+          echo ""
+          echo "::notice title=Dry run — nothing was written::If that list looks"\
+               "right, run this again with 'dry run' unticked."
+
+      # ── THE STAMP ───────────────────────────────────────────────────────
+      - name: stamp the citation
+        if: inputs.source != '' && !inputs.dry_run
+        run: |
+          node tools/cite.js "${{ inputs.room }}" \
+            --source "${{ inputs.source }}" \
+            ${{ inputs.section != '' && format('--section "{0}"', inputs.section) || '' }} \
+            --write
+
+      # Both readings, because a stamped manifest that nothing re-reads leaves
+      # LIBRARY.json still saying the source is empty.
+      - name: read the library again
+        if: inputs.source != '' && !inputs.dry_run
+        run: node probes/probe-library.mjs
+
+      - name: grade every citation again
+        if: inputs.source != '' && !inputs.dry_run
+        run: |
+          set +e
+          node probes/probe-citations.mjs --write
+          code=$?
+          set -e
+          # Exit 1 here means OTHER rooms still have empty sources, which is
+          # expected while the library is being worked through. It must not
+          # fail this run — this run stamped the room it was asked to stamp.
+          if [ "$code" -eq 2 ]; then
+            echo "::error title=The audit could not run::Not a citation finding."
+            exit 2
+          fi
+
+      - name: commit
+        if: inputs.source != '' && !inputs.dry_run
+        run: |
+          git config user.name  "amenti-probe"
+          git config user.email "probe@amenti.live"
+          git add -f "library/${{ inputs.room }}.json" LIBRARY.json CITATIONS.json
+          if git diff --cached --quiet; then
+            echo "::notice title=Nothing changed::Every work in this room already"\
+                 "carried a source. cite.js never overwrites one."
+          else
+            git commit -m "cite ${{ inputs.room }}: the works carry their edition [skip ci]"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push
+            echo "::notice title=Done::${{ inputs.room }} is cited. The citations"\
+                 "watch will confirm it on its next run."
+          fi
