@@ -51,6 +51,10 @@ on:
         description: 'what that text becomes. e.g. "Part A · Project Gutenberg #19211 ·"'
         required: false
         type: string
+      map:
+        description: 'MANY AT ONCE — "find => put | find => put | …". Use instead of match/replace when a room needs several.'
+        required: false
+        type: string
       dry_run:
         description: 'show what would change and write nothing'
         required: false
@@ -91,15 +95,31 @@ jobs:
       # this tool otherwise refuses to do, and it is safe only because it must
       # be shown BOTH the exact text to find and the exact text to put there.
       - name: upgrade a source
-        if: inputs.match != ''
+        if: inputs.match != '' && inputs.map == ''
         run: |
           node tools/cite.js "${{ inputs.room }}" \
             --match "${{ inputs.match }}" \
             --replace "${{ inputs.replace }}" \
             ${{ inputs.dry_run && ' ' || '--write' }}
 
+      # ── MANY AT ONCE ────────────────────────────────────────────────────
+      # Hume's thirteen portraits needed six upgrades, one per volume of the
+      # History of England. Six dispatches of a form with two hand-typed
+      # fields each is where a `·` separator gets mistyped and nobody notices
+      # until a citation points at nothing. One field, one pass.
+      #
+      # A PAIR THAT MATCHES NOTHING FAILS THE RUN. In a batch that is the
+      # dangerous kind of miss: five land, one does not, and it looks like a
+      # success.
+      - name: upgrade many sources
+        if: inputs.map != ''
+        run: |
+          node tools/cite.js "${{ inputs.room }}" \
+            --map "${{ inputs.map }}" \
+            ${{ inputs.dry_run && ' ' || '--write' }}
+
       - name: commit the upgrade
-        if: inputs.match != '' && !inputs.dry_run
+        if: (inputs.match != '' || inputs.map != '') && !inputs.dry_run
         run: |
           node probes/probe-library.mjs
           set +e; node probes/probe-citations.mjs --write; code=$?; set -e
@@ -116,7 +136,7 @@ jobs:
           fi
 
       - name: stop here — no source given
-        if: inputs.source == '' && inputs.match == ''
+        if: inputs.source == '' && inputs.match == '' && inputs.map == ''
         run: |
           echo "::notice title=Report only::No source was given, so nothing was"\
                "changed. That is the correct first run. Find the edition, then run"\
@@ -129,7 +149,7 @@ jobs:
           exit 0
 
       - name: what would change
-        if: inputs.source != '' && inputs.match == '' && inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && inputs.map == '' && inputs.dry_run
         run: |
           node tools/cite.js "${{ inputs.room }}" \
             --source "${{ inputs.source }}" \
@@ -140,7 +160,7 @@ jobs:
 
       # ── THE STAMP ───────────────────────────────────────────────────────
       - name: stamp the citation
-        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && inputs.map == '' && !inputs.dry_run
         run: |
           node tools/cite.js "${{ inputs.room }}" \
             --source "${{ inputs.source }}" \
@@ -150,11 +170,11 @@ jobs:
       # Both readings, because a stamped manifest that nothing re-reads leaves
       # LIBRARY.json still saying the source is empty.
       - name: read the library again
-        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && inputs.map == '' && !inputs.dry_run
         run: node probes/probe-library.mjs
 
       - name: grade every citation again
-        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && inputs.map == '' && !inputs.dry_run
         run: |
           set +e
           node probes/probe-citations.mjs --write
@@ -169,7 +189,7 @@ jobs:
           fi
 
       - name: commit
-        if: inputs.source != '' && inputs.match == '' && !inputs.dry_run
+        if: inputs.source != '' && inputs.match == '' && inputs.map == '' && !inputs.dry_run
         run: |
           git config user.name  "amenti-probe"
           git config user.email "probe@amenti.live"
