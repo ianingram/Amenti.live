@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-29T08:05:14.071Z",
+    "generated": "2026-08-30T02:58:14.290Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48818,
-      "sha256": "e62d8e56627467f3",
+      "sha256": "09e8d9ec393dd1f1",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1593,7 +1593,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 31,
+    "count": 32,
     "files": [
       {
         "file": "probe-engine.mjs",
@@ -1630,6 +1630,12 @@
         "title": null,
         "guards": null,
         "bytes": 21126
+      },
+      {
+        "file": "probe-post.mjs",
+        "title": "THE POSTING GATE",
+        "guards": null,
+        "bytes": 12326
       },
       {
         "file": "probe-production.mjs",
