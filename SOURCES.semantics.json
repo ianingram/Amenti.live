@@ -1135,6 +1135,20 @@
       "id": "pane-library",
       "what": "THE READING DESK. The nineteenth pane. Every markdown document in the fleet, RENDERED — and printable to PDF through the browser's own dialog. It exists because eleven documents sat in the flagship's root and the only way to read one was a monospaced blob on GitHub. Filing them into docs/ was the other answer and was refused: three are FETCHED AT RUNTIME by their root path, and a tidy folder that breaks the hall is not tidy.",
       "authority": "LIVE, and A REFLECTION — it holds no list of its own. The shelf is built from SOURCES.json, so a document that acquires a sentence appears here and one nobody has described appears marked undescribed. Its markdown renderer is small and local by choice, and was found wrong by testing it against the REAL documents: bold that opened on one line and closed on the next survived as asterisks, because blockquote lines were formatted separately. A sample would never have caught it."
+    },
+    "Amenti.live/main/probes/probe-post.mjs": {
+      "section": "the instruments",
+      "group": "doctrine",
+      "id": "probe-post",
+      "what": "THE POSTING GATE, 29 Aug 2026. Reads a queue of proposed social posts and REFUSES the ones that would put words in a real person's mouth. Exits non-zero, so a workflow can gate on it. Enforces: every quotation carries a source; the note is the SITE'S voice and not the figure's; no quoted speech smuggled into an unsourced field; the figure is on the roster; the post fits without truncation; and THE LIVING-MEMORY LINE at seventy years — a judgment, written in the file so it can be argued with.",
+      "authority": "LIVE, and HONEST ABOUT ITS LIMIT — there is no machine-readable corpus of what these figures wrote, so it CANNOT verify that a quotation is real. It refuses unsourced ones instead, which forces the citation to exist and makes a fabrication a deliberate act rather than an accident. IT FAILS CLOSED: no roster, nothing approved. Its rule is the daily rotation addendum's, applied where no reader is present to ask. Running it against the LIVE roster rather than a fixture found its own worst bug: Caesar's Death-Date is \"-44\" — the roster stores BC as a negative number, not as letters — so the first parser read it as the year 44 and would have held every pre-Christian figure in the cast as too recent to post."
+    },
+    "Amenti.live/main/posts-example.json": {
+      "section": "the instruments",
+      "group": "doctrine",
+      "id": "posts-example",
+      "what": "THE QUEUE SHAPE. One approved post, showing the four fields probe-post.mjs judges: `figure`, `says` (their own words), `source` (the citation, without which the post is refused) and `note` (the site speaking ABOUT them, never as them).",
+      "authority": "an example, not a queue. The gate reads whatever path it is given; the real queue should be its own file. Kept so the shape is documented somewhere a person can open."
     }
   },
   "owner": "ianingram",
