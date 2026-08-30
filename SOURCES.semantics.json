@@ -1226,6 +1226,20 @@
       "id": "workflow-cite-a-room",
       "what": "CITE A ROOM. Run from the Actions tab: give a room key and a citation, and it stamps every work in that room that has none, regenerates LIBRARY.json and CITATIONS.json, and commits. DRY RUN IS ON BY DEFAULT — the first run shows exactly what would change and writes nothing. With the source left blank it reports the gap and stops, which is the correct first run.",
       "authority": "LIVE. IT EXISTS BECAUSE tools/cite.js WAS BUILT AS A COMMAND FOR A CAPTAIN WHO WORKS FROM GITHUB IN A BROWSER AND HAS NO TERMINAL TO TYPE IT INTO. A tool that cannot be reached by the person who needs it is not a tool; it is a file. Shares the `citations` concurrency lane with the citations watch so the two can never write LIBRARY.json over each other. Other rooms still holding empty sources do NOT fail this run — it stamped the room it was asked to stamp — but a crashed audit does."
+    },
+    "Amenti.live/main/logs/2026-08-29.md": {
+      "section": "the log",
+      "group": "log",
+      "id": "captains-log-2026-08-29",
+      "what": "CAPTAIN'S LOG, 29–30 Aug 2026. A session that began with Abraham Lincoln speaking in a woman's voice and ended with every work in the library carrying a source. §I holds the findings — the roster never reaching the voice, the wildcard reset that swallowed four gutter fixes, four duplicate selectors in one night, the announcement and the greeting playing together, the Links column that cites nothing, and 77 of Lincoln's 82 works with no source. §III is the reading: 482 of 550 cited, EMPTY zero. §V is the assistant's own errors, and is the longest section.",
+      "authority": "an ACCOUNT OF A DAY, not a governing document. Its numbers were READ from CITATIONS.json at 06:56:42Z and are stamped with that hour. Where this and a register disagree, the register is right."
+    },
+    "Amenti.live/main/HANDOFF-30AUG.md": {
+      "section": "the log",
+      "group": "log",
+      "id": "handoff-30-aug",
+      "what": "THE HANDOFF, 30 Aug 2026. What the next session needs before it starts. Opens with the single most useful fact about this project and the one discovered latest: THE CAPTAIN WORKS FROM GITHUB IN A BROWSER AND HAS NO TERMINAL, so anything that must be run is a workflow and never a command. Says what belongs in the project folder and what must be kept out of it, the five things that will bite, the work in the order it will hurt to leave undone, and Hume's six Gutenberg numbers so they need never be found again.",
+      "authority": "a handoff, and STALE THE MOMENT A REGISTER MOVES. Read it at the top of a session and check anything load-bearing against the register it names. Replaces the previous handoff — two in one folder is the water between."
     }
   },
   "owner": "ianingram",
