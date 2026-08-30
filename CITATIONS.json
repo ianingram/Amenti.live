@@ -1,13 +1,13 @@
 {
-  "generated": "2026-08-30T06:55:14.815Z",
+  "generated": "2026-08-30T06:56:42.317Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-08-30T06:55:14.768Z",
+  "libraryGenerated": "2026-08-30T06:56:42.264Z",
   "totals": {
     "works": 550,
-    "CITED": 405,
+    "CITED": 482,
     "DATED": 7,
     "THIN": 52,
-    "EMPTY": 77,
+    "EMPTY": 0,
     "LINKED": 9
   },
   "rooms": {
@@ -265,12 +265,12 @@
     },
     "lincoln": {
       "works": 81,
-      "CITED": 2,
+      "CITED": 79,
       "DATED": 0,
       "THIN": 2,
-      "EMPTY": 77,
+      "EMPTY": 0,
       "LINKED": 0,
-      "needs": "no source at all — find the edition, then tools/cite.js"
+      "needs": "names a work, nothing to find it by"
     },
     "livy": {
       "works": 10,
