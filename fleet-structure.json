@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-31T22:32:52.121Z",
+    "generated": "2026-08-31T23:12:47.827Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -702,8 +702,8 @@
     },
     {
       "file": "amenti-hall.js",
-      "bytes": 25417,
-      "sha256": "37600a631e2fc682",
+      "bytes": 32314,
+      "sha256": "9aa09a161bdc8f6d",
       "type": "js",
       "declares": [
         "AmentiHall"
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48619,
-      "sha256": "bcdea25d582af672",
+      "sha256": "dffc6b5c16dc2f8c",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
