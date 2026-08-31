@@ -175,7 +175,12 @@ try {
 }
 if (!loaded) blind('window.AmentiHall._flatten is not published — the lift cannot be checked against the hall\u2019s own hand');
 
-const WANT = ['flatten', 'doorsText', 'buildSystem'];
+/* TWO CALLS, TWO PROMPTS, TWO CHANCES TO OVERRUN — 31 Aug.
+   The hall stopped sending one prompt and started sending two: pickRooms()
+   routes against the doors, buildAnswer() answers from what was opened. The
+   wall applies to BOTH, and measuring only one would leave half the surface
+   unwatched while showing a green lamp. */
+const WANT = ['flatten', 'doorsText', 'pickRooms', 'buildAnswer'];
 const lifted = {};
 for (const n of WANT) {
   const s = lift(hallJs.value, n);
@@ -192,6 +197,10 @@ for (const n of WANT) {
    other function that happens to share the name. Both are load-bearing in the
    budget: the trim decides the width of every line, the marker decides what an
    undescribed entry costs. */
+/* pickRooms() and buildAnswer() build a prompt and then CALL THE MODEL. The
+   probe must never spend, so only their prompt-building halves are exercised:
+   pickRooms is measured from its own pushed lines, buildAnswer is called
+   directly because it returns a string and calls nothing. */
 if (lifted.doorsText) {
   const body = lift(hallJs.value, 'doorsText');
   if (!/THE ARCHITECTURE/.test(body) || !/THE LIBRARY/.test(body))
@@ -301,8 +310,40 @@ if (lines.length !== want || shaped !== lines.length) {
 }
 ok('the doors are one well-formed line per section and room (' + num(nSecs) + ' + ' + num(nRooms) + ')');
 
-const _sys = tryRun('buildSystem()', () => vm.runInContext('buildSystem', sandbox)(
-  hallMd.value, state.value, catalogue, [], []
+/* ── CALL ONE: the router. Doors + framing, no HALL.md, no counts. ────────
+   Measured from the function's own source rather than by running it, because
+   running it would reach window.claude.complete. The pushed literals ARE the
+   prompt; the doors are added at their known size. */
+const routerSrc  = lift(hallJs.value, 'pickRooms');
+const routerLits = [...routerSrc.matchAll(/p\.push\('((?:[^'\\]|\\.)*)'\)/g)]
+  .map(m => m[1].replace(/\\'/g, "'").replace(/\\n/g, '\n')).join('\n');
+const call1 = routerLits.length + catalogue.length;
+
+/* ── CALL TWO: the answer. NO DOOR LIST — that is the saving. ─────────────
+   Measured at its worst: MAX_WORKS passages each of WORK_SLICE chars, which
+   is the largest prompt this call can ever build. */
+const maxWorks  = Number(constant(hallJs.value, 'MAX_WORKS'))  || 4;
+const workSlice = Number(constant(hallJs.value, 'WORK_SLICE')) || 2000;
+/* THE FILLER MUST BE THE WORST REAL CASE, NOT A PLAUSIBLE ONE.
+   The first version invented a title and a source line and under-reported the
+   worst case by ~160 chars against a live run. A probe that under-estimates a
+   wall is pointed the wrong way. LIBRARY.json carries a title and a source for
+   all 550 works, so take the longest that actually exist. */
+let worstTitle = '', worstSource = '';
+for (const rm of (lib.value.rooms || [])) for (const w of (rm.works || [])) {
+  if ((w.title  || '').length > worstTitle.length)  worstTitle  = w.title;
+  if ((w.source || '').length > worstSource.length) worstSource = w.source;
+}
+const worstRoom = (lib.value.rooms || []).reduce((a, r) => (r.name || '').length > a.length ? r.name : a, '');
+const filler = Array.from({ length: maxWorks }, () => ({
+  room: worstRoom, roomName: worstRoom,
+  work: { title: worstTitle, source: worstSource, file: 'x.md' },
+  text: 'x'.repeat(workSlice), why: null
+}));
+const _sys = tryRun('buildAnswer()', () => vm.runInContext('buildAnswer', sandbox)(
+  hallMd.value, state.value, filler,
+  'searched: 52 rooms holding 550 works, and 191 documents of the architecture\nopened: a room, another room\nworks read in full or in part: ' + maxWorks + '\nNOT opened: every other room and every other work. You did not see them and must not describe them.',
+  []
 ));
 if (!_sys.ok) { say(''); process.exit(1); }
 const system = _sys.value;
@@ -316,6 +357,9 @@ note('wall            ' + num(WALL) + '   DECLARED in the hall\u2019s comments, 
 note('HALL.md         ' + num(hallMd.value.length));
 note('the counts      ' + num(JSON.stringify(state.value, null, 1).length));
 note('the doors       ' + num(catalogue.length) + '   ' + num(nSecs) + ' sections + ' + num(nRooms) + ' rooms');
+note('');
+note('CALL ONE  routing   ' + num(call1) + '   the doors plus ' + num(routerLits.length) + ' of framing');
+note('CALL TWO  answering ' + num(total) + '   at its worst: ' + maxWorks + ' passages of ' + num(workSlice));
 note('the rest        ' + num(total - hallMd.value.length - catalogue.length -
      JSON.stringify(state.value, null, 1).length) + '   preamble and the nine rules');
 note('SYSTEM PROMPT   ' + num(total));
@@ -343,22 +387,19 @@ note(margin > 0
   : 'the budget is already spent; ' + Math.ceil((total - WALL) / perDoc) +
     ' entries\u2019 worth must come off.');
 
-/* --- the slices, which the slip proposes spending budget the hall may not have --- */
-
-const maxBriefs  = constant(hallJs.value, 'MAX_BRIEFS');
-const briefSlice = constant(hallJs.value, 'BRIEF_SLICE');
-if (maxBriefs === null || briefSlice === null) {
-  blind('could not read MAX_BRIEFS / BRIEF_SLICE from amenti-hall.js');
-} else {
-  const cost = Number(maxBriefs) * Number(briefSlice);
-  note('MAX_BRIEFS ' + maxBriefs + ' \u00d7 BRIEF_SLICE ' + briefSlice + ' = up to ' + num(cost) + ' chars of passage.');
-  if (cost > 0 && margin - cost < 0) {
-    bad('QUOTING IS ARMED AND THERE IS NO ROOM FOR IT. A question that fetches a passage 413s.');
-  } else if (cost === 0 && margin > 2000) {
-    note('quoting is disarmed, and there is room to arm it (THE STANDING SLIP \u00a75).');
-  } else if (cost === 0) {
-    note('quoting is disarmed, and there is no room to arm it. THE STANDING SLIP \u00a75 is blocked, not scheduled.');
-  }
+/* --- what the second call spends on passages, in the unit that spends it ---
+   Replaced the old MAX_BRIEFS / BRIEF_SLICE check on 31 Aug. Those constants
+   are gone: the hall no longer slices briefs into one prompt, it opens rooms
+   into a second one. THE STANDING SLIP §5 asked for quoting and is answered
+   not by arming a slice but by the whole two-call shape. */
+note('');
+note('passages    ' + maxWorks + ' works x ' + num(workSlice) + ' = up to ' + num(maxWorks * workSlice) +
+     ' chars of primary source per answer.');
+const roomFor = Math.floor((WALL - (total - maxWorks * workSlice)) / workSlice);
+if (roomFor > maxWorks) {
+  note('the wall would carry ' + roomFor + ' at that slice \u2014 MAX_WORKS is set below what fits.');
+} else if (roomFor < maxWorks) {
+  bad('MAX_WORKS is ' + maxWorks + ' but only ' + roomFor + ' passages fit under the wall.');
 }
 
 /* --- the counts the hall is permitted to say, against the register itself --- */
