@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-31T07:22:45.581Z",
+    "generated": "2026-08-31T07:28:17.332Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48619,
-      "sha256": "e5ca849edc74fda2",
+      "sha256": "79dab392fcd0d3f8",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1593,7 +1593,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 37,
+    "count": 36,
     "files": [
       {
         "file": "Amenti.live__probes__probe-hall-wall.mjs",
@@ -1696,12 +1696,6 @@
         "title": "THE WATCH PROBE",
         "guards": null,
         "bytes": 21892
-      },
-      {
-        "file": "probe-works.mjs",
-        "title": null,
-        "guards": null,
-        "bytes": 8088
       },
       {
         "file": "probe.js",
