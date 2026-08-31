@@ -5,6 +5,41 @@
 #   HALL-STATE.json     every number the hall may state
 #
 # Order matters: probe-hall reads ROSTER-INDEX.json, so the roster runs first.
+#
+# ── AND THE WALL, ADDED 31 AUGUST 2026 ──────────────────────────────────────
+#
+# probe-hall-wall.mjs asks whether the hall's system prompt still FITS. It reads
+# amenti-hall.js, HALL.md, SOURCES.json and the HALL-STATE.json written two
+# steps above, so it belongs here and it belongs LAST.
+#
+# It exists because the hall sends its whole catalogue on every question — by
+# design, so nothing can be missed silently — which means every document added
+# to SOURCES.json spends the prompt budget, and nothing watched the meter. On
+# 31 Aug the prompt stood at 24,208 against the proxy's SYSTEM_CHARS of 20,000.
+# The Worker refuses that with system_too_long: a 413, not a shorter answer.
+#
+# EXPECT THIS WORKFLOW TO BE RED until THE STANDING SLIP #12 is fixed. That is
+# the instrument working. A silent surface should not have a green lamp over it.
+#
+# ── WHY continue-on-error, AND WHY THE GATE IS LAST ─────────────────────────
+# Straight from patrol.yml's second correction. A plain `run:` that exits 1
+# ABORTS THE JOB AT THAT LINE — so the commit below would never happen and the
+# hall's own counts would be thrown away by the alarm about the wall. An alarm
+# that loses its own evidence is not an alarm. So the probe records its finding,
+# the registers commit, and the job is failed deliberately at the end.
+#
+# The gate reads `outcome`, which GitHub sets deliberately and which
+# continue-on-error preserves. NOT `outputs`, which the failing path never
+# reaches — that was the coincidence patrol.yml had to unpick.
+#
+# ── A MECHANISM THAT WOULD NOT HAVE FIRED, AND IS THEREFORE ABSENT ──────────
+# The obvious addition is `push: paths: [SOURCES.json]`, so the hall recounts
+# the moment the walk commits a new register. IT WOULD NEVER RUN. GitHub does
+# not start a workflow from a push made with GITHUB_TOKEN, and sources.yml
+# commits with exactly that. The trigger would look like a guard and be
+# scenery. The :22-then-:42 schedule already gives the correct order.
+#
+# The push paths below are files a HUMAN edits, so they do fire.
 
 name: the hall
 
@@ -14,6 +49,13 @@ on:
     # tier), :22 (the source index). Two must never occupy one rung.
     - cron: '42 */6 * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - 'amenti-hall.js'
+      - 'HALL.md'
+      - 'probes/probe-hall.mjs'
+      - 'probes/probe-hall-wall.mjs'
+      - '.github/workflows/hall.yml'
 
 permissions:
   contents: write
@@ -37,6 +79,13 @@ jobs:
           node probes/probe-roster.mjs .
           node probes/probe-hall.mjs .
 
+      # Reads the HALL-STATE.json written above, so it must follow it.
+      # continue-on-error so the finding is recorded and the commit still runs.
+      - name: does the hall still fit
+        id: wall
+        continue-on-error: true
+        run: node probes/probe-hall-wall.mjs .
+
       - name: commit if changed
         run: |
           if [ -z "$(git status --porcelain ROSTER-INDEX.json HALL-STATE.json)" ]; then
@@ -53,3 +102,13 @@ jobs:
         if: always()
         run: |
           [ -f HALL-STATE.json ] && cat HALL-STATE.json || true
+
+      # Last, so the finding is safely written down before the job is failed.
+      # The probe exits 1 for TWO different things and says which in its output:
+      # a prompt over the wall, and something it could not see. Both deserve to
+      # stop the build; neither is reported as the other.
+      - name: a hall that does not fit is a real finding
+        if: steps.wall.outcome == 'failure'
+        run: |
+          echo "::error::THE HALL'S PROMPT DOES NOT FIT, or the probe could not read what it needed. See the 'does the hall still fit' step above — it says which. THE STANDING SLIP #12."
+          exit 1
