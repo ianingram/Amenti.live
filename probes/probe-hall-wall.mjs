@@ -5,7 +5,7 @@
    Does the hall's system prompt still FIT?
 
      node probes/probe-hall-wall.mjs            # the reading
-     node probes/probe-hall-wall.mjs --check    # same, exits 1 on a finding
+     node probes/probe-hall-wall.mjs --wall=N   # measure against a different wall
 
    THIS WRITES NOTHING. It is a reading.
 
@@ -61,9 +61,22 @@ import path from 'path';
 import vm from 'vm';
 
 const ARGS  = process.argv.slice(2);
-const CHECK = ARGS.includes('--check');
 const ROOT  = ARGS.find(a => !a.startsWith('--')) || '.';
 const WALL  = Number((ARGS.find(a => a.startsWith('--wall=')) || '').split('=')[1]) || 20000;
+
+/* ── THERE IS NO --check HERE, AND THAT IS DELIBERATE ─────────────────────
+   The first draft carried one, copied from probe-hall without earning it.
+   Run both ways it produced byte-identical output and the same exit code: a
+   flag that advertised a mode and did nothing. On probe-hall, --check means
+   DO NOT WRITE HALL-STATE.json. This probe writes nothing, so it has no file
+   to withhold and no second mode to offer.
+
+   A dead flag is a small lie about the instrument, and this corps does not
+   keep those. If one is passed anyway — by someone copying probe-hall's
+   invocation — say so rather than accepting it silently. */
+if (ARGS.includes('--check')) {
+  console.log('  ----    --check does nothing here: this probe never writes. Reading anyway.');
+}
 
 /* Warn before the breach, not at it. A probe that only speaks when the hall is
    already silent has watched a wall get hit rather than kept it from being. */
