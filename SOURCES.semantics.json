@@ -1151,13 +1151,6 @@
       "what": "THE QUEUE SHAPE. One approved post, showing the four fields probe-post.mjs judges: `figure`, `says` (their own words), `source` (the citation, without which the post is refused) and `note` (the site speaking ABOUT them, never as them).",
       "authority": "an example, not a queue. The gate reads whatever path it is given; the real queue should be its own file. Kept so the shape is documented somewhere a person can open."
     },
-    "Amenti.live/main/WORKS.semantics.json": {
-      "section": "the registers — read at the hour of writing",
-      "group": "doctrine",
-      "id": "works-semantics",
-      "what": "THE WORKS, AUTHORED. What each figure ACTUALLY WROTE, and where it can be read. Exists because four things depend on a corpus that did not exist: the daily quote is ruled to be a citation into it, witness mode answers from what a figure SAW, the posting gate can only refuse an unsourced quotation because it cannot verify a sourced one, and a figure speaks from a record. AND THE COLUMN THAT LOOKED LIKE A CORPUS IS NOT ONE: names.csv's `Links` is filled for all 1,011 rows and every value is a Wikipedia SEARCH-BOX url generated from the name. It cites nothing.",
-      "authority": "AUTHORED BY HAND — no walk can derive what a person wrote. Scoped deliberately to figures WHO LEFT WRITINGS; the roster's mythological rows are out of scope, which matters because witness mode's rule assumes a record exists to be silent about. EVERY url IS null AND THAT IS THE POINT: a link typed from memory would be the Links column again in a better costume. Six figures of 1,011, and it says six rather than looking full."
-    },
     "Amenti.live/main/probes/probe-works.mjs": {
       "section": "the instruments",
       "group": "doctrine",
