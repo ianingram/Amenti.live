@@ -50,17 +50,6 @@
   var RAW  = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var BUST = function () { return '?_=' + Date.now() + '-' + Math.random().toString(36).slice(2); };
 
-  /* Slices disabled for launch. The proxy enforces SYSTEM_CHARS = 20000 by
-     policy (Amenti-Workers), with a standing order in the captain's hand: "If
-     a surface 413s here, CHUNK THE SURFACE. Do not raise this." These limits
-     are scar tissue from a real $118 input-overrun. HALL.md + counts +
-     catalogue + two 6 KB slices was ~24000 chars and 413'd on 24 Aug. The hall
-     obeys the order: it CITES every brief from the catalogue and points; it
-     does not quote. To restore quoting, do NOT raise the wall — send ONE short
-     slice (<= ~2000 chars) only when a question needs it, staying under 20000.
-     Set MAX_BRIEFS to 1 and BRIEF_SLICE to ~2000 for that; never 2 x 6000. */
-  var MAX_BRIEFS   = 0;
-  var BRIEF_SLICE  = 6000;
   var CACHE_MS     = 5 * 60 * 1000;
 
   var cache = {};            // url -> { at, body }
@@ -259,77 +248,6 @@
     return t.split(/\s+/).length > 6;
   }
 
-  /* ── the prompt ───────────────────────────────────────────────────────── */
-
-  function buildSystem(hall, state, catalogue, slices, degraded) {
-    var p = [];
-
-    /* The box's own ruling: "hall.html is the home; the others are contingencies,
-       not plans." It mounts to #hall-main. This line said "the arena page" until
-       31 Aug and was simply wrong about where the visitor was standing. */
-    p.push('You are the hall of Amenti answering a visitor who has typed a question into ASK AMENTI in the hall.');
-    p.push('You are NOT a figure. You do not have a historical persona. You speak for the building.');
-    p.push('');
-    p.push('=== WHAT AMENTI IS (authored — this is your meaning) ===');
-    p.push(hall || '[HALL.md could not be read. Say so. Do NOT describe Amenti from your own training — you would be inventing a project that is not this one.]');
-    p.push('');
-    p.push('=== THE COUNTS, READ THIS HOUR (the only numbers you may state) ===');
-    p.push(state ? JSON.stringify(state, null, 1) : '[HALL-STATE.json could not be read. State NO numbers at all. Say the counts could not be read.]');
-    p.push('');
-    p.push('=== EVERY DOOR THAT EXISTS (nothing aboard is outside this list) ===');
-    p.push('These are SECTIONS and ROOMS, not individual documents. The list is complete: every document belongs to one of these sections and every work to one of these rooms.');
-    p.push(catalogue || '[the doors could not be read]');
-
-    if (slices && slices.length) {
-      p.push('');
-      p.push('=== PASSAGES FETCHED FOR THIS QUESTION ===');
-      slices.forEach(function (s) {
-        p.push('--- ' + s.id + ' (' + s.path + ') ---');
-        p.push(s.text);
-      });
-    }
-
-    if (degraded && degraded.length) {
-      p.push('');
-      p.push('=== COULD NOT BE READ THIS TURN ===');
-      p.push(degraded.join('\n'));
-      p.push('You MUST tell the visitor which of these could not be read, in one short sentence, rather than answering as though it had been.');
-    }
-
-    p.push('');
-    p.push('=== HOW TO ANSWER ===');
-    p.push('1. ANSWER FIRST, THEN POINT. Do not make the visitor read four briefs to learn what a spell is. Tell them, then name where the whole argument lives.');
-    p.push('2. Every number you state comes from THE COUNTS above. If it is not there, do not state it.');
-    p.push('3. Cite only the sections and rooms named above. NEVER name an individual document or work — you have not been shown them and you would be inventing the name. If nothing aboard covers the question, say plainly that nothing aboard does.');
-    p.push('3a. YOU CAN SEE THE DOORS, NOT WHAT IS BEHIND THEM. You know a section exists and how many documents it holds; you do not know their titles. Say which door the answer is behind and that the visitor can search it from this box. Do not guess at a document name from a section name — a confident wrong title is worse than an honest door.');
-    p.push('4. Be brief. Two or three short paragraphs. This is a doorway, not a lecture.');
-    p.push('5. Do not speculate about unbuilt things. Unbuilt is not "coming soon".');
-    p.push('6. Amenti-Workers and Admin are private. Their existence is public; their contents are not.');
-    p.push('7. Never state costs, tokens, credentials or provider accounts.');
-    p.push('8. The figures are the thing; you are the doorway. Asked what a particular soul thought or felt, do not summarise them — say they can be asked directly.');
-    p.push('9. Refuse as yourself, in your own voice. A refusal is a character move, not a system notice.');
-
-    return p.join('\n');
-  }
-
-  /* ── choosing what to fetch in full ───────────────────────────────────── */
-
-  function pickBriefs(question, items) {
-    var stop = /^(what|who|why|how|where|which|when|is|are|the|a|an|of|to|in|on|and|or|does|do|it|its|this|that|for|about|amenti)$/i;
-    var words = String(question).toLowerCase().replace(/[^a-z0-9\s-]/g, ' ')
-      .split(/\s+/).filter(function (w) { return w.length > 2 && !stop.test(w); });
-    if (!words.length) return [];
-    return items.map(function (i) {
-      var hay = (i.id + ' ' + i.what).toLowerCase();
-      var n = 0;
-      words.forEach(function (w) { if (hay.indexOf(w) > -1) n++; });
-      return { i: i, n: n };
-    }).filter(function (x) { return x.n > 0 && x.i.path && !x.i.unreachable; })
-      .sort(function (a, b) { return b.n - a.n; })
-      .slice(0, MAX_BRIEFS)
-      .map(function (x) { return x.i; });
-  }
-
   function stripMarkup(s) {
     return String(s)
       .replace(/<(script|style)[\s\S]*?<\/\1>/gi, '')
@@ -407,6 +325,180 @@
     return m;
   }
 
+  /* ── OPENING THE DOORS · added 31 Aug ─────────────────────────────────────
+     The doors tell the hall a room exists and roughly what it holds. They do
+     not tell it one word of what is IN the room. This opens them.
+
+     TWO CALLS, NOT ONE. The first is shown the doors and answers only which
+     rooms and which sections the question reaches. The second is shown what is
+     behind them and answers the visitor. THE SECOND CALL DOES NOT CARRY THE
+     DOOR LIST — 5,812 chars leave the prompt the moment the choice is made,
+     and that is the whole reason passages fit at all.
+
+     THE SECTION TITLES ARE THE HINGE. The doors name up to three per room, so
+     call one can say `brutus / The overthrow` and the works are selected
+     without a third call to ask which ones. That is what the rich door form
+     was paid for.
+
+     THE CAPS ARE THE WALL, EXPRESSED IN WORKS. Call two carries HALL.md,
+     the counts and the rules — about 8,600 fixed — plus MAX_WORKS passages of
+     WORK_SLICE each. Raising any of these without re-running probe-hall-wall
+     is how the hall goes silent again. */
+  var MAX_ROOMS  = 3;
+  var MAX_WORKS  = 4;
+  /* 1,750, not 2,000. At 2,000 the worst case measured 18,473 of 20,000 and
+     probe-hall-wall warned that the margin was under a tenth of the wall — true,
+     and a warning that fires on every run becomes wallpaper. Four passages of
+     1,750 is 7,000 chars of primary source, more than three of 2,000 would be.
+     The room to raise it again is in HALL.md, which spends 5,751 chars — 29% of
+     the wall — carrying the ship's architecture into questions about Livy. That
+     is THE STANDING SLIP #13 move F, and it is where this number grows. */
+  var WORK_SLICE = 1750;
+  var LIB        = RAW + 'library/';
+
+  /* ── call one: which doors does this question reach? ──────────────────── */
+
+  /* Answers with JSON and nothing else. It is shown the doors and the question
+     and NOTHING ELSE — no HALL.md, no counts, no rules about how to write. It
+     is not addressing the visitor; it is pointing. Small keeps it cheap, and
+     keeps it from starting to answer. */
+  function pickRooms(question, doors) {
+    var p = [];
+    p.push('You are routing a question inside the library of Amenti. You do NOT answer it.');
+    p.push('');
+    p.push('=== EVERY DOOR THAT EXISTS ===');
+    p.push(doors);
+    p.push('');
+    p.push('=== WHAT TO DO ===');
+    p.push('Name the rooms whose works bear on the question, most relevant first, at most 3.');
+    p.push('For each room, name the section titles from its door that bear on it, copied EXACTLY as written. If the whole room bears on it, give an empty list.');
+    p.push('A room whose subject merely resembles the question is not a match. Prefer few and right over many and near.');
+    p.push('If NO room bears on it, return an empty list. That is a real and useful answer — do not reach.');
+    p.push('');
+    p.push('Reply with JSON and nothing else. No prose, no markdown fence:');
+    p.push('{"rooms":[{"key":"<room key exactly as written>","sections":["<section title>"]}]}');
+
+    return window.claude.complete({
+      system: p.join('\n'),
+      messages: [{ role: 'user', content: String(question) }]
+    }).then(function (raw) {
+      /* The model writes a fence whether or not it is asked not to. */
+      var t = String(raw).replace(/```json|```/g, '').trim();
+      var a = t.indexOf('{'), b = t.lastIndexOf('}');
+      if (a === -1 || b === -1) return [];
+      try { return (JSON.parse(t.slice(a, b + 1)).rooms || []).slice(0, MAX_ROOMS); }
+      catch (e) { return []; }
+    }, function () { return []; });
+  }
+
+  /* ── opening them ─────────────────────────────────────────────────────────
+     A room key not in LIBRARY.json is dropped without comment. The router is a
+     model and may return a key it invented; a fetch built from an invented key
+     is a 404 that would read as a missing file rather than as a bad guess. */
+  function openRooms(picks, library, degraded) {
+    var known = {};
+    ((library && library.rooms) || []).forEach(function (r) { known[r.key] = true; });
+
+    return Promise.all((picks || []).filter(function (p) { return p && known[p.key]; })
+      .map(function (p) {
+        return attempt('library/' + p.key + '.json', get(LIB + p.key + '.json', true))
+          .then(function (r) { return { pick: p, ok: r.ok, cat: r.value, error: r.error }; });
+      })).then(function (rooms) {
+        var works = [];
+        rooms.forEach(function (r) {
+          if (!r.ok) { degraded.push('library/' + r.pick.key + '.json — ' + r.error); return; }
+          var want = r.pick.sections || [];
+          var hit  = (r.cat.works || []).filter(function (w) {
+            return !want.length || want.indexOf(w.section) !== -1;
+          });
+          /* FOUND BY ATTACKING THIS, 31 Aug. The router is a model and may name
+             a section title that is close but not exact — the doors show only
+             the first three of a room, so it can also name a real section it
+             was never shown. Either way the filter matched nothing and the room
+             was lost ENTIRELY, taking a correct room choice with it.
+             Fall back to the whole room. Nothing is claimed falsely: the
+             coverage statement reports what was actually opened, not what was
+             asked for, so a widened selection is declared like any other. */
+          if (!hit.length) hit = (r.cat.works || []);
+          hit.forEach(function (w) {
+            works.push({ room: r.cat.key, roomName: r.cat.name, work: w });
+          });
+        });
+        return { rooms: rooms, works: works.slice(0, MAX_WORKS) };
+      });
+  }
+
+  /* A work with no `file` has no stored text — a `recall` or `link` work — and
+     is carried WITHOUT a passage rather than dropped, so the answer can say the
+     room holds it and it was not read. LIBRARY.json cannot tell a stored work
+     from a reconstructed one (it keeps only title, section and source), but the
+     room's own catalogue can, and this is where that matters. */
+  function fetchWorks(works, degraded) {
+    return Promise.all((works || []).map(function (w) {
+      if (!w.work.file) {
+        return Promise.resolve({ room: w.room, roomName: w.roomName, work: w.work,
+          text: null, why: 'no stored text (' + (w.work.mode || 'mode unrecorded') + ')' });
+      }
+      return attempt(w.work.id, get(LIB + w.work.file, false)).then(function (r) {
+        if (!r.ok) {
+          degraded.push(w.work.id + ' — ' + r.error);
+          return { room: w.room, roomName: w.roomName, work: w.work, text: null, why: 'could not be read' };
+        }
+        return { room: w.room, roomName: w.roomName, work: w.work,
+          text: stripMarkup(r.value).slice(0, WORK_SLICE), why: null };
+      });
+    }));
+  }
+
+  /* ── call two: answer from what was opened ────────────────────────────── */
+
+  function buildAnswer(hall, state, opened, coverage, degraded) {
+    var p = [];
+    p.push('You are the hall of Amenti answering a visitor who has typed a question into ASK AMENTI in the hall.');
+    p.push('You are NOT a figure. You do not have a historical persona. You speak for the building.');
+    p.push('');
+    p.push('=== WHAT AMENTI IS (authored — this is your meaning) ===');
+    p.push(hall || '[HALL.md could not be read. Say so. Do NOT describe Amenti from your own training — you would be inventing a project that is not this one.]');
+    p.push('');
+    p.push('=== THE COUNTS, READ THIS HOUR (the only numbers you may state) ===');
+    p.push(state ? JSON.stringify(state, null, 1) : '[HALL-STATE.json could not be read. State NO numbers at all.]');
+    p.push('');
+    p.push('=== WHAT WAS OPENED FOR THIS QUESTION ===');
+    if (opened && opened.length) {
+      opened.forEach(function (o) {
+        p.push('--- ' + o.work.title + ' --- room: ' + o.roomName + ' (' + o.room + ')');
+        p.push('SOURCE: ' + (o.work.source || '[no source recorded]'));
+        if (o.text) { p.push('TEXT:'); p.push(o.text); }
+        else p.push('[NOT READ: ' + o.why + ']');
+      });
+    } else {
+      p.push('[nothing was opened for this question]');
+    }
+    p.push('');
+    p.push('=== WHAT WAS SEARCHED, AND WHAT WAS NOT OPENED ===');
+    p.push(coverage);
+
+    if (degraded && degraded.length) {
+      p.push('');
+      p.push('=== COULD NOT BE READ THIS TURN ===');
+      p.push(degraded.join('\n'));
+    }
+
+    p.push('');
+    p.push('=== HOW TO ANSWER ===');
+    p.push('1. ANSWER FROM THE TEXT ABOVE. That is what you were given it for.');
+    p.push('2. THE RULE THAT MATTERS MOST. A quotation must be copied EXACTLY from the TEXT above, word for word. You know famous passages from these authors in translations that are NOT the edition aboard; quoting one of those under the SOURCE line above would put a real citation on words the library does not contain. If you cannot find it in the text above, do not put it in quotation marks.');
+    p.push('3. SAY WHAT YOU READ AND WHAT YOU DID NOT. The coverage above is not decoration. Tell the visitor which rooms were opened and that the rest were not. A miss that is stated is honest; a miss that is silent is the fault this hall exists to refuse.');
+    p.push('4. Cite each work by its title, and give its SOURCE line when you quote it. Never invent a work, a title or a source.');
+    p.push('5. Where you rely on general knowledge rather than the text above, say so in the sentence that uses it. The library is the authority here; your own memory of these figures is not, and the visitor must be able to tell which they are reading.');
+    p.push('6. If nothing was opened, say plainly that nothing aboard was opened for this, and name the nearest rooms rather than answering from memory.');
+    p.push('7. Be brief. Two or three short paragraphs, plus a quotation if you have one. This is a doorway, not a lecture.');
+    p.push('8. Amenti-Workers and Admin are private. Never state costs, tokens, credentials or provider accounts.');
+    p.push('9. The figures are the thing; you are the doorway. Asked what a soul thought or felt beyond what the text says, say they can be asked directly.');
+    p.push('10. Refuse as yourself, in your own voice. A refusal is a character move, not a system notice.');
+    return p.join('\n');
+  }
+
   /* ── ask ──────────────────────────────────────────────────────────────── */
 
   function ask(question) {
@@ -434,18 +526,43 @@
 
       var items = src ? flatten(src.sources) : [];
       var cat   = doorsText(items, lib);
-      var picks = items.length ? pickBriefs(question, items) : [];
 
-      return Promise.all(picks.map(function (p) {
-        return attempt(p.id, get('https://raw.githubusercontent.com/ianingram/' + p.path, false));
-      })).then(function (fetched) {
-        var slices = [];
-        fetched.forEach(function (f, n) {
-          if (f.ok) slices.push({ id: picks[n].id, path: picks[n].path, text: stripMarkup(f.value).slice(0, BRIEF_SLICE) });
-          else degraded.push(picks[n].id + ' — ' + f.error);
-        });
+      var nRooms = ((lib && lib.rooms) || []).length;
+      var nWorks = (lib && lib.totals && lib.totals.totalWorksPresent) || 0;
+      var nDocs  = items.filter(function (i) { return !i.unreachable; }).length;
 
-        var system = buildSystem(hall, state, cat, slices, degraded);
+      /* CALL ONE — which doors does this question reach? */
+      return pickRooms(question, cat).then(function (picks) {
+      return openRooms(picks, lib, degraded).then(function (o) {
+      return fetchWorks(o.works, degraded).then(function (opened) {
+
+        /* ── THE COVERAGE STATEMENT ─────────────────────────────────────
+           Built from what actually HAPPENED — the rooms really opened and the
+           works really read — never from what was asked for.
+
+           The hall declared every document for its whole life because a
+           retrieval pass can miss and never say it missed. Retrieval keeps
+           that promise only if the miss is DECLARED. So this is assembled
+           here from real counts and handed to the model as something it is
+           required to pass on. It is not a footnote on the design; it is the
+           design, and it is the reason retrieval was allowed to replace
+           declaring everything. */
+        var seen = {};
+        opened.forEach(function (x) { seen[x.roomName] = true; });
+        var names = Object.keys(seen);
+        var read  = opened.filter(function (x) { return x.text; }).length;
+
+        var coverage = [
+          'searched: ' + nRooms + ' rooms holding ' + nWorks + ' works, and ' + nDocs + ' documents of the architecture',
+          'opened: ' + (names.length ? names.join(', ') : 'no rooms'),
+          'works read in full or in part: ' + read,
+          'NOT opened: every other room and every other work. You did not see them and must not describe them.'
+        ].join('\n');
+
+        /* CALL TWO — answer from what was opened. It does NOT carry the door
+           list: 5,812 chars leave the prompt the moment the choice is made,
+           and that is the whole reason the passages fit. */
+        var system = buildAnswer(hall, state, opened, coverage, degraded);
 
         return window.claude.complete({
           system: system,
@@ -453,18 +570,22 @@
         }).then(function (answer) {
           return {
             answer: answer,
-            cited: slices.map(function (s) { return s.id; }),
+            cited: opened.map(function (x) { return x.work.title; }),
             counts: state,
             sources: items.length,
-            /* The URLs are NOT sent to the model — 147 of them overruns
-               SYSTEM_CHARS on their own (measured: 20,532 with HALL.md, wall
-               is 20,000). The hall cites by id and the surface resolves the
-               id to a door afterwards, which also means a link can only ever
-               point at something the register knows. */
+            /* Documents only, and never sent to the model — 147 urls overran
+               SYSTEM_CHARS on their own. A room is an overlay, not a page, so
+               it has no url to give. Costs no prompt budget either way. */
             links: linkMap(items),
+            opened: opened.map(function (x) {
+              return { room: x.room, title: x.work.title, source: x.work.source, read: !!x.text };
+            }),
+            searched: { rooms: nRooms, works: nWorks, documents: nDocs },
             degraded: degraded
           };
         });
+      });
+      });
       });
     });
   }
@@ -490,7 +611,6 @@
     },
 
     isQuestion: isQuestion,
-    _flatten: flatten,
-    _pickBriefs: pickBriefs
+    _flatten: flatten
   };
 })();
