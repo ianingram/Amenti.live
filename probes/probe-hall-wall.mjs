@@ -147,8 +147,11 @@ const hallJs = read('amenti-hall.js');
 const srcs   = read('SOURCES.json', true);
 const hallMd = read('HALL.md');
 const state  = read('HALL-STATE.json', true);
+/* Added 31 Aug with the doors: the room list is half the prompt now, so a
+   measurement without it is not a measurement of the hall. */
+const lib    = read('LIBRARY.json', true);
 
-for (const r of [hallJs, srcs, hallMd, state]) if (!r.ok) blind('could not read ' + r.why);
+for (const r of [hallJs, srcs, hallMd, state, lib]) if (!r.ok) blind('could not read ' + r.why);
 
 if (unread) {
   say('');
@@ -172,7 +175,7 @@ try {
 }
 if (!loaded) blind('window.AmentiHall._flatten is not published — the lift cannot be checked against the hall\u2019s own hand');
 
-const WANT = ['flatten', 'catalogueText', 'buildSystem'];
+const WANT = ['flatten', 'doorsText', 'buildSystem'];
 const lifted = {};
 for (const n of WANT) {
   const s = lift(hallJs.value, n);
@@ -189,9 +192,10 @@ for (const n of WANT) {
    other function that happens to share the name. Both are load-bearing in the
    budget: the trim decides the width of every line, the marker decides what an
    undescribed entry costs. */
-if (lifted.catalogueText) {
-  const body = lift(hallJs.value, 'catalogueText');
-  if (!/\[undescribed\]/.test(body)) blind('the lifted catalogueText() has no [undescribed] marker — this is not the function that builds the catalogue');
+if (lifted.doorsText) {
+  const body = lift(hallJs.value, 'doorsText');
+  if (!/THE ARCHITECTURE/.test(body) || !/THE LIBRARY/.test(body))
+    blind('the lifted doorsText() names neither THE ARCHITECTURE nor THE LIBRARY — this is not the function that builds the doors');
 }
 
 if (unread) {
@@ -203,6 +207,27 @@ if (unread) {
 }
 
 /* --- the accusation the probe makes against itself --- */
+
+/* ── A LIFTED FUNCTION MAY CLOSE OVER THINGS THE LIFT DID NOT TAKE ────────
+   Found 31 Aug, the first time this probe was pointed at a changed hall:
+   doorsText() reads ROOM_SECTIONS, a var in the IIFE that no function-shaped
+   lift will ever catch, and the probe died with a ReferenceError and a stack
+   trace. A CRASH IS NOT A REPORT. Whatever else it did, it said nothing about
+   the wall while appearing to have run.
+
+   So: seed the private constants the doors depend on, and — the part that
+   matters more — never let an evaluation failure escape as a stack trace
+   again. Anything thrown from the hall's own code is the instrument failing
+   to see, which is UNREAD, and UNREAD says so and measures nothing. */
+for (const name of ['ROOM_SECTIONS']) {
+  const v = constant(hallJs.value, name);
+  if (v !== null) vm.runInContext('var ' + name + ' = ' + v + ';', sandbox);
+}
+
+function tryRun(what, fn) {
+  try { return { ok: true, value: fn() }; }
+  catch (e) { blind('the hall\u2019s own ' + what + ' threw when run: ' + e.message); return { ok: false }; }
+}
 
 const items    = vm.runInContext('flatten', sandbox)(srcs.value.sources);
 const theirs   = sandbox.window.AmentiHall._flatten(srcs.value.sources);
@@ -219,7 +244,14 @@ ok('the lift agrees with the hall\u2019s own _flatten() on ' + num(items.length)
 
 /* --- the measurement, with the hall's own functions, on the real register --- */
 
-const catalogue = vm.runInContext('catalogueText', sandbox)(items);
+const _doors = tryRun('doorsText()', () => vm.runInContext('doorsText', sandbox)(items, lib.value));
+if (!_doors.ok) {
+  note('a lifted function that will not run is a lift that missed something it');
+  note('closes over. No margin is reported, because none was measured.');
+  say('');
+  process.exit(1);
+}
+const catalogue = _doors.value;
 
 /* ── THE HOLE THIS CLOSES, FOUND BY ATTACKING THE PROBE ───────────────────
    A decoy catalogueText() that COMPILED and carried the [undescribed] marker
@@ -236,23 +268,44 @@ const catalogue = vm.runInContext('catalogueText', sandbox)(items);
    correctly-shaped lines of the wrong width would still be believed. The only
    real defence is that the bytes are the DEPLOYED bytes — which is why this
    probe lifts from the shipped file and never carries its own copy. */
-const lines  = catalogue.split('\n').filter(Boolean);
-const shaped = lines.filter(l => l.startsWith('\u00b7 ') && l.includes(' \u2014 ')).length;
-const want   = items.filter(i => !i.unreachable).length;
+const lines   = catalogue.split('\n').filter(l => l.startsWith('\u00b7 '));
+const shaped  = lines.filter(l => l.includes(' \u2014 ')).length;
+const nSecs   = new Set(items.filter(i => !i.unreachable).map(i => i.section)).size;
+const nRooms  = (lib.value.rooms || []).length;
 
-if (lines.length !== want || shaped !== lines.length) {
-  blind('the catalogue is the wrong shape \u2014 ' + num(lines.length) + ' lines for ' +
-        num(want) + ' entries, ' + num(shaped) + ' of them in `\u00b7 id \u2014 gloss` form');
-  note('this is not a measurement of the hall. Something other than the hall\u2019s');
-  note('catalogue builder answered to that name. No margin is reported.');
+/* ── FOUND BY ATTACKING THIS PROBE, 31 AUG ───────────────────────────────
+   Truncating LIBRARY.json to ten rooms PASSED. The probe took its expected
+   room count from the same file it was measuring, so the expectation shrank
+   with the evidence: a library that had silently lost 42 rooms produced a
+   smaller prompt, more headroom, and a green lamp.
+   The register carries its own tally in totals.manifests, written by
+   probe-library from the manifests it actually walked. Cross-check them. A
+   file that disagrees with itself is not something to measure the wall with. */
+const claimed = lib.value.totals && lib.value.totals.manifests;
+if (claimed != null && claimed !== nRooms) {
+  blind('LIBRARY.json disagrees with itself \u2014 totals.manifests says ' + num(claimed) +
+        ', the rooms array holds ' + num(nRooms));
+  note('the hall would declare ' + num(nRooms) + ' rooms and be wrong. No margin is reported.');
   say('');
   process.exit(1);
 }
-ok('the catalogue is one well-formed line per reachable entry (' + num(want) + ')');
+const want    = nSecs + nRooms;
 
-const system = vm.runInContext('buildSystem', sandbox)(
+if (lines.length !== want || shaped !== lines.length) {
+  blind('the doors are the wrong shape \u2014 ' + num(lines.length) + ' door lines for ' +
+        num(nSecs) + ' sections + ' + num(nRooms) + ' rooms, ' + num(shaped) + ' well-formed');
+  note('this is not a measurement of the hall. Something other than the hall\u2019s');
+  note('door builder answered to that name. No margin is reported.');
+  say('');
+  process.exit(1);
+}
+ok('the doors are one well-formed line per section and room (' + num(nSecs) + ' + ' + num(nRooms) + ')');
+
+const _sys = tryRun('buildSystem()', () => vm.runInContext('buildSystem', sandbox)(
   hallMd.value, state.value, catalogue, [], []
-);
+));
+if (!_sys.ok) { say(''); process.exit(1); }
+const system = _sys.value;
 
 const total  = system.length;
 const margin = WALL - total;
@@ -262,8 +315,7 @@ say('');
 note('wall            ' + num(WALL) + '   DECLARED in the hall\u2019s comments, enforced in the Worker \u2014 not read');
 note('HALL.md         ' + num(hallMd.value.length));
 note('the counts      ' + num(JSON.stringify(state.value, null, 1).length));
-note('the catalogue   ' + num(catalogue.length) + '   ' + num(shown) + ' entries, ' +
-     (catalogue.length / shown).toFixed(1) + ' chars each');
+note('the doors       ' + num(catalogue.length) + '   ' + num(nSecs) + ' sections + ' + num(nRooms) + ' rooms');
 note('the rest        ' + num(total - hallMd.value.length - catalogue.length -
      JSON.stringify(state.value, null, 1).length) + '   preamble and the nine rules');
 note('SYSTEM PROMPT   ' + num(total));
@@ -283,9 +335,9 @@ if (total > WALL) {
 
 /* --- what the margin is worth, in the unit that actually spends it --- */
 
-const perDoc = catalogue.length / shown;
+const perDoc = catalogue.length / want;
 say('');
-note('one more document costs about ' + Math.round(perDoc) + ' chars.');
+note('one more DOOR costs about ' + Math.round(perDoc) + ' chars. A new document inside an\n          existing section costs nothing — which is the point of the change.');
 note(margin > 0
   ? 'room for roughly ' + Math.floor(margin / perDoc) + ' more before the hall goes silent.'
   : 'the budget is already spent; ' + Math.ceil((total - WALL) / perDoc) +
