@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-08-31T00:27:34.311Z",
+    "generated": "2026-08-31T01:39:09.865Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48602,
-      "sha256": "7d4e4254142e12e4",
+      "sha256": "3bd08bd6b3daae92",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1593,7 +1593,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 35,
+    "count": 36,
     "files": [
       {
         "file": "probe-citations.mjs",
@@ -1612,6 +1612,12 @@
         "title": "WHY THIS EXISTS",
         "guards": null,
         "bytes": 11880
+      },
+      {
+        "file": "probe-hall-wall.mjs",
+        "title": "THE HALL'S WALL",
+        "guards": null,
+        "bytes": 16755
       },
       {
         "file": "probe-hall.mjs",
