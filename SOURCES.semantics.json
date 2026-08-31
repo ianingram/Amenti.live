@@ -1241,6 +1241,13 @@
       "id": "handoff-30-aug",
       "what": "THE HANDOFF, 30 Aug 2026. What the next session needs before it starts. Opens with the single most useful fact about this project and the one discovered latest: THE CAPTAIN WORKS FROM GITHUB IN A BROWSER AND HAS NO TERMINAL, so anything that must be run is a workflow and never a command. Says what belongs in the project folder and what must be kept out of it, the five things that will bite, the work in the order it will hurt to leave undone, and Hume's six Gutenberg numbers so they need never be found again.",
       "authority": "a handoff, and STALE THE MOMENT A REGISTER MOVES. Read it at the top of a session and check anything load-bearing against the register it names. Replaces the previous handoff — two in one folder is the water between."
+    },
+    "Amenti.live/main/slip/SLIP-ADDENDUM-THE-EDITIONS.md": {
+      "section": "the slipway",
+      "group": "slipway",
+      "id": "slip-addendum-editions",
+      "what": "THE EDITIONS STILL TO FIND, opened 30 Aug 2026. THE CITATION WORK IS DONE and this holds what is left of it: nine rooms that name a translator and stop short of the edition that would let a reader find the text again. 550 works, 495 cited, EMPTY zero — against 482 and 77 blanks the same morning. Carries the method that identified Lincoln’s and Hume’s editions (match the room’s titles, in their order, against a book’s table of contents), the whole cite-a-room procedure in three modes, and the three form-field traps met live.",
+      "authority": "LIVE, and NOT URGENT BY DESIGN. citations.yml fails the build on an EMPTY source and only reports THIN and DATED, because a room whose translator is named and whose edition is not yet found is mid-work rather than broken. Its acceptance test allows a ruling instead of a fix: Lincoln’s two, Shaka’s oral tradition and Milton’s unknown edition may be as good as they will get, AND THAT SHOULD BE WRITTEN DOWN rather than left to look like unfinished work."
     }
   },
   "owner": "ianingram",
