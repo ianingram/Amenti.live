@@ -103,32 +103,77 @@
     return out;
   }
 
-  /* Every document, one line each. ~4,000 tokens for the lot. */
-  /* Cite-length, not quote-length. The proxy has a smaller system ceiling than
-     the model — a 413 system_too_long on 24 Aug proved the full catalogue plus
-     slices overran it. Each line is trimmed to a gloss the hall can cite from;
-     the brief itself is one click away for the whole argument. */
-  function catalogueText(items) {
-    return items.filter(function (i) { return !i.unreachable; })
-      .map(function (i) {
-        var w = String(i.what || '');
-        if (w.length > 90) w = w.slice(0, 88).replace(/\s+\S*$/, '') + '\u2026';
-        /* 24 entries reach here with NO authored sentence — walked into the
-           index and never described. Left blank, the hall has only a filename
-           and will infer a subject from it. That is exactly how a vendor-risk
-           PDF got cited as the authority on who owns Amenti on 26 Aug: the
-           entries that said nothing were invisible, so the one whose gloss
-           merely SOUNDED right won by default. The marker is deliberately two
-           words — the instruction is stated once in the rules instead of
-           repeated 24 times, because it has to fit under SYSTEM_CHARS. */
-        if (!w) w = '[undescribed]';
-        /* A stale document and a current one look identical from a gloss.
-           `supersededBy` in the authored semantics passes straight through
-           the generator's merge, so this needs no change to tools/sources.js. */
-        if (i.supersededBy) w += ' [superseded by ' + i.supersededBy + ']';
-        return '\u00b7 ' + i.id + ' \u2014 ' + w;
-      })
-      .join('\n');
+  /* ── THE DOORS ────────────────────────────────────────────────────────────
+     WHAT THIS REPLACED, AND WHY, so the change is not undone by someone who
+     only sees what was lost.
+
+     Until 31 Aug this function emitted EVERY document, one line each. That was
+     right, and for a reason worth keeping: a retrieval pass can miss and never
+     say it missed, so the hall declared the lot and nothing could be invisible.
+
+     It stopped being possible. The catalogue grew 106 documents -> 191 and the
+     prompt reached 24,138 against the proxy's SYSTEM_CHARS of 20,000, which the
+     Worker refuses with system_too_long — a 413, not a shorter answer. THE HALL
+     WAS SILENT ON EVERY QUESTION. And trimming does not reach it: the box must
+     also carry 550 works and 1,011 souls, and 1,751 entries overrun the wall
+     THREE TIMES OVER with every description deleted.
+
+     So the hall now declares DOORS, not leaves. Eight sections and fifty-two
+     rooms, ~5,900 chars, and it barely grows — a new work adds no room and a
+     new brief adds no section.
+
+     WHAT IS LOST, STATED PLAINLY: the hall knows the SHAPE of the corpus, not
+     the individual documents. It can say what the briefs section holds; it
+     cannot name the one brief. That is a real regression and it is temporary —
+     it is answered by opening what is behind a door, which is the next move and
+     is NOT in this change. Until then the hall must say so rather than guess,
+     which is why rule 3 below now tells it exactly that.
+
+     THE PRINCIPLE IS UNCHANGED. Nothing is missed in silence: the doors cover
+     the whole corpus, and what is not opened is declared as not opened.
+     ────────────────────────────────────────────────────────────────────────── */
+
+  /* Up to three section titles per room. They cost 3,444 chars over a bare
+     name-and-count list and they are the entire point: a question about
+     betrayal reaches Brutus through "The overthrow", not through the word
+     "Brutus". find() already matches names for free — this is the reach that
+     free pass does not have. */
+  var ROOM_SECTIONS = 3;
+
+  function doorsText(items, library) {
+    var p = [];
+
+    /* ── the architecture: 8 sections, counted from the register ── */
+    var secs = {};
+    items.forEach(function (i) {
+      if (i.unreachable) return;
+      secs[i.section] = (secs[i.section] || 0) + 1;
+    });
+    p.push('-- THE ARCHITECTURE: ' + Object.keys(secs).length + ' sections --');
+    Object.keys(secs).forEach(function (name) {
+      p.push('\u00b7 ' + name + ' \u2014 ' + secs[name] + ' documents');
+    });
+
+    /* ── the library: 52 rooms, one per figure ── */
+    if (library && library.rooms && library.rooms.length) {
+      p.push('');
+      p.push('-- THE LIBRARY: ' + library.rooms.length + ' rooms, ' +
+             ((library.totals && library.totals.totalWorksPresent) || '?') + ' works --');
+      library.rooms.forEach(function (rm) {
+        var titles = [];
+        (rm.works || []).forEach(function (w) {
+          if (w.section && titles.indexOf(w.section) === -1) titles.push(w.section);
+        });
+        p.push('\u00b7 ' + rm.key + ' \u2014 ' + rm.name + ', ' +
+               rm.worksPresent + ' works' +
+               (titles.length ? ': ' + titles.slice(0, ROOM_SECTIONS).join('; ') : ''));
+      });
+    } else {
+      p.push('');
+      p.push('-- THE LIBRARY could not be read this turn. Do not describe it. --');
+    }
+
+    return p.join('\n');
   }
 
   /* ── fragment search · no model call, no cost ─────────────────────────── */
@@ -219,7 +264,10 @@
   function buildSystem(hall, state, catalogue, slices, degraded) {
     var p = [];
 
-    p.push('You are the hall of Amenti answering a visitor who has typed a question into ASK AMENTI on the arena page.');
+    /* The box's own ruling: "hall.html is the home; the others are contingencies,
+       not plans." It mounts to #hall-main. This line said "the arena page" until
+       31 Aug and was simply wrong about where the visitor was standing. */
+    p.push('You are the hall of Amenti answering a visitor who has typed a question into ASK AMENTI in the hall.');
     p.push('You are NOT a figure. You do not have a historical persona. You speak for the building.');
     p.push('');
     p.push('=== WHAT AMENTI IS (authored — this is your meaning) ===');
@@ -228,8 +276,9 @@
     p.push('=== THE COUNTS, READ THIS HOUR (the only numbers you may state) ===');
     p.push(state ? JSON.stringify(state, null, 1) : '[HALL-STATE.json could not be read. State NO numbers at all. Say the counts could not be read.]');
     p.push('');
-    p.push('=== EVERY DOCUMENT THAT EXISTS (cite by name from this list only) ===');
-    p.push(catalogue || '[the catalogue could not be read]');
+    p.push('=== EVERY DOOR THAT EXISTS (nothing aboard is outside this list) ===');
+    p.push('These are SECTIONS and ROOMS, not individual documents. The list is complete: every document belongs to one of these sections and every work to one of these rooms.');
+    p.push(catalogue || '[the doors could not be read]');
 
     if (slices && slices.length) {
       p.push('');
@@ -251,8 +300,8 @@
     p.push('=== HOW TO ANSWER ===');
     p.push('1. ANSWER FIRST, THEN POINT. Do not make the visitor read four briefs to learn what a spell is. Tell them, then name where the whole argument lives.');
     p.push('2. Every number you state comes from THE COUNTS above. If it is not there, do not state it.');
-    p.push('3. Cite only documents in the catalogue above, by their plain title. Never invent one. If nothing aboard covers the question, say plainly that nothing aboard does.');
-    p.push('3a. An entry marked [undescribed] has no authored description. You do NOT know what it is about — do not guess its subject from its name. Cite it only to say a document of that name exists and has not been described. An entry marked [superseded by X] is out of date: name X instead, or name both and say which is current.');
+    p.push('3. Cite only the sections and rooms named above. NEVER name an individual document or work — you have not been shown them and you would be inventing the name. If nothing aboard covers the question, say plainly that nothing aboard does.');
+    p.push('3a. YOU CAN SEE THE DOORS, NOT WHAT IS BEHIND THEM. You know a section exists and how many documents it holds; you do not know their titles. Say which door the answer is behind and that the visitor can search it from this box. Do not guess at a document name from a section name — a confident wrong title is worse than an honest door.');
     p.push('4. Be brief. Two or three short paragraphs. This is a doorway, not a lecture.');
     p.push('5. Do not speculate about unbuilt things. Unbuilt is not "coming soon".');
     p.push('6. Amenti-Workers and Admin are private. Their existence is public; their contents are not.');
@@ -334,7 +383,20 @@
     return /[-_.]/.test(String(id || ''));
   }
 
-  /* id -> url, for every catalogue entry a reader could actually open. */
+  /* id -> url, for every DOCUMENT a reader could actually open.
+
+     UNCHANGED BY THE DOORS, DELIBERATELY. This map is never sent to the model —
+     147 urls overran SYSTEM_CHARS on their own — so it costs no prompt budget
+     and keeping all 191 is free insurance: if a document id ever reaches the
+     answer, it still resolves to a door.
+
+     ROOMS ARE NOT IN HERE AND MUST NOT BE FAKED IN. library.js is an overlay
+     renderer — "it is NOT a page itself and is never visited directly" — so a
+     room has no URL to link to. It opens via Amenti.openReadingRoom(key) from a
+     page that has loaded library.js, which hall.html does not. A room citation
+     is therefore plain text in this pass, on the rule that a citation you
+     cannot open is half a citation but a link that 404s is worse. The reading
+     room is opened properly in the move that opens the doors. */
   function linkMap(items) {
     var m = {};
     (items || []).forEach(function (i) {
@@ -356,16 +418,22 @@
     return Promise.all([
       attempt('HALL.md',        get(RAW + 'HALL.md', false)),
       attempt('HALL-STATE.json', get(RAW + 'HALL-STATE.json', true)),
-      attempt('SOURCES.json',   get(RAW + 'SOURCES.json', true))
+      attempt('SOURCES.json',   get(RAW + 'SOURCES.json', true)),
+      /* The rooms. A fourth read, and it degrades like the others rather than
+         failing the answer — doorsText says the library could not be read and
+         the hall tells the visitor, which is better than a hall that silently
+         forgets it has a library. */
+      attempt('LIBRARY.json',   get(RAW + 'LIBRARY.json', true))
     ]).then(function (r) {
       var hall  = r[0].ok ? r[0].value : null;
       var state = r[1].ok ? r[1].value : null;
       var src   = r[2].ok ? r[2].value : null;
+      var lib   = r[3].ok ? r[3].value : null;
 
       r.forEach(function (x) { if (!x.ok) degraded.push(x.name + ' — ' + x.error); });
 
       var items = src ? flatten(src.sources) : [];
-      var cat   = catalogueText(items);
+      var cat   = doorsText(items, lib);
       var picks = items.length ? pickBriefs(question, items) : [];
 
       return Promise.all(picks.map(function (p) {
