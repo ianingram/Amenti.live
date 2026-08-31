@@ -1151,13 +1151,6 @@
       "what": "THE QUEUE SHAPE. One approved post, showing the four fields probe-post.mjs judges: `figure`, `says` (their own words), `source` (the citation, without which the post is refused) and `note` (the site speaking ABOUT them, never as them).",
       "authority": "an example, not a queue. The gate reads whatever path it is given; the real queue should be its own file. Kept so the shape is documented somewhere a person can open."
     },
-    "Amenti.live/main/probes/probe-works.mjs": {
-      "section": "the instruments",
-      "group": "doctrine",
-      "id": "probe-works",
-      "what": "THE WORKS, VERIFIED. Fetches every citation in WORKS.semantics.json, checks each figure back against names.csv, and writes WORKS.json. Distinguishes UNSOURCED (named, no url — honest, exits zero) from DEAD (a url that was authored and does not answer — a fault, exits one). States coverage as a fraction of the whole roster, because a register covering six of a thousand should say six.",
-      "authority": "LIVE. Inherits the source index's law — a source that cannot be reached is not a source. It CANNOT tell you a quotation is really in the work it is attributed to; nothing can, short of holding the text. It checks that the work exists, that the figure wrote it, and that the page opens. In its first run it caught its own register's key: the entry was authored as `gaius julius caesar` and the roster says `Julius Caesar` — AND THE TERMINAL DISPLAYS THE FULLER NAME, which is worth chasing, because the voice resolver keys on that same lowercased string."
-    },
     "Amenti.live/main/tools/cite.js": {
       "section": "the instruments",
       "group": "doctrine",
