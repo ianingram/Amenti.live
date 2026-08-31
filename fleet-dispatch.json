@@ -1,10 +1,10 @@
 {
-  "at": "2026-08-31T01:05:39.420Z",
+  "at": "2026-08-31T06:50:55.252Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 117,
+    "count": 118,
     "prefixes": {
-      "atlantica:": 81,
+      "atlantica:": 82,
       "dailyplanet:": 20,
       "watch:": 10,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 68,
+      "fired": 69,
       "last": {
-        "date": "2026-08-29",
-        "figure": "ingram"
+        "date": "2026-08-31",
+        "figure": "king-arthur"
       },
-      "lastAgeDays": 2,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-08-30",
         "2026-08-26",
@@ -38,6 +38,11 @@
         "2026-08-17"
       ],
       "recent": [
+        {
+          "figure": "king-arthur",
+          "date": "2026-08-31",
+          "key": "atlantica:king-arthur:2026-08-31"
+        },
         {
           "figure": "ingram",
           "date": "2026-08-29",
@@ -102,14 +107,9 @@
           "figure": "zheng-he",
           "date": "2026-08-04",
           "key": "atlantica:zheng-he:2026-08-04"
-        },
-        {
-          "figure": "ayn-rand",
-          "date": "2026-08-03",
-          "key": "atlantica:ayn-rand:2026-08-03"
         }
       ],
-      "note": "68 dispatch(es) in the hold · last 2026-08-29 (ingram) · MISSED 11 of the last 14 days"
+      "note": "69 dispatch(es) in the hold · last 2026-08-31 (king-arthur) · MISSED 11 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
