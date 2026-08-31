@@ -372,8 +372,20 @@
     p.push('=== WHAT TO DO ===');
     p.push('Name the rooms whose works bear on the question, most relevant first, at most 3.');
     p.push('For each room, name the section titles from its door that bear on it, copied EXACTLY as written. If the whole room bears on it, give an empty list.');
-    p.push('A room whose subject merely resembles the question is not a match. Prefer few and right over many and near.');
-    p.push('If NO room bears on it, return an empty list. That is a real and useful answer — do not reach.');
+    /* CORRECTED 31 Aug, ON THE FIRST LIVE QUESTION. This said: "a room whose
+       subject merely resembles the question is not a match", "prefer few and
+       right over many and near", and "do not reach". Asked which souls wrote
+       about betrayal, the router returned NOTHING — no room's door contains
+       that word, so under three warnings against over-matching it judged every
+       room a mere resemblance and opened none.
+       THE SECTION TITLES EXIST FOR EXACTLY THIS LEAP. "Betrayal" reaches Brutus
+       through "The overthrow" and "The price". The single-call version made
+       that leap easily because it was asked to ANSWER; this one was asked to
+       MATCH and told not to stretch. The instruction below asks for the leap by
+       name. Returning nothing is still allowed — but it is now the answer of
+       last resort, not the safe default. */
+    p.push('READ THE SECTION TITLES FOR THEIR MEANING, not for matching words. The question will rarely use the words on the doors. A question about betrayal reaches a room whose sections are named for an overthrow or a broken oath; a question about grief reaches a room whose sections are named for a death. THAT LEAP IS THE WHOLE JOB. Make it.');
+    p.push('Returning an empty list is honest ONLY when no room could plausibly bear on the question at all. Prefer naming a room you are unsure of over naming none: the next step opens it and reads it, and a wrong room costs a passage, while no room costs the visitor their answer.');
     p.push('');
     p.push('Reply with JSON and nothing else. No prose, no markdown fence:');
     p.push('{"rooms":[{"key":"<room key exactly as written>","sections":["<section title>"]}]}');
@@ -452,7 +464,18 @@
 
   /* ── call two: answer from what was opened ────────────────────────────── */
 
-  function buildAnswer(hall, state, opened, coverage, degraded) {
+  /* `doors` is passed ONLY when nothing was opened. Normally call two must not
+     carry the door list — dropping those 5,812 chars is what pays for the
+     passages. But when no room was opened there are no passages, the budget is
+     free, and the hall needs the list for the very rule that tells it to name
+     the nearest rooms.
+
+     WITHOUT THIS IT NAMED THEM FROM TRAINING. Asked about betrayal on 31 Aug it
+     offered Machiavelli, who is NOT ABOARD, hedged as "if he is among those who
+     can speak" — honest about its uncertainty and still the pre-Amenti failure,
+     arriving through the one seam left open. A hall that cannot see its own
+     rooms will describe the rooms it remembers. */
+  function buildAnswer(hall, state, opened, coverage, degraded, doors) {
     var p = [];
     p.push('You are the hall of Amenti answering a visitor who has typed a question into ASK AMENTI in the hall.');
     p.push('You are NOT a figure. You do not have a historical persona. You speak for the building.');
@@ -473,6 +496,12 @@
       });
     } else {
       p.push('[nothing was opened for this question]');
+      if (doors) {
+        p.push('');
+        p.push('=== EVERY DOOR THAT EXISTS (nothing was opened, so here is the whole list) ===');
+        p.push('These are SECTIONS and ROOMS, not individual documents. Name rooms ONLY from this list. A figure not named here IS NOT ABOARD, however famous, and saying they might be is the error this hall exists to refuse.');
+        p.push(doors);
+      }
     }
     p.push('');
     p.push('=== WHAT WAS SEARCHED, AND WHAT WAS NOT OPENED ===');
@@ -491,7 +520,7 @@
     p.push('3. SAY WHAT YOU READ AND WHAT YOU DID NOT. The coverage above is not decoration. Tell the visitor which rooms were opened and that the rest were not. A miss that is stated is honest; a miss that is silent is the fault this hall exists to refuse.');
     p.push('4. Cite each work by its title, and give its SOURCE line when you quote it. Never invent a work, a title or a source.');
     p.push('5. Where you rely on general knowledge rather than the text above, say so in the sentence that uses it. The library is the authority here; your own memory of these figures is not, and the visitor must be able to tell which they are reading.');
-    p.push('6. If nothing was opened, say plainly that nothing aboard was opened for this, and name the nearest rooms rather than answering from memory.');
+    p.push('6. If nothing was opened, say plainly so, and name the nearest rooms FROM THE DOOR LIST ABOVE. Never name a figure who is not on that list — a famous name you remember is not evidence they are aboard.');
     p.push('7. Be brief. Two or three short paragraphs, plus a quotation if you have one. This is a doorway, not a lecture.');
     p.push('8. Amenti-Workers and Admin are private. Never state costs, tokens, credentials or provider accounts.');
     p.push('9. The figures are the thing; you are the doorway. Asked what a soul thought or felt beyond what the text says, say they can be asked directly.');
@@ -562,7 +591,8 @@
         /* CALL TWO — answer from what was opened. It does NOT carry the door
            list: 5,812 chars leave the prompt the moment the choice is made,
            and that is the whole reason the passages fit. */
-        var system = buildAnswer(hall, state, opened, coverage, degraded);
+        var system = buildAnswer(hall, state, opened, coverage, degraded,
+                                 opened.length ? null : cat);
 
         return window.claude.complete({
           system: system,
