@@ -967,6 +967,27 @@
       "what": "THE THREE GATES, 26 Aug 2026. The stack as it stands: the gates above — truth, memory, generator, brokered by a Worker that holds nothing — and the ground beneath. SUPERSEDES the PDF of the same name, which named neither GitHub nor Google.",
       "authority": "canonical"
     },
+    "Amenti.live/main/amenti-hall.js": {
+      "section": "the surfaces",
+      "group": "surfaces",
+      "id": "amenti-hall-engine",
+      "what": "ASK AMENTI — THE ANSWER PATH. NO UI: one function that takes a question and returns an answer with citations. It declares DOORS, not documents — 8 sections and 52 rooms, because 1,751 entries would overrun the proxy's 20,000-char wall three times over with every description deleted. TWO CALLS: pickRooms() sees only the doors and answers which to open; buildAnswer() sees what was opened and answers the visitor, WITHOUT the door list, which is what pays for the passages. A library room OPENS (fetch the catalogue, fetch the text); a ship section does NOT — the register IS the primary source there and is already loaded. Carries the authored room and work notes, the nav, and a coverage statement built from what actually happened. Watched by probes/probe-hall-wall.mjs, which lifts these functions out of this file rather than copying them. See BRIEF-THE-WALL-AND-THE-PROMPT.md.",
+      "authority": "LIVE."
+    },
+    "Amenti.live/main/amenti-hall-box.js": {
+      "section": "the surfaces",
+      "group": "surfaces",
+      "id": "amenti-hall-box",
+      "what": "ASK AMENTI — THE BOX. The surface itself, mounted in hall.html. Search as you type over the registers with NO model call; only a genuine question spends, and only on Enter. Renders the answer, turns cited ids and nav labels into working doors, and prints READ FROM beneath — the works opened with their editions, and what was searched and not read. AND IT CHECKS THE QUOTATIONS: every quoted span is matched character for character against the passage the engine actually fetched. Verified spans are tinted, a span found instead in a librarian's note is marked as such, and an unmatched one gets no colour at all. THE COLOUR IS EARNED, NEVER CLAIMED — a false quotation painted as verified would be worse than no colour. This is the instrument half of the citation policy; see BRIEF-WHAT-A-SOURCE-MUST-BE.md §7.",
+      "authority": "LIVE."
+    },
+    "Amenti.live/main/library.js": {
+      "section": "the surfaces",
+      "group": "surfaces",
+      "id": "library-js",
+      "what": "THE READING ROOM. A shared renderer any page includes — it is NOT a page and is never visited directly. Opens a primary-source reading room as an in-page overlay from library/{key}.json plus .md bodies, so the texts NEVER live in this file. Four work modes: stored (fetch and render), recall (RECONSTRUCT a passage through the AI bridge — no file, and therefore nothing a substring guard can check), link (a button out) and designed. Each stored work gets Read aloud, spoken through the Amenti Worker in the figure's own voice. Because a room has no URL of its own, the hall cites rooms as plain text rather than linking them.",
+      "authority": "LIVE."
+    },
     "Amenti.live/main/hall.html": {
       "section": "the surfaces",
       "group": "surfaces",
