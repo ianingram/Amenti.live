@@ -232,6 +232,18 @@ if (unread) {
    the hall: NOTE_BUDGET, ROOM_NOTE and WORK_NOTE were added 31 Aug and
    buildAnswer() threw the moment they were, which is the tryRun() guard below
    doing its job — UNREAD, not a stack trace, and not a green lamp. */
+/* NAV is an array joined at definition, not a scalar, so constant() cannot
+   read it — the fifth private thing a lifted function has closed over tonight.
+   Evaluate its declaration in the sandbox instead, and if that fails, say so:
+   an unmeasured NAV is ~600 chars of prompt the wall check would miss. */
+const navDecl = /var NAV = \[[\s\S]*?\]\.join\('[^']*'\);/.exec(hallJs.value);
+if (navDecl) {
+  try { vm.runInContext(navDecl[0], sandbox); }
+  catch (e) { blind('NAV is declared but would not evaluate: ' + e.message); }
+} else {
+  blind('could not find the NAV declaration in amenti-hall.js');
+}
+
 for (const name of ['ROOM_SECTIONS', 'NOTE_BUDGET', 'ROOM_NOTE', 'WORK_NOTE', 'MAX_WORKS', 'WORK_SLICE', 'MAX_ROOMS', 'SECTION_BUDGET', 'SECTION_GLOSS', 'SECTION_IDS']) {
   const v = constant(hallJs.value, name);
   if (v !== null) vm.runInContext('var ' + name + ' = ' + v + ';', sandbox);
