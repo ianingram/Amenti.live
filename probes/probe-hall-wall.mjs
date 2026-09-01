@@ -232,7 +232,7 @@ if (unread) {
    the hall: NOTE_BUDGET, ROOM_NOTE and WORK_NOTE were added 31 Aug and
    buildAnswer() threw the moment they were, which is the tryRun() guard below
    doing its job — UNREAD, not a stack trace, and not a green lamp. */
-for (const name of ['ROOM_SECTIONS', 'NOTE_BUDGET', 'ROOM_NOTE', 'WORK_NOTE', 'MAX_WORKS', 'WORK_SLICE', 'MAX_ROOMS', 'SECTION_BUDGET', 'SECTION_GLOSS']) {
+for (const name of ['ROOM_SECTIONS', 'NOTE_BUDGET', 'ROOM_NOTE', 'WORK_NOTE', 'MAX_WORKS', 'WORK_SLICE', 'MAX_ROOMS', 'SECTION_BUDGET', 'SECTION_GLOSS', 'SECTION_IDS']) {
   const v = constant(hallJs.value, name);
   if (v !== null) vm.runInContext('var ' + name + ' = ' + v + ';', sandbox);
 }
@@ -374,10 +374,25 @@ if (!_sec.value || !/^=== SECTION: /.test(_sec.value.text) || _sec.value.shown <
 ok('sectionText() returns ' + num(_sec.value.shown) + ' of ' + num(biggest.n) + ' entries for the largest section' +
    (_sec.value.held ? ', withholding ' + num(_sec.value.held) + ' and saying so' : ''));
 
-const shipFiller = { text: 's'.repeat(Number(constant(hallJs.value, 'SECTION_BUDGET')) || 8000),
-                     shown: 99, held: 49, sections: ['a', 'b', 'c'] };
+/* BUILT BY THE REAL FUNCTION ON THE REAL REGISTER, not a string of the right
+   length. A synthetic filler of exactly SECTION_BUDGET chars under-reported the
+   live worst case by 477 — the budget bounds the entries, and the coverage line
+   and the section headers ride on top. Ask sectionText for the three biggest
+   sections, which is the most a router may pick, and measure what it returns. */
+const bigThree = [...new Set(items.filter(i => !i.unreachable).map(i => i.section))]
+  .map(sec => ({ key: sec, n: items.filter(i => !i.unreachable && i.section === sec).length }))
+  .sort((a, b) => b.n - a.n).slice(0, Number(constant(hallJs.value, 'MAX_ROOMS')) || 3);
+const _big = tryRun('sectionText() on the three largest', () => vm.runInContext('sectionText', sandbox)(items, bigThree));
+if (!_big.ok) { say(''); process.exit(1); }
+const shipFiller = _big.value;
 const _ship = tryRun('buildAnswer() with the register', () => vm.runInContext('buildAnswer', sandbox)(
-  hallMd.value, state.value, [], 'searched: x\nopened: no rooms\nworks read in full or in part: 0',
+  hallMd.value, state.value, [],
+  /* the real shape of the coverage block, including the register line */
+  'searched: 52 rooms holding 550 works, and 191 documents of the architecture\n' +
+  'opened: no rooms\nworks read in full or in part: 0\n' +
+  'the ship\u2019s register: ' + shipFiller.shown + ' document descriptions shown from ' +
+  shipFiller.sections.join(', ') + ', and ' + shipFiller.held + ' NOT shown\n' +
+  'NOT opened: every other room and every other work. You did not see them and must not describe them.',
   [], null, shipFiller
 ));
 
@@ -408,6 +423,17 @@ note('the rest        ' + num(total - hallMd.value.length - catalogue.length -
      JSON.stringify(state.value, null, 1).length) + '   preamble and the nine rules');
 note('SYSTEM PROMPT   ' + num(total));
 say('');
+
+/* CALL ONE IS ALSO A PROMPT AND THE WALL ALSO APPLIES TO IT. It was reported
+   and not gated until 31 Aug: raising SECTION_IDS to 40 ballooned the doors and
+   this probe passed, because only call two was ever compared to the wall. A
+   number printed but never tested is decoration. */
+if (call1 > WALL) {
+  bad('THE ROUTING CALL DOES NOT FIT. ' + num(call1) + ' against a wall of ' + num(WALL) +
+      ' \u2014 over by ' + num(call1 - WALL) + '. No question reaches the library at all.');
+} else if (call1 > WALL * WARN_AT) {
+  hm('the routing call fits, with only ' + num(WALL - call1) + ' to spare.');
+}
 
 if (total > WALL) {
   bad('THE HALL DOES NOT FIT. ' + num(total) + ' against a wall of ' + num(WALL) +
