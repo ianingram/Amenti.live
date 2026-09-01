@@ -1144,6 +1144,13 @@
       "what": "CAPTAIN'S LOG, 27–28 Aug 2026. What was built, what was FOUND, what is running, and what is still only claimed — across a session that shipped three ReferenceError fixes, figure memory end to end, the visit reading, prompt caching, voice priced and metered, and the surface register from brief to pane. §III holds the findings and §IV holds the assistant's own errors, because a log that records only the wins is a log nobody can trust the rest of. Also records the FOUR-DAY BLINDNESS: fleet-semantics.js overwritten with the source index on 24 Aug, hidden because merge.js threw a raw SyntaxError under continue-on-error while the gate announced a wiring bug that did not exist — and the correction that the commit which destroyed the Harbor in August was never foreign, but a Copilot-suggested message nobody read.",
       "authority": "an ACCOUNT OF A DAY, not a governing document. Deploy states are the captain's confirmations, not the assistant's assumptions. Where this and a register disagree, the register is right."
     },
+    "Amenti.live/main/THE-STANDING-SLIP.md": {
+      "section": "the slipway",
+      "group": "slipway",
+      "id": "the-standing-slip",
+      "what": "THE STANDING SLIP, opened 24 Aug 2026. THE YARD'S OPEN WORK — the loose items and the recorded-not-chased, so a session does not rediscover by accident what a previous one found. A move is not done when the file is uploaded; it is done when its acceptance test passes. MOVED TO THIS REPO 1 Sep 2026: it had lived in Amenti-Technical-Briefs while its three addenda sat in Amenti.live/main/slip/, and on 1 Sep a copy existed in BOTH repos at different versions — an upload landing in one while the other was being read as stale. The slip is where the work is, so it lives with the work. Read it at the TOP of a session.",
+      "authority": "LIVE, and kept BY HAND — read at the TOP of a session, not the bottom. Its law: A MOVE IS NOT DONE WHEN THE FILE IS UPLOADED. IT IS DONE WHEN ITS ACCEPTANCE TEST PASSES. Note the split: the slip lives here while its addenda live in Amenti.live/slip/ — two halves of one document in two repos."
+    },
     "Amenti.live/main/slip/SLIP-ADDENDUM-THE-DAILY-ROTATION.md": {
       "section": "the slipway",
       "group": "slipway",
@@ -1164,13 +1171,6 @@
       "id": "speech-manual",
       "what": "THE SPEECH AND AUDIO MANUAL, 28 Aug 2026. Everything about voice out, voice in, the dial, the cost and the cache in one place — because seven briefs describe this system and each is correct only about the day it was written. Holds the cache-key formula and why the archive must not be touched, the two registers and why the counsel NEVER caches, the roster columns a voice is assembled from, the four failure modes and what each SOUNDS like, the dial’s measured gap, the ear’s dials, and what a spoken turn costs.",
       "authority": "canonical, and READ — every constant in it was taken from amenti-core.bundle.js and amenti-dial.js as deployed on 28 Aug 2026, not remembered. Where it and the code disagree, THE CODE IS RIGHT and this file has rotted; regenerate it by reading, the way it was written."
-    },
-    "Amenti-Technical-Briefs/main/THE-STANDING-SLIP.md": {
-      "section": "the briefs — 41 files, 8 of them linked anywhere",
-      "group": "slipway",
-      "id": "the-standing-slip",
-      "what": "THE STANDING SLIP, opened 24 Aug 2026. THE YARD'S OPEN WORK — the loose items and the recorded-not-chased, so a session does not rediscover them by accident. Ten moves, ordered by how much it hurts to leave undone, each ending in a check THE CAPTAIN CAN PERFORM BY OPENING SOMETHING. Carries the critical path, and a list of DECISIONS THE ASSISTANT SHOULD NOT MAKE ALONE: arming THE WEEK's cron, any change to the `dailyplanet:` name, which deck cards are wrong, and adopting direct push.",
-      "authority": "LIVE, and kept BY HAND — read at the TOP of a session, not the bottom. Its law: A MOVE IS NOT DONE WHEN THE FILE IS UPLOADED. IT IS DONE WHEN ITS ACCEPTANCE TEST PASSES. Note the split: the slip lives here while its addenda live in Amenti.live/slip/ — two halves of one document in two repos."
     },
     "Amenti-Technical-Briefs/main/RULING-THE-DISPATCH-TWO-NAMES.md": {
       "section": "the briefs — 41 files, 8 of them linked anywhere",

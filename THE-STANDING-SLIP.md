@@ -265,24 +265,31 @@ next scheduled run. **The ordering was already right**: `sources.yml` at :22,
 `hall.yml` at :42. This entry over-called a transient as a fault. The probe
 reports the two counts and says when they diverge.
 
-### 16 · The Probe Corps roster is six weeks stale, and `probe3` carries a false green
-`Amenti_Probe_Corps.html` is Rev B, 19 July. It says *when you ask "where are the
-probes?", the answer is here*, and for roughly sixteen of them it is not —
-`probe-hall`, `probe-citations`, `probe-engine`, `probe-gate`, `probe-library`,
-`probe-serves`, `probe-surfaces`, `probe-voice`, `probe-works`, `probe-post`,
+### 16 · The roster is stale, and `probe3` CANNOT RUN AT ALL
+`Amenti_Probe_Corps.html` is Rev B, 19 July, and roughly sixteen probes are
+absent from it — `probe-hall`, `probe-citations`, `probe-engine`, `probe-gate`,
+`probe-library`, `probe-serves`, `probe-surfaces`, `probe-voice`, `probe-post`,
 `probe-production`, `probe-spells`, `probe21`, `probe-page1`, `probe-roster`,
-`probe-panes` are all absent, and `probe-hall-wall` is new.
+`probe-panes`, and now `probe-hall-wall`.
 
-**Worse, the doctrine and the register disagree about `probe3`.** The roster
-calls it THE PHANTOM, guarding script injection. `SOURCES.json` says it is Page1
-integrity and that it **carries a false green** — a section reading one file into
-two variables and asserting they are equal, an assertion that cannot fail. The
-register wins. So a probe that cannot fail is patrolling, and the doctrine points
-at a different probe entirely.
-- **Unblocks:** the corps' own doctrine stops being a source of false comfort.
-- **Acceptance test:** the roster lists every probe in `SOURCES.json`, `probe3`
-  is described as the register describes it, and its false-green section either
-  asserts something that can fail or is removed and its absence recorded.
+**AND `probe3` IS WORSE THAN A FALSE GREEN — read 1 Sep.** Its section 3 reads
+one file into two variables and asserts they are equal, which cannot fail. But
+the path it reads is `/mnt/user-data/uploads/` — **an assistant session
+sandbox** that exists on no machine and in no runner. A later section reads
+`window.AMENTI_VOICE` inside a Node script. And what it guards is
+`amenti-throttle.js`, the RETIRED TTS engine that probe17 exists to keep
+surfaces away from.
+
+Nothing invokes it. So it never fires, and if it did it would crash before
+reaching the assertion that cannot fail. **It is a probe written inside a
+session, against files that existed only in that session, and committed.**
+
+- **Recommended: RETIRE IT.** There is no working probe inside to rescue —
+  delete the file, remove its entry, and record why, as `probe-works` was on
+  31 Aug.
+- **Acceptance test:** the roster lists every probe in `SOURCES.json`; `probe3`
+  is gone or genuinely runnable; and no probe in `probes/` references
+  `/mnt/user-data/`.
 
 ### 17 · Caesar may be speaking in the wrong voice
 The terminal displays **GAIUS JULIUS CAESAR**; `names.csv` holds **Julius
@@ -375,13 +382,29 @@ the guard working, but the seeded list must be extended by hand every time.
 - **Acceptance test:** add a new `var` inside the IIFE that a lifted function
   uses; the probe still measures, without being told the name.
 
-### 26 · `?v=1` is cache-busting that never busts
-`hall.html` loads `amenti-hall.js?v=1` and `amenti-hall-box.js?v=1`. The string
-never changes, so a browser holds the old file forever. On 1 Sep this cost an
-hour: the engine had updated, the box had not, and the answer looked broken in a
-way that had nothing to do with the code.
-- **Acceptance test:** change the box, reload normally — not hard-reload — and
-  see the change.
+### 26 · CORRECTED 1 Sep — the cache is GitHub's, not the query string
+This entry said `?v=1` was the cause: a version string that never changes, so a
+browser holds the old file forever. **That was wrong, and it was asserted
+without reading the headers.** GitHub Pages sends:
+
+```
+cache-control: max-age=600
+etag: "6a964d91-5ed5"
+```
+
+The browser will not re-ask for **ten minutes**, query string or none. Removing
+`?v=1` changes nothing; the header is GitHub's and cannot be overridden on
+Pages. What costs an hour is reloading inside that window and reading the result
+as a code fault — which happened on 1 Sep with the box.
+
+- **What actually works:** hard-reload forces revalidation. Or bump the number —
+  `?v=1` to `?v=2` is a different URL with no cache entry, which does work and
+  is useless left at 1 forever.
+- **The move, if it is worth one:** a probe reading each
+  `<script src="...?v=N">` against the file's git hash, failing when the bytes
+  moved and the number did not. Nothing else ends it permanently.
+- **Acceptance test:** change a script, leave its `?v=` alone, and the probe
+  fails.
 
 ### 27 · `data-page="timeline"` on Page1 is not a timeline
 It is BROWSE — *THE CODEX · BROWSE BY ORDER*, a roster browser indexed
@@ -443,6 +466,31 @@ four test events had a witness with a room — Herodotus, Josephus, Gibbon — a
 that is the good case. **Recorded as held, not planned.** The move that unblocks
 it is more rooms.
 - **Acceptance test:** n/a until adopted.
+
+### 34 · CLOSED 1 Sep — move E, the quotation guard
+The hall was told to quote only from the text it was handed and **nothing
+checked that it did** — the largest gap in the citation policy, and the one
+rule aboard with a sentence instead of an instrument. The box now matches every
+quoted span, character for character, against the passage the engine actually
+fetched. Three states: verified in the text, verbatim in a librarian's NOTE
+instead (a real distinction — on 31 Aug the hall said "as the text puts it"
+about a line that was in the note and not in the slice), or unmatched and
+therefore uncoloured. **The colour is earned, never claimed**; a false
+quotation painted as verified would be worse than no colour at all. Eleven
+attacks: hard line-wraps collapse and still match, elision and a one-word
+substitution both fail, HTML injection stays escaped, and a verified quotation
+keeps a working link inside it.
+- **Test passed:** all three states render, and the tally prints under every
+  answer even when everything passed — a guard that speaks only on failure
+  leaves a reader unable to tell it ran.
+- **Costs no prompt budget.** `opened` is returned to the page and never sent
+  to the model.
+
+### 35 · The engine was invisible to its own register — CLOSED 1 Sep
+`amenti-hall.js`, `amenti-hall-box.js` and `library.js` were in no index, so the
+hall could not describe the thing answering the question. Described 1 Sep. Two
+root `.js` files were indexed before this; the rest of SLIP #21's "the index
+does not walk root .js" stands.
 
 ### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
