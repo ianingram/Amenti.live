@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-01T01:38:00.771Z",
+    "generated": "2026-09-01T01:49:26.103Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -702,8 +702,8 @@
     },
     {
       "file": "amenti-hall.js",
-      "bytes": 48022,
-      "sha256": "d965ca0dca423101",
+      "bytes": 51163,
+      "sha256": "973a5cade7ef1812",
       "type": "js",
       "declares": [
         "AmentiHall"
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48595,
-      "sha256": "5c9290df4c3a8a2b",
+      "sha256": "31777590a7c046e8",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1623,7 +1623,7 @@
         "file": "probe-hall-wall.mjs",
         "title": "THE HALL'S WALL",
         "guards": null,
-        "bytes": 26755
+        "bytes": 28510
       },
       {
         "file": "probe-hall.mjs",
