@@ -50,7 +50,23 @@ window.AMENTI_CONFIG = {
   // for testing the rest of the instrument. See SETUP.md.
   AI_PROXY_URL: "https://amenti-proxy.ingram-ian.workers.dev",
 
-  // ---- 3. MANUEL (the glossary) ----
+  // ---- 3. EVENTS (the historical anchors, in this repo) ----
+  // The 488 events the BETA helix draws, lifted out of Page2.html on
+  // 1 Sep 2026 so something other than that one page can read them.
+  // Columns: year, name, category, description.
+  //
+  // A RELATIVE PATH ON PURPOSE. Page2 is served from Pages, so this is
+  // same-origin: no CORS, no share setting that can change without anyone
+  // noticing, and the register lives in the repo where the walk can see it
+  // and a probe can count it.
+  //
+  // Page2 keeps its inline 488-event seed as the fallback. If this fetch
+  // fails, `if (recs.length > 0)` leaves the seed standing and the log says
+  // so. DO NOT REMOVE THAT SEED until the console reads
+  // "events online :: 488 from CSV".
+  EVENTS_CSV_URL: "EVENTS.csv",
+
+  // ---- 4. MANUEL (the glossary) ----
   // Path to MANUEL.md, relative to the HTML page that loads it.
   // Default assumes MANUEL.md sits next to the HTML files in the repo root.
   MANUEL_URL: "MANUEL.md"
