@@ -4,15 +4,15 @@
   "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
   "_reaches": "The four booleans are why this register exists. On 27 Aug 2026 each was an argument, six times in one day, because nothing could be looked up.",
   "_honesty": "null in `reaches` means NOT CHECKED. It is not false. False is a claim.",
-  "generated": "2026-09-01T22:00:42.219Z",
+  "generated": "2026-09-01T22:13:00.221Z",
   "generator": "probes/probe-surfaces.mjs",
   "counts": {
     "authored": 36,
-    "walkedControls": 123,
+    "walkedControls": 109,
     "confirmed": 25,
     "offWalk": 11,
     "adrift": 0,
-    "undeclared": 65,
+    "undeclared": 51,
     "unresolved": 1,
     "duplicate": 34
   },
@@ -65,90 +65,6 @@
       "id": "any",
       "claim": "— nothing claims it —",
       "reading": "Amenti.live/Page1.html · counsel"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "chat-input",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "inject-reload",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "inject-replace",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "inject-eject",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "ledger-input",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "overwatch-health-btn",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "overwatch-primer-btn",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "health-report-close",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "origin-proxy-url",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "origin-history-cap",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "bridge-search",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "filter-bio",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "filter-contemp",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
-    },
-    {
-      "stamp": "UNDECLARED",
-      "id": "search-modal-clear",
-      "claim": "— nothing claims it —",
-      "reading": "Amenti.live/Page2.html"
     },
     {
       "stamp": "UNDECLARED",
