@@ -532,6 +532,49 @@ the architecture.
 - **Acceptance test:** no section name in the register contains a digit, and the
   hall's door list still states each section's count from the walk.
 
+### 44 · The events register is written, good, and trapped in one file
+`Page2.html` hardcodes **488 historical events**, 9500 BC to 2024, across sixteen
+categories — Göbekli Tepe, Çatalhöyük, the wheel, cuneiform, Hammurabi, the
+Hijra, Hastings, Constantinople, the Principia. It is substantial and it is
+good. **It is also readable by exactly one surface.**
+
+Checked 1 Sep: all eighteen landmarks the roster cannot supply — the events with
+no famous casualty, where nobody aboard died — are already in the seed, often
+with a companion (*Fall of Constantinople* beside *End of Hundred Years' War*).
+**Nothing needs authoring, sourcing or deciding.**
+
+- **AND THE SOCKET IS ALREADY BUILT.** `AMENTI_CONFIG.EVENTS_CSV_URL` is an
+  empty string; `reload()` fetches from it and replaces the seed, falling back
+  silently when it is unset. Someone wired it and left it unplugged. *(An
+  earlier reading of this called the BETA strand misconfigured — it is not.
+  The one sheet URL in Page2 is `LEDGER_CSV_URL`, correctly pointed at the
+  roster.)*
+- **The move:** lift the 488 into a register — `EVENTS.json` or a published CSV
+  in the column order `reload()` already expects: year, name, category,
+  description. Point `EVENTS_CSV_URL` at it. Page2 behaves identically; the
+  hall's timeline reads the same file; a probe can walk it and report a count
+  the way probe-library does for works.
+- **Why it matters beyond Page2:** this is what turns the timeline from a chart
+  into a scene. At −480 a reader sees Leonidas die AND Thermopylae; at −44,
+  Caesar and Cicero AND the Ides. Who was there, and what was happening.
+- **And it is the fifth instance of #42** — a true, well-made thing living
+  where nothing else can read it. The register is the answer, and the register
+  only holds what someone thought to put there.
+- **Acceptance test:** `SOURCES.json` names the events register; a probe reports
+  488 events and a date range; Page2 renders identically with `EVENTS_CSV_URL`
+  set; and Page2 no longer carries the list in its own body.
+
+### 45 · Some landmarks are already on the roster, as deaths
+Recorded so nobody authors them twice. **Seventeen of thirty-five test landmarks
+need no event entry at all** — the person who died in them is already dated:
+−44 gives Caesar and Cicero; −323 gives Alexander, Diogenes and Aristotle;
+1914 gives Archduke Franz Ferdinand; 1969 gives Gagarin, King and Keller.
+- **The design point:** a timeline drawing lifespans already carries a good
+  share of its own anchors. The events register supplies what deaths cannot —
+  a battle won, a book published, a city taken.
+- **Acceptance test:** none. A reading, not a move — but read it before
+  authoring any event that a soul already died in.
+
 ### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -647,7 +690,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–43 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–45 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -676,6 +719,10 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
   `Page1.html` unattended.
 
 ---
+
+*Updated 1 Sep 2026 (fourth pass): #44 and #45 added — the events register
+exists, is good, and is hardcoded into Page2, with the socket to publish it
+already built and empty. Groundwork for the timeline (#31).*
 
 *Updated 1 Sep 2026 (third pass): #42 and #43 added — the register cannot tell a
 stale gloss from a true one, and its own section name has rotted. Both from
