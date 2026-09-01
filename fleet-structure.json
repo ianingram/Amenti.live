@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-01T22:11:09.617Z",
+    "generated": "2026-09-01T22:12:57.356Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -227,123 +227,6 @@
         "/atlantica/daily",
         "/speak"
       ],
-      "tables": []
-    },
-    {
-      "file": "Page2.html",
-      "bytes": 1501297,
-      "sha256": "44f1ec35dfdcb225",
-      "type": "html",
-      "declares": [
-        "AMENTI_CONFIG",
-        "AMENTI_VOICE_ON",
-        "AmentiAudio",
-        "Sovereign",
-        "Sovereign.Atlantica",
-        "Sovereign.Ephemeris",
-        "Sovereign.Voice",
-        "__canvasGuardWarned",
-        "inspectReticles"
-      ],
-      "loads": [
-        {
-          "file": "config.js",
-          "line": 22
-        }
-      ],
-      "calls": [
-        {
-          "global": "Sovereign.Navigation",
-          "line": 2873,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Angels",
-          "line": 3200,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.UI",
-          "line": 3218,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Log",
-          "line": 3767,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Cosmetics",
-          "line": 3773,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Search",
-          "line": 3869,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "AMENTI_CONFIG",
-          "line": 8281,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "Sovereign.QuantumContainer",
-          "line": 8296,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.State",
-          "line": 8298,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Bookmarks",
-          "line": 8654,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Voice",
-          "line": 9302,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "Sovereign.TechnicalBriefs",
-          "line": 11262,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Sovereign.Atlantica",
-          "line": 15380,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "AmentiAudio",
-          "line": 15497,
-          "when": "toplevel",
-          "own": true
-        },
-        {
-          "global": "Sovereign.Ephemeris",
-          "line": 16280,
-          "when": "function",
-          "own": true
-        }
-      ],
-      "endpoints": [],
       "tables": []
     },
     {
@@ -1315,7 +1198,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48595,
-      "sha256": "e1f9beaacfe70971",
+      "sha256": "8246ad3738212796",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
