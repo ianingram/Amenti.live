@@ -350,48 +350,6 @@
     return { html: out, tally: tally };
   }
 
-  /* ── A QUESTION CAN ARRIVE IN THE URL ─────────────────────────────────────
-     hall.html?q=who+wrote+about+betrayal
-
-     WHY THIS IS THE MARKETING SURFACE AND NOT A CONVENIENCE. Until now every
-     link and every QR code pointing here landed a stranger in front of an
-     EMPTY BOX, and the first thing asked of them was to think of a question.
-     That is the same demand THE SECOND VOICE names as the reason one-on-one
-     is intense: a stranger arrives, is expected to lead, and something is
-     waiting on them.
-
-     A spokesperson does not hand you a blank prompt. With ?q= the link opens
-     ALREADY ANSWERING — a passage from a figure's own writing, its edition
-     printed beneath, and a line saying what was read and what was not. The
-     prospectus makes that claim in words ("ungrounded; invent quotes" against
-     "verified primary-source grounding"); this makes the claim perform itself,
-     which cannot be argued with.
-
-     AND THE QR CARRIES IT FOR FREE. amenti-qr.js encodes location.href at draw
-     time, so whatever question is in the address is in the square. A poster, a
-     card, a slide — each becomes a demonstration rather than a pointer.
-
-     THREE GUARDS, AND THEY MATTER MORE HERE THAN ANYWHERE ELSE IN THIS FILE,
-     because this is the one input that arrives from a STRANGER'S URL:
-       · length-capped, so a crafted address cannot post a wall of text
-         through the box and spend on it;
-       · the value is only ever assigned to input.value and passed to ask(),
-         never written into the page as markup — the answer is escaped on the
-         way out as it always was;
-       · and it is logged as its own kind, so a seeded question can be told
-         apart from one a visitor typed. A campaign you cannot distinguish
-         from organic arrival teaches you nothing. */
-  var Q_MAX = 300;
-
-  function arrivingQuestion() {
-    try {
-      var raw = new URLSearchParams(window.location.search).get('q');
-      if (!raw) return null;
-      var q = String(raw).replace(/\s+/g, ' ').trim().slice(0, Q_MAX);
-      return q.length > 1 ? q : null;
-    } catch (e) { return null; }   /* no URLSearchParams, no arriving question */
-  }
-
   /* ── the hall answers ─────────────────────────────────────────────────── */
 
   var busy = false;
@@ -504,17 +462,4 @@
       done();
     });
   }
-  /* Runs last, once everything above exists. A question in the address is
-     treated exactly as one typed: it fills the box so the reader can see what
-     was asked and edit it, then asks. If it does not read as a question the
-     box searches instead, which is the same routing a typed fragment gets. */
-  (function () {
-    var q = arrivingQuestion();
-    if (!q) return;
-    input.value = q;
-    log(q, 'arrived');
-    if (window.AmentiHall && window.AmentiHall.isQuestion(q)) ask(q);
-    else search(q, true);
-  })();
-
 })();
