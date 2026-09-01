@@ -128,6 +128,7 @@
      "Brutus". find() already matches names for free — this is the reach that
      free pass does not have. */
   var ROOM_SECTIONS = 3;
+  var SECTION_IDS   = 5;
 
   function doorsText(items, library) {
     var p = [];
@@ -139,8 +140,21 @@
       secs[i.section] = (secs[i.section] || 0) + 1;
     });
     p.push('-- THE ARCHITECTURE: ' + Object.keys(secs).length + ' sections --');
+    /* FOUND LIVE, 31 Aug. These lines used to be a name and a count — "the
+       surfaces — 10 documents" — and nothing else. Asked whether the site has
+       a timeline, the router could not tell that the answer sits behind that
+       door, so it reached for figures' rooms instead and the hall replied that
+       there is no timeline. There is: Page2 carries a double helix of
+       sovereigns and events.
+       Every LIBRARY room shows three of its section titles, which is exactly
+       why "betrayal" finds Brutus through "The overthrow". The ship's doors had
+       no such substance. They do now — a few ids apiece, drawn from the
+       register, no authoring required and none to fall stale. */
     Object.keys(secs).forEach(function (name) {
-      p.push('\u00b7 ' + name + ' \u2014 ' + secs[name] + ' documents');
+      var ids = items.filter(function (i) { return !i.unreachable && i.section === name; })
+        .slice(0, SECTION_IDS).map(function (i) { return i.id; });
+      p.push('\u00b7 ' + name + ' \u2014 ' + secs[name] + ' documents' +
+             (ids.length ? ', e.g. ' + ids.join(', ') : ''));
     });
 
     /* ── the library: 52 rooms, one per figure ── */
@@ -364,7 +378,7 @@
      WHERE IT GROWS BACK: HALL.md, at 5,751, is 29% of the wall spent carrying
      the ship's architecture into a question about Livy. Scope it to the lane —
      THE STANDING SLIP #13 move F — and thousands come back at once. */
-  var WORK_SLICE = 1200;
+  var WORK_SLICE = 1100;
 
   /* ── THE AUTHORED NOTES · added 31 Aug ────────────────────────────────────
      Room catalogues carry a `note` per room and a `note` per work, written by
@@ -405,7 +419,12 @@
      budget carries roughly 130 documents across the sections a question
      reaches. probe-hall-wall measures it and will warn long before it breaks,
      which is the whole difference between tonight and this morning. */
-  var SECTION_BUDGET = 8000;
+  /* 7,400 after rules 6a and the two-kinds instruction landed on 31 Aug.
+     Teaching the router that a question about the ship reaches a SECTION, and
+     forbidding the hall from saying Amenti lacks a thing it never looked for,
+     cost ~650 chars of prompt. The register entries paid, because a shorter
+     list that routes correctly beats a longer one nobody reaches. */
+  var SECTION_BUDGET = 6800;
   var SECTION_GLOSS  = 90;
 
   var NOTE_BUDGET = 900;
@@ -442,6 +461,11 @@
        name. Returning nothing is still allowed — but it is now the answer of
        last resort, not the safe default. */
     p.push('READ THE SECTION TITLES FOR THEIR MEANING, not for matching words. The question will rarely use the words on the doors. A question about betrayal reaches a room whose sections are named for an overthrow or a broken oath; a question about grief reaches a room whose sections are named for a death. THAT LEAP IS THE WHOLE JOB. Make it.');
+    /* Added after the router sent "is there a timeline on this site?" to
+       Lincoln and Ingram. Every example above is about figures and works, so
+       the router read the whole job as a library job. THE DOORS ARE TWO KINDS
+       OF THING and the instruction has to say so. */
+    p.push('THE DOORS ARE TWO KINDS. The ROOMS hold what a historical figure wrote. The SECTIONS hold the ship\u2019s own files — what Amenti is, how it is built, what surfaces and instruments and registers it has. A QUESTION ABOUT AMENTI ITSELF — its features, its pages, its architecture, whether it HAS some thing — REACHES A SECTION, NOT A FIGURE\u2019S ROOM. Asking whether the site has a timeline is a question about the ship; asking who wrote about betrayal is a question about the library. Name the section by its full name exactly as written above.');
     p.push('Returning an empty list is honest ONLY when no room could plausibly bear on the question at all. Prefer naming a room you are unsure of over naming none: the next step opens it and reads it, and a wrong room costs a passage, while no room costs the visitor their answer.');
     p.push('');
     p.push('Reply with JSON and nothing else. No prose, no markdown fence:');
@@ -565,7 +589,14 @@
       var rows = items.filter(function (i) { return !i.unreachable && i.section === sec; });
       if (!rows.length) return;
       any = true;
-      out.push('=== SECTION: ' + sec + ' \u2014 ' + rows.length + ' documents ===');
+      /* CHARGED, not free. Until 31 Aug the header and the notice below were
+         pushed without decrementing the budget, so SECTION_BUDGET bounded the
+         entries and not the text — the real output ran 600 chars past what the
+         probe measured. A budget that does not include everything it emits is
+         a number that lies about itself. */
+      var head = '=== SECTION: ' + sec + ' \u2014 ' + rows.length + ' documents ===';
+      budget -= head.length + 1;
+      out.push(head);
       var cut = 0;
       rows.forEach(function (i) {
         var w = String(i.what || '');
@@ -576,7 +607,11 @@
         if (line.length + 1 > budget) { cut++; held++; return; }
         budget -= line.length + 1; shown++; out.push(line);
       });
-      if (cut) out.push('[' + cut + ' more documents in this section were NOT shown to you. Say so if it matters — do not imply the list above is complete.]');
+      if (cut) {
+        var notice = '[' + cut + ' more documents in this section were NOT shown to you. Say so if it matters — do not imply the list above is complete.]';
+        budget -= notice.length + 1;
+        out.push(notice);
+      }
     });
     if (!any) return null;
     return { text: out.join('\n'), shown: shown, held: held, sections: order };
@@ -695,6 +730,7 @@
     p.push('4. Name the work in the sentence that quotes it — its title, briefly. Do NOT reproduce the full SOURCE line in your prose; the surface prints it beneath your answer, where it belongs. Never invent a work, a title or a source.');
     p.push('5. Where you rely on general knowledge rather than the text above, say so in the sentence that uses it. The library is the authority here; your own memory of these figures is not, and the visitor must be able to tell which they are reading.');
     p.push('6. If nothing was opened, say plainly so, and name the nearest rooms FROM THE DOOR LIST ABOVE. Never name a figure who is not on that list — a famous name you remember is not evidence they are aboard.');
+    p.push('6a. DO NOT SAY AMENTI LACKS SOMETHING UNLESS YOU LOOKED. Telling a visitor the ship has no such feature is a claim about the register, and you may only make it if the ship\u2019s own entries are above and none of them describe it. If you opened figures\u2019 rooms and no section of the register, you have not looked at the ship at all — say which door you would need to open instead, and do not answer with a confident no.');
     p.push('7. Be brief. Two or three short paragraphs, plus a quotation if you have one. This is a doorway, not a lecture.');
     p.push('8. Amenti-Workers and Admin are private. Never state costs, tokens, credentials or provider accounts.');
     p.push('9. The figures are the thing; you are the doorway. Asked what a soul thought or felt beyond what the text says, say they can be asked directly.');
