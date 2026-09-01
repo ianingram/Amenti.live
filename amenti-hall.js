@@ -128,7 +128,7 @@
      "Brutus". find() already matches names for free — this is the reach that
      free pass does not have. */
   var ROOM_SECTIONS = 3;
-  var SECTION_IDS   = 5;
+  var SECTION_IDS   = 4;
 
   /* ── THE NAV · added 1 Sep ────────────────────────────────────────────────
      THE HALL KNEW THE REGISTER AND NOT THE ROOM IT STOOD IN.
@@ -154,17 +154,24 @@
     'ARENA \u2014 the flagship itself, Page1.html: the deck of figures, and the tabs below live on it',
     'ASK AMENTI \u2014 hall.html, this box, where you are now',
     'INTERFACE \u2014 Page2.html. THE SHIP\u2019S TIMELINE lives here: the helix views, sovereigns and events on two strands. It sits DIRECTLY BESIDE Ask Amenti in the bar above',
-    'CODEX \u2014 a tab on the flagship',
-    'BROWSE \u2014 a tab on the flagship',
-    'TERMINAL \u2014 a tab on the flagship, where a figure is spoken to directly',
-    'COUNSEL \u2014 a tab on the flagship',
-    'BOOK STORE \u2014 a tab on the flagship',
-    'MARKETPLACE \u2014 a tab on the flagship',
+    'CODEX \u2014 a tab on the flagship, Page1.html#codex',
+    'BROWSE \u2014 a tab on the flagship, Page1.html#timeline. Browse the library by order: choose a glyph, find a figure, open the dossier. ITS ADDRESS SAYS timeline AND IT IS NOT ONE \u2014 that is a leftover name. The timeline is INTERFACE.',
+    'TERMINAL \u2014 a tab on the flagship, Page1.html#terminal, where a figure is spoken to directly',
+    'COUNSEL \u2014 a tab on the flagship, Page1.html#counsel',
+    'BOOK STORE \u2014 a tab on the flagship, Page1.html#bookstore',
+    'MARKETPLACE \u2014 in the bar on the flagship; no separate address was found for it',
     'GAMEROOM \u2014 game01.html',
     'COURT \u2014 court.html'
   ].join('\n');
 
-  function doorsText(items, library) {
+  /* `bare` drops the section titles and the example ids. THEY ARE FOR THE
+     ROUTER: three titles per room are what let "betrayal" reach Brutus through
+     "The overthrow", and that leap happens in call one. When call two carries
+     the doors it is only so the hall can NAME the nearest rooms after finding
+     nothing — and a name is enough for that. The rich form costs 3,444 chars
+     more, which is the difference between the worst shape fitting comfortably
+     and sitting in the warning band. Pay for reach where reach happens. */
+  function doorsText(items, library, bare) {
     var p = [];
 
     /* ── the architecture: 8 sections, counted from the register ── */
@@ -188,7 +195,7 @@
       var ids = items.filter(function (i) { return !i.unreachable && i.section === name; })
         .slice(0, SECTION_IDS).map(function (i) { return i.id; });
       p.push('\u00b7 ' + name + ' \u2014 ' + secs[name] + ' documents' +
-             (ids.length ? ', e.g. ' + ids.join(', ') : ''));
+             (!bare && ids.length ? ', e.g. ' + ids.join(', ') : ''));
     });
 
     /* ── the library: 52 rooms, one per figure ── */
@@ -203,7 +210,7 @@
         });
         p.push('\u00b7 ' + rm.key + ' \u2014 ' + rm.name + ', ' +
                rm.worksPresent + ' works' +
-               (titles.length ? ': ' + titles.slice(0, ROOM_SECTIONS).join('; ') : ''));
+               (!bare && titles.length ? ': ' + titles.slice(0, ROOM_SECTIONS).join('; ') : ''));
       });
     } else {
       p.push('');
@@ -390,6 +397,49 @@
      is therefore plain text in this pass, on the rule that a citation you
      cannot open is half a citation but a link that 404s is worse. The reading
      room is opened properly in the move that opens the doors. */
+  /* ── THE NAV LABELS ARE DOORS TOO ─────────────────────────────────────────
+     The hall told a visitor "INTERFACE is the label to click" and INTERFACE was
+     not clickable, because linkMap held document IDS and the model had written
+     a nav LABEL. Naming a door and not opening it is half an answer.
+
+     UPPERCASE ONLY, WHICH IS THE GUARD. linkify's regex is case-sensitive, so
+     these match only when written the way the bar writes them. "COURT" links;
+     "the court ruled" does not. That is the same discipline as refusing to link
+     bare words like `hall` — the shape of the token carries the intent.
+
+     THE TABS ARE ADDRESSABLE, AND I SAID TWICE THAT THEY WERE NOT. Two failed
+     greps are not a reading. Page1 carries a hash router — `Page1.html#codex`
+     activates a pane, and it splits on a slash, so `#terminal/lincoln` opens
+     the terminal on a figure. The five real targets were read off the
+     <section data-page="..."> tags themselves: bookstore, codex, timeline,
+     terminal, counsel.
+
+     ARENA AND MARKETPLACE HAVE NO SECTION OF THEIR OWN and so get no hash.
+     Arena is the flagship's own default view; Marketplace has a button in the
+     bar and no pane behind it that could be found. Guessing an address for
+     either would hand a visitor a link that goes nowhere, which is worse than
+     naming the page.
+
+     AND `#timeline` IS NOT A TIMELINE. It is BROWSE — "THE CODEX · BROWSE BY
+     ORDER, every legend in the archive, gathered by their order", indexed
+     AMENTI/BRW/v1.0. The data-page name outlived whatever that pane once was,
+     exactly as Page2's gloss said "microphone" for months after the helix was
+     built. Anyone grepping Page1 for "timeline" finds a tab and concludes the
+     flagship has one; this comment exists so the next reader does not. */
+  var NAV_LINKS = {
+    'ARENA':       'Page1.html',
+    'ASK AMENTI':  'hall.html',
+    'INTERFACE':   'Page2.html',
+    'GAMEROOM':    'game01.html',
+    'COURT':       'court.html',
+    'CODEX':       'Page1.html#codex',
+    'BROWSE':      'Page1.html#timeline',
+    'TERMINAL':    'Page1.html#terminal',
+    'COUNSEL':     'Page1.html#counsel',
+    'BOOK STORE':  'Page1.html#bookstore',
+    'MARKETPLACE': 'Page1.html'
+  };
+
   function linkMap(items) {
     /* Every id the register holds, lowercased, is the membership set. */
     var known = {};
@@ -408,6 +458,12 @@
       [id.toLowerCase(), id.charAt(0).toUpperCase() + id.slice(1)].forEach(function (v) {
         if (v !== id && !m[v]) m[v] = u;
       });
+    });
+
+    /* The bar's own labels, resolved against the Pages host the same way a
+       document is. Added last so a real id always wins a collision. */
+    Object.keys(NAV_LINKS).forEach(function (label) {
+      if (!m[label]) m[label] = PAGES + 'Amenti.live/' + NAV_LINKS[label];
     });
     return m;
   }
@@ -451,7 +507,7 @@
      WHERE IT GROWS BACK: HALL.md, at 5,751, is 29% of the wall spent carrying
      the ship's architecture into a question about Livy. Scope it to the lane —
      THE STANDING SLIP #13 move F — and thousands come back at once. */
-  var WORK_SLICE = 900;
+  var WORK_SLICE = 830;
 
   /* ── THE AUTHORED NOTES · added 31 Aug ────────────────────────────────────
      Room catalogues carry a `note` per room and a `note` per work, written by
@@ -497,7 +553,7 @@
      forbidding the hall from saying Amenti lacks a thing it never looked for,
      cost ~650 chars of prompt. The register entries paid, because a shorter
      list that routes correctly beats a longer one nobody reaches. */
-  var SECTION_BUDGET = 6000;
+  var SECTION_BUDGET = 5800;
   var SECTION_GLOSS  = 90;
 
   var NOTE_BUDGET = 900;
@@ -907,7 +963,7 @@
            A section pick is a found thing, so the door list comes out and its
            5,812 chars pay for the register entries instead. */
         var system = buildAnswer(hall, state, opened, coverage, degraded,
-                                 (opened.length || ship) ? null : cat, ship);
+                                 (opened.length || ship) ? null : doorsText(items, lib, true), ship);
 
         return window.claude.complete({
           system: system,
