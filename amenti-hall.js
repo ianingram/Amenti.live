@@ -130,6 +130,40 @@
   var ROOM_SECTIONS = 3;
   var SECTION_IDS   = 5;
 
+  /* ── THE NAV · added 1 Sep ────────────────────────────────────────────────
+     THE HALL KNEW THE REGISTER AND NOT THE ROOM IT STOOD IN.
+
+     Asked where the timeline is, it correctly named Page2 from the register,
+     then sent the visitor to "the Harbor" — which is a different repo, on a
+     branch, behind a fleet-nav.js that 404s. Meanwhile the real door was one
+     word to the right of the box they had just typed into: the flagship nav
+     runs ARENA · ASK AMENTI · INTERFACE, and INTERFACE *is* Page2.
+
+     The register describes FILES. It does not describe the SITE — what the
+     doors are called, which page a visitor is standing on, what sits beside
+     it. So the hall reasoned correctly from what it had and produced a
+     slightly ridiculous answer.
+
+     Eleven labels and where each goes, ~600 chars, read out of Page1.html by
+     hand on 1 Sep. AUTHORED, THEREFORE IT CAN GO STALE — the same fault as
+     Page2's gloss, which said "microphone" for months after the helix was
+     built. Whoever changes the nav must change this. A probe that reads the
+     <a class="mn-*"> tags and the tab labels straight from Page1 would end
+     that risk and is the right eventual answer. */
+  var NAV = [
+    'ARENA \u2014 the flagship itself, Page1.html: the deck of figures, and the tabs below live on it',
+    'ASK AMENTI \u2014 hall.html, this box, where you are now',
+    'INTERFACE \u2014 Page2.html. THE SHIP\u2019S TIMELINE lives here: the helix views, sovereigns and events on two strands. It sits DIRECTLY BESIDE Ask Amenti in the bar above',
+    'CODEX \u2014 a tab on the flagship',
+    'BROWSE \u2014 a tab on the flagship',
+    'TERMINAL \u2014 a tab on the flagship, where a figure is spoken to directly',
+    'COUNSEL \u2014 a tab on the flagship',
+    'BOOK STORE \u2014 a tab on the flagship',
+    'MARKETPLACE \u2014 a tab on the flagship',
+    'GAMEROOM \u2014 game01.html',
+    'COURT \u2014 court.html'
+  ].join('\n');
+
   function doorsText(items, library) {
     var p = [];
 
@@ -417,7 +451,7 @@
      WHERE IT GROWS BACK: HALL.md, at 5,751, is 29% of the wall spent carrying
      the ship's architecture into a question about Livy. Scope it to the lane —
      THE STANDING SLIP #13 move F — and thousands come back at once. */
-  var WORK_SLICE = 1100;
+  var WORK_SLICE = 900;
 
   /* ── THE AUTHORED NOTES · added 31 Aug ────────────────────────────────────
      Room catalogues carry a `note` per room and a `note` per work, written by
@@ -463,7 +497,7 @@
      forbidding the hall from saying Amenti lacks a thing it never looked for,
      cost ~650 chars of prompt. The register entries paid, because a shorter
      list that routes correctly beats a longer one nobody reaches. */
-  var SECTION_BUDGET = 6800;
+  var SECTION_BUDGET = 6000;
   var SECTION_GLOSS  = 90;
 
   var NOTE_BUDGET = 900;
@@ -679,6 +713,10 @@
     p.push('');
     p.push('=== THE COUNTS, READ THIS HOUR (the only numbers you may state) ===');
     p.push(state ? JSON.stringify(state, null, 1) : '[HALL-STATE.json could not be read. State NO numbers at all.]');
+    p.push('');
+    p.push('=== THE DOORS IN THE BAR ABOVE THE VISITOR (this is the whole of the site\u2019s navigation) ===');
+    p.push(NAV);
+    p.push('Asked WHERE something is, answer from this list first: name the label the visitor can actually see and click. Never send them to a door that is not on it.');
     p.push('');
     p.push('=== WHAT WAS OPENED FOR THIS QUESTION ===');
     if (opened && opened.length) {
