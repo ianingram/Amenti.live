@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-01T22:27:04.467Z",
+    "generated": "2026-09-01T23:13:08.198Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -689,8 +689,8 @@
     },
     {
       "file": "amenti-hall-box.js",
-      "bytes": 24277,
-      "sha256": "4f664a3684270d65",
+      "bytes": 25632,
+      "sha256": "4326711937ca9054",
       "type": "js",
       "declares": [
         "AmentiCodexOpen"
@@ -1173,6 +1173,26 @@
       "tables": []
     },
     {
+      "file": "amenti-timeline.js",
+      "bytes": 19574,
+      "sha256": "787a3e6c707acc65",
+      "type": "js",
+      "declares": [
+        "AmentiTimeline"
+      ],
+      "loads": [],
+      "calls": [
+        {
+          "global": "Amenti.openReadingRoom",
+          "line": 300,
+          "when": "function",
+          "own": false
+        }
+      ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-vallhalla-signup.js",
       "bytes": 2606,
       "sha256": "74fd0eec8fbc1783",
@@ -1315,7 +1335,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48595,
-      "sha256": "c038f58af4a681aa",
+      "sha256": "e06855e11f7387b0",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1429,8 +1449,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 17744,
-      "sha256": "8891bd29e85b17eb",
+      "bytes": 17797,
+      "sha256": "620a6c579c9fb27f",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1447,8 +1467,12 @@
           "line": 299
         },
         {
-          "file": "amenti-qr.js?v=3",
+          "file": "amenti-timeline.js?v=1",
           "line": 300
+        },
+        {
+          "file": "amenti-qr.js?v=3",
+          "line": 301
         }
       ],
       "calls": [
@@ -1987,6 +2011,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-timeline.js",
+        "declares": [
+          "AmentiTimeline"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-visits.js",
