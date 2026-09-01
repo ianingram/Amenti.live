@@ -180,7 +180,7 @@ if (!loaded) blind('window.AmentiHall._flatten is not published — the lift can
    routes against the doors, buildAnswer() answers from what was opened. The
    wall applies to BOTH, and measuring only one would leave half the surface
    unwatched while showing a green lamp. */
-const WANT = ['flatten', 'doorsText', 'pickRooms', 'buildAnswer'];
+const WANT = ['flatten', 'doorsText', 'pickRooms', 'buildAnswer', 'sectionText'];
 const lifted = {};
 for (const n of WANT) {
   const s = lift(hallJs.value, n);
@@ -232,7 +232,7 @@ if (unread) {
    the hall: NOTE_BUDGET, ROOM_NOTE and WORK_NOTE were added 31 Aug and
    buildAnswer() threw the moment they were, which is the tryRun() guard below
    doing its job — UNREAD, not a stack trace, and not a green lamp. */
-for (const name of ['ROOM_SECTIONS', 'NOTE_BUDGET', 'ROOM_NOTE', 'WORK_NOTE', 'MAX_WORKS', 'WORK_SLICE', 'MAX_ROOMS']) {
+for (const name of ['ROOM_SECTIONS', 'NOTE_BUDGET', 'ROOM_NOTE', 'WORK_NOTE', 'MAX_WORKS', 'WORK_SLICE', 'MAX_ROOMS', 'SECTION_BUDGET', 'SECTION_GLOSS']) {
   const v = constant(hallJs.value, name);
   if (v !== null) vm.runInContext('var ' + name + ' = ' + v + ';', sandbox);
 }
@@ -350,13 +350,45 @@ const filler = Array.from({ length: maxWorks }, (_, n) => ({
   work: { title: worstTitle, source: worstSource, note: 'n'.repeat(noteBudget), file: 'x.md' },
   text: 'x'.repeat(workSlice), why: null
 }));
+/* ── CALL TWO HAS THREE SHAPES, AND THE WALL APPLIES TO ALL OF THEM ───────
+   A question can open library works, or the ship's own register, or nothing.
+   Added 31 Aug with the section path — which was invisible to this probe on
+   the day it shipped, so the biggest of the three shapes was unmeasured while
+   the lamp stayed green. Measure each; report the worst. */
+/* RUN THE REAL sectionText ON REAL DATA BEFORE TRUSTING THE FILLER.
+   Renaming it used to PASS: the filler measured the budget without the
+   function ever being called, so a broken section path sat under a green lamp.
+   Same blindness as the decoy catalogue, in a new place. Shape-check the real
+   one; size-check with the filler. */
+const biggest = [...new Set(items.filter(i => !i.unreachable).map(i => i.section))]
+  .map(sec => ({ key: sec, n: items.filter(i => !i.unreachable && i.section === sec).length }))
+  .sort((a, b) => b.n - a.n)[0];
+const _sec = tryRun('sectionText()', () => vm.runInContext('sectionText', sandbox)(items, [{ key: biggest.key }]));
+if (!_sec.ok) { say(''); process.exit(1); }
+if (!_sec.value || !/^=== SECTION: /.test(_sec.value.text) || _sec.value.shown < 1) {
+  blind('sectionText() ran but produced no section block for "' + biggest.key + '" (' + biggest.n + ' documents)');
+  note('the ship\u2019s own register is the primary source for questions about the ship.');
+  note('If that path is broken the hall answers architecture questions from nothing.');
+  say(''); process.exit(1);
+}
+ok('sectionText() returns ' + num(_sec.value.shown) + ' of ' + num(biggest.n) + ' entries for the largest section' +
+   (_sec.value.held ? ', withholding ' + num(_sec.value.held) + ' and saying so' : ''));
+
+const shipFiller = { text: 's'.repeat(Number(constant(hallJs.value, 'SECTION_BUDGET')) || 8000),
+                     shown: 99, held: 49, sections: ['a', 'b', 'c'] };
+const _ship = tryRun('buildAnswer() with the register', () => vm.runInContext('buildAnswer', sandbox)(
+  hallMd.value, state.value, [], 'searched: x\nopened: no rooms\nworks read in full or in part: 0',
+  [], null, shipFiller
+));
+
 const _sys = tryRun('buildAnswer()', () => vm.runInContext('buildAnswer', sandbox)(
   hallMd.value, state.value, filler,
   'searched: 52 rooms holding 550 works, and 191 documents of the architecture\nopened: a room, another room\nworks read in full or in part: ' + maxWorks + '\nNOT opened: every other room and every other work. You did not see them and must not describe them.',
   []
 ));
-if (!_sys.ok) { say(''); process.exit(1); }
-const system = _sys.value;
+if (!_sys.ok || !_ship.ok) { say(''); process.exit(1); }
+const system = _sys.value.length >= _ship.value.length ? _sys.value : _ship.value;
+const worstShape = _sys.value.length >= _ship.value.length ? 'library passages' : 'the ship register';
 
 const total  = system.length;
 const margin = WALL - total;
@@ -369,7 +401,9 @@ note('the counts      ' + num(JSON.stringify(state.value, null, 1).length));
 note('the doors       ' + num(catalogue.length) + '   ' + num(nSecs) + ' sections + ' + num(nRooms) + ' rooms');
 note('');
 note('CALL ONE  routing   ' + num(call1) + '   the doors plus ' + num(routerLits.length) + ' of framing');
-note('CALL TWO  answering ' + num(total) + '   at its worst: ' + maxWorks + ' passages of ' + num(workSlice));
+note('CALL TWO  answering ' + num(total) + '   worst of three shapes: ' + worstShape);
+note('   passages   ' + num(_sys.value.length) + '   ' + maxWorks + ' works of ' + num(workSlice));
+note('   register   ' + num(_ship.value.length) + '   ' + num(Number(constant(hallJs.value, 'SECTION_BUDGET')) || 0) + ' of section glosses');
 note('the rest        ' + num(total - hallMd.value.length - catalogue.length -
      JSON.stringify(state.value, null, 1).length) + '   preamble and the nine rules');
 note('SYSTEM PROMPT   ' + num(total));
