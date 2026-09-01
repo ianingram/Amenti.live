@@ -314,6 +314,26 @@
             ' works \u00b7 opened ' + r.opened.length + ' \u00b7 the rest were not read'));
         }
         read.style.display = '';
+      } else if (r.register) {
+        /* THE SHIP'S OWN FILES ARE A THING THAT WAS OPENED. Added 1 Sep: the
+           engine returned `register` and this block ignored it, so a question
+           answered from ten document descriptions rendered as "none read" —
+           the coverage line contradicting what had just happened, which is the
+           one failure this block exists to prevent. */
+        read.appendChild(el('h4', null, 'read from'));
+        var d = el('div', 'aa-work');
+        d.appendChild(el('span', 'aa-work-t', 'the ship\u2019s own register'));
+        d.appendChild(el('span', 'aa-work-r', '  \u00b7  ' + r.register.sections.join(', ')));
+        d.appendChild(el('span', 'aa-src', r.register.shown +
+          ' document descriptions' + (r.register.held ? ', and ' + r.register.held + ' not shown' : '') +
+          ' \u00b7 SOURCES.json, authored by hand'));
+        read.appendChild(d);
+        if (r.searched) {
+          read.appendChild(el('div', 'aa-scope',
+            'the register describes ' + r.searched.documents + ' documents \u00b7 ' +
+            r.register.shown + ' shown \u00b7 no library room was opened'));
+        }
+        read.style.display = '';
       } else if (r.searched) {
         /* Zero rooms means the register could not be read, not that a search
            found nothing — see the same correction in amenti-hall.js. Saying

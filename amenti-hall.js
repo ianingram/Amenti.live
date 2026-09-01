@@ -304,15 +304,42 @@
     return PAGES + repo + '/' + bits.map(encodeURIComponent).join('/');
   }
 
-  /* A citation is only worth linking if the id could not be an ordinary word.
-     Twelve linkable ids are single bare words — hall, glossary, pipeline,
-     prologue, reader, readme, todo — and linking those turns any sentence
-     containing them into a false citation. Caught on 26 Aug when a test render
-     of a real answer linked the word "hall" in "the machines this hall runs
-     on". Require a hyphen, underscore or dot: a compound id is a name, a bare
-     word is English. */
-  function linkable(id) {
-    return /[-_.]/.test(String(id || ''));
+  /* ── LINKABLE BY MEMBERSHIP, NOT BY SHAPE ─────────────────────────────────
+     This required a hyphen, underscore or dot: "a compound id is a name, a bare
+     word is English." It was written on 26 Aug after a test render linked the
+     word "hall" inside "the machines this hall runs on", and it was the right
+     fix for the question it was asked.
+
+     IT SILENTLY DROPPED `page2`. Asked on 1 Sep whether the site has a timeline,
+     the hall answered correctly from the register and named Page2 — and the
+     citation was dead text, because a bare word can never be linked and the id
+     has no punctuation in it. The same rule drops `brutus`, `apollo`, `moses`
+     and every other single-word room key.
+
+     §4b OF THE BRIEF SETTLED THIS AS "MEMBERSHIP, NOT SHAPE" AND CALLED THAT
+     STRICTLY SAFER. IT IS NOT, AND ATTACKING IT PROVED SO IN ONE LINE: `hall`,
+     `glossary`, `reader`, `readme`, `todo`, `pipeline` and `prologue` ARE all
+     genuine ids in the register, so membership admits every one of them and
+     the 26 Aug fault walks back in through the front door. A settled decision
+     is still only as good as the run that tests it.
+
+     SO: BOTH CONDITIONS. The id must be in the register AND must not look like
+     an ordinary English word. Of the 51 bare ids aboard, every one worth
+     linking carries a DIGIT — page1, page2, page3, game01, probe2 through
+     probe21 — and not one ordinary word does. A numeral is the discriminator,
+     it needs no list to maintain, and it costs nothing since linkMap is never
+     sent to the model. atlantica, manuel and quizzard stay unlinked: a small
+     loss, and honest.
+
+     STILL CASE-SENSITIVE, DELIBERATELY. The model wrote "Page2" and the id is
+     "page2", so a further mismatch remains; it is fixed where it belongs, by
+     matching case-insensitively in linkMap's own keys below, rather than by
+     loosening what may be linked. */
+  function linkable(id, known) {
+    id = String(id || '');
+    if (!id) return false;
+    if (known && !known[id.toLowerCase()]) return false;   // must be a real id
+    return /[-_.]/.test(id) || /\d/.test(id);              // and not plain English
   }
 
   /* id -> url, for every DOCUMENT a reader could actually open.
@@ -330,11 +357,23 @@
      cannot open is half a citation but a link that 404s is worse. The reading
      room is opened properly in the move that opens the doors. */
   function linkMap(items) {
+    /* Every id the register holds, lowercased, is the membership set. */
+    var known = {};
+    (items || []).forEach(function (i) { if (!i.unreachable) known[String(i.id).toLowerCase()] = true; });
+
     var m = {};
     (items || []).forEach(function (i) {
-      if (i.unreachable || !linkable(i.id)) return;
+      if (i.unreachable || !linkable(i.id, known)) return;
       var u = docUrl(i.path);
-      if (u) m[i.id] = u;
+      if (!u) return;
+      m[i.id] = u;
+      /* The model writes the id as it reads best in a sentence — "Page2", not
+         "page2". Publish the common casings so the surface can resolve what was
+         actually written without the box having to guess. */
+      var id = String(i.id);
+      [id.toLowerCase(), id.charAt(0).toUpperCase() + id.slice(1)].forEach(function (v) {
+        if (v !== id && !m[v]) m[v] = u;
+      });
     });
     return m;
   }
