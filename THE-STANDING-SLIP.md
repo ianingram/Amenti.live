@@ -492,6 +492,46 @@ hall could not describe the thing answering the question. Described 1 Sep. Two
 root `.js` files were indexed before this; the rest of SLIP #21's "the index
 does not walk root .js" stands.
 
+### 42 · Nothing can tell a stale gloss from a true one
+`SOURCES.json` knows whether a file is REACHABLE and whether it is DESCRIBED. It
+has no way to know whether the description is still TRUE, so `described: true`
+is permanent. Nineteen entries carry no gloss and the drift report names every
+one; **a gloss that is present and false is invisible, and it is the worse of
+the two** — a missing description makes a reader look, a wrong one makes them
+act.
+
+Five instances in two sessions, none of them searched for:
+Page2's gloss saying *microphone* while the file held a double helix; `probe3`
+testing a voice engine extracted into the bundle; `data-page="timeline"` on a
+roster browser; the flagship's nav readable nowhere but its own markup; and a
+section NAMED *the briefs — 41 files* that holds 75.
+
+- **The move:** a probe comparing a file's last commit to its gloss's last
+  commit. Git knows both. It does not judge whether a gloss is TRUE — only that
+  the file has moved a long way since anyone touched the sentence. **That alone
+  catches four of the five.**
+- **And derive what can be derived.** A section's count is `length`. The nav is
+  Page1's `<a class="mn-*">` tags and `<section data-page>` targets. A derived
+  description cannot rot; computing it removes the class of fault rather than
+  watching for it.
+- **Acceptance test:** deliberately age a file past its gloss and the probe
+  names it. Written up in
+  `BRIEF-THE-DESCRIPTION-STAYS-WHERE-THE-TRUTH-WAS.md`.
+
+### 43 · A section is named `41 files` and holds 75
+The register's own furniture, and the fault of #42 in the instrument built to
+catch it. The name is printed into every door list the hall sends, so the hall
+states a count that rotted, in a section heading, on every question that reaches
+the architecture.
+- **Not a one-liner.** The section name is the key every entry is filed under,
+  so renaming it touches all 75 in `SOURCES.semantics.json` and any brief that
+  quotes it.
+- **Recommended:** drop the count from the name entirely — `the briefs` — and
+  let the walk supply the number, which it already does. **A name should not
+  carry a fact that can change.**
+- **Acceptance test:** no section name in the register contains a digit, and the
+  hall's door list still states each section's count from the walk.
+
 ### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -607,7 +647,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–41 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–43 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -636,6 +676,10 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
   `Page1.html` unattended.
 
 ---
+
+*Updated 1 Sep 2026 (third pass): #42 and #43 added — the register cannot tell a
+stale gloss from a true one, and its own section name has rotted. Both from
+BRIEF-THE-DESCRIPTION-STAYS-WHERE-THE-TRUTH-WAS.md.*
 
 *Updated 1 Sep 2026 (second pass): the three addenda READ AND FOLDED IN as
 moves #36–#41, so the file no longer admits to being partial. Raise the next
