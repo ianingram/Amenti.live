@@ -20,8 +20,13 @@
 
    names.csv is 548 KB. It cannot be loaded by a surface on every keystroke and
    it must NEVER be sent to the model. This writes the compact form: name, slug,
-   title, and two flags. ~57 KB for 1,011 souls — fine for a browser to hold,
-   still far too large for a prompt.
+   title, DATES, and two flags. ~57 KB for 1,011 souls — fine for a browser to
+   hold, still far too large for a prompt.
+
+   THE DATES ARE HERE SO A SURFACE CAN PLACE A FIGURE IN TIME. Ask Amenti knows
+   which rooms it opened; with a birth and a death it can also say WHEN, and
+   what else was alive that year. Without them the only source is the 548 KB
+   csv, and no surface may load that.
 
    ── THE COLUMN TRAP ───────────────────────────────────────────────────────
    names.csv column zero is `Rank`, a number. Find the name column BY HEADER.
@@ -78,10 +83,36 @@ const lower = head.map(s => s.trim().toLowerCase());
 const nameCol = ['full name', 'name'].map(w => lower.indexOf(w)).find(i => i > -1);
 if (nameCol === undefined) die('names.csv has no "Full Name" or "Name" column. Header: ' + head.join(', '));
 const titleCol = lower.indexOf('title');
+/* ── THE DATES · added 1 Sep 2026 ──────────────────────────────────────────
+   Every soul carries a Birth-Date and a Death-Date in names.csv and all 1,011
+   are populated — spot-checked against ten known figures on 1 Sep, exact,
+   including the BC ones. They were not in this index, so no surface could
+   place a figure in time without loading the 548 KB csv, which is the one
+   thing this file exists to prevent.
+
+   Two integers a soul. BC is negative, which sorts correctly with no parsing
+   and is how names.csv already writes it. Absent or unreadable is OMITTED
+   rather than guessed: a missing date is a fact, and a soul placed at year
+   zero because nobody knew is worse than a soul not placed at all. */
+const birthCol = lower.indexOf('birth-date');
+const deathCol = lower.indexOf('death-date');
+if (birthCol === -1 || deathCol === -1)
+  console.error('  note: names.csv has no Birth-Date/Death-Date column \u2014 no soul will carry a date');
+
+const year = v => {
+  const t = String(v == null ? '' : v).trim();
+  if (!t) return null;
+  const m = /^-?\d+/.exec(t);
+  if (!m) return null;
+  const y = Number(m[0]);
+  return Number.isFinite(y) ? y : null;
+};
 
 const souls = lines.slice(1).map(cut).map(r => ({
   n: (r[nameCol] || '').trim(),
-  t: titleCol > -1 ? (r[titleCol] || '').trim().slice(0, 60) : ''
+  t: titleCol > -1 ? (r[titleCol] || '').trim().slice(0, 60) : '',
+  b: birthCol > -1 ? year(r[birthCol]) : null,
+  d: deathCol > -1 ? year(r[deathCol]) : null
 })).filter(s => s.n);
 
 souls.forEach(s => { s.k = slug(s.n); });
@@ -123,6 +154,17 @@ console.log('── the roster index ──────────────�
 console.log('souls         ' + souls.length);
 console.log('with plates   ' + withArt);
 console.log('with a room   ' + withRoom);
+/* PLACEABLE MEANS BOTH. Found by attacking this on 1 Sep: the first version
+   counted a soul as "dated" if it had EITHER date, so blanking 200 birth dates
+   still reported 1,011 and the number looked fine. A soul with only a death
+   date CANNOT BE PLACED IN A SPAN, which is the one thing these fields are
+   for. Count what the surface needs, not what the column contains. */
+const placeable = souls.filter(s => s.b !== null && s.d !== null).length;
+const halfDated = souls.filter(s => (s.b === null) !== (s.d === null)).length;
+console.log('placeable     ' + placeable + '  (both dates \u2014 a span a surface can draw)');
+if (halfDated) console.log('  ONE DATE ONLY: ' + halfDated + ' soul(s) \u2014 they cannot be placed in a span');
+if (souls.length - placeable - halfDated)
+  console.log('  NO DATE:       ' + (souls.length - placeable - halfDated) + ' soul(s)');
 console.log('keyed         ' + souls.filter(s => s.keys).length + '  (of ' + keys.length + ' keys in the register)');
 const multi = souls.filter(s => s.keys && s.keys.length > 1);
 multi.forEach(s => console.log('  TWO KEYS:     ' + s.n + '  ' + s.keys.join(' ')));
@@ -143,12 +185,19 @@ const payload = {
   _law: 'NEVER send this to a model. It is 57 KB of names — the hall states counts from HALL-STATE.json and speaks of souls it was asked about, not of a list it was handed.',
   generated: new Date().toISOString(),
   generator: 'probes/probe-roster.mjs',
-  totals: { souls: souls.length, withPlates: withArt, withRoom: withRoom, collisions: dupes.length, soulsWithTwoKeys: multi.length },
+  totals: { souls: souls.length, withPlates: withArt, withRoom: withRoom,
+            collisions: dupes.length, soulsWithTwoKeys: multi.length,
+            placeable: souls.filter(s => s.b !== null && s.d !== null).length,
+            oneDateOnly: souls.filter(s => (s.b === null) !== (s.d === null)).length,
+            earliest: souls.reduce((a, s) => (s.b !== null && (a === null || s.b < a)) ? s.b : a, null),
+            latest:   souls.reduce((a, s) => (s.d !== null && (a === null || s.d > a)) ? s.d : a, null) },
   souls: souls.map(s => {
     const o = { n: s.n, k: s.k };
     if (s.t) o.t = s.t;
     const extra = (s.keys || []).filter(k => k !== s.k);
     if (extra.length) o.keys = extra;
+    if (s.b !== null && s.b !== undefined) o.b = s.b;
+    if (s.d !== null && s.d !== undefined) o.d = s.d;
     if (s.p) o.p = 1;
     if (s.r) o.r = 1;
     return o;
