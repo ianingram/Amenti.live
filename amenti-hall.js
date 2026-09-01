@@ -978,8 +978,17 @@
                SYSTEM_CHARS on their own. A room is an overlay, not a page, so
                it has no url to give. Costs no prompt budget either way. */
             links: linkMap(items),
+            /* THE TEXT COMES BACK WITH IT — added 1 Sep for the quote guard.
+               The surface cannot check a quotation against a passage it was
+               never given. This costs NO prompt budget: `opened` is returned to
+               the page, never sent to the model. The notes ride along
+               separately because a quote found in a librarian's note is a
+               different claim from one found in the work. */
             opened: opened.map(function (x) {
-              return { room: x.room, title: x.work.title, source: x.work.source, read: !!x.text };
+              return { room: x.room, roomName: x.roomName, title: x.work.title,
+                       source: x.work.source, read: !!x.text,
+                       text: x.text || null,
+                       note: [x.roomNote, x.work.note].filter(Boolean).join(' \u00b7 ') || null };
             }),
             searched: { rooms: nRooms, works: nWorks, documents: nDocs },
             register: ship ? { shown: ship.shown, held: ship.held, sections: ship.sections } : null,

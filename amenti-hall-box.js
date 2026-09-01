@@ -82,7 +82,14 @@
     '#ask-amenti .aa-work-r{opacity:.6}',
     '#ask-amenti .aa-src{display:block;opacity:.62;font-size:.79rem;margin-top:.1rem}',
     '#ask-amenti .aa-unread{opacity:.45;font-style:italic}',
-    '#ask-amenti .aa-scope{margin:.6rem 0 0;font-size:.78rem;opacity:.5}'
+    '#ask-amenti .aa-scope{margin:.6rem 0 0;font-size:.78rem;opacity:.5}',
+    /* THE COLOUR IS EARNED. A quotation is only tinted once this page has
+       matched it, character for character, against the passage the engine
+       actually fetched. Anything unmatched stays in the body colour and makes
+       no claim at all. */
+    '#ask-amenti .aa-q-verified{color:#c9a227;font-style:normal}',
+    '#ask-amenti .aa-q-note{color:inherit;opacity:.92;border-bottom:1px dotted rgba(127,127,127,.55)}',
+    '#ask-amenti .aa-verify{margin:.55rem 0 0;font-size:.79rem;opacity:.62}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -265,6 +272,84 @@
       .replace(/(^|[^*])\*([^\s*][^*]*?)\*(?!\*)/g, '$1<em>$2</em>');
   }
 
+  /* ── THE QUOTE GUARD ──────────────────────────────────────────────────────
+     THE ENGINE TELLS THE MODEL TO QUOTE ONLY FROM THE TEXT IT WAS HANDED.
+     NOTHING CHECKED THAT IT DID. That was the largest gap in the citation
+     policy: every other rule aboard has an instrument, and this one had a
+     sentence. BRIEF-WHAT-A-SOURCE-MUST-BE §7, THE STANDING SLIP #13 move E.
+
+     Why it matters here and not elsewhere: the model knows famous passages from
+     these authors in translations that are NOT the edition aboard. A remembered
+     line printed under a real SOURCE line attaches a genuine citation to words
+     the library does not contain. That makes the edition a lie — which is the
+     exact thing the citation campaign was fought to prevent.
+
+     THREE STATES, BECAUSE TWO WOULD BE DISHONEST.
+       verified   the span is verbatim in the TEXT that was fetched this turn.
+       from note  it is verbatim in a LIBRARIAN'S NOTE instead. Not a fault —
+                  the notes quote the sources accurately — but it is a claim one
+                  layer removed, and on 31 Aug the hall said "as the text puts
+                  it" about a line that was in the note and not in the slice.
+       unmarked   no match. NOT branded false: a quote may be legitimately
+                  elided, or drawn from something not returned to this surface.
+                  It gets no colour, which is the whole point — THE COLOUR IS
+                  EARNED, NEVER CLAIMED.
+
+     A false quotation painted as verified would be worse than no colour at all,
+     because the colour asserts provenance the model cannot vouch for. So the
+     page only ever colours what it has matched itself. */
+
+  function norm(t) {
+    return String(t)
+      .replace(/<[^>]+>/g, '')
+      .replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+      /* the .md bodies are hard-wrapped at ~72 chars, so a quotation spanning
+         a line break has newlines the answer does not. Collapse both sides. */
+      .replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
+      .replace(/[\u2013\u2014]/g, '-')
+      .replace(/\s+/g, ' ')
+      .trim().toLowerCase();
+  }
+
+  function verifyQuotes(html, opened) {
+    var tally = { verified: 0, note: 0, unmatched: 0 };
+    if (!opened || !opened.length) return { html: html, tally: tally };
+
+    var texts = [], notes = [];
+    opened.forEach(function (o) {
+      if (o.text) texts.push({ hay: norm(o.text), title: o.title });
+      if (o.note) notes.push({ hay: norm(o.note), title: o.title });
+    });
+    if (!texts.length && !notes.length) return { html: html, tally: tally };
+
+    /* `&quot;` because esc() has already run; the curly pair survives it. A
+       floor of 12 chars keeps a stray "yes" out of the count. */
+    var re = /(&quot;)([\s\S]{12,600}?)(&quot;)|(\u201C)([\s\S]{12,600}?)(\u201D)/g;
+
+    var out = html.replace(re, function (m, dq1, dqBody, dq2, cq1, cqBody) {
+      var body = dqBody !== undefined ? dqBody : cqBody;
+      var open = dq1 !== undefined ? '&quot;' : '\u201C';
+      var close = dq1 !== undefined ? '&quot;' : '\u201D';
+      var needle = norm(body);
+      if (!needle) return m;
+
+      var hit = null, where = null;
+      for (var i = 0; i < texts.length; i++)
+        if (texts[i].hay.indexOf(needle) !== -1) { hit = texts[i]; where = 'verified'; break; }
+      if (!hit) for (var j = 0; j < notes.length; j++)
+        if (notes[j].hay.indexOf(needle) !== -1) { hit = notes[j]; where = 'note'; break; }
+
+      if (!hit) { tally.unmatched++; return m; }
+      tally[where === 'verified' ? 'verified' : 'note']++;
+      return '<span class="aa-q aa-q-' + where + '" title="' +
+        (where === 'verified' ? 'verbatim in ' : 'verbatim in the note for ') +
+        String(hit.title).replace(/"/g, '') + '">' + open + body + close + '</span>';
+    });
+
+    return { html: out, tally: tally };
+  }
+
   /* ── the hall answers ─────────────────────────────────────────────────── */
 
   var busy = false;
@@ -283,7 +368,12 @@
     window.AmentiHall.ask(q).then(function (r) {
       answer.className = 'aa-answer';
       /* A citation the reader cannot open is half a citation. */
-      answer.innerHTML = mdLite(linkify(r.answer, r.links));
+      /* Order matters: escape, then link, then markdown, then verify. The
+         guard runs LAST and on already-escaped text, so the only markup it can
+         see is anchors and emphasis whose contents it strips before comparing.
+         It never introduces markup a previous pass could rescan. */
+      var checked = verifyQuotes(mdLite(linkify(r.answer, r.links)), r.opened);
+      answer.innerHTML = checked.html;
       /* ── READ FROM ────────────────────────────────────────────────────
          The engine returns `opened`: every work whose room was opened for
          this question, with its title, its room and its full SOURCE line.
@@ -342,6 +432,19 @@
           ? ('no rooms were opened \u00b7 ' + r.searched.rooms + ' rooms holding ' +
              r.searched.works + ' works were searched and none read')
           : 'the library register could not be read this turn \u00b7 no room was searched'));
+        read.style.display = '';
+      }
+
+      /* The tally is stated even when everything passed — a guard that only
+         speaks on failure leaves a reader unable to tell it ran. */
+      var t = checked.tally, seen = t.verified + t.note + t.unmatched;
+      if (seen) {
+        var said = [];
+        if (t.verified) said.push(t.verified + ' checked against the text');
+        if (t.note) said.push(t.note + ' found in the librarian\u2019s note');
+        if (t.unmatched) said.push(t.unmatched + ' not matched to anything fetched');
+        var v = el('div', 'aa-verify', seen + (seen === 1 ? ' quotation \u00b7 ' : ' quotations \u00b7 ') + said.join(' \u00b7 '));
+        read.appendChild(v);
         read.style.display = '';
       }
 
