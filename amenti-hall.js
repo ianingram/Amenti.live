@@ -383,6 +383,31 @@
      disambiguate, and being wrong about WHO is worse than being thin about
      what. Work notes take what is left. The worst case is bounded at
      NOTE_BUDGET no matter how many rooms open. */
+  /* ── THE SHIP'S SECTIONS ──────────────────────────────────────────────────
+     A LIBRARY ROOM OPENS. A SHIP SECTION DOES NOT — IT IS ALREADY OPEN.
+
+     The library's primary source is the work, so the gloss points and the text
+     must be fetched. The ship's primary source IS THE GLOSS: an authored
+     sentence per file, already in SOURCES.json, already loaded on every
+     question. Fetching Page2.html to learn it holds a helix would be absurd —
+     1.5 MB of markup to recover a line someone already wrote. So a section
+     pick costs no fetch at all; it means "include these entries".
+
+     WHY TRIMMED, AND WHY A SHARED BUDGET. Sending a whole section is the fault
+     this evening was spent removing, one layer down: `the briefs` holds 72
+     entries today and its own name still says 41. Unbounded growth put the
+     hall over the wall this morning. So the entries are trimmed to a choosing
+     length and the total is capped, and when the cap bites the hall SAYS how
+     many it did not show — a truncation that is declared is a reading, one
+     that is silent is a lie.
+
+     THIS DOES NOT SCALE FOREVER AND IS NOT MEANT TO. At ~60 chars an entry the
+     budget carries roughly 130 documents across the sections a question
+     reaches. probe-hall-wall measures it and will warn long before it breaks,
+     which is the whole difference between tonight and this morning. */
+  var SECTION_BUDGET = 8000;
+  var SECTION_GLOSS  = 90;
+
   var NOTE_BUDGET = 900;
   var ROOM_NOTE   = 500;
   var WORK_NOTE   = 250;
@@ -525,6 +550,38 @@
     }));
   }
 
+  /* Entries of the picked sections, trimmed, under one shared budget. Returns
+     what was shown AND what was withheld, because the second is the honest
+     half. */
+  function sectionText(items, picks) {
+    var want = {}, order = [];
+    (picks || []).forEach(function (p) {
+      if (p && p.key && !want[p.key]) { want[p.key] = true; order.push(p.key); }
+    });
+    if (!order.length) return null;
+
+    var budget = SECTION_BUDGET, out = [], shown = 0, held = 0, any = false;
+    order.forEach(function (sec) {
+      var rows = items.filter(function (i) { return !i.unreachable && i.section === sec; });
+      if (!rows.length) return;
+      any = true;
+      out.push('=== SECTION: ' + sec + ' \u2014 ' + rows.length + ' documents ===');
+      var cut = 0;
+      rows.forEach(function (i) {
+        var w = String(i.what || '');
+        if (w.length > SECTION_GLOSS) w = w.slice(0, SECTION_GLOSS - 2).replace(/\s+\S*$/, '') + '\u2026';
+        if (!w) w = '[undescribed]';
+        if (i.supersededBy) w += ' [superseded by ' + i.supersededBy + ']';
+        var line = '\u00b7 ' + i.id + ' \u2014 ' + w;
+        if (line.length + 1 > budget) { cut++; held++; return; }
+        budget -= line.length + 1; shown++; out.push(line);
+      });
+      if (cut) out.push('[' + cut + ' more documents in this section were NOT shown to you. Say so if it matters — do not imply the list above is complete.]');
+    });
+    if (!any) return null;
+    return { text: out.join('\n'), shown: shown, held: held, sections: order };
+  }
+
   /* ── call two: answer from what was opened ────────────────────────────── */
 
   /* `doors` is passed ONLY when nothing was opened. Normally call two must not
@@ -538,7 +595,7 @@
      can speak" — honest about its uncertainty and still the pre-Amenti failure,
      arriving through the one seam left open. A hall that cannot see its own
      rooms will describe the rooms it remembers. */
-  function buildAnswer(hall, state, opened, coverage, degraded, doors) {
+  function buildAnswer(hall, state, opened, coverage, degraded, doors, ship) {
     var p = [];
     p.push('You are the hall of Amenti answering a visitor who has typed a question into ASK AMENTI in the hall.');
     p.push('You are NOT a figure. You do not have a historical persona. You speak for the building.');
@@ -583,6 +640,9 @@
           else p.push('[NOT READ: ' + o.why + ']');
         });
       });
+    } else if (ship) {
+      p.push('These are the ship\u2019s own files. THE REGISTER IS THE PRIMARY SOURCE HERE — each line below is an authored description of a file, and it is what you answer from. You have NOT read the files themselves and must not describe their contents beyond what the line says.');
+      p.push(ship.text);
     } else {
       p.push('[nothing was opened for this question]');
       if (doors) {
@@ -676,7 +736,18 @@
 
       /* CALL ONE — which doors does this question reach? */
       return pickRooms(question, cat).then(function (picks) {
-      return openRooms(picks, lib, degraded).then(function (o) {
+      /* A pick is either a LIBRARY ROOM (fetch it) or a SHIP SECTION (already
+         in hand). Until 31 Aug a section pick was dropped in silence — the
+         router named `the surfaces`, openRooms found no such library room, and
+         the hall answered having opened nothing and said nothing about it.
+         Architecture questions were WORSE than before the doors were built. */
+      var sectionNames = {};
+      items.forEach(function (i) { if (!i.unreachable) sectionNames[i.section] = true; });
+      var shipPicks = picks.filter(function (p) { return sectionNames[p.key]; });
+      var roomPicks = picks.filter(function (p) { return !sectionNames[p.key]; });
+      var ship = sectionText(items, shipPicks);
+
+      return openRooms(roomPicks, lib, degraded).then(function (o) {
       return fetchWorks(o.works, degraded).then(function (opened) {
 
         /* ── THE COVERAGE STATEMENT ─────────────────────────────────────
@@ -702,19 +773,28 @@
            on to the visitor is the worst place on this ship to put one, so the
            unreadable case says what actually happened instead of counting to
            zero. */
+        var shipLine = ship
+          ? ('the ship\u2019s register: ' + ship.shown + ' document descriptions shown from ' +
+             ship.sections.join(', ') + (ship.held ? ', and ' + ship.held + ' NOT shown' : ''))
+          : null;
+
         var coverage = [
           lib ? ('searched: ' + nRooms + ' rooms holding ' + nWorks + ' works, and ' + nDocs + ' documents of the architecture')
               : ('searched: ' + nDocs + ' documents of the architecture. THE LIBRARY REGISTER COULD NOT BE READ THIS TURN, so no room was searched at all — do not say the library is empty, say it could not be read.'),
           'opened: ' + (names.length ? names.join(', ') : 'no rooms'),
           'works read in full or in part: ' + read,
+          shipLine,
           'NOT opened: every other room and every other work. You did not see them and must not describe them.'
-        ].join('\n');
+        ].filter(Boolean).join('\n');
 
         /* CALL TWO — answer from what was opened. It does NOT carry the door
            list: 5,812 chars leave the prompt the moment the choice is made,
            and that is the whole reason the passages fit. */
+        /* The doors go in only when NOTHING was found — no room and no section.
+           A section pick is a found thing, so the door list comes out and its
+           5,812 chars pay for the register entries instead. */
         var system = buildAnswer(hall, state, opened, coverage, degraded,
-                                 opened.length ? null : cat);
+                                 (opened.length || ship) ? null : cat, ship);
 
         return window.claude.complete({
           system: system,
@@ -733,6 +813,7 @@
               return { room: x.room, title: x.work.title, source: x.work.source, read: !!x.text };
             }),
             searched: { rooms: nRooms, works: nWorks, documents: nDocs },
+            register: ship ? { shown: ship.shown, held: ship.held, sections: ship.sections } : null,
             degraded: degraded
           };
         });
