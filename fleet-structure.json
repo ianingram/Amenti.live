@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-01T03:35:56.502Z",
+    "generated": "2026-09-01T03:37:03.903Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48595,
-      "sha256": "5d4023cb5a73f586",
+      "sha256": "45779dcfab4e9fe3",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1593,14 +1593,8 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 36,
+    "count": 35,
     "files": [
-      {
-        "file": "Amenti.live__probes__probe-hall-wall.mjs",
-        "title": "THE HALL'S WALL",
-        "guards": null,
-        "bytes": 17541
-      },
       {
         "file": "probe-citations.mjs",
         "title": "THE CITATION AUDIT",
