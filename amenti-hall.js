@@ -352,8 +352,40 @@
      1,750 is 7,000 chars of primary source, more than three of 2,000 would be.
      The room to raise it again is in HALL.md, which spends 5,751 chars — 29% of
      the wall — carrying the ship's architecture into questions about Livy. That
-     is THE STANDING SLIP #13 move F, and it is where this number grows. */
-  var WORK_SLICE = 1750;
+     is THE STANDING SLIP #13 move F, and it is where this number grows.
+
+     1,500 after rule 2 was rewritten twice on 31 Aug — first to ask for
+     quotation at all, then to ask for scene AND evidence together. Saying that
+     properly costs about 750 chars of prompt, and the passages paid for it.
+     That is the right way round: the rule is the product, the slice is the
+     budget. 4 x 1,500 is still 6,000 chars of primary source in every answer,
+     where the hall could quote nothing at all this morning.
+
+     WHERE IT GROWS BACK: HALL.md, at 5,751, is 29% of the wall spent carrying
+     the ship's architecture into a question about Livy. Scope it to the lane —
+     THE STANDING SLIP #13 move F — and thousands come back at once. */
+  var WORK_SLICE = 1200;
+
+  /* ── THE AUTHORED NOTES · added 31 Aug ────────────────────────────────────
+     Room catalogues carry a `note` per room and a `note` per work, written by
+     hand. They were being discarded, and one of them is load-bearing.
+
+     THE ROOM `brutus` IS LUCIUS JUNIUS BRUTUS, who overthrew the monarchy in
+     509 BC — not Marcus, who killed Caesar four centuries later. A visitor
+     asking about betrayal almost certainly means Marcus, and Marcus IS NOT
+     ABOARD: the roster holds one Brutus. Without the note the hall opens
+     Lucius's room for a Marcus question and its own training supplies the
+     assassination while the citation says Livy Book I. The library author saw
+     this coming and wrote the guard — the note opens "FIRST, WHICH BRUTUS."
+
+     ONE SHARED ALLOWANCE, SPENT IN PRIORITY ORDER, because room notes run to
+     2,000 chars and a per-item cap would overrun. Room notes first: they
+     disambiguate, and being wrong about WHO is worse than being thin about
+     what. Work notes take what is left. The worst case is bounded at
+     NOTE_BUDGET no matter how many rooms open. */
+  var NOTE_BUDGET = 900;
+  var ROOM_NOTE   = 500;
+  var WORK_NOTE   = 250;
   var LIB        = RAW + 'library/';
 
   /* ── call one: which doors does this question reach? ──────────────────── */
@@ -398,8 +430,25 @@
       var t = String(raw).replace(/```json|```/g, '').trim();
       var a = t.indexOf('{'), b = t.lastIndexOf('}');
       if (a === -1 || b === -1) return [];
-      try { return (JSON.parse(t.slice(a, b + 1)).rooms || []).slice(0, MAX_ROOMS); }
-      catch (e) { return []; }
+      try {
+        var got = JSON.parse(t.slice(a, b + 1));
+        /* FOUND BY ATTACK, 31 Aug. `{"rooms":"brutus"}` is valid JSON of the
+           wrong TYPE: slice() on a string returns a string, and a string has no
+           filter(), so the whole ask() rejected and the visitor was told the
+           hall could not answer. The router is a model; it will produce that
+           shape sooner or later. Everything below now checks the type it got
+           rather than the type it expected. */
+        if (!got || !Array.isArray(got.rooms)) return [];
+        return got.rooms.filter(function (r) {
+          return r && typeof r.key === 'string';
+        }).map(function (r) {
+          /* `sections` as a bare string is the same class of fault, and it does
+             not throw — it silently indexOf()s a SUBSTRING, so a section title
+             could match by accident. Coerce it. */
+          return { key: r.key, sections: Array.isArray(r.sections) ? r.sections
+                                       : (typeof r.sections === 'string' ? [r.sections] : []) };
+        }).slice(0, MAX_ROOMS);
+      } catch (e) { return []; }
     }, function () { return []; });
   }
 
@@ -411,7 +460,21 @@
     var known = {};
     ((library && library.rooms) || []).forEach(function (r) { known[r.key] = true; });
 
-    return Promise.all((picks || []).filter(function (p) { return p && known[p.key]; })
+    /* Deduplicate before fetching. FOUND BY ATTACK: the router may name the
+       same room twice — it did, under a deliberately repeated pick — and each
+       copy contributed its works again, so MAX_WORKS was spent on four slots
+       holding two works. The visitor lost half their passages and nothing said
+       so. Merge the sections of repeated keys instead. */
+    var merged = [];
+    var at = {};
+    ((picks || [])).forEach(function (p) {
+      if (!p || !known[p.key]) return;
+      if (at[p.key] === undefined) { at[p.key] = merged.length; merged.push({ key: p.key, sections: (p.sections || []).slice() }); return; }
+      var m = merged[at[p.key]];
+      (p.sections || []).forEach(function (sec) { if (m.sections.indexOf(sec) === -1) m.sections.push(sec); });
+    });
+
+    return Promise.all(merged.filter(function (p) { return p && known[p.key]; })
       .map(function (p) {
         return attempt('library/' + p.key + '.json', get(LIB + p.key + '.json', true))
           .then(function (r) { return { pick: p, ok: r.ok, cat: r.value, error: r.error }; });
@@ -433,7 +496,7 @@
              asked for, so a widened selection is declared like any other. */
           if (!hit.length) hit = (r.cat.works || []);
           hit.forEach(function (w) {
-            works.push({ room: r.cat.key, roomName: r.cat.name, work: w });
+            works.push({ room: r.cat.key, roomName: r.cat.name, roomNote: r.cat.note || '', work: w });
           });
         });
         return { rooms: rooms, works: works.slice(0, MAX_WORKS) };
@@ -448,15 +511,15 @@
   function fetchWorks(works, degraded) {
     return Promise.all((works || []).map(function (w) {
       if (!w.work.file) {
-        return Promise.resolve({ room: w.room, roomName: w.roomName, work: w.work,
+        return Promise.resolve({ room: w.room, roomName: w.roomName, roomNote: w.roomNote, work: w.work,
           text: null, why: 'no stored text (' + (w.work.mode || 'mode unrecorded') + ')' });
       }
       return attempt(w.work.id, get(LIB + w.work.file, false)).then(function (r) {
         if (!r.ok) {
           degraded.push(w.work.id + ' — ' + r.error);
-          return { room: w.room, roomName: w.roomName, work: w.work, text: null, why: 'could not be read' };
+          return { room: w.room, roomName: w.roomName, roomNote: w.roomNote, work: w.work, text: null, why: 'could not be read' };
         }
-        return { room: w.room, roomName: w.roomName, work: w.work,
+        return { room: w.room, roomName: w.roomName, roomNote: w.roomNote, work: w.work,
           text: stripMarkup(r.value).slice(0, WORK_SLICE), why: null };
       });
     }));
@@ -488,11 +551,37 @@
     p.push('');
     p.push('=== WHAT WAS OPENED FOR THIS QUESTION ===');
     if (opened && opened.length) {
+      /* Grouped by room so the room's note is stated once, before its works,
+         and reads as what it is: the librarian telling you whose room this is
+         before you read a word of it. */
+      var budget = NOTE_BUDGET;
+      var trim = function (text, cap) {
+        var t = String(text || '');
+        if (!t || budget <= 0) return '';
+        var n = Math.min(t.length, cap, budget);
+        budget -= n;
+        return n < t.length ? t.slice(0, n).replace(/\s+\S*$/, '') + '\u2026' : t;
+      };
+      var order = [], byRoom = {};
       opened.forEach(function (o) {
-        p.push('--- ' + o.work.title + ' --- room: ' + o.roomName + ' (' + o.room + ')');
-        p.push('SOURCE: ' + (o.work.source || '[no source recorded]'));
-        if (o.text) { p.push('TEXT:'); p.push(o.text); }
-        else p.push('[NOT READ: ' + o.why + ']');
+        if (!byRoom[o.room]) { byRoom[o.room] = []; order.push(o); }
+        byRoom[o.room].push(o);
+      });
+      order.forEach(function (first) {
+        p.push('=== ROOM: ' + first.roomName + ' (' + first.room + ') ===');
+        var rn = trim(first.roomNote, ROOM_NOTE);
+        if (rn) {
+          p.push('ABOUT THIS ROOM (authored by the library, and it governs): ' + rn);
+          p.push('If that note tells you WHICH person this room is, say so when it matters. A visitor may have a different figure of the same name in mind, and the room does not hold them.');
+        }
+        byRoom[first.room].forEach(function (o) {
+          p.push('--- ' + o.work.title + ' ---');
+          p.push('SOURCE: ' + (o.work.source || '[no source recorded]'));
+          var wn = trim(o.work.note, WORK_NOTE);
+          if (wn) p.push('ABOUT THIS WORK: ' + wn);
+          if (o.text) { p.push('TEXT:'); p.push(o.text); }
+          else p.push('[NOT READ: ' + o.why + ']');
+        });
       });
     } else {
       p.push('[nothing was opened for this question]');
@@ -516,9 +605,34 @@
     p.push('');
     p.push('=== HOW TO ANSWER ===');
     p.push('1. ANSWER FROM THE TEXT ABOVE. That is what you were given it for.');
-    p.push('2. THE RULE THAT MATTERS MOST. A quotation must be copied EXACTLY from the TEXT above, word for word. You know famous passages from these authors in translations that are NOT the edition aboard; quoting one of those under the SOURCE line above would put a real citation on words the library does not contain. If you cannot find it in the text above, do not put it in quotation marks.');
+    /* ── CORRECTED TWICE ON 31 AUGUST, IN OPPOSITE DIRECTIONS ──────────────
+       FIRST this rule was a warning and nothing else — every clause about the
+       danger of a false quotation, not one asking for a true one. The safest
+       way to obey it was never to use quotation marks at all, and that is what
+       happened: asked about betrayal, the hall PARAPHRASED Caesar and Livy and
+       quoted neither. A library of 550 works cited to findable editions exists
+       so a visitor gets the words themselves.
+
+       THEN it was rewritten to demand quotation, and that overshot the other
+       way. It called a summary the thing a chatbot produces, which is wrong
+       about the work this hall does. Livy's sentence about the embassy to
+       Delphi is inert until someone says why a man would play the fool at a
+       tyrant's court. Strip the summary out and you do not have a purer
+       product, you have an unindexed archive.
+
+       THE HALL IS BUILDING A SCENE. The elements are the primary source and
+       must be exact and cited. The summary is the staging — it decides what
+       the visitor sees first, what the passage is answering, why this room and
+       not another. Neither is the lesser half.
+
+       So the rule is not quote-more-summarise-less. It is: NEVER LET ONE WEAR
+       THE OTHER'S CLOTHES. */
+    p.push('2. BUILD THE SCENE, THEN SHOW THE EVIDENCE. Your own words set it up — what this room is, why the question lands here, what the passage is about to show. Then quote the passage that earns it. A quotation with no staging is a wall of text a visitor cannot enter; staging with no quotation is a summary they could have got anywhere. The library exists so they can have both.');
+    p.push('2a. QUOTE WHERE THE TEXT SAYS THE THING. In quotation marks, a sentence or two, not a reprint. If the passage carries the moment, let it speak rather than describing it.');
+    p.push('2b. AND QUOTE ONLY FROM THE TEXT ABOVE, copied word for word. You know famous passages from these authors in OTHER translations, remembered from elsewhere; those words are not in the edition aboard, and putting them under the SOURCE line above would attach a real citation to words this library does not contain. If a phrase is not in the text above it is not a quotation, however well you remember it — say it in your own words instead, which is honest and is not a lesser thing to do.');
+    p.push('2c. THE SEAM MUST STAY VISIBLE. A reader must always be able to tell Livy\u2019s words from yours. That is what the quotation marks are for and why the surface prints the edition beneath your answer. Never blur the two, in either direction: do not summarise inside quotation marks, and do not slip a remembered line into your own prose as though you had read it here.');
     p.push('3. SAY WHAT YOU READ AND WHAT YOU DID NOT. The coverage above is not decoration. Tell the visitor which rooms were opened and that the rest were not. A miss that is stated is honest; a miss that is silent is the fault this hall exists to refuse.');
-    p.push('4. Cite each work by its title, and give its SOURCE line when you quote it. Never invent a work, a title or a source.');
+    p.push('4. Name the work in the sentence that quotes it — its title, briefly. Do NOT reproduce the full SOURCE line in your prose; the surface prints it beneath your answer, where it belongs. Never invent a work, a title or a source.');
     p.push('5. Where you rely on general knowledge rather than the text above, say so in the sentence that uses it. The library is the authority here; your own memory of these figures is not, and the visitor must be able to tell which they are reading.');
     p.push('6. If nothing was opened, say plainly so, and name the nearest rooms FROM THE DOOR LIST ABOVE. Never name a figure who is not on that list — a famous name you remember is not evidence they are aboard.');
     p.push('7. Be brief. Two or three short paragraphs, plus a quotation if you have one. This is a doorway, not a lecture.');
@@ -581,8 +695,16 @@
         var names = Object.keys(seen);
         var read  = opened.filter(function (x) { return x.text; }).length;
 
+        /* FOUND BY ATTACK, 31 Aug. With LIBRARY.json unreadable this line read
+           "searched: 0 rooms holding 0 works" — which asserts that a search ran
+           and found nothing. No search ran; the register could not be read. A
+           false statement inside the very block the model is required to pass
+           on to the visitor is the worst place on this ship to put one, so the
+           unreadable case says what actually happened instead of counting to
+           zero. */
         var coverage = [
-          'searched: ' + nRooms + ' rooms holding ' + nWorks + ' works, and ' + nDocs + ' documents of the architecture',
+          lib ? ('searched: ' + nRooms + ' rooms holding ' + nWorks + ' works, and ' + nDocs + ' documents of the architecture')
+              : ('searched: ' + nDocs + ' documents of the architecture. THE LIBRARY REGISTER COULD NOT BE READ THIS TURN, so no room was searched at all — do not say the library is empty, say it could not be read.'),
           'opened: ' + (names.length ? names.join(', ') : 'no rooms'),
           'works read in full or in part: ' + read,
           'NOT opened: every other room and every other work. You did not see them and must not describe them.'

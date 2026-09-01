@@ -70,7 +70,19 @@
     '#ask-amenti .aa-cite{color:inherit;text-decoration:underline;text-underline-offset:2px;opacity:.9}',
     '#ask-amenti .aa-cite:hover{opacity:1}',
     '#ask-amenti .aa-answer strong{font-weight:600}',
-    '#ask-amenti .aa-answer code{font-family:ui-monospace,Menlo,monospace;font-size:.9em;opacity:.9}'
+    '#ask-amenti .aa-answer code{font-family:ui-monospace,Menlo,monospace;font-size:.9em;opacity:.9}',
+    /* READ FROM — the works this answer was built on, under the answer rather
+       than behind a tab. Amenti's claim is that it SHOWS where the words came
+       from; a provenance a reader must click to see is a provenance most
+       readers never see. Present beats available. */
+    '#ask-amenti .aa-read{margin:.9rem 0 0;padding:.75rem 0 0;border-top:1px solid rgba(127,127,127,.25)}',
+    '#ask-amenti .aa-read h4{margin:0 0 .5rem;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;opacity:.55;font-weight:600}',
+    '#ask-amenti .aa-work{margin:0 0 .55rem;font-size:.86rem;line-height:1.45}',
+    '#ask-amenti .aa-work-t{font-weight:600}',
+    '#ask-amenti .aa-work-r{opacity:.6}',
+    '#ask-amenti .aa-src{display:block;opacity:.62;font-size:.79rem;margin-top:.1rem}',
+    '#ask-amenti .aa-unread{opacity:.45;font-style:italic}',
+    '#ask-amenti .aa-scope{margin:.6rem 0 0;font-size:.78rem;opacity:.5}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -94,11 +106,13 @@
   var results = el('ul', 'aa-results');
   var answer  = el('div', 'aa-answer'); answer.style.display = 'none';
   var note    = el('div', 'aa-note');   note.style.display = 'none';
+  var read    = el('div', 'aa-read');   read.style.display = 'none';
 
   root.appendChild(box);
   root.appendChild(seeds);
   root.appendChild(results);
   root.appendChild(answer);
+  root.appendChild(read);
   root.appendChild(note);
 
   /* Mount order: the hall's own page (#hall-main), else above the roster if a
@@ -130,7 +144,7 @@
   input.addEventListener('input', function () {
     clearTimeout(t);
     var q = input.value.trim();
-    answer.style.display = 'none'; note.style.display = 'none';
+    answer.style.display = 'none'; note.style.display = 'none'; read.style.display = 'none';
     if (!q) { results.innerHTML = ''; return; }
     /* A question is for answering, not for document-matching. Once the text
        reads as a question, stop live-searching its fragments — otherwise a
@@ -262,6 +276,7 @@
     answer.className = 'aa-answer aa-busy';
     answer.textContent = 'the hall is reading\u2026';
     note.style.display = 'none';
+    read.style.display = 'none'; read.innerHTML = '';
 
     var done = function () { busy = false; };
 
@@ -269,10 +284,51 @@
       answer.className = 'aa-answer';
       /* A citation the reader cannot open is half a citation. */
       answer.innerHTML = mdLite(linkify(r.answer, r.links));
-      var bits = [];
-      if (r.cited && r.cited.length) bits.push('drawn from: ' + r.cited.join(', '));
-      if (r.degraded && r.degraded.length) bits.push('could not be read this turn: ' + r.degraded.join('; '));
-      if (bits.length) { note.textContent = bits.join('  \u00b7  '); note.style.display = ''; }
+      /* ── READ FROM ────────────────────────────────────────────────────
+         The engine returns `opened`: every work whose room was opened for
+         this question, with its title, its room and its full SOURCE line.
+
+         THE ANSWER NAMES THE WORK; THIS BLOCK CARRIES THE EDITION. Splitting
+         them is the arrangement scholarship settled on long ago, and it is
+         forced here by size — Livy's source line alone is 145 characters, and
+         one of those after every quotation would drown the prose.
+
+         A WORK OPENED AND NOT QUOTED IS STILL LISTED, marked so. The hall may
+         read four works and use one; saying which is the coverage principle at
+         the scale of a single answer, and listing only what was drawn on would
+         quietly overstate how much of the reading bore fruit. */
+      read.innerHTML = '';
+      if (r.opened && r.opened.length) {
+        read.appendChild(el('h4', null, 'read from'));
+        r.opened.forEach(function (o) {
+          var d = el('div', 'aa-work');
+          d.appendChild(el('span', 'aa-work-t', o.title));
+          if (o.room) d.appendChild(el('span', 'aa-work-r', '  \u00b7  ' + o.room));
+          if (o.read === false) d.appendChild(el('span', 'aa-unread', '  \u00b7  in the room, not read this turn'));
+          d.appendChild(el('span', 'aa-src', o.source || '[no source recorded]'));
+          read.appendChild(d);
+        });
+        if (r.searched) {
+          read.appendChild(el('div', 'aa-scope',
+            'searched ' + r.searched.rooms + ' rooms holding ' + r.searched.works +
+            ' works \u00b7 opened ' + r.opened.length + ' \u00b7 the rest were not read'));
+        }
+        read.style.display = '';
+      } else if (r.searched) {
+        /* Zero rooms means the register could not be read, not that a search
+           found nothing — see the same correction in amenti-hall.js. Saying
+           "0 rooms were searched" would tell the visitor the library is empty. */
+        read.appendChild(el('div', 'aa-scope', r.searched.rooms
+          ? ('no rooms were opened \u00b7 ' + r.searched.rooms + ' rooms holding ' +
+             r.searched.works + ' works were searched and none read')
+          : 'the library register could not be read this turn \u00b7 no room was searched'));
+        read.style.display = '';
+      }
+
+      if (r.degraded && r.degraded.length) {
+        note.textContent = 'could not be read this turn: ' + r.degraded.join('; ');
+        note.style.display = '';
+      }
       done();
     }, function (e) {
       answer.className = 'aa-answer';
