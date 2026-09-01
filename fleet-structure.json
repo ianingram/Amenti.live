@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-01T07:33:46.148Z",
+    "generated": "2026-09-01T07:50:19.657Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1315,7 +1315,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48595,
-      "sha256": "f3341d871138b9a1",
+      "sha256": "ea6efd23eaa34444",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1665,7 +1665,7 @@
         "file": "probe-roster.mjs",
         "title": "THE ROSTER INDEX",
         "guards": null,
-        "bytes": 8015
+        "bytes": 11022
       },
       {
         "file": "probe-serves.mjs",
