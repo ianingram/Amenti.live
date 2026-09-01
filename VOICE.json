@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-09-01T22:00:34.233Z",
+  "generated": "2026-09-01T22:13:48.460Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -782,9 +782,9 @@
     },
     {
       "file": "Page2.html",
-      "bytes": 1501297,
-      "lines": 17402,
-      "sha256": "44f1ec35dfdcb225",
+      "bytes": 1500265,
+      "lines": 17386,
+      "sha256": "e28377dd4617b299",
       "scripts": [
         {
           "src": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
@@ -839,11 +839,11 @@
       "engines": [
         {
           "global": "Sovereign.Atlantica",
-          "registered": 15418,
+          "registered": 15402,
           "registeredIn": "Page2.html",
           "registeredBy": "inline",
           "loading": "inline",
-          "availableAt": 15418,
+          "availableAt": 15402,
           "role": "facade",
           "methods": [
             "speak"
@@ -853,11 +853,11 @@
           "reads": 14,
           "readsInLoadedFiles": 0,
           "readsInLoadedFilesAt": [],
-          "firstRead": 15380,
+          "firstRead": 15364,
           "firstReadEvaluation": "deferred",
           "parseTimeReads": [
-            15601,
-            15613
+            15585,
+            15597
           ],
           "uncertainReads": [],
           "calls": [
@@ -865,7 +865,7 @@
           ],
           "callSites": [
             {
-              "line": 15564,
+              "line": 15548,
               "method": "speak",
               "via": "markup",
               "evaluation": "deferred"
@@ -874,11 +874,11 @@
         },
         {
           "global": "Sovereign.Voice",
-          "registered": 16784,
+          "registered": 16768,
           "registeredIn": "Page2.html",
           "registeredBy": "inline",
           "loading": "inline",
-          "availableAt": 16784,
+          "availableAt": 16768,
           "role": "engine",
           "methods": [
             "speak",
@@ -890,10 +890,10 @@
           "reads": 2,
           "readsInLoadedFiles": 0,
           "readsInLoadedFilesAt": [],
-          "firstRead": 9302,
+          "firstRead": 9286,
           "firstReadEvaluation": "deferred",
           "parseTimeReads": [
-            16849
+            16833
           ],
           "uncertainReads": [],
           "calls": [
@@ -902,19 +902,19 @@
           ],
           "callSites": [
             {
-              "line": 9302,
+              "line": 9286,
               "method": "speak",
               "via": "direct",
               "evaluation": "deferred"
             },
             {
-              "line": 16837,
+              "line": 16821,
               "method": "speak",
               "via": "this",
               "evaluation": "deferred"
             },
             {
-              "line": 16849,
+              "line": 16833,
               "method": "toggle",
               "via": "direct",
               "evaluation": "parse-time"
@@ -923,11 +923,11 @@
         },
         {
           "global": "AmentiAudio",
-          "registered": 17226,
+          "registered": 17210,
           "registeredIn": "Page2.html",
           "registeredBy": "inline",
           "loading": "inline",
-          "availableAt": 17226,
+          "availableAt": 17210,
           "role": "engine",
           "methods": [
             "play",
@@ -940,7 +940,7 @@
           "reads": 9,
           "readsInLoadedFiles": 0,
           "readsInLoadedFilesAt": [],
-          "firstRead": 15497,
+          "firstRead": 15481,
           "firstReadEvaluation": "deferred",
           "parseTimeReads": [],
           "uncertainReads": [],
@@ -951,31 +951,31 @@
           ],
           "callSites": [
             {
-              "line": 15497,
+              "line": 15481,
               "method": "stop",
               "via": "direct",
               "evaluation": "deferred"
             },
             {
-              "line": 15575,
+              "line": 15559,
               "method": "isBusy",
               "via": "direct",
               "evaluation": "deferred"
             },
             {
-              "line": 15575,
+              "line": 15559,
               "method": "stop",
               "via": "direct",
               "evaluation": "deferred"
             },
             {
-              "line": 15591,
+              "line": 15575,
               "method": "play",
               "via": "direct",
               "evaluation": "deferred"
             },
             {
-              "line": 16815,
+              "line": 16799,
               "method": "play",
               "via": "direct",
               "evaluation": "deferred"
@@ -986,40 +986,40 @@
       "chunking": {
         "TARGET_CHARS": {
           "value": 700,
-          "line": 16930
+          "line": 16914
         },
         "MAX_CHARS": {
           "value": 1100,
-          "line": 16931
+          "line": 16915
         },
         "LOOKAHEAD": {
           "value": 3,
-          "line": 16932
+          "line": 16916
         },
         "STREAM_THRESHOLD": {
           "value": 700,
-          "line": 16809
+          "line": 16793
         }
       },
       "styles": [
         {
           "key": "VOICE_STYLE",
-          "line": 15423,
+          "line": 15407,
           "value": "Read slowly and clearly, in a measured, formal, dignified tone"
         },
         {
           "key": "VOICE_NAME",
-          "line": 15424,
+          "line": 15408,
           "value": "Kore"
         },
         {
           "key": "STYLE",
-          "line": 16786,
+          "line": 16770,
           "value": "Say the following in a clear, natural, conversational voice"
         },
         {
           "key": "VOICE",
-          "line": 16787,
+          "line": 16771,
           "value": "Kore"
         }
       ],
@@ -1028,14 +1028,14 @@
         "attributed": 9,
         "unattributed": [
           {
-            "line": 16827,
+            "line": 16811,
             "method": "play",
             "receiver": "this.current",
             "via": "direct",
             "evaluation": "deferred"
           },
           {
-            "line": 17169,
+            "line": 17153,
             "method": "play",
             "receiver": "el",
             "via": "direct",
@@ -1045,25 +1045,25 @@
       },
       "synthesis": [
         {
-          "line": 16818,
+          "line": 16802,
           "kind": "posts to /speak",
           "owner": "Sovereign.Voice",
           "attribution": "in body"
         },
         {
-          "line": 16826,
+          "line": 16810,
           "kind": "builds Audio",
           "owner": "Sovereign.Voice",
           "attribution": "in body"
         },
         {
-          "line": 17053,
+          "line": 17037,
           "kind": "posts to /speak",
           "owner": "AmentiAudio",
           "attribution": "same script block"
         },
         {
-          "line": 17152,
+          "line": 17136,
           "kind": "builds Audio",
           "owner": "AmentiAudio",
           "attribution": "same script block"
@@ -1075,7 +1075,7 @@
       ],
       "speakPosts": [
         {
-          "line": 16821,
+          "line": 16805,
           "keys": [
             "text",
             "style",
@@ -1083,7 +1083,7 @@
           ]
         },
         {
-          "line": 17056,
+          "line": 17040,
           "keys": [
             "text",
             "style",
@@ -1093,99 +1093,99 @@
       ],
       "strips": [
         {
-          "line": 6471,
+          "line": 6455,
           "pattern": "/&/g"
         },
         {
-          "line": 6471,
+          "line": 6455,
           "pattern": "/</g"
         },
         {
-          "line": 6471,
+          "line": 6455,
           "pattern": "/>/g"
         },
         {
-          "line": 6472,
+          "line": 6456,
           "pattern": "/\"/g"
         },
         {
-          "line": 6472,
+          "line": 6456,
           "pattern": "/'/g"
         },
         {
-          "line": 6619,
+          "line": 6603,
           "pattern": "/^https?:\\/\\//"
         },
         {
-          "line": 6971,
+          "line": 6955,
           "pattern": "/[^A-Za-z]/g"
         },
         {
-          "line": 8313,
+          "line": 8297,
           "pattern": "/\\r\\n/g"
         },
         {
-          "line": 8449,
+          "line": 8433,
           "pattern": "/^```(?:json)?\\s*/i"
         },
         {
-          "line": 8449,
+          "line": 8433,
           "pattern": "/\\s*```$/i"
         },
         {
-          "line": 9676,
+          "line": 9660,
           "pattern": "/^```(?:json)?\\s*/i"
         },
         {
-          "line": 9676,
+          "line": 9660,
           "pattern": "/\\s*```$/i"
         },
         {
-          "line": 11361,
+          "line": 11345,
           "pattern": "/<(h2|h3)>([^<]+)<\\/\\1>/g"
         },
         {
-          "line": 11362,
+          "line": 11346,
           "pattern": "/[^a-z0-9]+/g"
         },
         {
-          "line": 11362,
+          "line": 11346,
           "pattern": "/^-+|-+$/g"
         },
         {
-          "line": 14225,
+          "line": 14209,
           "pattern": "/^#/"
         },
         {
-          "line": 14232,
+          "line": 14216,
           "pattern": "/\\+/g"
         },
         {
-          "line": 14259,
+          "line": 14243,
           "pattern": "/^#/"
         },
         {
-          "line": 14361,
+          "line": 14345,
           "pattern": "/[&<>\"']/g"
         },
         {
-          "line": 14368,
+          "line": 14352,
           "pattern": "/'/g"
         },
         {
-          "line": 14369,
+          "line": 14353,
           "pattern": "/'/g"
         },
         {
-          "line": 15109,
+          "line": 15093,
           "pattern": "/\\s+/g"
         },
         {
-          "line": 15440,
+          "line": 15424,
           "pattern": "/\\b\\w/g"
         },
         {
-          "line": 15573,
+          "line": 15557,
           "pattern": "/^#+\\s*/gm"
         }
       ]
@@ -1656,8 +1656,8 @@
             "loading": "blocking"
           }
         ],
-        "bytes": 2933,
-        "lines": 59,
+        "bytes": 3728,
+        "lines": 75,
         "registers": [
           "AMENTI_CONFIG"
         ]
@@ -1726,7 +1726,7 @@
         "surface": "Page2.html",
         "sites": [
           {
-            "line": 16821,
+            "line": 16805,
             "keys": [
               "text",
               "style",
@@ -1734,7 +1734,7 @@
             ]
           },
           {
-            "line": 17056,
+            "line": 17040,
             "keys": [
               "text",
               "style",
@@ -1754,19 +1754,19 @@
         "constants": {
           "TARGET_CHARS": {
             "value": 700,
-            "line": 16930
+            "line": 16914
           },
           "MAX_CHARS": {
             "value": 1100,
-            "line": 16931
+            "line": 16915
           },
           "LOOKAHEAD": {
             "value": 3,
-            "line": 16932
+            "line": 16916
           },
           "STREAM_THRESHOLD": {
             "value": 700,
-            "line": 16809
+            "line": 16793
           }
         }
       }
@@ -1807,7 +1807,7 @@
       "severity": "confirmed",
       "surface": "Page2.html",
       "global": "Sovereign.Atlantica",
-      "detail": "read at PARSE TIME on line 15601; available from line 15418 (Page2.html, inline). 183 lines of margin.",
+      "detail": "read at PARSE TIME on line 15585; available from line 15402 (Page2.html, inline). 183 lines of margin.",
       "test": "first parse-time read >= availability line"
     },
     {
@@ -1815,7 +1815,7 @@
       "severity": "confirmed",
       "surface": "Page2.html",
       "global": "Sovereign.Voice",
-      "detail": "read at PARSE TIME on line 16849; available from line 16784 (Page2.html, inline). 65 lines of margin.",
+      "detail": "read at PARSE TIME on line 16833; available from line 16768 (Page2.html, inline). 65 lines of margin.",
       "test": "first parse-time read >= availability line"
     },
     {
@@ -1852,7 +1852,7 @@
       "id": "chunk-profile",
       "severity": "accepted",
       "surface": "Page2.html",
-      "detail": "TARGET_CHARS = 700 at line 16930 matches the declared profile 'gabriel' in amenti-core.bundle.js, amenti-voice.js. Each surface keeps its own boundaries until somebody pays to re-render; this one is a ruling, not a drift.",
+      "detail": "TARGET_CHARS = 700 at line 16914 matches the declared profile 'gabriel' in amenti-core.bundle.js, amenti-voice.js. Each surface keeps its own boundaries until somebody pays to re-render; this one is a ruling, not a drift.",
       "test": "chunk constant equals a declared profile value",
       "accepted": {
         "reason": "declared in the profile table",
@@ -1863,7 +1863,7 @@
       "id": "chunk-profile",
       "severity": "accepted",
       "surface": "Page2.html",
-      "detail": "STREAM_THRESHOLD = 700 at line 16809 matches the declared profile 'gabriel' in amenti-core.bundle.js, amenti-voice.js. Each surface keeps its own boundaries until somebody pays to re-render; this one is a ruling, not a drift.",
+      "detail": "STREAM_THRESHOLD = 700 at line 16793 matches the declared profile 'gabriel' in amenti-core.bundle.js, amenti-voice.js. Each surface keeps its own boundaries until somebody pays to re-render; this one is a ruling, not a drift.",
       "test": "chunk constant equals a declared profile value",
       "accepted": {
         "reason": "declared in the profile table",
