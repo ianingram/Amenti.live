@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-01T01:11:40.397Z",
+  "at": "2026-09-01T06:43:16.266Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 121,
+    "count": 122,
     "prefixes": {
-      "atlantica:": 82,
+      "atlantica:": 83,
       "dailyplanet:": 20,
       "watch:": 13,
       "week:": 6
@@ -18,7 +18,7 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 69,
+      "fired": 70,
       "last": {
         "date": "2026-08-31",
         "figure": "king-arthur"
@@ -41,6 +41,11 @@
           "figure": "king-arthur",
           "date": "2026-08-31",
           "key": "atlantica:king-arthur:2026-08-31"
+        },
+        {
+          "figure": "lycurgus",
+          "date": "2026-08-31",
+          "key": "atlantica:lycurgus:2026-08-31"
         },
         {
           "figure": "ingram",
@@ -101,14 +106,9 @@
           "figure": "leif-erikson",
           "date": "2026-08-04",
           "key": "atlantica:leif-erikson:2026-08-04"
-        },
-        {
-          "figure": "zheng-he",
-          "date": "2026-08-04",
-          "key": "atlantica:zheng-he:2026-08-04"
         }
       ],
-      "note": "69 dispatch(es) in the hold · last 2026-08-31 (king-arthur) · MISSED 10 of the last 14 days"
+      "note": "70 dispatch(es) in the hold · last 2026-08-31 (king-arthur) · MISSED 10 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
