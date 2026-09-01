@@ -448,6 +448,30 @@
         read.style.display = '';
       }
 
+      /* ── WHERE THE READER IS IN TIME ──────────────────────────────────
+         Built NOW, while the answer is being read — never on the click. The
+         timeline lives in the bare state, so when a reader clicks the image
+         away the position is REVEALED rather than loaded. That is the whole
+         difference between a panel that appears and a scene that was always
+         there: you were reading Josephus at AD 37–100 the entire time.
+
+         The FIRST opened room wins. The router ranks by relevance, so room
+         one is the question's subject; rooms in other centuries fall
+         off-screen, which the answer's own coverage line already states.
+
+         Fails quietly and completely: no rooms opened, an unplaceable key, a
+         register that will not load — the timeline simply is not there, and
+         the bare state is what it was before. Nothing about the reading
+         depends on it. */
+      if (window.AmentiTimeline) {
+        if (r.opened && r.opened.length) {
+          try { window.AmentiTimeline.place(r.opened.map(function (o) { return o.room; })); }
+          catch (e) { /* a timeline is a courtesy, never a dependency */ }
+        } else {
+          try { window.AmentiTimeline.clear(); } catch (e) {}
+        }
+      }
+
       if (r.degraded && r.degraded.length) {
         note.textContent = 'could not be read this turn: ' + r.degraded.join('; ');
         note.style.display = '';
