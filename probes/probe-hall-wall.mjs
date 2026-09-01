@@ -228,7 +228,11 @@ if (unread) {
    matters more — never let an evaluation failure escape as a stack trace
    again. Anything thrown from the hall's own code is the instrument failing
    to see, which is UNREAD, and UNREAD says so and measures nothing. */
-for (const name of ['ROOM_SECTIONS']) {
+/* Every private constant the lifted functions close over. The list grows with
+   the hall: NOTE_BUDGET, ROOM_NOTE and WORK_NOTE were added 31 Aug and
+   buildAnswer() threw the moment they were, which is the tryRun() guard below
+   doing its job — UNREAD, not a stack trace, and not a green lamp. */
+for (const name of ['ROOM_SECTIONS', 'NOTE_BUDGET', 'ROOM_NOTE', 'WORK_NOTE', 'MAX_WORKS', 'WORK_SLICE', 'MAX_ROOMS']) {
   const v = constant(hallJs.value, name);
   if (v !== null) vm.runInContext('var ' + name + ' = ' + v + ';', sandbox);
 }
@@ -335,9 +339,15 @@ for (const rm of (lib.value.rooms || [])) for (const w of (rm.works || [])) {
   if ((w.source || '').length > worstSource.length) worstSource = w.source;
 }
 const worstRoom = (lib.value.rooms || []).reduce((a, r) => (r.name || '').length > a.length ? r.name : a, '');
-const filler = Array.from({ length: maxWorks }, () => ({
-  room: worstRoom, roomName: worstRoom,
-  work: { title: worstTitle, source: worstSource, file: 'x.md' },
+/* The authored notes are part of the prompt now and bounded by NOTE_BUDGET,
+   so the worst case must spend all of it. Each filler work sits in its own
+   room, which is the shape that spends the most: a room header and a room
+   note apiece. */
+const noteBudget = Number(constant(hallJs.value, 'NOTE_BUDGET')) || 0;
+const filler = Array.from({ length: maxWorks }, (_, n) => ({
+  room: worstRoom + n, roomName: worstRoom + n,
+  roomNote: 'n'.repeat(noteBudget),
+  work: { title: worstTitle, source: worstSource, note: 'n'.repeat(noteBudget), file: 'x.md' },
   text: 'x'.repeat(workSlice), why: null
 }));
 const _sys = tryRun('buildAnswer()', () => vm.runInContext('buildAnswer', sandbox)(
