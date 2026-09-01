@@ -413,9 +413,29 @@ const _sys = tryRun('buildAnswer()', () => vm.runInContext('buildAnswer', sandbo
   'searched: 52 rooms holding 550 works, and 191 documents of the architecture\nopened: a room, another room\nworks read in full or in part: ' + maxWorks + '\nNOT opened: every other room and every other work. You did not see them and must not describe them.',
   []
 ));
-if (!_sys.ok || !_ship.ok) { say(''); process.exit(1); }
-const system = _sys.value.length >= _ship.value.length ? _sys.value : _ship.value;
-const worstShape = _sys.value.length >= _ship.value.length ? 'library passages' : 'the ship register';
+/* ── THE FOURTH SHAPE, AND IT IS THE BIGGEST ──────────────────────────────
+   Found 1 Sep by running the real flow against the probe's answer: 18,206 live
+   against 17,921 measured. When the router finds NOTHING — no room, no section
+   — call two carries the WHOLE DOOR LIST, because the budget is free and the
+   hall needs it to name the nearest rooms. That is the common case for a
+   question the corpus does not cover, and it was the one shape never measured.
+   Three shapes counted, four existed, and the largest was the missing one. */
+const _none = tryRun('buildAnswer() with nothing found', () => vm.runInContext('buildAnswer', sandbox)(
+  hallMd.value, state.value, [],
+  'searched: 52 rooms holding 550 works, and 191 documents of the architecture\n' +
+  'opened: no rooms\nworks read in full or in part: 0\n' +
+  'NOT opened: every other room and every other work. You did not see them and must not describe them.',
+  [], vm.runInContext('doorsText', sandbox)(items, lib.value, true), null
+));
+if (!_sys.ok || !_ship.ok || !_none.ok) { say(''); process.exit(1); }
+
+const shapes = [
+  { name: 'library passages',  text: _sys.value  },
+  { name: 'the ship register', text: _ship.value },
+  { name: 'nothing found \u2014 the whole door list', text: _none.value }
+].sort((a, b) => b.text.length - a.text.length);
+const system = shapes[0].text;
+const worstShape = shapes[0].name;
 
 const total  = system.length;
 const margin = WALL - total;
@@ -428,9 +448,10 @@ note('the counts      ' + num(JSON.stringify(state.value, null, 1).length));
 note('the doors       ' + num(catalogue.length) + '   ' + num(nSecs) + ' sections + ' + num(nRooms) + ' rooms');
 note('');
 note('CALL ONE  routing   ' + num(call1) + '   the doors plus ' + num(routerLits.length) + ' of framing');
-note('CALL TWO  answering ' + num(total) + '   worst of three shapes: ' + worstShape);
+note('CALL TWO  answering ' + num(total) + '   worst of ' + shapes.length + ' shapes: ' + worstShape);
 note('   passages   ' + num(_sys.value.length) + '   ' + maxWorks + ' works of ' + num(workSlice));
 note('   register   ' + num(_ship.value.length) + '   ' + num(Number(constant(hallJs.value, 'SECTION_BUDGET')) || 0) + ' of section glosses');
+note('   no match   ' + num(_none.value.length) + '   the whole door list, ' + num(vm.runInContext('doorsText', sandbox)(items, lib.value, true).length) + ' of bare doors');
 note('the rest        ' + num(total - hallMd.value.length - catalogue.length -
      JSON.stringify(state.value, null, 1).length) + '   preamble and the nine rules');
 note('SYSTEM PROMPT   ' + num(total));
