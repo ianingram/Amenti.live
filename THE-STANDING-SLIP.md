@@ -21,12 +21,12 @@ Kept by hand. Reviewed at the top of a session, not the bottom.
 from other briefs, so they do not move once given. The order lives in THE
 CRITICAL PATH below, and a move added late can outrank one added early.
 
-**AND MOVES LIVE OUTSIDE THIS FILE.** Three addenda hold work that has never
-been folded in — `slip/SLIP-ADDENDUM-THE-DAILY-ROTATION.md` (three moves),
-`slip/SLIP-ADDENDUM-THE-SECOND-VOICE.md` (two), and
-`slip/SLIP-ADDENDUM-THE-EDITIONS.md`. Until they are read and folded in or
-cited here as moves, this file is not the whole of the yard's open work and
-should not be trusted as if it were.
+**THE ADDENDA ARE FOLDED IN.** As of 1 Sep this file IS the whole of the yard's
+open work. `slip/SLIP-ADDENDUM-THE-DAILY-ROTATION.md` and
+`slip/SLIP-ADDENDUM-THE-SECOND-VOICE.md` became moves #36–#40;
+`slip/SLIP-ADDENDUM-THE-EDITIONS.md` holds the method for #18 and stays where it
+is. **Do not raise a new move in an addendum** — a move the slip does not know
+about is the fault that took four days to notice. Raise it here.
 
 ---
 
@@ -500,6 +500,89 @@ and it shows in the drift report. Delete it.
 
 ---
 
+## FOLDED IN 1 SEPTEMBER 2026 — the addenda, read at last
+
+The preamble has said since 31 Aug that three addenda held work never folded in,
+and that until they were **this file is not the whole of the yard's open work
+and should not be trusted as if it were.** Read and folded now. `THE-EDITIONS`
+carries no moves of its own — it is the method for #18 and stays where it is.
+
+The two that did carry moves were both raised 28 August and both say *paste into
+THE STANDING SLIP and number them there.* Numbered here.
+
+### 36 · Quote of the Day — and it must NOT be generated
+A short passage from a figure's own writing, shown daily, attributed and linked
+back to the work it came from. **THE ONE THING IT MUST NOT DO IS GENERATE THE
+QUOTE.** The prospectus sells exactly this difference — *ungrounded; invent
+quotes* against *verified primary-source grounding* — and a fabricated
+quotation attributed to Lincoln on the front page is the moat, breached, in the
+most quotable place on the site.
+- **It is now cheaper than when it was raised.** The library holds 550 works
+  with 495 cited to a findable edition, and the box already checks a quoted span
+  against the text it came from (#34). The selection and the guard both exist.
+- **Acceptance test:** the day's quote is verbatim in a stored work, its edition
+  prints beneath it, and nothing on the path can produce a line that is not.
+
+### 37 · Note of the Day — and it must NOT look like a quote
+A short line from the day's figure — a greeting, an observation. **Generated,
+unlike #36, and therefore governed by the opposite rule.** A generated line and
+a sourced passage sitting near each other in the same typography teaches a
+reader that both are the figure's words. One is.
+- **This is the seam the hall already polices**, and the same answer applies:
+  the reader must always be able to tell which they are reading. The note needs
+  its own frame — plainly composed *for today*, not lifted from a work.
+- **Acceptance test:** shown beside a Quote of the Day, a reader can tell at a
+  glance which is the figure's own writing without being told.
+
+### 38 · Quiz of the Day — the machinery already exists
+One question a day from the `topics` table, tied to the day's figure where the
+library allows. `amenti-mint` reads `topics` with the service key, `topics` has
+RLS with no policies so no reader can see an answer, and `publicTopic()` already
+strips `correct` and `accepted`. **Adding a quiz is one row insert.**
+- **Unblocks:** the daily rotation's third sibling, at almost no cost.
+- **Acceptance test:** a row inserted today appears as today's question, and the
+  answer cannot be read from the client.
+
+### 39 · The second voice — two figures on one question
+A SCENE, NOT A ROOM: it starts, it has a shape, and it ends, with the reader
+free to join. **The counsel already does most of it** — it stages a figure into
+a role, carries its own register, and the Turn is already the rolling summary.
+A second voice is a change of STAGING, not a new system, which is the reframe
+that makes it cheap enough to try.
+- **Why it was raised**, in the captain's words: *one-on-one is intense, and
+  intensity is a demand.* A stranger arrives, is immediately the sole
+  participant, is expected to lead, and a dead man is waiting on them. Two
+  figures talking is a room a reader can stand in before speaking.
+- **Acceptance test:** two figures hold one exchange, it ends on its own, and a
+  reader who says nothing has still been somewhere.
+
+### 40 · The way in — a page that asks what a reader WANTS
+Cards under categories rather than a roster of names. **The categories should be
+tags on figures, not curated lists.** A hand-written "religion" list is
+Augustine, Aquinas, Luther — the obvious ones — and **Caesar never makes it**,
+because whoever writes the list files him as a general.
+- **Related to #31.** Both are ways into 1,011 souls for a reader who does not
+  know a name to type: this one by subject, that one by time.
+- **Acceptance test:** a reader who knows no names arrives somewhere they wanted
+  to be, and a figure appears under a category no curator would have filed them
+  under.
+
+### 41 · The addenda are folded — decide whether they stay as files
+`slip/SLIP-ADDENDUM-THE-DAILY-ROTATION.md` and
+`slip/SLIP-ADDENDUM-THE-SECOND-VOICE.md` have been read and their moves are #36
+to #40 above. Both say *paste into THE STANDING SLIP and number there*, which is
+now done, so as move-holders they are spent — but each carries reasoning longer
+than a slip entry should be, and #36's argument about the moat is worth keeping
+whole.
+- **Recommended:** keep them as the briefs behind their moves, cited from here,
+  and never add a move to them again. A move raised in an addendum is a move the
+  slip does not know about, which is the fault this section closed.
+- **`slip/SLIP-ADDENDUM-THE-EDITIONS.md` is different** and stays as it is: it
+  holds the METHOD for #18, not moves, and #18 already says read it rather than
+  planning from the slip.
+
+---
+
 ## THE CRITICAL PATH — what gates what
 
 Reordered 1 Sep. #12, #14 and #15 are closed and #13 is built; the head of the
@@ -524,8 +607,10 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22 and 24–33 are independent — do them when they surface, not in
-sequence.
+Items 8, 9, 16–22, 24–33 and 36–41 are independent — do them when they surface,
+not in sequence. **#36–#38 are one build with three faces**, and the rotation
+addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
+*what does this reader see today*, and four rotations that drift is four bugs.
 
 ---
 
@@ -551,6 +636,10 @@ sequence.
   `Page1.html` unattended.
 
 ---
+
+*Updated 1 Sep 2026 (second pass): the three addenda READ AND FOLDED IN as
+moves #36–#41, so the file no longer admits to being partial. Raise the next
+move here, not in an addendum.*
 
 *Updated 1 Sep 2026: #12, #14 and #15 CLOSED by their own tests, #13 BUILT and
 rewritten to say what shipped, moves 23-33 added, the critical path reordered
