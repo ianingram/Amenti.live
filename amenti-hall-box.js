@@ -304,6 +304,27 @@
       .replace(/<[^>]+>/g, '')
       .replace(/&quot;/g, '"').replace(/&amp;/g, '&')
       .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+      /* ── EDITORIAL APPARATUS IS NOT THE AUTHOR'S WORDS ──────────────────
+         Found live on 1 Sep, on the first question the guard was asked in
+         anger. The hall quoted Josephus — "the first of the twenty-four
+         courses" — and it was reported UNMATCHED. It was not invented. The
+         Whiston edition carries a footnote marker mid-phrase:
+
+             from the first of the twenty-four [1] courses
+
+         The hall quoted it cleanly, as any editor would. The guard compared
+         against the raw text and correctly found no exact match.
+
+         A FALSE NEGATIVE, AND THE GUARD BEHAVED WELL: three states exist so an
+         unmatched quote is never branded false — it got no colour and the
+         tally said "not matched to anything fetched", not "invented".
+
+         So strip the apparatus, which is the SOURCE's, not the author's.
+         Gutenberg's convention is a bracketed number, and no run of prose
+         contains one. A remembered quotation still fails; a correctly quoted
+         one with a footnote inside it now passes. This LOOSENS NOTHING about
+         what counts as verbatim — it removes marks the printer added. */
+      .replace(/\[\s*\d+\s*\]/g, ' ')
       /* the .md bodies are hard-wrapped at ~72 chars, so a quotation spanning
          a line break has newlines the answer does not. Collapse both sides. */
       .replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
