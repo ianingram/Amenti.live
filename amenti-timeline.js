@@ -63,7 +63,22 @@
   'use strict';
 
   var RAW        = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
-  var SPAN       = 200;     /* years in the window. FIXED. See the header. */
+  /* ── THE WINDOW, AND THE ZOOM THAT DOES NOT BREAK IT · 2 Sep ─────────────
+     200 years is the DEFAULT and every answer opens there. That is what keeps
+     the promise in the header: a reader learns what a century looks like once,
+     and Brutus at 509 BC stays comparable to Josephus at AD 37 from one answer
+     to the next.
+
+     The zoom does not undo that, because it is never where a reader ARRIVES.
+     They arrive at 200 and change it deliberately, which is a different act
+     from being handed a scale that varies without their knowing. Opening a
+     room resets to 200.
+
+     SPAN is the only number anything derives from — PX_PER_YR, the bars, the
+     axis, the slider, the readout — so a zoom is one variable and a redraw. */
+  var SPAN_DEFAULT = 200;
+  var SPANS      = [50, 200, 800, 3000];   /* a life · an age · a era · all of it */
+  var SPAN       = SPAN_DEFAULT;
   /* SEEN LIVE, 2 Sep: the footer read "151 bc — ad 90 · 241 YEARS". The span
      was supposed to be fixed at 200 and it was not — fixing PIXELS PER YEAR
      instead fixes the wrong thing, and the window becomes whatever the viewport
@@ -168,9 +183,36 @@
          straight onto the photograph; over a dark sky that is fine, over a lit
          pyramid it is not. */
       '#amenti-timeline .tl-scrim{position:absolute;inset:0;background:rgba(6,7,14,.72);pointer-events:none}',
-      '#amenti-timeline .tl-axis{position:absolute;left:0;right:0;top:0;height:' + AXIS_H + 'px;',
+      /* ── THE SLIDER · added 2 Sep ──────────────────────────────────────
+         The drag reads a century; nothing crossed a millennium. The roster
+         runs from about 8000 BC to now, which at reading scale is tens of
+         thousands of pixels of rail — a great deal of dragging to cross an
+         empty age. The slider is for DISTANCE, the drag is for READING.
+         LINEAR ON PURPOSE, THOUGH IT CROWDS THE MODERN ERA. Two thirds of the
+         souls sit in the last five per cent of the track. That is not a flaw
+         in the control, it is the shape of the roster, and the density marks
+         under the track show it rather than hiding it behind a curve nobody
+         could reason about. */
+      '#amenti-timeline .tl-slider{position:absolute;left:0;right:0;top:0;height:26px;z-index:4;',
+      '  display:flex;align-items:center;gap:14px;padding:0 ' + PAD + 'px;pointer-events:auto}',
+      '#amenti-timeline .tl-slider input{flex:1;-webkit-appearance:none;appearance:none;',
+      '  height:3px;background:transparent;cursor:pointer;margin:0}',
+      '#amenti-timeline .tl-track{position:absolute;left:' + PAD + 'px;right:' + PAD + 'px;top:12px;',
+      '  height:3px;pointer-events:none}',
+      '#amenti-timeline .tl-slider input::-webkit-slider-runnable-track{height:3px;background:#232b3a;border-radius:2px}',
+      '#amenti-timeline .tl-slider input::-moz-range-track{height:3px;background:#232b3a;border-radius:2px}',
+      '#amenti-timeline .tl-slider input::-webkit-slider-thumb{-webkit-appearance:none;width:3px;height:15px;',
+      '  background:#c9a227;border:0;border-radius:1px;margin-top:-6px}',
+      '#amenti-timeline .tl-slider input::-moz-range-thumb{width:3px;height:15px;background:#c9a227;border:0;border-radius:1px}',
+      '#amenti-timeline .tl-year{min-width:82px;text-align:right;color:#c9a227;letter-spacing:.06em}',
+      '#amenti-timeline .tl-zoom{display:flex;gap:2px}',
+      '#amenti-timeline .tl-zoom button{background:none;border:1px solid #232b3a;color:#5f6b80;',
+      '  font:inherit;font-size:11px;letter-spacing:.06em;padding:2px 7px;cursor:pointer;border-radius:3px}',
+      '#amenti-timeline .tl-zoom button:hover{color:#93a1b8;border-color:#3a4a63}',
+      '#amenti-timeline .tl-zoom button.on{color:#c9a227;border-color:#7d6618}',
+      '#amenti-timeline .tl-axis{position:absolute;left:0;right:0;top:26px;height:' + AXIS_H + 'px;',
       '  overflow:hidden;pointer-events:none;z-index:2}',
-      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + AXIS_H + 'px;bottom:52px;',
+      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 26) + 'px;bottom:52px;',
       '  overflow:auto;cursor:grab;overscroll-behavior:contain;',
       '  scrollbar-width:thin;scrollbar-color:#2a3346 transparent}',
       '#amenti-timeline .tl-rail::-webkit-scrollbar{width:7px;height:7px}',
@@ -191,6 +233,14 @@
     root.setAttribute('aria-hidden', 'true');
     root.innerHTML =
       '<div class="tl-scrim"></div>' +
+      '<div class="tl-slider"><svg class="tl-track"></svg>' +
+      '<input type="range" min="0" max="1000" value="500" aria-label="move through time">' +
+      '<span class="tl-year"></span>' +
+      '<span class="tl-zoom">' + SPANS.map(function (n) {
+        return '<button type="button" data-span="' + n + '"' +
+               (n === SPAN_DEFAULT ? ' class="on"' : '') + '>' +
+               (n >= 1000 ? (n / 1000) + 'k' : n) + 'y</button>';
+      }).join('') + '</span></div>' +
       '<div class="tl-axis"><svg class="tl-axis-svg"></svg></div>' +
       '<div class="tl-rail"><svg class="tl-rows"></svg></div>' +
       '<div class="tl-foot"><span class="tl-win"></span>' +
@@ -224,6 +274,54 @@
       rail.scrollTop  = sy - (e.clientY - y0);
     });
 
+    /* Two controls on one value, so each must not fight the other: the slider
+       moves the rail, the rail moves the slider, and a flag stops the echo. */
+    var slider = root.querySelector('input[type=range]');
+    slider.addEventListener('input', function () {
+      if (!state.rows.length) return;
+      fromSlider = true;
+      var span = state.max - state.min;
+      var mid = state.min + (slider.value / 1000) * span;
+      rail.scrollLeft = (mid - state.min) * PX_PER_YR - rail.clientWidth / 2;
+      fromSlider = false;
+      onScroll();
+    });
+    slider.addEventListener('click', function (e) { e.stopPropagation(); });
+
+    /* Arrow keys move a century, which is half a window — enough to feel like
+       a step and not so much that a reader loses their place. */
+    root.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      rail.scrollLeft += (e.key === 'ArrowRight' ? 1 : -1) * (SPAN / 2) * PX_PER_YR;
+    });
+
+    /* A mouse wheel can only move PEOPLE. Shift is the long-standing
+       convention for the other axis, and without it a reader on a mouse has
+       no way through time but to drag. */
+    rail.addEventListener('wheel', function (e) {
+      if (!e.shiftKey) return;
+      e.preventDefault();
+      rail.scrollLeft += e.deltaY || e.deltaX;
+    }, { passive: false });
+
+    /* A zoom must not lose the reader's place. Hold the CENTRE YEAR across the
+       change and re-centre on it afterwards, so the years under the eye stay
+       under the eye and only the reach changes. */
+    root.querySelector('.tl-zoom').addEventListener('click', function (e) {
+      e.stopPropagation();
+      var b = e.target.closest && e.target.closest('button[data-span]');
+      if (!b || !state.rows.length) return;
+      var mid = state.min + (rail.scrollLeft + rail.clientWidth / 2) / PX_PER_YR;
+      SPAN = Number(b.getAttribute('data-span'));
+      root.querySelectorAll('.tl-zoom button').forEach(function (x) {
+        x.classList.toggle('on', x === b);
+      });
+      redraw();
+      rail.scrollLeft = (mid - state.min) * PX_PER_YR - rail.clientWidth / 2;
+      onScroll();
+    });
+
     root.querySelector('.tl-back').addEventListener('click', function (e) {
       e.stopPropagation();               /* do not toggle scene-bare */
       if (anchorKey) centreOn(anchorKey);
@@ -236,6 +334,7 @@
   /* ── drawing ──────────────────────────────────────────────────────────── */
 
   var state = { rows: [], min: 0, max: 0, centre: 0 };
+  var fromSlider = false;
 
   function yearLabel(y) {
     y = Math.round(y);
@@ -354,6 +453,36 @@
     var asvg = root.querySelector('.tl-axis-svg');
     asvg.setAttribute('width', W); asvg.setAttribute('height', AXIS_H);
     asvg.innerHTML = a.join('');
+
+    /* Density under the slider: how many souls are alive across each
+       thousandth of the track. It shows a reader where the roster actually is
+       before they drag into four empty millennia. */
+    var buckets = new Array(120).fill(0), spanY = state.max - state.min;
+    rows.forEach(function (r) {
+      var i0 = Math.floor((r.b - state.min) / spanY * 120);
+      var i1 = Math.floor((r.d - state.min) / spanY * 120);
+      for (var i = Math.max(0, i0); i <= Math.min(119, i1); i++) buckets[i]++;
+    });
+    var peak = Math.max.apply(null, buckets) || 1, d = [];
+    buckets.forEach(function (n, i) {
+      if (!n) return;
+      var h = Math.max(1, Math.round(n / peak * 9));
+      d.push('<rect x="' + (i / 120 * 100) + '%" y="' + (11 - h) + '" width="0.7%" height="' +
+             h + '" fill="#3a4a63"/>');
+    });
+    var trk = root.querySelector('.tl-track');
+    trk.setAttribute('height', 14); trk.setAttribute('preserveAspectRatio', 'none');
+    trk.innerHTML = d.join('');
+  }
+
+  /* Redraw at the current SPAN. Everything is derived, so this is scale() and
+     draw() again — there is no second code path for a zoomed view, which is
+     the reason a zoom was cheap to add and is cheap to trust. */
+  var lastAnchor = null;
+  function redraw() {
+    if (!mounted) return;
+    scale(mounted.querySelector('.tl-rail'));
+    draw(lastAnchor);
   }
 
   function centreOn(key) {
@@ -390,6 +519,14 @@
 
     mounted.querySelector('.tl-win').textContent =
       yearLabel(from) + ' \u2014 ' + yearLabel(to) + ' \u00b7 ' + Math.round(to - from) + ' years';
+    /* The slider follows the rail unless the rail is following the slider. */
+    if (!fromSlider) {
+      var sl = mounted.querySelector('input[type=range]');
+      var span = state.max - state.min;
+      if (sl && span > 0) sl.value = Math.round(((from + to) / 2 - state.min) / span * 1000);
+    }
+    mounted.querySelector('.tl-year').textContent = yearLabel((from + to) / 2);
+
     mounted.querySelector('.tl-count').textContent =
       alive + ' alive here \u00b7 ' + (events ? evs + ' events' : 'events could not be read');
 
@@ -424,6 +561,13 @@
         }
         if (!anchor) return false;      /* nothing placeable: draw nothing */
         anchorKey = anchor.k;
+        lastAnchor = anchor;
+        /* Every answer arrives at the default. A reader who zoomed on the last
+           question does not inherit that scale on the next one. */
+        SPAN = SPAN_DEFAULT;
+        if (mounted) mounted.querySelectorAll('.tl-zoom button').forEach(function (x) {
+          x.classList.toggle('on', Number(x.getAttribute('data-span')) === SPAN_DEFAULT);
+        });
         draw(anchor);
         centreOn(anchor.k);
         return true;
