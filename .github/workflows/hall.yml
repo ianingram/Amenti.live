@@ -55,6 +55,9 @@ on:
       - 'HALL.md'
       - 'probes/probe-hall.mjs'
       - 'probes/probe-hall-wall.mjs'
+      - 'probes/probe-timeline.mjs'
+      - 'probes/probe-roster.mjs'
+      - 'amenti-timeline.js'
       - '.github/workflows/hall.yml'
 
 permissions:
@@ -85,6 +88,20 @@ jobs:
         id: wall
         continue-on-error: true
         run: node probes/probe-hall-wall.mjs .
+
+      # Reads what step 3 wrote, in the same run, seconds later. That is the
+      # whole reason it belongs HERE and not in a workflow of its own: if
+      # probe-roster stops emitting dates or the KEYS.json aliases, the
+      # timeline loses a quarter of the library's positions, and this is the
+      # thing that notices. Split them across two workflows and they drift.
+      #
+      # continue-on-error for the same reason as the wall above: a plain step
+      # exiting 1 aborts the job on that line, and the commit below would
+      # never happen. An alarm that loses its own evidence is not an alarm.
+      - name: can a reader be placed in time
+        id: timeline
+        continue-on-error: true
+        run: node probes/probe-timeline.mjs .
 
       - name: commit if changed
         run: |
@@ -138,8 +155,17 @@ jobs:
       # The probe exits 1 for TWO different things and says which in its output:
       # a prompt over the wall, and something it could not see. Both deserve to
       # stop the build; neither is reported as the other.
+      # Last, so every finding is written down before the job is failed. Each
+      # gate names ONE step, so a red run says which instrument spoke rather
+      # than leaving a reader to guess between them.
       - name: a hall that does not fit is a real finding
         if: steps.wall.outcome == 'failure'
         run: |
           echo "::error::THE HALL'S PROMPT DOES NOT FIT, or the probe could not read what it needed. See the 'does the hall still fit' step above — it says which. THE STANDING SLIP #12."
+          exit 1
+
+      - name: a reader who cannot be placed in time is a real finding
+        if: steps.timeline.outcome == 'failure'
+        run: |
+          echo "::error::A READER CANNOT RELIABLY BE PLACED IN TIME, or the probe could not read a register. See the 'can a reader be placed in time' step above — it says which. Note it cannot see the DRAWING, only whether the data supports it."
           exit 1
