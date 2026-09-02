@@ -1492,10 +1492,26 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 #gateway .gw-image{transform:scale(1);will-change:transform}
 #gateway.gw-entering .gw-image{transform:scale(1.06);
   transition:transform 2.4s cubic-bezier(.25,.6,.3,1)}
+/* ── THE MARK, NOT THE SENTENCE · 1 Sep 2026 ──────────────────────────────
+   This read "Awaken the greatest minds of history." A TRANSITION IS A BEAT,
+   AND A SENTENCE IS THE WRONG THING TO PUT IN ONE: it is too brief to read
+   and long enough that a reader notices they did not. They get the shape of a
+   claim and none of its meaning, every single time.
+
+   It was also a promise about what the site would do to them, which is the
+   register every other product in this market uses and the one thing Amenti
+   does not need. The demonstration is better than the claim: a visitor who
+   types a question and gets Livy quoted with the Spillan edition printed
+   beneath has already been shown more than that line asserted.
+
+   So: the Amenti A, in the Amenti letterform. No reading time at all. The
+   reader has seen this mark in the header of every page, so on a fast beat it
+   is recognition rather than reading — and it says the site is here without
+   telling anyone what they are about to feel. */
 #gateway .gw-oath{position:absolute;left:50%;top:50%;
   transform:translate(-50%,-50%) translateY(14px);z-index:7;margin:0;text-align:center;
   width:min(880px,calc(100% - 56px));font-family:'Amenti Display','Special Elite',serif;
-  font-weight:400;font-size:clamp(19px,3.1vw,38px);letter-spacing:.055em;line-height:1.45;
+  font-weight:400;font-size:clamp(64px,13vw,190px);letter-spacing:.02em;line-height:1;
   color:#f6f1e6;opacity:0;pointer-events:none;
   text-shadow:0 2px 30px rgba(0,0,0,1),0 0 70px rgba(240,196,80,.30);
   transition:opacity .9s ease .55s,transform 1.3s cubic-bezier(.2,.7,.3,1) .55s}
@@ -1882,7 +1898,7 @@ body.gw-locked .master-nav{opacity:0;pointer-events:none;
        version in git history; .gw-quad / .q-* CSS removed below. -->
 
   <!-- the line the door opens onto -->
-  <p class="gw-oath">Awaken the greatest minds of history.</p>
+  <p class="gw-oath" aria-label="Amenti">A</p>
   <p class="gw-waitnote">OPENING THE HALL</p>
 
   <button class="gw-doorway" id="gw-doorway" type="button" aria-label="Enter the Amenti Interface">
