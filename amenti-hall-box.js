@@ -333,14 +333,34 @@
       .trim().toLowerCase();
   }
 
+  /* ── THE PUNCTUATION AT THE EDGES IS THE QUOTER'S ────────────────────────
+     Found live on 1 Sep, the second time the guard was asked in anger. The
+     hall quoted Josephus word for word and it came back UNMATCHED:
+
+         source   ...descended all along from the priests; and as nobility
+         quoted   ...descended all along from the priests.
+
+     Every word identical. Only the terminal mark differs — the source runs on
+     with a semicolon and the hall closed the clause with a full stop, which is
+     what any editor does when lifting a clause out of a sentence.
+
+     Same category as the footnote marker above: THE WORDS ARE THE AUTHOR'S,
+     THE PUNCTUATION AT THE BOUNDARY IS THE QUOTER'S. So trim terminal marks
+     from BOTH ends of the compared span before matching. This changes nothing
+     about the words — a substituted word, an elision, or a remembered line
+     still fails, because the interior must still match exactly. */
+  function core(t) {
+    return norm(t).replace(/^[\s.,;:!?\u2014-]+/, '').replace(/[\s.,;:!?\u2014-]+$/, '');
+  }
+
   function verifyQuotes(html, opened) {
     var tally = { verified: 0, note: 0, unmatched: 0 };
     if (!opened || !opened.length) return { html: html, tally: tally };
 
     var texts = [], notes = [];
     opened.forEach(function (o) {
-      if (o.text) texts.push({ hay: norm(o.text), title: o.title });
-      if (o.note) notes.push({ hay: norm(o.note), title: o.title });
+      if (o.text) texts.push({ hay: core(o.text), title: o.title });
+      if (o.note) notes.push({ hay: core(o.note), title: o.title });
     });
     if (!texts.length && !notes.length) return { html: html, tally: tally };
 
@@ -352,7 +372,7 @@
       var body = dqBody !== undefined ? dqBody : cqBody;
       var open = dq1 !== undefined ? '&quot;' : '\u201C';
       var close = dq1 !== undefined ? '&quot;' : '\u201D';
-      var needle = norm(body);
+      var needle = core(body);
       if (!needle) return m;
 
       var hit = null, where = null;
