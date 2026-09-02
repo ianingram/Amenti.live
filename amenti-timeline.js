@@ -183,7 +183,7 @@
       cells = cells.map(function (x) { return x.trim(); });
       var y = parseFloat(cells[0]);
       if (isNaN(y)) return;                       /* header, or a bad row */
-      out.push({ y: y, name: cells[1] || '', cat: cells[2] || 'event' });
+      out.push({ y: y, name: cells[1] || '', cat: (cells[2] || 'event'), desc: (cells[3] || '') });
     });
     return out;
   }
@@ -258,8 +258,9 @@
          scene still brings the hall back. */
       '#amenti-timeline .tl-sky{position:absolute;left:0;right:0;top:26px;height:58px;',
       '  z-index:3;cursor:ew-resize;pointer-events:auto}',
-      '#amenti-timeline .tl-legend{position:absolute;right:' + PAD + 'px;top:6px;z-index:5;',
-      '  font-size:11px;letter-spacing:.08em;pointer-events:none;display:flex;gap:12px}',
+      /* SEEN LIVE 2 Sep: the legend sat top-right on top of the zoom buttons. It belongs in the sky row at the LEFT, clear of the controls. */
+      '#amenti-timeline .tl-legend{position:absolute;left:' + PAD + 'px;top:6px;z-index:5;',
+      '  font-size:10.5px;letter-spacing:.06em;pointer-events:none;display:flex;gap:13px;background:rgba(9,11,18,.7);padding:2px 8px;border-radius:4px}',
       '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 34) + 'px;bottom:78px;',
       '  overflow:auto;cursor:grab;overscroll-behavior:contain;',
       '  scrollbar-width:thin;scrollbar-color:#2a3346 transparent}',
@@ -288,13 +289,26 @@
          timeline dims behind it. The scene never shares space with a bar
          again. Its own three sections stack and scroll inside it rather than
          spreading across the width. */
-      '#amenti-timeline .tl-scene{position:absolute;top:' + (AXIS_H + 40) + 'px;right:' + PAD + 'px;',
-      '  width:min(360px,38vw);max-height:calc(100% - ' + (AXIS_H + 130) + 'px);overflow-y:auto;',
-      '  z-index:6;pointer-events:auto;background:rgba(9,11,18,.94);',
-      '  border:1px solid #232b3a;border-radius:10px;padding:16px 18px;',
-      '  font-size:13px;line-height:1.5;color:#9fb0c8;transition:opacity .2s;',
+      /* Docked hard to the right edge and collapsible. Wider room for the
+         names, and a tab to fold it away when the reader wants the bars clear.
+         Slides out rather than vanishing, so the tab stays reachable. */
+      '#amenti-timeline .tl-scene{position:absolute;top:' + (AXIS_H + 40) + 'px;right:0;',
+      '  width:min(380px,42vw);max-height:calc(100% - ' + (AXIS_H + 120) + 'px);overflow-y:auto;',
+      '  z-index:6;pointer-events:auto;background:rgba(9,11,18,.96);',
+      '  border:1px solid #232b3a;border-right:none;border-radius:10px 0 0 10px;',
+      '  padding:16px 20px 16px 18px;font-size:13px;line-height:1.5;color:#9fb0c8;',
+      '  transition:transform .28s cubic-bezier(.3,.7,.3,1),opacity .2s;',
       '  box-shadow:0 8px 40px rgba(0,0,0,.5)}',
       '#amenti-timeline .tl-scene:empty{opacity:0;pointer-events:none}',
+      /* When folded, slide right by its own width less the tab. */
+      '#amenti-timeline.scene-folded .tl-scene{transform:translateX(calc(100% - 26px))}',
+      /* The tab: a vertical handle on the panel's left edge, always reachable. */
+      '#amenti-timeline .tl-fold{position:absolute;left:-1px;top:50%;transform:translateY(-50%);',
+      '  width:26px;height:64px;margin-left:-26px;background:rgba(9,11,18,.96);',
+      '  border:1px solid #232b3a;border-right:none;border-radius:8px 0 0 8px;',
+      '  cursor:pointer;color:#8f9db4;display:flex;align-items:center;justify-content:center;',
+      '  font-size:14px;pointer-events:auto}',
+      '#amenti-timeline .tl-fold:hover{color:#c9a227}',
       '#amenti-timeline .tl-scene h4{margin:14px 0 6px;font:inherit;font-size:10.5px;letter-spacing:.14em;',
       '  text-transform:uppercase;color:#5f6b80}',
       '#amenti-timeline .tl-scene h4:first-of-type{margin-top:2px}',
@@ -306,6 +320,8 @@
       '#amenti-timeline .tl-scene li i{font-style:normal;color:#8f9db4;min-width:52px;text-align:right;flex:none}',
       '#amenti-timeline .tl-scene li.ev i{color:#c9a227}',
       '#amenti-timeline .tl-scene li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '#amenti-timeline .tl-scene li.ev span{white-space:normal;line-height:1.4}',
+      '#amenti-timeline .tl-scene li.ev{align-items:baseline;margin-bottom:3px}',
       '#amenti-timeline .tl-scene .more{color:#5f6b80;font-size:11px;margin-top:3px}',
       '#amenti-timeline .tl-scene .pin{float:right;font-size:10px;letter-spacing:.1em;color:#5f6b80}',
       '#amenti-timeline .tl-rows g.dim{opacity:.32}',
@@ -734,7 +750,16 @@
     function li(cls, yr, txt) {
       return '<li class="' + cls + '"><i>' + yearLabel(yr) + '</i><span>' + esc(txt) + '</span></li>';
     }
+    /* Warm for human conflict and power, cool for making and knowing, grey for
+       the rest \u2014 enough to sort a glance, not a rainbow. */
+    function catColor(c) {
+      return ({ conflict: '#d85a30', conquest: '#d85a30', politics: '#e0b93f', law: '#e0b93f',
+                disaster: '#a3402d', religion: '#b39ddb', science: '#5dcaa5', invention: '#5dcaa5',
+                engineering: '#5dcaa5', culture: '#7fb0e0', monument: '#c9a227', civilization: '#c9a227',
+                exploration: '#7fdce8', commerce: '#8f9db4', economics: '#8f9db4' })[c] || '#8f9db4';
+    }
     var glyph = { Neptune: '\u2646', Uranus: '\u2645', Saturn: '\u2644' };
+    var pcol  = { Neptune: '#8b9bff', Uranus: '#7fdce8', Saturn: '#ecd493' };
 
     var h = [];
     if (pinned === soul) h.push('<span class="pin">pinned \u00b7 click to release</span>');
@@ -744,12 +769,31 @@
            (soul.r ? ' \u00b7 has a room' : '') + '</p>');
 
     h.push('<h4>while they lived</h4><ol>');
-    evs.slice(0, CAP).forEach(function (e) { h.push(li('ev', e.y, e.name)); });
+    /* DENSER, WITH REAL DATA \u2014 2 Sep. The name was the whole line; the
+       description and category columns were parsed and thrown away. A category
+       dot places the event at a glance (a war reads differently from an
+       invention) and the description carries the weight \u2014 "Assassination of
+       Caesar" becomes that plus "Ides of March; Roman Republic ends". No
+       guessing: both are columns already in EVENTS.csv. */
+    evs.slice(0, CAP).forEach(function (e) {
+      h.push('<li class="ev"><i>' + yearLabel(e.y) + '</i><span>' +
+             '<b style="color:' + catColor(e.cat) + ';font-weight:400">\u25cf </b>' +
+             '<b style="font-weight:500;color:#c9d4e6">' + esc(e.name) + '</b>' +
+             (e.desc ? '<span style="color:#6b7688"> \u2014 ' + esc(e.desc) + '</span>' : '') +
+             '</span></li>');
+    });
     if (!evs.length) h.push('<li><span style="color:#5f6b80">no event recorded in these years</span></li>');
     h.push('</ol>' + (evs.length > CAP ? '<div class="more">and ' + (evs.length - CAP) + ' more</div>' : ''));
 
     h.push('<h4>the sky over Giza</h4><ol>');
-    sk.slice(0, CAP).forEach(function (x) { h.push(li('sk', x.y, glyph[x.body] + ' ' + x.body + ' rises due east')); });
+    sk.slice(0, CAP).forEach(function (x) {
+      /* The glyph and the name in the planet's own colour, so the sky list
+         reads the same as the row of marks above it. "rises due east" stays
+         muted — it is the same phrase every line and should not shout. */
+      h.push('<li class="sk"><i>' + yearLabel(x.y) + '</i><span><b style="color:' + pcol[x.body] +
+             ';font-weight:400">' + glyph[x.body] + ' ' + x.body + '</b>' +
+             '<span style="color:#5f6b80"> rises due east</span></span></li>');
+    });
     if (!sk.length) h.push('<li><span style="color:#5f6b80">' + (sky ? 'no slow planet crossed in these years' : 'sky register not read') + '</span></li>');
     h.push('</ol>' + (sk.length > CAP ? '<div class="more">and ' + (sk.length - CAP) + ' more</div>' : ''));
 
@@ -757,7 +801,14 @@
     with_.slice(0, CAP).forEach(function (r) { h.push(li('wh', r.b, r.n)); });
     h.push('</ol>' + (with_.length > CAP ? '<div class="more">and ' + (with_.length - CAP) + ' more</div>' : ''));
 
-    box.innerHTML = h.join('');
+    box.innerHTML = '<div class="tl-fold" title="fold the scene">' +
+        (mounted.classList.contains('scene-folded') ? '\u2039' : '\u203a') + '</div>' + h.join('');
+    var fold = box.querySelector('.tl-fold');
+    if (fold) fold.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var f = mounted.classList.toggle('scene-folded');
+      fold.textContent = f ? '\u2039' : '\u203a';
+    });
 
     /* Dim everyone outside the span, brighten the one in hand. */
     mounted.querySelectorAll('.tl-rows g').forEach(function (g) {
