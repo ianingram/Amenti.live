@@ -575,6 +575,103 @@ need no event entry at all** — the person who died in them is already dated:
 - **Acceptance test:** none. A reading, not a move — but read it before
   authoring any event that a soul already died in.
 
+### 46 · Josephus is dated 37 BC and lived 137 years
+`names.csv` gives Flavius Josephus a `Birth-Date` of −37. He was born in **AD
+37** and died about AD 100 — a 63-year life. The sign is inverted.
+
+**IT HAS BLOCKED TWO THINGS IN ONE SESSION.** On 31 Aug it produced a synchrony
+that never happened: the assistant showed a reading in which Josephus was alive
+at Actium, beside Cleopatra, Augustus and Ovid. It was compelling, it felt like
+a discovery, and it was one wrong minus sign. Cleopatra died 67 years before he
+was born. On 1 Sep it blocked the mention-graph's temporal filter (#47), which
+works by ruling out anyone who was not yet born when the author wrote.
+
+- **The fix:** one cell. `-37` → `37`. `probe-roster` regenerates
+  `ROSTER-INDEX.json` on the next `hall.yml` run and both the timeline and
+  Page2's helix correct themselves, since both read the same field.
+- **AND THE GUARD IS WORTH MORE THAN THE FIX.** A 137-year lifespan is
+  checkable. `probe-roster` already counts and reports; a soul living
+  implausibly long should be a finding, not a number sitting quietly in a
+  column. That would have caught this the day it was entered rather than when
+  a false reading was built on it.
+- **Acceptance test:** the roster reports Josephus 37–100, and the probe names
+  any soul whose lifespan exceeds a stated bound (the 45 eternals excepted, and
+  named as such).
+
+### 47 · THE MENTION GRAPH — connections that can be CITED, not inferred
+The roster's souls are connected — who knew whom, who opposed whom, who wrote
+about whom. Two kinds of connection are computable today and a third is far
+better than both.
+
+**Overlap** says two people were alive together. **Region** says they were in
+the same part of the world. Both are inference: they say a meeting was
+*possible*.
+
+**A MENTION IS NOT AN INFERENCE. IT IS A QUOTATION.** One figure's own text
+naming another, in an edition you hold. *Josephus names Vespasian in Antiquities
+Book 18* is a claim a reader can check by opening the book — which is the
+citation policy applied to relationships rather than to passages.
+
+**Proved on 1 Sep**, searching four books of the Antiquities (638 KB) for roster
+names. Sixteen figures found. Genuine and citable: Vespasian, Cicero, Alexander
+the Great. Also four kinds of false link, each instructive:
+- `Joseph` 34× — the patriarch and half a dozen other Josephs.
+- `Ptolemy` — matching the ASTRONOMER, who was born after Josephus died.
+- `Brutus` — almost certainly Marcus, not the Lucius in the library.
+- `Anubis`, `Jupiter`, `Venus`, `Hermes` — gods being named as gods.
+
+**THE GRAPH SCALES WITH THE LIBRARY, NOT THE ROSTER**, and that shapes it:
+a name can only be found in text the ship holds, so 1,011 souls can be NAMED
+but only 52 can do the naming. Every edge runs out of one of those 52 rooms.
+Fill Vespasian's room and the edge becomes two — and the pair can DISAGREE,
+which is where it becomes a historical instrument rather than an index.
+
+**THE DISCIPLINES MUST BE BUILT BEFORE THE ROSTER FILLS, NOT AFTER.** At 52
+rooms four false links were caught by eye in a minute. At 500 nobody will be
+looking. Retrofitting across five hundred rooms is a different and far worse
+job than having the rules from the start:
+- **A name match is a CANDIDATE, not a link**, until confirmed.
+- **The temporal filter** — you cannot name someone unborn — kills most of the
+  noise on its own. **It cannot run until #46 is fixed.**
+- **The room notes do the disambiguation** and already exist: Brutus's opens
+  *FIRST, WHICH BRUTUS* precisely because someone saw this coming.
+
+- **Unblocks:** a connection layer for the timeline and the hall that states
+  *where* a connection is written down rather than that it was likely.
+- **Acceptance test:** none yet — this is a slipway of its own once it earns
+  one. The move is: fix #46, then build the candidate finder with the temporal
+  filter and the notes, on a handful of rooms, and see what survives review.
+
+### 48 · The Marketplace never hides — it scrolls through every tab
+Reported live 2 Sep: selecting Marketplace scrolls through the character cards
+and the other tabs in one continuous page, instead of showing a marketplace and
+hiding the rest.
+
+**THE CAUSE IS ONE MISSING CLASS.** Page1's panes hide with
+`.page-section{display:none}` and show with `.page-section.active{display:block}`,
+toggled by `activate()`. The marketplace is `<section id="marketplace">` with
+**no `page-section` class and no `data-page`** — so the hide rule never touches
+it and `activate()` never toggles it. It is permanently visible, sitting in the
+flow between panes, which is exactly the endless scroll. It is not even one of
+the six data-page sections (arena, bookstore, codex, timeline, terminal,
+counsel); it is a bare section wedged after bookstore.
+
+- **The fix is small but the DESTINATION is a decision, not a default** — which
+  is why this is a slip entry and not a commit:
+  - **Its own tab:** add `class="page-section" data-page="marketplace"` and a nav
+    button with `data-target="marketplace"`. It then hides and shows like every
+    other pane.
+  - **Inside the Book Store:** it sits next to `bookstore` in the markup and
+    reads as store content (*Books · Tokens · Collectibles*). Move the element
+    inside that section so it hides and shows with it.
+  - **Not shown yet:** give it `class="page-section"` and no nav button — hidden
+    until something activates it.
+- **A related question the same bug raises:** whether the NFT and Emerald Token
+  cards should show at all. That is commercial intent, not a rendering call, and
+  belongs with whoever owns the storefront.
+- **Acceptance test:** selecting any tab shows that pane ALONE; the marketplace
+  appears only when it is meant to, and no tab scrolls into another's content.
+
 ### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -690,7 +787,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–45 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–48 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -719,6 +816,17 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
   `Page1.html` unattended.
 
 ---
+
+*Updated 2 Sep 2026: #48 added — the Marketplace tab never hides, because its
+section lacks the `page-section` class the tab machinery toggles. NOTE: this
+pass is rebuilt on the 47-move copy; #46 and #47 (Josephus, the mention graph)
+were added 1 Sep but had NOT reached main — main jumped 45 to 48. This file
+restores all three.*
+
+*Updated 1 Sep 2026 (fifth pass): #46 and #47 added — one inverted date that
+has now blocked two builds, and the mention graph, which is the citation policy
+applied to relationships. Its disciplines want building while the library is 52
+rooms, not 500.*
 
 *Updated 1 Sep 2026 (fourth pass): #44 and #45 added — the events register
 exists, is good, and is hardcoded into Page2, with the socket to publish it
