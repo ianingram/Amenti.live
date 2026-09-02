@@ -4,7 +4,7 @@
   "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
   "_reaches": "The four booleans are why this register exists. On 27 Aug 2026 each was an argument, six times in one day, because nothing could be looked up.",
   "_honesty": "null in `reaches` means NOT CHECKED. It is not false. False is a claim.",
-  "generated": "2026-09-02T01:58:13.784Z",
+  "generated": "2026-09-02T06:56:44.780Z",
   "generator": "probes/probe-surfaces.mjs",
   "counts": {
     "authored": 36,
