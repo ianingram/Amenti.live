@@ -250,7 +250,7 @@
       /* SEEN LIVE, 2 Sep: the axis was cramped against the top and its type was
          too small to read at a glance. The rows carry the most information per
          pixel on the whole surface — they are worth the height. */
-      '#amenti-timeline .tl-axis-svg text{font-size:13.5px}',
+      '#amenti-timeline .tl-axis-svg text{font-size:15px}',
       '#amenti-timeline .tl-axis{position:absolute;left:0;right:0;top:26px;height:' + AXIS_H + 'px;',
       '  overflow:hidden;z-index:2;pointer-events:none}',
       /* The sky row is the only part of the axis that takes a pointer: drag it
@@ -258,6 +258,8 @@
          scene still brings the hall back. */
       '#amenti-timeline .tl-sky{position:absolute;left:0;right:0;top:26px;height:58px;',
       '  z-index:3;cursor:ew-resize;pointer-events:auto}',
+      '#amenti-timeline .tl-legend{position:absolute;right:' + PAD + 'px;top:6px;z-index:5;',
+      '  font-size:11px;letter-spacing:.08em;pointer-events:none;display:flex;gap:12px}',
       '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 34) + 'px;bottom:52px;',
       '  overflow:auto;cursor:grab;overscroll-behavior:contain;',
       '  scrollbar-width:thin;scrollbar-color:#2a3346 transparent}',
@@ -289,6 +291,14 @@
       }).join('') + '</span></div>' +
       '<div class="tl-axis"><svg class="tl-axis-svg"></svg></div>' +
       '<div class="tl-sky" title="drag to move through time"></div>' +
+      /* Four characters and their names, once, at the edge. The row is
+         readable without it; this only removes the moment of asking. */
+      '<div class="tl-legend">' +
+        '<span style="color:#8b9bff">\u2646 neptune</span>' +
+        '<span style="color:#7fdce8">\u2645 uranus</span>' +
+        '<span style="color:#ecd493">\u2644 saturn</span>' +
+        '<span style="color:#cf9b63">\u2643 jupiter</span>' +
+      '</div>' +
       '<div class="tl-rail"><svg class="tl-rows"></svg></div>' +
       '<div class="tl-foot"><span class="tl-win"></span>' +
       '<button class="tl-back" type="button">\u2039 back to the figure</button>' +
@@ -525,29 +535,48 @@
        it becomes a picket fence and tells a reader nothing. The slow bodies
        are the markers — Neptune twice a century, Uranus four times. */
     if (sky) {
-      var wide = SPAN > 400, skyReach = -1e9;
+      var wide = SPAN > 400, skyReach = {};
       sky.forEach(function (sk) {
         if (sk.y < state.min || sk.y > state.max) return;
         if (wide && sk.body === 'Jupiter') return;
         var sx = X(sk.y);
-        /* SEEN LIVE: the marks were there and invisible — 5 to 11px of hairline
-           at the very top of the frame. They are the only computed register on
-           this surface and they were reading as dust. Taller, brighter, thicker
-           by rarity, and the two rare ones carry their name. */
-        var col = sk.body === 'Neptune' ? '#a79fff'
-                : sk.body === 'Uranus'  ? '#7fe3c0'
-                : sk.body === 'Saturn'  ? '#f5b445' : '#7d8798';
-        var h  = sk.body === 'Neptune' ? 26 : sk.body === 'Uranus' ? 20 : sk.body === 'Saturn' ? 13 : 8;
-        var sw = sk.body === 'Neptune' ? 2 : sk.body === 'Uranus' ? 1.75 : sk.body === 'Saturn' ? 1.4 : 1;
-        a.push('<line x1="' + sx + '" y1="' + (SKY_Y + 30 - h) + '" x2="' + sx + '" y2="' +
-               (SKY_Y + 30) + '" stroke="' + col + '" stroke-width="' + sw + '"><title>' +
-               esc(sk.body) + ' rises due east over Giza, ' + yearLabel(sk.y) + '</title></line>');
-        /* Neptune twice a century and Uranus four times — rare enough to name
-           without the row becoming a wall. Saturn and Jupiter stay as marks. */
-        if ((sk.body === 'Neptune' || sk.body === 'Uranus') && SPAN <= 800 && sx > skyReach) {
-          skyReach = sx + 10 + sk.body.length * 8;
-          a.push('<text x="' + (sx + 4) + '" y="' + (SKY_Y + 8) + '" fill="' + col +
-                 '" font-size="11">' + sk.body + '</text>');
+        /* ── THE GLYPHS · 2 Sep ──────────────────────────────────────────
+           A coloured tick does not say PLANET. The marks were drawn, they were
+           on screen, and they were still being looked for — which means the
+           encoding failed even though the pixels were correct.
+
+           The astronomical glyphs are unambiguous and take one character:
+           ♆ Neptune · ♅ Uranus · ♄ Saturn · ♃ Jupiter. Sized and coloured by
+           rarity, so the row reads as a hierarchy without a legend. */
+        /* THE COLOURS THE PLANETS ACTUALLY ARE, lightened enough to hold on a
+           dark scene. Neptune's deep blue, Uranus's pale cyan, Saturn's pale
+           gold, Jupiter's banded tan. Arbitrary hues would have been just as
+           distinct and would have taught a reader nothing; these are the ones
+           anyone recognises from a photograph, so the row is readable before
+           it is explained. Jupiter was grey, which said "not a planet". */
+        var col = sk.body === 'Neptune' ? '#8b9bff'
+                : sk.body === 'Uranus'  ? '#7fdce8'
+                : sk.body === 'Saturn'  ? '#ecd493' : '#cf9b63';
+        var gly = sk.body === 'Neptune' ? '\u2646'
+                : sk.body === 'Uranus'  ? '\u2645'
+                : sk.body === 'Saturn'  ? '\u2644' : '\u2643';
+        var sz  = sk.body === 'Neptune' ? 20 : sk.body === 'Uranus' ? 18 : sk.body === 'Saturn' ? 15 : 12;
+        var h   = sk.body === 'Neptune' ? 14 : sk.body === 'Uranus' ? 12 : sk.body === 'Saturn' ? 9 : 6;
+
+        a.push('<line x1="' + sx + '" y1="' + (SKY_Y + 34 - h) + '" x2="' + sx + '" y2="' +
+               (SKY_Y + 34) + '" stroke="' + col + '" stroke-width="1"/>');
+
+        /* A glyph is only drawn where one fits. Jupiter crosses every six
+           years — at a close zoom that is a row of ♃ and nothing else — so it
+           keeps its tick and earns a glyph only when the window is tight
+           enough to space them. Each body keeps its own reach, so a slow
+           planet is never crowded out by a fast one. */
+        var need = sz + 6;
+        if (sx - (skyReach[sk.body] || -1e9) >= need) {
+          skyReach[sk.body] = sx;
+          a.push('<text x="' + sx + '" y="' + (SKY_Y + 20) + '" text-anchor="middle" fill="' + col +
+                 '" font-size="' + sz + '">' + gly + '<title>' + esc(sk.body) +
+                 ' rises due east over Giza, ' + yearLabel(sk.y) + '</title></text>');
         }
       });
     }
@@ -570,7 +599,7 @@
            actually measures. Deliberately over: an estimate that is too small
            produces a collision, one that is too large produces a gap, and a gap
            is not a fault. Tested to hold at 8.5px/char before this. */
-        reach[row] = x + 16 + nm.length * 9.2;
+        reach[row] = x + 18 + nm.length * 10.2;   /* 15px type; over on purpose */
         a.push('<text x="' + x + '" y="' + EV_Y[row] + '" text-anchor="start" fill="#c9a227">' + nm + '</text>');
       });
     }
