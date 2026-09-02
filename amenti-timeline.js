@@ -343,6 +343,21 @@
       '#amenti-timeline .tl-scene .pin{float:right;font-size:10px;letter-spacing:.1em;color:#5f6b80}',
       '#amenti-timeline .tl-rows g.dim{opacity:.32}',
       '#amenti-timeline .tl-rows g.lit rect{stroke-width:1.8}',
+      /* ── THE CONNECTION STATE · 2 Sep ─────────────────────────────────────
+         A SEPARATE, STRONGER state than hover-dim. Click anything and it
+         broadcasts a SPAN; everything overlapping the span is CONNECTED (kept
+         bright, gold-edged), everything else is MUTED harder than a hover. The
+         focused element itself gets a solid gold ring. Distinct from hover so
+         the two never muddy. */
+      '#amenti-timeline.sel .tl-rows g:not(.conn){opacity:.14}',
+      '#amenti-timeline.sel .tl-rows g.conn{opacity:1}',
+      '#amenti-timeline.sel .tl-rows g.conn rect{stroke:#c9a227}',
+      '#amenti-timeline.sel .tl-rows g.focus rect{stroke:#f0d060;stroke-width:2.2}',
+      '#amenti-timeline .tl-axis-svg .evdim{opacity:.18}',
+      '#amenti-timeline .tl-axis-svg .evlit{opacity:1}',
+      '#amenti-timeline .tl-scene li.pick{background:rgba(201,162,39,.14);border-radius:4px}',
+      '#amenti-timeline .tl-scene li.clk{cursor:pointer;border-radius:4px}',
+      '#amenti-timeline .tl-scene li.clk:hover{background:rgba(127,180,240,.10)}',
       '#amenti-timeline .tl-foot{position:absolute;left:0;right:0;bottom:52px;',
       '  display:flex;justify-content:space-between;padding:0 ' + PAD + 'px;',
       '  letter-spacing:.06em;color:#4f5a6d;pointer-events:none}',
@@ -514,6 +529,49 @@
       evread._t = setTimeout(function () { evread.classList.remove('show'); }, 4000);
     });
 
+    /* ── THE CONNECTION GESTURE · 2 Sep ───────────────────────────────────
+       Click anything in the panel and it broadcasts its span to the whole
+       timeline. A person lights everyone whose life overlapped theirs; an event
+       lights who was alive when it happened; a sky rising lights the generation
+       that saw it. The clicked row is marked, and clicking it again clears. */
+    var sceneBox = root.querySelector('.tl-scene');
+    if (sceneBox) sceneBox.addEventListener('click', function (e) {
+      var liEl = e.target.closest && e.target.closest('li.clk');
+      if (!liEl) return;
+      e.stopPropagation();
+      if (liEl.classList.contains('pick')) {           /* second click clears */
+        liEl.classList.remove('pick'); clearSelection(); return;
+      }
+      sceneBox.querySelectorAll('li.pick').forEach(function (x){ x.classList.remove('pick'); });
+      liEl.classList.add('pick');
+      var from = +liEl.getAttribute('data-from'), to = +liEl.getAttribute('data-to');
+      var key = liEl.getAttribute('data-k') || null;
+      highlight(from, to, key);
+    });
+
+    /* Click a great-conjunction ring on the axis and light the generation that
+       lived under it \u2014 the ring is an instant, so it broadcasts a WINDOW, not
+       a year, or it would light nothing. */
+    var axisEl2 = root.querySelector('.tl-axis');
+    if (axisEl2) axisEl2.addEventListener('click', function (e) {
+      var ring = e.target.closest && e.target.closest('circle');
+      if (!ring) return;
+      var t = ring.querySelector('title'); if (!t) return;
+      var mt = t.textContent.match(/,\s*([\d]+)\s*(bc|ad)?\s*$/i);
+      if (!mt) return;
+      var yr = parseInt(mt[1],10) * (/bc/i.test(mt[2]||'')?-1:1);
+      e.stopPropagation();
+      highlight(yr-15, yr+15, null);   /* the generation on either side */
+    });
+
+    /* A click on the bare scene (image) clears any selection along with
+       bringing the hall back \u2014 handled by hall.html; we just drop ours. */
+    root.addEventListener('click', function (e) {
+      if (e.target.closest && (e.target.closest('.tl-scene') || e.target.closest('.tl-axis') ||
+          e.target.closest('.tl-rows') || e.target.closest('.tl-slider') || e.target.closest('.tl-fold'))) return;
+      clearSelection();
+    });
+
     var foldTab = root.querySelector('.tl-fold');
     if (foldTab) foldTab.addEventListener('click', function (e) {
       e.stopPropagation();
@@ -663,8 +721,8 @@
       if (any && !g) {
         e.stopPropagation();
         var r = byKey[any.getAttribute('data-k')];
-        if (pinned === r) { pinned = null; scene(anchorKey ? byKey[anchorKey] : null); }
-        else { pinned = r; scene(r); }
+        if (pinned === r) { pinned = null; scene(anchorKey ? byKey[anchorKey] : null); clearSelection(); }
+        else { pinned = r; scene(r); if (r) highlight(r.b, r.d, r.k); }
         return;
       }
       if (!g) return;
@@ -870,11 +928,13 @@
        places, named events — all take terminal blue, so the eye finds them
        without reading every line. The year stays muted; the connective words
        stay grey. */
-    function li(cls, yr, txt) {
+    function li(cls, yr, txt, key, from, to) {
       var body = cls === 'wh'
         ? '<span style="color:' + PROPER + '">' + esc(txt) + '</span>'   /* a person */
         : esc(txt);
-      return '<li class="' + cls + '"><i>' + yearLabel(yr) + '</i><span>' + body + '</span></li>';
+      var data = key ? ' data-k="' + esc(key) + '"' : '';
+      var span = (from !== undefined) ? ' data-from="' + from + '" data-to="' + to + '"' : '';
+      return '<li class="' + cls + ' clk"' + data + span + '><i>' + yearLabel(yr) + '</i><span>' + body + '</span></li>';
     }
     /* Warm for human conflict and power, cool for making and knowing, grey for
        the rest \u2014 enough to sort a glance, not a rainbow. */
@@ -902,7 +962,7 @@
        Caesar" becomes that plus "Ides of March; Roman Republic ends". No
        guessing: both are columns already in EVENTS.csv. */
     evs.slice(0, CAP).forEach(function (e) {
-      h.push('<li class="ev"><i>' + yearLabel(e.y) + '</i><span>' +
+      h.push('<li class="ev clk" data-from="' + e.y + '" data-to="' + e.y + '"><i>' + yearLabel(e.y) + '</i><span>' +
              '<b style="color:' + catColor(e.cat) + ';font-weight:400">\u25cf </b>' +
              '<b style="font-weight:500;color:'+PROPER+'">' + esc(e.name) + '</b>' +
              (e.desc ? '<span style="color:#6b7688"> \u2014 ' + esc(e.desc) + '</span>' : '') +
@@ -916,7 +976,8 @@
       /* The glyph and the name in the planet's own colour, so the sky list
          reads the same as the row of marks above it. "rises due east" stays
          muted — it is the same phrase every line and should not shout. */
-      h.push('<li class="sk"><i>' + yearLabel(x.y) + '</i><span><b style="color:' + pcol[x.body] +
+      h.push('<li class="sk clk" data-from="' + (x.y-10) + '" data-to="' + (x.y+10) + '"><i>' + yearLabel(x.y) +
+             '</i><span><b style="color:' + pcol[x.body] +
              ';font-weight:400">' + glyph[x.body] + ' ' + x.body + '</b>' +
              '<span style="color:#5f6b80"> rises due east</span></span></li>');
     });
@@ -924,7 +985,7 @@
     h.push('</ol>' + (sk.length > CAP ? '<div class="more">and ' + (sk.length - CAP) + ' more</div>' : ''));
 
     h.push('<h4>alive beside them</h4><ol>');
-    with_.slice(0, CAP).forEach(function (r) { h.push(li('wh', r.b, r.n)); });
+    with_.slice(0, CAP).forEach(function (r) { h.push(li('wh', r.b, r.n, r.k, r.b, r.d)); });
     h.push('</ol>' + (with_.length > CAP ? '<div class="more">and ' + (with_.length - CAP) + ' more</div>' : ''));
 
     box.innerHTML = h.join('');
@@ -941,6 +1002,48 @@
       g.classList.toggle('dim', !inside);
       g.classList.toggle('lit', !!(r && r.k === soul.k));
     });
+  }
+
+  /* ── highlight: the single selection mechanism ────────────────────────────
+     Everything clickable calls this with a SPAN [from,to] and an optional focus
+     key. A life broadcasts its whole span; an event or a conjunction broadcasts
+     a window around its instant (points light nothing, spans light richly \u2014
+     see the granularity note in the handlers below). Bars overlapping the span
+     become .conn; the focus becomes .focus; axis ticks/rings in range light,
+     the rest dim. Clears on a bare-scene click. */
+  var selection = null;
+  function highlight(from, to, focusKey) {
+    if (!mounted) return;
+    selection = { from: from, to: to, focus: focusKey || null };
+    mounted.classList.add('sel');
+    mounted.querySelectorAll('.tl-rows g[data-k]').forEach(function (g) {
+      var r = byKey[g.getAttribute('data-k')];
+      var conn = r && r.b <= to && r.d >= from;
+      g.classList.toggle('conn', !!conn);
+      g.classList.toggle('focus', !!(focusKey && r && r.k === focusKey));
+    });
+    /* axis: light events and rings inside the span, dim the rest */
+    mounted.querySelectorAll('.tl-axis-svg .evhit').forEach(function (rc) {
+      /* the tick's year is encoded in its label tail "(ad 70)" \u2014 cheaper to
+         read the sibling line's x, but the label parse is robust enough */
+      var lbl = rc.getAttribute('data-label') || '';
+      var mt = lbl.match(/\(([\d]+)\s*(bc|ad)?\)\s*$/i);
+      if (!mt) return;
+      var yr = parseInt(mt[1], 10) * (/bc/i.test(mt[2] || '') ? -1 : 1);
+      rc.previousSibling && rc.previousSibling.classList &&
+        rc.previousSibling.classList.toggle('evlit', yr >= from && yr <= to);
+    });
+    mounted.querySelectorAll('.tl-axis-svg circle').forEach(function (c) {
+      /* a conjunction ring: light if its year is in the span */
+      var t = c.querySelector('title'); var m = t && t.textContent.match(/(\d+)\s*(bc|ad)?\)?\s*$/i);
+    });
+  }
+  function clearSelection() {
+    selection = null;
+    if (!mounted) return;
+    mounted.classList.remove('sel');
+    mounted.querySelectorAll('.conn,.focus').forEach(function (g) { g.classList.remove('conn','focus'); });
+    mounted.querySelectorAll('.evlit').forEach(function (e) { e.classList.remove('evlit'); });
   }
 
   function centreOn(key) {
