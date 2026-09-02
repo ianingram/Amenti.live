@@ -278,20 +278,36 @@
          the era is sparse, and it fills only when you ask about someone.
          The anchor figure's scene shows without hovering; leave a hover and it
          returns. Click pins. */
-      '#amenti-timeline .tl-scene{position:absolute;left:' + PAD + 'px;right:' + PAD + 'px;bottom:88px;',
-      '  max-height:38vh;overflow:hidden;pointer-events:none;z-index:3;',
-      '  display:grid;grid-template-columns:1.2fr 1fr .9fr;gap:0 34px;',
-      '  font-size:13px;line-height:1.55;color:#9fb0c8;transition:opacity .25s}',
-      '#amenti-timeline .tl-scene:empty{opacity:0}',
-      '#amenti-timeline .tl-scene h4{margin:0 0 8px;font:inherit;font-size:11px;letter-spacing:.14em;',
+      /* ── THE SCENE IS A PANEL, NOT A LAYER · 2 Sep ────────────────────
+         First version filled "the empty space beneath the rows" — but empty
+         was only true for a sparse era. Hover a crowded century and the bars
+         fill the screen, so the scene painted straight over Hadrian, Ptolemy,
+         Antoninus: two layers, one canvas, unreadable.
+
+         So it docks to the right as an OPAQUE panel above everything, and the
+         timeline dims behind it. The scene never shares space with a bar
+         again. Its own three sections stack and scroll inside it rather than
+         spreading across the width. */
+      '#amenti-timeline .tl-scene{position:absolute;top:' + (AXIS_H + 40) + 'px;right:' + PAD + 'px;',
+      '  width:min(360px,38vw);max-height:calc(100% - ' + (AXIS_H + 130) + 'px);overflow-y:auto;',
+      '  z-index:6;pointer-events:auto;background:rgba(9,11,18,.94);',
+      '  border:1px solid #232b3a;border-radius:10px;padding:16px 18px;',
+      '  font-size:13px;line-height:1.5;color:#9fb0c8;transition:opacity .2s;',
+      '  box-shadow:0 8px 40px rgba(0,0,0,.5)}',
+      '#amenti-timeline .tl-scene:empty{opacity:0;pointer-events:none}',
+      '#amenti-timeline .tl-scene h4{margin:14px 0 6px;font:inherit;font-size:10.5px;letter-spacing:.14em;',
       '  text-transform:uppercase;color:#5f6b80}',
-      '#amenti-timeline .tl-scene .who{grid-column:1/-1;margin:0 0 10px;font-size:15px;color:#e9e5da}',
+      '#amenti-timeline .tl-scene h4:first-of-type{margin-top:2px}',
+      '#amenti-timeline .tl-scene .who{margin:0 0 4px;font-size:15px;color:#e9e5da;line-height:1.35}',
       '#amenti-timeline .tl-scene .who b{color:#c9a227;font-weight:500}',
+      '#amenti-timeline .tl-scene .sub{margin:0;font-size:11.5px;color:#5f6b80}',
       '#amenti-timeline .tl-scene ol{list-style:none;margin:0;padding:0}',
-      '#amenti-timeline .tl-scene li{display:flex;gap:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
-      '#amenti-timeline .tl-scene li i{font-style:normal;color:#8f9db4;min-width:58px;text-align:right}',
+      '#amenti-timeline .tl-scene li{display:flex;gap:10px;padding:1px 0}',
+      '#amenti-timeline .tl-scene li i{font-style:normal;color:#8f9db4;min-width:52px;text-align:right;flex:none}',
       '#amenti-timeline .tl-scene li.ev i{color:#c9a227}',
-      '#amenti-timeline .tl-scene .more{color:#5f6b80;font-size:11px;margin-top:4px}',
+      '#amenti-timeline .tl-scene li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
+      '#amenti-timeline .tl-scene .more{color:#5f6b80;font-size:11px;margin-top:3px}',
+      '#amenti-timeline .tl-scene .pin{float:right;font-size:10px;letter-spacing:.1em;color:#5f6b80}',
       '#amenti-timeline .tl-rows g.dim{opacity:.32}',
       '#amenti-timeline .tl-rows g.lit rect{stroke-width:1.8}',
       '#amenti-timeline .tl-foot{position:absolute;left:0;right:0;bottom:52px;',
@@ -721,23 +737,25 @@
     var glyph = { Neptune: '\u2646', Uranus: '\u2645', Saturn: '\u2644' };
 
     var h = [];
-    h.push('<p class="who"><b>' + esc(soul.n) + '</b> \u00b7 ' + yearLabel(b) + ' \u2014 ' +
-           (living ? 'living' : yearLabel(d)) + ' \u00b7 ' + (living ? THIS_YEAR - b : d - b) + ' years' +
+    if (pinned === soul) h.push('<span class="pin">pinned \u00b7 click to release</span>');
+    h.push('<p class="who"><b>' + esc(soul.n) + '</b></p>');
+    h.push('<p class="sub">' + yearLabel(b) + ' \u2014 ' + (living ? 'living' : yearLabel(d)) +
+           ' \u00b7 ' + (living ? THIS_YEAR - b : d - b) + ' years' +
            (soul.r ? ' \u00b7 has a room' : '') + '</p>');
 
-    h.push('<div><h4>while they lived</h4><ol>');
+    h.push('<h4>while they lived</h4><ol>');
     evs.slice(0, CAP).forEach(function (e) { h.push(li('ev', e.y, e.name)); });
     if (!evs.length) h.push('<li><span style="color:#5f6b80">no event recorded in these years</span></li>');
-    h.push('</ol>' + (evs.length > CAP ? '<div class="more">and ' + (evs.length - CAP) + ' more</div>' : '') + '</div>');
+    h.push('</ol>' + (evs.length > CAP ? '<div class="more">and ' + (evs.length - CAP) + ' more</div>' : ''));
 
-    h.push('<div><h4>the sky over Giza</h4><ol>');
+    h.push('<h4>the sky over Giza</h4><ol>');
     sk.slice(0, CAP).forEach(function (x) { h.push(li('sk', x.y, glyph[x.body] + ' ' + x.body + ' rises due east')); });
     if (!sk.length) h.push('<li><span style="color:#5f6b80">' + (sky ? 'no slow planet crossed in these years' : 'sky register not read') + '</span></li>');
-    h.push('</ol>' + (sk.length > CAP ? '<div class="more">and ' + (sk.length - CAP) + ' more</div>' : '') + '</div>');
+    h.push('</ol>' + (sk.length > CAP ? '<div class="more">and ' + (sk.length - CAP) + ' more</div>' : ''));
 
-    h.push('<div><h4>alive beside them</h4><ol>');
+    h.push('<h4>alive beside them</h4><ol>');
     with_.slice(0, CAP).forEach(function (r) { h.push(li('wh', r.b, r.n)); });
-    h.push('</ol>' + (with_.length > CAP ? '<div class="more">and ' + (with_.length - CAP) + ' more</div>' : '') + '</div>');
+    h.push('</ol>' + (with_.length > CAP ? '<div class="more">and ' + (with_.length - CAP) + ' more</div>' : ''));
 
     box.innerHTML = h.join('');
 
