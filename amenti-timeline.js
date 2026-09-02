@@ -198,7 +198,7 @@
       var c = line.split(',');
       var y = parseFloat(c[0]);
       if (isNaN(y)) return;
-      out.push({ y: y, body: (c[1] || '').trim(), kind: (c[2] || '').trim() });
+      out.push({ y: y, body: (c[1] || '').trim(), kind: (c[2] || '').trim(), desc: (c[3] || '').trim() });
     });
     return out;
   }
@@ -418,13 +418,30 @@
       rail.scrollLeft += (e.key === 'ArrowRight' ? 1 : -1) * (SPAN / 2) * PX_PER_YR;
     });
 
-    /* A mouse wheel can only move PEOPLE. Shift is the long-standing
-       convention for the other axis, and without it a reader on a mouse has
-       no way through time but to drag. */
+    /* ── THE WHEEL IS A LENS · 2 Sep ──────────────────────────────────────
+       The zoom buttons were discrete stops; Page1's quantum zoom feels
+       continuous \u2014 you push into a point and pull back out. So a plain wheel
+       now ZOOMS, smoothly, around the YEAR UNDER THE CURSOR, and the four
+       buttons remain as presets. Shift-wheel still moves people vertically.
+       SPAN is clamped to the button range so a reader cannot zoom into a
+       single year or out past the roster. */
     rail.addEventListener('wheel', function (e) {
-      if (!e.shiftKey) return;
+      if (e.shiftKey) { e.preventDefault(); rail.scrollTop += e.deltaY; return; }
       e.preventDefault();
-      rail.scrollLeft += e.deltaY || e.deltaX;
+      var rect = rail.getBoundingClientRect();
+      var atX = (e.clientX - rect.left);
+      var yearAt = state.min + (rail.scrollLeft + atX) / PX_PER_YR;   /* hold this year fixed */
+      var factor = Math.exp((e.deltaY || 0) * 0.0012);               /* smooth, multiplicative */
+      var next = Math.max(SPANS[0], Math.min(SPANS[SPANS.length - 1], SPAN * factor));
+      if (next === SPAN) return;
+      SPAN = next;
+      /* light up whichever preset the free zoom is nearest, if any */
+      root.querySelectorAll('.tl-zoom button').forEach(function (bt) {
+        bt.classList.toggle('on', Number(bt.getAttribute('data-span')) === Math.round(SPAN));
+      });
+      redraw();
+      rail.scrollLeft = (yearAt - state.min) * PX_PER_YR - atX;      /* keep it under the cursor */
+      onScroll();
     }, { passive: false });
 
     /* A zoom must not lose the reader's place. Hold the CENTRE YEAR across the
@@ -517,6 +534,22 @@
     var svg = root.querySelector('.tl-rows');
     svg.setAttribute('width', W); svg.setAttribute('height', H);
     var p = [];
+
+    /* ── CENTURY BANDS · 2 Sep ────────────────────────────────────────────
+       A fretboard for time: a faint darker wash on every other 100-year span,
+       so the eye reads distance without measuring the year labels. Bands, not
+       bars \u2014 a full-height line every century would fight the lifespan bars
+       for the same visual channel; a shade sits behind them and only whispers.
+       The unit scales with the window so it never becomes a grid: a century at
+       close zoom, half a millennium at the widest. Drawn first, so everything
+       else lands on top. */
+    var unit = SPAN <= 300 ? 100 : SPAN <= 1200 ? 500 : 1000;
+    var b0 = Math.floor(state.min / unit) * unit;
+    for (var by = b0; by < state.max; by += unit) {
+      if (Math.round(by / unit) % 2 !== 0) continue;
+      p.push('<rect x="' + X(by) + '" y="0" width="' + (unit * PX_PER_YR) +
+             '" height="' + H + '" fill="#ffffff" opacity="0.022"/>');
+    }
     rows.forEach(function (s, i) {
       var y = 12 + i * ROW_H;
       var x = X(s.b), w = Math.max(4, (s.d - s.b) * PX_PER_YR);
@@ -628,7 +661,29 @@
       var wide = SPAN > 400, skyReach = {};
       sky.forEach(function (sk) {
         if (sk.y < state.min || sk.y > state.max) return;
-        if (wide && sk.body === 'Jupiter') return;
+
+        /* ── THE GREAT CONJUNCTION IS THE RHYTHM · 2 Sep ──────────────────
+           Jupiter's solo due-east rising fired every ~6 years \u2014 34 marks in a
+           window, a picket fence. The Jupiter\u2013Saturn conjunction recurs every
+           ~20 (10 in a window) and is a NAMEABLE event that governed how whole
+           civilisations read the sky. So the conjunction becomes the frequent
+           beat of the top line and the solo Jupiter rising is dropped entirely.
+           A conjunction is two planets meeting, not one crossing a line, so it
+           gets its own mark: a small ring where Jupiter and Saturn touch. */
+        if (sk.kind === 'conjunction') {
+          /* At the widest zoom even a 20-year rhythm becomes a fence (151 in a
+             3,000-year window). Thin to every other ring past 1,000 years, so
+             the beat stays legible without vanishing. */
+          if (SPAN > 1000 && Math.round(sk.y / 20) % 2 !== 0) return;
+          var cxp = X(sk.y);
+          a.push('<circle cx="' + cxp + '" cy="' + (SKY_Y + 26) + '" r="4.5" fill="none" ' +
+                 'stroke="#e8c65a" stroke-width="1.3"><title>Great conjunction \u2014 Jupiter and Saturn meet, ' +
+                 yearLabel(sk.y) + '</title></circle>');
+          return;
+        }
+        /* Solo Jupiter risings are gone \u2014 the conjunction replaces them. The
+           slow planets keep their crossings, which are genuinely rare. */
+        if (sk.body === 'Jupiter') return;
         var sx = X(sk.y);
         /* ── THE GLYPHS · 2 Sep ──────────────────────────────────────────
            A coloured tick does not say PLANET. The marks were drawn, they were
@@ -680,8 +735,17 @@
       events.slice().sort(function (p, q) { return p.y - q.y; }).forEach(function (ev) {
         if (ev.y < state.min || ev.y > state.max) return;
         var x = X(ev.y);
+        /* EVERY TICK NAMES ITSELF · 2 Sep. The planet glyphs carried a tooltip
+           and the event ticks did not \u2014 so a tick whose label was dropped for
+           collision was genuinely mute: it said a year and nothing else. Two
+           fixes: a <title> on every tick (hover always gives the name and
+           year), and an invisible wide hit-target over the hairline, because a
+           0.75px line is nearly impossible to point at. */
+        var evTip = esc(ev.name) + (ev.desc ? ' \u2014 ' + esc(ev.desc) : '') + '  (' + yearLabel(ev.y) + ')';
         a.push('<line x1="' + x + '" y1="' + (EV_Y[1] + 6) + '" x2="' + x + '" y2="' +
                (EV_Y[1] + 14) + '" stroke="#c9a227" stroke-width="0.75" opacity=".7"/>');
+        a.push('<rect x="' + (x - 5) + '" y="' + EV_Y[0] + '" width="10" height="' +
+               (EV_Y[1] + 14 - EV_Y[0]) + '" fill="transparent"><title>' + evTip + '</title></rect>');
         var row = reach[0] <= x ? 0 : (reach[1] <= x ? 1 : -1);
         if (row === -1) return;
         var nm = esc(ev.name);
