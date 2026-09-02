@@ -1,12 +1,12 @@
 {
-  "at": "2026-09-02T01:01:12.966Z",
+  "at": "2026-09-02T06:46:06.563Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 123,
+    "count": 126,
     "prefixes": {
-      "atlantica:": 83,
+      "atlantica:": 85,
       "dailyplanet:": 20,
-      "watch:": 14,
+      "watch:": 15,
       "week:": 6
     }
   },
@@ -18,14 +18,13 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 70,
+      "fired": 72,
       "last": {
-        "date": "2026-08-31",
-        "figure": "king-arthur"
+        "date": "2026-09-02",
+        "figure": "odysseus"
       },
-      "lastAgeDays": 2,
+      "lastAgeDays": 0,
       "missedLast14": [
-        "2026-09-01",
         "2026-08-30",
         "2026-08-26",
         "2026-08-25",
@@ -37,6 +36,16 @@
         "2026-08-19"
       ],
       "recent": [
+        {
+          "figure": "odysseus",
+          "date": "2026-09-02",
+          "key": "atlantica:odysseus:2026-09-02"
+        },
+        {
+          "figure": "odysseus",
+          "date": "2026-09-01",
+          "key": "atlantica:odysseus:2026-09-01"
+        },
         {
           "figure": "king-arthur",
           "date": "2026-08-31",
@@ -96,19 +105,9 @@
           "figure": "theodora",
           "date": "2026-08-05",
           "key": "atlantica:theodora:2026-08-05"
-        },
-        {
-          "figure": "ayn-rand",
-          "date": "2026-08-04",
-          "key": "atlantica:ayn-rand:2026-08-04"
-        },
-        {
-          "figure": "leif-erikson",
-          "date": "2026-08-04",
-          "key": "atlantica:leif-erikson:2026-08-04"
         }
       ],
-      "note": "70 dispatch(es) in the hold · last 2026-08-31 (king-arthur) · MISSED 10 of the last 14 days"
+      "note": "72 dispatch(es) in the hold · last 2026-09-02 (odysseus) · MISSED 9 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
