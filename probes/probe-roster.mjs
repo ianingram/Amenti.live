@@ -165,6 +165,52 @@ console.log('placeable     ' + placeable + '  (both dates \u2014 a span a surfac
 if (halfDated) console.log('  ONE DATE ONLY: ' + halfDated + ' soul(s) \u2014 they cannot be placed in a span');
 if (souls.length - placeable - halfDated)
   console.log('  NO DATE:       ' + (souls.length - placeable - halfDated) + ' soul(s)');
+/* ── A DATE THAT CANNOT BE TRUE · added 1 Sep 2026 ────────────────────────
+   Flavius Josephus sat in this roster as −37 to 100 — a 137-YEAR LIFE. He was
+   born in AD 37. One inverted sign, and it went unnoticed until a surface was
+   built on it: on 31 Aug it produced a reading in which Josephus was alive at
+   Actium beside Cleopatra, Augustus and Ovid. It was compelling and it never
+   happened; she died 67 years before he was born. It then blocked the mention
+   graph, whose whole filter is "you cannot name someone unborn".
+
+   THE OBVIOUS TEST IS THE WRONG ONE. Eighteen souls live past 115 years and
+   SEVENTEEN ARE DELIBERATE — Methuselah at 969, Adam at 930, Noah at 950,
+   Moses at 120. Flagging a long life would cry wolf on the traditional
+   chronology every single run, and a guard that fires on correct data teaches
+   the reader to stop opening the report.
+
+   SO TEST FOR THE FAULT, NOT THE SYMPTOM. A sign error has a signature: the
+   span crosses year zero, AND flipping the birth sign yields a plausible life.
+   Josephus −37/100 becomes 37/100, sixty-three years. Adam −4004/−3074 fails
+   it — both dates are negative, so there is no sign to flip. That test caught
+   exactly one soul of 1,011 and left the whole traditional chronology alone. */
+const SIGN_ERRORS = souls.filter(s => {
+  if (s.b === null || s.d === null) return false;
+  if (!(s.b < 0 && s.d > 0)) return false;
+  const span = s.d - s.b;
+  if (span <= 115) return false;
+  const flipped = s.d - Math.abs(s.b);
+  return flipped > 0 && flipped <= 115;
+});
+if (SIGN_ERRORS.length) {
+  console.error('');
+  console.error('  ✗ A DATE THAT CANNOT BE TRUE — ' + SIGN_ERRORS.length + ' soul(s):');
+  for (const s of SIGN_ERRORS) {
+    console.error('      ' + s.n + '  ' + s.b + ' to ' + s.d + '  = ' + (s.d - s.b) +
+                  ' years. Flip the birth sign and it is ' + (s.d - Math.abs(s.b)) + '.');
+  }
+  console.error('    Fix names.csv. Every surface that places a figure in time reads this.');
+}
+
+/* Stated whether or not anything fired, so a reader can tell the test ran.
+   These are NOT faults — they are the traditional chronology and the mythic
+   figures, and the day their count moves is worth noticing. */
+const LONG = souls.filter(s => s.b !== null && s.d !== null &&
+                               (s.d - s.b) > 115 && (s.d - s.b) < 1000);
+const ETERNALS = souls.filter(s => s.b !== null && s.d !== null && (s.d - s.b) >= 1000);
+console.log('long lives    ' + LONG.length + '  (over 115 years — traditional chronology, not faults)' +
+            (SIGN_ERRORS.length ? ', of which ' + SIGN_ERRORS.length + ' IS A SIGN ERROR' : ''));
+console.log('eternals      ' + ETERNALS.length + '  (1,000 years or more — gods, kept off any person axis)');
 console.log('keyed         ' + souls.filter(s => s.keys).length + '  (of ' + keys.length + ' keys in the register)');
 const multi = souls.filter(s => s.keys && s.keys.length > 1);
 multi.forEach(s => console.log('  TWO KEYS:     ' + s.n + '  ' + s.keys.join(' ')));
@@ -207,3 +253,6 @@ const payload = {
 fs.writeFileSync(OUT, JSON.stringify(payload) + '\n');
 console.log('\nwrote         ' + OUT + '  (' + Math.round(fs.statSync(OUT).size / 1024) + ' KB)');
 console.log('───────────────────────────────────────────────────────────');
+
+/* A date that cannot be true is a FINDING, and hall.yml gates on the outcome. */
+process.exit(SIGN_ERRORS.length ? 1 : 0);
