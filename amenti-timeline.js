@@ -214,7 +214,10 @@
          when the reading leaves and by the same rule. */
       '#amenti-timeline{position:fixed;inset:0;z-index:3;opacity:0;visibility:hidden;',
       '  transition:opacity .45s ease .15s, visibility .45s;',
-      '  font:400 12px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#93a1b8}',
+      /* SEEN LIVE, 2 Sep: 12px ui-monospace at #93a1b8 read thin and dim on
+         black. Not the typeface — the size and the contrast. Up to 13.5px and
+         a brighter body colour. */
+      '  font:400 13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;color:#b8c4d8}',
       'body.scene-bare #amenti-timeline{opacity:1;visibility:visible}',
       /* A scrim, not a plate behind every row. Outlined bars put their labels
          straight onto the photograph; over a dark sky that is fine, over a lit
@@ -298,7 +301,7 @@
       '  border:1px solid #232b3a;border-right:none;border-radius:10px 0 0 10px;',
       '  padding:16px 20px 16px 18px;font-size:13px;line-height:1.5;color:#9fb0c8;',
       '  transition:transform .28s cubic-bezier(.3,.7,.3,1),opacity .2s;',
-      '  box-shadow:0 8px 40px rgba(0,0,0,.5)}',
+      '  font-size:13.5px;color:#b8c4d8;box-shadow:0 8px 40px rgba(0,0,0,.5)}',
       '#amenti-timeline .tl-scene:empty{opacity:0;pointer-events:none}',
       /* When folded, slide right by its own width less the tab. */
       '#amenti-timeline.scene-folded .tl-scene{transform:translateX(calc(100% - 26px))}',
@@ -750,6 +753,7 @@
        figures with a room first (the 52 the library can open), then by OVERLAP
        \u2014 the count of shared years \u2014 so the closest contemporaries rise. The
        inert names fill whatever the cap leaves. */
+    var PROPER = '#7fb4f0';
     var ov = function (r) { return Math.min(d, r.d) - Math.max(b, r.b); };
     var with_ = state.rows.filter(function (r) {
       return r.k !== soul.k && r.b <= d && r.d >= b;
@@ -759,8 +763,15 @@
     });
 
     var CAP = 14;
+    /* A history site: a reader scans for WHO and WHERE. Proper names — people,
+       places, named events — all take terminal blue, so the eye finds them
+       without reading every line. The year stays muted; the connective words
+       stay grey. */
     function li(cls, yr, txt) {
-      return '<li class="' + cls + '"><i>' + yearLabel(yr) + '</i><span>' + esc(txt) + '</span></li>';
+      var body = cls === 'wh'
+        ? '<span style="color:' + PROPER + '">' + esc(txt) + '</span>'   /* a person */
+        : esc(txt);
+      return '<li class="' + cls + '"><i>' + yearLabel(yr) + '</i><span>' + body + '</span></li>';
     }
     /* Warm for human conflict and power, cool for making and knowing, grey for
        the rest \u2014 enough to sort a glance, not a rainbow. */
@@ -790,7 +801,7 @@
     evs.slice(0, CAP).forEach(function (e) {
       h.push('<li class="ev"><i>' + yearLabel(e.y) + '</i><span>' +
              '<b style="color:' + catColor(e.cat) + ';font-weight:400">\u25cf </b>' +
-             '<b style="font-weight:500;color:#c9d4e6">' + esc(e.name) + '</b>' +
+             '<b style="font-weight:500;color:'+PROPER+'">' + esc(e.name) + '</b>' +
              (e.desc ? '<span style="color:#6b7688"> \u2014 ' + esc(e.desc) + '</span>' : '') +
              '</span></li>');
     });
