@@ -742,9 +742,21 @@
        countable number of. */
     var sk = (sky || []).filter(function (x) { return x.y >= b && x.y <= d && x.body !== 'Jupiter'; })
                         .sort(function (p, q) { return p.y - q.y; });
+    /* WHO, NOT WHO-WAS-BORN-FIRST \u2014 2 Sep. Ordering by birth year surfaced
+       the earliest-born 14 of a window that can hold 500. For Einstein that
+       meant Victor Hugo and Karl Marx while Bohr, Fermi and Heisenberg sat
+       unseen in "and 487 more" \u2014 the physicists, dropped for being born late.
+       Order by what a reader can DO and by how much a life actually coincided:
+       figures with a room first (the 52 the library can open), then by OVERLAP
+       \u2014 the count of shared years \u2014 so the closest contemporaries rise. The
+       inert names fill whatever the cap leaves. */
+    var ov = function (r) { return Math.min(d, r.d) - Math.max(b, r.b); };
     var with_ = state.rows.filter(function (r) {
       return r.k !== soul.k && r.b <= d && r.d >= b;
-    }).sort(function (p, q) { return p.b - q.b; });
+    }).sort(function (p, q) {
+      if (!!p.r !== !!q.r) return p.r ? -1 : 1;      /* rooms first */
+      return ov(q) - ov(p);                          /* then most overlap */
+    });
 
     var CAP = 14;
     function li(cls, yr, txt) {
