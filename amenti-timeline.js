@@ -64,7 +64,20 @@
 
   var RAW        = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var SPAN       = 200;     /* years in the window. FIXED. See the header. */
-  var PX_PER_YR  = 6;       /* rail scale; SPAN * PX_PER_YR = the viewport */
+  /* SEEN LIVE, 2 Sep: the footer read "151 bc — ad 90 · 241 YEARS". The span
+     was supposed to be fixed at 200 and it was not — fixing PIXELS PER YEAR
+     instead fixes the wrong thing, and the window becomes whatever the viewport
+     happens to be. On a wide screen the reader gets 241 years, on a narrow one
+     rather less, and Brutus stops being comparable to Josephus, which is the
+     entire reason the span is fixed. Derived from the viewport at draw time
+     instead, so SPAN is the thing that holds. */
+  var PX_PER_YR  = 6;       /* a fallback only; recomputed in scale() */
+
+  function scale(rail) {
+    var w = (rail && rail.clientWidth) || 1200;
+    PX_PER_YR = w / SPAN;
+    return PX_PER_YR;
+  }
   var ROW_H      = 34;
   var BAR_H      = 26;
   var AXIS_H     = 76;
@@ -191,11 +204,13 @@
     /* The axis must not scroll away vertically \u2014 a reader three hundred rows
        down is looking at bars with no idea when. It is a separate layer and
        follows the rail HORIZONTALLY only. */
-    rail.addEventListener('scroll', function () {
-      axis.scrollLeft = rail.scrollLeft;
-      axis.firstChild.style.transform = 'translateX(' + (-rail.scrollLeft) + 'px)';
-      onScroll();
-    });
+    /* SEEN LIVE, 2 Sep: the footer read 4026 bc while the axis above it still
+       read ad 50 / ad 100 / ad 150. The axis is a separate layer and it was
+       being moved TWO ways at once — scrollLeft on a div with overflow:hidden,
+       which does nothing, and a transform on `firstChild`, which is fragile.
+       One mechanism, on the element by name, and read back so a silent failure
+       cannot happen twice. */
+    rail.addEventListener('scroll', onScroll, { passive: true });
 
     var down = false, x0 = 0, y0 = 0, sx = 0, sy = 0;
     rail.addEventListener('pointerdown', function (e) {
@@ -234,6 +249,7 @@
 
   function draw(anchor) {
     var root = mount();
+    scale(root.querySelector('.tl-rail'));
     var eternal = function (s) { return (s.d - s.b) >= ETERNAL_YEARS; };
 
     /* Everyone but the gods, ordered by DEATH \u2014 the ship's convention, with
@@ -275,10 +291,14 @@
       if (living) p.push('<rect x="' + (x + w - 2) + '" y="' + (y - 1) + '" width="4" height="' +
                          (BAR_H + 2) + '" fill="rgba(6,7,14,.85)"/>');
 
+      /* SEEN LIVE, 2 Sep: "Marcus Tullius Cicer106--43". The name and the dates
+         were both drawn whenever the bar cleared LABEL_MIN + 90, without asking
+         whether THIS name fits. Measure the name. */
       var name = esc(s.n);
+      var nameW = 12 + name.length * 7.4;
       if (w >= LABEL_MIN) {
         p.push('<text x="' + (x + 12) + '" y="' + (y + 17) + '" fill="' + fill + '">' + name + '</text>');
-        if (w >= LABEL_MIN + 90)
+        if (w >= nameW + 78)
           p.push('<text x="' + (x + w - 12) + '" y="' + (y + 17) + '" text-anchor="end" fill="' +
                  (isAnchor ? '#8a7430' : '#5f6b80') + '">' +
                  s.b + '\u2014' + (living ? '' : s.d) + '</text>');
@@ -310,11 +330,27 @@
       a.push('<line x1="' + X(yr) + '" y1="52" x2="' + X(yr) + '" y2="' + AXIS_H + '" stroke="#2a3346" stroke-width="0.5"/>');
       a.push('<text x="' + X(yr) + '" y="46" text-anchor="middle" fill="#4f5a6d">' + yearLabel(yr) + '</text>');
     }
-    if (events) events.forEach(function (ev) {
-      if (ev.y < state.min || ev.y > state.max) return;
-      a.push('<line x1="' + X(ev.y) + '" y1="' + (AXIS_H - 16) + '" x2="' + X(ev.y) + '" y2="' + AXIS_H + '" stroke="#c9a227" stroke-width="0.75"/>');
-      a.push('<text x="' + X(ev.y) + '" y="' + (AXIS_H - 20) + '" text-anchor="middle" fill="#7d6618">' + esc(ev.name) + '</text>');
-    });
+    /* SEEN LIVE, 2 Sep: fourteen events in one window, every label centred on
+       its own tick, all piled into an unreadable band of gold. THE TICK IS
+       CHEAP AND THE LABEL IS NOT — draw every tick, because the mark is the
+       fact, and drop a label that would collide with the last one placed.
+       A reader who wants the name of a crowded tick can zoom; a reader looking
+       at porridge learns nothing. */
+    if (events) {
+      var lastLabel = -1e9;
+      events.slice().sort(function (p, q) { return p.y - q.y; }).forEach(function (ev) {
+        if (ev.y < state.min || ev.y > state.max) return;
+        var x = X(ev.y);
+        a.push('<line x1="' + x + '" y1="' + (AXIS_H - 16) + '" x2="' + x + '" y2="' + AXIS_H + '" stroke="#c9a227" stroke-width="0.75"/>');
+        /* THE PREVIOUS LABEL'S WIDTH DECIDES, NOT THIS ONE'S. First version
+           measured the incoming name, which is the wrong end: the labels are
+           left-anchored, so what matters is whether the last one drawn REACHES
+           this tick. Fifteen pairs still collided. */
+        if (x < lastLabel) return;
+        lastLabel = x + 10 + esc(ev.name).length * 6.4;
+        a.push('<text x="' + x + '" y="' + (AXIS_H - 22) + '" text-anchor="start" fill="#7d6618">' + esc(ev.name) + '</text>');
+      });
+    }
     var asvg = root.querySelector('.tl-axis-svg');
     asvg.setAttribute('width', W); asvg.setAttribute('height', AXIS_H);
     asvg.innerHTML = a.join('');
@@ -336,6 +372,15 @@
   function onScroll() {
     if (!mounted) return;
     var rail = mounted.querySelector('.tl-rail');
+
+    /* THE AXIS MOVES HERE, NOT IN THE LISTENER. It used to be set inside the
+       scroll handler alone, so centreOn() — which sets scrollLeft directly and
+       then calls this — left the axis wherever it had been. Live on 2 Sep the
+       footer read 4026 bc while the years above it still read ad 50. One place
+       that moves it, called from everywhere that moves the rail. */
+    var asvg = mounted.querySelector('.tl-axis-svg');
+    if (asvg) asvg.style.transform = 'translateX(' + (-rail.scrollLeft) + 'px)';
+
     var vw   = rail.clientWidth || (SPAN * PX_PER_YR);
     var from = state.min + rail.scrollLeft / PX_PER_YR;
     var to   = from + vw / PX_PER_YR;
