@@ -920,9 +920,42 @@
     onScroll();
   }
 
+  var lastScrollLeft = -1;
+
   function onScroll() {
     if (!mounted) return;
     var rail = mounted.querySelector('.tl-rail');
+
+    /* ── THE VERTICAL FOLLOWS TIME · 2 Sep ────────────────────────────────
+       Every soul has a fixed row for the whole roster \u2014 rows are sorted by
+       death year, so the 1st century sits near the top of a 964-row column and
+       the 19th sits ~600 rows below it. Pan sideways to 1850 and its people are
+       far off the bottom of the screen: the reader sees an empty stretch of
+       column and thinks the names did not populate. They did \u2014 elsewhere.
+
+       So when the TIME window moves, glide the vertical to the band of rows
+       whose souls are actually alive in view. A deliberate vertical scroll is
+       left alone \u2014 this only fires when scrollLeft changed, i.e. the reader
+       moved through time, not through people. */
+    if (rail.scrollLeft !== lastScrollLeft) {
+      lastScrollLeft = rail.scrollLeft;
+      var vw   = rail.clientWidth || (SPAN * PX_PER_YR);
+      var from = state.min + rail.scrollLeft / PX_PER_YR;
+      var to   = from + vw / PX_PER_YR;
+      var lo = Infinity, hi = -Infinity;
+      state.rows.forEach(function (r, i) {
+        if (r.b <= to && r.d >= from) { if (i < lo) lo = i; if (i > hi) hi = i; }
+      });
+      if (lo <= hi) {
+        var midRow = 12 + ((lo + hi) / 2) * ROW_H;
+        var target = midRow - rail.clientHeight / 2;
+        var max = rail.scrollHeight - rail.clientHeight;
+        target = Math.max(0, Math.min(max, target));
+        /* ease toward it rather than snapping, so a horizontal drag does not
+           jerk the column; a small step per scroll event settles quickly. */
+        rail.scrollTop += (target - rail.scrollTop) * 0.25;
+      }
+    }
 
     /* THE AXIS MOVES HERE, NOT IN THE LISTENER. It used to be set inside the
        scroll handler alone, so centreOn() — which sets scrollLeft directly and
