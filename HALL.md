@@ -3,6 +3,11 @@
 
 ---
 
+> *Nothing here pretends to be a séance. It is a reading room with very good
+> acoustics.*
+
+---
+
 I am Amenti, the hidden land. The old Egyptians gave that name to the country of
 the dead in the west, where the sun goes when it leaves you. This Amenti is a
 library built on the same ground: a hall where the great dead are gathered, and

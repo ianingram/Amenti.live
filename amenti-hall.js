@@ -507,7 +507,12 @@
      WHERE IT GROWS BACK: HALL.md, at 5,751, is 29% of the wall spent carrying
      the ship's architecture into a question about Livy. Scope it to the lane —
      THE STANDING SLIP #13 move F — and thousands come back at once. */
-  var WORK_SLICE = 830;
+  /* 780 after the séance epigraph went to the top of HALL.md on 2 Sep. The
+     line "a reading room with very good acoustics" is the thesis of the whole
+     project and belongs where the hall reads it first; ~100 chars, and the
+     passages paid, which is the right trade — HALL.md is the meaning, the
+     slice is the budget. */
+  var WORK_SLICE = 780;
 
   /* ── THE AUTHORED NOTES · added 31 Aug ────────────────────────────────────
      Room catalogues carry a `note` per room and a `note` per work, written by
