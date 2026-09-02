@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-09-02T06:33:56.011Z",
-    "reading": "2026-09-02T06:33:55.906Z",
+    "merged": "2026-09-02T07:03:43.129Z",
+    "reading": "2026-09-02T07:03:43.028Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -292,7 +292,7 @@ window.FLEET_MANIFEST = {
       "stamp": "UNPROVEN",
       "subject": "ATLANTICA",
       "claim": "fires daily",
-      "reading": "MISSED 10 of the last 14 days",
+      "reading": "MISSED 9 of the last 14 days",
       "note": "The tube is loaded and the schedule is set. It simply did not fire."
     },
     {
@@ -311,14 +311,14 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-09-02T01:01:12.966Z",
+    "at": "2026-09-02T06:46:06.563Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 123,
+      "count": 126,
       "prefixes": {
-        "atlantica:": 83,
+        "atlantica:": 85,
         "dailyplanet:": 20,
-        "watch:": 14,
+        "watch:": 15,
         "week:": 6
       }
     },
@@ -330,14 +330,13 @@ window.FLEET_MANIFEST = {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 70,
+        "fired": 72,
         "last": {
-          "date": "2026-08-31",
-          "figure": "king-arthur"
+          "date": "2026-09-02",
+          "figure": "odysseus"
         },
-        "lastAgeDays": 2,
+        "lastAgeDays": 0,
         "missedLast14": [
-          "2026-09-01",
           "2026-08-30",
           "2026-08-26",
           "2026-08-25",
@@ -349,6 +348,16 @@ window.FLEET_MANIFEST = {
           "2026-08-19"
         ],
         "recent": [
+          {
+            "figure": "odysseus",
+            "date": "2026-09-02",
+            "key": "atlantica:odysseus:2026-09-02"
+          },
+          {
+            "figure": "odysseus",
+            "date": "2026-09-01",
+            "key": "atlantica:odysseus:2026-09-01"
+          },
           {
             "figure": "king-arthur",
             "date": "2026-08-31",
@@ -408,19 +417,9 @@ window.FLEET_MANIFEST = {
             "figure": "theodora",
             "date": "2026-08-05",
             "key": "atlantica:theodora:2026-08-05"
-          },
-          {
-            "figure": "ayn-rand",
-            "date": "2026-08-04",
-            "key": "atlantica:ayn-rand:2026-08-04"
-          },
-          {
-            "figure": "leif-erikson",
-            "date": "2026-08-04",
-            "key": "atlantica:leif-erikson:2026-08-04"
           }
         ],
-        "note": "70 dispatch(es) in the hold · last 2026-08-31 (king-arthur) · MISSED 10 of the last 14 days"
+        "note": "72 dispatch(es) in the hold · last 2026-09-02 (odysseus) · MISSED 9 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -1033,7 +1032,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-02T01:01:09.774Z",
+        "at": "2026-09-02T06:46:05.456Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -1051,7 +1050,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-02T01:01:09.774Z",
+        "at": "2026-09-02T06:46:05.456Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -1069,7 +1068,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-02T01:01:09.774Z",
+        "at": "2026-09-02T06:46:05.456Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -1100,7 +1099,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-02T01:01:09.774Z",
+        "at": "2026-09-02T06:46:05.456Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
