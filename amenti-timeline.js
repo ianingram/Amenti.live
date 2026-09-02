@@ -110,9 +110,9 @@
        row 1   events, staggered
        row 2   events, staggered
        row 3   the years */
-  var AXIS_H     = 112;
-  var SKY_Y      = 16;
-  var EV_Y       = [46, 64];
+  var AXIS_H     = 158;
+  var SKY_Y      = 26;
+  var EV_Y       = [78, 104];
   var LABEL_MIN  = 130;     /* below this a bar cannot hold its own name */
   var PAD        = 20;
 
@@ -247,14 +247,18 @@
       '  font:inherit;font-size:11px;letter-spacing:.06em;padding:2px 7px;cursor:pointer;border-radius:3px}',
       '#amenti-timeline .tl-zoom button:hover{color:#93a1b8;border-color:#3a4a63}',
       '#amenti-timeline .tl-zoom button.on{color:#c9a227;border-color:#7d6618}',
+      /* SEEN LIVE, 2 Sep: the axis was cramped against the top and its type was
+         too small to read at a glance. The rows carry the most information per
+         pixel on the whole surface — they are worth the height. */
+      '#amenti-timeline .tl-axis-svg text{font-size:13.5px}',
       '#amenti-timeline .tl-axis{position:absolute;left:0;right:0;top:26px;height:' + AXIS_H + 'px;',
       '  overflow:hidden;z-index:2;pointer-events:none}',
       /* The sky row is the only part of the axis that takes a pointer: drag it
          and time moves. The rest stays transparent to clicks so a click on the
          scene still brings the hall back. */
-      '#amenti-timeline .tl-sky{position:absolute;left:0;right:0;top:26px;height:34px;',
+      '#amenti-timeline .tl-sky{position:absolute;left:0;right:0;top:26px;height:58px;',
       '  z-index:3;cursor:ew-resize;pointer-events:auto}',
-      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 30) + 'px;bottom:52px;',
+      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 34) + 'px;bottom:52px;',
       '  overflow:auto;cursor:grab;overscroll-behavior:contain;',
       '  scrollbar-width:thin;scrollbar-color:#2a3346 transparent}',
       '#amenti-timeline .tl-rail::-webkit-scrollbar{width:7px;height:7px}',
@@ -480,7 +484,7 @@
                (x + 12) + '" y="' + (y + 17) + '" fill="' + fill + '">' + name + '</text>');
         if (w >= nameW + 78)
           p.push('<text x="' + (x + w - 12) + '" y="' + (y + 17) + '" text-anchor="end" fill="' +
-                 (isAnchor ? '#8a7430' : '#5f6b80') + '">' +
+                 (isAnchor ? '#e0b93f' : '#9fb0c8') + '">' +
                  s.b + '\u2014' + (living ? '' : s.d) + '</text>');
       } else {
         /* Below LABEL_MIN the bar cannot hold its own name. Outside, at a
@@ -508,7 +512,7 @@
     var a = [], step = 50;
     for (var yr = Math.ceil(state.min / step) * step; yr <= state.max; yr += step) {
       a.push('<line x1="' + X(yr) + '" y1="' + (AXIS_H - 12) + '" x2="' + X(yr) + '" y2="' + AXIS_H + '" stroke="#2a3346" stroke-width="0.5"/>');
-      a.push('<text x="' + X(yr) + '" y="' + (AXIS_H - 16) + '" text-anchor="middle" fill="#4f5a6d">' + yearLabel(yr) + '</text>');
+      a.push('<text x="' + X(yr) + '" y="' + (AXIS_H - 16) + '" text-anchor="middle" fill="#8f9db4">' + yearLabel(yr) + '</text>');
     }
     /* SEEN LIVE, 2 Sep: fourteen events in one window, every label centred on
        its own tick, all piled into an unreadable band of gold. THE TICK IS
@@ -521,18 +525,30 @@
        it becomes a picket fence and tells a reader nothing. The slow bodies
        are the markers — Neptune twice a century, Uranus four times. */
     if (sky) {
-      var wide = SPAN > 400;
+      var wide = SPAN > 400, skyReach = -1e9;
       sky.forEach(function (sk) {
         if (sk.y < state.min || sk.y > state.max) return;
         if (wide && sk.body === 'Jupiter') return;
         var sx = X(sk.y);
-        var col = sk.body === 'Neptune' ? '#7f77dd'
-                : sk.body === 'Uranus'  ? '#5dcaa5'
-                : sk.body === 'Saturn'  ? '#ef9f27' : '#888780';
-        var h = sk.body === 'Neptune' ? 11 : sk.body === 'Uranus' ? 9 : sk.body === 'Saturn' ? 7 : 5;
-        a.push('<line x1="' + sx + '" y1="' + (SKY_Y + 12 - h) + '" x2="' + sx + '" y2="' +
-               (SKY_Y + 12) + '" stroke="' + col + '" stroke-width="1.1" opacity=".85"><title>' +
+        /* SEEN LIVE: the marks were there and invisible — 5 to 11px of hairline
+           at the very top of the frame. They are the only computed register on
+           this surface and they were reading as dust. Taller, brighter, thicker
+           by rarity, and the two rare ones carry their name. */
+        var col = sk.body === 'Neptune' ? '#a79fff'
+                : sk.body === 'Uranus'  ? '#7fe3c0'
+                : sk.body === 'Saturn'  ? '#f5b445' : '#7d8798';
+        var h  = sk.body === 'Neptune' ? 26 : sk.body === 'Uranus' ? 20 : sk.body === 'Saturn' ? 13 : 8;
+        var sw = sk.body === 'Neptune' ? 2 : sk.body === 'Uranus' ? 1.75 : sk.body === 'Saturn' ? 1.4 : 1;
+        a.push('<line x1="' + sx + '" y1="' + (SKY_Y + 30 - h) + '" x2="' + sx + '" y2="' +
+               (SKY_Y + 30) + '" stroke="' + col + '" stroke-width="' + sw + '"><title>' +
                esc(sk.body) + ' rises due east over Giza, ' + yearLabel(sk.y) + '</title></line>');
+        /* Neptune twice a century and Uranus four times — rare enough to name
+           without the row becoming a wall. Saturn and Jupiter stay as marks. */
+        if ((sk.body === 'Neptune' || sk.body === 'Uranus') && SPAN <= 800 && sx > skyReach) {
+          skyReach = sx + 10 + sk.body.length * 8;
+          a.push('<text x="' + (sx + 4) + '" y="' + (SKY_Y + 8) + '" fill="' + col +
+                 '" font-size="11">' + sk.body + '</text>');
+        }
       });
     }
 
@@ -550,8 +566,12 @@
         var row = reach[0] <= x ? 0 : (reach[1] <= x ? 1 : -1);
         if (row === -1) return;
         var nm = esc(ev.name);
-        reach[row] = x + 14 + nm.length * 8;     /* generous on purpose */
-        a.push('<text x="' + x + '" y="' + EV_Y[row] + '" text-anchor="start" fill="#7d6618">' + nm + '</text>');
+        /* 9.2 px a character at 13.5px monospace, which is MORE than the glyph
+           actually measures. Deliberately over: an estimate that is too small
+           produces a collision, one that is too large produces a gap, and a gap
+           is not a fault. Tested to hold at 8.5px/char before this. */
+        reach[row] = x + 16 + nm.length * 9.2;
+        a.push('<text x="' + x + '" y="' + EV_Y[row] + '" text-anchor="start" fill="#c9a227">' + nm + '</text>');
       });
     }
 
