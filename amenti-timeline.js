@@ -260,12 +260,41 @@
       '  z-index:3;cursor:ew-resize;pointer-events:auto}',
       '#amenti-timeline .tl-legend{position:absolute;right:' + PAD + 'px;top:6px;z-index:5;',
       '  font-size:11px;letter-spacing:.08em;pointer-events:none;display:flex;gap:12px}',
-      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 34) + 'px;bottom:52px;',
+      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 34) + 'px;bottom:78px;',
       '  overflow:auto;cursor:grab;overscroll-behavior:contain;',
       '  scrollbar-width:thin;scrollbar-color:#2a3346 transparent}',
       '#amenti-timeline .tl-rail::-webkit-scrollbar{width:7px;height:7px}',
       '#amenti-timeline .tl-rail::-webkit-scrollbar-thumb{background:#2a3346;border-radius:4px}',
-      '#amenti-timeline .tl-foot{position:absolute;left:0;right:0;bottom:26px;',
+      /* SEEN LIVE: "back to the figure" printed on top of the hall's own
+         "click anywhere to bring the hall back", which sits at bottom:26px and
+         belongs to hall.html. Two owners, one line. This one moves up. */
+      /* ── THE SCENE · 2 Sep ────────────────────────────────────────────
+         Hover a bar and the empty space beneath the rows fills with that
+         figure's world: every event during their life, the sky over Giza in
+         their years, and who was alive beside them. The captain's version of
+         an idea I had smaller — I proposed highlighting the axis, which only
+         reaches the THINNED events. This reaches all of them, laid out with
+         room to read, and makes the empty space honest: it is empty because
+         the era is sparse, and it fills only when you ask about someone.
+         The anchor figure's scene shows without hovering; leave a hover and it
+         returns. Click pins. */
+      '#amenti-timeline .tl-scene{position:absolute;left:' + PAD + 'px;right:' + PAD + 'px;bottom:88px;',
+      '  max-height:38vh;overflow:hidden;pointer-events:none;z-index:3;',
+      '  display:grid;grid-template-columns:1.2fr 1fr .9fr;gap:0 34px;',
+      '  font-size:13px;line-height:1.55;color:#9fb0c8;transition:opacity .25s}',
+      '#amenti-timeline .tl-scene:empty{opacity:0}',
+      '#amenti-timeline .tl-scene h4{margin:0 0 8px;font:inherit;font-size:11px;letter-spacing:.14em;',
+      '  text-transform:uppercase;color:#5f6b80}',
+      '#amenti-timeline .tl-scene .who{grid-column:1/-1;margin:0 0 10px;font-size:15px;color:#e9e5da}',
+      '#amenti-timeline .tl-scene .who b{color:#c9a227;font-weight:500}',
+      '#amenti-timeline .tl-scene ol{list-style:none;margin:0;padding:0}',
+      '#amenti-timeline .tl-scene li{display:flex;gap:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+      '#amenti-timeline .tl-scene li i{font-style:normal;color:#8f9db4;min-width:58px;text-align:right}',
+      '#amenti-timeline .tl-scene li.ev i{color:#c9a227}',
+      '#amenti-timeline .tl-scene .more{color:#5f6b80;font-size:11px;margin-top:4px}',
+      '#amenti-timeline .tl-rows g.dim{opacity:.32}',
+      '#amenti-timeline .tl-rows g.lit rect{stroke-width:1.8}',
+      '#amenti-timeline .tl-foot{position:absolute;left:0;right:0;bottom:52px;',
       '  display:flex;justify-content:space-between;padding:0 ' + PAD + 'px;',
       '  letter-spacing:.06em;color:#4f5a6d;pointer-events:none}',
       '#amenti-timeline .tl-back{pointer-events:auto;cursor:pointer;color:#c9a227;',
@@ -300,6 +329,7 @@
         '<span style="color:#cf9b63">\u2643 jupiter</span>' +
       '</div>' +
       '<div class="tl-rail"><svg class="tl-rows"></svg></div>' +
+      '<div class="tl-scene"></div>' +
       '<div class="tl-foot"><span class="tl-win"></span>' +
       '<button class="tl-back" type="button">\u2039 back to the figure</button>' +
       '<span class="tl-count"></span></div>';
@@ -461,7 +491,7 @@
       var sw     = isAnchor ? 1.5 : (s.r ? 1.25 : 0.75);
       var fill   = isAnchor ? '#c9a227' : (s.r ? '#5fb3c4' : '#93a1b8');
 
-      p.push('<g class="' + (s.r ? 'room' : '') + '"' +
+      p.push('<g class="' + (s.r ? 'room' : '') + '" data-k="' + esc(s.k) + '"' +
              (s.r ? ' data-key="' + esc(s.k) + '"' : '') + '>');
       p.push('<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + BAR_H +
              '" rx="4" fill="none" stroke="' + stroke + '" stroke-width="' + sw +
@@ -492,8 +522,13 @@
            inside the viewport, never past the bar's own right edge. */
         p.push('<text class="nm" data-x0="' + x + '" data-x1="' + (x + w) + '" x="' +
                (x + 12) + '" y="' + (y + 17) + '" fill="' + fill + '">' + name + '</text>');
+        /* SEEN LIVE, 2 Sep: Polybius showed a name and no dates, because his
+           bar runs off the RIGHT edge and the dates are anchored there. The
+           mirror of the name problem, fixed the same way — given a class and
+           nudged into view on scroll, never left of the name. */
         if (w >= nameW + 78)
-          p.push('<text x="' + (x + w - 12) + '" y="' + (y + 17) + '" text-anchor="end" fill="' +
+          p.push('<text class="dt" data-x0="' + x + '" data-x1="' + (x + w) + '" x="' +
+                 (x + w - 12) + '" y="' + (y + 17) + '" text-anchor="end" fill="' +
                  (isAnchor ? '#e0b93f' : '#9fb0c8') + '">' +
                  s.b + '\u2014' + (living ? '' : s.d) + '</text>');
       } else {
@@ -505,8 +540,28 @@
     });
     svg.innerHTML = p.join('');
 
+    svg.addEventListener('pointerover', function (e) {
+      var g = e.target.closest && e.target.closest('g[data-k]');
+      if (!g || pinned) return;
+      var r = byKey[g.getAttribute('data-k')];
+      if (r) scene(r);
+    });
+    svg.addEventListener('pointerleave', function () {
+      if (!pinned) scene(anchorKey ? byKey[anchorKey] : null);
+    });
+
     svg.addEventListener('click', function (e) {
+      /* Click on a roster-only bar PINS its scene; click again unpins and the
+         anchor's scene returns. A room still opens its reading room. */
+      var any = e.target.closest && e.target.closest('g[data-k]');
       var g = e.target.closest && e.target.closest('.room');
+      if (any && !g) {
+        e.stopPropagation();
+        var r = byKey[any.getAttribute('data-k')];
+        if (pinned === r) { pinned = null; scene(anchorKey ? byKey[anchorKey] : null); }
+        else { pinned = r; scene(r); }
+        return;
+      }
       if (!g) return;
       e.stopPropagation();
       var k = g.getAttribute('data-key');
@@ -639,6 +694,63 @@
     draw(lastAnchor);
   }
 
+  /* ── the scene: one figure's world ────────────────────────────────────── */
+  var pinned = null;
+
+  function scene(soul) {
+    var box = mounted && mounted.querySelector('.tl-scene');
+    if (!box) return;
+    if (!soul) { box.innerHTML = ''; return; }
+
+    var b = soul.b, d = soul.d, living = d >= THIS_YEAR;
+    var evs = (events || []).filter(function (e) { return e.y >= b && e.y <= d; })
+                            .sort(function (p, q) { return p.y - q.y; });
+    /* The slow bodies only — Jupiter every six years would be a list of
+       Jupiter. Neptune, Uranus and Saturn are the ones a life can contain a
+       countable number of. */
+    var sk = (sky || []).filter(function (x) { return x.y >= b && x.y <= d && x.body !== 'Jupiter'; })
+                        .sort(function (p, q) { return p.y - q.y; });
+    var with_ = state.rows.filter(function (r) {
+      return r.k !== soul.k && r.b <= d && r.d >= b;
+    }).sort(function (p, q) { return p.b - q.b; });
+
+    var CAP = 14;
+    function li(cls, yr, txt) {
+      return '<li class="' + cls + '"><i>' + yearLabel(yr) + '</i><span>' + esc(txt) + '</span></li>';
+    }
+    var glyph = { Neptune: '\u2646', Uranus: '\u2645', Saturn: '\u2644' };
+
+    var h = [];
+    h.push('<p class="who"><b>' + esc(soul.n) + '</b> \u00b7 ' + yearLabel(b) + ' \u2014 ' +
+           (living ? 'living' : yearLabel(d)) + ' \u00b7 ' + (living ? THIS_YEAR - b : d - b) + ' years' +
+           (soul.r ? ' \u00b7 has a room' : '') + '</p>');
+
+    h.push('<div><h4>while they lived</h4><ol>');
+    evs.slice(0, CAP).forEach(function (e) { h.push(li('ev', e.y, e.name)); });
+    if (!evs.length) h.push('<li><span style="color:#5f6b80">no event recorded in these years</span></li>');
+    h.push('</ol>' + (evs.length > CAP ? '<div class="more">and ' + (evs.length - CAP) + ' more</div>' : '') + '</div>');
+
+    h.push('<div><h4>the sky over Giza</h4><ol>');
+    sk.slice(0, CAP).forEach(function (x) { h.push(li('sk', x.y, glyph[x.body] + ' ' + x.body + ' rises due east')); });
+    if (!sk.length) h.push('<li><span style="color:#5f6b80">' + (sky ? 'no slow planet crossed in these years' : 'sky register not read') + '</span></li>');
+    h.push('</ol>' + (sk.length > CAP ? '<div class="more">and ' + (sk.length - CAP) + ' more</div>' : '') + '</div>');
+
+    h.push('<div><h4>alive beside them</h4><ol>');
+    with_.slice(0, CAP).forEach(function (r) { h.push(li('wh', r.b, r.n)); });
+    h.push('</ol>' + (with_.length > CAP ? '<div class="more">and ' + (with_.length - CAP) + ' more</div>' : '') + '</div>');
+
+    box.innerHTML = h.join('');
+
+    /* Dim everyone outside the span, brighten the one in hand. */
+    mounted.querySelectorAll('.tl-rows g').forEach(function (g) {
+      var k = g.getAttribute('data-k');
+      var r = k && byKey[k];
+      var inside = r && r.b <= d && r.d >= b;
+      g.classList.toggle('dim', !inside);
+      g.classList.toggle('lit', !!(r && r.k === soul.k));
+    });
+  }
+
   function centreOn(key) {
     var s = byKey[key];
     if (!s || !mounted) return;
@@ -668,12 +780,27 @@
        otherwise be a nameless rectangle for as long as the reader looks at it.
        Clamped to the bar's own right edge less the label's width, so a name
        never floats past the life it belongs to. */
-    var left = rail.scrollLeft + 14;
+    var left  = rail.scrollLeft + 14;
+    var right = rail.scrollLeft + rail.clientWidth - 14;
+    /* If the visible slice of a bar is narrower than its own label there is
+       nowhere to put it, and clamping would only push it off the edge. Hide it
+       instead — an absent label is a gap, a label drawn off-screen is a lie
+       about where it went. */
     mounted.querySelectorAll('.tl-rows text.nm').forEach(function (t) {
       var x0 = +t.getAttribute('data-x0'), x1 = +t.getAttribute('data-x1');
       var w  = 12 + (t.textContent || '').length * 7.4;
       var at = Math.max(x0 + 12, Math.min(left, x1 - w));
       t.setAttribute('x', at);
+      t.style.opacity = (at >= left - 2 && at + w <= right + 16) ? '' : '0';
+    });
+    /* And the dates from the other end. A bar wider than the window would
+       otherwise show one label or the other but never both. */
+    mounted.querySelectorAll('.tl-rows text.dt').forEach(function (t) {
+      var x0 = +t.getAttribute('data-x0'), x1 = +t.getAttribute('data-x1');
+      var w  = 14 + (t.textContent || '').length * 7.4;
+      var at = Math.min(x1 - 12, Math.max(right, x0 + w));
+      t.setAttribute('x', at);
+      t.style.opacity = (at - w >= left - 16 && at <= right + 2) ? '' : '0';
     });
 
     var vw   = rail.clientWidth || (SPAN * PX_PER_YR);
@@ -736,6 +863,8 @@
         });
         draw(anchor);
         centreOn(anchor.k);
+        pinned = null;
+        scene(anchor);
         return true;
       }, function () { return false; });
     },
