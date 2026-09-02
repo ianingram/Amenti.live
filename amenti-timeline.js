@@ -256,6 +256,9 @@
       '#amenti-timeline .tl-axis-svg text{font-size:15px}',
       '#amenti-timeline .tl-axis{position:absolute;left:0;right:0;top:26px;height:' + AXIS_H + 'px;',
       '  overflow:hidden;z-index:2;pointer-events:none}',
+      /* the event hit-targets need clicks even though the axis is otherwise
+         click-through, so they re-enable pointer events on themselves. */
+      '#amenti-timeline .evhit{pointer-events:auto}',
       /* The sky row is the only part of the axis that takes a pointer: drag it
          and time moves. The rest stays transparent to clicks so a click on the
          scene still brings the hall back. */
@@ -303,14 +306,25 @@
       '  transition:transform .28s cubic-bezier(.3,.7,.3,1),opacity .2s;',
       '  font-size:13.5px;color:#b8c4d8;box-shadow:0 8px 40px rgba(0,0,0,.5)}',
       '#amenti-timeline .tl-scene:empty{opacity:0;pointer-events:none}',
-      /* When folded, slide right by its own width less the tab. */
-      '#amenti-timeline.scene-folded .tl-scene{transform:translateX(calc(100% - 26px))}',
-      /* The tab: a vertical handle on the panel's left edge, always reachable. */
-      '#amenti-timeline .tl-fold{position:absolute;left:-1px;top:50%;transform:translateY(-50%);',
-      '  width:26px;height:64px;margin-left:-26px;background:rgba(9,11,18,.96);',
+      /* SEEN LIVE, 2 Sep: the fold tab lived INSIDE the scrolling panel, so it
+         drifted with the content and could not be found. It is now a sibling of
+         the frame, fixed to the right edge, always in the same place. When
+         folded, the panel slides fully off the right; the tab stays put. */
+      '#amenti-timeline.scene-folded .tl-scene{transform:translateX(105%)}',
+      '#amenti-timeline .tl-fold{position:absolute;top:' + (AXIS_H + 60) + 'px;right:0;',
+      '  width:24px;height:70px;z-index:7;background:rgba(9,11,18,.96);',
       '  border:1px solid #232b3a;border-right:none;border-radius:8px 0 0 8px;',
-      '  cursor:pointer;color:#8f9db4;display:flex;align-items:center;justify-content:center;',
-      '  font-size:14px;pointer-events:auto}',
+      '  cursor:pointer;color:#8f9db4;display:none;align-items:center;justify-content:center;',
+      '  font-size:15px;pointer-events:auto}',
+      '#amenti-timeline .tl-fold.show{display:flex}',
+      /* SEEN LIVE, 2 Sep: the event ticks relied on a hover <title> that never
+         appeared on a click and barely on a hover. A click now names the event
+         in a readout pinned just under the axis \u2014 reliable, and it does not
+         depend on a browser tooltip firing. */
+      '#amenti-timeline .tl-evread{position:absolute;top:' + (AXIS_H + 8) + 'px;left:' + PAD + 'px;',
+      '  right:' + PAD + 'px;z-index:5;font-size:13px;color:#c9a227;opacity:0;',
+      '  transition:opacity .2s;pointer-events:none;text-align:center}',
+      '#amenti-timeline .tl-evread.show{opacity:1}',
       '#amenti-timeline .tl-fold:hover{color:#c9a227}',
       '#amenti-timeline .tl-scene h4{margin:14px 0 6px;font:inherit;font-size:10.5px;letter-spacing:.14em;',
       '  text-transform:uppercase;color:#5f6b80}',
@@ -365,6 +379,8 @@
       '</div>' +
       '<div class="tl-rail"><svg class="tl-rows"></svg></div>' +
       '<div class="tl-scene"></div>' +
+      '<div class="tl-fold" title="fold the scene">\u203a</div>' +
+      '<div class="tl-evread"></div>' +
       '<div class="tl-foot"><span class="tl-win"></span>' +
       '<button class="tl-back" type="button">\u2039 back to the figure</button>' +
       '<span class="tl-count"></span></div>';
@@ -482,6 +498,27 @@
       redraw();
       rail.scrollLeft = (mid - state.min) * PX_PER_YR - rail.clientWidth / 2;
       onScroll();
+    });
+
+    /* Click a tick (or its wide hit-target) to name the event in the readout.
+       Delegated on the axis so it survives every redraw. */
+    var axisEl = root.querySelector('.tl-axis');
+    var evread = root.querySelector('.tl-evread');
+    if (axisEl && evread) axisEl.addEventListener('click', function (e) {
+      var hit = e.target.closest && e.target.closest('.evhit');
+      if (!hit) return;
+      e.stopPropagation();
+      evread.textContent = hit.getAttribute('data-label');
+      evread.classList.add('show');
+      clearTimeout(evread._t);
+      evread._t = setTimeout(function () { evread.classList.remove('show'); }, 4000);
+    });
+
+    var foldTab = root.querySelector('.tl-fold');
+    if (foldTab) foldTab.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var f = root.classList.toggle('scene-folded');
+      foldTab.textContent = f ? '\u2039' : '\u203a';
     });
 
     root.querySelector('.tl-back').addEventListener('click', function (e) {
@@ -744,8 +781,10 @@
         var evTip = esc(ev.name) + (ev.desc ? ' \u2014 ' + esc(ev.desc) : '') + '  (' + yearLabel(ev.y) + ')';
         a.push('<line x1="' + x + '" y1="' + (EV_Y[1] + 6) + '" x2="' + x + '" y2="' +
                (EV_Y[1] + 14) + '" stroke="#c9a227" stroke-width="0.75" opacity=".7"/>');
-        a.push('<rect x="' + (x - 5) + '" y="' + EV_Y[0] + '" width="10" height="' +
-               (EV_Y[1] + 14 - EV_Y[0]) + '" fill="transparent"><title>' + evTip + '</title></rect>');
+        a.push('<rect class="evhit" data-label="' + evTip.replace(/"/g, '&quot;') +
+               '" x="' + (x - 6) + '" y="' + EV_Y[0] + '" width="12" height="' +
+               (EV_Y[1] + 14 - EV_Y[0]) + '" fill="transparent" style="cursor:pointer">' +
+               '<title>' + evTip + '</title></rect>');
         var row = reach[0] <= x ? 0 : (reach[1] <= x ? 1 : -1);
         if (row === -1) return;
         var nm = esc(ev.name);
@@ -888,14 +927,11 @@
     with_.slice(0, CAP).forEach(function (r) { h.push(li('wh', r.b, r.n)); });
     h.push('</ol>' + (with_.length > CAP ? '<div class="more">and ' + (with_.length - CAP) + ' more</div>' : ''));
 
-    box.innerHTML = '<div class="tl-fold" title="fold the scene">' +
-        (mounted.classList.contains('scene-folded') ? '\u2039' : '\u203a') + '</div>' + h.join('');
-    var fold = box.querySelector('.tl-fold');
-    if (fold) fold.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var f = mounted.classList.toggle('scene-folded');
-      fold.textContent = f ? '\u2039' : '\u203a';
-    });
+    box.innerHTML = h.join('');
+    /* the fold tab is a frame sibling now; show it whenever the panel has
+       content, and point its chevron the right way. */
+    var fold = mounted.querySelector('.tl-fold');
+    if (fold) fold.classList.add('show');
 
     /* Dim everyone outside the span, brighten the one in hand. */
     mounted.querySelectorAll('.tl-rows g').forEach(function (g) {
