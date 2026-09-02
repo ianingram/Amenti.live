@@ -95,7 +95,24 @@
   }
   var ROW_H      = 34;
   var BAR_H      = 26;
-  var AXIS_H     = 76;
+  /* ── THE AXIS IS FOUR LINES · 2 Sep ──────────────────────────────────────
+     It was one line and the labels piled into porridge. Dropping the ones that
+     collided was the first answer and it was not enough, because the collision
+     test and the code that placed them SHARED A CHARACTER-WIDTH ESTIMATE — a
+     fixture measuring itself, which reported zero overlaps while the screen
+     showed a wall of gold.
+
+     STAGGERING IS ROBUST WHERE DROPPING IS NOT. Three rows triple the room for
+     the same estimate, so being wrong about glyph width costs a near-miss
+     rather than a pile-up. And the rows carry meaning:
+
+       row 0   THE SKY   — computed, and the handle for dragging time
+       row 1   events, staggered
+       row 2   events, staggered
+       row 3   the years */
+  var AXIS_H     = 112;
+  var SKY_Y      = 16;
+  var EV_Y       = [46, 64];
   var LABEL_MIN  = 130;     /* below this a bar cannot hold its own name */
   var PAD        = 20;
 
@@ -111,7 +128,7 @@
      false about a fifth of the roster. Their bars run open. */
   var THIS_YEAR = new Date().getUTCFullYear();
 
-  var souls = null, byKey = null, events = null, mounted = null, anchorKey = null;
+  var souls = null, byKey = null, events = null, sky = null, mounted = null, anchorKey = null;
 
   /* ── the registers ────────────────────────────────────────────────────── */
 
@@ -140,7 +157,12 @@
          draws people and says so \u2014 an axis with no ticks is a smaller loss
          than no timeline, and a silent one would be a lie. */
       get(RAW + 'EVENTS.csv', false).then(function (t) { events = parseEvents(t); },
-                                          function ()  { events = null; })
+                                          function ()  { events = null; }),
+      /* SKY.csv: 1,342 due-east risings computed from DE422 at Giza. Its own
+         register calls it primary and recomputable. Optional here for the same
+         reason EVENTS.csv is — a missing sky row costs a line, not the view. */
+      get(RAW + 'SKY.csv', false).then(function (t) { sky = parseSky(t); },
+                                       function ()  { sky = null; })
     ]);
   }
 
@@ -162,6 +184,21 @@
       var y = parseFloat(cells[0]);
       if (isNaN(y)) return;                       /* header, or a bad row */
       out.push({ y: y, name: cells[1] || '', cat: cells[2] || 'event' });
+    });
+    return out;
+  }
+
+  /* Columns: year, body, kind, description. Jupiter crosses every six years —
+     a metronome, not a marker — so it is kept for the close zooms only, which
+     is the tiering its own gloss asks for. */
+  function parseSky(text) {
+    var out = [];
+    String(text).replace(/\r\n/g, '\n').split('\n').forEach(function (line) {
+      if (!line.trim()) return;
+      var c = line.split(',');
+      var y = parseFloat(c[0]);
+      if (isNaN(y)) return;
+      out.push({ y: y, body: (c[1] || '').trim(), kind: (c[2] || '').trim() });
     });
     return out;
   }
@@ -211,8 +248,13 @@
       '#amenti-timeline .tl-zoom button:hover{color:#93a1b8;border-color:#3a4a63}',
       '#amenti-timeline .tl-zoom button.on{color:#c9a227;border-color:#7d6618}',
       '#amenti-timeline .tl-axis{position:absolute;left:0;right:0;top:26px;height:' + AXIS_H + 'px;',
-      '  overflow:hidden;pointer-events:none;z-index:2}',
-      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 26) + 'px;bottom:52px;',
+      '  overflow:hidden;z-index:2;pointer-events:none}',
+      /* The sky row is the only part of the axis that takes a pointer: drag it
+         and time moves. The rest stays transparent to clicks so a click on the
+         scene still brings the hall back. */
+      '#amenti-timeline .tl-sky{position:absolute;left:0;right:0;top:26px;height:34px;',
+      '  z-index:3;cursor:ew-resize;pointer-events:auto}',
+      '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 30) + 'px;bottom:52px;',
       '  overflow:auto;cursor:grab;overscroll-behavior:contain;',
       '  scrollbar-width:thin;scrollbar-color:#2a3346 transparent}',
       '#amenti-timeline .tl-rail::-webkit-scrollbar{width:7px;height:7px}',
@@ -242,6 +284,7 @@
                (n >= 1000 ? (n / 1000) + 'k' : n) + 'y</button>';
       }).join('') + '</span></div>' +
       '<div class="tl-axis"><svg class="tl-axis-svg"></svg></div>' +
+      '<div class="tl-sky" title="drag to move through time"></div>' +
       '<div class="tl-rail"><svg class="tl-rows"></svg></div>' +
       '<div class="tl-foot"><span class="tl-win"></span>' +
       '<button class="tl-back" type="button">\u2039 back to the figure</button>' +
@@ -308,6 +351,29 @@
     /* A zoom must not lose the reader's place. Hold the CENTRE YEAR across the
        change and re-centre on it afterwards, so the years under the eye stay
        under the eye and only the reach changes. */
+    /* DRAG THE SKY TO MOVE TIME. The planets are the handle — a reader pulls
+       the sky across and the centuries follow, which is a truer gesture than a
+       scrollbar and puts the computed register to work rather than leaving it
+       as decoration. */
+    var skyEl = root.querySelector('.tl-sky');
+    var sdown = false, sx0 = 0, ss0 = 0;
+    skyEl.addEventListener('pointerdown', function (e) {
+      sdown = true; sx0 = e.clientX; ss0 = rail.scrollLeft;
+      e.stopPropagation(); e.preventDefault();
+      skyEl.setPointerCapture && skyEl.setPointerCapture(e.pointerId);
+    });
+    skyEl.addEventListener('pointermove', function (e) {
+      if (!sdown) return;
+      rail.scrollLeft = ss0 - (e.clientX - sx0);
+      /* Called, not relied upon. Setting scrollLeft fires a scroll event in a
+         browser and the readout would follow — but that assumption is exactly
+         what left the axis stranded at ad 50 while the footer read 4026 bc.
+         Anything that moves the rail says so. */
+      onScroll();
+    });
+    skyEl.addEventListener('pointerup', function (e) { sdown = false; e.stopPropagation(); });
+    skyEl.addEventListener('click', function (e) { e.stopPropagation(); });
+
     root.querySelector('.tl-zoom').addEventListener('click', function (e) {
       e.stopPropagation();
       var b = e.target.closest && e.target.closest('button[data-span]');
@@ -394,9 +460,24 @@
          were both drawn whenever the bar cleared LABEL_MIN + 90, without asking
          whether THIS name fits. Measure the name. */
       var name = esc(s.n);
-      var nameW = 12 + name.length * 7.4;
-      if (w >= LABEL_MIN) {
-        p.push('<text x="' + (x + 12) + '" y="' + (y + 17) + '" fill="' + fill + '">' + name + '</text>');
+      /* MEASURE THE NAME, DO NOT GUESS A CONSTANT. LABEL_MIN was a flat 130px
+         and names are not flat: "James son of Zebedee" needs about 160, so it
+         went inside a 135px bar and hung out of the end. Four labels escaped
+         their own bar across four scroll positions before this. */
+      var nameW = 24 + name.length * 7.4;
+      if (w >= nameW) {
+        /* ── THE NAME STICKS TO THE VISIBLE EDGE · 2 Sep ────────────────────
+           Seen live: two bars showed their dates and NO NAME — "−90—20" and
+           "−100—50", which are Saint Joseph and Cuchulainn. The name was drawn
+           at the bar's left edge, so a bar that begins off-screen took its own
+           label away with it, while the right-anchored dates survived. A long
+           life is exactly the case most likely to start off-screen, so the
+           figures who span the most window were the ones losing their names.
+
+           The label is now given a class and its x is nudged on scroll to stay
+           inside the viewport, never past the bar's own right edge. */
+        p.push('<text class="nm" data-x0="' + x + '" data-x1="' + (x + w) + '" x="' +
+               (x + 12) + '" y="' + (y + 17) + '" fill="' + fill + '">' + name + '</text>');
         if (w >= nameW + 78)
           p.push('<text x="' + (x + w - 12) + '" y="' + (y + 17) + '" text-anchor="end" fill="' +
                  (isAnchor ? '#8a7430' : '#5f6b80') + '">' +
@@ -426,8 +507,8 @@
        would read as very short lives. */
     var a = [], step = 50;
     for (var yr = Math.ceil(state.min / step) * step; yr <= state.max; yr += step) {
-      a.push('<line x1="' + X(yr) + '" y1="52" x2="' + X(yr) + '" y2="' + AXIS_H + '" stroke="#2a3346" stroke-width="0.5"/>');
-      a.push('<text x="' + X(yr) + '" y="46" text-anchor="middle" fill="#4f5a6d">' + yearLabel(yr) + '</text>');
+      a.push('<line x1="' + X(yr) + '" y1="' + (AXIS_H - 12) + '" x2="' + X(yr) + '" y2="' + AXIS_H + '" stroke="#2a3346" stroke-width="0.5"/>');
+      a.push('<text x="' + X(yr) + '" y="' + (AXIS_H - 16) + '" text-anchor="middle" fill="#4f5a6d">' + yearLabel(yr) + '</text>');
     }
     /* SEEN LIVE, 2 Sep: fourteen events in one window, every label centred on
        its own tick, all piled into an unreadable band of gold. THE TICK IS
@@ -435,21 +516,45 @@
        fact, and drop a label that would collide with the last one placed.
        A reader who wants the name of a crowded tick can zoom; a reader looking
        at porridge learns nothing. */
+    /* ── ROW 0 · THE SKY, AND THE HANDLE FOR TIME ───────────────────────
+       Jupiter is dropped above 400 years of window: at one crossing every six
+       it becomes a picket fence and tells a reader nothing. The slow bodies
+       are the markers — Neptune twice a century, Uranus four times. */
+    if (sky) {
+      var wide = SPAN > 400;
+      sky.forEach(function (sk) {
+        if (sk.y < state.min || sk.y > state.max) return;
+        if (wide && sk.body === 'Jupiter') return;
+        var sx = X(sk.y);
+        var col = sk.body === 'Neptune' ? '#7f77dd'
+                : sk.body === 'Uranus'  ? '#5dcaa5'
+                : sk.body === 'Saturn'  ? '#ef9f27' : '#888780';
+        var h = sk.body === 'Neptune' ? 11 : sk.body === 'Uranus' ? 9 : sk.body === 'Saturn' ? 7 : 5;
+        a.push('<line x1="' + sx + '" y1="' + (SKY_Y + 12 - h) + '" x2="' + sx + '" y2="' +
+               (SKY_Y + 12) + '" stroke="' + col + '" stroke-width="1.1" opacity=".85"><title>' +
+               esc(sk.body) + ' rises due east over Giza, ' + yearLabel(sk.y) + '</title></line>');
+      });
+    }
+
+    /* ── ROWS 1–2 · THE EVENTS, STAGGERED ──────────────────────────────
+       Alternate rows and keep a reach per row, so a label only has to clear
+       the last one ON ITS OWN LINE. Twice the room, and a wrong glyph estimate
+       costs a near-miss instead of a collision. */
     if (events) {
-      var lastLabel = -1e9;
+      var reach = [-1e9, -1e9], turn = 0;
       events.slice().sort(function (p, q) { return p.y - q.y; }).forEach(function (ev) {
         if (ev.y < state.min || ev.y > state.max) return;
         var x = X(ev.y);
-        a.push('<line x1="' + x + '" y1="' + (AXIS_H - 16) + '" x2="' + x + '" y2="' + AXIS_H + '" stroke="#c9a227" stroke-width="0.75"/>');
-        /* THE PREVIOUS LABEL'S WIDTH DECIDES, NOT THIS ONE'S. First version
-           measured the incoming name, which is the wrong end: the labels are
-           left-anchored, so what matters is whether the last one drawn REACHES
-           this tick. Fifteen pairs still collided. */
-        if (x < lastLabel) return;
-        lastLabel = x + 10 + esc(ev.name).length * 6.4;
-        a.push('<text x="' + x + '" y="' + (AXIS_H - 22) + '" text-anchor="start" fill="#7d6618">' + esc(ev.name) + '</text>');
+        a.push('<line x1="' + x + '" y1="' + (EV_Y[1] + 6) + '" x2="' + x + '" y2="' +
+               (EV_Y[1] + 14) + '" stroke="#c9a227" stroke-width="0.75" opacity=".7"/>');
+        var row = reach[0] <= x ? 0 : (reach[1] <= x ? 1 : -1);
+        if (row === -1) return;
+        var nm = esc(ev.name);
+        reach[row] = x + 14 + nm.length * 8;     /* generous on purpose */
+        a.push('<text x="' + x + '" y="' + EV_Y[row] + '" text-anchor="start" fill="#7d6618">' + nm + '</text>');
       });
     }
+
     var asvg = root.querySelector('.tl-axis-svg');
     asvg.setAttribute('width', W); asvg.setAttribute('height', AXIS_H);
     asvg.innerHTML = a.join('');
@@ -509,6 +614,18 @@
        that moves it, called from everywhere that moves the rail. */
     var asvg = mounted.querySelector('.tl-axis-svg');
     if (asvg) asvg.style.transform = 'translateX(' + (-rail.scrollLeft) + 'px)';
+
+    /* Hold every name inside the viewport. A bar wider than the window would
+       otherwise be a nameless rectangle for as long as the reader looks at it.
+       Clamped to the bar's own right edge less the label's width, so a name
+       never floats past the life it belongs to. */
+    var left = rail.scrollLeft + 14;
+    mounted.querySelectorAll('.tl-rows text.nm').forEach(function (t) {
+      var x0 = +t.getAttribute('data-x0'), x1 = +t.getAttribute('data-x1');
+      var w  = 12 + (t.textContent || '').length * 7.4;
+      var at = Math.max(x0 + 12, Math.min(left, x1 - w));
+      t.setAttribute('x', at);
+    });
 
     var vw   = rail.clientWidth || (SPAN * PX_PER_YR);
     var from = state.min + rail.scrollLeft / PX_PER_YR;
