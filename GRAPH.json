@@ -1,0 +1,2065 @@
+{
+ "built": "2026-09-03",
+ "authors": 7,
+ "nodes": 79,
+ "edges": 111,
+ "graph": {
+  "nodes": [
+   {
+    "key": "julius-caesar",
+    "named": "julius-caesar",
+    "room": true,
+    "namedBy": [],
+    "inDegree": 0
+   },
+   {
+    "key": "pompey",
+    "named": "Pompey",
+    "room": false,
+    "namedBy": [
+     "julius-caesar"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "vercingetorix",
+    "named": "Vercingetorix",
+    "room": false,
+    "namedBy": [
+     "julius-caesar"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "cicero",
+    "named": "Cicero",
+    "room": false,
+    "namedBy": [
+     "julius-caesar",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "dumnorix",
+    "named": "Dumnorix",
+    "room": false,
+    "namedBy": [
+     "julius-caesar"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "brutus",
+    "named": "Brutus",
+    "room": true,
+    "namedBy": [
+     "julius-caesar",
+     "flavius-josephus",
+     "livy",
+     "plutarch"
+    ],
+    "inDegree": 4
+   },
+   {
+    "key": "titus-labienus",
+    "named": "Titus Labienus",
+    "room": false,
+    "namedBy": [
+     "julius-caesar"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "lucretius",
+    "named": "Lucretius",
+    "room": false,
+    "namedBy": [
+     "julius-caesar",
+     "livy"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "hercules",
+    "named": "Hercules",
+    "room": false,
+    "namedBy": [
+     "julius-caesar",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ],
+    "inDegree": 4
+   },
+   {
+    "key": "lepidus",
+    "named": "Lepidus",
+    "room": false,
+    "namedBy": [
+     "julius-caesar"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "herodotus",
+    "named": "herodotus",
+    "room": true,
+    "namedBy": [],
+    "inDegree": 0
+   },
+   {
+    "key": "leonidas",
+    "named": "Leonidas",
+    "room": false,
+    "namedBy": [
+     "herodotus",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "croesus",
+    "named": "Croesus",
+    "room": false,
+    "namedBy": [
+     "herodotus",
+     "plutarch",
+     "thucydides"
+    ],
+    "inDegree": 3
+   },
+   {
+    "key": "solon",
+    "named": "Solon",
+    "room": false,
+    "namedBy": [
+     "herodotus",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "priam",
+    "named": "Priam",
+    "room": false,
+    "namedBy": [
+     "herodotus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "flavius-josephus",
+    "named": "flavius-josephus",
+    "room": true,
+    "namedBy": [],
+    "inDegree": 0
+   },
+   {
+    "key": "tiberius",
+    "named": "Tiberius",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "tacitus"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "claudius",
+    "named": "Claudius",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ],
+    "inDegree": 4
+   },
+   {
+    "key": "petronius",
+    "named": "Petronius",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "tacitus"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "vitellius",
+    "named": "Vitellius",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "tacitus"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "strabo",
+    "named": "Strabo",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "augustus",
+    "named": "Augustus",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "livy",
+     "tacitus"
+    ],
+    "inDegree": 3
+   },
+   {
+    "key": "nero",
+    "named": "Nero",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "tacitus"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "vespasian",
+    "named": "Vespasian",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "tacitus"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "galba",
+    "named": "Galba",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "tacitus"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "lysimachus",
+    "named": "Lysimachus",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "alexander-the-great",
+    "named": "Alexander the Great",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "aesop",
+    "named": "Aesop",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "marcus-tullius-cicero",
+    "named": "Marcus Tullius Cicero",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "lysias",
+    "named": "Lysias",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "jason",
+    "named": "Jason",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "moses",
+    "named": "Moses",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "solomon",
+    "named": "Solomon",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "jacob",
+    "named": "Jacob",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "david",
+    "named": "David",
+    "room": false,
+    "namedBy": [
+     "flavius-josephus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "livy",
+    "named": "livy",
+    "room": true,
+    "namedBy": [
+     "tacitus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "romulus",
+    "named": "Romulus",
+    "room": false,
+    "namedBy": [
+     "livy",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "remus",
+    "named": "Remus",
+    "room": false,
+    "namedBy": [
+     "livy",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "numa-pompilius",
+    "named": "Numa Pompilius",
+    "room": false,
+    "namedBy": [
+     "livy",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "servius-tullius",
+    "named": "Servius Tullius",
+    "room": false,
+    "namedBy": [
+     "livy"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "horatius-cocles",
+    "named": "Horatius Cocles",
+    "room": false,
+    "namedBy": [
+     "livy"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "pythagoras",
+    "named": "Pythagoras",
+    "room": false,
+    "namedBy": [
+     "livy",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "polybius",
+    "named": "Polybius",
+    "room": false,
+    "namedBy": [
+     "livy",
+     "plutarch"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "plutarch",
+    "named": "plutarch",
+    "room": true,
+    "namedBy": [],
+    "inDegree": 0
+   },
+   {
+    "key": "theseus",
+    "named": "Theseus",
+    "room": false,
+    "namedBy": [
+     "plutarch",
+     "thucydides"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "pericles",
+    "named": "Pericles",
+    "room": false,
+    "namedBy": [
+     "plutarch",
+     "thucydides"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "aristotle",
+    "named": "Aristotle",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "homer",
+    "named": "Homer",
+    "room": false,
+    "namedBy": [
+     "plutarch",
+     "thucydides"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "thucydides",
+    "named": "Thucydides",
+    "room": true,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "plato",
+    "named": "Plato",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "minos",
+    "named": "Minos",
+    "room": false,
+    "namedBy": [
+     "plutarch",
+     "thucydides"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "euripides",
+    "named": "Euripides",
+    "room": false,
+    "namedBy": [
+     "plutarch",
+     "thucydides"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "achilles",
+    "named": "Achilles",
+    "room": false,
+    "namedBy": [
+     "plutarch",
+     "thucydides"
+    ],
+    "inDegree": 2
+   },
+   {
+    "key": "aeneas",
+    "named": "Aeneas",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "theophrastus",
+    "named": "Theophrastus",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "sophocles",
+    "named": "Sophocles",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "aristophanes",
+    "named": "Aristophanes",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "diogenes",
+    "named": "Diogenes",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "hesiod",
+    "named": "Hesiod",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "aeschylus",
+    "named": "Aeschylus",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "cassander",
+    "named": "Cassander",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "pindar",
+    "named": "Pindar",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "demosthenes",
+    "named": "Demosthenes",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "pausanias",
+    "named": "Pausanias",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "heraclitus",
+    "named": "Heraclitus",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "anacreon",
+    "named": "Anacreon",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "orpheus",
+    "named": "Orpheus",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "midas",
+    "named": "Midas",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "belus",
+    "named": "Belus",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "epicurus",
+    "named": "Epicurus",
+    "room": false,
+    "namedBy": [
+     "plutarch"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "tacitus",
+    "named": "tacitus",
+    "room": true,
+    "namedBy": [],
+    "inDegree": 0
+   },
+   {
+    "key": "domitian",
+    "named": "Domitian",
+    "room": false,
+    "namedBy": [
+     "tacitus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "trajan",
+    "named": "Trajan",
+    "room": false,
+    "namedBy": [
+     "tacitus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "nerva",
+    "named": "Nerva",
+    "room": false,
+    "namedBy": [
+     "tacitus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "otho",
+    "named": "Otho",
+    "room": false,
+    "namedBy": [
+     "tacitus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "caligula",
+    "named": "Caligula",
+    "room": false,
+    "namedBy": [
+     "tacitus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "frontinus",
+    "named": "Frontinus",
+    "room": false,
+    "namedBy": [
+     "tacitus"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "perseus",
+    "named": "Perseus",
+    "room": false,
+    "namedBy": [
+     "thucydides"
+    ],
+    "inDegree": 1
+   },
+   {
+    "key": "xenophon",
+    "named": "Xenophon",
+    "room": false,
+    "namedBy": [
+     "thucydides"
+    ],
+    "inDegree": 1
+   }
+  ],
+  "edges": [
+   {
+    "from": "julius-caesar",
+    "to": "pompey",
+    "named": "Pompey",
+    "kind": "contemporary",
+    "count": 285,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "vercingetorix",
+    "named": "Vercingetorix",
+    "kind": "contemporary",
+    "count": 43,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "cicero",
+    "named": "Cicero",
+    "kind": "contemporary",
+    "count": 22,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "dumnorix",
+    "named": "Dumnorix",
+    "kind": "contemporary",
+    "count": 20,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "brutus",
+    "named": "Brutus",
+    "kind": "contemporary",
+    "count": 13,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "titus-labienus",
+    "named": "Titus Labienus",
+    "kind": "contemporary",
+    "count": 9,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "lucretius",
+    "named": "Lucretius",
+    "kind": "contemporary",
+    "count": 3,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "hercules",
+    "named": "Hercules",
+    "kind": "legendary",
+    "count": 2,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "julius-caesar",
+    "to": "lepidus",
+    "named": "Lepidus",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+   },
+   {
+    "from": "herodotus",
+    "to": "leonidas",
+    "named": "Leonidas",
+    "kind": "historical",
+    "count": 24,
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+   },
+   {
+    "from": "herodotus",
+    "to": "croesus",
+    "named": "Croesus",
+    "kind": "historical",
+    "count": 11,
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+   },
+   {
+    "from": "herodotus",
+    "to": "solon",
+    "named": "Solon",
+    "kind": "historical",
+    "count": 7,
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+   },
+   {
+    "from": "herodotus",
+    "to": "priam",
+    "named": "Priam",
+    "kind": "legendary",
+    "count": 2,
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "tiberius",
+    "named": "Tiberius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "claudius",
+    "named": "Claudius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "petronius",
+    "named": "Petronius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "vitellius",
+    "named": "Vitellius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "strabo",
+    "named": "Strabo",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "augustus",
+    "named": "Augustus",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "nero",
+    "named": "Nero",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "vespasian",
+    "named": "Vespasian",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "galba",
+    "named": "Galba",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "lysimachus",
+    "named": "Lysimachus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "alexander-the-great",
+    "named": "Alexander the Great",
+    "kind": "historical",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "aesop",
+    "named": "Aesop",
+    "kind": "historical",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "marcus-tullius-cicero",
+    "named": "Marcus Tullius Cicero",
+    "kind": "historical",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "lysias",
+    "named": "Lysias",
+    "kind": "historical",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "jason",
+    "named": "Jason",
+    "kind": "historical",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "brutus",
+    "named": "Brutus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "moses",
+    "named": "Moses",
+    "kind": "scripture",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "solomon",
+    "named": "Solomon",
+    "kind": "scripture",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "jacob",
+    "named": "Jacob",
+    "kind": "scripture",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "david",
+    "named": "David",
+    "kind": "scripture",
+    "count": 1,
+    "source": "Josephus, Antiquities 14-19"
+   },
+   {
+    "from": "livy",
+    "to": "romulus",
+    "named": "Romulus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "remus",
+    "named": "Remus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "hercules",
+    "named": "Hercules",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "brutus",
+    "named": "Brutus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "numa-pompilius",
+    "named": "Numa Pompilius",
+    "kind": "historical",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "servius-tullius",
+    "named": "Servius Tullius",
+    "kind": "historical",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "lucretius",
+    "named": "Lucretius",
+    "kind": "historical",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "horatius-cocles",
+    "named": "Horatius Cocles",
+    "kind": "historical",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "pythagoras",
+    "named": "Pythagoras",
+    "kind": "historical",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "polybius",
+    "named": "Polybius",
+    "kind": "historical",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "augustus",
+    "named": "Augustus",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "livy",
+    "to": "claudius",
+    "named": "Claudius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Livy, Ab Urbe Condita (selections)"
+   },
+   {
+    "from": "plutarch",
+    "to": "brutus",
+    "named": "Brutus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "theseus",
+    "named": "Theseus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "pericles",
+    "named": "Pericles",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "romulus",
+    "named": "Romulus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "solon",
+    "named": "Solon",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "hercules",
+    "named": "Hercules",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "aristotle",
+    "named": "Aristotle",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "homer",
+    "named": "Homer",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "thucydides",
+    "named": "Thucydides",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "remus",
+    "named": "Remus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "plato",
+    "named": "Plato",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "croesus",
+    "named": "Croesus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "cicero",
+    "named": "Cicero",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "minos",
+    "named": "Minos",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "euripides",
+    "named": "Euripides",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "achilles",
+    "named": "Achilles",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "aeneas",
+    "named": "Aeneas",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "theophrastus",
+    "named": "Theophrastus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "leonidas",
+    "named": "Leonidas",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "sophocles",
+    "named": "Sophocles",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "aristophanes",
+    "named": "Aristophanes",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "diogenes",
+    "named": "Diogenes",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "hesiod",
+    "named": "Hesiod",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "aeschylus",
+    "named": "Aeschylus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "lysimachus",
+    "named": "Lysimachus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "cassander",
+    "named": "Cassander",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "pindar",
+    "named": "Pindar",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "pythagoras",
+    "named": "Pythagoras",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "demosthenes",
+    "named": "Demosthenes",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "pausanias",
+    "named": "Pausanias",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "jason",
+    "named": "Jason",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "numa-pompilius",
+    "named": "Numa Pompilius",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "aesop",
+    "named": "Aesop",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "heraclitus",
+    "named": "Heraclitus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "claudius",
+    "named": "Claudius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "anacreon",
+    "named": "Anacreon",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "orpheus",
+    "named": "Orpheus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "midas",
+    "named": "Midas",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "belus",
+    "named": "Belus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "epicurus",
+    "named": "Epicurus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "plutarch",
+    "to": "polybius",
+    "named": "Polybius",
+    "kind": "historical",
+    "count": 1,
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+   },
+   {
+    "from": "tacitus",
+    "to": "domitian",
+    "named": "Domitian",
+    "kind": "contemporary",
+    "count": 11,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "vespasian",
+    "named": "Vespasian",
+    "kind": "contemporary",
+    "count": 7,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "hercules",
+    "named": "Hercules",
+    "kind": "legendary",
+    "count": 5,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "nero",
+    "named": "Nero",
+    "kind": "contemporary",
+    "count": 5,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "trajan",
+    "named": "Trajan",
+    "kind": "contemporary",
+    "count": 4,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "galba",
+    "named": "Galba",
+    "kind": "contemporary",
+    "count": 3,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "augustus",
+    "named": "Augustus",
+    "kind": "contemporary",
+    "count": 2,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "nerva",
+    "named": "Nerva",
+    "kind": "contemporary",
+    "count": 2,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "otho",
+    "named": "Otho",
+    "kind": "contemporary",
+    "count": 2,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "caligula",
+    "named": "Caligula",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "livy",
+    "named": "Livy",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "tiberius",
+    "named": "Tiberius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "claudius",
+    "named": "Claudius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "vitellius",
+    "named": "Vitellius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "petronius",
+    "named": "Petronius",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "tacitus",
+    "to": "frontinus",
+    "named": "Frontinus",
+    "kind": "contemporary",
+    "count": 1,
+    "source": "Tacitus, Agricola / Germania / Histories"
+   },
+   {
+    "from": "thucydides",
+    "to": "pericles",
+    "named": "Pericles",
+    "kind": "historical",
+    "count": 17,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "theseus",
+    "named": "Theseus",
+    "kind": "legendary",
+    "count": 5,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "homer",
+    "named": "Homer",
+    "kind": "historical",
+    "count": 4,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "minos",
+    "named": "Minos",
+    "kind": "legendary",
+    "count": 2,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "perseus",
+    "named": "Perseus",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "achilles",
+    "named": "Achilles",
+    "kind": "legendary",
+    "count": 1,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "croesus",
+    "named": "Croesus",
+    "kind": "historical",
+    "count": 1,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "euripides",
+    "named": "Euripides",
+    "kind": "historical",
+    "count": 1,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   },
+   {
+    "from": "thucydides",
+    "to": "xenophon",
+    "named": "Xenophon",
+    "kind": "historical",
+    "count": 1,
+    "source": "Thucydides, History of the Peloponnesian War (selections)"
+   }
+  ]
+ },
+ "analysis": {
+  "most_named": [
+   {
+    "named": "Brutus",
+    "times": 4,
+    "by": [
+     "julius-caesar",
+     "flavius-josephus",
+     "livy",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Hercules",
+    "times": 4,
+    "by": [
+     "julius-caesar",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Claudius",
+    "times": 4,
+    "by": [
+     "flavius-josephus",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Croesus",
+    "times": 3,
+    "by": [
+     "herodotus",
+     "plutarch",
+     "thucydides"
+    ]
+   },
+   {
+    "named": "Augustus",
+    "times": 3,
+    "by": [
+     "flavius-josephus",
+     "livy",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Cicero",
+    "times": 2,
+    "by": [
+     "julius-caesar",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Lucretius",
+    "times": 2,
+    "by": [
+     "julius-caesar",
+     "livy"
+    ]
+   },
+   {
+    "named": "Leonidas",
+    "times": 2,
+    "by": [
+     "herodotus",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Solon",
+    "times": 2,
+    "by": [
+     "herodotus",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Tiberius",
+    "times": 2,
+    "by": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Petronius",
+    "times": 2,
+    "by": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Vitellius",
+    "times": 2,
+    "by": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Nero",
+    "times": 2,
+    "by": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Vespasian",
+    "times": 2,
+    "by": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Galba",
+    "times": 2,
+    "by": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   }
+  ],
+  "cross_corroborated": [
+   {
+    "named": "Brutus",
+    "historians": [
+     "julius-caesar",
+     "flavius-josephus",
+     "livy",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Hercules",
+    "historians": [
+     "julius-caesar",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Claudius",
+    "historians": [
+     "flavius-josephus",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Croesus",
+    "historians": [
+     "herodotus",
+     "plutarch",
+     "thucydides"
+    ]
+   },
+   {
+    "named": "Augustus",
+    "historians": [
+     "flavius-josephus",
+     "livy",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Cicero",
+    "historians": [
+     "julius-caesar",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Lucretius",
+    "historians": [
+     "julius-caesar",
+     "livy"
+    ]
+   },
+   {
+    "named": "Leonidas",
+    "historians": [
+     "herodotus",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Solon",
+    "historians": [
+     "herodotus",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Tiberius",
+    "historians": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Petronius",
+    "historians": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Vitellius",
+    "historians": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Nero",
+    "historians": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Vespasian",
+    "historians": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Galba",
+    "historians": [
+     "flavius-josephus",
+     "tacitus"
+    ]
+   },
+   {
+    "named": "Lysimachus",
+    "historians": [
+     "flavius-josephus",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Aesop",
+    "historians": [
+     "flavius-josephus",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Jason",
+    "historians": [
+     "flavius-josephus",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Romulus",
+    "historians": [
+     "livy",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Remus",
+    "historians": [
+     "livy",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Numa Pompilius",
+    "historians": [
+     "livy",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Pythagoras",
+    "historians": [
+     "livy",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Polybius",
+    "historians": [
+     "livy",
+     "plutarch"
+    ]
+   },
+   {
+    "named": "Theseus",
+    "historians": [
+     "plutarch",
+     "thucydides"
+    ]
+   },
+   {
+    "named": "Pericles",
+    "historians": [
+     "plutarch",
+     "thucydides"
+    ]
+   },
+   {
+    "named": "Homer",
+    "historians": [
+     "plutarch",
+     "thucydides"
+    ]
+   },
+   {
+    "named": "Minos",
+    "historians": [
+     "plutarch",
+     "thucydides"
+    ]
+   },
+   {
+    "named": "Euripides",
+    "historians": [
+     "plutarch",
+     "thucydides"
+    ]
+   },
+   {
+    "named": "Achilles",
+    "historians": [
+     "plutarch",
+     "thucydides"
+    ]
+   }
+  ],
+  "room_to_room_bridges": [
+   {
+    "from": "julius-caesar",
+    "to": "brutus",
+    "named": "Brutus"
+   },
+   {
+    "from": "flavius-josephus",
+    "to": "brutus",
+    "named": "Brutus"
+   },
+   {
+    "from": "livy",
+    "to": "brutus",
+    "named": "Brutus"
+   },
+   {
+    "from": "plutarch",
+    "to": "brutus",
+    "named": "Brutus"
+   },
+   {
+    "from": "plutarch",
+    "to": "thucydides",
+    "named": "Thucydides"
+   },
+   {
+    "from": "tacitus",
+    "to": "livy",
+    "named": "Livy"
+   }
+  ],
+  "possible_collisions": [
+   {
+    "named": "Brutus",
+    "historians": [
+     "julius-caesar",
+     "flavius-josephus",
+     "livy",
+     "plutarch"
+    ],
+    "note": "named by 3+ sources across possibly different eras — verify it is one person"
+   },
+   {
+    "named": "Hercules",
+    "historians": [
+     "julius-caesar",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ],
+    "note": "named by 3+ sources across possibly different eras — verify it is one person"
+   },
+   {
+    "named": "Claudius",
+    "historians": [
+     "flavius-josephus",
+     "livy",
+     "plutarch",
+     "tacitus"
+    ],
+    "note": "named by 3+ sources across possibly different eras — verify it is one person"
+   },
+   {
+    "named": "Croesus",
+    "historians": [
+     "herodotus",
+     "plutarch",
+     "thucydides"
+    ],
+    "note": "named by 3+ sources across possibly different eras — verify it is one person"
+   },
+   {
+    "named": "Augustus",
+    "historians": [
+     "flavius-josephus",
+     "livy",
+     "tacitus"
+    ],
+    "note": "named by 3+ sources across possibly different eras — verify it is one person"
+   }
+  ]
+ }
+}

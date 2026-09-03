@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amenti · The Mention Graph</title>
+<style>
+/* ── the ship's identity ──────────────────────────────────────────────────
+   Amenti Display for the mark (the masthead face); ink & gold palette; the
+   constellation motif. This is user-facing, so it wears the HALL's identity,
+   not the technical brief's. */
+@font-face{ font-family:'Amenti Display'; font-weight:400; font-display:swap;
+  src:url('fonts/amenti-display-400.woff2') format('woff2'); }
+
+:root{
+  --ink:#07080c; --ink-2:#0d0f16; --panel:rgba(9,11,18,.94);
+  --bone:#e9e5da; --slate:#8c93a4; --rule:#1d212c;
+  --gold:#c9a227; --gold-2:#e8c65a; --gold-dim:#7d6618;
+  --blue:#7fb4f0; --verdigris:#4a8f9e; --oxide:#b0413e;
+  /* edge-kind colours */
+  --k-contemporary:#7fb4f0; --k-historical:#ecd493;
+  --k-legendary:#b39ddb; --k-scripture:#7fdce8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--bone);
+  font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif;overflow:hidden}
+
+/* the masthead */
+header{position:fixed;top:0;left:0;right:0;height:64px;z-index:20;
+  display:flex;align-items:center;gap:20px;padding:0 24px;
+  background:linear-gradient(180deg,rgba(7,8,12,.96),rgba(7,8,12,.7) 70%,transparent);
+  pointer-events:none}
+.mark{font-family:'Amenti Display','Space Grotesk',serif;font-size:26px;letter-spacing:.04em;
+  color:var(--gold);pointer-events:auto}
+.mark .a{color:var(--blue)}
+.tagline{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+  color:var(--slate);text-transform:uppercase;pointer-events:auto}
+
+/* the view selector */
+.views{position:fixed;top:64px;left:0;right:0;z-index:19;display:flex;gap:2px;
+  padding:8px 24px;pointer-events:none}
+.views button{pointer-events:auto;background:none;border:1px solid var(--rule);
+  color:var(--slate);font:inherit;font-size:12px;letter-spacing:.06em;
+  padding:5px 14px;border-radius:20px;cursor:pointer;transition:all .15s}
+.views button:hover{color:var(--bone);border-color:var(--gold-dim)}
+.views button.on{color:var(--gold);border-color:var(--gold);background:rgba(201,162,39,.08)}
+
+/* the canvas */
+#stage{position:fixed;inset:0;z-index:1}
+svg{width:100%;height:100%;display:block}
+
+/* the inspector — clicking a node/edge shows its citation */
+.inspect{position:fixed;right:0;top:112px;bottom:0;width:min(340px,40vw);z-index:18;
+  background:var(--panel);border-left:1px solid var(--rule);padding:22px 22px 30px;
+  overflow-y:auto;transform:translateX(105%);transition:transform .28s cubic-bezier(.3,.7,.3,1)}
+.inspect.show{transform:none}
+.inspect h3{font-family:'Amenti Display','Space Grotesk',serif;font-size:22px;margin:0 0 2px;color:var(--gold)}
+.inspect .sub{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--slate);margin:0 0 16px}
+.inspect h4{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold-dim);margin:16px 0 8px}
+.inspect .row{font-size:13.5px;padding:3px 0;display:flex;gap:10px}
+.inspect .row b{color:var(--blue);font-weight:400}
+.inspect .cite{font-size:12px;color:var(--slate);font-style:italic;line-height:1.5}
+.inspect .close{position:absolute;top:14px;right:16px;cursor:pointer;color:var(--slate);
+  font-size:20px;line-height:1;border:0;background:none}
+
+/* legend */
+.legend{position:fixed;left:24px;bottom:20px;z-index:18;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--slate);
+  display:flex;flex-direction:column;gap:5px;background:rgba(7,8,12,.6);padding:10px 12px;border-radius:6px}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+
+.hint{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:17;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--slate);letter-spacing:.08em}
+.loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:"IBM Plex Mono",monospace;color:var(--slate);z-index:30}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mark">&#9651; AMENTI</div>
+  <div class="tagline">the mention graph &middot; the ancient world, cited</div>
+</header>
+
+<div class="views">
+  <button data-view="network" class="on">Constellation</button>
+  <button data-view="matrix">Corroboration</button>
+  <button data-view="arc">Who names whom</button>
+</div>
+
+<div id="stage"><div class="loading">reading the graph&hellip;</div></div>
+
+<div class="legend" id="legend"></div>
+<div class="hint" id="hint">drag to move &middot; click a figure to read its citations</div>
+
+<aside class="inspect" id="inspect">
+  <button class="close" onclick="closeInspect()">&times;</button>
+  <div id="inspect-body"></div>
+</aside>
+
+<script>
+const KIND_COLOR = {contemporary:'#7fb4f0', historical:'#ecd493', legendary:'#b39ddb', scripture:'#7fdce8', '?':'#8c93a4'};
+const stage = document.getElementById('stage');
+let G = null, view = 'network';
+
+/* ── load the unified graph ── */
+fetch('GRAPH.json?_='+Date.now()).then(r=>r.json()).then(d=>{
+  G = d;
+  buildLegend();
+  render();
+}).catch(e=>{ stage.innerHTML = '<div class="loading">could not read GRAPH.json &mdash; '+e+'</div>'; });
+
+/* ── view switching ── */
+document.querySelectorAll('.views button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.views button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); view = b.dataset.view; render();
+  });
+});
+
+function buildLegend(){
+  document.getElementById('legend').innerHTML =
+    Object.entries({contemporary:'lived alongside',historical:'wrote about',legendary:'myth & legend',scripture:'scripture'})
+    .map(([k,label])=>'<span><i style="background:'+KIND_COLOR[k]+'"></i>'+label+'</span>').join('');
+}
+
+function render(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if(view==='network') renderNetwork(w,h);
+  else if(view==='matrix') renderMatrix(w,h);
+  else if(view==='arc') renderArc(w,h);
+  document.getElementById('hint').style.display = view==='matrix' ? 'none' : '';
+}
+
+/* helpers */
+function svgEl(w,h){ return '<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg">'; }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function nodeByKey(k){ return G.graph.nodes.find(n=>n.key===k); }
+function edgesOf(k){ return G.graph.edges.filter(e=>e.from===k||e.to===k); }
+function displayName(k){ const n=nodeByKey(k); return n?n.named:k; }
+
+/* ── VIEW 1 · CONSTELLATION (force-directed, run in JS then drawn) ── */
+function renderNetwork(w,h){
+  const nodes = G.graph.nodes.map(n=>({...n, x:w/2+(Math.random()-.5)*w*.6, y:h/2+(Math.random()-.5)*h*.5, vx:0, vy:0}));
+  const idx = {}; nodes.forEach((n,i)=>idx[n.key]=i);
+  const links = G.graph.edges.filter(e=>idx[e.from]!=null && idx[e.to]!=null)
+    .map(e=>({s:idx[e.from], t:idx[e.to], kind:e.kind, count:e.count}));
+  /* a few iterations of force layout */
+  for(let it=0; it<220; it++){
+    for(let i=0;i<nodes.length;i++){ for(let j=i+1;j<nodes.length;j++){
+      let dx=nodes[j].x-nodes[i].x, dy=nodes[j].y-nodes[i].y, d2=dx*dx+dy*dy+.01, d=Math.sqrt(d2);
+      let f=1600/d2; let fx=dx/d*f, fy=dy/d*f;
+      nodes[i].vx-=fx; nodes[i].vy-=fy; nodes[j].vx+=fx; nodes[j].vy+=fy;
+    }}
+    links.forEach(l=>{ let a=nodes[l.s], b=nodes[l.t];
+      let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)+.01, f=(d-90)*.02;
+      let fx=dx/d*f, fy=dy/d*f; a.vx+=fx; a.vy+=fy; b.vx-=fx; b.vy-=fy; });
+    nodes.forEach(n=>{ n.vx+=(w/2-n.x)*.002; n.vy+=(h/2-n.y)*.002;
+      n.x+=n.vx*.85; n.y+=n.vy*.85; n.vx*=.82; n.vy*=.82;
+      n.x=Math.max(30,Math.min(w-30,n.x)); n.y=Math.max(130,Math.min(h-30,n.y)); });
+  }
+  let s = svgEl(w,h);
+  links.forEach(l=>{ const a=nodes[l.s], b=nodes[l.t];
+    const sw = Math.min(3, .6+Math.log(l.count+1)/3);
+    s+='<line x1="'+a.x.toFixed(1)+'" y1="'+a.y.toFixed(1)+'" x2="'+b.x.toFixed(1)+'" y2="'+b.y.toFixed(1)+
+       '" stroke="'+(KIND_COLOR[l.kind]||'#555')+'" stroke-width="'+sw.toFixed(2)+'" opacity=".35"/>'; });
+  nodes.forEach(n=>{
+    const r = 4 + Math.min(10, n.inDegree*1.6);
+    const isAuthor = G.graph.edges.some(e=>e.from===n.key);
+    const fill = isAuthor ? '#c9a227' : '#e9e5da';
+    s+='<g class="node" data-key="'+esc(n.key)+'" style="cursor:pointer">'+
+       '<circle cx="'+n.x.toFixed(1)+'" cy="'+n.y.toFixed(1)+'" r="'+r.toFixed(1)+'" fill="'+fill+'" '+
+       (n.room?'stroke="#7fb4f0" stroke-width="1.4"':'')+'/>'+
+       (r>7?'<text x="'+n.x.toFixed(1)+'" y="'+(n.y-r-4).toFixed(1)+'" text-anchor="middle" fill="#e9e5da" font-size="11" font-family="IBM Plex Mono,monospace">'+esc(n.named)+'</text>':'')+
+       '</g>';
+  });
+  s+='</svg>';
+  stage.innerHTML = s;
+  wireNodes();
+}
+
+/* ── VIEW 2 · CORROBORATION (matrix: authors × figures) ── */
+function renderMatrix(w,h){
+  const authors = [...new Set(G.graph.edges.map(e=>e.from))];
+  /* figures named by 2+ authors, most-corroborated first */
+  const named = {};
+  G.graph.edges.forEach(e=>{ (named[e.to]=named[e.to]||new Set()).add(e.from); });
+  const figs = Object.entries(named).filter(([k,s])=>s.size>=2)
+    .sort((a,b)=>b[1].size-a[1].size).map(([k])=>k);
+  const padL=150, padT=150, cell=Math.min(26,(w-padL-40)/authors.length), rowH=20;
+  let s = svgEl(w, Math.max(h, padT+figs.length*rowH+40));
+  /* author column headers (rotated) */
+  authors.forEach((a,i)=>{ const x=padL+i*cell+cell/2;
+    s+='<text x="'+x+'" y="'+(padT-10)+'" transform="rotate(-55 '+x+' '+(padT-10)+')" '+
+       'fill="#c9a227" font-size="11" font-family="IBM Plex Mono,monospace">'+esc(displayName(a))+'</text>'; });
+  figs.forEach((f,r)=>{ const y=padT+r*rowH;
+    s+='<text x="'+(padL-10)+'" y="'+(y+13)+'" text-anchor="end" fill="#7fb4f0" font-size="12" font-family="IBM Plex Mono,monospace">'+esc(displayName(f))+'</text>';
+    authors.forEach((a,i)=>{ const x=padL+i*cell;
+      const edge = G.graph.edges.find(e=>e.from===a && e.to===f);
+      if(edge){ const col=KIND_COLOR[edge.kind]||'#888';
+        s+='<rect class="cellhit" data-key="'+esc(f)+'" x="'+(x+2)+'" y="'+(y+2)+'" width="'+(cell-4)+'" height="'+(rowH-4)+'" rx="2" fill="'+col+'" opacity="'+Math.min(.95,.4+Math.log((edge.count||1)+1)/5)+'" style="cursor:pointer"/>'; }
+      else s+='<rect x="'+(x+2)+'" y="'+(y+2)+'" width="'+(cell-4)+'" height="'+(rowH-4)+'" rx="2" fill="#12151d"/>';
+    });
+  });
+  s+='</svg>';
+  stage.innerHTML = s;
+  document.querySelectorAll('.cellhit').forEach(c=>c.addEventListener('click',()=>inspect(c.dataset.key)));
+}
+
+/* ── VIEW 3 · WHO NAMES WHOM (arc diagram) ── */
+function renderArc(w,h){
+  const authors = [...new Set(G.graph.edges.map(e=>e.from))];
+  const targets = [...new Set(G.graph.edges.map(e=>e.to))];
+  const all = [...authors, ...targets.filter(t=>!authors.includes(t))];
+  const y = h*0.42, gap = (w-120)/(all.length-1);
+  const pos = {}; all.forEach((k,i)=>pos[k]=60+i*gap);
+  let s = svgEl(w,h);
+  G.graph.edges.forEach(e=>{ const x1=pos[e.from], x2=pos[e.to]; if(x1==null||x2==null) return;
+    const r=Math.abs(x2-x1)/2, mx=(x1+x2)/2, up=authors.includes(e.to)?1:-1;
+    s+='<path d="M '+x1+' '+y+' A '+r+' '+r+' 0 0 '+(x1<x2?1:0)+' '+x2+' '+y+'" fill="none" '+
+       'stroke="'+(KIND_COLOR[e.kind]||'#555')+'" stroke-width="'+Math.min(3,.6+Math.log((e.count||1)+1)/3).toFixed(2)+'" opacity=".4"/>'; });
+  all.forEach(k=>{ const isA=authors.includes(k);
+    s+='<g class="node" data-key="'+esc(k)+'" style="cursor:pointer">'+
+       '<circle cx="'+pos[k]+'" cy="'+y+'" r="'+(isA?6:3.5)+'" fill="'+(isA?'#c9a227':'#e9e5da')+'"/>'+
+       '<text x="'+pos[k]+'" y="'+(y+(isA?24:-12))+'" transform="rotate(60 '+pos[k]+' '+y+')" '+
+       'fill="'+(isA?'#c9a227':'#8c93a4')+'" font-size="10.5" font-family="IBM Plex Mono,monospace">'+esc(displayName(k))+'</text></g>'; });
+  s+='</svg>';
+  stage.innerHTML = s;
+  wireNodes();
+}
+
+function wireNodes(){ document.querySelectorAll('.node').forEach(n=>n.addEventListener('click',()=>inspect(n.dataset.key))); }
+
+/* ── the inspector: every figure traces to its citations ── */
+function inspect(key){
+  const n = nodeByKey(key); if(!n) return;
+  const out = G.graph.edges.filter(e=>e.from===key);   // this figure naming others
+  const inn = G.graph.edges.filter(e=>e.to===key);     // others naming this figure
+  let html = '<h3>'+esc(n.named)+'</h3>';
+  html += '<p class="sub">'+(n.room?'has a reading room &middot; ':'')+
+          (out.length?out.length+' named by them &middot; ':'')+
+          (inn.length?'named by '+inn.length:'')+'</p>';
+  if(inn.length){ html+='<h4>named in the texts of</h4>';
+    inn.forEach(e=>{ html+='<div class="row"><b>'+esc(displayName(e.from))+'</b><span style="color:'+KIND_COLOR[e.kind]+'">'+e.kind+'</span>'+(e.count>1?'<span style="color:#8c93a4">'+e.count+'&times;</span>':'')+'</div>';
+      html+='<div class="cite">'+esc(e.source)+'</div>'; }); }
+  if(out.length){ html+='<h4>names, in their own text</h4>';
+    out.forEach(e=>{ html+='<div class="row"><b>'+esc(displayName(e.to))+'</b><span style="color:'+KIND_COLOR[e.kind]+'">'+e.kind+'</span>'+(e.count>1?'<span style="color:#8c93a4">'+e.count+'&times;</span>':'')+'</div>'; }); }
+  document.getElementById('inspect-body').innerHTML = html;
+  document.getElementById('inspect').classList.add('show');
+}
+function closeInspect(){ document.getElementById('inspect').classList.remove('show'); }
+
+window.addEventListener('resize', ()=>{ if(G) render(); });
+</script>
+</body>
+</html>
