@@ -4451,7 +4451,7 @@ RELAY:     AMENTI-MAIN-01</pre>
            holds across every turn.
 
            Then the foot of the FREQUENCIES column, which LOOKS empty and is
-           not: the thousand-name roster scrolls through that space.
+           not: the two-thousand-name roster scrolls through that space.
 
            Then the input rail — in among the buttons, in the path of the
            thing used most. Worse than either.
@@ -5532,7 +5532,7 @@ window.AMENTI_CHARS = [
   },
   { id:22, key:'ingram', name:"IAN INGRAM", title:"Founder of Amenti.AI · Architect of the Library", era:"THE NEURAL AGE", year:"2026", region:"USA", glyph:"◈", accent:"#7CFFC4",
     quote:'"The mind forms the thought, then gives it voice."',
-    bio:"American software developer and founder of Amenti.AI. He conceived and built Amenti — a Library of Legends where more than a thousand figures of history and myth answer in the first person, and increasingly in their own composed voice. Its architecture takes the brain as its model: the Amenti Neural Interface integrates separate faculties — cognition, articulation, memory — the way a mind does, which is the source of its strength. Architect of the Library; keeper of its halls.",
+    bio:"American software developer and founder of Amenti.AI. He conceived and built Amenti — a Library of Legends where nearly two thousand figures of history and myth answer in the first person, and increasingly in their own composed voice. Its architecture takes the brain as its model: the Amenti Neural Interface integrates separate faculties — cognition, articulation, memory — the way a mind does, which is the source of its strength. Architect of the Library; keeper of its halls.",
     abilities:["The Integrative Architecture","The Separation of Faculties","Variety as Doctrine","Render Once, Keep Forever"],
     stats:{strategy:88,charisma:80,foresight:96,combat:20},
     voice:"Contemporary American English, warm and measured — a builder thinking aloud. Unhurried and precise, given to metaphor drawn from systems, architecture, and the mind.",
@@ -6101,7 +6101,7 @@ Speak as ${c.name}, never as an AI assistant — but be genuinely worth listenin
 document.getElementById('sid').textContent = Math.random().toString(16).slice(2,10).toUpperCase();
 
 function renderRoster(){
-  // With the full CSV roster (~1000) loaded, a flat list is unusable here.
+  // With the full CSV roster (~2000) loaded, a flat list is unusable here.
   // Show the curated dossiers (rich) plus whoever is currently tuned (e.g. a
   // CSV figure reached via the Codex "TALK TO" button). Any figure remains
   // reachable directly via tune()/tuneByKey().
@@ -6976,7 +6976,7 @@ tune(idx>=0?idx:0);
 
 <script data-csv-loader="1">
 /* ── Amenti roster loader ──────────────────────────────────────────────
-   Loads the canonical ~1000-figure roster. Source of truth is the shared
+   Loads the canonical ~2000-figure roster. Source of truth is the shared
    LEDGER_CSV_URL in config.js (a Google Sheet published as CSV), so every
    page pulls from the same ledger. Falls back to a local ./names.csv if
    config.js or the URL is absent. Parses the CSV, merges the curated
