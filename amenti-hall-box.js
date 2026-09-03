@@ -91,6 +91,22 @@
     '#ask-amenti .aa-q-note{color:inherit;opacity:.92;border-bottom:1px dotted rgba(127,127,127,.55)}',
     '#ask-amenti .aa-verify{margin:.55rem 0 0;font-size:.79rem;opacity:.62}'
   ].join('\n');
+  css.textContent += [
+    '#ask-amenti .aa-conn{margin-top:14px}',
+    '#ask-amenti .aa-conn-block{margin:0 0 14px}',
+    '#ask-amenti .aa-conn h4{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7d6618;margin:0 0 8px}',
+    '#ask-amenti .aa-conn-lead{font-size:12.5px;color:#8c93a4;margin:0 0 8px}',
+    '#ask-amenti .aa-conn-row{display:flex;align-items:baseline;gap:8px;padding:2px 0;font-size:13.5px}',
+    '#ask-amenti .aa-conn-name{color:#b8c4d8}',
+    '#ask-amenti .aa-conn-door{color:#7fb4f0;text-decoration:none;border-bottom:1px dotted #4a6d8f}',
+    '#ask-amenti .aa-conn-door:hover{border-bottom-style:solid}',
+    '#ask-amenti .aa-conn-kind{font-family:ui-monospace,Menlo,monospace;font-size:10px;opacity:.7}',
+    '#ask-amenti .aa-conn-kind.contemporary{color:#7fb4f0}',
+    '#ask-amenti .aa-conn-kind.historical{color:#ecd493}',
+    '#ask-amenti .aa-conn-kind.legendary{color:#b39ddb}',
+    '#ask-amenti .aa-conn-kind.scripture{color:#7fdce8}',
+    '#ask-amenti .aa-conn-ct{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#5a6472}'
+  ].join('');
   document.head.appendChild(css);
 
   var root  = el('div'); root.id = 'ask-amenti';
@@ -114,12 +130,14 @@
   var answer  = el('div', 'aa-answer'); answer.style.display = 'none';
   var note    = el('div', 'aa-note');   note.style.display = 'none';
   var read    = el('div', 'aa-read');   read.style.display = 'none';
+  var conn    = el('div', 'aa-conn');   conn.style.display = 'none';
 
   root.appendChild(box);
   root.appendChild(seeds);
   root.appendChild(results);
   root.appendChild(answer);
   root.appendChild(read);
+  root.appendChild(conn);
   root.appendChild(note);
 
   /* Mount order: the hall's own page (#hall-main), else above the roster if a
@@ -236,6 +254,81 @@
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  /* ── THE CONNECTIONS · the harvester, expressed at the front desk ──────────
+     When the hall opens a room, that figure's harvested edges become available:
+     whom they named, in their own text, and \u2014 where the named figure ALSO has a
+     room \u2014 a door the reader can walk through. This reads mentions/<key>-mentions
+     .json, which the room's own key indexes. Additive and separate: it touches
+     neither the answer prose nor the quote guard. A connection is shown only
+     because a source bears it. */
+  var _mentCache = {};
+  var _roomSet = null;   /* keys that have a library room \u2014 for walkable doors */
+  function roomSet() {
+    if (_roomSet) return Promise.resolve(_roomSet);
+    /* prefer a global if the page provides one; else derive from LIBRARY.json */
+    if (window.AMENTI_ROOMS) { _roomSet = window.AMENTI_ROOMS; return Promise.resolve(_roomSet); }
+    var base = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.RAW_BASE) ||
+               'https://ianingram.github.io/Amenti.live/';
+    return fetch(base + 'LIBRARY.json', { cache: 'force-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        _roomSet = {};
+        if (d && d.rooms) d.rooms.forEach(function (rm) { _roomSet[rm.key] = 1; });
+        return _roomSet;
+      })
+      .catch(function () { _roomSet = {}; return _roomSet; });
+  }
+  function loadMentions(key) {
+    if (_mentCache[key] !== undefined) return Promise.resolve(_mentCache[key]);
+    var base = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.RAW_BASE) ||
+               'https://ianingram.github.io/Amenti.live/';
+    return fetch(base + 'mentions/' + key + '-mentions.json', { cache: 'force-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { _mentCache[key] = d; return d; })
+      .catch(function () { _mentCache[key] = null; return null; });
+  }
+
+  function renderConnections(opened) {
+    conn.innerHTML = ''; conn.style.display = 'none';
+    if (!opened || !opened.length) return;
+    Promise.all([roomSet()].concat(opened.map(function (o) {
+      return loadMentions(o.room).then(function (d) { return { room: o.room, data: d }; });
+    }))).then(function (all) {
+      var rooms = all[0] || {};
+      var sets = all.slice(1);
+      var any = false;
+      sets.forEach(function (set) {
+        if (!set.data || !set.data.edges || !set.data.edges.length) return;
+        any = true;
+        var block = el('div', 'aa-conn-block');
+        block.appendChild(el('h4', null, 'the connections'));
+        var lead = el('div', 'aa-conn-lead');
+        lead.textContent = (set.data.author ? set.data.author.replace(/-/g,' ') : set.room) +
+          ' names, in their own text:';
+        block.appendChild(lead);
+        /* group: figures that ALSO have a room become walkable doors */
+        set.data.edges.forEach(function (e) {
+          var row = el('div', 'aa-conn-row');
+          var isDoor = !!rooms[e.to];
+          if (isDoor) {
+            var a = el('a', 'aa-conn-door');
+            a.textContent = '\u2192 ' + e.named;
+            a.href = '#' + e.to;
+            a.setAttribute('data-room', e.to);
+            row.appendChild(a);
+          } else {
+            row.appendChild(el('span', 'aa-conn-name', e.named));
+          }
+          if (e.kind) row.appendChild(el('span', 'aa-conn-kind ' + e.kind, e.kind));
+          if (e.count && e.count > 1) row.appendChild(el('span', 'aa-conn-ct', e.count + '\u00d7'));
+          block.appendChild(row);
+        });
+        conn.appendChild(block);
+      });
+      conn.style.display = any ? '' : 'none';
     });
   }
 
@@ -484,6 +577,7 @@
       /* who/when/where colouring, LAST, after the quote guard has claimed its
          gold \u2014 skips quote spans and links so nothing earned is recoloured. */
       answer.innerHTML = colourProse(checked.html);
+      renderConnections(r.opened);   /* the harvester speaks at the desk */
       /* ── READ FROM ────────────────────────────────────────────────────
          The engine returns `opened`: every work whose room was opened for
          this question, with its title, its room and its full SOURCE line.
