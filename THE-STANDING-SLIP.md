@@ -755,51 +755,41 @@ unreproduced instance is not a pattern to build against.
 - **Acceptance test:** none yet — a watch item. It becomes a move when a second
   framed-citation fault is caught on screen.
 
-### 51 · Planet rooms — a source so primary it needs no voice
+### 51 · Planet rooms — the ship already has the engine
 The sky is a primary source in the fullest sense: the planets are the record,
-the ephemeris is only its edition. Livy reaches you through a translator; Saturn
-reaches you through arithmetic anyone can redo and no one can slant. So a planet
-deserves a shelf — and it is the purest room in the library, because there is no
-persona to fake.
+the ephemeris only its edition. A planet deserves a shelf, and it is the purest
+room in the library because there is no persona to fake.
 
-**THE LAW IS THE FEATURE, NOT THE OBSTACLE: A PLANET DOES NOT SPEAK IN PROSE.**
-The tempting build is to let Jupiter talk — and it is the one move that would
-hollow the ship out. Prose in a planet's mouth is the MODEL's prose dressed as
-the planet's: a séance with better production values, the Rand line and the
-frame-fabrication of #50 in a new costume. A planet with opinions is a
-fabrication. The room's note carries the boundary, and it is beautiful rather
-than limiting: *ask me where I was and I will tell you exactly, from my path;
-ask me what it meant and I have no opinion — that is for the ones who watched
-me.* No terminal. No voice. A reading room only.
+**THE LAW IS THE FEATURE: A PLANET DOES NOT SPEAK IN PROSE.** The tempting build
+is to let Jupiter talk — the one move that hollows the ship out, because prose
+in a planet's mouth is the MODEL's prose dressed as the planet's. The room's
+note carries the boundary: *ask me where I was and I will tell you exactly, from
+my path; ask me what it meant and I have no opinion.* No terminal. No voice.
 
-- **What is already done (this session):** `planet-jupiter.json` is built as the
-  worked example — three works, all its own record from SKY.csv: 830 due-east
-  risings, 248 great conjunctions with Saturn, 14 gatherings. The god/body
-  disambiguation is handled: the roster holds Jupiter and Neptune as ETERNALS
-  (the Roman gods), so the body takes key `planet-jupiter` and a *FIRST, WHICH
-  JUPITER* note, the way Brutus's room names which Brutus. Uranus and Saturn are
-  not on the roster, so they are free.
-- **The actual build, and it is NOT the copy Gann was:** the reading room
-  (`library.js`) has four modes — stored, link, recall, designed — and a planet
-  work is none of them. It needs a fifth, `computed`, that renders the record AS
-  A RECORD (a strip of years, the risings and meetings) instead of fetching a
-  `.md` that does not exist. ~20 lines, but it touches the SHARED reader every
-  other room depends on, so it must be tested against all four existing modes
-  before it lands. Do not fall through to the default Read button — that fetches
-  a file and renders broken.
-- **A design judgement inside it:** 830 bare years is data, not a reading. The
-  compelling planet room is probably its MEETINGS and GATHERINGS — the notable
-  moments — not the exhaustive rising list. Fewer, richer, more like a curated
-  shelf than a dump.
-- **What it closes:** the conjunction question that no human room could answer
-  (Kepler gated, Galileo silent, Newton's shelf wrong). The answer was never a
-  person — it was the planets themselves, and this is their room.
-- **Acceptance test:** `library.js` renders a `computed` work as a legible
-  record without a file fetch; the four existing modes still render; opening
-  planet-jupiter shows its risings, conjunctions and gatherings; and no planet
-  room has a terminal.
+**AND THE ENGINE ALREADY EXISTS — corrected 2 Sep.** Page2 loads
+`astronomy-engine` (jsdelivr, v2.1.19) and wraps it as `Sovereign.Ephemeris`,
+which computes any planet's position for any year IN THE BROWSER, live, cached.
+The helix already runs on it. So a planet's room is NOT a static record baked
+from SKY.csv — it is the ephemeris queried LIVE. Ask where Jupiter was in 1226
+and astronomy-engine computes it on the spot: the purest reading of the source,
+because nothing is stored to drift; the calculation itself is the testimony.
 
-### 33 · My prefixed filename is in `probes/` again
+- **TWO WRONG ARTEFACTS FROM THIS SESSION, to bin or ignore:** `planet-jupiter.json`
+  (a static transcription — the wrong shape) and a half-built `computed` mode in
+  probe-library (a hack to count file-less works). Both were me making a dead
+  copy of something already alive. Neither shipped to `main` in a load-bearing
+  way; `planet-jupiter.json` sits at root, read by nothing, harmless.
+- **The right build:** a planet room whose "works" are QUERIES against
+  `Sovereign.Ephemeris` — where was I, when did I rise due east over Giza, whom
+  did I meet — answered live, no file, no baked data. It reuses the engine the
+  helix already trusts. SKY.csv stays as the TIMELINE's precomputed marks (fast
+  to draw 1,600 of); the ROOM is the live engine (precise for any one query).
+- **Acceptance test:** opening a planet room computes and shows its positions
+  from astronomy-engine with no stored record; no planet room has a terminal;
+  and the four prose modes are untouched — no `computed` special-case bolted
+  onto the reading room.
+
+### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
 and it shows in the drift report. Delete it.
@@ -944,10 +934,11 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #51 added — planet rooms, a source so primary it needs no
-voice. The law "a planet does not speak in prose" is the feature; the build is a
-`computed` render mode, not letting Jupiter talk. planet-jupiter.json is the
-worked example. #50 added — a WATCH item: the quote guard proves the words
+*Updated 2 Sep 2026: #51 added and CORRECTED — planet rooms. The ship already
+has the engine: Page2's astronomy-engine / Sovereign.Ephemeris computes any
+planet live. A planet room is that engine queried, not a baked SKY.csv record;
+the earlier planet-jupiter.json and a computed-mode hack were both dead copies
+of a live thing. #50 added — a WATCH item: the quote guard proves the words
 but not the title/book/chapter/verse that frames them. One unreproduced instance
 (a Josephus work that is not his); not built, because a naive title guard would
 punish the hall for reading a real chapter closely. Promotes to a build on a
