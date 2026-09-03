@@ -1,268 +1,269 @@
 {
-  "key": "flavius-josephus",
-  "name": "Flavius Josephus",
-  "note": "**THE TRAITOR WHO PRESERVED US** — the roster's own epithet, and the whole difficulty.\n\nJosephus commanded Jewish forces in Galilee, was besieged at Jotapata, survived a suicide pact in a cave by a lot he may have arranged, surrendered to Vespasian, took his patron's family name, and watched the Temple burn from the Roman side of the wall. Then he wrote the only surviving narrative account of all of it, in Rome, under Flavian protection.\n\n**He is simultaneously the indispensable source for first-century Judaea and a man with pressing reasons to shape how that period was remembered.** Both halves are true and the room does not resolve them.\n\nTHE COMPLETE SURVIVING CORPUS IS HERE — four works, about 990,000 words: the *Antiquities* in twenty books, the *Wars* in seven, *Against Apion*, and the *Life*. There is no good reason to think he published anything else.\n\n**THE TRANSLATION IS OLD AND NOT GOOD, AND IT IS HERE ANYWAY.** William Whiston's 1736 version is the only complete public-domain English Josephus, which is why every English reader has met this one. Whiston had no sound Greek text, his rendering is frequently at fault, and he cared little for style. **Treat it as a serviceable reading copy, not an authority on wording.**\n\n**TWO DISPUTED PASSAGES ARE FLAGGED INSIDE THE TEXT.** Editorial warning blocks sit at Ant. XVIII.3.3 — the *Testimonium Flavianum* — and Ant. XX.9.1. They are searchable on the string 'DISPUTED PASSAGE' and are **not part of Whiston's text.** A room that reproduced the most argued-over paragraph in ancient literature without saying so would be doing the reader a disservice.\n\nThe *Antiquities* and the *Wars* are split by book — thirty-one files rather than two — because the single files ran to 2.9 MB and 1.3 MB and would not render in a browser. Nimrod's shelf on this site borrows Ant. I.4 for the tower of Babel.",
-  "works": [
-    {
-      "id": "00-life",
-      "section": "His own account",
-      "title": "The Life of Flavius Josephus",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Life of Flavius Josephus* · trans. William Whiston, 1736 · Project Gutenberg #2846 · public domain",
-      "note": "The short autobiography appended to the *Antiquities* in the manuscripts, and the fourth of the four surviving works — **it was missing from this shelf and is now here.** He opens by establishing his priestly descent and spends much of it defending his conduct in Galilee against Justus of Tiberias. Read it as a defence brief, because that is what it is.",
-      "file": "flavius-josephus/life.md"
-    },
-    {
-      "id": "antiquities-01",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 1",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "Creation to the death of Isaac. Josephus retelling Genesis for a Roman audience — and the retelling is the point: he is explaining a people to the empire that has just destroyed their temple.",
-      "file": "flavius-josephus/antiquities-book-01.md"
-    },
-    {
-      "id": "antiquities-02",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 2",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-02.md"
-    },
-    {
-      "id": "antiquities-03",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 3",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-03.md"
-    },
-    {
-      "id": "antiquities-04",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 4",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-04.md"
-    },
-    {
-      "id": "antiquities-05",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 5",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-05.md"
-    },
-    {
-      "id": "antiquities-06",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 6",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-06.md"
-    },
-    {
-      "id": "antiquities-07",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 7",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-07.md"
-    },
-    {
-      "id": "antiquities-08",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 8",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-08.md"
-    },
-    {
-      "id": "antiquities-09",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 9",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-09.md"
-    },
-    {
-      "id": "antiquities-10",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 10",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-10.md"
-    },
-    {
-      "id": "antiquities-11",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 11",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-11.md"
-    },
-    {
-      "id": "antiquities-12",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 12",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-12.md"
-    },
-    {
-      "id": "antiquities-13",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 13",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-13.md"
-    },
-    {
-      "id": "antiquities-14",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 14",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-14.md"
-    },
-    {
-      "id": "antiquities-15",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 15",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-15.md"
-    },
-    {
-      "id": "antiquities-16",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 16",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-16.md"
-    },
-    {
-      "id": "antiquities-17",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 17",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-17.md"
-    },
-    {
-      "id": "antiquities-18",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 18",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "**CONTAINS A DISPUTED PASSAGE, FLAGGED IN THE TEXT.** Book XVIII holds the *Testimonium Flavianum*, the paragraph about Jesus whose authenticity has been argued for four centuries. An editorial warning block is inserted at the point — search 'DISPUTED PASSAGE'. It is not Whiston's and not Josephus's.",
-      "file": "flavius-josephus/antiquities-book-18.md"
-    },
-    {
-      "id": "antiquities-19",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 19",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "",
-      "file": "flavius-josephus/antiquities-book-19.md"
-    },
-    {
-      "id": "antiquities-20",
-      "section": "Antiquities of the Jews — 20 books",
-      "title": "Antiquities, Book 20",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
-      "note": "**CONTAINS A DISPUTED PASSAGE, FLAGGED IN THE TEXT.** The reference to James, brother of Jesus, at XX.9.1 — less contested than the Testimonium but not uncontested. Marked the same way.",
-      "file": "flavius-josephus/antiquities-book-20.md"
-    },
-    {
-      "id": "wars-01",
-      "section": "The Wars of the Jews — 7 books",
-      "title": "The Wars of the Jews, Book 1",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
-      "note": "From the Maccabees to the death of Herod. The long run-up, written by a man explaining how it became inevitable.",
-      "file": "flavius-josephus/wars-book-01.md"
-    },
-    {
-      "id": "wars-02",
-      "section": "The Wars of the Jews — 7 books",
-      "title": "The Wars of the Jews, Book 2",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
-      "note": "",
-      "file": "flavius-josephus/wars-book-02.md"
-    },
-    {
-      "id": "wars-03",
-      "section": "The Wars of the Jews — 7 books",
-      "title": "The Wars of the Jews, Book 3",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
-      "note": "Galilee, and Jotapata — **his own surrender.** Josephus commanded here. He describes the siege, the suicide pact in the cave, the lot that left him alive, and his going over to Vespasian. He writes it in the third person.",
-      "file": "flavius-josephus/wars-book-03.md"
-    },
-    {
-      "id": "wars-04",
-      "section": "The Wars of the Jews — 7 books",
-      "title": "The Wars of the Jews, Book 4",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
-      "note": "",
-      "file": "flavius-josephus/wars-book-04.md"
-    },
-    {
-      "id": "wars-05",
-      "section": "The Wars of the Jews — 7 books",
-      "title": "The Wars of the Jews, Book 5",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
-      "note": "",
-      "file": "flavius-josephus/wars-book-05.md"
-    },
-    {
-      "id": "wars-06",
-      "section": "The Wars of the Jews — 7 books",
-      "title": "The Wars of the Jews, Book 6",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
-      "note": "The burning of the Temple, watched from the Roman side of the wall. The single most-cited passage in the corpus, and its author was standing with the army that did it.",
-      "file": "flavius-josephus/wars-book-06.md"
-    },
-    {
-      "id": "wars-07",
-      "section": "The Wars of the Jews — 7 books",
-      "title": "The Wars of the Jews, Book 7",
-      "mode": "stored",
-      "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
-      "note": "",
-      "file": "flavius-josephus/wars-book-07.md"
-    },
-    {
-      "id": "against-apion",
-      "section": "The defence",
-      "title": "Against Apion",
-      "mode": "stored",
-      "source": "Flavius Josephus, *Against Apion* · trans. William Whiston, 1736 · Project Gutenberg #2849 · public domain",
-      "note": "Two books answering Greek writers who claimed the Jews had no antiquity worth the name. The most argumentative thing he wrote and the least self-exculpating — here he is defending a people rather than himself.",
-      "file": "flavius-josephus/03-against-apion.md"
-    }
-  ]
+ "key": "flavius-josephus",
+ "name": "Flavius Josephus",
+ "note": "**THE TRAITOR WHO PRESERVED US** — the roster's own epithet, and the whole difficulty.\n\nJosephus commanded Jewish forces in Galilee, was besieged at Jotapata, survived a suicide pact in a cave by a lot he may have arranged, surrendered to Vespasian, took his patron's family name, and watched the Temple burn from the Roman side of the wall. Then he wrote the only surviving narrative account of all of it, in Rome, under Flavian protection.\n\n**He is simultaneously the indispensable source for first-century Judaea and a man with pressing reasons to shape how that period was remembered.** Both halves are true and the room does not resolve them.\n\nTHE COMPLETE SURVIVING CORPUS IS HERE — four works, about 990,000 words: the *Antiquities* in twenty books, the *Wars* in seven, *Against Apion*, and the *Life*. There is no good reason to think he published anything else.\n\n**THE TRANSLATION IS OLD AND NOT GOOD, AND IT IS HERE ANYWAY.** William Whiston's 1736 version is the only complete public-domain English Josephus, which is why every English reader has met this one. Whiston had no sound Greek text, his rendering is frequently at fault, and he cared little for style. **Treat it as a serviceable reading copy, not an authority on wording.**\n\n**TWO DISPUTED PASSAGES ARE FLAGGED INSIDE THE TEXT.** Editorial warning blocks sit at Ant. XVIII.3.3 — the *Testimonium Flavianum* — and Ant. XX.9.1. They are searchable on the string 'DISPUTED PASSAGE' and are **not part of Whiston's text.** A room that reproduced the most argued-over paragraph in ancient literature without saying so would be doing the reader a disservice.\n\nThe *Antiquities* and the *Wars* are split by book — thirty-one files rather than two — because the single files ran to 2.9 MB and 1.3 MB and would not render in a browser. Nimrod's shelf on this site borrows Ant. I.4 for the tower of Babel.",
+ "mentions": "mentions/josephus-mentions.json",
+ "works": [
+  {
+   "id": "00-life",
+   "section": "His own account",
+   "title": "The Life of Flavius Josephus",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Life of Flavius Josephus* · trans. William Whiston, 1736 · Project Gutenberg #2846 · public domain",
+   "note": "The short autobiography appended to the *Antiquities* in the manuscripts, and the fourth of the four surviving works — **it was missing from this shelf and is now here.** He opens by establishing his priestly descent and spends much of it defending his conduct in Galilee against Justus of Tiberias. Read it as a defence brief, because that is what it is.",
+   "file": "flavius-josephus/life.md"
+  },
+  {
+   "id": "antiquities-01",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 1",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "Creation to the death of Isaac. Josephus retelling Genesis for a Roman audience — and the retelling is the point: he is explaining a people to the empire that has just destroyed their temple.",
+   "file": "flavius-josephus/antiquities-book-01.md"
+  },
+  {
+   "id": "antiquities-02",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 2",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-02.md"
+  },
+  {
+   "id": "antiquities-03",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 3",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-03.md"
+  },
+  {
+   "id": "antiquities-04",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 4",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-04.md"
+  },
+  {
+   "id": "antiquities-05",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 5",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-05.md"
+  },
+  {
+   "id": "antiquities-06",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 6",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-06.md"
+  },
+  {
+   "id": "antiquities-07",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 7",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-07.md"
+  },
+  {
+   "id": "antiquities-08",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 8",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-08.md"
+  },
+  {
+   "id": "antiquities-09",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 9",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-09.md"
+  },
+  {
+   "id": "antiquities-10",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 10",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-10.md"
+  },
+  {
+   "id": "antiquities-11",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 11",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-11.md"
+  },
+  {
+   "id": "antiquities-12",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 12",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-12.md"
+  },
+  {
+   "id": "antiquities-13",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 13",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-13.md"
+  },
+  {
+   "id": "antiquities-14",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 14",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-14.md"
+  },
+  {
+   "id": "antiquities-15",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 15",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-15.md"
+  },
+  {
+   "id": "antiquities-16",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 16",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-16.md"
+  },
+  {
+   "id": "antiquities-17",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 17",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-17.md"
+  },
+  {
+   "id": "antiquities-18",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 18",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "**CONTAINS A DISPUTED PASSAGE, FLAGGED IN THE TEXT.** Book XVIII holds the *Testimonium Flavianum*, the paragraph about Jesus whose authenticity has been argued for four centuries. An editorial warning block is inserted at the point — search 'DISPUTED PASSAGE'. It is not Whiston's and not Josephus's.",
+   "file": "flavius-josephus/antiquities-book-18.md"
+  },
+  {
+   "id": "antiquities-19",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 19",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "",
+   "file": "flavius-josephus/antiquities-book-19.md"
+  },
+  {
+   "id": "antiquities-20",
+   "section": "Antiquities of the Jews — 20 books",
+   "title": "Antiquities, Book 20",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Antiquities of the Jews* (c. 93 CE) · trans. William Whiston, 1736 · Project Gutenberg #2848 · public domain",
+   "note": "**CONTAINS A DISPUTED PASSAGE, FLAGGED IN THE TEXT.** The reference to James, brother of Jesus, at XX.9.1 — less contested than the Testimonium but not uncontested. Marked the same way.",
+   "file": "flavius-josephus/antiquities-book-20.md"
+  },
+  {
+   "id": "wars-01",
+   "section": "The Wars of the Jews — 7 books",
+   "title": "The Wars of the Jews, Book 1",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
+   "note": "From the Maccabees to the death of Herod. The long run-up, written by a man explaining how it became inevitable.",
+   "file": "flavius-josephus/wars-book-01.md"
+  },
+  {
+   "id": "wars-02",
+   "section": "The Wars of the Jews — 7 books",
+   "title": "The Wars of the Jews, Book 2",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
+   "note": "",
+   "file": "flavius-josephus/wars-book-02.md"
+  },
+  {
+   "id": "wars-03",
+   "section": "The Wars of the Jews — 7 books",
+   "title": "The Wars of the Jews, Book 3",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
+   "note": "Galilee, and Jotapata — **his own surrender.** Josephus commanded here. He describes the siege, the suicide pact in the cave, the lot that left him alive, and his going over to Vespasian. He writes it in the third person.",
+   "file": "flavius-josephus/wars-book-03.md"
+  },
+  {
+   "id": "wars-04",
+   "section": "The Wars of the Jews — 7 books",
+   "title": "The Wars of the Jews, Book 4",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
+   "note": "",
+   "file": "flavius-josephus/wars-book-04.md"
+  },
+  {
+   "id": "wars-05",
+   "section": "The Wars of the Jews — 7 books",
+   "title": "The Wars of the Jews, Book 5",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
+   "note": "",
+   "file": "flavius-josephus/wars-book-05.md"
+  },
+  {
+   "id": "wars-06",
+   "section": "The Wars of the Jews — 7 books",
+   "title": "The Wars of the Jews, Book 6",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
+   "note": "The burning of the Temple, watched from the Roman side of the wall. The single most-cited passage in the corpus, and its author was standing with the army that did it.",
+   "file": "flavius-josephus/wars-book-06.md"
+  },
+  {
+   "id": "wars-07",
+   "section": "The Wars of the Jews — 7 books",
+   "title": "The Wars of the Jews, Book 7",
+   "mode": "stored",
+   "source": "Flavius Josephus, *The Wars of the Jews* (c. 75–79 CE) · trans. William Whiston, 1736 · Project Gutenberg #2850 · public domain",
+   "note": "",
+   "file": "flavius-josephus/wars-book-07.md"
+  },
+  {
+   "id": "against-apion",
+   "section": "The defence",
+   "title": "Against Apion",
+   "mode": "stored",
+   "source": "Flavius Josephus, *Against Apion* · trans. William Whiston, 1736 · Project Gutenberg #2849 · public domain",
+   "note": "Two books answering Greek writers who claimed the Jews had no antiquity worth the name. The most argumentative thing he wrote and the least self-exculpating — here he is defending a people rather than himself.",
+   "file": "flavius-josephus/03-against-apion.md"
+  }
+ ]
 }
