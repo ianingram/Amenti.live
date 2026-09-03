@@ -198,7 +198,7 @@
       var c = line.split(',');
       var y = parseFloat(c[0]);
       if (isNaN(y)) return;
-      out.push({ y: y, body: (c[1] || '').trim(), kind: (c[2] || '').trim(), desc: (c[3] || '').trim() });
+      out.push({ y: y, body: (c[1] || '').trim(), kind: (c[2] || '').trim(), desc: (c[3] || '').trim(), description: (c[3]||'').trim() });
     });
     return out;
   }
@@ -778,6 +778,17 @@
            beat of the top line and the solo Jupiter rising is dropped entirely.
            A conjunction is two planets meeting, not one crossing a line, so it
            gets its own mark: a small ring where Jupiter and Saturn touch. */
+        if (sk.kind === 'gathering') {
+          /* THE RAREST MARK ON THE SHIP \u2014 14 in 5,000 years, all four outer
+             planets crowded into one arc of sky. Always drawn, never thinned; a
+             filled diamond above the conjunction row so it reads as the landmark
+             it is. */
+          var gx = X(sk.y);
+          a.push('<path d="M' + gx + ' ' + (SKY_Y + 2) + 'l6 7l-6 7l-6 -7z" fill="#f0d060" ' +
+                 'stroke="#fff3c0" stroke-width="0.5"><title>' + esc(sk.description || 'Outer planets gather') +
+                 ', ' + yearLabel(sk.y) + '</title></path>');
+          return;
+        }
         if (sk.kind === 'conjunction') {
           /* At the widest zoom even a 20-year rhythm becomes a fence (151 in a
              3,000-year window). Thin to every other ring past 1,000 years, so
