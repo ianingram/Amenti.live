@@ -259,6 +259,7 @@
       /* the event hit-targets need clicks even though the axis is otherwise
          click-through, so they re-enable pointer events on themselves. */
       '#amenti-timeline .evhit{pointer-events:auto}',
+      '#amenti-timeline .tl-axis-svg circle{pointer-events:auto;cursor:pointer}',
       /* The sky row is the only part of the axis that takes a pointer: drag it
          and time moves. The rest stays transparent to clicks so a click on the
          scene still brings the hall back. */
@@ -525,14 +526,34 @@
        Delegated on the axis so it survives every redraw. */
     var axisEl = root.querySelector('.tl-axis');
     var evread = root.querySelector('.tl-evread');
-    if (axisEl && evread) axisEl.addEventListener('click', function (e) {
+    if (axisEl) axisEl.addEventListener('click', function (e) {
+      /* One axis handler. A tick or a ring: name it in the readout AND light the
+         connection. Always stop propagation so the click never falls through to
+         the scene and dismisses the timeline \u2014 which was the bug: a click a
+         pixel off the hairline reached the bare-scene handler and brought the
+         hall back. */
       var hit = e.target.closest && e.target.closest('.evhit');
-      if (!hit) return;
+      var ring = e.target.closest && e.target.closest('circle');
+      if (!hit && !ring) return;
       e.stopPropagation();
-      evread.textContent = hit.getAttribute('data-label');
-      evread.classList.add('show');
-      clearTimeout(evread._t);
-      evread._t = setTimeout(function () { evread.classList.remove('show'); }, 4000);
+      if (hit) {
+        if (evread) {
+          evread.textContent = hit.getAttribute('data-label');
+          evread.classList.add('show');
+          clearTimeout(evread._t);
+          evread._t = setTimeout(function () { evread.classList.remove('show'); }, 4000);
+        }
+        var f = hit.getAttribute('data-from'), t = hit.getAttribute('data-to');
+        if (f !== null && t !== null) highlight(+f, +t, null);
+        return;
+      }
+      /* a ring: a conjunction or gathering, an instant \u2014 broadcast a window */
+      var ttl = ring.querySelector('title');
+      var mt = ttl && ttl.textContent.match(/,\s*([\d]+)\s*(bc|ad)?\s*$/i);
+      if (mt) {
+        var yr = parseInt(mt[1],10) * (/bc/i.test(mt[2]||'')?-1:1);
+        highlight(yr-15, yr+15, null);
+      }
     });
 
     /* ── THE CONNECTION GESTURE · 2 Sep ───────────────────────────────────
@@ -553,21 +574,6 @@
       var from = +liEl.getAttribute('data-from'), to = +liEl.getAttribute('data-to');
       var key = liEl.getAttribute('data-k') || null;
       highlight(from, to, key);
-    });
-
-    /* Click a great-conjunction ring on the axis and light the generation that
-       lived under it \u2014 the ring is an instant, so it broadcasts a WINDOW, not
-       a year, or it would light nothing. */
-    var axisEl2 = root.querySelector('.tl-axis');
-    if (axisEl2) axisEl2.addEventListener('click', function (e) {
-      var ring = e.target.closest && e.target.closest('circle');
-      if (!ring) return;
-      var t = ring.querySelector('title'); if (!t) return;
-      var mt = t.textContent.match(/,\s*([\d]+)\s*(bc|ad)?\s*$/i);
-      if (!mt) return;
-      var yr = parseInt(mt[1],10) * (/bc/i.test(mt[2]||'')?-1:1);
-      e.stopPropagation();
-      highlight(yr-15, yr+15, null);   /* the generation on either side */
     });
 
     /* A click on the bare scene (image) clears any selection along with
@@ -897,7 +903,8 @@
       a.push('<circle class="comet-glint' + spk + '" cx="' + (hx + 2) + '" cy="' + (SKY_Y + 37) +
              '" r="0.9" fill="#eaf6ff"/>');
       a.push('<rect class="evhit" data-label="Halley\u2019s Comet returns  (' + yearLabel(e.y) +
-             ')" x="' + (hx - 6) + '" y="' + (SKY_Y + 32) + '" width="12" height="16" fill="transparent" style="cursor:pointer"/>');
+             ')" data-from="' + (e.y-15) + '" data-to="' + (e.y+15) + '"' +
+             ' x="' + (hx - 7) + '" y="' + (SKY_Y + 30) + '" width="14" height="20" fill="transparent" style="cursor:pointer"/>');
     });
 
     /* ── ROWS 1–2 · THE EVENTS, STAGGERED ──────────────────────────────
@@ -920,8 +927,9 @@
         a.push('<line x1="' + x + '" y1="' + (EV_Y[1] + 6) + '" x2="' + x + '" y2="' +
                (EV_Y[1] + 14) + '" stroke="#c9a227" stroke-width="0.75" opacity=".7"/>');
         a.push('<rect class="evhit" data-label="' + evTip.replace(/"/g, '&quot;') +
-               '" x="' + (x - 6) + '" y="' + EV_Y[0] + '" width="12" height="' +
-               (EV_Y[1] + 14 - EV_Y[0]) + '" fill="transparent" style="cursor:pointer">' +
+               '" data-from="' + ev.y + '" data-to="' + ev.y + '"' +
+               ' x="' + (x - 7) + '" y="' + EV_Y[0] + '" width="14" height="' +
+               (EV_Y[1] + 16 - EV_Y[0]) + '" fill="transparent" style="cursor:pointer">' +
                '<title>' + evTip + '</title></rect>');
         var row = reach[0] <= x ? 0 : (reach[1] <= x ? 1 : -1);
         if (row === -1) return;
