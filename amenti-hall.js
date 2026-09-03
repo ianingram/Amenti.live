@@ -23,7 +23,7 @@
                                 catalogue goes in, so there is no retrieval
                                 pass to tune and none to fail quietly.
      DEPTH     up to 2 briefs   fetched live, only when the question needs one.
-     SOULS     ROSTER-INDEX.json  1,989 names. SEARCH ONLY — it is never
+     SOULS     ROSTER-INDEX.json  2,043 names. SEARCH ONLY — it is never
                                   sent to the model. Read 24 Aug: searching the
                                   document catalogue alone, find('caesar')
                                   returned ZERO. A search over the documents is
@@ -104,7 +104,7 @@
      prompt reached 24,138 against the proxy's SYSTEM_CHARS of 20,000, which the
      Worker refuses with system_too_long — a 413, not a shorter answer. THE HALL
      WAS SILENT ON EVERY QUESTION. And trimming does not reach it: the box must
-     also carry 550 works and 1,989 souls, and the full entry list overruns the wall
+     also carry 550 works and 2,043 souls, and the full entry list overruns the wall
      THREE TIMES OVER with every description deleted.
 
      So the hall now declares DOORS, not leaves. Eight sections and fifty-two
