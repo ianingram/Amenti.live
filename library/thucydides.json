@@ -1,61 +1,62 @@
 {
-  "key": "thucydides",
-  "name": "Thucydides",
-  "note": "HE IS THE ANSWER TO HERODOTUS, AND HE SAYS SO ON THE FIRST PAGE. Herodotus, on the neighbouring shelf, reports what he is told and attaches his doubts. Thucydides refuses the whole method: \"I did not even trust my own impressions, but it rests partly on what I saw myself, partly on what others saw for me, the accuracy of the report being always tried by the most severe and detailed tests possible.\"\n\nAnd then the sentence that is a knife aimed at the shelf next door: \"The absence of romance in my history will, I fear, detract somewhat from its interest.\" No gold-digging ants, no oracles, no gods intervening. **He is telling you his book will be less enjoyable and asking you to prefer it anyway.**\n\nWHAT HE CLAIMS INSTEAD: \"I have written my work, not as an essay which is to win the applause of the moment, but as a possession for all time.\" It is the most arrogant sentence in ancient historiography and it has so far been correct for two thousand four hundred years.\n\nHE WAS ALSO A LOSER OF THE WAR HE DESCRIBES. An Athenian general, exiled in 424 BC after failing to save Amphipolis, who spent twenty years watching his own city destroy itself and wrote it down. **The book breaks off mid-sentence in Book VIII.** He did not finish it, and nobody knows why.\n\nTHE SHELF IS SIX WORKS. The method, the two set-pieces from Book II that are read as a pair — Pericles praising Athens and then the plague dismantling it — the Melian Dialogue, and the two books of the Sicilian expedition entire, which is the fullest account of a catastrophe anyone wrote in antiquity.\n\nON THE SPEECHES, HONESTLY. Thucydides admits he could not recall exact words and wrote what the occasion demanded while keeping as close as possible to the general sense. **The Funeral Oration and the Melian Dialogue are therefore his compositions, not transcripts** — which is either the great weakness of the history or its great achievement, and the argument is not settled.",
-  "works": [
-    {
-      "id": "01-the-method",
-      "section": "The claim",
-      "title": "Book I — The Method, and a possession for all time",
-      "mode": "stored",
-      "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
-      "note": "The opening of the history and the statement of method: eyewitnesses cross-examined, his own impressions distrusted, no romance, and the claim that the work is written for all time rather than for applause. He also explains why he thinks this war is the greatest — and the reasoning is comparative and material, not heroic.",
-      "file": "thucydides/01-the-method.md"
-    },
-    {
-      "id": "02-the-funeral-oration",
-      "section": "Athens at its height, and then not",
-      "title": "Book II — Pericles' Funeral Oration",
-      "mode": "stored",
-      "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
-      "note": "The most famous defence of democracy ever written, delivered over the first year's dead. 'Our constitution does not copy the laws of neighbouring states; we are rather a pattern to others than imitators ourselves.' Written by a man who watched that constitution vote to destroy Melos and then destroy itself in Sicily — and who placed the plague immediately after it.",
-      "file": "thucydides/02-the-funeral-oration.md"
-    },
-    {
-      "id": "03-the-plague",
-      "section": "Athens at its height, and then not",
-      "title": "Book II — The Plague of Athens",
-      "mode": "stored",
-      "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
-      "note": "THE PLACEMENT IS THE ARGUMENT. Pericles finishes praising Athenian virtue and the next chapter is the plague: physicians dying first because they visited most, supplications and divinations abandoned as useless, the dying lying in the temples, all law and custom collapsing. Thucydides caught it himself and recovered, which is why the clinical detail is exact. He offers no divine cause, and that refusal is the point.",
-      "file": "thucydides/03-the-plague.md"
-    },
-    {
-      "id": "04-the-melian-dialogue",
-      "section": "The argument",
-      "title": "Book V — The Melian Dialogue",
-      "mode": "stored",
-      "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
-      "note": "The shortest work here and the one everything else is measured against. Athens demands Melos submit; Melos argues justice; Athens answers that justice is only a question between equals in power, and that **the strong do what they can and the weak suffer what they must**. The Melians refuse, the city is taken, the men are killed and the women and children sold. Thucydides reports it in two sentences and does not comment.",
-      "file": "thucydides/04-the-melian-dialogue.md"
-    },
-    {
-      "id": "05-the-sicilian-expedition",
-      "section": "The catastrophe",
-      "title": "Book VI — The Sicilian Expedition",
-      "mode": "stored",
-      "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
-      "note": "Immediately after Melos, Athens votes to invade Sicily — a place most of the assembly could not describe. Alcibiades argues for it, Nicias against and is given command anyway, and Alcibiades is recalled to face a charge of sacrilege and defects to Sparta. Read straight on from the Melian Dialogue; Thucydides put them in that order.",
-      "file": "thucydides/05-the-sicilian-expedition.md"
-    },
-    {
-      "id": "06-the-defeat",
-      "section": "The catastrophe",
-      "title": "Book VII — The Defeat",
-      "mode": "stored",
-      "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
-      "note": "The harbour battle, the retreat, and the end of the army at the river Assinarus. Nicias, who never wanted to go, is executed. Thucydides calls it the greatest Hellenic achievement of the war and the most calamitous defeat — the fleet destroyed, the army destroyed, and few out of many returning home. It is the closest he comes to writing tragedy, and he does it without a single adjective of grief.",
-      "file": "thucydides/06-the-defeat.md"
-    }
-  ]
+ "key": "thucydides",
+ "name": "Thucydides",
+ "note": "HE IS THE ANSWER TO HERODOTUS, AND HE SAYS SO ON THE FIRST PAGE. Herodotus, on the neighbouring shelf, reports what he is told and attaches his doubts. Thucydides refuses the whole method: \"I did not even trust my own impressions, but it rests partly on what I saw myself, partly on what others saw for me, the accuracy of the report being always tried by the most severe and detailed tests possible.\"\n\nAnd then the sentence that is a knife aimed at the shelf next door: \"The absence of romance in my history will, I fear, detract somewhat from its interest.\" No gold-digging ants, no oracles, no gods intervening. **He is telling you his book will be less enjoyable and asking you to prefer it anyway.**\n\nWHAT HE CLAIMS INSTEAD: \"I have written my work, not as an essay which is to win the applause of the moment, but as a possession for all time.\" It is the most arrogant sentence in ancient historiography and it has so far been correct for two thousand four hundred years.\n\nHE WAS ALSO A LOSER OF THE WAR HE DESCRIBES. An Athenian general, exiled in 424 BC after failing to save Amphipolis, who spent twenty years watching his own city destroy itself and wrote it down. **The book breaks off mid-sentence in Book VIII.** He did not finish it, and nobody knows why.\n\nTHE SHELF IS SIX WORKS. The method, the two set-pieces from Book II that are read as a pair — Pericles praising Athens and then the plague dismantling it — the Melian Dialogue, and the two books of the Sicilian expedition entire, which is the fullest account of a catastrophe anyone wrote in antiquity.\n\nON THE SPEECHES, HONESTLY. Thucydides admits he could not recall exact words and wrote what the occasion demanded while keeping as close as possible to the general sense. **The Funeral Oration and the Melian Dialogue are therefore his compositions, not transcripts** — which is either the great weakness of the history or its great achievement, and the argument is not settled.",
+ "mentions": "mentions/thucydides-mentions.json",
+ "works": [
+  {
+   "id": "01-the-method",
+   "section": "The claim",
+   "title": "Book I — The Method, and a possession for all time",
+   "mode": "stored",
+   "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
+   "note": "The opening of the history and the statement of method: eyewitnesses cross-examined, his own impressions distrusted, no romance, and the claim that the work is written for all time rather than for applause. He also explains why he thinks this war is the greatest — and the reasoning is comparative and material, not heroic.",
+   "file": "thucydides/01-the-method.md"
+  },
+  {
+   "id": "02-the-funeral-oration",
+   "section": "Athens at its height, and then not",
+   "title": "Book II — Pericles' Funeral Oration",
+   "mode": "stored",
+   "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
+   "note": "The most famous defence of democracy ever written, delivered over the first year's dead. 'Our constitution does not copy the laws of neighbouring states; we are rather a pattern to others than imitators ourselves.' Written by a man who watched that constitution vote to destroy Melos and then destroy itself in Sicily — and who placed the plague immediately after it.",
+   "file": "thucydides/02-the-funeral-oration.md"
+  },
+  {
+   "id": "03-the-plague",
+   "section": "Athens at its height, and then not",
+   "title": "Book II — The Plague of Athens",
+   "mode": "stored",
+   "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
+   "note": "THE PLACEMENT IS THE ARGUMENT. Pericles finishes praising Athenian virtue and the next chapter is the plague: physicians dying first because they visited most, supplications and divinations abandoned as useless, the dying lying in the temples, all law and custom collapsing. Thucydides caught it himself and recovered, which is why the clinical detail is exact. He offers no divine cause, and that refusal is the point.",
+   "file": "thucydides/03-the-plague.md"
+  },
+  {
+   "id": "04-the-melian-dialogue",
+   "section": "The argument",
+   "title": "Book V — The Melian Dialogue",
+   "mode": "stored",
+   "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
+   "note": "The shortest work here and the one everything else is measured against. Athens demands Melos submit; Melos argues justice; Athens answers that justice is only a question between equals in power, and that **the strong do what they can and the weak suffer what they must**. The Melians refuse, the city is taken, the men are killed and the women and children sold. Thucydides reports it in two sentences and does not comment.",
+   "file": "thucydides/04-the-melian-dialogue.md"
+  },
+  {
+   "id": "05-the-sicilian-expedition",
+   "section": "The catastrophe",
+   "title": "Book VI — The Sicilian Expedition",
+   "mode": "stored",
+   "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
+   "note": "Immediately after Melos, Athens votes to invade Sicily — a place most of the assembly could not describe. Alcibiades argues for it, Nicias against and is given command anyway, and Alcibiades is recalled to face a charge of sacrilege and defects to Sparta. Read straight on from the Melian Dialogue; Thucydides put them in that order.",
+   "file": "thucydides/05-the-sicilian-expedition.md"
+  },
+  {
+   "id": "06-the-defeat",
+   "section": "The catastrophe",
+   "title": "Book VII — The Defeat",
+   "mode": "stored",
+   "source": "Thucydides, *The History of the Peloponnesian War* · trans. Richard Crawley · Project Gutenberg #7142 · public domain",
+   "note": "The harbour battle, the retreat, and the end of the army at the river Assinarus. Nicias, who never wanted to go, is executed. Thucydides calls it the greatest Hellenic achievement of the war and the most calamitous defeat — the fleet destroyed, the army destroyed, and few out of many returning home. It is the closest he comes to writing tragedy, and he does it without a single adjective of grief.",
+   "file": "thucydides/06-the-defeat.md"
+  }
+ ]
 }

@@ -1,43 +1,44 @@
 {
-  "key": "herodotus",
-  "name": "Herodotus",
-  "note": "Cicero called him the father of history. Plutarch wrote an essay called *On the Malice of Herodotus* accusing him of bias, invention and slander. Both were reacting to the same thing: he invented the practice of ASKING, and then wrote down what he was told without always believing it.\n\nHIS METHOD IS THE ARGUMENT. He states the rule himself, in Book VII, and extends it to everything he has written: \"I however am bound to report that which is reported, though I am not bound altogether to believe it; and let this saying be considered to hold good as regards every narrative in the history.\" So the History contains the story of the gold-digging ants, the Phoenicians who sailed round Africa and reported the sun on their right hand — which he says he does not credit and which is precisely the detail proving they did it — and the Egyptian priests' chronology, all recorded with the source named and the doubt attached. That is not credulity. It is the first working distinction between EVIDENCE and TESTIMONY.\n\nAND HE IS FAIR TO THE ENEMY. The Persians in this book have motives, courage and grievances; Xerxes weeps at the transience of his own army. A Greek writing a generation after the invasion had every reason to write propaganda and did not.\n\nREAD HIM AGAINST LIVY, on the neighbouring shelf. Livy sets conduct on a monument to be judged and tells you what to imitate. Herodotus collects what people said and leaves the judging to you. Two founding historians, two incompatible ideas of what history is for.\n\nON THE TRANSLATION. Macaulay's 1890 version is close to the Greek word order and reads stiffly for it — spellings are transliterated rather than Latinised, so it is Thermopylai, Epialtes and Plataia. It is out of copyright and exact; Rawlinson and de Sélincourt read more easily and are not.",
-  "works": [
-    {
-      "id": "01-the-proem",
-      "section": "The method",
-      "title": "The Proem — Book I",
-      "mode": "stored",
-      "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
-      "note": "The opening of history, in one sentence: the inquiry is published \"to the end that neither the deeds of men may be forgotten by lapse of time, nor the works great and marvellous... may lose their renown; and especially that the causes may be remembered for which these waged war with one another.\" Then, immediately, he starts reporting what the Persians say and the Phoenicians say, and refuses to adjudicate between them.",
-      "file": "herodotus/01-the-proem.md"
-    },
-    {
-      "id": "02-solon-and-croesus",
-      "section": "The method",
-      "title": "Solon and Croesus — Book I §28–33",
-      "mode": "stored",
-      "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
-      "note": "The most famous conversation in Greek history, and it cannot have happened — Croesus took the throne about thirty years too late. Herodotus does not care, because it is an argument rather than a report. Shown the treasuries of the richest man alive and asked who is happiest, Solon names an obscure Athenian who died well, then two brothers who died in their sleep. Solon's own shelf holds this passage too.",
-      "file": "herodotus/02-solon-and-croesus.md"
-    },
-    {
-      "id": "03-thermopylai",
-      "section": "The war",
-      "title": "Thermopylai — Book VII §201–233",
-      "mode": "stored",
-      "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
-      "note": "The whole battle: the armies in position, the four days Xerxes waited expecting them to run, the Spartan combing his hair, Epialtes selling the mountain path, and the last stand over the body of Leonidas. It ends with the inscriptions, which Herodotus quotes because he went and read them — \"Stranger, report this word, we pray, to the Spartans, that lying here in this spot we remain, faithfully keeping their laws.\"",
-      "file": "herodotus/03-thermopylai.md"
-    },
-    {
-      "id": "04-salamis",
-      "section": "The war",
-      "title": "Salamis — Book VIII",
-      "mode": "stored",
-      "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
-      "note": "The battle that decided the war, and the least heroic narrative on this shelf: the Greek commanders spend most of it arguing about whether to withdraw, and Themistocles, seeing his argument about to be defeated, 'secretly went forth from the assembly' and sent his children's tutor Sikinnos to tell the Persians the Greeks were about to scatter — making retreat impossible. Herodotus reports the deception in detail, admiringly, and does not pretend it was anything else. Artemisia of Halicarnassos, the only woman commanding a ship, gets the best advice in the book and is ignored.",
-      "file": "herodotus/04-salamis.md"
-    }
-  ]
+ "key": "herodotus",
+ "name": "Herodotus",
+ "note": "Cicero called him the father of history. Plutarch wrote an essay called *On the Malice of Herodotus* accusing him of bias, invention and slander. Both were reacting to the same thing: he invented the practice of ASKING, and then wrote down what he was told without always believing it.\n\nHIS METHOD IS THE ARGUMENT. He states the rule himself, in Book VII, and extends it to everything he has written: \"I however am bound to report that which is reported, though I am not bound altogether to believe it; and let this saying be considered to hold good as regards every narrative in the history.\" So the History contains the story of the gold-digging ants, the Phoenicians who sailed round Africa and reported the sun on their right hand — which he says he does not credit and which is precisely the detail proving they did it — and the Egyptian priests' chronology, all recorded with the source named and the doubt attached. That is not credulity. It is the first working distinction between EVIDENCE and TESTIMONY.\n\nAND HE IS FAIR TO THE ENEMY. The Persians in this book have motives, courage and grievances; Xerxes weeps at the transience of his own army. A Greek writing a generation after the invasion had every reason to write propaganda and did not.\n\nREAD HIM AGAINST LIVY, on the neighbouring shelf. Livy sets conduct on a monument to be judged and tells you what to imitate. Herodotus collects what people said and leaves the judging to you. Two founding historians, two incompatible ideas of what history is for.\n\nON THE TRANSLATION. Macaulay's 1890 version is close to the Greek word order and reads stiffly for it — spellings are transliterated rather than Latinised, so it is Thermopylai, Epialtes and Plataia. It is out of copyright and exact; Rawlinson and de Sélincourt read more easily and are not.",
+ "mentions": "mentions/herodotus-mentions.json",
+ "works": [
+  {
+   "id": "01-the-proem",
+   "section": "The method",
+   "title": "The Proem — Book I",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "note": "The opening of history, in one sentence: the inquiry is published \"to the end that neither the deeds of men may be forgotten by lapse of time, nor the works great and marvellous... may lose their renown; and especially that the causes may be remembered for which these waged war with one another.\" Then, immediately, he starts reporting what the Persians say and the Phoenicians say, and refuses to adjudicate between them.",
+   "file": "herodotus/01-the-proem.md"
+  },
+  {
+   "id": "02-solon-and-croesus",
+   "section": "The method",
+   "title": "Solon and Croesus — Book I §28–33",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "note": "The most famous conversation in Greek history, and it cannot have happened — Croesus took the throne about thirty years too late. Herodotus does not care, because it is an argument rather than a report. Shown the treasuries of the richest man alive and asked who is happiest, Solon names an obscure Athenian who died well, then two brothers who died in their sleep. Solon's own shelf holds this passage too.",
+   "file": "herodotus/02-solon-and-croesus.md"
+  },
+  {
+   "id": "03-thermopylai",
+   "section": "The war",
+   "title": "Thermopylai — Book VII §201–233",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "The whole battle: the armies in position, the four days Xerxes waited expecting them to run, the Spartan combing his hair, Epialtes selling the mountain path, and the last stand over the body of Leonidas. It ends with the inscriptions, which Herodotus quotes because he went and read them — \"Stranger, report this word, we pray, to the Spartans, that lying here in this spot we remain, faithfully keeping their laws.\"",
+   "file": "herodotus/03-thermopylai.md"
+  },
+  {
+   "id": "04-salamis",
+   "section": "The war",
+   "title": "Salamis — Book VIII",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "The battle that decided the war, and the least heroic narrative on this shelf: the Greek commanders spend most of it arguing about whether to withdraw, and Themistocles, seeing his argument about to be defeated, 'secretly went forth from the assembly' and sent his children's tutor Sikinnos to tell the Persians the Greeks were about to scatter — making retreat impossible. Herodotus reports the deception in detail, admiringly, and does not pretend it was anything else. Artemisia of Halicarnassos, the only woman commanding a ship, gets the best advice in the book and is ignored.",
+   "file": "herodotus/04-salamis.md"
+  }
+ ]
 }

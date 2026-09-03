@@ -1,64 +1,64 @@
 {
-  "key": "tacitus",
-  "name": "Tacitus",
-  "works": [
-    {
-      "id": "01-agricola",
-      "section": "Agricola & Germania",
-      "title": "The Agricola",
-      "mode": "stored",
-      "source": "Tacitus, Agricola & Germania (Oxford translation, 1877) · Project Gutenberg #7524 · public domain",
-      "note": "His life of his father-in-law, the governor of Britain — and the source of the chieftain Calgacus's verdict on Rome: “they make a desert and call it peace.”",
-      "file": "tacitus/01-agricola.md"
-    },
-    {
-      "id": "02-germania",
-      "section": "Agricola & Germania",
-      "title": "The Germania",
-      "mode": "stored",
-      "source": "Tacitus, Agricola & Germania (Oxford translation, 1877) · Project Gutenberg #7524 · public domain",
-      "note": "His ethnography of the tribes beyond the Rhine — Rome's mirror held up to the people it called barbarian.",
-      "file": "tacitus/02-germania.md"
-    },
-    {
-      "id": "03-histories-the-opening",
-      "section": "From the Histories",
-      "title": "The Histories — The Opening",
-      "mode": "stored",
-      "source": "Tacitus, The Histories (trans. W. Hamilton Fyfe, 1912) · Project Gutenberg #16927 · public domain",
-      "note": "His statement of method — to write “without partiality and without hatred” — and the grim catalogue of the age he set out to record.",
-      "file": "tacitus/03-histories-the-opening.md"
-    },
-    {
-      "id": "04-histories-the-verdict-on-galba",
-      "section": "From the Histories",
-      "title": "The Histories — The Verdict on Galba",
-      "mode": "stored",
-      "source": "Tacitus, The Histories (trans. W. Hamilton Fyfe, 1912) · Project Gutenberg #16927 · public domain",
-      "note": "The squalid end of the emperor Galba and Tacitus's famous epitaph: all would have judged him fit to rule, had he never ruled.",
-      "file": "tacitus/04-histories-the-verdict-on-galba.md"
-    },
-    {
-      "id": "full-ag",
-      "section": "The Complete Record",
-      "title": "Agricola & Germania — complete",
-      "mode": "link",
-      "url": "https://www.gutenberg.org/ebooks/7524"
-    },
-    {
-      "id": "full-hist",
-      "section": "The Complete Record",
-      "title": "The Histories — complete (Fyfe)",
-      "mode": "link",
-      "url": "https://www.gutenberg.org/ebooks/16927"
-    },
-    {
-      "id": "annals",
-      "section": "The Complete Record",
-      "title": "The Annals, Books I–VI (the reign of Tiberius)",
-      "mode": "link",
-      "note": "The surviving early Annals, in an older translation.",
-      "url": "https://www.gutenberg.org/ebooks/7959"
-    }
-  ]
+ "key": "tacitus",
+ "name": "Tacitus",
+ "works": [
+  {
+   "id": "01-agricola",
+   "section": "Agricola & Germania",
+   "title": "The Agricola",
+   "mode": "stored",
+   "source": "Tacitus, Agricola & Germania (Oxford translation, 1877) · Project Gutenberg #7524 · public domain",
+   "note": "His life of his father-in-law, the governor of Britain — and the source of the chieftain Calgacus's verdict on Rome: “they make a desert and call it peace.”",
+   "file": "tacitus/01-agricola.md"
+  },
+  {
+   "id": "02-germania",
+   "section": "Agricola & Germania",
+   "title": "The Germania",
+   "mode": "stored",
+   "source": "Tacitus, Agricola & Germania (Oxford translation, 1877) · Project Gutenberg #7524 · public domain",
+   "note": "His ethnography of the tribes beyond the Rhine — Rome's mirror held up to the people it called barbarian.",
+   "file": "tacitus/02-germania.md"
+  },
+  {
+   "id": "03-histories-the-opening",
+   "section": "From the Histories",
+   "title": "The Histories — The Opening",
+   "mode": "stored",
+   "source": "Tacitus, The Histories (trans. W. Hamilton Fyfe, 1912) · Project Gutenberg #16927 · public domain",
+   "note": "His statement of method — to write “without partiality and without hatred” — and the grim catalogue of the age he set out to record.",
+   "file": "tacitus/03-histories-the-opening.md"
+  },
+  {
+   "id": "04-histories-the-verdict-on-galba",
+   "section": "From the Histories",
+   "title": "The Histories — The Verdict on Galba",
+   "mode": "stored",
+   "source": "Tacitus, The Histories (trans. W. Hamilton Fyfe, 1912) · Project Gutenberg #16927 · public domain",
+   "note": "The squalid end of the emperor Galba and Tacitus's famous epitaph: all would have judged him fit to rule, had he never ruled.",
+   "file": "tacitus/04-histories-the-verdict-on-galba.md"
+  },
+  {
+   "id": "full-ag",
+   "section": "The Complete Record",
+   "title": "Agricola & Germania — complete",
+   "mode": "link",
+   "url": "https://www.gutenberg.org/ebooks/7524"
+  },
+  {
+   "id": "full-hist",
+   "section": "The Complete Record",
+   "title": "The Histories — complete (Fyfe)",
+   "mode": "link",
+   "url": "https://www.gutenberg.org/ebooks/16927"
+  },
+  {
+   "id": "annals",
+   "section": "The Complete Record",
+   "title": "The Annals, Books I–VI (the reign of Tiberius)",
+   "mode": "link",
+   "note": "The surviving early Annals, in an older translation.",
+   "url": "https://www.gutenberg.org/ebooks/7959"
+  }
+ ]
 }
