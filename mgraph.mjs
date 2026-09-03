@@ -34,6 +34,23 @@ const EDITOR = /\(return\)|Dr\.\s|Hudson|Reland|Spanheim|Whiston|as we shall lea
 const COMMON = new Set(['John','Marcus','Joseph','Cornelius','James','Simon','Judas','Mary','Philip','Antonius','Julius','Titus','Mark','Paul','Peter']);
 
 const [authorName, aB, aD, ...files] = process.argv.slice(2);
+const AB2=Number(aB), AD2=Number(aD);
+/* base name -> all roster souls sharing it, so a bare "Xerxes" in the text can
+   be resolved to the ONE Xerxes the author's dates overlap. */
+const byBase = {};
+for (const s2 of roster){
+  const bn = s2.n.replace(/\s+(I{1,3}|IV|V|VI{0,3}|IX|X{1,3}|the\s+\w+)$/,'').trim();
+  if (bn!==s2.n && bn.length>=4){ (byBase[bn]=byBase[bn]||[]).push(s2); }
+}
+/* the winner for a base name = the candidate whose lifespan/reign best overlaps
+   the author's active years; ties and no-overlap -> null (leave for review). */
+function resolveBase(bn){
+  const cands=(byBase[bn]||[]).filter(c=>c.b!=null);
+  if(!cands.length) return null;
+  const scored=cands.map(c=>({c, ov: Math.min(AD2,c.d??c.b)-Math.max(AB2-600,c.b)}));
+  scored.sort((a,b)=>b.ov-a.ov);
+  return (scored[0].ov>0 && (scored.length<2 || scored[0].ov>scored[1].ov)) ? scored[0].c : null;
+}
 const AB = Number(aB), AD = Number(aD);
 if (!authorName || !files.length) {
   console.error('usage: node mgraph.mjs "Author Name" birth death file.md ...'); process.exit(1);
@@ -65,6 +82,20 @@ for (const s of roster){
     continue;
   }
   edges.push({from: authorName, to: s.k, named:n, dates:b+'..'+d, count:clean, room:!!s.r});
+}
+/* BASE-NAME PASS: for each ambiguous base, scan the text for the bare name and
+   assign to the date-resolved winner \u2014 if that winner isn't already an edge. */
+const already=new Set(edges.map(e=>e.to));
+for(const bn of Object.keys(byBase)){
+  const winner=resolveBase(bn);
+  if(!winner || already.has(winner.k)) continue;
+  const re=new RegExp('\\b'+bn.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','g');
+  let m,clean=0; while((m=re.exec(flat))){ const w=flat.slice(Math.max(0,m.index-70),m.index+40); if(!EDITOR.test(w)) clean++; }
+  if(clean>0){
+    edges.push({from:authorName, to:winner.k, named:winner.n, kind:'historical', count:clean,
+                source:'(base-name "'+bn+'" resolved by date to '+winner.n+')'});
+    already.add(winner.k);
+  }
 }
 edges.sort((a,b)=>b.count-a.count);
 
