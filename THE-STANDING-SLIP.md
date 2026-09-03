@@ -672,6 +672,133 @@ counsel); it is a bare section wedged after bookstore.
 - **Acceptance test:** selecting any tab shows that pane ALONE; the marketplace
   appears only when it is meant to, and no tab scrolls into another's content.
 
+### 49 · The library's science is four rooms deep, on a roster ready for thirty
+Surfaced 2 Sep by the timeline's *alive beside them* panel: for Einstein it
+surfaced Gann, Keller, Tesla, Gandhi — the room-holders — while Bohr, Fermi,
+Planck, Curie sat unseen in *and 487 more*, despite 70-year overlaps. The sort
+is correct (rooms first, then overlap); **the gap is the roster, not the
+display.**
+
+Checked against the roster — 23 of the first names in the history of science
+are all aboard and DATED, and only four have shelves:
+
+```
+has a room :  Galileo · Newton · Tesla · Einstein
+no room    :  Archimedes (−287) · Euclid · Aristotle · Ptolemy · Copernicus ·
+              Kepler · Leonardo da Vinci · Faraday · Darwin · Maxwell · Curie ·
+              Planck · Bohr · Schrodinger · Heisenberg · Fermi · Turing ·
+              von Neumann · Oppenheimer
+```
+
+- **Why it matters beyond one panel:** the science figures cluster in the
+  densest, most-overlapping stretch of the whole roster — the 17th century and
+  the 1850–1960 window. Every one of them, given a room, rises to the top of a
+  dozen other figures' scene panels automatically, because the sort already
+  favours overlap and rooms. This is the highest-leverage roster work there is.
+- **The build is the citation build (SLIP #44/#13), applied to a chosen
+  cohort:** each needs works cited to a findable public-domain edition. Newton's
+  Principia, Darwin's Origin, Faraday's Experimental Researches, Euclid's
+  Elements, Archimedes in Heath's translation — all are Gutenberg or Archive
+  public domain, so the citation policy can stamp them. The moderns (Bohr,
+  Heisenberg, Oppenheimer) are IN COPYRIGHT and will sit at THIN or LINKED,
+  same as any recent figure — discussable and citable-by-link, not shelvable.
+- **And it feeds #47, the mention graph:** these figures name each other
+  constantly — Newton on Kepler, Einstein on Newton — so a science cohort is
+  where the citable-mention layer would first pay off.
+- **Acceptance test:** the named pre-1900 figures have rooms with public-domain
+  editions; opening any physicist's scene panel shows other physicists near the
+  top; and `probe-library` counts the new rooms.
+
+### 50 · WATCH — the citation guard proves the words, not the frame around them
+The quote guard (#34) confirms every quotation against the fetched text. It does
+NOT check the TITLE, BOOK, CHAPTER or VERSE the quote is framed by — those are
+prose, and the substring guard only inspects what is inside quotation marks.
+
+Raised 2 Sep: the hall named a work of Josephus — something like *The Life of
+Wives Taken Away* — that does not exist among his four works (Life, Antiquities,
+Wars, Against Apion). It did NOT reproduce on a second ask, and no screenshot
+was kept, so the exact words are unverified — which is itself the point: the
+words came from the captain's memory, the register this whole ship routes
+around.
+
+**THIS IS A WATCH ITEM, NOT A BUILD — AND DELIBERATELY SO.** Three things could
+have happened and they cannot be told apart after the fact:
+- a **fabrication** — a title with no work behind it;
+- a **real chapter, loosely titled** — the Antiquities runs to 20 books of a
+  dozen chapters each, and Josephus does recount forced dynastic marriages
+  (Herod's wives, the Hasmoneans). The hall may have read a genuine passage and
+  paraphrased it as a title;
+- a **conflation** — reaching for Livy's Sabine women or Lucretia, which ARE in
+  the library, and mis-attributing the theme to Josephus because both were open.
+
+**Why not harden now:** a title guard that checks only the whole-work titles
+would flag a REAL chapter reference as a fabrication — crying wolf on the hall
+reading closely, which is the exact fault probe-citations was built to refuse
+(*a rule that flags correct work teaches the reader to ignore the report*). One
+unreproduced instance is not a pattern to build against.
+
+- **The trigger to promote this to a build:** the same shape surfacing again
+  WITH a screenshot, so there is a real, verifiable instance rather than a
+  memory.
+- **The honest scope when it is built:** whole-work titles can be checked
+  exactly against the `opened` list the engine already returns. Chapter and
+  verse CANNOT — they must verify against the fetched TEXT, with the quote
+  guard's three states (*confirmed in the text · not found in what was fetched
+  · unmatched*), never a flat "false", because a real verse outside the slice
+  is not a fabrication.
+- **And it connects to a design pressure that is emerging:** the works are
+  LARGE — Antiquities is 20 books, the .md bodies run to 100–150 KB — and the
+  hall fetches a fixed slice. Chapter-and-verse addressing (fetch Book 15 ch. 7
+  rather than the head of the file) would make citations precise AND give the
+  quote guard a real locator to check against. That is the build this watch
+  item feeds into: not a title-police, but finer-grained retrieval.
+- **Acceptance test:** none yet — a watch item. It becomes a move when a second
+  framed-citation fault is caught on screen.
+
+### 51 · Planet rooms — a source so primary it needs no voice
+The sky is a primary source in the fullest sense: the planets are the record,
+the ephemeris is only its edition. Livy reaches you through a translator; Saturn
+reaches you through arithmetic anyone can redo and no one can slant. So a planet
+deserves a shelf — and it is the purest room in the library, because there is no
+persona to fake.
+
+**THE LAW IS THE FEATURE, NOT THE OBSTACLE: A PLANET DOES NOT SPEAK IN PROSE.**
+The tempting build is to let Jupiter talk — and it is the one move that would
+hollow the ship out. Prose in a planet's mouth is the MODEL's prose dressed as
+the planet's: a séance with better production values, the Rand line and the
+frame-fabrication of #50 in a new costume. A planet with opinions is a
+fabrication. The room's note carries the boundary, and it is beautiful rather
+than limiting: *ask me where I was and I will tell you exactly, from my path;
+ask me what it meant and I have no opinion — that is for the ones who watched
+me.* No terminal. No voice. A reading room only.
+
+- **What is already done (this session):** `planet-jupiter.json` is built as the
+  worked example — three works, all its own record from SKY.csv: 830 due-east
+  risings, 248 great conjunctions with Saturn, 14 gatherings. The god/body
+  disambiguation is handled: the roster holds Jupiter and Neptune as ETERNALS
+  (the Roman gods), so the body takes key `planet-jupiter` and a *FIRST, WHICH
+  JUPITER* note, the way Brutus's room names which Brutus. Uranus and Saturn are
+  not on the roster, so they are free.
+- **The actual build, and it is NOT the copy Gann was:** the reading room
+  (`library.js`) has four modes — stored, link, recall, designed — and a planet
+  work is none of them. It needs a fifth, `computed`, that renders the record AS
+  A RECORD (a strip of years, the risings and meetings) instead of fetching a
+  `.md` that does not exist. ~20 lines, but it touches the SHARED reader every
+  other room depends on, so it must be tested against all four existing modes
+  before it lands. Do not fall through to the default Read button — that fetches
+  a file and renders broken.
+- **A design judgement inside it:** 830 bare years is data, not a reading. The
+  compelling planet room is probably its MEETINGS and GATHERINGS — the notable
+  moments — not the exhaustive rising list. Fewer, richer, more like a curated
+  shelf than a dump.
+- **What it closes:** the conjunction question that no human room could answer
+  (Kepler gated, Galileo silent, Newton's shelf wrong). The answer was never a
+  person — it was the planets themselves, and this is their room.
+- **Acceptance test:** `library.js` renders a `computed` work as a legible
+  record without a file fetch; the four existing modes still render; opening
+  planet-jupiter shows its risings, conjunctions and gatherings; and no planet
+  room has a terminal.
+
 ### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -787,7 +914,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–48 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–51 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -817,7 +944,18 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #48 added — the Marketplace tab never hides, because its
+*Updated 2 Sep 2026: #51 added — planet rooms, a source so primary it needs no
+voice. The law "a planet does not speak in prose" is the feature; the build is a
+`computed` render mode, not letting Jupiter talk. planet-jupiter.json is the
+worked example. #50 added — a WATCH item: the quote guard proves the words
+but not the title/book/chapter/verse that frames them. One unreproduced instance
+(a Josephus work that is not his); not built, because a naive title guard would
+punish the hall for reading a real chapter closely. Promotes to a build on a
+second instance caught on screen, and feeds toward chapter-and-verse retrieval.
+#49 added — the library holds four science rooms against a
+roster of ~30 named figures already dated and waiting; the timeline's own panel
+surfaced the gap. Highest-leverage roster work, because science figures sit in
+the densest overlap band. #48 added earlier — the Marketplace tab never hides, because its
 section lacks the `page-section` class the tab machinery toggles. NOTE: this
 pass is rebuilt on the 47-move copy; #46 and #47 (Josephus, the mention graph)
 were added 1 Sep but had NOT reached main — main jumped 45 to 48. This file
