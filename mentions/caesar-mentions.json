@@ -1,0 +1,40 @@
+{
+ "harvested": "2026-09-03",
+ "author": "julius-caesar",
+ "author_dates": "-100..-44",
+ "text": "Caesar, Commentaries on the Gallic and Civil Wars",
+ "method": "mgraph.mjs 4-filter scan (born-after-death rejected 1,274)",
+ "path": "mentions/caesar-mentions.json",
+ "confirmed": 4,
+ "edges": [
+  {
+   "from": "julius-caesar",
+   "to": "cicero",
+   "named": "Cicero",
+   "kind": "contemporary",
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
+  {
+   "from": "julius-caesar",
+   "to": "brutus",
+   "named": "Brutus",
+   "kind": "contemporary",
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
+  {
+   "from": "julius-caesar",
+   "to": "lucretius",
+   "named": "Lucretius",
+   "kind": "contemporary",
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
+  {
+   "from": "julius-caesar",
+   "to": "hercules",
+   "named": "Hercules",
+   "kind": "legendary",
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  }
+ ],
+ "finding": "FEW edges resolved — and that is the point. Caesar names his enemies and officers relentlessly, but almost none are on the roster yet. The MISSES are the signal: Pompey (268x), Vercingetorix (43x), Labienus (49x), Ariovistus (50x), Mark Antony (22x), Cassius (22x). The corpus is naming exactly who to add next — the constellation want-list (Slip #59), chosen by frequency, not fame."
+}
