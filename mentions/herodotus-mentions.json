@@ -1,0 +1,42 @@
+{
+ "harvested": "2026-09-03",
+ "author": "herodotus",
+ "author_dates": "-484..-425",
+ "path": "mentions/herodotus-mentions.json",
+ "confirmed": 4,
+ "edges": [
+  {
+   "from": "herodotus",
+   "to": "leonidas",
+   "named": "Leonidas",
+   "count": 24,
+   "kind": "historical",
+   "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+  },
+  {
+   "from": "herodotus",
+   "to": "croesus",
+   "named": "Croesus",
+   "count": 11,
+   "kind": "historical",
+   "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+  },
+  {
+   "from": "herodotus",
+   "to": "solon",
+   "named": "Solon",
+   "count": 7,
+   "kind": "historical",
+   "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+  },
+  {
+   "from": "herodotus",
+   "to": "priam",
+   "named": "Priam",
+   "count": 2,
+   "kind": "legendary",
+   "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+  }
+ ],
+ "note": "Leonidas, Croesus, Solon resolve. Herodotus also names Xerxes, Darius, Cyrus heavily — the Persian kings entered as reign-spans; some do not resolve cleanly. A want-list for the Persian cohort once the reign-span schema (#56) lands."
+}

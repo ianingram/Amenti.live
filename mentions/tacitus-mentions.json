@@ -1,0 +1,138 @@
+{
+ "harvested": "2026-09-03",
+ "author": "tacitus",
+ "author_dates": "56..120",
+ "path": "mentions/tacitus-mentions.json",
+ "confirmed": 16,
+ "edges": [
+  {
+   "from": "tacitus",
+   "to": "domitian",
+   "named": "Domitian",
+   "count": 11,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "vespasian",
+   "named": "Vespasian",
+   "count": 7,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "hercules",
+   "named": "Hercules",
+   "count": 5,
+   "kind": "legendary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "nero",
+   "named": "Nero",
+   "count": 5,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "trajan",
+   "named": "Trajan",
+   "count": 4,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "galba",
+   "named": "Galba",
+   "count": 3,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "augustus",
+   "named": "Augustus",
+   "count": 2,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "nerva",
+   "named": "Nerva",
+   "count": 2,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "otho",
+   "named": "Otho",
+   "count": 2,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "caligula",
+   "named": "Caligula",
+   "count": 1,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "livy",
+   "named": "Livy",
+   "count": 1,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "tiberius",
+   "named": "Tiberius",
+   "count": 1,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "claudius",
+   "named": "Claudius",
+   "count": 1,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "vitellius",
+   "named": "Vitellius",
+   "count": 1,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "petronius",
+   "named": "Petronius",
+   "count": 1,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  },
+  {
+   "from": "tacitus",
+   "to": "frontinus",
+   "named": "Frontinus",
+   "count": 1,
+   "kind": "contemporary",
+   "source": "Tacitus, Agricola / Germania / Histories"
+  }
+ ],
+ "note": "The imperial line resolves: Domitian, Vespasian, Nero, Trajan, Galba, Otho, Nerva. Tacitus -> Livy is a historian citing an earlier historian — a room-to-room edge."
+}

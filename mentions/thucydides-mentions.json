@@ -1,0 +1,82 @@
+{
+ "harvested": "2026-09-03",
+ "author": "thucydides",
+ "author_dates": "-460..-400",
+ "path": "mentions/thucydides-mentions.json",
+ "confirmed": 9,
+ "edges": [
+  {
+   "from": "thucydides",
+   "to": "pericles",
+   "named": "Pericles",
+   "count": 17,
+   "kind": "historical",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "theseus",
+   "named": "Theseus",
+   "count": 5,
+   "kind": "legendary",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "homer",
+   "named": "Homer",
+   "count": 4,
+   "kind": "historical",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "minos",
+   "named": "Minos",
+   "count": 2,
+   "kind": "legendary",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "perseus",
+   "named": "Perseus",
+   "count": 1,
+   "kind": "legendary",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "achilles",
+   "named": "Achilles",
+   "count": 1,
+   "kind": "legendary",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "croesus",
+   "named": "Croesus",
+   "count": 1,
+   "kind": "historical",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "euripides",
+   "named": "Euripides",
+   "count": 1,
+   "kind": "historical",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  },
+  {
+   "from": "thucydides",
+   "to": "xenophon",
+   "named": "Xenophon",
+   "count": 1,
+   "kind": "historical",
+   "source": "Thucydides, History of the Peloponnesian War (selections)"
+  }
+ ],
+ "note": "Dialogue-heavy selections — fewer names, but Pericles (the subject), Homer, and Xenophon (a fellow historian) resolve."
+}
