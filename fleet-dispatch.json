@@ -1,16 +1,16 @@
 {
-  "at": "2026-09-02T18:36:33.402Z",
+  "at": "2026-09-03T01:02:17.576Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 126,
+    "count": 127,
     "prefixes": {
       "atlantica:": 85,
       "dailyplanet:": 20,
-      "watch:": 15,
+      "watch:": 16,
       "week:": 6
     }
   },
-  "today": "2026-09-02",
+  "today": "2026-09-03",
   "thisWeek": "2026-08-30",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -23,7 +23,7 @@
         "date": "2026-09-02",
         "figure": "odysseus"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-08-30",
         "2026-08-26",
@@ -32,8 +32,7 @@
         "2026-08-23",
         "2026-08-22",
         "2026-08-21",
-        "2026-08-20",
-        "2026-08-19"
+        "2026-08-20"
       ],
       "recent": [
         {
@@ -107,7 +106,7 @@
           "key": "atlantica:theodora:2026-08-05"
         }
       ],
-      "note": "72 dispatch(es) in the hold · last 2026-09-02 (odysseus) · MISSED 9 of the last 14 days"
+      "note": "72 dispatch(es) in the hold · last 2026-09-02 (odysseus) · MISSED 8 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -150,7 +149,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -67,
+      "lastAgeDays": -66,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
