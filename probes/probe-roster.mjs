@@ -96,6 +96,12 @@ const titleCol = lower.indexOf('title');
    zero because nobody knew is worse than a soul not placed at all. */
 const birthCol = lower.indexOf('birth-date');
 const deathCol = lower.indexOf('death-date');
+/* REIGN-SPAN SCHEMA (#56): an optional 'Dating' column. Empty = a lifespan
+   (birth..death, as always). 'reign' = the b/d years are a REIGN, not a life —
+   for ancient Near Eastern and East Asian rulers who kept regnal chronology,
+   not birthdays. The timeline still places by b/d; the guard knows not to read
+   the span as a lifespan; a surface can draw it as a reign. */
+const datingCol = lower.indexOf('dating');
 if (birthCol === -1 || deathCol === -1)
   console.error('  note: names.csv has no Birth-Date/Death-Date column \u2014 no soul will carry a date');
 
@@ -112,7 +118,8 @@ const souls = lines.slice(1).map(cut).map(r => ({
   n: (r[nameCol] || '').trim(),
   t: titleCol > -1 ? (r[titleCol] || '').trim().slice(0, 60) : '',
   b: birthCol > -1 ? year(r[birthCol]) : null,
-  d: deathCol > -1 ? year(r[deathCol]) : null
+  d: deathCol > -1 ? year(r[deathCol]) : null,
+  dt: datingCol > -1 ? ((r[datingCol]||'').trim().toLowerCase() || null) : null
 })).filter(s => s.n);
 
 souls.forEach(s => { s.k = slug(s.n); });
@@ -185,6 +192,7 @@ if (souls.length - placeable - halfDated)
    it — both dates are negative, so there is no sign to flip. That test caught
    exactly one soul of 1,011 and left the whole traditional chronology alone. */
 const SIGN_ERRORS = souls.filter(s => {
+  if (s.dt === 'reign') return false;   // a reign is not a lifespan — no sign test
   if (s.b === null || s.d === null) return false;
   if (!(s.b < 0 && s.d > 0)) return false;
   const span = s.d - s.b;
@@ -246,6 +254,7 @@ const payload = {
     if (s.d !== null && s.d !== undefined) o.d = s.d;
     if (s.p) o.p = 1;
     if (s.r) o.r = 1;
+    if (s.dt === 'reign') o.reign = 1;   // marks b/d as a reign, not a lifespan
     return o;
   })
 };
