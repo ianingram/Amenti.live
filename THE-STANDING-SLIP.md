@@ -829,6 +829,72 @@ the list keeps the guarantee and closes the gap.
   when the practice is followed: a surfaced-and-relevant figure becomes a dated
   roster row, not a softened rule.
 
+### 53 · The answer box colours who / when / where — typographic, never a claim
+Built 2 Sep. The hall's prose is now coloured along the three axes a reader
+scans a history text by: WHO (people, terminal blue, matching the timeline),
+WHERE (enumerated places, sand), WHEN (years and eras, grey-green). Three is the
+ceiling — who/when/where is a complete idea, not one-more-colour. Applied in the
+BOX, after the quote guard, not asked of the model — a name is blue because the
+box recognised it, the same discipline as verifyQuotes. GOLD IS RESERVED for
+verified quotes and never used here; the pass refuses to enter a quote span or a
+link, so nothing earned is recoloured (tested).
+
+**THE COLOUR IS TYPOGRAPHIC, NOT EPISTEMIC — and this is the load-bearing rule.**
+Colouring Jotapata blue does NOT claim the ship knows Jotapata; it claims only
+*this word is name-shaped, scan for it*. The colour helps the eye; it makes no
+promise. The moment a colour became a LINK — *pursue this figure* — it would be
+asserting a room the ship may not hold, and that is the roster wall broken
+through a hyperlink.
+
+- **The line, clean:** COLOUR DESCRIBES; LINKS PROMISE. A word is coloured for
+  its shape, free; a word becomes a DOOR only if it is actually on the roster,
+  earned. Never let a colour make a promise the ship cannot keep.
+- **Known honest limit:** a place not in the enumerated list defaults to blue
+  (Jotapata reads as a name). Best-effort, never misleading — a proper noun
+  getting the proper-noun colour is a miss, not a lie. Tune the place-list and
+  the stop-list from live prose, not in advance.
+- **Acceptance test:** verified quotes keep their gold and are never recoloured;
+  no coloured word is clickable unless it is a roster key; sentence-openers and
+  demonyms (He, The, Roman, Jewish) stay uncoloured.
+
+### 54 · The authoring stage needs a sourced REFERENCE LAYER — the tool is not the source
+The deepest thing raised across several sessions, stated plainly 2 Sep. To
+EXPAND the roster (#52) at any scale, the authoring stage needs a body of
+confirmed fact to draft against — and it cannot be the model's memory (unsafe,
+the séance) nor the primary-source library (that is what the hall QUOTES, a
+different job). It needs a third thing that does not yet exist.
+
+**THREE LAYERS, KEPT SEPARATE:**
+- **Primary sources** — the 550 works. What the hall quotes at RUNTIME. Sacred,
+  never the model.
+- **A reference layer** — structured, external, dated, SOURCED. What the
+  AUTHORING draws on to decide who belongs and when they lived. Canonical
+  tabular data (regnal lists, papal succession, consular fasti, presidential
+  terms) — facts, not prose to be remembered. THIS IS THE MISSING PIECE.
+- **The model's general knowledge** — the draftsman that NAVIGATES to the
+  reference. Never canonical, always checked, quarantined to the workbench.
+
+**THE SHIP DOES NOT BAN GENERAL KNOWLEDGE — IT QUARANTINES IT TO THE STAGE WHERE
+VERIFICATION HAPPENS.** At the workbench (authoring) the model's knowledge is a
+feature, because every draft is verified before it lands. At the front desk
+(the hall answering a visitor) it is forbidden, because nothing checks it before
+it reaches the reader. The wall between authoring and answering is what keeps
+the two from contaminating each other.
+
+- **The consequence for the roster:** every row should carry PROVENANCE — not
+  just *Kepler, 1571–1630* but *per [source]*. The model points; the source
+  confirms; the row records both. Then the interface is a tool drawing on a
+  source, not a mouth speaking from memory.
+- **The dependency order this fixes:** the 500-name expansion (#52) is not the
+  next build — the reference layer is, because the expansion is only fast, cheap
+  AND honest once every row traces to a source rather than to a recollection.
+- **“Not yet, maybe not ever”:** the interface could one day BE trusted as a
+  source, but only after the reference layer, the provenance, and a long record
+  of verified authoring have earned it. Until then: the tool is not the source.
+- **Acceptance test:** a reference table exists that the authoring cites; new
+  roster rows carry a source for their dates; and no roster row's dates trace
+  only to a model recollection.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -944,7 +1010,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–52 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–54 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -974,7 +1040,7 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
+*Updated 2 Sep 2026: #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
 has the engine: Page2's astronomy-engine / Sovereign.Ephemeris computes any
 planet live. A planet room is that engine queried, not a baked SKY.csv record;
 the earlier planet-jupiter.json and a computed-mode hack were both dead copies
