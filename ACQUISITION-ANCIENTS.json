@@ -1,0 +1,1115 @@
+{
+ "title": "High-Priority Acquisition — the ancient authors",
+ "generated": "2026-09-02",
+ "note": "123 authors of antiquity, on the roster with dates, whose works survive in the public domain (Project Gutenberg). Each is ROOM-WORTHY: a real author with extant, citable, quotable works. This is the worklist for building their reading rooms, in priority order (oldest and most consequential first). A soul here has a PLACE IN TIME already; what is owed is a LIBRARY.",
+ "count": 123,
+ "authors": [
+  {
+   "name": "Ptahhotep",
+   "birth": -2451,
+   "death": -2401,
+   "gutenberg_author": 34654,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/34654",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Yajnavalkya",
+   "birth": -801,
+   "death": -701,
+   "gutenberg_author": 24967,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/24967",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Guan Zhong",
+   "birth": -720,
+   "death": -645,
+   "gutenberg_author": 2445,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2445",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Pythagoras",
+   "birth": -583,
+   "death": -491,
+   "gutenberg_author": 55112,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/55112",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Anacreon",
+   "birth": -570,
+   "death": -485,
+   "gutenberg_author": 31959,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31959",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Deng Xi",
+   "birth": -545,
+   "death": -501,
+   "gutenberg_author": 2377,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2377",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Lie Yukou",
+   "birth": -450,
+   "death": -375,
+   "gutenberg_author": 2430,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2430",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Lysias",
+   "birth": -445,
+   "death": -380,
+   "gutenberg_author": 2281,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2281",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Wu Qi",
+   "birth": -440,
+   "death": -381,
+   "gutenberg_author": 42446,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/42446",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Xenophon",
+   "birth": -431,
+   "death": -354,
+   "gutenberg_author": 543,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/543",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Shang Yang",
+   "birth": -390,
+   "death": -338,
+   "gutenberg_author": 2452,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2452",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Demosthenes",
+   "birth": -384,
+   "death": -322,
+   "gutenberg_author": 2233,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2233",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Theophrastus",
+   "birth": -371,
+   "death": -287,
+   "gutenberg_author": 49854,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/49854",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Yin Wen",
+   "birth": -350,
+   "death": -284,
+   "gutenberg_author": 32400,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/32400",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Shen Dao",
+   "birth": -350,
+   "death": -275,
+   "gutenberg_author": 31282,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31282",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Gongsun Long",
+   "birth": -325,
+   "death": -250,
+   "gutenberg_author": 2378,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2378",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Apollonius of Rhodes",
+   "birth": -295,
+   "death": -215,
+   "gutenberg_author": 433,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/433",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Han Fei",
+   "birth": -280,
+   "death": -233,
+   "gutenberg_author": 26199,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26199",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Plautus",
+   "birth": -250,
+   "death": -184,
+   "gutenberg_author": 2406,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2406",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Cato the Elder",
+   "birth": -234,
+   "death": -149,
+   "gutenberg_author": 37390,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/37390",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Terence",
+   "birth": -185,
+   "death": -159,
+   "gutenberg_author": 25168,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/25168",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Gaius Lucilius",
+   "birth": -180,
+   "death": -102,
+   "gutenberg_author": 45709,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/45709",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Sima Qian",
+   "birth": -145,
+   "death": -86,
+   "gutenberg_author": 26330,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26330",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Bion of Smyrna",
+   "birth": -120,
+   "death": -57,
+   "gutenberg_author": 1575,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/1575",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Marcus Terentius Varro",
+   "birth": -116,
+   "death": -27,
+   "gutenberg_author": 6680,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/6680",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Cicero",
+   "birth": -107,
+   "death": -43,
+   "gutenberg_author": 128,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/128",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Diodorus Siculus",
+   "birth": -90,
+   "death": -20,
+   "gutenberg_author": 44254,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/44254",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Sallust",
+   "birth": -86,
+   "death": -35,
+   "gutenberg_author": 2455,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2455",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Catullus",
+   "birth": -84,
+   "death": -54,
+   "gutenberg_author": 8308,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/8308",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Vitruvius",
+   "birth": -80,
+   "death": -15,
+   "gutenberg_author": 9180,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/9180",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Liu Xiang",
+   "birth": -77,
+   "death": -6,
+   "gutenberg_author": 2424,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2424",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Virgil",
+   "birth": -70,
+   "death": -19,
+   "gutenberg_author": 129,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/129",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Horace",
+   "birth": -65,
+   "death": -8,
+   "gutenberg_author": 1790,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/1790",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Strabo",
+   "birth": -63,
+   "death": 23,
+   "gutenberg_author": 42968,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/42968",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Dionysius of Halicarnassus",
+   "birth": -60,
+   "death": -7,
+   "gutenberg_author": 45753,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/45753",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Titus Livius",
+   "birth": -59,
+   "death": 17,
+   "gutenberg_author": 3707,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/3707",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Yang Xiong",
+   "birth": -53,
+   "death": 18,
+   "gutenberg_author": 32604,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/32604",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Tibullus",
+   "birth": -51,
+   "death": -16,
+   "gutenberg_author": 3097,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/3097",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Liu Xin",
+   "birth": -50,
+   "death": 23,
+   "gutenberg_author": 26141,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26141",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Propertius",
+   "birth": -47,
+   "death": -16,
+   "gutenberg_author": 133,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/133",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Aulus Cornelius Celsus",
+   "birth": -25,
+   "death": 25,
+   "gutenberg_author": 52796,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/52796",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Phaedrus",
+   "birth": -21,
+   "death": 50,
+   "gutenberg_author": 31383,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31383",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Seneca",
+   "birth": -5,
+   "death": 65,
+   "gutenberg_author": 1308,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/1308",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "John the Evangelist",
+   "birth": 10,
+   "death": 98,
+   "gutenberg_author": 25577,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/25577",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Pliny the Elder",
+   "birth": 20,
+   "death": 79,
+   "gutenberg_author": 50041,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/50041",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Silius Italicus",
+   "birth": 26,
+   "death": 101,
+   "gutenberg_author": 32550,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/32550",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Petronius",
+   "birth": 27,
+   "death": 66,
+   "gutenberg_author": 1743,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/1743",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Wang Chong",
+   "birth": 27,
+   "death": 97,
+   "gutenberg_author": 31304,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31304",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Frontinus",
+   "birth": 30,
+   "death": 103,
+   "gutenberg_author": 6556,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/6556",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Ban Gu",
+   "birth": 32,
+   "death": 92,
+   "gutenberg_author": 26075,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26075",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Persius",
+   "birth": 34,
+   "death": 62,
+   "gutenberg_author": 25123,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/25123",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Quintilian",
+   "birth": 35,
+   "death": 96,
+   "gutenberg_author": 24913,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/24913",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Josephus",
+   "birth": 37,
+   "death": 100,
+   "gutenberg_author": 1050,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/1050",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Lucan",
+   "birth": 39,
+   "death": 65,
+   "gutenberg_author": 316,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/316",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Pedanius Dioscorides",
+   "birth": 40,
+   "death": 90,
+   "gutenberg_author": 42073,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/42073",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Epictetus",
+   "birth": 50,
+   "death": 125,
+   "gutenberg_author": 452,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/452",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Pliny the Younger",
+   "birth": 61,
+   "death": 113,
+   "gutenberg_author": 1036,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/1036",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Suetonius",
+   "birth": 69,
+   "death": 126,
+   "gutenberg_author": 2024,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2024",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Aśvaghoṣa",
+   "birth": 80,
+   "death": 150,
+   "gutenberg_author": 35287,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/35287",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Arrian",
+   "birth": 89,
+   "death": 175,
+   "gutenberg_author": 44068,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/44068",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Lucius Calbenus Taurus",
+   "birth": 105,
+   "death": 200,
+   "gutenberg_author": 57978,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/57978",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Pausanias",
+   "birth": 110,
+   "death": 180,
+   "gutenberg_author": 54057,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/54057",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Lucian of Samosata",
+   "birth": 120,
+   "death": 180,
+   "gutenberg_author": 1997,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/1997",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Apuleius",
+   "birth": 125,
+   "death": 170,
+   "gutenberg_author": 685,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/685",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Aulus Gellius",
+   "birth": 130,
+   "death": 180,
+   "gutenberg_author": 31619,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31619",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Xun Yue",
+   "birth": 148,
+   "death": 209,
+   "gutenberg_author": 2460,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2460",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Zhang Zhongjing",
+   "birth": 150,
+   "death": 219,
+   "gutenberg_author": 26372,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26372",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Cassius Dio",
+   "birth": 150,
+   "death": 235,
+   "gutenberg_author": 3339,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/3339",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Athenaeus",
+   "birth": 170,
+   "death": 223,
+   "gutenberg_author": 38538,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/38538",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Hippolytus",
+   "birth": 170,
+   "death": 235,
+   "gutenberg_author": 51516,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/51516",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Zhuge Liang",
+   "birth": 181,
+   "death": 234,
+   "gutenberg_author": 34620,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/34620",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Pope Dionysius of Alexandria",
+   "birth": 190,
+   "death": 264,
+   "gutenberg_author": 38337,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/38337",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Cao Zhi",
+   "birth": 192,
+   "death": 232,
+   "gutenberg_author": 26192,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26192",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Achilles Tatius",
+   "birth": 200,
+   "death": 300,
+   "gutenberg_author": 48318,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/48318",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Plotinus",
+   "birth": 205,
+   "death": 270,
+   "gutenberg_author": 33956,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/33956",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Huangfu Mi",
+   "birth": 215,
+   "death": 282,
+   "gutenberg_author": 26140,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26140",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Liu Hui",
+   "birth": 225,
+   "death": 295,
+   "gutenberg_author": 32384,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/32384",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Chen Shou",
+   "birth": 233,
+   "death": 297,
+   "gutenberg_author": 31454,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31454",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Porphyry",
+   "birth": 233,
+   "death": 301,
+   "gutenberg_author": 37005,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/37005",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Guo Pu",
+   "birth": 276,
+   "death": 324,
+   "gutenberg_author": 26209,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26209",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Ge Hong",
+   "birth": 284,
+   "death": 364,
+   "gutenberg_author": 31284,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31284",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Athanasius of Alexandria",
+   "birth": 296,
+   "death": 373,
+   "gutenberg_author": 35906,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/35906",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Hilary of Poitiers",
+   "birth": 315,
+   "death": 367,
+   "gutenberg_author": 25706,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/25706",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Ammianus Marcellinus",
+   "birth": 330,
+   "death": 395,
+   "gutenberg_author": 33429,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/33429",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Faxian",
+   "birth": 337,
+   "death": 422,
+   "gutenberg_author": 824,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/824",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Ambrose",
+   "birth": 339,
+   "death": 397,
+   "gutenberg_author": 25543,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/25543",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Kumārajīva",
+   "birth": 344,
+   "death": 413,
+   "gutenberg_author": 31248,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31248",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Prudentius",
+   "birth": 348,
+   "death": 405,
+   "gutenberg_author": 5755,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/5755",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Tao Yuanming",
+   "birth": 365,
+   "death": 427,
+   "gutenberg_author": 2479,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2479",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Possidius of Calama",
+   "birth": 370,
+   "death": 437,
+   "gutenberg_author": 54213,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/54213",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Claudian",
+   "birth": 370,
+   "death": 404,
+   "gutenberg_author": 46419,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/46419",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Pei Songzhi",
+   "birth": 372,
+   "death": 451,
+   "gutenberg_author": 31455,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31455",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Liu Yiqing",
+   "birth": 403,
+   "death": 444,
+   "gutenberg_author": 26197,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26197",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Proclus",
+   "birth": 412,
+   "death": 485,
+   "gutenberg_author": 55965,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/55965",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Liu Xie",
+   "birth": 460,
+   "death": 520,
+   "gutenberg_author": 26056,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26056",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Zhong Rong",
+   "birth": 468,
+   "death": 518,
+   "gutenberg_author": 2431,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2431",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Zhou Xingsi",
+   "birth": 470,
+   "death": 521,
+   "gutenberg_author": 26124,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26124",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Boethius",
+   "birth": 480,
+   "death": 524,
+   "gutenberg_author": 4992,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/4992",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Benedict of Nursia",
+   "birth": 480,
+   "death": 547,
+   "gutenberg_author": 45673,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/45673",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Cassiodorus",
+   "birth": 487,
+   "death": 583,
+   "gutenberg_author": 8135,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/8135",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Jordanes",
+   "birth": 490,
+   "death": 560,
+   "gutenberg_author": 5699,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/5699",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Gildas",
+   "birth": 500,
+   "death": 570,
+   "gutenberg_author": 759,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/759",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Xiao Tong",
+   "birth": 501,
+   "death": 531,
+   "gutenberg_author": 41985,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/41985",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Xu Ling",
+   "birth": 507,
+   "death": 583,
+   "gutenberg_author": 31246,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31246",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Aneirin",
+   "birth": 525,
+   "death": 600,
+   "gutenberg_author": 3167,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/3167",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Jianzhi Sengcan",
+   "birth": 529,
+   "death": 606,
+   "gutenberg_author": 39545,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/39545",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Yan Zhitui",
+   "birth": 531,
+   "death": 591,
+   "gutenberg_author": 2476,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2476",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Tao-cho",
+   "birth": 562,
+   "death": 645,
+   "gutenberg_author": 26251,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26251",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Yan Shigu",
+   "birth": 581,
+   "death": 645,
+   "gutenberg_author": 26076,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26076",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Bāṇabhaṭṭa",
+   "birth": 585,
+   "death": 650,
+   "gutenberg_author": 40993,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/40993",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Li Chunfeng",
+   "birth": 602,
+   "death": 670,
+   "gutenberg_author": 26188,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26188",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Paul of Aegina",
+   "birth": 625,
+   "death": 690,
+   "gutenberg_author": 55793,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/55793",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Huineng",
+   "birth": 638,
+   "death": 713,
+   "gutenberg_author": 26079,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26079",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Wu Jing",
+   "birth": 670,
+   "death": 749,
+   "gutenberg_author": 26281,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26281",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Bede",
+   "birth": 672,
+   "death": 735,
+   "gutenberg_author": 39416,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/39416",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "John of Damascus",
+   "birth": 675,
+   "death": 749,
+   "gutenberg_author": 385,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/385",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Li Bai",
+   "birth": 701,
+   "death": 762,
+   "gutenberg_author": 26288,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26288",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Lu Yu",
+   "birth": 733,
+   "death": 804,
+   "gutenberg_author": 2458,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/2458",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Bai Juyi",
+   "birth": 772,
+   "death": 846,
+   "gutenberg_author": 31272,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31272",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Einhard",
+   "birth": 774,
+   "death": 840,
+   "gutenberg_author": 45007,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/45007",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Bai Xingjian",
+   "birth": 776,
+   "death": 826,
+   "gutenberg_author": 26200,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/26200",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Ādi Shankara",
+   "birth": 788,
+   "death": 820,
+   "gutenberg_author": 38496,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/38496",
+   "status": "roster",
+   "room": "PENDING"
+  },
+  {
+   "name": "Li He",
+   "birth": 790,
+   "death": 816,
+   "gutenberg_author": 31322,
+   "gutenberg_url": "https://www.gutenberg.org/ebooks/author/31322",
+   "status": "roster",
+   "room": "PENDING"
+  }
+ ]
+}
