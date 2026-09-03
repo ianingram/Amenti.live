@@ -225,6 +225,14 @@
      the anchors are added second — in ONE pass, so a replacement can never be
      rescanned and an id sitting inside another document's filename cannot be
      linkified a second time inside an href. */
+  var COLOUR_CSS = '.aa-who{color:#7fb4f0}.aa-where{color:#d9b98a}.aa-when{color:#9ec8b0}';
+  (function () {
+    try {
+      var st = document.createElement('style');
+      st.textContent = COLOUR_CSS; document.head.appendChild(st);
+    } catch (e) {}
+  })();
+
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
@@ -353,6 +361,65 @@
     return norm(t).replace(/^[\s.,;:!?\u2014-]+/, '').replace(/[\s.,;:!?\u2014-]+$/, '');
   }
 
+  /* ── WHO / WHEN / WHERE \u00b7 the answer's three axes \u00b7 2 Sep ─────────────────
+     A history text is scanned along three axes: who, when, where. Colouring
+     those three \u2014 and ONLY those three, three is the ceiling \u2014 turns a
+     paragraph into something searchable by eye. Applied HERE, in the box, not
+     asked of the model: a name is blue because the box recognised it, not
+     because the model remembered to colour it \u2014 the same discipline as the
+     quote guard. GOLD IS RESERVED for verified quotes and never used here, so
+     the earned colour is never faked. The pass runs LAST and refuses to touch
+     anything already inside a quote span or a link, so it can never recolour a
+     verified quotation or break an anchor. */
+  var MONTHS = 'January|February|March|April|May|June|July|August|September|October|November|December';
+  function colourProse(html) {
+    /* Split on the tags we must NOT enter \u2014 quote spans (with their content)
+       and anchors \u2014 colour only the plain runs between them. */
+    var GUARD = /(<span class="aa-q[\s\S]*?<\/span>|<a [\s\S]*?<\/a>|<[^>]+>)/g;
+    var parts = html.split(GUARD);
+    for (var i = 0; i < parts.length; i++) {
+      /* even indices are plain text between guarded chunks; odd are the guards */
+      if (i % 2 === 1) continue;
+      var t = parts[i];
+      if (!t) continue;
+
+      /* WHEN \u2014 years, centuries, and dated eras. Numbers that are clearly
+         temporal, not counts. Placed first so a year is not eaten by a name. */
+      t = t.replace(/\b(\d{1,4}\s?(?:BC|BCE|AD|CE)|(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|twentieth|twenty-first)-century|(?:'+MONTHS+')\s+\d{1,2}|\b\d{4}s?)\b/g,
+        '<span class="aa-when">$1</span>');
+
+      /* WHO / WHERE \u2014 both are proper nouns; we cannot always tell a person
+         from a place by shape alone, so we colour PROPER NOUNS as one class
+         (who-or-where) in blue, EXCEPT a short list of clear place-words which
+         take the where-tint. This keeps the triad honest: names are reliably
+         blue; places are best-effort sand, and never wrong enough to mislead.
+         A proper noun = a capitalised word not at the very start of a sentence,
+         allowing multi-word names (Marcus Tullius Cicero). */
+      /* A stop-list keeps sentence-openers and common capitalised
+         non-nouns out. Better to MISS a name than to paint 'He', 'The' or a
+         demonym blue \u2014 a false colour is worse than none, the same rule the
+         quote guard follows. */
+      var STOP = /^(He|She|It|They|We|I|You|The|A|An|This|That|These|Those|His|Her|Their|In|On|At|By|For|From|To|With|And|But|Or|So|Then|When|Where|What|Who|Why|How|As|If|Of|After|Before|During|Later|Now|Here|There|Jewish|Roman|Greek|Egyptian|Persian|Christian|Latin|English|French|German|Italian|Spanish)$/;
+      t = t.replace(/(^|[.!?\u201C"]\s+|\u2014\s|,\s|\s)([A-Z][a-z]+(?:\s+(?:of|the|de|von|van)\s+[A-Z][a-z]+|\s+[A-Z][a-z]+)*)/g,
+        function (m, pre, noun) {
+          /* if the run STARTS a sentence (pre ends a sentence or is line start),
+             the first word is a mere capital \u2014 skip the whole run only if that
+             single word is in the stop-list; otherwise a real name that happens
+             to open a sentence still gets coloured on its SECOND word onward is
+             too clever, so: skip if the first word alone is a stop word. */
+          var first = noun.split(/\s+/)[0];
+          if (STOP.test(first)) return m;
+          var sentenceStart = /[.!?\u201C"]\s+$/.test(pre) || pre === '';
+          if (sentenceStart && !/\s/.test(noun) && STOP.test(noun)) return m;
+          var placey = /\b(Rome|Egypt|Greece|Judea|Judaea|Galilee|Jerusalem|Alexandria|Athens|Babylon|Carthage|Giza|Gaul|Britain|Persia|China|India|Sparta|Macedon|Anatolia|Mesopotamia|Nile|Jordan|Sinai|Temple|Italy|Judah|Israel|Constantinople)\b/.test(noun);
+          var cls = placey ? 'aa-where' : 'aa-who';
+          return pre + '<span class="' + cls + '">' + noun + '</span>';
+        });
+      parts[i] = t;
+    }
+    return parts.join('');
+  }
+
   function verifyQuotes(html, opened) {
     var tally = { verified: 0, note: 0, unmatched: 0 };
     if (!opened || !opened.length) return { html: html, tally: tally };
@@ -414,7 +481,9 @@
          see is anchors and emphasis whose contents it strips before comparing.
          It never introduces markup a previous pass could rescan. */
       var checked = verifyQuotes(mdLite(linkify(r.answer, r.links)), r.opened);
-      answer.innerHTML = checked.html;
+      /* who/when/where colouring, LAST, after the quote guard has claimed its
+         gold \u2014 skips quote spans and links so nothing earned is recoloured. */
+      answer.innerHTML = colourProse(checked.html);
       /* ── READ FROM ────────────────────────────────────────────────────
          The engine returns `opened`: every work whose room was opened for
          this question, with its title, its room and its full SOURCE line.
