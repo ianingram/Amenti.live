@@ -1,0 +1,305 @@
+{
+ "harvested": "2026-09-03",
+ "author": "plutarch",
+ "author_dates": "46..120",
+ "text": "Plutarch, Parallel Lives — the ten in the room",
+ "method": "mgraph.mjs 4-filter scan (born-after-death rejected 1,213) + human review",
+ "path": "mentions/plutarch-mentions.json",
+ "note": "The richest harvest so far: the Lives name philosophers (Aristotle, Plato, Pythagoras), poets (Homer, Euripides, Sophocles), historians (Thucydides, Polybius), kings and legends across Greek and Roman history. Brutus here is MARCUS (the assassin, the Life’s subject) — the third context for the name, and the roster’s Brutus point should be checked against which one it holds.",
+ "confirmed": 41,
+ "flagged_for_review": [
+  {
+   "named": "Ptolemy",
+   "issue": "likely Ptolemy son of Lagus (Alexander’s general), not the astronomer — the roster point may be the wrong Ptolemy"
+  }
+ ],
+ "edges": [
+  {
+   "from": "plutarch",
+   "to": "brutus",
+   "named": "Brutus",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "theseus",
+   "named": "Theseus",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "pericles",
+   "named": "Pericles",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "romulus",
+   "named": "Romulus",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "solon",
+   "named": "Solon",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "hercules",
+   "named": "Hercules",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "aristotle",
+   "named": "Aristotle",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "homer",
+   "named": "Homer",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "thucydides",
+   "named": "Thucydides",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "remus",
+   "named": "Remus",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "plato",
+   "named": "Plato",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "croesus",
+   "named": "Croesus",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "cicero",
+   "named": "Cicero",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "minos",
+   "named": "Minos",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "euripides",
+   "named": "Euripides",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "achilles",
+   "named": "Achilles",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "aeneas",
+   "named": "Aeneas",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "theophrastus",
+   "named": "Theophrastus",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "leonidas",
+   "named": "Leonidas",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "sophocles",
+   "named": "Sophocles",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "aristophanes",
+   "named": "Aristophanes",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "diogenes",
+   "named": "Diogenes",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "hesiod",
+   "named": "Hesiod",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "aeschylus",
+   "named": "Aeschylus",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "lysimachus",
+   "named": "Lysimachus",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "cassander",
+   "named": "Cassander",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "pindar",
+   "named": "Pindar",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "pythagoras",
+   "named": "Pythagoras",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "demosthenes",
+   "named": "Demosthenes",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "pausanias",
+   "named": "Pausanias",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "jason",
+   "named": "Jason",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "numa-pompilius",
+   "named": "Numa Pompilius",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "aesop",
+   "named": "Aesop",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "heraclitus",
+   "named": "Heraclitus",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "claudius",
+   "named": "Claudius",
+   "kind": "contemporary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "anacreon",
+   "named": "Anacreon",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "orpheus",
+   "named": "Orpheus",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "midas",
+   "named": "Midas",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "belus",
+   "named": "Belus",
+   "kind": "legendary",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "epicurus",
+   "named": "Epicurus",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  },
+  {
+   "from": "plutarch",
+   "to": "polybius",
+   "named": "Polybius",
+   "kind": "historical",
+   "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+  }
+ ]
+}
