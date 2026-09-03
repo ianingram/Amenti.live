@@ -16,8 +16,8 @@
  "edges": [
   {
    "from": "plutarch",
-   "to": "brutus",
-   "named": "Brutus",
+   "to": "marcus-junius-brutus",
+   "named": "Marcus Junius Brutus",
    "kind": "historical",
    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
   },

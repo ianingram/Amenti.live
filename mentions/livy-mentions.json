@@ -31,8 +31,8 @@
   },
   {
    "from": "livy",
-   "to": "brutus",
-   "named": "Brutus",
+   "to": "lucius-junius-brutus",
+   "named": "Lucius Junius Brutus",
    "kind": "historical",
    "source": "Livy, Ab Urbe Condita (selections)"
   },
