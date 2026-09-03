@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-03T14:29:32.282Z",
+    "generated": "2026-09-03T14:34:47.923Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -19,8 +19,8 @@
     },
     {
       "file": "Page1.html",
-      "bytes": 545864,
-      "sha256": "75b102ea23b87790",
+      "bytes": 545890,
+      "sha256": "1b523449b8ab9288",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -53,11 +53,11 @@
           "line": 893
         },
         {
-          "file": "amenti-dial.js?v=3",
+          "file": "amenti-dial.js?v=ad24f23f",
           "line": 900
         },
         {
-          "file": "amenti-memory.js?v=1",
+          "file": "amenti-memory.js?v=8a3ebb27",
           "line": 909
         },
         {
@@ -1335,7 +1335,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48785,
-      "sha256": "1be420d7c63c63bd",
+      "sha256": "3372c49581a8b0a6",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
