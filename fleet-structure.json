@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-03T01:02:40.742Z",
+    "generated": "2026-09-03T01:46:26.258Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1174,8 +1174,8 @@
     },
     {
       "file": "amenti-timeline.js",
-      "bytes": 70991,
-      "sha256": "ed57a51b253eac1e",
+      "bytes": 74444,
+      "sha256": "ad20477baa540122",
       "type": "js",
       "declares": [
         "AmentiTimeline"
@@ -1184,7 +1184,7 @@
       "calls": [
         {
           "global": "Amenti.openReadingRoom",
-          "line": 732,
+          "line": 738,
           "when": "function",
           "own": false
         }
@@ -1334,8 +1334,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 48809,
-      "sha256": "8c1ae2fbb422b217",
+      "bytes": 48785,
+      "sha256": "7201a043951b0a58",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1344,25 +1344,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1153,
+          "line": 1152,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1154,
+          "line": 1153,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1155,
+          "line": 1154,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1156,
+          "line": 1155,
           "when": "toplevel",
           "own": false
         }
