@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-09-03T13:56:54.234Z",
+  "generated": "2026-09-03T14:56:35.433Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -27,9 +27,9 @@
   "surfaces": [
     {
       "file": "Page1.html",
-      "bytes": 545864,
+      "bytes": 545890,
       "lines": 8807,
-      "sha256": "75b102ea23b87790",
+      "sha256": "1b523449b8ab9288",
       "scripts": [
         {
           "src": "amenti-core.bundle.js",
@@ -38,13 +38,13 @@
           "remote": false
         },
         {
-          "src": "amenti-dial.js?v=3",
+          "src": "amenti-dial.js?v=ad24f23f",
           "line": 900,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-memory.js?v=1",
+          "src": "amenti-memory.js?v=8a3ebb27",
           "line": 909,
           "loading": "defer",
           "remote": false
@@ -1665,7 +1665,7 @@
     ],
     "unread": [
       {
-        "src": "amenti-dial.js?v=3",
+        "src": "amenti-dial.js?v=ad24f23f",
         "requestedBy": [
           {
             "surface": "Page1.html",
@@ -1676,7 +1676,7 @@
         "reason": "not on disk at probe time"
       },
       {
-        "src": "amenti-memory.js?v=1",
+        "src": "amenti-memory.js?v=8a3ebb27",
         "requestedBy": [
           {
             "surface": "Page1.html",
@@ -1690,7 +1690,7 @@
   },
   "unread": [
     {
-      "src": "amenti-dial.js?v=3",
+      "src": "amenti-dial.js?v=ad24f23f",
       "requestedBy": [
         {
           "surface": "Page1.html",
@@ -1701,7 +1701,7 @@
       "reason": "not on disk at probe time"
     },
     {
-      "src": "amenti-memory.js?v=1",
+      "src": "amenti-memory.js?v=8a3ebb27",
       "requestedBy": [
         {
           "surface": "Page1.html",
@@ -1880,7 +1880,7 @@
     {
       "id": "unread",
       "severity": "blocking",
-      "detail": "2 referenced file(s) could not be opened: amenti-dial.js?v=3, amenti-memory.js?v=1. No verdict above covers them.",
+      "detail": "2 referenced file(s) could not be opened: amenti-dial.js?v=ad24f23f, amenti-memory.js?v=8a3ebb27. No verdict above covers them.",
       "test": "existsSync on every local <script src>"
     }
   ],
