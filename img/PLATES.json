@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-09-02T03:21:12.387Z",
+  "generated": "2026-09-03T06:21:53.704Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -44,7 +44,7 @@
     "scenes": 1,
     "sceneFiles": 2,
     "figuresWithScenes": 1,
-    "rosterKnown": 1011,
+    "rosterKnown": 1501,
     "rosterColumn": "full name",
     "scenesResolvedByRosterAlone": 0,
     "byVariant": {
