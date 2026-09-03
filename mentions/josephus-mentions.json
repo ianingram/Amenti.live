@@ -1,0 +1,170 @@
+{
+ "harvested": "2026-09-03",
+ "author": "flavius-josephus",
+ "author_dates": "37..100",
+ "text": "Antiquities of the Jews, Books 14,15,17,18,19",
+ "method": "mgraph.mjs 4-filter scan (born-after-death rejected 1,216) + human review",
+ "confirmed": 20,
+ "rejected_in_review": [
+  [
+   "Josephus",
+   "self"
+  ],
+  [
+   "Ptolemy",
+   "wrong-person (Menneus)"
+  ],
+  [
+   "Suetonius",
+   "apparatus"
+  ],
+  [
+   "Titus Livius",
+   "apparatus"
+  ]
+ ],
+ "edges": [
+  {
+   "from": "flavius-josephus",
+   "to": "tiberius",
+   "named": "Tiberius",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "claudius",
+   "named": "Claudius",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "petronius",
+   "named": "Petronius",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "vitellius",
+   "named": "Vitellius",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "strabo",
+   "named": "Strabo",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "augustus",
+   "named": "Augustus",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "nero",
+   "named": "Nero",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "vespasian",
+   "named": "Vespasian",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "galba",
+   "named": "Galba",
+   "kind": "contemporary",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "lysimachus",
+   "named": "Lysimachus",
+   "kind": "historical",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "alexander-the-great",
+   "named": "Alexander the Great",
+   "kind": "historical",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "aesop",
+   "named": "Aesop",
+   "kind": "historical",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "marcus-tullius-cicero",
+   "named": "Marcus Tullius Cicero",
+   "kind": "historical",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "lysias",
+   "named": "Lysias",
+   "kind": "historical",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "jason",
+   "named": "Jason",
+   "kind": "historical",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "brutus",
+   "named": "Brutus",
+   "kind": "historical",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "moses",
+   "named": "Moses",
+   "kind": "scripture",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "solomon",
+   "named": "Solomon",
+   "kind": "scripture",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "jacob",
+   "named": "Jacob",
+   "kind": "scripture",
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "david",
+   "named": "David",
+   "kind": "scripture",
+   "source": "Josephus, Antiquities 14-19"
+  }
+ ],
+ "path": "mentions/josephus-mentions.json",
+ "convention": "one file per author named <author>-mentions.json (NEVER the same name as the room file, to avoid an upload collision). Keyed to the room via the room's \"mentions\" pointer."
+}
