@@ -789,6 +789,46 @@ because nothing is stored to drift; the calculation itself is the testimony.
   and the four prose modes are untouched — no `computed` special-case bolted
   onto the reading room.
 
+### 52 · The roster is the closed list — the answer to relevance is to EXPAND it
+An unreconciled gap, named 2 Sep: the hall knows only the ~1,100 souls in
+`names.csv`, and its wall is hard — *a figure not named here IS NOT ABOARD,
+however famous.* Correct, and it stops the hall inventing a Machiavelli room.
+But history is not closed, and people OFF the list have real relevance:
+Machiavelli asked about in Caesar's room, Cromwell's astrologer, Kepler when the
+conjunctions come up. The wall makes the hall say *not aboard* and stop —
+truthful but unhelpful, and it is the exact moment the model is most tempted to
+break the wall and fabricate.
+
+**THE RESOLUTION IS NOT TO SOFTEN THE WALL. IT IS TO GROW THE LIST.** The gap
+exists only because the roster is smaller than the relevance. Make the roster
+match the relevance and there is nothing to reconcile: everyone who could come
+up is aboard, dated, and the wall stays intact because it excludes no one who
+matters. Softening the wall trades a real guarantee for a vague one; expanding
+the list keeps the guarantee and closes the gap.
+
+- **IT IS CHEAP, because a soul needs no room.** Tonight proved the roster and
+  the library are separate: 1,100 dated souls, only 52 with shelves. Adding
+  Machiavelli, Kepler, Lilly to `names.csv` gives each a PLACE IN TIME — a bar
+  on the timeline, a name in *alive beside them*, a date the mention graph (#47)
+  can anchor to — with no shelf required. Roster is cheap; library is dear.
+- **Every addition needs a real birth AND death**, or it breaks the timeline's
+  midpoint placement and trips the sign-error guard in probe-roster. No undated
+  names. Anyone relevant enough to add is dated enough to place.
+- **The mechanism already exists:** `names.csv` → probe-roster →
+  ROSTER-INDEX.json. Expansion is adding rows and letting the probe regenerate;
+  everything downstream (timeline, panel, guard, find()) picks them up.
+- **BUT EXPANSION IS AUTHORSHIP, NOT AUTOMATION.** A yml cannot decide who
+  belongs — only place who has been decided on. Each new soul is a judgement:
+  relevant enough to add, correctly dated, room-worthy later or not. This is the
+  same work as building the roster in the first place, continued.
+- **The standing practice, then:** when a relevant figure surfaces and is not
+  aboard, the answer is to ADD them to `names.csv`, dated — never to loosen the
+  hall's rule. The wall stays hard; the list grows to meet the world. #49 (the
+  science cohort) is the first batch of exactly this work.
+- **Acceptance test:** none — this is a principle, not a move. It is settled
+  when the practice is followed: a surfaced-and-relevant figure becomes a dated
+  roster row, not a softened rule.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -904,7 +944,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–51 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–52 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -934,7 +974,7 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #51 added and CORRECTED — planet rooms. The ship already
+*Updated 2 Sep 2026: #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
 has the engine: Page2's astronomy-engine / Sovereign.Ephemeris computes any
 planet live. A planet room is that engine queried, not a baked SKY.csv record;
 the earlier planet-jupiter.json and a computed-mode hack were both dead copies
