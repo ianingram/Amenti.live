@@ -737,7 +737,20 @@
     /* axis: the years, and the events as ticks. Events are a MOMENT, not a
        span, so they live on the axis and never among the rows \u2014 in a row they
        would read as very short lives. */
-    var a = [], step = 50;
+    /* ── THE CENTURY IS THE DOWNBEAT · 2 Sep ──────────────────────────────
+       The rings are the ~20-year tick; the century is where the count lands \u2014
+       2,4,6,8,10 and you have walked 200 years. So the 100-year line is the
+       ACCENT: a brighter, full-height rule the eye rests on, distinct from the
+       ordinary 50-year ticks. The reader rides the rings and lands on the
+       centuries. The accent unit widens with zoom so it never becomes a fence. */
+    var a = [];
+    var beat = SPAN <= 400 ? 100 : SPAN <= 1500 ? 500 : 1000;
+    var b1 = Math.ceil(state.min / beat) * beat;
+    for (var cy = b1; cy <= state.max; cy += beat) {
+      a.push('<line x1="' + X(cy) + '" y1="' + SKY_Y + '" x2="' + X(cy) + '" y2="' + AXIS_H +
+             '" stroke="#c9a227" stroke-width="0.8" opacity="0.28"/>');
+    }
+    var step = 50;
     for (var yr = Math.ceil(state.min / step) * step; yr <= state.max; yr += step) {
       a.push('<line x1="' + X(yr) + '" y1="' + (AXIS_H - 12) + '" x2="' + X(yr) + '" y2="' + AXIS_H + '" stroke="#2a3346" stroke-width="0.5"/>');
       a.push('<text x="' + X(yr) + '" y="' + (AXIS_H - 16) + '" text-anchor="middle" fill="#8f9db4">' + yearLabel(yr) + '</text>');
@@ -771,9 +784,20 @@
              the beat stays legible without vanishing. */
           if (SPAN > 1000 && Math.round(sk.y / 20) % 2 !== 0) return;
           var cxp = X(sk.y);
-          a.push('<circle cx="' + cxp + '" cy="' + (SKY_Y + 26) + '" r="4.5" fill="none" ' +
-                 'stroke="#e8c65a" stroke-width="1.3"><title>Great conjunction \u2014 Jupiter and Saturn meet, ' +
-                 yearLabel(sk.y) + '</title></circle>');
+          /* THE DOWNBEAT RING. A conjunction within ~10 years of a century mark
+             is the LANDING in the count \u2014 drawn larger and filled so the eye
+             lands on it. The others are the ticks between. */
+          var beatU = SPAN <= 400 ? 100 : SPAN <= 1500 ? 500 : 1000;
+          var onBeat = Math.abs(sk.y - Math.round(sk.y / beatU) * beatU) <= 10;
+          if (onBeat) {
+            a.push('<circle cx="' + cxp + '" cy="' + (SKY_Y + 26) + '" r="6" fill="#e8c65a" ' +
+                   'fill-opacity="0.9" stroke="#f0d060" stroke-width="1"><title>Great conjunction \u2014 Jupiter and Saturn meet, ' +
+                   yearLabel(sk.y) + '</title></circle>');
+          } else {
+            a.push('<circle cx="' + cxp + '" cy="' + (SKY_Y + 26) + '" r="4.5" fill="none" ' +
+                   'stroke="#e8c65a" stroke-width="1.3"><title>Great conjunction \u2014 Jupiter and Saturn meet, ' +
+                   yearLabel(sk.y) + '</title></circle>');
+          }
           return;
         }
         /* Solo Jupiter risings are gone \u2014 the conjunction replaces them. The
