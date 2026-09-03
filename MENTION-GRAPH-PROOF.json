@@ -1,0 +1,87 @@
+{
+ "proven": "2026-09-03",
+ "text": "Flavius Josephus, Antiquities Books 14,15,17,18,19",
+ "finding": "The mention graph is viable: Josephus names his imperial contemporaries abundantly and citably. But raw substring matching produced ~1 false edge per true edge. Disambiguation is the build, not an afterthought.",
+ "verified_true_edges": [
+  {
+   "from": "flavius-josephus",
+   "to": "tiberius",
+   "named": "Tiberius",
+   "dates": "-42-37"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "claudius",
+   "named": "Claudius",
+   "dates": "-10-54"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "augustus",
+   "named": "Augustus",
+   "dates": "-63-14"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "titus",
+   "named": "Titus",
+   "dates": "39-81"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "vespasian",
+   "named": "Vespasian",
+   "dates": "9-79"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "nero",
+   "named": "Nero",
+   "dates": "37-68"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "petronius",
+   "named": "Petronius",
+   "dates": "27-66"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "vitellius",
+   "named": "Vitellius",
+   "dates": "15-69"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "strabo",
+   "named": "Strabo",
+   "dates": "-63-23"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "caligula",
+   "named": "Caligula",
+   "dates": "12-41"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "galba",
+   "named": "Galba",
+   "dates": "-3-69"
+  }
+ ],
+ "false_positives_caught": {
+  "Ptolemy": "Ptolemy Menneus, a local ruler — NOT the astronomer on the roster",
+  "Suetonius": "appears only in Whiston's translator footnote, not Josephus's text",
+  "Brutus": "\"son of Brutus the proconsul\" — Marcus’s line, NOT the legendary Lucius in the room",
+  "Josephus": "self-reference — an author is not an edge to himself",
+  "Virgil": "requires context check — likely a place or the poet in a note",
+  "Aesop": "requires context check"
+ },
+ "the_three_filters_required": [
+  "strip translator apparatus before scanning (the Suetonius footnote case)",
+  "full-name / epithet match, not bare first name (Ptolemy Menneus case)",
+  "consult the room-note for shared names (which Brutus)"
+ ],
+ "rule": "A substring match is a CANDIDATE. It becomes an edge only after the three filters AND a human confirms. Candidate-not-link, from Slip #47."
+}
