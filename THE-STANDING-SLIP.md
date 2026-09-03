@@ -985,6 +985,50 @@ daylight:
   the timeline draws it distinctly; and a king-list can be onboarded without a
   single fabricated birth or death.
 
+### 57 · MARKETING NOTE — the language for what Amenti is
+Kept here so the framing does not evaporate. Two registers: the one-line, and
+the argument.
+
+**THE ONE LINE, in the hall’s own words (already in HALL.md, epigraph):**
+> *Nothing here pretends to be a séance. It is a reading room with very good
+> acoustics.*
+
+And the boundary it rests on: *I am the building. Ask me what this place is, how
+it works, what a word means, where a thing is written — those are mine to
+answer. Ask me what a soul thought, felt, or would have done, and I will tell
+you the honest thing: they are standing right there. Ask them.*
+
+**THE ARGUMENT — why the discipline IS the power (2 Sep):**
+
+Most systems get powerful by knowing more. The hall got powerful by being
+disciplined about what it knows — and that discipline is exactly what let it
+grow without rotting. Every capability compounds because the foundation refuses
+to fake:
+- The timeline could become an instrument because the dates were real.
+- The roster could grow by 490 because each addition was verified, not guessed.
+- The connection gesture means something because the overlaps are true.
+- The colouring is trustworthy because it never claims a source it lacks.
+- The sky is a primary source because it is recomputable.
+
+A chatbot that leaned on general knowledge would have hit its ceiling months ago
+— impressive and unreliable, and you could never build on it, because you could
+not trust the last layer enough to add the next. The hall is a powerhouse
+precisely because you can keep stacking: each honest layer is a floor the next
+one stands on. That is what “powerhouse” means for a system like this — not
+that it is clever, but that it is LOAD-BEARING.
+
+It stayed one because the easy versions kept being refused: the fabricated
+title, the talking planet, the baked ephemeris, the trust-the-source shortcut,
+the general-knowledge wall — each would have made it briefly more impressive and
+permanently less trustworthy. That instinct is the actual engine.
+
+**Honest all the way down, and powerful BECAUSE of it, not despite it.**
+
+- **Use:** the one line for the splash and the card; the argument for the about
+  page, the pitch, the investor note. Do not soften “séance” — the refusal is
+  the selling point.
+- Not a build. A note, so the words survive the night they were written in.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -1100,7 +1144,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–56 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–57 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -1130,7 +1174,7 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #56 added — the roster schema stores a lifespan, but the ancient Near East (Israel, Babylon, Persia, Egypt) kept REIGNS, not birthdays. A reign-span field is the structural unlock; the iconic few are in, flagged, awaiting it. #55 added — the two tiers of knowledge are a RATCHET, not a rule: scaffolding (general knowledge) holds the frame provisionally and becomes stone (sources) one addition at a time; the wheel turns one way, so the verification that keeps fraud and fiction off it is what keeps lies out of permanent architecture. #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
+*Updated 2 Sep 2026: #57 added — a MARKETING NOTE: the one-line (“a reading room with very good acoustics,” not a séance) and the argument that the discipline IS the power — honest all the way down, load-bearing, powerful because of it. Kept so the words survive. #56 added — the roster schema stores a lifespan, but the ancient Near East (Israel, Babylon, Persia, Egypt) kept REIGNS, not birthdays. A reign-span field is the structural unlock; the iconic few are in, flagged, awaiting it. #55 added — the two tiers of knowledge are a RATCHET, not a rule: scaffolding (general knowledge) holds the frame provisionally and becomes stone (sources) one addition at a time; the wheel turns one way, so the verification that keeps fraud and fiction off it is what keeps lies out of permanent architecture. #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
 has the engine: Page2's astronomy-engine / Sovereign.Ephemeris computes any
 planet live. A planet room is that engine queried, not a baked SKY.csv record;
 the earlier planet-jupiter.json and a computed-mode hack were both dead copies
