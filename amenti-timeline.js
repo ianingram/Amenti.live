@@ -271,7 +271,10 @@
       '#amenti-timeline .tl-sky{position:absolute;left:0;right:0;top:26px;height:58px;',
       '  z-index:3;cursor:ew-resize;pointer-events:auto}',
       /* SEEN LIVE 2 Sep: the legend sat top-right on top of the zoom buttons. It belongs in the sky row at the LEFT, clear of the controls. */
-      '#amenti-timeline .tl-legend{position:absolute;left:' + PAD + 'px;top:6px;z-index:5;',
+      '#amenti-timeline .tl-legend .leg{cursor:pointer;user-select:none}',
+      '#amenti-timeline .tl-legend .leg.off{opacity:.3;text-decoration:line-through}',
+      '#amenti-timeline .tl-legend .leg-sep{opacity:.4;margin:0 2px}',
+      '#amenti-timeline .tl-legend{position:absolute;left:' + PAD + 'px;top:6px;z-index:5;pointer-events:auto;',
       '  font-size:10.5px;letter-spacing:.06em;pointer-events:none;display:flex;gap:13px;background:rgba(9,11,18,.7);padding:2px 8px;border-radius:4px}',
       '#amenti-timeline .tl-rail{position:absolute;left:0;right:0;top:' + (AXIS_H + 34) + 'px;bottom:78px;',
       '  overflow:auto;cursor:grab;overscroll-behavior:contain;',
@@ -405,10 +408,13 @@
       /* Four characters and their names, once, at the edge. The row is
          readable without it; this only removes the moment of asking. */
       '<div class="tl-legend">' +
-        '<span style="color:#8b9bff">\u2646 neptune</span>' +
-        '<span style="color:#7fdce8">\u2645 uranus</span>' +
-        '<span style="color:#ecd493">\u2644 saturn</span>' +
-        '<span style="color:#cf9b63">\u2643 jupiter</span>' +
+        '<span class="leg" data-body="Neptune" style="color:#8b9bff">\u2646 neptune</span>' +
+        '<span class="leg" data-body="Uranus" style="color:#7fdce8">\u2645 uranus</span>' +
+        '<span class="leg" data-body="Saturn" style="color:#ecd493">\u2644 saturn</span>' +
+        '<span class="leg" data-body="Jupiter" style="color:#cf9b63">\u2643 jupiter</span>' +
+        '<span class="leg-sep">\u00b7</span>' +
+        '<span style="color:#e8c65a">\u25cb conjunction</span>' +
+        '<span style="color:#e8c65a">\u25cf century</span>' +
       '</div>' +
       '<div class="tl-rail"><svg class="tl-rows"></svg></div>' +
       '<div class="tl-scene"></div>' +
@@ -593,6 +599,20 @@
       if (e.target.closest && (e.target.closest('.tl-scene') || e.target.closest('.tl-axis') ||
           e.target.closest('.tl-rows') || e.target.closest('.tl-slider') || e.target.closest('.tl-fold'))) return;
       clearSelection();
+    });
+
+    /* LEGEND TOGGLES \u2014 3 Sep. Click a planet in the legend to hide/show all its
+       marks, so a reader can isolate one body. Delegated on the legend, which
+       survives redraws. */
+    var legendEl = root.querySelector('.tl-legend');
+    if (legendEl) legendEl.addEventListener('click', function (e) {
+      var sp = e.target.closest && e.target.closest('.leg[data-body]');
+      if (!sp) return;
+      e.stopPropagation();
+      var body = sp.getAttribute('data-body');
+      if (hiddenBodies[body]) { delete hiddenBodies[body]; sp.classList.remove('off'); }
+      else { hiddenBodies[body] = true; sp.classList.add('off'); }
+      redraw();
     });
 
     var foldTab = root.querySelector('.tl-fold');
@@ -792,6 +812,9 @@
       var wide = SPAN > 400, skyReach = {};
       sky.forEach(function (sk) {
         if (sk.y < state.min || sk.y > state.max) return;
+        if (sk.kind === 'due-east' && hiddenBodies[sk.body]) return;
+        if (sk.kind === 'conjunction' && (hiddenBodies['Jupiter'] || hiddenBodies['Saturn'])) return;
+        if (sk.kind === 'gathering' && hiddenBodies['Jupiter'] && hiddenBodies['Saturn'] && hiddenBodies['Uranus'] && hiddenBodies['Neptune']) return;
 
         /* ── THE GREAT CONJUNCTION IS THE RHYTHM · 2 Sep ──────────────────
            Jupiter's solo due-east rising fired every ~6 years \u2014 34 marks in a
@@ -858,7 +881,7 @@
             }
             a.push('<circle class="orb' + pulse + '" cx="' + cxp + '" cy="' + (SKY_Y + 26) +
                    '" r="6" fill="#e8c65a" fill-opacity="0.9" stroke="#f0d060" stroke-width="1">' +
-                   '<title>Great conjunction \u2014 Jupiter and Saturn meet, ' + yearLabel(sk.y) + '</title></circle>');
+                   '<title>Great conjunction ON THE CENTURY \u2014 Jupiter and Saturn meet, ' + yearLabel(sk.y) + '</title></circle>');
           } else {
             a.push('<circle cx="' + cxp + '" cy="' + (SKY_Y + 26) + '" r="4.5" fill="none" ' +
                    'stroke="#e8c65a" stroke-width="1.3"><title>Great conjunction \u2014 Jupiter and Saturn meet, ' +
@@ -1124,6 +1147,7 @@
      become .conn; the focus becomes .focus; axis ticks/rings in range light,
      the rest dim. Clears on a bare-scene click. */
   var selection = null;
+  var hiddenBodies = {};
   function highlight(from, to, focusKey) {
     if (!mounted) return;
     selection = { from: from, to: to, focus: focusKey || null };
