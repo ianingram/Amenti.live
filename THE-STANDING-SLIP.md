@@ -895,6 +895,53 @@ the two from contaminating each other.
   roster rows carry a source for their dates; and no roster row's dates trace
   only to a model recollection.
 
+### 55 · The two tiers are a RATCHET, not a rule — scaffolding becomes stone
+The deepest reconciliation of the general-knowledge question, 2 Sep. The hall
+holds two kinds of knowledge and they are NOT in opposition — they are on a
+one-way wheel.
+
+- **Scaffolding** — general knowledge. The connective tissue: dates, places,
+  relationships, established background (*Constantinople fell in 1453*). It
+  holds the frame WHERE SOURCES DO NOT YET REACH. It is context, not testimony;
+  it never wears the citation colours and never claims a source it lacks.
+- **Structure** — primary sources. What the hall QUOTES. Sacred, verbatim,
+  cited. The permanent masonry.
+
+**THE SCAFFOLDING IS TEMPORARY BY DESIGN.** General knowledge is not a
+compromise the ship tolerates nor a thing it forbids — it is the temporary
+structure you build against while the permanent thing rises, removed as the
+masonry takes its place. Every primary source added, every roster row sourced,
+every encyclopedia article cited converts a piece of scaffolding into structure.
+The Fall of Constantinople is background TODAY; the day a primary account of
+1453 enters the library, it becomes a sourced quote. The frame turns to stone
+one stone at a time.
+
+- **THE RATCHET ONLY TURNS ONE WAY.** A fact once sourced does not revert to
+  general knowledge; the library only accumulates. Which means a LIE laid as
+  stone is permanent too — fraud (the model's invention) or fiction (a source's,
+  see #54, FRAUD-OR-FICTION) that survives the workbench does not add a wrong
+  row, it converts a false belief into apparent ARCHITECTURE, which is worse
+  because architecture is not doubted. The verification steps are not hygiene;
+  they are what guarantees the wheel turns only TRUTH into permanence.
+- **The wall stays exactly where it must:** around QUOTATION and ATTRIBUTION,
+  absolute. It comes down where it was never needed: around established
+  background fact. Demanding a fetched citation for “1453” is the guard crying
+  wolf, the failure probe-citations warns of.
+- **THE SHIP’S HEALTH IS THE RATIO MOVING TOWARD STONE.** A chatbot leans on
+  general knowledge and stays there — that is its ceiling. Amenti leans on it
+  PROVISIONALLY, and every addition reduces the lean. The measure is not
+  “does it use general knowledge” but “is the scaffolding retreating.” Tonight
+  it retreated: 38 presidents went from general-knowledge gaps to dated, sourced
+  rows (#54). A stone laid.
+- **This is the principle #54 and FRAUD-OR-FICTION serve under.** Sourcing a
+  cohort is not just careful list-keeping — it is turning the wheel: scaffolding
+  to structure, one clean turn, the fiction read for what it is and left off the
+  wall.
+- **Acceptance test:** none — a governing principle. It holds when general
+  knowledge is visibly provisional (never in citation colours, never claiming a
+  source), when the wall around quotation stays absolute, and when the corpus
+  only accumulates — no sourced fact ever silently reverts to memory.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -1010,7 +1057,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–54 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–55 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -1040,7 +1087,7 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
+*Updated 2 Sep 2026: #55 added — the two tiers of knowledge are a RATCHET, not a rule: scaffolding (general knowledge) holds the frame provisionally and becomes stone (sources) one addition at a time; the wheel turns one way, so the verification that keeps fraud and fiction off it is what keeps lies out of permanent architecture. #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
 has the engine: Page2's astronomy-engine / Sovereign.Ephemeris computes any
 planet live. A planet room is that engine queried, not a baked SKY.csv record;
 the earlier planet-jupiter.json and a computed-mode hack were both dead copies
