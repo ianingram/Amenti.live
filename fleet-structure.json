@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-03T15:56:14.093Z",
+    "generated": "2026-09-03T16:16:43.979Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1335,7 +1335,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48785,
-      "sha256": "fbafcf2ca317ce1e",
+      "sha256": "342f3e571f88faa7",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1442,6 +1442,17 @@
         "joyComm",
         "toggleHeadlights"
       ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "graph.html",
+      "bytes": 13709,
+      "sha256": "7d608f5914ba3d22",
+      "type": "html",
+      "declares": [],
       "loads": [],
       "calls": [],
       "endpoints": [],
