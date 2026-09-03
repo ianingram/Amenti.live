@@ -1,0 +1,96 @@
+{
+ "harvested": "2026-09-03",
+ "author": "livy",
+ "author_dates": "-59..17",
+ "text": "Livy, Ab Urbe Condita — the ten selections in the room",
+ "method": "mgraph.mjs 4-filter scan (born-after-death rejected 1,252) + human review",
+ "path": "mentions/livy-mentions.json",
+ "note": "The founding cohort resolves cleanly: Romulus, Numa, Servius Tullius, and Brutus — here the LUCIUS Brutus, the room’s subject, correctly, because Livy’s text IS about the founding. The same name Josephus’s harvest rejected (Marcus’s line) resolves TRUE here. The text decides.",
+ "confirmed": 12,
+ "edges": [
+  {
+   "from": "livy",
+   "to": "romulus",
+   "named": "Romulus",
+   "kind": "legendary",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "remus",
+   "named": "Remus",
+   "kind": "legendary",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "hercules",
+   "named": "Hercules",
+   "kind": "legendary",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "brutus",
+   "named": "Brutus",
+   "kind": "historical",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "numa-pompilius",
+   "named": "Numa Pompilius",
+   "kind": "historical",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "servius-tullius",
+   "named": "Servius Tullius",
+   "kind": "historical",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "lucretius",
+   "named": "Lucretius",
+   "kind": "historical",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "horatius-cocles",
+   "named": "Horatius Cocles",
+   "kind": "historical",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "pythagoras",
+   "named": "Pythagoras",
+   "kind": "historical",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "polybius",
+   "named": "Polybius",
+   "kind": "historical",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "augustus",
+   "named": "Augustus",
+   "kind": "contemporary",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  },
+  {
+   "from": "livy",
+   "to": "claudius",
+   "named": "Claudius",
+   "kind": "contemporary",
+   "source": "Livy, Ab Urbe Condita (selections)"
+  }
+ ]
+}
