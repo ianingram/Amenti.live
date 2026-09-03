@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-03T07:35:27.372Z",
+    "generated": "2026-09-03T07:52:19.393Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1174,8 +1174,8 @@
     },
     {
       "file": "amenti-timeline.js",
-      "bytes": 76804,
-      "sha256": "bb9605e44cded000",
+      "bytes": 78385,
+      "sha256": "0dec44773c0712cb",
       "type": "js",
       "declares": [
         "AmentiTimeline"
@@ -1184,7 +1184,7 @@
       "calls": [
         {
           "global": "Amenti.openReadingRoom",
-          "line": 755,
+          "line": 775,
           "when": "function",
           "own": false
         }
@@ -1335,7 +1335,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 48785,
-      "sha256": "30b8647f8173ebe8",
+      "sha256": "c185969e494ff3b2",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
