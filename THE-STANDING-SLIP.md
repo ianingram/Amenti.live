@@ -942,6 +942,49 @@ one stone at a time.
   source), when the wall around quotation stays absolute, and when the corpus
   only accumulates — no sourced fact ever silently reverts to memory.
 
+### 56 · The roster schema wants a LIFESPAN; the ancient world kept REIGNS
+Hit three times in one sitting, 2 Sep — Israel, Babylon, Persia. The roster
+stores a birth and a death, and the timeline places a soul by that span. But the
+entire ancient Near East is dated by REGNAL YEARS, not lifespans: nobody
+recorded when Cyrus, Nebuchadnezzar, Hammurabi or David was born. Wikidata
+correctly returns NO birth/death for them — which is honest, and which our
+schema cannot currently accept.
+
+**THIS IS A SCHEMA DECISION, DEFERRED HERE ON PURPOSE.** Three ways, to weigh in
+daylight:
+- **A reign span, distinct from birth/death.** Add `reign-start` / `reign-end`;
+  the timeline places a soul by lifespan WHERE KNOWN and by reign where it is
+  not, drawing the reign differently (a bar with a crown, not a life). This is
+  the real unlock — it lets whole king-lists (Babylonian, Assyrian, Achaemenid,
+  the divided monarchy of Israel) enter HONESTLY, each as what the record
+  actually holds, without a fabricated birthday.
+- **Reign-as-span, flagged** — the interim we used tonight for the iconic few
+  (Cyrus, Darius, Xerxes, Cambyses, Artaxerxes, Darius III; Saul/David/Solomon
+  as traditional). The bio says REIGN-SPAN, not lifespan. Honest but lossy: the
+  timeline still reads it as a life.
+- **Defer the undated** — leave them off until dated, as with the outer planets.
+
+**WHAT IS ALREADY IN, FLAGGED, AWAITING THE SCHEMA:**
+- United monarchy of Israel: Saul, David, Solomon — traditional dates, flagged.
+- Achaemenid Persia, iconic: Cyrus, Cambyses, Darius the Great, Xerxes I,
+  Artaxerxes I, Darius III — reign-span, flagged `King of Persia (reign)`.
+
+**WHAT IS DEFERRED, needs a source AND the schema:**
+- The divided monarchy of Israel and Judah (~40 kings) — needs a Thiele
+  chronology table; Wikidata’s dates for them are absent or wrong (it returned
+  Solomon as AD 1053).
+- Babylon and Assyria (Hammurabi, Nebuchadnezzar, Sargon, Ashurbanipal, the
+  king-lists) — reign years only, from a specialist chronology.
+- Egypt’s pharaonic dynasties — the same shape, at greater scale.
+
+- **The signal:** hitting this wall three times in one sitting means it is not a
+  per-dynasty patch but a structural gap. The reign-span schema is the thing
+  that opens the whole ancient world cleanly, and it is worth doing before the
+  next Near Eastern cohort rather than hand-flagging each.
+- **Acceptance test:** the schema accepts a reign where a lifespan is unknown;
+  the timeline draws it distinctly; and a king-list can be onboarded without a
+  single fabricated birth or death.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -1057,7 +1100,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–55 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–56 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -1087,7 +1130,7 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #55 added — the two tiers of knowledge are a RATCHET, not a rule: scaffolding (general knowledge) holds the frame provisionally and becomes stone (sources) one addition at a time; the wheel turns one way, so the verification that keeps fraud and fiction off it is what keeps lies out of permanent architecture. #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
+*Updated 2 Sep 2026: #56 added — the roster schema stores a lifespan, but the ancient Near East (Israel, Babylon, Persia, Egypt) kept REIGNS, not birthdays. A reign-span field is the structural unlock; the iconic few are in, flagged, awaiting it. #55 added — the two tiers of knowledge are a RATCHET, not a rule: scaffolding (general knowledge) holds the frame provisionally and becomes stone (sources) one addition at a time; the wheel turns one way, so the verification that keeps fraud and fiction off it is what keeps lies out of permanent architecture. #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
 has the engine: Page2's astronomy-engine / Sovereign.Ephemeris computes any
 planet live. A planet room is that engine queried, not a baked SKY.csv record;
 the earlier planet-jupiter.json and a computed-mode hack were both dead copies
