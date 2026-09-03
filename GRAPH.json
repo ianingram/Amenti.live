@@ -10,7 +10,9 @@
     "named": "julius-caesar",
     "room": true,
     "namedBy": [],
-    "inDegree": 0
+    "inDegree": 0,
+    "b": -100,
+    "d": -44
    },
    {
     "key": "pompey",
@@ -19,7 +21,9 @@
     "namedBy": [
      "julius-caesar"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -106,
+    "d": -48
    },
    {
     "key": "vercingetorix",
@@ -28,7 +32,9 @@
     "namedBy": [
      "julius-caesar"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -80,
+    "d": -46
    },
    {
     "key": "cicero",
@@ -38,7 +44,9 @@
      "julius-caesar",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -107,
+    "d": -43
    },
    {
     "key": "dumnorix",
@@ -47,7 +55,9 @@
     "namedBy": [
      "julius-caesar"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -100,
+    "d": -54
    },
    {
     "key": "brutus",
@@ -59,7 +69,9 @@
      "livy",
      "plutarch"
     ],
-    "inDegree": 4
+    "inDegree": 4,
+    "b": -545,
+    "d": -509
    },
    {
     "key": "titus-labienus",
@@ -68,7 +80,9 @@
     "namedBy": [
      "julius-caesar"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -98,
+    "d": -45
    },
    {
     "key": "lucretius",
@@ -78,7 +92,9 @@
      "julius-caesar",
      "livy"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -99,
+    "d": -55
    },
    {
     "key": "hercules",
@@ -90,7 +106,9 @@
      "plutarch",
      "tacitus"
     ],
-    "inDegree": 4
+    "inDegree": 4,
+    "b": -1300,
+    "d": -1200
    },
    {
     "key": "lepidus",
@@ -99,14 +117,18 @@
     "namedBy": [
      "julius-caesar"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -90,
+    "d": -13
    },
    {
     "key": "herodotus",
     "named": "herodotus",
     "room": true,
     "namedBy": [],
-    "inDegree": 0
+    "inDegree": 0,
+    "b": -484,
+    "d": -425
    },
    {
     "key": "leonidas",
@@ -116,7 +138,9 @@
      "herodotus",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -540,
+    "d": -480
    },
    {
     "key": "croesus",
@@ -127,7 +151,9 @@
      "plutarch",
      "thucydides"
     ],
-    "inDegree": 3
+    "inDegree": 3,
+    "b": -595,
+    "d": -546
    },
    {
     "key": "solon",
@@ -137,7 +163,9 @@
      "herodotus",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -630,
+    "d": -560
    },
    {
     "key": "priam",
@@ -146,14 +174,18 @@
     "namedBy": [
      "herodotus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1250,
+    "d": -1180
    },
    {
     "key": "flavius-josephus",
     "named": "flavius-josephus",
     "room": true,
     "namedBy": [],
-    "inDegree": 0
+    "inDegree": 0,
+    "b": 37,
+    "d": 100
    },
    {
     "key": "tiberius",
@@ -163,7 +195,9 @@
      "flavius-josephus",
      "tacitus"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -42,
+    "d": 37
    },
    {
     "key": "claudius",
@@ -175,7 +209,9 @@
      "plutarch",
      "tacitus"
     ],
-    "inDegree": 4
+    "inDegree": 4,
+    "b": -10,
+    "d": 54
    },
    {
     "key": "petronius",
@@ -185,7 +221,9 @@
      "flavius-josephus",
      "tacitus"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": 27,
+    "d": 66
    },
    {
     "key": "vitellius",
@@ -195,7 +233,9 @@
      "flavius-josephus",
      "tacitus"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": 15,
+    "d": 69
    },
    {
     "key": "strabo",
@@ -204,7 +244,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -63,
+    "d": 23
    },
    {
     "key": "augustus",
@@ -215,7 +257,9 @@
      "livy",
      "tacitus"
     ],
-    "inDegree": 3
+    "inDegree": 3,
+    "b": -63,
+    "d": 14
    },
    {
     "key": "nero",
@@ -225,7 +269,9 @@
      "flavius-josephus",
      "tacitus"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": 37,
+    "d": 68
    },
    {
     "key": "vespasian",
@@ -235,7 +281,9 @@
      "flavius-josephus",
      "tacitus"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": 9,
+    "d": 79
    },
    {
     "key": "galba",
@@ -245,7 +293,9 @@
      "flavius-josephus",
      "tacitus"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -3,
+    "d": 69
    },
    {
     "key": "lysimachus",
@@ -255,7 +305,9 @@
      "flavius-josephus",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -361,
+    "d": -281
    },
    {
     "key": "alexander-the-great",
@@ -264,7 +316,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -356,
+    "d": -323
    },
    {
     "key": "aesop",
@@ -274,7 +328,9 @@
      "flavius-josephus",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -620,
+    "d": -564
    },
    {
     "key": "marcus-tullius-cicero",
@@ -283,7 +339,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -106,
+    "d": -43
    },
    {
     "key": "lysias",
@@ -292,7 +350,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -445,
+    "d": -380
    },
    {
     "key": "jason",
@@ -302,7 +362,9 @@
      "flavius-josephus",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -1300,
+    "d": -1200
    },
    {
     "key": "moses",
@@ -311,7 +373,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1391,
+    "d": -1271
    },
    {
     "key": "solomon",
@@ -320,7 +384,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1010,
+    "d": -931
    },
    {
     "key": "jacob",
@@ -329,7 +395,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1800,
+    "d": -1700
    },
    {
     "key": "david",
@@ -338,7 +406,9 @@
     "namedBy": [
      "flavius-josephus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1040,
+    "d": -970
    },
    {
     "key": "livy",
@@ -347,7 +417,9 @@
     "namedBy": [
      "tacitus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -59,
+    "d": 17
    },
    {
     "key": "romulus",
@@ -357,7 +429,9 @@
      "livy",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -771,
+    "d": -717
    },
    {
     "key": "remus",
@@ -367,7 +441,9 @@
      "livy",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -771,
+    "d": -753
    },
    {
     "key": "numa-pompilius",
@@ -377,7 +453,9 @@
      "livy",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -753,
+    "d": -673
    },
    {
     "key": "servius-tullius",
@@ -386,7 +464,9 @@
     "namedBy": [
      "livy"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -578,
+    "d": -535
    },
    {
     "key": "horatius-cocles",
@@ -395,7 +475,9 @@
     "namedBy": [
      "livy"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -520,
+    "d": -500
    },
    {
     "key": "pythagoras",
@@ -405,7 +487,9 @@
      "livy",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -583,
+    "d": -491
    },
    {
     "key": "polybius",
@@ -415,14 +499,18 @@
      "livy",
      "plutarch"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -200,
+    "d": -118
    },
    {
     "key": "plutarch",
     "named": "plutarch",
     "room": true,
     "namedBy": [],
-    "inDegree": 0
+    "inDegree": 0,
+    "b": 46,
+    "d": 120
    },
    {
     "key": "theseus",
@@ -432,7 +520,9 @@
      "plutarch",
      "thucydides"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -1300,
+    "d": -1200
    },
    {
     "key": "pericles",
@@ -442,7 +532,9 @@
      "plutarch",
      "thucydides"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -495,
+    "d": -429
    },
    {
     "key": "aristotle",
@@ -451,7 +543,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -384,
+    "d": -322
    },
    {
     "key": "homer",
@@ -461,7 +555,9 @@
      "plutarch",
      "thucydides"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -800,
+    "d": -750
    },
    {
     "key": "thucydides",
@@ -470,7 +566,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -460,
+    "d": -400
    },
    {
     "key": "plato",
@@ -479,7 +577,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -427,
+    "d": -347
    },
    {
     "key": "minos",
@@ -489,7 +589,9 @@
      "plutarch",
      "thucydides"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -2000,
+    "d": -1400
    },
    {
     "key": "euripides",
@@ -499,7 +601,9 @@
      "plutarch",
      "thucydides"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -480,
+    "d": -406
    },
    {
     "key": "achilles",
@@ -509,7 +613,9 @@
      "plutarch",
      "thucydides"
     ],
-    "inDegree": 2
+    "inDegree": 2,
+    "b": -1250,
+    "d": -1180
    },
    {
     "key": "aeneas",
@@ -518,7 +624,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1250,
+    "d": -1180
    },
    {
     "key": "theophrastus",
@@ -527,7 +635,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -371,
+    "d": -287
    },
    {
     "key": "sophocles",
@@ -536,7 +646,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -497,
+    "d": -406
    },
    {
     "key": "aristophanes",
@@ -545,7 +657,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -446,
+    "d": -386
    },
    {
     "key": "diogenes",
@@ -554,7 +668,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -412,
+    "d": -323
    },
    {
     "key": "hesiod",
@@ -563,7 +679,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -750,
+    "d": -650
    },
    {
     "key": "aeschylus",
@@ -572,7 +690,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -525,
+    "d": -456
    },
    {
     "key": "cassander",
@@ -581,7 +701,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -355,
+    "d": -296
    },
    {
     "key": "pindar",
@@ -590,7 +712,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -518,
+    "d": -438
    },
    {
     "key": "demosthenes",
@@ -599,7 +723,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -384,
+    "d": -322
    },
    {
     "key": "pausanias",
@@ -608,7 +734,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": 110,
+    "d": 180
    },
    {
     "key": "heraclitus",
@@ -617,7 +745,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -535,
+    "d": -475
    },
    {
     "key": "anacreon",
@@ -626,7 +756,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -570,
+    "d": -485
    },
    {
     "key": "orpheus",
@@ -635,7 +767,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1300,
+    "d": -1200
    },
    {
     "key": "midas",
@@ -644,7 +778,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -800,
+    "d": -700
    },
    {
     "key": "belus",
@@ -653,7 +789,9 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -2000,
+    "d": -1800
    },
    {
     "key": "epicurus",
@@ -662,14 +800,18 @@
     "namedBy": [
      "plutarch"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -341,
+    "d": -270
    },
    {
     "key": "tacitus",
     "named": "tacitus",
     "room": true,
     "namedBy": [],
-    "inDegree": 0
+    "inDegree": 0,
+    "b": 56,
+    "d": 120
    },
    {
     "key": "domitian",
@@ -678,7 +820,9 @@
     "namedBy": [
      "tacitus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": 51,
+    "d": 96
    },
    {
     "key": "trajan",
@@ -687,7 +831,9 @@
     "namedBy": [
      "tacitus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": 53,
+    "d": 117
    },
    {
     "key": "nerva",
@@ -696,7 +842,9 @@
     "namedBy": [
      "tacitus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": 30,
+    "d": 98
    },
    {
     "key": "otho",
@@ -705,7 +853,9 @@
     "namedBy": [
      "tacitus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": 32,
+    "d": 69
    },
    {
     "key": "caligula",
@@ -714,7 +864,9 @@
     "namedBy": [
      "tacitus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": 12,
+    "d": 41
    },
    {
     "key": "frontinus",
@@ -723,7 +875,9 @@
     "namedBy": [
      "tacitus"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": 30,
+    "d": 103
    },
    {
     "key": "perseus",
@@ -732,7 +886,9 @@
     "namedBy": [
      "thucydides"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -1400,
+    "d": -1300
    },
    {
     "key": "xenophon",
@@ -741,7 +897,9 @@
     "namedBy": [
      "thucydides"
     ],
-    "inDegree": 1
+    "inDegree": 1,
+    "b": -431,
+    "d": -354
    }
   ],
   "edges": [
@@ -751,7 +909,11 @@
     "named": "Pompey",
     "kind": "contemporary",
     "count": 285,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -106,
+    "toD": -48
    },
    {
     "from": "julius-caesar",
@@ -759,7 +921,11 @@
     "named": "Vercingetorix",
     "kind": "contemporary",
     "count": 43,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -80,
+    "toD": -46
    },
    {
     "from": "julius-caesar",
@@ -767,7 +933,11 @@
     "named": "Cicero",
     "kind": "contemporary",
     "count": 22,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -107,
+    "toD": -43
    },
    {
     "from": "julius-caesar",
@@ -775,7 +945,11 @@
     "named": "Dumnorix",
     "kind": "contemporary",
     "count": 20,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -100,
+    "toD": -54
    },
    {
     "from": "julius-caesar",
@@ -783,7 +957,11 @@
     "named": "Brutus",
     "kind": "contemporary",
     "count": 13,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -545,
+    "toD": -509
    },
    {
     "from": "julius-caesar",
@@ -791,7 +969,11 @@
     "named": "Titus Labienus",
     "kind": "contemporary",
     "count": 9,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -98,
+    "toD": -45
    },
    {
     "from": "julius-caesar",
@@ -799,7 +981,11 @@
     "named": "Lucretius",
     "kind": "contemporary",
     "count": 3,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -99,
+    "toD": -55
    },
    {
     "from": "julius-caesar",
@@ -807,7 +993,11 @@
     "named": "Hercules",
     "kind": "legendary",
     "count": 2,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "julius-caesar",
@@ -815,7 +1005,11 @@
     "named": "Lepidus",
     "kind": "contemporary",
     "count": 1,
-    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+    "source": "Caesar, Commentaries (Gallic & Civil Wars)",
+    "fromB": -100,
+    "fromD": -44,
+    "toB": -90,
+    "toD": -13
    },
    {
     "from": "herodotus",
@@ -823,7 +1017,11 @@
     "named": "Leonidas",
     "kind": "historical",
     "count": 24,
-    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)",
+    "fromB": -484,
+    "fromD": -425,
+    "toB": -540,
+    "toD": -480
    },
    {
     "from": "herodotus",
@@ -831,7 +1029,11 @@
     "named": "Croesus",
     "kind": "historical",
     "count": 11,
-    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)",
+    "fromB": -484,
+    "fromD": -425,
+    "toB": -595,
+    "toD": -546
    },
    {
     "from": "herodotus",
@@ -839,7 +1041,11 @@
     "named": "Solon",
     "kind": "historical",
     "count": 7,
-    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)",
+    "fromB": -484,
+    "fromD": -425,
+    "toB": -630,
+    "toD": -560
    },
    {
     "from": "herodotus",
@@ -847,7 +1053,11 @@
     "named": "Priam",
     "kind": "legendary",
     "count": 2,
-    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)"
+    "source": "Herodotus, Histories (Solon & Croesus, Thermopylae, Salamis)",
+    "fromB": -484,
+    "fromD": -425,
+    "toB": -1250,
+    "toD": -1180
    },
    {
     "from": "flavius-josephus",
@@ -855,7 +1065,11 @@
     "named": "Tiberius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -42,
+    "toD": 37
    },
    {
     "from": "flavius-josephus",
@@ -863,7 +1077,11 @@
     "named": "Claudius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -10,
+    "toD": 54
    },
    {
     "from": "flavius-josephus",
@@ -871,7 +1089,11 @@
     "named": "Petronius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": 27,
+    "toD": 66
    },
    {
     "from": "flavius-josephus",
@@ -879,7 +1101,11 @@
     "named": "Vitellius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": 15,
+    "toD": 69
    },
    {
     "from": "flavius-josephus",
@@ -887,7 +1113,11 @@
     "named": "Strabo",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -63,
+    "toD": 23
    },
    {
     "from": "flavius-josephus",
@@ -895,7 +1125,11 @@
     "named": "Augustus",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -63,
+    "toD": 14
    },
    {
     "from": "flavius-josephus",
@@ -903,7 +1137,11 @@
     "named": "Nero",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": 37,
+    "toD": 68
    },
    {
     "from": "flavius-josephus",
@@ -911,7 +1149,11 @@
     "named": "Vespasian",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": 9,
+    "toD": 79
    },
    {
     "from": "flavius-josephus",
@@ -919,7 +1161,11 @@
     "named": "Galba",
     "kind": "contemporary",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -3,
+    "toD": 69
    },
    {
     "from": "flavius-josephus",
@@ -927,7 +1173,11 @@
     "named": "Lysimachus",
     "kind": "historical",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -361,
+    "toD": -281
    },
    {
     "from": "flavius-josephus",
@@ -935,7 +1185,11 @@
     "named": "Alexander the Great",
     "kind": "historical",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -356,
+    "toD": -323
    },
    {
     "from": "flavius-josephus",
@@ -943,7 +1197,11 @@
     "named": "Aesop",
     "kind": "historical",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -620,
+    "toD": -564
    },
    {
     "from": "flavius-josephus",
@@ -951,7 +1209,11 @@
     "named": "Marcus Tullius Cicero",
     "kind": "historical",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -106,
+    "toD": -43
    },
    {
     "from": "flavius-josephus",
@@ -959,7 +1221,11 @@
     "named": "Lysias",
     "kind": "historical",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -445,
+    "toD": -380
    },
    {
     "from": "flavius-josephus",
@@ -967,7 +1233,11 @@
     "named": "Jason",
     "kind": "historical",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "flavius-josephus",
@@ -975,7 +1245,11 @@
     "named": "Brutus",
     "kind": "historical",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -545,
+    "toD": -509
    },
    {
     "from": "flavius-josephus",
@@ -983,7 +1257,11 @@
     "named": "Moses",
     "kind": "scripture",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -1391,
+    "toD": -1271
    },
    {
     "from": "flavius-josephus",
@@ -991,7 +1269,11 @@
     "named": "Solomon",
     "kind": "scripture",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -1010,
+    "toD": -931
    },
    {
     "from": "flavius-josephus",
@@ -999,7 +1281,11 @@
     "named": "Jacob",
     "kind": "scripture",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -1800,
+    "toD": -1700
    },
    {
     "from": "flavius-josephus",
@@ -1007,7 +1293,11 @@
     "named": "David",
     "kind": "scripture",
     "count": 1,
-    "source": "Josephus, Antiquities 14-19"
+    "source": "Josephus, Antiquities 14-19",
+    "fromB": 37,
+    "fromD": 100,
+    "toB": -1040,
+    "toD": -970
    },
    {
     "from": "livy",
@@ -1015,7 +1305,11 @@
     "named": "Romulus",
     "kind": "legendary",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -771,
+    "toD": -717
    },
    {
     "from": "livy",
@@ -1023,7 +1317,11 @@
     "named": "Remus",
     "kind": "legendary",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -771,
+    "toD": -753
    },
    {
     "from": "livy",
@@ -1031,7 +1329,11 @@
     "named": "Hercules",
     "kind": "legendary",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "livy",
@@ -1039,7 +1341,11 @@
     "named": "Brutus",
     "kind": "historical",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -545,
+    "toD": -509
    },
    {
     "from": "livy",
@@ -1047,7 +1353,11 @@
     "named": "Numa Pompilius",
     "kind": "historical",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -753,
+    "toD": -673
    },
    {
     "from": "livy",
@@ -1055,7 +1365,11 @@
     "named": "Servius Tullius",
     "kind": "historical",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -578,
+    "toD": -535
    },
    {
     "from": "livy",
@@ -1063,7 +1377,11 @@
     "named": "Lucretius",
     "kind": "historical",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -99,
+    "toD": -55
    },
    {
     "from": "livy",
@@ -1071,7 +1389,11 @@
     "named": "Horatius Cocles",
     "kind": "historical",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -520,
+    "toD": -500
    },
    {
     "from": "livy",
@@ -1079,7 +1401,11 @@
     "named": "Pythagoras",
     "kind": "historical",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -583,
+    "toD": -491
    },
    {
     "from": "livy",
@@ -1087,7 +1413,11 @@
     "named": "Polybius",
     "kind": "historical",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -200,
+    "toD": -118
    },
    {
     "from": "livy",
@@ -1095,7 +1425,11 @@
     "named": "Augustus",
     "kind": "contemporary",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -63,
+    "toD": 14
    },
    {
     "from": "livy",
@@ -1103,7 +1437,11 @@
     "named": "Claudius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Livy, Ab Urbe Condita (selections)"
+    "source": "Livy, Ab Urbe Condita (selections)",
+    "fromB": -59,
+    "fromD": 17,
+    "toB": -10,
+    "toD": 54
    },
    {
     "from": "plutarch",
@@ -1111,7 +1449,11 @@
     "named": "Brutus",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -545,
+    "toD": -509
    },
    {
     "from": "plutarch",
@@ -1119,7 +1461,11 @@
     "named": "Theseus",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "plutarch",
@@ -1127,7 +1473,11 @@
     "named": "Pericles",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -495,
+    "toD": -429
    },
    {
     "from": "plutarch",
@@ -1135,7 +1485,11 @@
     "named": "Romulus",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -771,
+    "toD": -717
    },
    {
     "from": "plutarch",
@@ -1143,7 +1497,11 @@
     "named": "Solon",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -630,
+    "toD": -560
    },
    {
     "from": "plutarch",
@@ -1151,7 +1509,11 @@
     "named": "Hercules",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "plutarch",
@@ -1159,7 +1521,11 @@
     "named": "Aristotle",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -384,
+    "toD": -322
    },
    {
     "from": "plutarch",
@@ -1167,7 +1533,11 @@
     "named": "Homer",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -800,
+    "toD": -750
    },
    {
     "from": "plutarch",
@@ -1175,7 +1545,11 @@
     "named": "Thucydides",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -460,
+    "toD": -400
    },
    {
     "from": "plutarch",
@@ -1183,7 +1557,11 @@
     "named": "Remus",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -771,
+    "toD": -753
    },
    {
     "from": "plutarch",
@@ -1191,7 +1569,11 @@
     "named": "Plato",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -427,
+    "toD": -347
    },
    {
     "from": "plutarch",
@@ -1199,7 +1581,11 @@
     "named": "Croesus",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -595,
+    "toD": -546
    },
    {
     "from": "plutarch",
@@ -1207,7 +1593,11 @@
     "named": "Cicero",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -107,
+    "toD": -43
    },
    {
     "from": "plutarch",
@@ -1215,7 +1605,11 @@
     "named": "Minos",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -2000,
+    "toD": -1400
    },
    {
     "from": "plutarch",
@@ -1223,7 +1617,11 @@
     "named": "Euripides",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -480,
+    "toD": -406
    },
    {
     "from": "plutarch",
@@ -1231,7 +1629,11 @@
     "named": "Achilles",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -1250,
+    "toD": -1180
    },
    {
     "from": "plutarch",
@@ -1239,7 +1641,11 @@
     "named": "Aeneas",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -1250,
+    "toD": -1180
    },
    {
     "from": "plutarch",
@@ -1247,7 +1653,11 @@
     "named": "Theophrastus",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -371,
+    "toD": -287
    },
    {
     "from": "plutarch",
@@ -1255,7 +1665,11 @@
     "named": "Leonidas",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -540,
+    "toD": -480
    },
    {
     "from": "plutarch",
@@ -1263,7 +1677,11 @@
     "named": "Sophocles",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -497,
+    "toD": -406
    },
    {
     "from": "plutarch",
@@ -1271,7 +1689,11 @@
     "named": "Aristophanes",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -446,
+    "toD": -386
    },
    {
     "from": "plutarch",
@@ -1279,7 +1701,11 @@
     "named": "Diogenes",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -412,
+    "toD": -323
    },
    {
     "from": "plutarch",
@@ -1287,7 +1713,11 @@
     "named": "Hesiod",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -750,
+    "toD": -650
    },
    {
     "from": "plutarch",
@@ -1295,7 +1725,11 @@
     "named": "Aeschylus",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -525,
+    "toD": -456
    },
    {
     "from": "plutarch",
@@ -1303,7 +1737,11 @@
     "named": "Lysimachus",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -361,
+    "toD": -281
    },
    {
     "from": "plutarch",
@@ -1311,7 +1749,11 @@
     "named": "Cassander",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -355,
+    "toD": -296
    },
    {
     "from": "plutarch",
@@ -1319,7 +1761,11 @@
     "named": "Pindar",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -518,
+    "toD": -438
    },
    {
     "from": "plutarch",
@@ -1327,7 +1773,11 @@
     "named": "Pythagoras",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -583,
+    "toD": -491
    },
    {
     "from": "plutarch",
@@ -1335,7 +1785,11 @@
     "named": "Demosthenes",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -384,
+    "toD": -322
    },
    {
     "from": "plutarch",
@@ -1343,7 +1797,11 @@
     "named": "Pausanias",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": 110,
+    "toD": 180
    },
    {
     "from": "plutarch",
@@ -1351,7 +1809,11 @@
     "named": "Jason",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "plutarch",
@@ -1359,7 +1821,11 @@
     "named": "Numa Pompilius",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -753,
+    "toD": -673
    },
    {
     "from": "plutarch",
@@ -1367,7 +1833,11 @@
     "named": "Aesop",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -620,
+    "toD": -564
    },
    {
     "from": "plutarch",
@@ -1375,7 +1845,11 @@
     "named": "Heraclitus",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -535,
+    "toD": -475
    },
    {
     "from": "plutarch",
@@ -1383,7 +1857,11 @@
     "named": "Claudius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -10,
+    "toD": 54
    },
    {
     "from": "plutarch",
@@ -1391,7 +1869,11 @@
     "named": "Anacreon",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -570,
+    "toD": -485
    },
    {
     "from": "plutarch",
@@ -1399,7 +1881,11 @@
     "named": "Orpheus",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "plutarch",
@@ -1407,7 +1893,11 @@
     "named": "Midas",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -800,
+    "toD": -700
    },
    {
     "from": "plutarch",
@@ -1415,7 +1905,11 @@
     "named": "Belus",
     "kind": "legendary",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -2000,
+    "toD": -1800
    },
    {
     "from": "plutarch",
@@ -1423,7 +1917,11 @@
     "named": "Epicurus",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -341,
+    "toD": -270
    },
    {
     "from": "plutarch",
@@ -1431,7 +1929,11 @@
     "named": "Polybius",
     "kind": "historical",
     "count": 1,
-    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)"
+    "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
+    "fromB": 46,
+    "fromD": 120,
+    "toB": -200,
+    "toD": -118
    },
    {
     "from": "tacitus",
@@ -1439,7 +1941,11 @@
     "named": "Domitian",
     "kind": "contemporary",
     "count": 11,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 51,
+    "toD": 96
    },
    {
     "from": "tacitus",
@@ -1447,7 +1953,11 @@
     "named": "Vespasian",
     "kind": "contemporary",
     "count": 7,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 9,
+    "toD": 79
    },
    {
     "from": "tacitus",
@@ -1455,7 +1965,11 @@
     "named": "Hercules",
     "kind": "legendary",
     "count": 5,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "tacitus",
@@ -1463,7 +1977,11 @@
     "named": "Nero",
     "kind": "contemporary",
     "count": 5,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 37,
+    "toD": 68
    },
    {
     "from": "tacitus",
@@ -1471,7 +1989,11 @@
     "named": "Trajan",
     "kind": "contemporary",
     "count": 4,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 53,
+    "toD": 117
    },
    {
     "from": "tacitus",
@@ -1479,7 +2001,11 @@
     "named": "Galba",
     "kind": "contemporary",
     "count": 3,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": -3,
+    "toD": 69
    },
    {
     "from": "tacitus",
@@ -1487,7 +2013,11 @@
     "named": "Augustus",
     "kind": "contemporary",
     "count": 2,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": -63,
+    "toD": 14
    },
    {
     "from": "tacitus",
@@ -1495,7 +2025,11 @@
     "named": "Nerva",
     "kind": "contemporary",
     "count": 2,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 30,
+    "toD": 98
    },
    {
     "from": "tacitus",
@@ -1503,7 +2037,11 @@
     "named": "Otho",
     "kind": "contemporary",
     "count": 2,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 32,
+    "toD": 69
    },
    {
     "from": "tacitus",
@@ -1511,7 +2049,11 @@
     "named": "Caligula",
     "kind": "contemporary",
     "count": 1,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 12,
+    "toD": 41
    },
    {
     "from": "tacitus",
@@ -1519,7 +2061,11 @@
     "named": "Livy",
     "kind": "contemporary",
     "count": 1,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": -59,
+    "toD": 17
    },
    {
     "from": "tacitus",
@@ -1527,7 +2073,11 @@
     "named": "Tiberius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": -42,
+    "toD": 37
    },
    {
     "from": "tacitus",
@@ -1535,7 +2085,11 @@
     "named": "Claudius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": -10,
+    "toD": 54
    },
    {
     "from": "tacitus",
@@ -1543,7 +2097,11 @@
     "named": "Vitellius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 15,
+    "toD": 69
    },
    {
     "from": "tacitus",
@@ -1551,7 +2109,11 @@
     "named": "Petronius",
     "kind": "contemporary",
     "count": 1,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 27,
+    "toD": 66
    },
    {
     "from": "tacitus",
@@ -1559,7 +2121,11 @@
     "named": "Frontinus",
     "kind": "contemporary",
     "count": 1,
-    "source": "Tacitus, Agricola / Germania / Histories"
+    "source": "Tacitus, Agricola / Germania / Histories",
+    "fromB": 56,
+    "fromD": 120,
+    "toB": 30,
+    "toD": 103
    },
    {
     "from": "thucydides",
@@ -1567,7 +2133,11 @@
     "named": "Pericles",
     "kind": "historical",
     "count": 17,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -495,
+    "toD": -429
    },
    {
     "from": "thucydides",
@@ -1575,7 +2145,11 @@
     "named": "Theseus",
     "kind": "legendary",
     "count": 5,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -1300,
+    "toD": -1200
    },
    {
     "from": "thucydides",
@@ -1583,7 +2157,11 @@
     "named": "Homer",
     "kind": "historical",
     "count": 4,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -800,
+    "toD": -750
    },
    {
     "from": "thucydides",
@@ -1591,7 +2169,11 @@
     "named": "Minos",
     "kind": "legendary",
     "count": 2,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -2000,
+    "toD": -1400
    },
    {
     "from": "thucydides",
@@ -1599,7 +2181,11 @@
     "named": "Perseus",
     "kind": "legendary",
     "count": 1,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -1400,
+    "toD": -1300
    },
    {
     "from": "thucydides",
@@ -1607,7 +2193,11 @@
     "named": "Achilles",
     "kind": "legendary",
     "count": 1,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -1250,
+    "toD": -1180
    },
    {
     "from": "thucydides",
@@ -1615,7 +2205,11 @@
     "named": "Croesus",
     "kind": "historical",
     "count": 1,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -595,
+    "toD": -546
    },
    {
     "from": "thucydides",
@@ -1623,7 +2217,11 @@
     "named": "Euripides",
     "kind": "historical",
     "count": 1,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -480,
+    "toD": -406
    },
    {
     "from": "thucydides",
@@ -1631,7 +2229,11 @@
     "named": "Xenophon",
     "kind": "historical",
     "count": 1,
-    "source": "Thucydides, History of the Peloponnesian War (selections)"
+    "source": "Thucydides, History of the Peloponnesian War (selections)",
+    "fromB": -460,
+    "fromD": -400,
+    "toB": -431,
+    "toD": -354
    }
   ]
  },

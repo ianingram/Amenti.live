@@ -20,6 +20,17 @@ import fs from 'fs';
 import path from 'path';
 
 const MDIR = fs.existsSync('mentions') ? 'mentions' : '.';
+
+/* the roster gives every node its dates \u2014 without them the time-flow view
+   cannot place anyone. Join birth/death onto each node by key. */
+const rosterByKey = {};
+try {
+  const R = JSON.parse(fs.readFileSync('ROSTER-INDEX.json','utf8')).souls;
+  for (const soul of R) {
+    rosterByKey[soul.k] = {b:soul.b, d:soul.d};
+    for (const alt of (soul.keys||[])) rosterByKey[alt] = {b:soul.b, d:soul.d};
+  }
+} catch { /* dates unavailable; nodes will carry null */ }
 const files = fs.readdirSync(MDIR).filter(f => f.endsWith('-mentions.json'));
 if (!files.length) { console.error('no mentions/*.json found'); process.exit(1); }
 
@@ -38,7 +49,7 @@ const hasRoom = key => rooms.has(key) || harvestedAuthors.has(key);
 const nodes = {};   // key -> {key, named, room, inDeg, namedBy:Set}
 const edges = [];   // {from, to, named, kind, count, source}
 function touch(key, named){
-  if(!nodes[key]) nodes[key]={key, named, inDeg:0, room:hasRoom(key), namedBy:new Set()};
+  if(!nodes[key]) { const dt=rosterByKey[key]||{}; nodes[key]={key, named, inDeg:0, room:hasRoom(key), namedBy:new Set(), b:dt.b??null, d:dt.d??null}; }
   return nodes[key];
 }
 
@@ -47,7 +58,9 @@ for (const f of files){
   const from = d.author;
   touch(from, from);                       // the author is a node too
   for (const e of (d.edges||[])){
-    edges.push({from, to:e.to, named:e.named, kind:e.kind||'?', count:e.count||1, source:e.source||d.text||''});
+    const ft=rosterByKey[from]||{}, tt=rosterByKey[e.to]||{};
+    edges.push({from, to:e.to, named:e.named, kind:e.kind||'?', count:e.count||1, source:e.source||d.text||'',
+                fromB:ft.b??null, fromD:ft.d??null, toB:tt.b??null, toD:tt.d??null});
     const n = touch(e.to, e.named);
     n.inDeg += 1;
     n.namedBy.add(from);
@@ -67,7 +80,7 @@ const out = {
   nodes: list.length,
   edges: edges.length,
   graph: {
-    nodes: list.map(n=>({key:n.key, named:n.named, room:n.room, namedBy:[...n.namedBy], inDegree:n.inDeg})),
+    nodes: list.map(n=>({key:n.key, named:n.named, room:n.room, namedBy:[...n.namedBy], inDegree:n.inDeg, b:n.b, d:n.d})),
     edges
   },
   analysis: {

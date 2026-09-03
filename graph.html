@@ -88,6 +88,7 @@ svg{width:100%;height:100%;display:block}
   <button data-view="network" class="on">Constellation</button>
   <button data-view="matrix">Corroboration</button>
   <button data-view="arc">Who names whom</button>
+  <button data-view="timeflow">Across time</button>
 </div>
 
 <div id="stage"><div class="loading">reading the graph&hellip;</div></div>
@@ -131,6 +132,7 @@ function render(){
   if(view==='network') renderNetwork(w,h);
   else if(view==='matrix') renderMatrix(w,h);
   else if(view==='arc') renderArc(w,h);
+  else if(view==='timeflow') renderTimeflow(w,h);
   document.getElementById('hint').style.display = view==='matrix' ? 'none' : '';
 }
 
@@ -228,6 +230,50 @@ function renderArc(w,h){
        'fill="'+(isA?'#c9a227':'#8c93a4')+'" font-size="10.5" font-family="IBM Plex Mono,monospace">'+esc(displayName(k))+'</text></g>'; });
   s+='</svg>';
   stage.innerHTML = s;
+  wireNodes();
+}
+
+/* ── VIEW 4 · ACROSS TIME (edges placed by date — the view only OUR data enables) ──
+   Every figure sits at their birth year on a time axis. An edge arcs from the
+   naming author to the named figure, coloured by kind. You SEE the graph's
+   centre of gravity move across the centuries — and an edge that reaches far
+   back (Plutarch naming Theseus) draws a long arc; a contemporary edge a short
+   one. Position means DATE. Nothing implied. */
+function renderTimeflow(w,h){
+  const dated = G.graph.nodes.filter(n=>n.b!=null);
+  const yrs = dated.map(n=>n.b);
+  let lo=Math.min(...yrs), hi=Math.max(...yrs);
+  lo=Math.floor(lo/100)*100; hi=Math.ceil(hi/100)*100;
+  const padL=60, padR=60, axisY=h*0.62;
+  const X = y => padL + (y-lo)/(hi-lo) * (w-padL-padR);
+  const pos={}; dated.forEach(n=>pos[n.key]={x:X(n.b), n});
+  let s = svgEl(w,h);
+  // century gridlines + labels
+  for(let y=lo; y<=hi; y+=(hi-lo>2000?500:200)){
+    s+='<line x1="'+X(y).toFixed(1)+'" y1="90" x2="'+X(y).toFixed(1)+'" y2="'+(axisY+8)+'" stroke="#1d212c" stroke-width="1"/>';
+    const lbl = y<0? Math.abs(y)+' BC' : 'AD '+y;
+    s+='<text x="'+X(y).toFixed(1)+'" y="'+(axisY+26)+'" text-anchor="middle" fill="#4f5a6d" font-size="11" font-family="IBM Plex Mono,monospace">'+lbl+'</text>';
+  }
+  // edges as arcs above the axis; height scales with the time-span they cross
+  G.graph.edges.forEach(e=>{
+    const a=pos[e.from], b=pos[e.to]; if(!a||!b) return;
+    const x1=a.x, x2=b.x, span=Math.abs(x2-x1);
+    const lift = Math.min(axisY-100, 30 + span*0.5);
+    const mx=(x1+x2)/2, my=axisY-lift;
+    s+='<path d="M '+x1.toFixed(1)+' '+axisY+' Q '+mx.toFixed(1)+' '+my.toFixed(1)+' '+x2.toFixed(1)+' '+axisY+'" '+
+       'fill="none" stroke="'+(KIND_COLOR[e.kind]||'#555')+'" stroke-width="'+Math.min(2.5,.5+Math.log((e.count||1)+1)/3).toFixed(2)+'" opacity=".38"/>';
+  });
+  // the figures on the axis
+  dated.forEach(n=>{ const x=pos[n.key].x;
+    const isA = G.graph.edges.some(e=>e.from===n.key);
+    const r = isA?5:3+Math.min(5,n.inDegree);
+    s+='<g class="node" data-key="'+esc(n.key)+'" style="cursor:pointer">'+
+       '<circle cx="'+x.toFixed(1)+'" cy="'+axisY+'" r="'+r+'" fill="'+(isA?'#c9a227':'#e9e5da')+'"'+(n.room?' stroke="#7fb4f0" stroke-width="1.2"':'')+'/>'+
+       (isA?'<text x="'+x.toFixed(1)+'" y="'+(axisY+44)+'" transform="rotate(55 '+x.toFixed(1)+' '+(axisY+44)+')" fill="#c9a227" font-size="10.5" font-family="IBM Plex Mono,monospace">'+esc(n.named)+'</text>':'')+
+       '</g>';
+  });
+  s+='</svg>';
+  stage.innerHTML=s;
   wireNodes();
 }
 
