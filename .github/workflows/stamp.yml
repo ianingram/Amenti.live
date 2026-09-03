@@ -19,6 +19,14 @@ on:
       - 'stamp-cache.mjs'
   workflow_dispatch:
 
+# ── THE FIX FOR THE 403 · 3 Sep ──────────────────────────────────────────────
+# Without this, GITHUB_TOKEN is read-only and the bot's push is denied:
+#   "Permission to ianingram/Amenti.live.git denied to github-actions[bot]"
+# hall.yml carries the same block; stamp.yml was missing it. contents:write lets
+# the stamp commit its cache-bust back to main.
+permissions:
+  contents: write
+
 # do not run on the stamp's own commit
 concurrency:
   group: stamp-${{ github.ref }}
