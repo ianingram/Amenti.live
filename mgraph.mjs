@@ -1,76 +1,75 @@
 #!/usr/bin/env node
-/* mention-graph harvest — the three-filter version. Slip #47/#58.
-   A substring match is a CANDIDATE; these filters decide which become edges. */
+/* ============================================================================
+   mgraph.mjs · MENTION-GRAPH HARVESTER · Slip #47 #58 #59
+   ----------------------------------------------------------------------------
+   Bounces a historian's text off the roster constellation and returns the names
+   that RESOLVE to a dated point. A match is a CANDIDATE; four mechanical filters
+   clear the certain-false, and a short human review settles the rest.
+
+   THE FOUR FILTERS, strongest first:
+   1. BORN-AFTER-DEATH — an author cannot name someone born after he died. This
+      is the keystone: on Josephus it rejects 1,216 of 1,501 souls, killing every
+      anachronistic wrong-name bounce (a later figure sharing a name).
+   2. MYTHIC — a reference to a god or patriarch dated before ~3000 BC is a
+      citation of scripture/myth, not a person-to-person edge. (Kept separate so
+      a project that WANTS scripture-edges can switch it off.)
+   3. APPARATUS — a name found only (or mostly) in the translator's footnotes is
+      the editor's, not the author's. Detected by editorial phrasing in-window.
+   4. COMMON-NAME — a bare first name (John, Marcus) or one usually followed by a
+      foreign surname (Ptolemy Menneus) is flagged for review, not auto-drawn.
+
+   Usage:  node mgraph.mjs <authorName> <birthYear> <deathYear> file1.md file2.md ...
+   Output: confirmed edges, a short review pile, and the reject tally.
+
+   WHERE THE EDGES LIVE:  mentions/<author>-mentions.json  — one file per author,
+   named <author>-mentions.json — NEVER the same name as the room file (library/<slug>.json),
+   so an upload can never put one in the wrong folder and overwrite the other. The room links to it via a "mentions" pointer; the graph reads the whole mentions/ folder. This
+   keeps the root clean as the harvest grows to every historian aboard.
+   ========================================================================== */
 import fs from 'fs';
 
 const roster = JSON.parse(fs.readFileSync('RI.json','utf8')).souls;
-const byName = {}; roster.forEach(s => { byName[s.n]=s; });
+const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const EDITOR = /\(return\)|Dr\.\s|Hudson|Reland|Spanheim|Whiston|as we shall learn|taken notice of by|best illustrated|the translator/i;
+const COMMON = new Set(['John','Marcus','Joseph','Cornelius','James','Simon','Judas','Mary','Philip','Antonius','Julius','Titus','Mark','Paul','Peter']);
 
-/* ── FILTER 1 · strip the translator's apparatus ────────────────────────────
-   Whiston's footnotes are the editor's, not Josephus's. A name that appears
-   ONLY in a note is not an edge. Notes are bracketed spans containing (return)
-   or a leading footnote number, plus the numbered note bodies at section ends. */
-function stripApparatus(t){
-  return t
-    .replace(/\[[^\]]*?\(return\)[^\]]*?\]/g,' ')      // [ N (return) ... ]
-    .replace(/\(return\)/g,' ')
-    .replace(/\[\s*\d+\s*\][^.]*?(?:says|notes?|observes|Dr\.|Reland|Spanheim|Hudson)[^.]*?\./g,' ')
-    .replace(/\bSuetonius says\b[^.]*\./g,' ');          // explicit editor citations
+const [authorName, aB, aD, ...files] = process.argv.slice(2);
+const AB = Number(aB), AD = Number(aD);
+if (!authorName || !files.length) {
+  console.error('usage: node mgraph.mjs "Author Name" birth death file.md ...'); process.exit(1);
 }
 
-/* ── FILTER 2 · a bare first name followed by a FOREIGN surname is not ours ──
-   "Ptolemy Menneus" is not Ptolemy-the-astronomer. If a single-word roster name
-   is immediately followed by a capitalized word that is NOT part of that roster
-   name, it is a different person sharing the first name. */
-function countClean(name, flat){
-  if (name.includes(' ')) {                              // multiword: trust the full match
-    return (flat.match(new RegExp('\\b'+esc(name)+'\\b','g'))||[]).length;
-  }
-  const all = (flat.match(new RegExp('\\b'+esc(name)+'\\b','g'))||[]).length;
-  /* occurrences that are "Name Surname" with a surname not equal to any roster
-     full-name for this person */
-  const compounded = (flat.match(new RegExp('\\b'+esc(name)+'\\s+[A-Z][a-z]+','g'))||[]).length;
-  return all - compounded;                               // keep only bare/standalone uses
-}
+let raw=''; for (const f of files){ try{ raw+=fs.readFileSync(f,'utf8')+' '; }catch{} }
+const flat = raw.replace(/\s+/g,' ');
 
-/* ── FILTER 3 · consult the room-note for shared names ──────────────────────
-   If a roster figure has a room whose note says "NOT <other>", and the text's
-   usage matches the excluded person, it is the wrong one. Brutus's note names
-   the exclusion explicitly. Applied as a flag for human review, not an auto-cut,
-   because notes are prose. */
-function noteExclusion(name){
-  try{
-    const room = JSON.parse(fs.readFileSync('library/'+slug(name)+'.json','utf8'));
-    const note = (room.note||'');
-    const m = note.match(/not\s+([A-Z][a-z]+\s+[A-Z][a-z]+\s+[A-Z][a-z]+|[A-Z][a-z]+\s+[A-Z][a-z]+)/);
-    return m ? m[1] : null;
-  }catch{ return null; }
-}
-
-const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-const slug=n=>n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-
-/* ── run ── */
-const JB=37, JD=100;
-let raw='';
-for(const b of ['14','15','17','18','19']){ try{ raw+=fs.readFileSync('fj-'+b+'.md','utf8')+' ';}catch{} }
-const flat = stripApparatus(raw).replace(/\s+/g,' ');
-
-const edges=[], rejected=[];
-for(const s of roster){
+const edges=[], review=[];
+let rejDate=0, rejMyth=0, rejAppar=0;
+for (const s of roster){
   const n=s.n, b=s.b, d=s.d;
-  if(b==null||d==null) continue;
-  if(n==='Flavius Josephus') continue;
-  if(b>JD || d<JB-700) continue;
-  const c = countClean(n, flat);
-  if(c<=0){ continue; }
-  const excl = noteExclusion(n);
-  edges.push({name:n,dates:b+'..'+d,count:c,room:!!s.r,noteExcludes:excl});
+  if (b==null||d==null) continue;
+  if (n===authorName || n.endsWith(authorName.split(' ').pop())) { if (n===authorName) continue; }
+  if (b > AD) { rejDate++; continue; }               // FILTER 1
+  if (b < -3000) { rejMyth++; continue; }            // FILTER 2
+  const re = new RegExp('\\b'+esc(n)+'\\b','g');
+  let m, clean=0, appar=0, first=-1;
+  while((m=re.exec(flat))){
+    const w = flat.slice(Math.max(0,m.index-70), m.index+40);
+    if (EDITOR.test(w)) appar++;
+    else { clean++; if(first<0) first=m.index; }
+  }
+  if (clean===0) continue;
+  if (appar>=clean) { rejAppar++; continue; }        // FILTER 3
+  const compound = (flat.match(new RegExp('\\b'+esc(n)+'\\s+[A-Z][a-z]+','g'))||[]).length;
+  if (!n.includes(' ') && (COMMON.has(n) || compound >= Math.max(2, clean*0.6))) {  // FILTER 4
+    review.push({name:n, key:s.k, clean, ctx: flat.slice(Math.max(0,first-38), first+n.length+38)});
+    continue;
+  }
+  edges.push({from: authorName, to: s.k, named:n, dates:b+'..'+d, count:clean, room:!!s.r});
 }
 edges.sort((a,b)=>b.count-a.count);
-console.log('candidate edges after 3 filters:', edges.length);
-console.log('%-24s %-12s %5s %s','named','dates','x','flags');
-for(const e of edges.slice(0,20)){
-  console.log('  %-22s %-12s %4dx %s%s', e.name.slice(0,22), e.dates, e.count,
-    e.room?'[room] ':'', e.noteExcludes?('[note: not '+e.noteExcludes+']'):'');
-}
+
+console.log('# mention graph :: '+authorName+' ('+AB+'..'+AD+')');
+console.log('# '+edges.length+' auto-confirmed · '+review.length+' to review · rejected '+
+            rejDate+' born-after-death, '+rejMyth+' mythic, '+rejAppar+' apparatus\n');
+for (const e of edges) console.log('  '+authorName.split(' ').pop().toLowerCase()+' -> '+e.named.padEnd(24)+' '+String(e.count).padStart(4)+'x'+(e.room?'  [room]':''));
+if (review.length){ console.log('\n  REVIEW (shared/common name):'); for(const r of review) console.log('    '+r.name.padEnd(18)+' '+r.clean+'x  '+r.ctx.slice(0,44)); }
