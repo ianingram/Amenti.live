@@ -1,0 +1,123 @@
+{
+ "harvested": "2026-09-03",
+ "author": "flavius-josephus",
+ "text": "Antiquities of the Jews, Books 14,15,17,18,19",
+ "method": "scan → 3 filters (apparatus, compound-name, room-note) → human review of a signal-ranked candidate list",
+ "confirmed_edges": 16,
+ "rejected": 6,
+ "edges": [
+  {
+   "from": "flavius-josephus",
+   "to": "tiberius",
+   "named": "Tiberius",
+   "count": 84,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "claudius",
+   "named": "Claudius",
+   "count": 82,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "petronius",
+   "named": "Petronius",
+   "count": 39,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "vitellius",
+   "named": "Vitellius",
+   "count": 25,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "strabo",
+   "named": "Strabo",
+   "count": 20,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "titus",
+   "named": "Titus",
+   "count": 18,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "augustus",
+   "named": "Augustus",
+   "count": 17,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "nero",
+   "named": "Nero",
+   "count": 6,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "lysimachus",
+   "named": "Lysimachus",
+   "count": 5,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "jesus-christ",
+   "named": "Jesus Christ",
+   "count": 2,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "alexander-the-great",
+   "named": "Alexander the Great",
+   "count": 2,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "caligula",
+   "named": "Caligula",
+   "count": 2,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "vespasian",
+   "named": "Vespasian",
+   "count": 2,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "cicero",
+   "named": "Cicero",
+   "count": 2,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "aesop",
+   "named": "Aesop",
+   "count": 1,
+   "source": "Josephus, Antiquities 14-19"
+  },
+  {
+   "from": "flavius-josephus",
+   "to": "marcus-tullius-cicero",
+   "named": "Marcus Tullius Cicero",
+   "count": 1,
+   "source": "Josephus, Antiquities 14-19"
+  }
+ ],
+ "note": "A substring match is a candidate. These edges were confirmed by reading the context; the rejected were false (self, wrong-person, translator apparatus). The reviewable candidate list — signals attached, ranked — is the real tool; it lets a human confirm a book of edges in a minute. Slip #47/#58."
+}
