@@ -1,97 +1,98 @@
 {
-  "key": "livy",
-  "name": "Livy",
-  "note": "Livy wrote a hundred and forty-two books on the history of Rome and thirty-five survive. He was not a soldier, a senator or a magistrate; he held no office, commanded nothing, and spent forty years at a desk in Rome writing down what other men had done. Augustus read him and called him a Pompeian, which in the circumstances was a joke rather than a threat.\n\nWHY THIS SHELF EXISTS. Livy states his method in the preface, and it is the method this building runs on: \"you behold instances of every variety of conduct displayed on a CONSPICUOUS MONUMENT; that from thence you may select for yourself and for your country that which you may imitate; thence note what is shameful in the undertaking, and shameful in the result, which you may avoid.\" Conduct set up in public so that it can be examined and judged. He is describing a docket, in 27 BC.\n\nSo this is not a shelf of Roman history. It is nine cases and the statement of purpose that frames them, chosen because each one is an argument with two defensible sides — a founder who killed his brother, an army that settled a war by sending three men, a woman who demanded vengeance and then killed herself before it could be given, a soldier who held a bridge alone, a garrison saved by geese. Livy tells them without deciding them, which is harder than it looks and is the whole reason he is worth reading.\n\nA WARNING ABOUT THIS SHELF. Livy is a historian of the first century BC writing about events up to seven hundred years before him, from annals, family records and legend. The early books are not evidence in the way the later ones are; he says so himself, and asks only that the traditions be neither affirmed nor refuted. Read Book I as what Rome believed about its own founding, not as what happened. The translation is Spillan's, out of copyright and therefore usable; modern editions read many passages differently.",
-  "works": [
-    {
-      "id": "01-preface",
-      "section": "The method · the preface",
-      "title": "Preface — The Conspicuous Monument",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "The shortest work here and the reason for the rest. Livy doubts whether the task is worth doing, does it anyway, and then states what history is FOR: conduct displayed where it can be seen, so a reader may choose what to imitate and note what is shameful in the result. This is the docket, described two thousand years early.",
-      "file": "livy/01-preface.md"
-    },
-    {
-      "id": "02-romulus-remus",
-      "section": "The founding · Book I",
-      "title": "Romulus and Remus",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "The city begins with a fratricide, and Livy will not smooth it over. He gives the pious version and the ugly version side by side — an augury disputed, a wall leapt over in mockery, a brother killed — and adds the line that has troubled readers ever since: \"so shall every one fare who leaps over my walls.\" The first case on the shelf and the hardest.",
-      "file": "livy/02-romulus-remus.md"
-    },
-    {
-      "id": "03-the-sabine-women",
-      "section": "The founding · Book I",
-      "title": "The Rape of the Sabine Women",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "A city of men without wives stages a festival, invites its neighbours, and carries off their daughters. What makes this a case rather than an atrocity report is what Livy does next: the women themselves stop the war, standing between their fathers and their husbands. He records the crime and the reconciliation without reconciling them.",
-      "file": "livy/03-the-sabine-women.md"
-    },
-    {
-      "id": "04-numa-and-the-rites",
-      "section": "The founding · Book I",
-      "title": "Numa and the Rites",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "The counterweight to Romulus. A king who fought nothing, closed the gate of Janus, and governed by inventing religion — and who claimed a goddess advised him at night, which Livy reports as a deliberate fiction that worked. The question the case asks: is a useful lie the foundation of a state, or its first corruption?",
-      "file": "livy/04-numa-and-the-rites.md"
-    },
-    {
-      "id": "05-horatii-and-curiatii",
-      "section": "The founding · Book I",
-      "title": "The Horatii and the Curiatii",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "Two armies agree to settle a war with three brothers against three. The survivor comes home and kills his own sister for weeping over the enemy she was betrothed to — and is tried, condemned, and then acquitted on appeal to the people. A verdict overturned by a crowd, in the first book of Roman history.",
-      "file": "livy/05-horatii-and-curiatii.md"
-    },
-    {
-      "id": "06-servius-murdered",
-      "section": "The founding · Book I",
-      "title": "The Murder of Servius Tullius",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "The best of the kings is thrown down the steps of the senate house and finished in the street, and his own daughter drives her carriage over the body. Livy names the street afterwards, which is how Rome remembered it. The case is not the murder; it is Tullia.",
-      "file": "livy/06-servius-murdered.md"
-    },
-    {
-      "id": "07-lucretia",
-      "section": "The founding · Book I",
-      "title": "Lucretia and the Fall of the Kings",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "The end of the monarchy. Lucretia is raped by the king's son, calls her father and husband, binds them to vengeance, and kills herself in front of them while they are still telling her she is guiltless. The republic begins over her body. The most argued passage in Livy and the reason it is on this shelf.",
-      "file": "livy/07-lucretia.md"
-    },
-    {
-      "id": "08-horatius-at-the-bridge",
-      "section": "The republic · Book II",
-      "title": "Horatius at the Bridge",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "One man holds the Sublician bridge while it is cut down behind him, then swims the Tiber in armour. Livy tells it plainly and lets the reader notice that the city was saved by a man disobeying the general instinct to run. Rome gave him as much land as he could plough in a day.",
-      "file": "livy/08-horatius-at-the-bridge.md"
-    },
-    {
-      "id": "09-the-gauls-at-the-allia",
-      "section": "The republic · Book V",
-      "title": "The Gauls at the Allia",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "The worst day in the republic's history, and Livy blames the Romans for it: an embassy that broke the law of nations, a levy raised without care, a battle lost before it was fought. The city is taken. This is the case for what carelessness costs, and he does not offer the consolation of bad luck.",
-      "file": "livy/09-the-gauls-at-the-allia.md"
-    },
-    {
-      "id": "10-manlius-and-the-geese",
-      "section": "The republic · Book V",
-      "title": "Manlius and the Geese of the Capitol",
-      "mode": "stored",
-      "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
-      "note": "The Gauls climb the Capitol at night, the dogs do not wake, and the sacred geese do. Marcus Manlius throws the first man off the rock and the citadel holds. Livy also records what the garrison did to the sentry who had not noticed. Manlius is on the roster and this is his case; what became of him afterwards is another.",
-      "file": "livy/10-manlius-and-the-geese.md"
-    }
-  ]
+ "key": "livy",
+ "name": "Livy",
+ "note": "Livy wrote a hundred and forty-two books on the history of Rome and thirty-five survive. He was not a soldier, a senator or a magistrate; he held no office, commanded nothing, and spent forty years at a desk in Rome writing down what other men had done. Augustus read him and called him a Pompeian, which in the circumstances was a joke rather than a threat.\n\nWHY THIS SHELF EXISTS. Livy states his method in the preface, and it is the method this building runs on: \"you behold instances of every variety of conduct displayed on a CONSPICUOUS MONUMENT; that from thence you may select for yourself and for your country that which you may imitate; thence note what is shameful in the undertaking, and shameful in the result, which you may avoid.\" Conduct set up in public so that it can be examined and judged. He is describing a docket, in 27 BC.\n\nSo this is not a shelf of Roman history. It is nine cases and the statement of purpose that frames them, chosen because each one is an argument with two defensible sides — a founder who killed his brother, an army that settled a war by sending three men, a woman who demanded vengeance and then killed herself before it could be given, a soldier who held a bridge alone, a garrison saved by geese. Livy tells them without deciding them, which is harder than it looks and is the whole reason he is worth reading.\n\nA WARNING ABOUT THIS SHELF. Livy is a historian of the first century BC writing about events up to seven hundred years before him, from annals, family records and legend. The early books are not evidence in the way the later ones are; he says so himself, and asks only that the traditions be neither affirmed nor refuted. Read Book I as what Rome believed about its own founding, not as what happened. The translation is Spillan's, out of copyright and therefore usable; modern editions read many passages differently.",
+ "mentions": "mentions/livy-mentions.json",
+ "works": [
+  {
+   "id": "01-preface",
+   "section": "The method · the preface",
+   "title": "Preface — The Conspicuous Monument",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "The shortest work here and the reason for the rest. Livy doubts whether the task is worth doing, does it anyway, and then states what history is FOR: conduct displayed where it can be seen, so a reader may choose what to imitate and note what is shameful in the result. This is the docket, described two thousand years early.",
+   "file": "livy/01-preface.md"
+  },
+  {
+   "id": "02-romulus-remus",
+   "section": "The founding · Book I",
+   "title": "Romulus and Remus",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "The city begins with a fratricide, and Livy will not smooth it over. He gives the pious version and the ugly version side by side — an augury disputed, a wall leapt over in mockery, a brother killed — and adds the line that has troubled readers ever since: \"so shall every one fare who leaps over my walls.\" The first case on the shelf and the hardest.",
+   "file": "livy/02-romulus-remus.md"
+  },
+  {
+   "id": "03-the-sabine-women",
+   "section": "The founding · Book I",
+   "title": "The Rape of the Sabine Women",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "A city of men without wives stages a festival, invites its neighbours, and carries off their daughters. What makes this a case rather than an atrocity report is what Livy does next: the women themselves stop the war, standing between their fathers and their husbands. He records the crime and the reconciliation without reconciling them.",
+   "file": "livy/03-the-sabine-women.md"
+  },
+  {
+   "id": "04-numa-and-the-rites",
+   "section": "The founding · Book I",
+   "title": "Numa and the Rites",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "The counterweight to Romulus. A king who fought nothing, closed the gate of Janus, and governed by inventing religion — and who claimed a goddess advised him at night, which Livy reports as a deliberate fiction that worked. The question the case asks: is a useful lie the foundation of a state, or its first corruption?",
+   "file": "livy/04-numa-and-the-rites.md"
+  },
+  {
+   "id": "05-horatii-and-curiatii",
+   "section": "The founding · Book I",
+   "title": "The Horatii and the Curiatii",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "Two armies agree to settle a war with three brothers against three. The survivor comes home and kills his own sister for weeping over the enemy she was betrothed to — and is tried, condemned, and then acquitted on appeal to the people. A verdict overturned by a crowd, in the first book of Roman history.",
+   "file": "livy/05-horatii-and-curiatii.md"
+  },
+  {
+   "id": "06-servius-murdered",
+   "section": "The founding · Book I",
+   "title": "The Murder of Servius Tullius",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "The best of the kings is thrown down the steps of the senate house and finished in the street, and his own daughter drives her carriage over the body. Livy names the street afterwards, which is how Rome remembered it. The case is not the murder; it is Tullia.",
+   "file": "livy/06-servius-murdered.md"
+  },
+  {
+   "id": "07-lucretia",
+   "section": "The founding · Book I",
+   "title": "Lucretia and the Fall of the Kings",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "The end of the monarchy. Lucretia is raped by the king's son, calls her father and husband, binds them to vengeance, and kills herself in front of them while they are still telling her she is guiltless. The republic begins over her body. The most argued passage in Livy and the reason it is on this shelf.",
+   "file": "livy/07-lucretia.md"
+  },
+  {
+   "id": "08-horatius-at-the-bridge",
+   "section": "The republic · Book II",
+   "title": "Horatius at the Bridge",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "One man holds the Sublician bridge while it is cut down behind him, then swims the Tiber in armour. Livy tells it plainly and lets the reader notice that the city was saved by a man disobeying the general instinct to run. Rome gave him as much land as he could plough in a day.",
+   "file": "livy/08-horatius-at-the-bridge.md"
+  },
+  {
+   "id": "09-the-gauls-at-the-allia",
+   "section": "The republic · Book V",
+   "title": "The Gauls at the Allia",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "The worst day in the republic's history, and Livy blames the Romans for it: an embassy that broke the law of nations, a levy raised without care, a battle lost before it was fought. The city is taken. This is the case for what carelessness costs, and he does not offer the consolation of bad luck.",
+   "file": "livy/09-the-gauls-at-the-allia.md"
+  },
+  {
+   "id": "10-manlius-and-the-geese",
+   "section": "The republic · Book V",
+   "title": "Manlius and the Geese of the Capitol",
+   "mode": "stored",
+   "source": "Livy, *The History of Rome* (Ab Urbe Condita), Books I–VIII · trans. D. Spillan, from the Oxford text of Travers Twiss · Project Gutenberg #19725 · public domain",
+   "note": "The Gauls climb the Capitol at night, the dogs do not wake, and the sacred geese do. Marcus Manlius throws the first man off the rock and the citadel holds. Livy also records what the garrison did to the sentry who had not noticed. Manlius is on the roster and this is his case; what became of him afterwards is another.",
+   "file": "livy/10-manlius-and-the-geese.md"
+  }
+ ]
 }
