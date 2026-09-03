@@ -842,8 +842,8 @@ body::after{
 </style>
 <!-- Codex/timeline/terminal styling. Nothing here is visible on landing, so it
      loads in parallel instead of blocking first paint. See amenti-tabs.css. -->
-<link rel="preload" href="amenti-tabs.css?v=24" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="amenti-tabs.css?v=24"></noscript>
+<link rel="preload" href="amenti-tabs.css?v=a737cc23" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="amenti-tabs.css?v=a737cc23"></noscript>
 
 
 <style>
@@ -897,7 +897,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
      nothing can press a button before the page is parsed. Depends on nothing
      in the bundle — if the bundle fails, the dial simply never gets answered
      and its own backstop ends the call. -->
-<script src="amenti-dial.js?v=3" defer></script>
+<script src="amenti-dial.js?v=ad24f23f" defer></script>
 <!-- amenti-memory.js — WHAT A FIGURE RECALLS OF A SIGNED-IN READER.
      CONVERSATION_DOCTRINE.md §4.6. The only file that knows where memory
      lives: it reads the mint's /memory and hands the result to the chat core
@@ -906,7 +906,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
      Inert for a signed-out reader — no request, no console noise, no degraded
      state. A figure with no memory behaves exactly as it did before this
      existed, which is almost every conversation. -->
-<script src="amenti-memory.js?v=1" defer></script>
+<script src="amenti-memory.js?v=8a3ebb27" defer></script>
 <!-- THE RESOLVER · LOADED HERE, AND HERE FOR A REASON.
      One name, one person, exact match or null. Three things now depend on it:
      amenti-roster.js for every card's face and bars, library.js for casting a
