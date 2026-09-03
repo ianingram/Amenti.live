@@ -110,9 +110,9 @@
        row 1   events, staggered
        row 2   events, staggered
        row 3   the years */
-  var AXIS_H     = 158;
+  var AXIS_H     = 186;   /* taller: the event band was cramped and unreadable */
   var SKY_Y      = 26;
-  var EV_Y       = [78, 104];
+  var EV_Y       = [86, 120];  /* the two event rows, spaced so labels breathe */
   var LABEL_MIN  = 130;     /* below this a bar cannot hold its own name */
   var PAD        = 20;
 
@@ -254,12 +254,17 @@
          too small to read at a glance. The rows carry the most information per
          pixel on the whole surface — they are worth the height. */
       '#amenti-timeline .tl-axis-svg text{font-size:15px}',
+      /* SEEN LIVE 3 Sep: event labels read tiny in a cramped band. Their own
+         larger, heavier style, and a readable tick. */
+      '#amenti-timeline .tl-axis-svg text.ev{font-size:16.5px;font-weight:500}',
       '#amenti-timeline .tl-axis{position:absolute;left:0;right:0;top:26px;height:' + AXIS_H + 'px;',
       '  overflow:hidden;z-index:2;pointer-events:none}',
       /* the event hit-targets need clicks even though the axis is otherwise
          click-through, so they re-enable pointer events on themselves. */
       '#amenti-timeline .evhit{pointer-events:auto}',
       '#amenti-timeline .tl-axis-svg circle{pointer-events:auto;cursor:pointer}',
+      '#amenti-timeline .tl-axis-svg text{pointer-events:auto}',
+      '#amenti-timeline .tl-axis-svg line{pointer-events:auto}',
       /* The sky row is the only part of the axis that takes a pointer: drag it
          and time moves. The rest stays transparent to clicks so a click on the
          scene still brings the hall back. */
@@ -358,6 +363,12 @@
          sparkles ONLY when zoomed in \u2014 a reward for arriving on a return, not
          a permanent twinkle. Far out it is a still mark among the rings. */
       '@keyframes amenti-comet{0%,100%{opacity:.55}50%{opacity:1}}',
+      /* the downbeat orb: a soft breath, and two waves that expand and fade */
+      '@keyframes amenti-orb{0%,100%{opacity:.9;r:6}50%{opacity:1;r:6.6}}',
+      '@keyframes amenti-wave{0%{r:6;opacity:.55}100%{r:16;opacity:0}}',
+      '#amenti-timeline .orb.beat{animation:amenti-orb 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}',
+      '#amenti-timeline .wave{animation:amenti-wave 2.6s ease-out infinite;transform-box:fill-box;transform-origin:center}',
+      '#amenti-timeline .wave.wave2{animation-delay:1.3s}',
       '#amenti-timeline .comet.spark{animation:amenti-comet 2.2s ease-in-out infinite}',
       '#amenti-timeline .comet-glint.spark{animation:amenti-comet 2.2s ease-in-out infinite .4s}',
       '#amenti-timeline .tl-axis-svg .evdim{opacity:.18}',
@@ -832,9 +843,22 @@
           var beatU = SPAN <= 400 ? 100 : SPAN <= 1500 ? 500 : 1000;
           var onBeat = Math.abs(sk.y - Math.round(sk.y / beatU) * beatU) <= 10;
           if (onBeat) {
-            a.push('<circle cx="' + cxp + '" cy="' + (SKY_Y + 26) + '" r="6" fill="#e8c65a" ' +
-                   'fill-opacity="0.9" stroke="#f0d060" stroke-width="1"><title>Great conjunction \u2014 Jupiter and Saturn meet, ' +
-                   yearLabel(sk.y) + '</title></circle>');
+            /* THE DOWNBEAT ORB PULSES \u2014 3 Sep. The century landing is the beat
+               the reader counts to; a pulse makes it read as one. Two rings
+               emanate from the centre and fade, like a struck note, plus a
+               gentle breathing of the orb itself. CSS-driven, and only when
+               zoomed in (SPAN small) so a screen full of orbs does not
+               shimmer as one. */
+            var pulse = SPAN <= 400 ? ' beat' : '';
+            if (SPAN <= 400) {
+              a.push('<circle class="wave" cx="' + cxp + '" cy="' + (SKY_Y + 26) +
+                     '" r="6" fill="none" stroke="#f0d060" stroke-width="1"/>');
+              a.push('<circle class="wave wave2" cx="' + cxp + '" cy="' + (SKY_Y + 26) +
+                     '" r="6" fill="none" stroke="#f0d060" stroke-width="1"/>');
+            }
+            a.push('<circle class="orb' + pulse + '" cx="' + cxp + '" cy="' + (SKY_Y + 26) +
+                   '" r="6" fill="#e8c65a" fill-opacity="0.9" stroke="#f0d060" stroke-width="1">' +
+                   '<title>Great conjunction \u2014 Jupiter and Saturn meet, ' + yearLabel(sk.y) + '</title></circle>');
           } else {
             a.push('<circle cx="' + cxp + '" cy="' + (SKY_Y + 26) + '" r="4.5" fill="none" ' +
                    'stroke="#e8c65a" stroke-width="1.3"><title>Great conjunction \u2014 Jupiter and Saturn meet, ' +
@@ -924,12 +948,12 @@
            year), and an invisible wide hit-target over the hairline, because a
            0.75px line is nearly impossible to point at. */
         var evTip = esc(ev.name) + (ev.desc ? ' \u2014 ' + esc(ev.desc) : '') + '  (' + yearLabel(ev.y) + ')';
-        a.push('<line x1="' + x + '" y1="' + (EV_Y[1] + 6) + '" x2="' + x + '" y2="' +
-               (EV_Y[1] + 14) + '" stroke="#c9a227" stroke-width="0.75" opacity=".7"/>');
+        a.push('<line x1="' + x + '" y1="' + (EV_Y[1] + 8) + '" x2="' + x + '" y2="' +
+               (EV_Y[1] + 18) + '" stroke="#c9a227" stroke-width="1.4" opacity=".85"/>');
         a.push('<rect class="evhit" data-label="' + evTip.replace(/"/g, '&quot;') +
                '" data-from="' + ev.y + '" data-to="' + ev.y + '"' +
-               ' x="' + (x - 7) + '" y="' + EV_Y[0] + '" width="14" height="' +
-               (EV_Y[1] + 16 - EV_Y[0]) + '" fill="transparent" style="cursor:pointer">' +
+               ' x="' + (x - 8) + '" y="' + (EV_Y[0] - 14) + '" width="16" height="' +
+               (EV_Y[1] + 22 - EV_Y[0]) + '" fill="transparent" style="cursor:pointer">' +
                '<title>' + evTip + '</title></rect>');
         var row = reach[0] <= x ? 0 : (reach[1] <= x ? 1 : -1);
         if (row === -1) return;
@@ -938,8 +962,8 @@
            actually measures. Deliberately over: an estimate that is too small
            produces a collision, one that is too large produces a gap, and a gap
            is not a fault. Tested to hold at 8.5px/char before this. */
-        reach[row] = x + 18 + nm.length * 10.2;   /* 15px type; over on purpose */
-        a.push('<text x="' + x + '" y="' + EV_Y[row] + '" text-anchor="start" fill="#c9a227">' + nm + '</text>');
+        reach[row] = x + 20 + nm.length * 11.4;   /* 16.5px type; over on purpose */
+        a.push('<text class="ev" x="' + x + '" y="' + EV_Y[row] + '" text-anchor="start" fill="#c9a227">' + nm + '</text>');
       });
     }
 
