@@ -353,6 +353,12 @@
       '#amenti-timeline.sel .tl-rows g.conn{opacity:1}',
       '#amenti-timeline.sel .tl-rows g.conn rect{stroke:#c9a227}',
       '#amenti-timeline.sel .tl-rows g.focus rect{stroke:#f0d060;stroke-width:2.2}',
+      /* Halley: an ice-blue comet on the sky row, not a gold event tick. It
+         sparkles ONLY when zoomed in \u2014 a reward for arriving on a return, not
+         a permanent twinkle. Far out it is a still mark among the rings. */
+      '@keyframes amenti-comet{0%,100%{opacity:.55}50%{opacity:1}}',
+      '#amenti-timeline .comet.spark{animation:amenti-comet 2.2s ease-in-out infinite}',
+      '#amenti-timeline .comet-glint.spark{animation:amenti-comet 2.2s ease-in-out infinite .4s}',
       '#amenti-timeline .tl-axis-svg .evdim{opacity:.18}',
       '#amenti-timeline .tl-axis-svg .evlit{opacity:1}',
       '#amenti-timeline .tl-scene li.pick{background:rgba(201,162,39,.14);border-radius:4px}',
@@ -784,9 +790,28 @@
              filled diamond above the conjunction row so it reads as the landmark
              it is. */
           var gx = X(sk.y);
-          a.push('<path d="M' + gx + ' ' + (SKY_Y + 2) + 'l6 7l-6 7l-6 -7z" fill="#f0d060" ' +
-                 'stroke="#fff3c0" stroke-width="0.5"><title>' + esc(sk.description || 'Outer planets gather') +
-                 ', ' + yearLabel(sk.y) + '</title></path>');
+          /* THE RAREST MARK MUST ANNOUNCE ITSELF \u2014 2 Sep. 14 in 5,000 years; a
+             reader travels to reach one, so it should read as an arrival, not a
+             speck. A full-height beam down the whole axis, a soft glow, a larger
+             diamond, and the year printed beside it \u2014 you cannot pass one
+             without seeing it. */
+          /* THE FOUR PLANETS THEMSELVES, STACKED \u2014 2 Sep. A gathering IS the
+             four outer planets crowded together, so draw them: four coloured
+             orbs in their own colours, stacked at the point, over a beam and a
+             glow that make the rare event impossible to miss. The orbs say what
+             the diamond only gestured at, and a dot cannot crowd the way a
+             glyph would. */
+          a.push('<line x1="' + gx + '" y1="' + SKY_Y + '" x2="' + gx + '" y2="' + AXIS_H +
+                 '" stroke="#f0d060" stroke-width="1" opacity="0.32"/>');
+          a.push('<circle cx="' + gx + '" cy="' + (SKY_Y + 16) + '" r="13" fill="#f0d060" opacity="0.12"/>');
+          var orbs = [['#8b9bff', 'Neptune'], ['#7fdce8', 'Uranus'], ['#ecd493', 'Saturn'], ['#cf9b63', 'Jupiter']];
+          orbs.forEach(function (o, k) {
+            a.push('<circle cx="' + gx + '" cy="' + (SKY_Y + 4 + k * 8) + '" r="3.3" fill="' + o[0] +
+                   '" stroke="#0b0d14" stroke-width="0.5"><title>' + o[1] + ' \u2014 ' +
+                   esc(sk.description || 'the outer planets gather') + ', ' + yearLabel(sk.y) + '</title></circle>');
+          });
+          a.push('<text x="' + (gx + 10) + '" y="' + (SKY_Y + 20) + '" fill="#f0d060" ' +
+                 'font-size="11" font-weight="500">' + yearLabel(sk.y) + '</text>');
           return;
         }
         if (sk.kind === 'conjunction') {
@@ -856,6 +881,25 @@
       });
     }
 
+    /* ── HALLEY ON THE SKY ROW · 2 Sep ───────────────────────
+       A comet is sky, recurring, and WATCHED — it belongs with the planets, not
+       the human events. Ice-blue with a short tail; the mark is a RETURN
+       (astronomically true), not a claim of visibility from one place. Sparkles
+       only at close zoom. Clickable like any sky mark. */
+    var closeZoom = SPAN <= 400;
+    (events || []).filter(function (e) { return e.cat === 'comet'; }).forEach(function (e) {
+      if (e.y < state.min || e.y > state.max) return;
+      var hx = X(e.y), spk = closeZoom ? ' spark' : '';
+      a.push('<circle class="comet' + spk + '" cx="' + hx + '" cy="' + (SKY_Y + 40) +
+             '" r="2.6" fill="#bfe4ff"><title>Halley\u2019s Comet returns, ' + yearLabel(e.y) + '</title></circle>');
+      a.push('<path class="comet' + spk + '" d="M' + hx + ' ' + (SKY_Y + 40) + 'l-7 -5" stroke="#bfe4ff" ' +
+             'stroke-width="1" opacity=".7" stroke-linecap="round"/>');
+      a.push('<circle class="comet-glint' + spk + '" cx="' + (hx + 2) + '" cy="' + (SKY_Y + 37) +
+             '" r="0.9" fill="#eaf6ff"/>');
+      a.push('<rect class="evhit" data-label="Halley\u2019s Comet returns  (' + yearLabel(e.y) +
+             ')" x="' + (hx - 6) + '" y="' + (SKY_Y + 32) + '" width="12" height="16" fill="transparent" style="cursor:pointer"/>');
+    });
+
     /* ── ROWS 1–2 · THE EVENTS, STAGGERED ──────────────────────────────
        Alternate rows and keep a reach per row, so a label only has to clear
        the last one ON ITS OWN LINE. Twice the room, and a wrong glyph estimate
@@ -864,6 +908,7 @@
       var reach = [-1e9, -1e9], turn = 0;
       events.slice().sort(function (p, q) { return p.y - q.y; }).forEach(function (ev) {
         if (ev.y < state.min || ev.y > state.max) return;
+        if (ev.cat === 'comet') return;   /* comets ride the sky row, not the event rows */
         var x = X(ev.y);
         /* EVERY TICK NAMES ITSELF · 2 Sep. The planet glyphs carried a tooltip
            and the event ticks did not \u2014 so a tick whose label was dropped for
