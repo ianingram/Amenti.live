@@ -5,13 +5,38 @@
  "text": "Caesar, Commentaries on the Gallic and Civil Wars",
  "method": "mgraph.mjs 4-filter scan (born-after-death rejected 1,274)",
  "path": "mentions/caesar-mentions.json",
- "confirmed": 4,
+ "confirmed": 9,
  "edges": [
+  {
+   "from": "julius-caesar",
+   "to": "pompey",
+   "named": "Pompey",
+   "kind": "contemporary",
+   "count": 285,
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
+  {
+   "from": "julius-caesar",
+   "to": "vercingetorix",
+   "named": "Vercingetorix",
+   "kind": "contemporary",
+   "count": 43,
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
   {
    "from": "julius-caesar",
    "to": "cicero",
    "named": "Cicero",
    "kind": "contemporary",
+   "count": 22,
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
+  {
+   "from": "julius-caesar",
+   "to": "dumnorix",
+   "named": "Dumnorix",
+   "kind": "contemporary",
+   "count": 20,
    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
   },
   {
@@ -19,6 +44,15 @@
    "to": "brutus",
    "named": "Brutus",
    "kind": "contemporary",
+   "count": 13,
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
+  {
+   "from": "julius-caesar",
+   "to": "titus-labienus",
+   "named": "Titus Labienus",
+   "kind": "contemporary",
+   "count": 9,
    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
   },
   {
@@ -26,6 +60,7 @@
    "to": "lucretius",
    "named": "Lucretius",
    "kind": "contemporary",
+   "count": 3,
    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
   },
   {
@@ -33,8 +68,17 @@
    "to": "hercules",
    "named": "Hercules",
    "kind": "legendary",
+   "count": 2,
+   "source": "Caesar, Commentaries (Gallic & Civil Wars)"
+  },
+  {
+   "from": "julius-caesar",
+   "to": "lepidus",
+   "named": "Lepidus",
+   "kind": "contemporary",
+   "count": 1,
    "source": "Caesar, Commentaries (Gallic & Civil Wars)"
   }
  ],
- "finding": "FEW edges resolved — and that is the point. Caesar names his enemies and officers relentlessly, but almost none are on the roster yet. The MISSES are the signal: Pompey (268x), Vercingetorix (43x), Labienus (49x), Ariovistus (50x), Mark Antony (22x), Cassius (22x). The corpus is naming exactly who to add next — the constellation want-list (Slip #59), chosen by frequency, not fame."
+ "finding": "THE LOOP CLOSED. First harvest resolved 4 edges and the MISSES named the want-list: Pompey (285x), Vercingetorix, Labienus, Dumnorix, Lepidus. Those were added to the roster from sources (3 Sep), and this RE-HARVEST resolved them — Pompey went from the loudest gap to the strongest edge in the graph. The constellation compounds: harvest → misses → add the cohort → re-harvest → the graph fills. Slip #59."
 }
