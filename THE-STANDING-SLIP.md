@@ -1029,6 +1029,52 @@ permanently less trustworthy. That instinct is the actual engine.
   the selling point.
 - Not a build. A note, so the words survive the night they were written in.
 
+### 58 · NEXT SESSION — harvest the mention graph; both halves are already aboard
+The realisation that closed 2 Sep: the two halves of a citable connection-graph
+were built from opposite ends and have met in the middle, without either being
+built for the other.
+
+- **The texts that NAME people** — historian rooms already aboard, with works:
+  Josephus (29), Livy (10), Plutarch (10), Julius Caesar (11), Thucydides (6),
+  Herodotus (4), Tacitus (4), and Gibbon. These already contain, in their own
+  text, the names of hundreds of figures.
+- **The people they name** — the roster, grown 2 Sep to 1,501 dated souls: the
+  emperors, the kings, the Republic, the ancient authors. Every one a node the
+  historians' texts can now point at.
+
+**THE EDGES ARE LATENT IN WHAT WE HOLD. This is a HARVEST, not an acquisition.**
+Plutarch's text already names Caesar; Livy already names the kings we added;
+Gibbon already names the imperial line. Nobody writes these connections — they
+are read out of texts already in the repo, each match citable to a work and a
+position. The expensive half (getting the texts and the people aboard) is DONE.
+
+- **The build (fresh mind, not end-of-session):** for each historian text, scan
+  for roster-soul names; each match is a CANDIDATE edge with a location.
+- **The risk, already met before elsewhere:** a raw substring match is fiction.
+  “Brutus” is Marcus or Lucius; “Tacitus” the historian or the emperor; “John”
+  is forty people. The harvest is honest ONLY with the disambiguation the ship
+  already has — the room-notes (*first, which Brutus*), the DATE FILTER (you
+  cannot name someone who died before you were born; needs #46-clean dates,
+  which we now have), and the CANDIDATE-NOT-LINK rule: a match is a proposal,
+  verified before it is drawn.
+- **The design, already settled by the events/sky pattern:** a computed,
+  verified REGISTER — `MENTIONS.csv` (author-work-position → named soul) —
+  harvested once, stored with provenance, read by the timeline and the hall. Not
+  live scanning. A probe walks it and counts it.
+- **PROVE IT ON ONE TEXT FIRST**, as the roster was proven on one cohort. Take
+  Josephus (richest, 29 works) or Plutarch; scan, apply the date filter and the
+  room-notes, and look at what survives. Real citable edges (Josephus names
+  Vespasian, Titus) → the pattern holds, build the register. Noise → learn it
+  on one text, not twelve.
+- **Why it is the headline:** it turns 1,501 nodes into a connected graph, and
+  every edge is provable from a primary source already aboard. It is the payoff
+  the whole architecture was for — and it is nearly free, because the corpus is
+  already in the building.
+- **This supersedes the earlier #47 note** with a concrete, teed-up plan.
+- **Acceptance test:** one historian text scanned; candidate edges disambiguated
+  by date + room-note; the survivors are all citable to a work and position;
+  false matches (wrong Brutus, wrong Tacitus) are caught, not drawn.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -1144,7 +1190,7 @@ Livy.
 trade against one wall across four prompt shapes. Every attempt to tune one by
 reasoning on 1 Sep produced a warning or a breach.
 
-Items 8, 9, 16–22, 24–33 and 36–57 are independent — do them when they surface,
+Items 8, 9, 16–22, 24–33 and 36–58 are independent — do them when they surface,
 not in sequence. **#36–#38 are one build with three faces**, and the rotation
 addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 *what does this reader see today*, and four rotations that drift is four bugs.
@@ -1174,7 +1220,7 @@ addendum makes the argument: Person, Quote, Note and Quiz of the Day all answer
 
 ---
 
-*Updated 2 Sep 2026: #57 added — a MARKETING NOTE: the one-line (“a reading room with very good acoustics,” not a séance) and the argument that the discipline IS the power — honest all the way down, load-bearing, powerful because of it. Kept so the words survive. #56 added — the roster schema stores a lifespan, but the ancient Near East (Israel, Babylon, Persia, Egypt) kept REIGNS, not birthdays. A reign-span field is the structural unlock; the iconic few are in, flagged, awaiting it. #55 added — the two tiers of knowledge are a RATCHET, not a rule: scaffolding (general knowledge) holds the frame provisionally and becomes stone (sources) one addition at a time; the wheel turns one way, so the verification that keeps fraud and fiction off it is what keeps lies out of permanent architecture. #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
+*Updated 2 Sep 2026: #58 added — NEXT SESSION HEADLINE: harvest the mention graph. Both halves are aboard (historian texts that name people + 1,501 dated people). The edges are latent; read them out, disambiguated by date and room-note, into a verified MENTIONS register. Prove on one text first. #57 added — a MARKETING NOTE: the one-line (“a reading room with very good acoustics,” not a séance) and the argument that the discipline IS the power — honest all the way down, load-bearing, powerful because of it. Kept so the words survive. #56 added — the roster schema stores a lifespan, but the ancient Near East (Israel, Babylon, Persia, Egypt) kept REIGNS, not birthdays. A reign-span field is the structural unlock; the iconic few are in, flagged, awaiting it. #55 added — the two tiers of knowledge are a RATCHET, not a rule: scaffolding (general knowledge) holds the frame provisionally and becomes stone (sources) one addition at a time; the wheel turns one way, so the verification that keeps fraud and fiction off it is what keeps lies out of permanent architecture. #53 and #54 added — the answer box colours who/when/where (typographic, never a knowledge claim; colour describes, links promise); and the authoring stage needs a SOURCED reference layer, because the interface is the tool, not the source — not yet, maybe not ever. #52 added — the roster is the closed list; the answer to a relevant figure who is off it is to EXPAND names.csv (dated), never to soften the hall’s wall. Cheap, because a soul needs no room. #51 added and CORRECTED — planet rooms. The ship already
 has the engine: Page2's astronomy-engine / Sovereign.Ephemeris computes any
 planet live. A planet room is that engine queried, not a baked SKY.csv record;
 the earlier planet-jupiter.json and a computed-mode hack were both dead copies
