@@ -1,0 +1,48 @@
+# ── stamp.yml · END THE CACHE GREMLIN · Standing Slip #26 ────────────────────
+# When any page or script changes, rewrite every  ?v=  in the HTML to the
+# referenced file's CONTENT HASH. A changed file becomes a new URL, so GitHub
+# Pages' ten-minute cache is bypassed automatically — no hard-reload, no wait,
+# no "nothing changed" when something did.
+#
+# Separate from hall.yml on purpose: that job counts the roster and has its own
+# careful commit/rebase logic; this one only touches version strings. Keeping
+# them apart means neither can break the other.
+name: stamp the cache
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.js'
+      - '**.css'
+      - '**.html'
+      - 'stamp-cache.mjs'
+  workflow_dispatch:
+
+# do not run on the stamp's own commit
+concurrency:
+  group: stamp-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  stamp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: stamp every ?v= with its file's content hash
+        run: node stamp-cache.mjs
+
+      - name: commit if any stamp changed
+        run: |
+          git config user.name  "the stamp"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A -- '*.html'
+          if git diff --cached --quiet; then
+            echo "all cache stamps already current"
+          else
+            # [skip ci] so this commit does not re-trigger the stamp
+            git commit -m "stamp: cache-bust $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
+            git pull --rebase origin main
+            git push
+          fi
