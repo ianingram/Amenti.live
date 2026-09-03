@@ -1097,6 +1097,33 @@ position. The expensive half (getting the texts and the people aboard) is DONE.
   by date + room-note; the survivors are all citable to a work and position;
   false matches (wrong Brutus, wrong Tacitus) are caught, not drawn.
 
+### 60 · Roster counts DRIFT — the cache gremlin's cousin
+Noticed 3 Sep after the roster went 1,011 → 1,989 in a day: several surfaces
+quote a hardcoded count, and regenerating ROSTER-INDEX.json updated the DATA but
+not the surfaces that quote a NUMBER. The splash and — worse — the hall's own
+prompt still said the old figure, so the ship literally believed the old count
+and would tell a visitor 1,011.
+
+**EVERY SURFACE THAT QUOTES A ROSTER NUMBER (the checklist, check on each growth):**
+- `amenti-hall.js` — THE PROMPT. Says "N souls / N names" in the architecture
+  notes the model reads. Static text; the model cannot compute, so this is a
+  MANUAL update every time the roster grows. Highest priority: a wrong number
+  here is the ship lying about itself. (Updated to 1,989 on 3 Sep.)
+- `Page1.html` — the splash: bio copy ("nearly two thousand figures"), and code
+  comments ("~2000-figure roster"). (Updated 3 Sep.)
+- `HALL.md` — SAFE: says "the souls" with no number. The model to copy.
+
+**THE PRINCIPLE (the cure, same shape as the cache-stamp #26):** a count that is
+hardcoded WILL drift. Where a surface CAN read the count live, it should — fetch
+ROSTER-INDEX.json, render its length, never wrong again. Where it CANNOT (the
+hall's static prompt), it goes on this checklist and is updated by hand on each
+roster change.
+- **The rule going forward:** prefer "the souls" (no number) in prose, like
+  HALL.md. Quote a number only where it is read live, or where the checklist
+  covers it. Never hardcode a count in prose that will silently rot.
+- **Acceptance test:** grep the repo for the current count after any roster
+  growth; every hit is either live-read or on this checklist and updated.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
