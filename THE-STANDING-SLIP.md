@@ -44,6 +44,28 @@ can make alone.
 
 Ordered by how much it hurts to leave undone.
 
+---
+
+## ▶ TRIAGE INDEX — updated 3 Sep 2026
+*Sorted by status. The entries themselves are unchanged, below. Start here.*
+
+**⭐ DO NEXT (the queue):**
+- **#58 — the mention graph harvest.** THE HEADLINE. Both halves aboard (historian texts + 1,501 dated souls). Prove on one text. (#47 is the same build — merged.)
+- **#56 — the reign-span schema.** Unlocks the ancient Near East (Babylon, Persia, Egypt) whose kings kept reigns, not birthdays.
+- **#49 — the science cohort rooms.** ~30 authors dated and waiting; 4 shelved.
+
+**📐 PRINCIPLES (keep, never “done”):** #53 who/when/where colouring · #54 the reference layer · #55 the ratchet · #57 the marketing language.
+
+**👀 WATCH (trigger to promote):** #5 brief-quoting · #9 churn · #10 direct-push · #11 card-originals · #29/#42 stale-gloss probe · #36/#37 daily rotation · #50 the frame guard.
+
+**✅ CLOSED / SHIPPED 31 Aug–3 Sep (archived below, for the record):**
+#12 Ask Amenti · #13 the box · #14 probe on a rung · #15 reconciled · #34 the quote guard · #35 engine described · #44/#45 events register · #46 Josephus 37 BC · #30 BETA sheet superseded · #31/#32 the timeline · #26 the cache fix (live 3 Sep) · #52 roster-expand principle proven (+490 souls).
+*Seven of these sat as “open” until this triage; last night’s work had closed them.*
+
+**🔧 OPEN TASKS (small, batch when convenient):** #1–#3, #6–#8, #16–#25, #27–#28, #33, #38–#41, #43, #48, #51. Fleet plumbing, edition-tightening, small probes, the Marketplace tab, the planet rooms.
+
+---
+
 ### 1 · Wire `probe-ordnance` to read `fleet.json`
 **The keystone of the autonomy step.** The probe still carries its tube cadences
 hardcoded in its own body; `fleet.json` now holds the same declaration as a
