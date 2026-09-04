@@ -54,6 +54,8 @@
   var lo = YEAR_MIN, hi = YEAR_MAX;
 
   var geo = null, world = null, mounted = null;
+  var SVG = 'http://www.w3.org/2000/svg';
+  var lastShown = 0, lastHidden = 0;
 
   function get(url, asJson) {
     return fetch(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' })
@@ -126,6 +128,18 @@
       /* A PIN. Small, hard, bright, crisp. Nothing about it reads as an area. */
       '#amenti-map .mp-pin{fill:#5fd0e8;fill-opacity:.85;stroke:#081018;stroke-width:.35;cursor:pointer}',
       '#amenti-map .mp-pin:hover{fill:#a9edff;fill-opacity:1}',
+      /* THE NAMES. Hidden by default and revealed only when the cull says the
+         label fits — so a name never lands on top of another name. */
+      '#amenti-map .mp-name{fill:#c3d3e6;font-size:5.6px;letter-spacing:.02em;',
+      '  text-anchor:middle;pointer-events:none;opacity:0;',
+      '  paint-order:stroke;stroke:#070b12;stroke-width:1.6px;stroke-linejoin:round;',
+      '  transition:opacity .35s ease}',
+      '#amenti-map .mp-named .mp-name{opacity:.92}',
+      /* arriving and leaving — the whole reason to scrub time */
+      '#amenti-map .mp-seat{transition:opacity .4s ease}',
+      '#amenti-map .mp-seat.mp-in{opacity:0}',
+      '#amenti-map .mp-seat.mp-out{opacity:0}',
+      '#amenti-map .mp-seat.mp-out .mp-name{opacity:0}',
 
       /* the readout */
       '#amenti-map .mp-head{display:flex;justify-content:space-between;align-items:baseline;',
@@ -166,7 +180,7 @@
         '</svg>' +
         '<div class="mp-foot">' +
           '<span class="mp-read"></span>' +
-          '<input type="range" class="mp-slider" min="-4000" max="' + YEAR_MAX + '" step="25" value="' + YEAR_MAX + '">' +
+          '<input type="range" class="mp-slider" min="-4000" max="' + YEAR_MAX + '" step="10" value="' + YEAR_MAX + '">' +
         '</div>' +
         '<div class="mp-note"></div>' +
       '</div>' +
@@ -227,29 +241,112 @@
     });
     el.querySelector('.mp-washes').innerHTML = wh;
 
-    /* PINS. Radius grows only slightly with how many souls share a seat —
-       Constantinople holds 124 — but never enough to read as an area. */
+    /* ── PINS, AND THE NAMES COMING AND GOING · 4 Sep ────────────────────────
+       innerHTML on every slider step destroyed and rebuilt every node, so a
+       soul who stood in both windows FLICKERED rather than stayed, and one
+       who left simply vanished mid-frame. The whole point of scrubbing time
+       is watching a name arrive and a name go out, which a rebuild cannot
+       show: it has no memory of what was there a moment ago.
+
+       So the nodes PERSIST, keyed by seat. Entering fades up, leaving fades
+       down and is then removed. What survives both windows does not move. */
     var bySeat = {};
     pins.forEach(function (s) {
       var k = s.lat + ',' + s.lon;
       (bySeat[k] || (bySeat[k] = { lat: s.lat, lon: s.lon, place: s.place, who: [] })).who.push(s.n);
     });
-    var ph = '';
+
+    var gp = el.querySelector('.mp-pins');
+    var live = {};
+
     Object.keys(bySeat).forEach(function (k) {
       var p = bySeat[k], xy = proj(p.lat, p.lon);
       var r = Math.min(4.2, 1.15 + Math.log(p.who.length + 1) * 0.72);
-      ph += '<circle class="mp-pin" cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) +
-            '" r="' + r.toFixed(2) + '"><title>' + esc(p.place) + ' \u2014 ' +
-            esc(p.who.slice(0, 8).join(', ')) + (p.who.length > 8 ? ' \u2026 (' + p.who.length + ')' : '') +
-            '</title></circle>';
+      var g = gp.querySelector('[data-seat="' + CSS.escape(k) + '"]');
+      if (!g) {
+        g = document.createElementNS(SVG, 'g');
+        g.setAttribute('data-seat', k);
+        g.setAttribute('class', 'mp-seat mp-in');
+        g.innerHTML = '<circle class="mp-pin"/><text class="mp-name"/>';
+        gp.appendChild(g);
+        /* next frame, so the browser has a start state to transition FROM */
+        requestAnimationFrame(function () { g.classList.remove('mp-in'); });
+      }
+      g.classList.remove('mp-out');
+      var c = g.querySelector('circle');
+      c.setAttribute('cx', xy[0].toFixed(1));
+      c.setAttribute('cy', xy[1].toFixed(1));
+      c.setAttribute('r', r.toFixed(2));
+
+      /* THE NAME. One soul at a seat is named; several share the seat's own
+         name and a count, because eleven names stacked on one dot is not
+         eleven readable names, it is a smudge. */
+      var label = p.who.length === 1 ? p.who[0] : p.place + ' \u00b7 ' + p.who.length;
+      var t = g.querySelector('text');
+      t.textContent = label;
+      t.setAttribute('x', xy[0].toFixed(1));
+      t.setAttribute('y', (xy[1] - r - 2.2).toFixed(1));
+      /* HALF-WIDTH, MEASURED NOT GUESSED. At font-size 5.6px a character
+         occupies roughly 2.8px, so half of a label is length * 1.4. The first
+         value here was 2.5 — nearly double — and it culled 6 of 11 labels in
+         a 500 BC window that had ample room. This is the trap the timeline's
+         axis note names: the collision test and the placement share this one
+         number, so they will agree with each other whether or not it is
+         right. It is checked against the font, and the screen is the judge. */
+      g._w = label.length * 1.45;
+      g._x = xy[0]; g._y = xy[1] - r - 2.2;
+      g._rank = p.who.length;
+
+      var title = g.querySelector('title') || g.appendChild(document.createElementNS(SVG, 'title'));
+      title.textContent = p.place + ' \u2014 ' + p.who.slice(0, 8).join(', ') +
+                          (p.who.length > 8 ? ' \u2026 (' + p.who.length + ')' : '');
+      live[k] = 1;
     });
-    el.querySelector('.mp-pins').innerHTML = ph;
+
+    /* GONE. Faded, not yanked — a name leaving the window is the thing being
+       shown, and an instant disappearance shows nothing. */
+    [].slice.call(gp.children).forEach(function (g) {
+      if (live[g.getAttribute('data-seat')]) return;
+      if (g.classList.contains('mp-out')) return;
+      g.classList.add('mp-out');
+      setTimeout(function () { if (g.classList.contains('mp-out')) g.remove(); }, 420);
+    });
+
+    /* ── WHICH NAMES FIT · the honest cull ───────────────────────────────────
+       At AD 2000 there are 365 seats in view and every one wants a label. A
+       map has no rows to stagger into, so unlike the timeline's axis the only
+       instrument here is DROPPING — which the timeline's own note warns is
+       not robust, because the test and the placement can share an estimate
+       and agree with each other while the screen fills with porridge.
+
+       So the drop is not silent. Seats are ranked by how many souls they
+       hold, laid out greedily, and whatever did not fit IS COUNTED AND
+       STATED under the map. A hidden name is a fact about the view, not an
+       absence to be quiet about. Every dropped label is still on its pin's
+       hover. */
+    var placed = [], shown = 0, hidden = 0;
+    [].slice.call(gp.children)
+      .filter(function (g) { return !g.classList.contains('mp-out'); })
+      .sort(function (x, y) { return y._rank - x._rank; })
+      .forEach(function (g) {
+        var x = g._x, y = g._y, w = g._w, fits = true;
+        for (var i = 0; i < placed.length; i++) {
+          var q = placed[i];
+          if (Math.abs(x - q.x) < (w + q.w) && Math.abs(y - q.y) < 6.5) { fits = false; break; }
+        }
+        if (fits) { placed.push({ x: x, y: y, w: w }); shown++; }
+        g.classList.toggle('mp-named', fits);
+        if (!fits) hidden++;
+      });
+    lastShown = shown; lastHidden = hidden;
 
     /* THE READOUT NAMES THE SILENCE. */
     var t = geo.totals;
     el.querySelector('.mp-read').textContent = yr(lo) + ' \u2014 ' + yr(hi);
     el.querySelector('.mp-note').textContent =
-      pins.length + ' seats drawn \u00b7 ' + washes.length + ' souls shown as territory \u00b7 ' +
+      pins.length + ' seats drawn \u00b7 ' + lastShown + ' named' +
+      (lastHidden ? ', ' + lastHidden + ' name(s) with no room \u2014 hover the pin' : '') +
+      ' \u00b7 ' + washes.length + ' souls shown as territory \u00b7 ' +
       (t.silent + t.unplaced) + ' of ' + t.souls + ' carry no place this map can honestly draw ' +
       '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
       'Seats from GeoNames (CC BY 4.0); coastline Natural Earth.';
