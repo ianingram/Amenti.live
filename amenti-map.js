@@ -231,7 +231,7 @@
       /* right padding CLEARS THE FACULTY RAIL. Seen live: the legend ran under
          the globe and "no honest place — not drawn" was cut mid-word, which
          is the one line on this surface that declares what the map omits. */
-      '  padding:26px 84px 18px 26px;gap:0}',
+      '  padding:26px 84px 22px 30px;gap:0}',
       /* min-height:0 or the SVG refuses to shrink and shoves the slider and the
          attribution off the bottom of the viewport — seen live, both gone. */
       '#amenti-map svg{flex:1 1 auto;min-height:0;width:100%;overflow:visible}',
@@ -315,86 +315,72 @@
       '#amenti-map .mp-seat.mp-out .mp-name{opacity:0}',
 
       /* the readout */
-      '#amenti-map .mp-head{display:flex;justify-content:space-between;align-items:baseline;',
-      '  gap:10px 18px;margin-bottom:8px;flex-wrap:wrap;flex:0 0 auto}',
-      '#amenti-map .mp-title{color:#dbe4f0;letter-spacing:.14em;text-transform:uppercase;font-size:12px}',
-      '#amenti-map .mp-key{display:flex;gap:16px;align-items:center;font-size:11.5px;color:#8fa2ba}',
-      '#amenti-map .mp-key i{display:inline-block;vertical-align:middle;margin-right:6px}',
+      /* ── THE INSTRUMENT BAND · redesigned 4 Sep ──────────────────────────
+         SEEN LIVE: two full-height neon rails stood at the left edge with
+         their labels colliding, the readout sat in a selection highlight, the
+         ruler was squeezed into the right half, and the hint named a dial that
+         had been deleted. It was a set of features, not a surface.
+
+         THE MISTAKE WAS A LITERAL PORT. Page2's rails work because Page2 is a
+         helix on an empty black field — its margins are nothing. On a world
+         map the left edge is THE PACIFIC. Two bars were laid over content, and
+         the boldest thing on the page became a control rather than the map.
+
+         So: one band along the bottom, nothing floating, and the boldness
+         spent in a single place — the map itself. The YEAR is the only large
+         element, because it is the one thing a reader needs from across a
+         room. The ruler becomes the time control: it already draws all 6,026
+         years with the window band and Halley's returns, so dragging it is the
+         obvious gesture and it retires the rail entirely. A strip of time you
+         scrub is a thing people know; a floating bar is not. */
+      '#amenti-map .mp-head{display:flex;justify-content:space-between;',
+      '  align-items:baseline;gap:10px 22px;margin-bottom:10px;flex-wrap:wrap;flex:0 0 auto}',
+      '#amenti-map .mp-title{color:#8fa2ba;font-size:13px;letter-spacing:.02em}',
+      '#amenti-map .mp-key{display:flex;gap:18px;align-items:center;font-size:12px;color:#8fa2ba}',
+      '#amenti-map .mp-key i{display:inline-block;vertical-align:middle;margin-right:7px}',
       '#amenti-map .mp-key .k-pin{width:7px;height:7px;border-radius:50%;background:#5fd0e8}',
       '#amenti-map .mp-key .k-wash{width:16px;height:9px;border-radius:2px;background:rgba(74,108,143,.42)}',
       '#amenti-map .mp-key .k-none{width:16px;height:9px;border:1px dashed #3c4a5e;border-radius:2px}',
-      '#amenti-map .mp-key .k-sky{width:8px;height:8px;border:1px solid #d8a24a;',
-      '  transform:rotate(45deg)}',
+      '#amenti-map .mp-key .k-sky{width:8px;height:8px;border:1px solid #d8a24a;transform:rotate(45deg)}',
 
-      '#amenti-map .mp-foot{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:12px;flex:0 0 auto}',
-      '#amenti-map .mp-foot input[type=range]{flex:1;accent-color:#5fd0e8}',
-      /* THE READOUT IS THE INSTRUMENT'S FACE — it was 12px and unreadable
-         across a room. The names on the map may stay small; the year may not. */
-      '#amenti-map .mp-read{color:#f0f5fb;min-width:270px;font-size:21px;',
-      '  letter-spacing:.06em;font-variant-numeric:tabular-nums}',
-      '#amenti-map .mp-chrono{position:relative;flex:1;display:block;min-width:0}',
-      /* Page2's measurements, kept deliberately: 60px sidebar, a 4px track
-         running 10vh-90vh, a white pill centred on it. A reader who has used
-         the helix already knows how to hold this. */
-      '#amenti-map .mp-rail{position:absolute;top:0;height:100%;width:60px;z-index:6;',
-      '  pointer-events:all;user-select:none}',
-      '#amenti-map .mp-rail-x{left:8px}',
-      '#amenti-map .mp-rail-a{left:52px}',
-      '#amenti-map .mp-track{position:relative;width:5px;height:74%;margin:13% auto 0;',
-      '  border-radius:4px;border:1px solid rgba(255,255,255,.42);cursor:ns-resize;',
-      '  background:linear-gradient(180deg,#5fd0e8,#8b6ff0,#e8c98a);',
-      '  box-shadow:0 0 14px rgba(95,208,232,.28)}',
-      '#amenti-map .mp-track-ap{background:linear-gradient(180deg,#e879f9,#3b0764);',
-      '  border-color:rgba(217,70,239,.55);box-shadow:0 0 14px rgba(217,70,239,.3)}',
-      '#amenti-map .mp-cursor{position:absolute;left:50%;transform:translateX(-50%);',
-      '  height:20px;padding:0 9px;background:#fff;color:#000;border-radius:2px;',
-      '  font:900 10px/20px ui-monospace,Menlo,monospace;white-space:nowrap;',
-      '  pointer-events:none;box-shadow:0 0 12px rgba(255,255,255,.35)}',
-      '#amenti-map .mp-cursor-ap{background:#e879f9;color:#fff}',
-      '#amenti-map .mp-raillab{position:absolute;bottom:2%;left:50%;transform:translateX(-50%);',
-      '  font:400 9px/1 ui-monospace,Menlo,monospace;letter-spacing:.16em;',
-      '  text-transform:uppercase;color:#6f8098;pointer-events:none}',
-      /* the map itself steps aside for them */
-      '#amenti-map .mp-wrap{padding-left:120px}',
-      '#amenti-map .mp-ruler{display:block;width:100%;height:34px;overflow:visible}',
+      /* the band: year · aperture · ruler, on one line, aligned to a baseline */
+      '#amenti-map .mp-foot{display:flex;align-items:center;gap:22px;margin-top:14px;',
+      '  flex:0 0 auto;user-select:none}',
+      /* THE YEAR IS THE FACE OF THE INSTRUMENT. Everything else on this band
+         is a means of changing it, so it is the only thing set large. */
+      '#amenti-map .mp-read{color:#f0f5fb;font-size:27px;letter-spacing:.01em;',
+      '  font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;',
+      '  min-width:250px;line-height:1}',
+      '#amenti-map .mp-ap{display:flex;gap:0;flex:0 0 auto;',
+      '  border:1px solid #23303f;border-radius:4px;overflow:hidden}',
+      '#amenti-map .mp-ap button{position:relative;font:400 13px/1 ui-monospace,Menlo,monospace;',
+      '  color:#7d8ea6;background:transparent;cursor:pointer;border:0;',
+      '  border-right:1px solid #23303f;padding:9px 12px;min-width:42px}',
+      '#amenti-map .mp-ap button:last-child{border-right:0}',
+      '#amenti-map .mp-ap button:hover{color:#c3d3e6;background:rgba(95,208,232,.06)}',
+      '#amenti-map .mp-ap button.on{color:#0a1018;background:#e8c98a}',
+      '#amenti-map .mp-ap button:focus-visible{outline:2px solid #5fd0e8;outline-offset:-2px}',
+      '#amenti-map .mp-ap button::after{content:attr(data-name);position:absolute;',
+      '  bottom:40px;left:50%;transform:translateX(-50%);font:400 12px/1 ui-monospace,',
+      '  Menlo,monospace;color:#dbe4f0;background:rgba(8,12,20,.96);border:1px solid #2b3a50;',
+      '  padding:7px 9px;border-radius:3px;white-space:nowrap;opacity:0;',
+      '  pointer-events:none;transition:opacity .15s}',
+      '#amenti-map .mp-ap button:hover::after,',
+      '#amenti-map .mp-ap button:focus-visible::after{opacity:1}',
+
+      /* THE RULER IS THE CONTROL, not a readout beside one */
+      '#amenti-map .mp-chrono{position:relative;flex:1 1 auto;min-width:0;',
+      '  cursor:ew-resize;padding:2px 0}',
+      '#amenti-map .mp-ruler{display:block;width:100%;height:40px;overflow:visible}',
+      '#amenti-map .mp-chrono:hover .mp-rwin{fill-opacity:.4}',
       '#amenti-map .mp-tick{stroke:#2c3a4d;stroke-width:1;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-tickM{stroke:#43566e}',
-      '#amenti-map .mp-rlab{fill:#7d8ea6;font-size:9px;text-anchor:middle;',
-      '  font-family:ui-monospace,Menlo,monospace;letter-spacing:.08em}',
+      '#amenti-map .mp-rlab{fill:#7d8ea6;font-size:10px;text-anchor:middle;',
+      '  font-family:ui-monospace,Menlo,monospace}',
       '#amenti-map .mp-rhal{stroke:#e8c98a;stroke-width:1;opacity:.75;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-rgath{fill:#d8a24a;opacity:.8}',
-      '#amenti-map .mp-rwin{fill:#5fd0e8;fill-opacity:.28;stroke:#5fd0e8;stroke-width:.8;',
-      '  vector-effect:non-scaling-stroke}',
-      '#amenti-map .mp-slider{width:100%;margin:0;display:block}',
-      '#amenti-map .mp-ap{display:flex;gap:4px}',
-      '#amenti-map .mp-ap button{font:400 10.5px/1 ui-monospace,Menlo,monospace;',
-      '  letter-spacing:.1em;color:#7d8ea6;background:transparent;cursor:pointer;',
-      '  border:1px solid #23303f;border-radius:3px;padding:4px 7px}',
-      '#amenti-map .mp-ap button.on{color:#e8c98a;border-color:#7a5f33}',
-      '#amenti-map .mp-ap button{position:relative;font-size:14px;padding:5px 9px}',
-      /* WHAT DOES THIS BUTTON DO. A title attribute waits a second and then
-         renders in the OS font at the OS size, which on this surface reads as
-         a bug. Same hover label the faculty rail uses, so one page has one
-         way of explaining a control. */
-      '#amenti-map .mp-ap button::after{content:attr(data-name);position:absolute;',
-      '  bottom:34px;left:50%;transform:translateX(-50%);font:400 11px/1 ui-monospace,',
-      '  Menlo,monospace;letter-spacing:.08em;color:#dbe4f0;background:rgba(8,12,20,.95);',
-      '  border:1px solid #2b3a50;padding:6px 8px;border-radius:3px;white-space:nowrap;',
-      '  opacity:0;pointer-events:none;transition:opacity .15s}',
-      '#amenti-map .mp-ap button:hover::after{opacity:1}',
-      '#amenti-map .mp-dial{position:relative}',
-      '#amenti-map .mp-dial::after{content:\'turn \\2014 clockwise is forward\';position:absolute;',
-      '  bottom:32px;right:0;font:400 11px/1 ui-monospace,Menlo,monospace;color:#dbe4f0;',
-      '  background:rgba(8,12,20,.95);border:1px solid #2b3a50;padding:6px 8px;',
-      '  border-radius:3px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}',
-      '#amenti-map .mp-dial:hover::after{opacity:1}',
-      '#amenti-map .mp-ap button{min-width:30px}',
-      '#amenti-map .mp-dial{cursor:grab;flex:0 0 auto}',
-      '#amenti-map .mp-dial.turning{cursor:grabbing}',
-      '#amenti-map .mp-dial circle{fill:none;stroke:#2b3a50;stroke-width:1.4}',
-      '#amenti-map .mp-dial line{stroke:#5fd0e8;stroke-width:1.6;stroke-linecap:round}',
-      '#amenti-map .mp-note{color:#8395ab;font-size:13px;margin-top:8px;line-height:1.55;flex:0 0 auto}',
-      '#amenti-map .mp-zoom{color:#5c6b80;font-size:12px;margin-top:4px;flex:0 0 auto}',
+      '#amenti-map .mp-rwin{fill:#5fd0e8;fill-opacity:.3;stroke:#5fd0e8;stroke-width:1;',
+      '  vector-effect:non-scaling-stroke;transition:fill-opacity .15s}',
       '#amenti-map .mp-hit{position:absolute;pointer-events:none;background:rgba(8,12,20,.94);',
       '  border:1px solid #2b3purple;padding:6px 9px;border-radius:3px;font-size:11.5px;',
       '  color:#dbe4f0;white-space:nowrap;opacity:0;transition:opacity .12s}'
@@ -405,23 +391,9 @@
     el.id = 'amenti-map';
     el.innerHTML =
       '<div class="mp-scrim"></div>' +
-      /* ── THE RAILS · Page2's analog sidebar, on the map · 4 Sep ────────────
-         The bottom row was a 26px dial and a hairline range input, and neither
-         was usable — the dial needed a precise grab and the input sat under an
-         SVG. Page2 already solved this and its answer is better: a VERTICAL
-         RAIL with a bright gradient and a white pill riding it that states the
-         value. It is visible from across the room, it has a large hit area,
-         and the left margin of a world map is empty because the Pacific is
-         there. One page, one way of holding an axis. */
-      '<div class="mp-rail mp-rail-x" data-rail="x">' +
-        '<div class="mp-track"></div><div class="mp-cursor">\u2014</div>' +
-        '<div class="mp-raillab">time</div></div>' +
-      '<div class="mp-rail mp-rail-a" data-rail="a">' +
-        '<div class="mp-track mp-track-ap"></div><div class="mp-cursor mp-cursor-ap">\u2014</div>' +
-        '<div class="mp-raillab">aperture</div></div>' +
       '<div class="mp-wrap">' +
         '<div class="mp-head">' +
-          '<div class="mp-title">where the souls stood</div>' +
+          '<div class="mp-title">where the souls stood, and what stood over Giza</div>' +
           '<div class="mp-key">' +
             '<span><i class="k-pin"></i>a seat \u2014 here</span>' +
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
@@ -447,7 +419,7 @@
             }).join('') +
           '</span>' +
           '<span class="mp-chrono">' +
-            '<svg class="mp-ruler" viewBox="0 0 1000 34" preserveAspectRatio="none"></svg>' +
+            '<svg class="mp-ruler" viewBox="0 0 1000 42" preserveAspectRatio="none"></svg>' +
             '</span>' +
         '</div>' +
         '<div class="mp-note"></div>' +
@@ -878,17 +850,8 @@
     lo = hi - APERTURE;
     var el = mounted;
     if (el) {
-      /* the pills ride their rails and state the value — 10% to 84% of the
-         track, matching where the gradient actually is */
-      var fx = (hi - YEAR_MIN) / (YEAR_MAX - YEAR_MIN);
-      var cx = el.querySelector('.mp-rail-x .mp-cursor');
-      if (cx) { cx.style.top = (13 + fx * 74).toFixed(1) + '%'; cx.textContent = yr(hi); }
-      var ia = APERTURES.indexOf(APERTURE);
-      var fa = ia < 0 ? 0 : (APERTURES.length - 1 - ia) / (APERTURES.length - 1);
-      var ca = el.querySelector('.mp-rail-a .mp-cursor');
-      if (ca) { ca.style.top = (13 + fa * 74).toFixed(1) + '%';
-                ca.textContent = (AP_LABEL[APERTURE] || APERTURE) + ' ' +
-                                 (APERTURE === 3000 ? '' : APERTURE + 'y'); }
+      var ap = el.querySelectorAll('.mp-ap button');
+      ap.forEach(function (x) { x.classList.toggle('on', +x.getAttribute('data-ap') === APERTURE); });
       /* FOUND BY THE PROBE, 4 Sep: this call was missing and the chronometer
          track rendered nothing at all — no ticks, no window band, no Halley
          marks. The feature was dead and the surface looked fine, which is
@@ -918,21 +881,21 @@
     var h = '', y;
 
     for (y = -4000; y <= YEAR_MAX; y += 250)
-      h += '<line class="mp-tick" x1="' + X(y).toFixed(1) + '" y1="20" x2="' + X(y).toFixed(1) + '" y2="26"/>';
+      h += '<line class="mp-tick" x1="' + X(y).toFixed(1) + '" y1="24" x2="' + X(y).toFixed(1) + '" y2="31"/>';
     for (y = -4000; y <= YEAR_MAX; y += 1000) {
-      h += '<line class="mp-tick mp-tickM" x1="' + X(y).toFixed(1) + '" y1="16" x2="' + X(y).toFixed(1) + '" y2="26"/>';
-      h += '<text class="mp-rlab" x="' + X(y).toFixed(1) + '" y="12">' +
+      h += '<line class="mp-tick mp-tickM" x1="' + X(y).toFixed(1) + '" y1="19" x2="' + X(y).toFixed(1) + '" y2="31"/>';
+      h += '<text class="mp-rlab" x="' + X(y).toFixed(1) + '" y="13">' +
            (y < 0 ? Math.abs(y) / 1000 + 'k bc' : (y === 0 ? '0' : 'ad ' + y)) + '</text>';
     }
     if (comets) comets.forEach(function (e) {
-      h += '<line class="mp-rhal" x1="' + X(e.y).toFixed(1) + '" y1="27" x2="' + X(e.y).toFixed(1) + '" y2="33"/>';
+      h += '<line class="mp-rhal" x1="' + X(e.y).toFixed(1) + '" y1="32" x2="' + X(e.y).toFixed(1) + '" y2="39"/>';
     });
     if (sky) sky.filter(function (e) { return e.kind === 'gathering'; }).forEach(function (e) {
-      h += '<circle class="mp-rgath" cx="' + X(e.y).toFixed(1) + '" cy="30" r="2"/>';
+      h += '<circle class="mp-rgath" cx="' + X(e.y).toFixed(1) + '" cy="35.5" r="2"/>';
     });
     /* the aperture, at true width — a hair at 76 years, the world at 3000 */
-    h += '<rect class="mp-rwin" x="' + X(lo).toFixed(1) + '" y="15" width="' +
-         Math.max(0.8, X(hi) - X(lo)).toFixed(2) + '" height="12"/>';
+    h += '<rect class="mp-rwin" x="' + X(lo).toFixed(1) + '" y="18" width="' +
+         Math.max(0.8, X(hi) - X(lo)).toFixed(2) + '" height="14"/>';
     sv.innerHTML = h;
   }
 
@@ -1045,7 +1008,7 @@
      and the icon for the faculty should not be the mark of one of its tiers */
   var ICON_MAP =
     '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-    '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/>' +
+    '<circle cx="12" cy="13" r="9"/><path d="M3 12h18"/>' +
     '<path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg>';
 
   function trigger() {
@@ -1105,40 +1068,26 @@
            so a reader can jump to a millennium instead of winding to it.
            Top is the deep past, bottom is now: the same sense as the ruler
            beneath, so the two never contradict each other. */
-        var dragging = null;
-        function railValue(railEl, ev) {
-          var t = railEl.querySelector('.mp-track').getBoundingClientRect();
-          return Math.max(0, Math.min(1, (ev.clientY - t.top) / t.height));
+        /* ── DRAG THE CENTURIES · the ruler IS the control ─────────────────
+           Click anywhere on the track to go to that year; drag to travel. An
+           absolute scale, so a reader can reach 3000 BC in one gesture rather
+           than winding for it — which is what the dial could not do and the
+           rail did at the cost of covering the Pacific. */
+        var chrono = el.querySelector('.mp-chrono'), scrubbing = false;
+        function chronoYear(ev) {
+          var r = chrono.getBoundingClientRect();
+          var f = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
+          return YEAR_MIN + f * (YEAR_MAX - YEAR_MIN);
         }
-        el.querySelectorAll('.mp-rail').forEach(function (railEl) {
-          railEl.addEventListener('pointerdown', function (ev) {
-            dragging = railEl; railEl.setPointerCapture(ev.pointerId);
-            applyRail(railEl, ev);
-          });
-          railEl.addEventListener('pointermove', function (ev) {
-            if (dragging === railEl) applyRail(railEl, ev);
-          });
-          ['pointerup', 'pointercancel'].forEach(function (t) {
-            railEl.addEventListener(t, function () { dragging = null; });
-          });
+        chrono.addEventListener('pointerdown', function (ev) {
+          scrubbing = true; chrono.setPointerCapture(ev.pointerId); setEdge(chronoYear(ev));
         });
-        function applyRail(railEl, ev) {
-          var f = railValue(railEl, ev);
-          if (railEl.getAttribute('data-rail') === 'x') {
-            setEdge(YEAR_MIN + f * (YEAR_MAX - YEAR_MIN));
-          } else {
-            /* the ladder is discrete, so the rail snaps to a real period —
-               there is no aperture between one Uranus and one Halley and
-               pretending otherwise would invent a window the sky has not */
-            var i = Math.min(APERTURES.length - 1,
-                             Math.floor(f * APERTURES.length));
-            APERTURE = APERTURES[APERTURES.length - 1 - i];
-            el.querySelectorAll('.mp-ap button').forEach(function (x) {
-              x.classList.toggle('on', +x.getAttribute('data-ap') === APERTURE);
-            });
-            setEdge(hi);
-          }
-        }
+        chrono.addEventListener('pointermove', function (ev) {
+          if (scrubbing) setEdge(chronoYear(ev));
+        });
+        ['pointerup', 'pointercancel'].forEach(function (t) {
+          chrono.addEventListener(t, function () { scrubbing = false; });
+        });
 
         el.addEventListener('wheel', function (e) {
           e.preventDefault();
