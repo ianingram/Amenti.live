@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-04T02:11:18.485Z",
+    "generated": "2026-09-04T02:26:26.989Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1342,7 +1342,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49031,
-      "sha256": "a1c3bd6506c8c671",
+      "sha256": "6f5812ec17ba050a",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1635,8 +1635,14 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 37,
+    "count": 39,
     "files": [
+      {
+        "file": "geo-tier.mjs",
+        "title": null,
+        "guards": null,
+        "bytes": 4882
+      },
       {
         "file": "probe-citations.mjs",
         "title": "THE CITATION AUDIT",
@@ -1654,6 +1660,12 @@
         "title": "WHY THIS EXISTS",
         "guards": null,
         "bytes": 11880
+      },
+      {
+        "file": "probe-geo.mjs",
+        "title": "THE PLACE REGISTER",
+        "guards": null,
+        "bytes": 13671
       },
       {
         "file": "probe-hall-wall.mjs",
