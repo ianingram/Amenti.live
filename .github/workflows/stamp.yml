@@ -51,6 +51,40 @@ jobs:
           else
             # [skip ci] so this commit does not re-trigger the stamp
             git commit -m "stamp: cache-bust $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
-            git pull --rebase origin main
-            git push
+            # ── THE REBASE WAS HERE; THE RETRY WAS NOT · 4 SEP 2026 ────────
+            # This file already pulled before pushing, which handles the
+            # ordinary case and is why it never went red. But the push itself
+            # can still lose the race — the remote can move in the seconds
+            # between the rebase and the push — and there was nothing to
+            # catch that.
+            #
+            # It matters MORE here than in the other four. stamp.yml is the
+            # workflow a human dispatches immediately after an upload, which
+            # is exactly the moment another job is most likely to be in
+            # flight. The one workflow run by hand at the busiest moment was
+            # the one with no retry.
+            #
+            # And a lost stamp is not a lost measurement: it means hall.html
+            # keeps serving an OLD ?v= for a file that changed, so every
+            # reader who has the page cached gets the previous version and
+            # reloading does not fix it. Silent, and cached — the failure
+            # config.js warns about in its own header.
+            #
+            # GITHUB_REF_NAME rather than a hardcoded main, matching the
+            # other four: a branch name written twice is a branch name that
+            # can disagree with itself.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "stamped (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::the stamps could not be pushed after 5 attempts — hall.html on main still carries OLD ?v= values, so changed files will be served STALE from cache"
+              exit 1
+            fi
           fi
