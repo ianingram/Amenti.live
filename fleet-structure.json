@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-04T07:01:57.057Z",
+    "generated": "2026-09-04T07:11:03.945Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1354,8 +1354,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 49280,
-      "sha256": "04d2a1f2efe8c9d9",
+      "bytes": 49260,
+      "sha256": "6a7f659d2e4724f2",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1364,25 +1364,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1166,
+          "line": 1165,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1167,
+          "line": 1166,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1168,
+          "line": 1167,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1169,
+          "line": 1168,
           "when": "toplevel",
           "own": false
         }
@@ -1481,7 +1481,7 @@
     {
       "file": "hall.html",
       "bytes": 18175,
-      "sha256": "b3304cb9ddc4e5a0",
+      "sha256": "44eaec97e4fdc4e2",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1502,7 +1502,7 @@
           "line": 300
         },
         {
-          "file": "amenti-map.js?v=9a2acdcb",
+          "file": "amenti-map.js?v=607d1ea0",
           "line": 305
         },
         {
