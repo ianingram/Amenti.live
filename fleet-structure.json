@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-04T07:27:06.238Z",
+    "generated": "2026-09-04T07:27:27.591Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49260,
-      "sha256": "5054cfa5916d799b",
+      "sha256": "bfe2273eb76f73d0",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1601,6 +1601,17 @@
       "declares": [
         "AMENTI_VOICE_PROFILES"
       ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "watch.html",
+      "bytes": 10060,
+      "sha256": "cfbd3ba7789e0e28",
+      "type": "html",
+      "declares": [],
       "loads": [],
       "calls": [],
       "endpoints": [],
