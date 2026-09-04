@@ -238,11 +238,76 @@
     });
   }
 
+  /* ── LIVING WITH THE HALL'S CLICK ────────────────────────────────────────
+     hall.html toggles `scene-bare` on ANY click that is not a control and did
+     not drag. A map is nothing but clicking, so every pin press would also
+     strip the hall behind it. The timeline met this at its own controls and
+     answered with stopPropagation rather than by teaching hall.html about a
+     new id — the surface owns its clicks. Same answer here, for the same
+     reason: this file stays additive, and hall.html keeps one rule instead
+     of a list of exceptions. */
+  function containClicks(el) {
+    ['click', 'pointerdown'].forEach(function (t) {
+      el.addEventListener(t, function (e) { e.stopPropagation(); });
+    });
+  }
+
+  /* ── THE TWO SURFACES ARE EXCLUSIVE ──────────────────────────────────────
+     The timeline reveals on `scene-bare`, the map on `scene-map`, and nothing
+     stops both classes standing at once — two full-bleed instruments over one
+     another, each unreadable. WHEN and WHERE are separate faculties and must
+     render in separate places (Front Desk Triage): the map takes the screen,
+     or the timeline does. The timeline is the proven instrument, so the map
+     is the one that yields — it clears scene-bare on the way in and restores
+     nothing on the way out, leaving the hall as the reader left it. */
+  function takeScreen() { document.body.classList.remove('scene-bare'); }
+
+  function trigger() {
+    var b = document.getElementById('amenti-map-open');
+    if (b) return b;
+    var css = document.createElement('style');
+    css.textContent = [
+      '#amenti-map-open{position:fixed;z-index:4;right:18px;bottom:16px;',
+      '  font:400 11.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;',
+      '  text-transform:uppercase;color:#8fa2ba;background:rgba(10,14,22,.72);',
+      '  border:1px solid #253244;border-radius:3px;padding:8px 13px;cursor:pointer;',
+      '  transition:color .2s,border-color .2s}',
+      '#amenti-map-open:hover{color:#a9edff;border-color:#3d5group}',
+      'body.scene-map #amenti-map-open{color:#a9edff;border-color:#3d5570}'
+    ].join('\n').replace('#3d5group', '#3d5570');
+    document.head.appendChild(css);
+    b = document.createElement('button');
+    b.id = 'amenti-map-open';
+    b.type = 'button';
+    b.textContent = 'the map';
+    b.setAttribute('aria-label', 'open the map of where the souls stood');
+    containClicks(b);
+    b.addEventListener('click', function () {
+      document.body.classList.contains('scene-map') ? close() : open();
+    });
+    document.body.appendChild(b);
+    return b;
+  }
+
+  /* ESCAPE CLOSES THE MAP FIRST. hall.html already binds Escape to restoring
+     the hall from scene-bare; if the map is up, that is not what the reader
+     means by escape. Bound in the CAPTURE phase so this runs before the
+     hall's own listener, and stopped only when the map is actually open —
+     otherwise the hall's rule stands untouched. */
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (!document.body.classList.contains('scene-map')) return;
+    e.stopPropagation();
+    close();
+  }, true);
+
   /* ── the public door ────────────────────────────────────────────────────── */
 
   function open(opts) {
     return load().then(function () {
       var el = mount();
+      containClicks(el);
+      takeScreen();
       var sl = el.querySelector('.mp-slider');
       if (!sl.dataset.wired) {
         sl.dataset.wired = '1';
@@ -265,5 +330,11 @@
 
   function close() { document.body.classList.remove('scene-map'); }
 
-  window.AmentiMap = { open: open, close: close };
+  /* The trigger mounts itself the moment the file loads, so wiring the map
+     into hall.html is ONE script tag and no edit to its logic. */
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', trigger);
+  else trigger();
+
+  window.AmentiMap = { open: open, close: close, trigger: trigger };
 })();
