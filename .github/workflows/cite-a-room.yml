@@ -131,8 +131,26 @@ jobs:
             echo "::notice title=Nothing changed::No source in this room contained that text."
           else
             git commit -m "cite ${{ inputs.room }}: a source made findable [skip ci]"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
-            git push
+            # ── THE REBASE WAS HERE; THE RETRY WAS NOT · 4 SEP 2026 ───
+            # The half-correction, and the more dangerous shape: it survives
+            # the ordinary case and only fails under load, so it looks fixed.
+            # The remote can move in the seconds between the rebase and the
+            # push, and nothing here caught that. stamp.yml carried exactly
+            # this same shape and was corrected the same day.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "pushed (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::the citation could not be pushed after 5 attempts — main is STALE"
+              exit 1
+            fi
           fi
 
       - name: stop here — no source given
@@ -199,8 +217,26 @@ jobs:
                  "carried a source. cite.js never overwrites one."
           else
             git commit -m "cite ${{ inputs.room }}: the works carry their edition [skip ci]"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
-            git push
+            # ── THE REBASE WAS HERE; THE RETRY WAS NOT · 4 SEP 2026 ───
+            # The half-correction, and the more dangerous shape: it survives
+            # the ordinary case and only fails under load, so it looks fixed.
+            # The remote can move in the seconds between the rebase and the
+            # push, and nothing here caught that. stamp.yml carried exactly
+            # this same shape and was corrected the same day.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "pushed (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::the editions could not be pushed after 5 attempts — main is STALE"
+              exit 1
+            fi
             echo "::notice title=Done::${{ inputs.room }} is cited. The citations"\
                  "watch will confirm it on its next run."
           fi

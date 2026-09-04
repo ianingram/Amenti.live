@@ -51,6 +51,35 @@ jobs:
           if git diff --staged --quiet; then
             echo "No change to commit."
           else
-            git commit -m "Atlantica: new dispatch"
-            git push
+            # [skip ci] so this commit does not re-trigger a workflow
+            git commit -m "Atlantica: new dispatch [skip ci]"
+            # ── REBASE AND RETRY · 4 SEP 2026 ─────────────────────────
+            # Found by probes/probe-workflows.mjs, which exists because a
+            # HAND AUDIT of the automation on this same day read five files,
+            # declared "five of five carry the correction", and missed this
+            # one. Nobody had a list; you cannot audit what nothing maps.
+            #
+            # A bare push is correct in isolation and wrong the moment
+            # anything else writes to the branch — routine here, with eight
+            # committing workflows and a human all on main. flagship.yml went
+            # red earlier today with "! [rejected] main -> main" after an
+            # upload landed mid-job: a good measurement thrown away by a
+            # collision, not by a fault.
+            #
+            # Five attempts, then SAY SO. A silent give-up leaves the register
+            # stale on main while the job reports success.
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "pushed (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::the Atlantica dispatch could not be pushed after 5 attempts — main is STALE"
+              exit 1
+            fi
           fi
