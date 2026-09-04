@@ -135,6 +135,21 @@
       '  paint-order:stroke;stroke:#070b12;stroke-width:1.6px;stroke-linejoin:round;',
       '  transition:opacity .35s ease}',
       '#amenti-map .mp-named .mp-name{opacity:.92}',
+      /* AN OFFICE MARK: dim, plain, repeated. It says "one of many". */
+      '#amenti-map .mp-glyph{fill:#93b9d4;font-size:6.4px;text-anchor:middle;',
+      '  pointer-events:none;opacity:0;paint-order:stroke;stroke:#070b12;',
+      '  stroke-width:1.8px;stroke-linejoin:round;transition:opacity .35s ease}',
+      '#amenti-map .mp-marked .mp-glyph{opacity:.8}',
+      /* A PERSONAL MARK: brighter, and RINGED so it cannot be mistaken for an
+         office at a glance. Two tiers of a claim, two readings — the same rule
+         that keeps a wash from looking like a pin. */
+      '#amenti-map .mp-own .mp-glyph{fill:#a9edff;opacity:1;font-size:7px}',
+      '#amenti-map .mp-ring{fill:none;stroke:#5fd0e8;stroke-width:.5;opacity:0;',
+      '  transition:opacity .35s ease}',
+      '#amenti-map .mp-own .mp-ring{opacity:.55}',
+      /* where a seat wears a mark the dot recedes to an anchor: the mark IS
+         the point, and two full-strength objects at one coordinate is clutter */
+      '#amenti-map .mp-marked .mp-pin{fill-opacity:.3}',
       /* arriving and leaving — the whole reason to scrub time */
       '#amenti-map .mp-seat{transition:opacity .4s ease}',
       '#amenti-map .mp-seat.mp-in{opacity:0}',
@@ -253,7 +268,15 @@
     var bySeat = {};
     pins.forEach(function (s) {
       var k = s.lat + ',' + s.lon;
-      (bySeat[k] || (bySeat[k] = { lat: s.lat, lon: s.lon, place: s.place, who: [] })).who.push(s.n);
+      var seat = bySeat[k] || (bySeat[k] = { lat: s.lat, lon: s.lon, place: s.place,
+                                             who: [], off: {}, personal: null, pname: null });
+      seat.who.push(s.n);
+      if (s.o) seat.off[s.o] = (seat.off[s.o] || 0) + 1;
+      /* THE RARER TIER WINS. If anyone standing at this seat in this window
+         carries a mark of their own, that is what the seat shows — an office
+         is shared by hundreds, a personal sign by one, and the scarcer claim
+         is the more informative one. */
+      if (s.pg && !seat.personal) { seat.personal = s.pg; seat.pname = s.n; }
     });
 
     var gp = el.querySelector('.mp-pins');
@@ -267,7 +290,8 @@
         g = document.createElementNS(SVG, 'g');
         g.setAttribute('data-seat', k);
         g.setAttribute('class', 'mp-seat mp-in');
-        g.innerHTML = '<circle class="mp-pin"/><text class="mp-name"/>';
+        g.innerHTML = '<circle class="mp-pin"/><circle class="mp-ring"/>' +
+                      '<text class="mp-glyph"/><text class="mp-name"/>';
         gp.appendChild(g);
         /* next frame, so the browser has a start state to transition FROM */
         requestAnimationFrame(function () { g.classList.remove('mp-in'); });
@@ -281,11 +305,39 @@
       /* THE NAME. One soul at a seat is named; several share the seat's own
          name and a count, because eleven names stacked on one dot is not
          eleven readable names, it is a smudge. */
+      /* ── THE SEAT'S MARK · 4 Sep ─────────────────────────────────────────
+         A seat wears ONE glyph, not one per soul: Constantinople holds 124 and
+         124 sigils on one dot is a smear. Which one is the DOMINANT OFFICE
+         among the souls standing here in this window — so the mark changes as
+         time is scrubbed, and a reader watches the Mediterranean turn from
+         crown to cross while Baghdad turns to crescent. That movement is the
+         thing; a static mark would say nothing a label does not.
+
+         A tie goes to the office with more souls, then to whichever sorts
+         first — arbitrary, but STABLE, so a mark does not flicker between two
+         equal claims on every step of the slider. */
+      var dom = null, domN = 0;
+      Object.keys(p.off).sort().forEach(function (o) {
+        if (p.off[o] > domN) { domN = p.off[o]; dom = o; }
+      });
+      var mark = p.personal || dom;
+      var gt = g.querySelector('.mp-glyph');
+      gt.textContent = mark || '';
+      gt.setAttribute('x', xy[0].toFixed(1));
+      gt.setAttribute('y', (xy[1] + 2.4).toFixed(1));
+      /* the two tiers must not read alike — see the probe's note */
+      g.classList.toggle('mp-own', !!p.personal);
+      g.classList.toggle('mp-marked', !!mark);
+      var ring = g.querySelector('.mp-ring');
+      ring.setAttribute('cx', xy[0].toFixed(1));
+      ring.setAttribute('cy', xy[1].toFixed(1));
+      ring.setAttribute('r', '4.6');
+
       var label = p.who.length === 1 ? p.who[0] : p.place + ' \u00b7 ' + p.who.length;
       var t = g.querySelector('text');
       t.textContent = label;
       t.setAttribute('x', xy[0].toFixed(1));
-      t.setAttribute('y', (xy[1] - r - 2.2).toFixed(1));
+      t.setAttribute('y', (xy[1] - (mark ? 5.4 : r + 2.2)).toFixed(1));
       /* HALF-WIDTH, MEASURED NOT GUESSED. At font-size 5.6px a character
          occupies roughly 2.8px, so half of a label is length * 1.4. The first
          value here was 2.5 — nearly double — and it culled 6 of 11 labels in
@@ -294,12 +346,14 @@
          number, so they will agree with each other whether or not it is
          right. It is checked against the font, and the screen is the judge. */
       g._w = label.length * 1.45;
-      g._x = xy[0]; g._y = xy[1] - r - 2.2;
+      g._x = xy[0]; g._y = xy[1] - (mark ? 5.4 : r + 2.2);
       g._rank = p.who.length;
 
       var title = g.querySelector('title') || g.appendChild(document.createElementNS(SVG, 'title'));
       title.textContent = p.place + ' \u2014 ' + p.who.slice(0, 8).join(', ') +
-                          (p.who.length > 8 ? ' \u2026 (' + p.who.length + ')' : '');
+                          (p.who.length > 8 ? ' \u2026 (' + p.who.length + ')' : '') +
+                          (p.personal ? '  \u00b7 ' + p.personal + ' the mark of ' + p.pname
+                                      : dom ? '  \u00b7 ' + dom + ' ' + domN + ' of this office' : '');
       live[k] = 1;
     });
 
