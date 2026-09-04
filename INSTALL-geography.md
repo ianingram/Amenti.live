@@ -45,18 +45,28 @@ A register one directory deep is a 404 and a map that will not draw.
 
 Let `stamp.yml` compute the hash. Do not hand-write one.
 
-**2. Get `cities15000.txt` in place.** `probe-geo.mjs` needs it to resolve 839 of
-the 901 pins. **Without it the probe still SUCCEEDS and exits 0, writing a
-`GEO.json` with 839 fewer pins.** It prints a note, but a note is not a guard,
-and the failure looks exactly like a working build. Either commit the 3 MB file,
-have the probe fetch it, or make `--check` fail when the gazetteer is absent.
+**2. Get `cities15000.txt` in place.** `probe-geo.mjs` needs it to resolve 839
+of the 901 pins. **The probe now REFUSES to run without it** (exit 2, writes
+nothing) rather than quietly producing a register with 62 pins — that silent
+degradation was real, was measured against the repo as committed, and is fixed.
+`--check` fails on the same condition, so CI cannot pass a repo whose next
+regeneration would be broken.
 
-Source: `https://download.geonames.org/export/dump/cities15000.zip` (CC BY 4.0).
+```sh
+curl -sL -o /tmp/c.zip https://download.geonames.org/export/dump/cities15000.zip
+unzip -o /tmp/c.zip cities15000.txt -d .      # repo root, beside names.csv
+```
+
+GeoNames, CC BY 4.0. ~3 MB. Commit it, or fetch it in CI before the probe runs.
+`--thin` writes a gazetteer-less register anyway, and says what it costs — it
+exists so the refusal can be overridden deliberately, never by accident.
 
 **3. Regenerate and check:**
 
 ```sh
 node probes/probe-geo.mjs .          # expect: pins 901 · washes 747 · unplaced 191
+node probes/probe-geo.mjs . --check  # exit 0 clean, exit 1 if the register thins,
+                                     #          exit 2 if the gazetteer is gone
 ```
 
 ---
