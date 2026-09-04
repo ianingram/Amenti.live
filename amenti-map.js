@@ -246,22 +246,26 @@
       '#amenti-map svg{flex:1 1 auto;min-height:0;width:100%;overflow:visible}',
 
       /* the land: an outline, not a fill — the map is a chart, not a picture */
-      '#amenti-map .mp-land{fill:#0e1420;stroke:#243044;stroke-width:.6;vector-effect:non-scaling-stroke}',
+      /* the land is now an OUTLINE over the relief, not a fill — a fill would
+         bury the terrain it sits on */
+      '#amenti-map .mp-land{fill:none;stroke:#31435c;stroke-width:.55;',
+      '  vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-relief{opacity:.95}',
+      /* the sea, behind everything, so the coast reads as an edge */
+      '#amenti-map .mp-sea{fill:#080d16}',
       '#amenti-map .mp-grat{stroke:#1a2334;stroke-width:.4;fill:none;vector-effect:non-scaling-stroke}',
 
       /* A WASH. Soft, edgeless, large, low. Nothing about it reads as a point. */
       '#amenti-map .mp-wash{fill:#4a6c8f;fill-opacity:.16;stroke:none;pointer-events:all;cursor:default}',
       '#amenti-map .mp-wash:hover{fill-opacity:.30}',
-      '#amenti-map .mp-washlabel{fill:#7d93ad;font-size:calc(7.5px * var(--mp-inv));letter-spacing:.06em;',
+      '#amenti-map .mp-washlabel{fill:#7d93ad;font-size:7.5px;letter-spacing:.06em;',
       '  text-anchor:middle;pointer-events:none;text-transform:lowercase}',
 
       /* A PIN. Small, hard, bright, crisp. Nothing about it reads as an area. */
       /* A MARK IS A MARK AT ANY ZOOM. Radii and type are divided by the scale
          so they hold their size on screen while the world opens up beneath. */
-      '#amenti-map{--mp-inv:1}',
       '#amenti-map .mp-pin{fill:#5fd0e8;fill-opacity:.85;stroke:#081018;',
       '  stroke-width:.35;cursor:pointer;vector-effect:non-scaling-stroke}',
-      '#amenti-map .mp-seat{--s:var(--mp-inv)}',
       '#amenti-map .mp-land{vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-grat{vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-zoomlab{position:absolute;right:96px;top:26px;',
@@ -269,13 +273,13 @@
       '#amenti-map .mp-pin:hover{fill:#a9edff;fill-opacity:1}',
       /* THE NAMES. Hidden by default and revealed only when the cull says the
          label fits — so a name never lands on top of another name. */
-      '#amenti-map .mp-name{fill:#c3d3e6;font-size:calc(5.6px * var(--mp-inv));letter-spacing:.02em;',
+      '#amenti-map .mp-name{fill:#c3d3e6;font-size:5.6px;letter-spacing:.02em;',
       '  text-anchor:middle;pointer-events:none;opacity:0;',
       '  paint-order:stroke;stroke:#070b12;stroke-width:1.6px;stroke-linejoin:round;',
       '  transition:opacity .35s ease}',
       '#amenti-map .mp-named .mp-name{opacity:.92}',
       /* AN OFFICE MARK: dim, plain, repeated. It says "one of many". */
-      '#amenti-map .mp-glyph{fill:#93b9d4;font-size:calc(6.4px * var(--mp-inv));text-anchor:middle;',
+      '#amenti-map .mp-glyph{fill:#93b9d4;font-size:6.4px;text-anchor:middle;',
       '  pointer-events:none;opacity:0;paint-order:stroke;stroke:#070b12;',
       '  stroke-width:1.8px;stroke-linejoin:round;transition:opacity .35s ease}',
       '#amenti-map .mp-marked .mp-glyph{opacity:.8}',
@@ -423,9 +427,24 @@
           '<defs><filter id="mp-glow" x="-120%" y="-120%" width="340%" height="340%">' +
             '<feGaussianBlur stdDeviation="1.5" result="b"/>' +
             '<feMerge><feMergeNode in="b"/><feMergeNode in="b"/>' +
-            '<feMergeNode in="SourceGraphic"/></feMerge></filter></defs>' +
+            '<feMergeNode in="SourceGraphic"/></feMerge></filter>' +
+            /* ── THE RELIEF, CLIPPED TO THE COASTLINE · 4 Sep ─────────────────
+               Natural Earth's 1:50m shaded relief, public domain, the same
+               source as WORLD.json and on the same equirectangular grid — so
+               it registers pixel for pixel with no reprojection and no
+               guessing. Tinted into this map's palette rather than the atlas
+               brown, and CLIPPED TO THE LAND PATH so the terrain stops at the
+               coast and the sea stays flat. An unclipped relief would put
+               modelling on the ocean floor, which is real but is not what this
+               map is about, and would read as texture rather than as ground. */
+            '<clipPath id="mp-landclip"><path class="mp-clip"/></clipPath>' +
+            '</defs>' +
           '<g class="mp-view">' +
-            '<g class="mp-graticule"></g><path class="mp-land"></path>' +
+            '<rect class="mp-sea" x="0" y="0" width="1000" height="500"/>' +
+            '<g class="mp-graticule"></g>' +
+            '<image class="mp-relief" href="" x="0" y="0" width="1000" height="500" ' +
+              'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
+            '<path class="mp-land"></path>' +
             '<g class="mp-washes"></g><g class="mp-pins"></g>' +
           '</g><g class="mp-sky"></g>' +
         '</svg>' +
@@ -468,9 +487,25 @@
     var g = el.querySelector('.mp-view');
     if (g) g.setAttribute('transform', 'translate(' + TX.toFixed(2) + ' ' + TY.toFixed(2) +
                                        ') scale(' + K.toFixed(4) + ')');
-    /* counter-scale everything meant to be READ rather than measured */
-    var inv = (1 / K);
-    el.style.setProperty('--mp-inv', inv.toFixed(4));
+    /* ── COUNTER-SCALE IN JS, NOT CSS · 4 Sep ──────────────────────────────
+       This was `font-size: calc(5.6px * var(--mp-inv))` — a custom property
+       inside calc() on SVG text. Safari has long been unreliable with exactly
+       that combination, and when it fails the size computes to nothing: every
+       name, glyph and territory label disappears at once and the map reads as
+       completely broken rather than as one CSS rule not applying.
+
+       A presentation attribute set from JS has no such doubt. It is more
+       lines and it works in every browser, which is the correct trade for the
+       one property the whole zoom depends on. */
+    var inv = 1 / K;
+    var set = function (sel, base) {
+      var n = el.querySelectorAll(sel);
+      for (var i = 0; i < n.length; i++) n[i].setAttribute('font-size', (base * inv).toFixed(3));
+    };
+    set('.mp-name',      5.6);
+    set('.mp-glyph',     6.4);
+    set('.mp-over',      7.0);
+    set('.mp-washlabel', 7.5);
     var z = el.querySelector('.mp-zoomlab');
     if (z) z.textContent = K > 1.02 ? '\u00d7' + K.toFixed(1) + ' \u00b7 double-click to fit' : '';
   }
@@ -478,6 +513,16 @@
   function draw() {
     var el = mounted, svg = el.querySelector('svg');
     el.querySelector('.mp-land').setAttribute('d', world.path);
+    /* the clip carries the same path, so the two can never disagree */
+    el.querySelector('.mp-clip').setAttribute('d', world.path);
+    var relief = el.querySelector('.mp-relief');
+    if (relief && !relief.getAttribute('href')) {
+      relief.setAttribute('href', RAW + 'RELIEF.jpg');
+      /* If it will not load, the map is a chart without terrain — which is
+         exactly what it was yesterday, and still true. No fallback, no
+         apology, and nothing drawn in its place. */
+      relief.addEventListener('error', function () { relief.remove(); });
+    }
 
     /* graticule: every 30°, so a reader can judge a wash's size against
        something. Drawn once. */
@@ -873,7 +918,7 @@
       ' \u00b7 ' +
       (t.silent + t.unplaced) + ' of ' + t.souls + ' carry no place this map can honestly draw ' +
       '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
-      'Seats from GeoNames (CC BY 4.0); coastline Natural Earth.';
+      'Seats from GeoNames (CC BY 4.0); coastline and relief from Natural Earth.';
   }
 
   /* One place sets the window, so the slider, the wheel and the dial cannot
