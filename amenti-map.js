@@ -248,9 +248,8 @@
       /* the land: an outline, not a fill — the map is a chart, not a picture */
       /* the land is now an OUTLINE over the relief, not a fill — a fill would
          bury the terrain it sits on */
-      '#amenti-map .mp-land{fill:none;stroke:#31435c;stroke-width:.55;',
+      '#amenti-map .mp-land{fill:#0e1420;stroke:#243044;stroke-width:.6;',
       '  vector-effect:non-scaling-stroke}',
-      '#amenti-map .mp-relief{opacity:.95}',
       /* the sea, behind everything, so the coast reads as an edge */
       '#amenti-map .mp-sea{fill:#080d16}',
       '#amenti-map .mp-grat{stroke:#1a2334;stroke-width:.4;fill:none;vector-effect:non-scaling-stroke}',
@@ -357,7 +356,29 @@
          scrub is a thing people know; a floating bar is not. */
       '#amenti-map .mp-head{display:flex;justify-content:space-between;',
       '  align-items:baseline;gap:10px 22px;margin-bottom:10px;flex-wrap:wrap;flex:0 0 auto}',
+      '#amenti-map .mp-titlewrap{display:flex;align-items:center;gap:14px}',
       '#amenti-map .mp-title{color:#8fa2ba;font-size:13px;letter-spacing:.02em}',
+      '#amenti-map .mp-atlas-btn{font:400 11.5px/1 ui-monospace,Menlo,monospace;',
+      '  color:#7d8ea6;background:transparent;border:1px solid #23303f;border-radius:3px;',
+      '  padding:5px 10px;cursor:pointer;letter-spacing:.06em}',
+      '#amenti-map .mp-atlas-btn:hover{color:#c3d3e6;border-color:#33637a}',
+      '#amenti-map .mp-atlas-btn[aria-pressed="true"]{color:#0a1018;background:#8fa8c4;',
+      '  border-color:#8fa8c4}',
+      '#amenti-map .mp-atlas-btn:focus-visible{outline:2px solid #5fd0e8;outline-offset:2px}',
+      /* THE BLUEPRINT · the default. Flat land, a hard coast, no terrain. */
+      /* ── THE GROUND DOES NOT CATCH THE POINTER · 4 Sep ────────────────────
+         The relief covers the whole surface, and an SVG <image> takes pointer
+         events by default. The wheel handler lives on the <svg> and relies on
+         the event reaching it, so the moment terrain was drawn the zoom went
+         dead under the cursor — the layer that is only there to be LOOKED at
+         was intercepting the gesture. Same for the sea rect and the coastline
+         outline: none of them is a target, so none of them may behave like
+         one. Only pins and washes answer the pointer. */
+      '#amenti-map .mp-relief,#amenti-map .mp-sea,#amenti-map .mp-land,',
+      '#amenti-map .mp-graticule{pointer-events:none}',
+      '#amenti-map .mp-relief{display:none;opacity:.95}',
+      '#amenti-map.mp-atlas .mp-relief{display:block}',
+      '#amenti-map.mp-atlas .mp-land{fill:none;stroke:#31435c}',
       '#amenti-map .mp-key{display:flex;gap:18px;align-items:center;font-size:12px;color:#8fa2ba}',
       '#amenti-map .mp-key i{display:inline-block;vertical-align:middle;margin-right:7px}',
       '#amenti-map .mp-key .k-pin{width:7px;height:7px;border-radius:50%;background:#5fd0e8}',
@@ -415,7 +436,22 @@
       '<div class="mp-scrim"></div>' +
       '<div class="mp-wrap">' +
         '<div class="mp-head">' +
-          '<div class="mp-title">where the souls stood, and what stood over Giza</div>' +
+          '<div class="mp-titlewrap">' +
+            '<div class="mp-title">where the souls stood, and what stood over Giza</div>' +
+            /* ── TWO VIEWS · 4 Sep ────────────────────────────────────────────
+               THE BLUEPRINT IS THE DEFAULT, and deliberately. It is the map as
+               a chart: flat land, a hard coast, nothing on it that is not a
+               claim. Every mark reads at once because nothing competes with
+               it, and a reader looking for where a soul stood is not reading
+               terrain.
+
+               THE ATLAS is the same map with real ground under it — Natural
+               Earth relief, the elevation that explains why Mesopotamia is
+               where it is and why the passes matter. It is the better picture
+               and the worse instrument, so it is a CHOICE rather than the
+               state a reader is dropped into. */
+            '<button type="button" class="mp-atlas-btn" aria-pressed="false">atlas</button>' +
+          '</div>' +
           '<div class="mp-key">' +
             '<span><i class="k-pin"></i>a seat \u2014 here</span>' +
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
@@ -515,8 +551,10 @@
     el.querySelector('.mp-land').setAttribute('d', world.path);
     /* the clip carries the same path, so the two can never disagree */
     el.querySelector('.mp-clip').setAttribute('d', world.path);
+    /* THE BLUEPRINT PAYS NOTHING FOR THE ATLAS. The relief is 240 KB and the
+       default view does not draw it, so the fetch waits until a reader asks. */
     var relief = el.querySelector('.mp-relief');
-    if (relief && !relief.getAttribute('href')) {
+    if (relief && el.classList.contains('mp-atlas') && !relief.getAttribute('href')) {
       relief.setAttribute('href', RAW + 'RELIEF.jpg');
       /* If it will not load, the map is a chart without terrain — which is
          exactly what it was yesterday, and still true. No fallback, no
@@ -918,7 +956,10 @@
       ' \u00b7 ' +
       (t.silent + t.unplaced) + ' of ' + t.souls + ' carry no place this map can honestly draw ' +
       '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
-      'Seats from GeoNames (CC BY 4.0); coastline and relief from Natural Earth.';
+      'Seats from GeoNames (CC BY 4.0); ' +
+      (el.classList.contains('mp-atlas')
+        ? 'coastline and relief from Natural Earth.'
+        : 'coastline Natural Earth.');
   }
 
   /* One place sets the window, so the slider, the wheel and the dial cannot
@@ -1159,6 +1200,15 @@
            absolute scale, so a reader can reach 3000 BC in one gesture rather
            than winding for it — which is what the dial could not do and the
            rail did at the cost of covering the Pacific. */
+        var atlasBtn = el.querySelector('.mp-atlas-btn');
+        atlasBtn.addEventListener('click', function () {
+          var on = !el.classList.contains('mp-atlas');
+          el.classList.toggle('mp-atlas', on);
+          atlasBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+          atlasBtn.textContent = on ? 'blueprint' : 'atlas';
+          if (on) draw();          /* first press fetches the relief */
+        });
+
         var chrono = el.querySelector('.mp-chrono'), scrubbing = false;
         function chronoYear(ev) {
           var r = chrono.getBoundingClientRect();
