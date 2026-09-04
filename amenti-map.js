@@ -375,6 +375,7 @@
          outline: none of them is a target, so none of them may behave like
          one. Only pins and washes answer the pointer. */
       '#amenti-map .mp-relief,#amenti-map .mp-sea,#amenti-map .mp-land,',
+      '#amenti-map .mp-skygeo,#amenti-map .mp-sky,',
       '#amenti-map .mp-graticule{pointer-events:none}',
       '#amenti-map .mp-relief{display:none;opacity:.95}',
       '#amenti-map.mp-atlas .mp-relief{display:block}',
@@ -482,6 +483,16 @@
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
             '<path class="mp-land"></path>' +
             '<g class="mp-washes"></g><g class="mp-pins"></g>' +
+            /* ── THE SKY HAS TWO HALVES · 4 Sep ────────────────────────────
+               Found when zoom landed. The Giza diamond, its label, the signs
+               standing over it and Jupiter's return line are ON THE EARTH —
+               they must move with it. The band, the planet counts and Halley
+               are NOT on the earth; that is the whole reason the band exists,
+               and they must stay put.
+               One group could not be both, so the observatory drifted off
+               Giza the moment a reader zoomed. Two groups, on the right sides
+               of the transform. */
+            '<g class="mp-skygeo"></g>' +
           '</g><g class="mp-sky"></g>' +
         '</svg>' +
         '<div class="mp-foot">' +
@@ -761,7 +772,7 @@
        BODY gets one sign whatever its count, the rare events get a mark, and
        the regular ones get a number beside the sign. */
     var gsky = el.querySelector('.mp-sky');
-    var h = '', bandY = 22;
+    var h = '', hg = '', bandY = 22;
     lastSky = lastConj = lastGath = lastHalley = 0;
 
     if (sky && sky.length) {
@@ -834,31 +845,38 @@
         if (e.y <= hi && (!recent || e.y > recent.y)) recent = e;
       });
       if (recent) {
-        var gzc = proj(GIZA[0], GIZA[1]);
+        var gzc = proj(GIZA[0], GIZA[1]), iv = 1 / K;
         var bodies = recent.kind === 'gathering'
           ? ['\u2643', '\u2644', '\u2645', '\u2646']
           : ['\u2643', '\u2644'];
-        var span = (bodies.length - 1) * 7;
+        var span = (bodies.length - 1) * 7 * iv;
         bodies.forEach(function (sg, i) {
-          h += '<text class="mp-sign mp-over" x="' + (gzc[0] - span / 2 + i * 7).toFixed(1) +
-               '" y="' + (gzc[1] - 8).toFixed(1) + '">' + sg + '</text>';
+          hg += '<text class="mp-sign mp-over" x="' + (gzc[0] - span / 2 + i * 7 * iv).toFixed(2) +
+                '" y="' + (gzc[1] - 8 * iv).toFixed(2) + '" font-size="' + (7 * iv).toFixed(3) +
+                '">' + sg + '</text>';
         });
-        h += '<text class="mp-obslabel" x="' + gzc[0].toFixed(1) + '" y="' + (gzc[1] - 15).toFixed(1) +
-             '">' + (recent.kind === 'gathering' ? 'gathering' : 'great conjunction') +
-             ' \u00b7 ' + yr(recent.y) + '</text>';
+        hg += '<text class="mp-obslabel" x="' + gzc[0].toFixed(2) + '" y="' + (gzc[1] - 15 * iv).toFixed(2) +
+              '" font-size="' + (5 * iv).toFixed(3) + '">' +
+              (recent.kind === 'gathering' ? 'gathering' : 'great conjunction') +
+              ' \u00b7 ' + yr(recent.y) + '</text>';
       }
 
       if (inWin.length) {
-        var gz = proj(GIZA[0], GIZA[1]);
-        h += '<path class="mp-tether" d="M' + (x - 20) + ' ' + (bandY + 8) +
-             'Q' + gz[0].toFixed(1) + ' ' + ((bandY + gz[1]) / 2).toFixed(1) +
-             ' ' + gz[0].toFixed(1) + ' ' + (gz[1] - 4).toFixed(1) + '"/>' +
-             '<path class="mp-obs" d="M' + gz[0].toFixed(1) + ' ' + (gz[1] - 3.2).toFixed(1) +
-             'L' + (gz[0] + 3.2).toFixed(1) + ' ' + gz[1].toFixed(1) +
-             'L' + gz[0].toFixed(1) + ' ' + (gz[1] + 3.2).toFixed(1) +
-             'L' + (gz[0] - 3.2).toFixed(1) + ' ' + gz[1].toFixed(1) + 'Z"/>' +
-             '<text class="mp-obslabel" x="' + gz[0].toFixed(1) + '" y="' + (gz[1] + 10).toFixed(1) +
-             '">computed at giza</text>';
+        var gz = proj(GIZA[0], GIZA[1]), iv2 = 1 / K, d = 3.2 * iv2;
+        /* THE TETHER SPANS BOTH HALVES, so it can only be drawn when the two
+           share a coordinate space — that is, unzoomed. Zoomed in, Giza is
+           labelled in place and the band speaks for itself; a line drawn
+           between two different transforms would land nowhere true. */
+        if (K <= 1.01)
+          h += '<path class="mp-tether" d="M' + (x - 20) + ' ' + (bandY + 8) +
+               'Q' + gz[0].toFixed(1) + ' ' + ((bandY + gz[1]) / 2).toFixed(1) +
+               ' ' + gz[0].toFixed(1) + ' ' + (gz[1] - 4).toFixed(1) + '"/>';
+        hg += '<path class="mp-obs" d="M' + gz[0].toFixed(2) + ' ' + (gz[1] - d).toFixed(2) +
+              'L' + (gz[0] + d).toFixed(2) + ' ' + gz[1].toFixed(2) +
+              'L' + gz[0].toFixed(2) + ' ' + (gz[1] + d).toFixed(2) +
+              'L' + (gz[0] - d).toFixed(2) + ' ' + gz[1].toFixed(2) + 'Z"/>' +
+              '<text class="mp-obslabel" x="' + gz[0].toFixed(2) + '" y="' + (gz[1] + 10 * iv2).toFixed(2) +
+              '" font-size="' + (5 * iv2).toFixed(3) + '">computed at giza</text>';
       }
       lastSky = inWin.length; lastConj = conj.length; lastGath = gath.length;
     }
@@ -899,17 +917,18 @@
         while (lonNow > 180) lonNow -= 360;
         var jp = proj(GIZA[0], lonNow);
 
-        h += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(1) +
-             '" x2="1000" y2="' + gzr[1].toFixed(1) + '"/>';
+        hg += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(2) +
+              '" x2="1000" y2="' + gzr[1].toFixed(2) + '"/>';
         /* the mark thickens as it closes on Giza — the return is the event */
         var near = 1 - Math.min(1, Math.abs(0.5 - frac) * 2);
-        h += '<text class="mp-jup" x="' + jp[0].toFixed(1) + '" y="' + (gzr[1] + 2.6).toFixed(1) +
-             '" opacity="' + (0.45 + 0.55 * (1 - near)).toFixed(2) + '">\u2643</text>';
-        h += '<title>Jupiter\u2019s return: rose due east over Giza in ' + yr(prev.y) +
+        hg += '<text class="mp-jup" x="' + jp[0].toFixed(2) + '" y="' + (gzr[1] + 2.6 / K).toFixed(2) +
+              '" font-size="' + (8 / K).toFixed(3) + '" opacity="' +
+              (0.45 + 0.55 * (1 - near)).toFixed(2) + '">\u2643</text>';
+        hg += '<title>Jupiter\u2019s return: rose due east over Giza in ' + yr(prev.y) +
              ', next in ' + yr(next.y) + ' \u2014 ' + (next.y - prev.y) + ' years. ' +
              'This line is a COUNT to that return along Giza\u2019s latitude, not Jupiter\u2019s position.</title>';
-        h += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4).toFixed(1) +
-             '" text-anchor="start">\u2643 returns due east over giza in ' +
+        hg += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4 / K).toFixed(2) +
+              '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">\u2643 returns due east over giza in ' +
              Math.max(0, next.y - hi) + 'y \u00b7 a count, not a position</text>';
       }
     }
@@ -937,6 +956,8 @@
     }
 
     gsky.innerHTML = h;
+    var gskygeo = el.querySelector('.mp-skygeo');
+    if (gskygeo) gskygeo.innerHTML = hg;
 
     /* THE READOUT NAMES THE SILENCE. */
     var t = geo.totals;
