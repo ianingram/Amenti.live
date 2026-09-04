@@ -90,8 +90,13 @@ committed at all.
 None of this could be verified from the build environment. In rough order of
 what is most likely to be wrong:
 
-- [ ] The **"THE MAP" trigger** (bottom right) sits sensibly against the
-      existing hall chrome, and does not collide with `#amenti-handover` or the QR.
+- [ ] The **faculty rail** (globe icon, top right) sits sensibly against the
+      title, and does not collide with anything in `<header>`. It is fixed at
+      z-index 5 — above the map's own scrim — because an icon inside
+      `.hall-chrome` would vanish behind the surface it opened, leaving no way
+      back out.
+- [ ] The icon **lights while the map is open** and unlights on close, and the
+      hover label reads `WHERE`.
 - [ ] **Clicking a pin does not strip the hall.** `hall.html` toggles
       `scene-bare` on any non-control click; the map answers with
       `stopPropagation`, the way the timeline does at its own controls.

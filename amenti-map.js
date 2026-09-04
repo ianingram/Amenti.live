@@ -262,31 +262,94 @@
      nothing on the way out, leaving the hall as the reader left it. */
   function takeScreen() { document.body.classList.remove('scene-bare'); }
 
-  function trigger() {
-    var b = document.getElementById('amenti-map-open');
-    if (b) return b;
+  /* ── THE FACULTY RAIL · top of the page ──────────────────────────────────
+     A rail, not a button, because WHERE is the second of three faculties and
+     the graph is coming. One icon now; the shape holds the next without a
+     second bespoke trigger and without another pairwise exclusivity rule.
+
+     WHY IT IS NOT IN <header>. `.hall-chrome` hides on scene-bare, and the
+     map's own scrim sits at z-index 3 over the header's z-index 1 — an icon
+     in the header would vanish behind the very surface it opened, leaving no
+     way back out. A view with no way out of it is a trap, which is the rule
+     #scene-hint already exists to keep. So: fixed, z-index 5, above every
+     surface, present whether the reading is bared or not.
+
+     It is a <button>, which hall.html's CONTROLS selector already matches, so
+     isControl exempts it from the click-to-bare toggle with no new rule. */
+  function rail() {
+    var r = document.getElementById('amenti-faculties');
+    if (r) return r;
+
     var css = document.createElement('style');
     css.textContent = [
-      '#amenti-map-open{position:fixed;z-index:4;right:18px;bottom:16px;',
-      '  font:400 11.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;',
-      '  text-transform:uppercase;color:#8fa2ba;background:rgba(10,14,22,.72);',
-      '  border:1px solid #253244;border-radius:3px;padding:8px 13px;cursor:pointer;',
-      '  transition:color .2s,border-color .2s}',
-      '#amenti-map-open:hover{color:#a9edff;border-color:#3d5group}',
-      'body.scene-map #amenti-map-open{color:#a9edff;border-color:#3d5570}'
-    ].join('\n').replace('#3d5group', '#3d5570');
+      '#amenti-faculties{position:fixed;z-index:5;top:1.15rem;right:1.25rem;',
+      '  display:flex;gap:6px;align-items:center}',
+      '#amenti-faculties button{display:grid;place-items:center;width:34px;height:34px;',
+      '  padding:0;border:1px solid rgba(120,150,185,.28);border-radius:4px;cursor:pointer;',
+      '  background:rgba(10,14,22,.55);color:#8fa2ba;backdrop-filter:blur(3px);',
+      '  transition:color .2s,border-color .2s,background .2s}',
+      '#amenti-faculties button:hover{color:#a9edff;border-color:rgba(93,208,232,.55);',
+      '  background:rgba(12,20,30,.8)}',
+      '#amenti-faculties button.on{color:#5fd0e8;border-color:rgba(93,208,232,.75);',
+      '  background:rgba(12,24,34,.9)}',
+      '#amenti-faculties button svg{width:17px;height:17px;fill:none;stroke:currentColor;',
+      '  stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}',
+      /* the label names the faculty on hover — a reader must always know which
+         faculty is speaking, and an unlabelled icon does not tell them */
+      '#amenti-faculties button::after{content:attr(data-label);position:absolute;',
+      '  top:38px;right:0;font:400 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;',
+      '  text-transform:uppercase;color:#8fa2ba;background:rgba(8,12,20,.9);',
+      '  padding:5px 7px;border-radius:3px;white-space:nowrap;opacity:0;',
+      '  pointer-events:none;transition:opacity .15s}',
+      '#amenti-faculties button:hover::after{opacity:1}',
+      '#amenti-faculties button{position:relative}',
+      '@media (max-width:560px){#amenti-faculties{top:.8rem;right:.9rem}',
+      '  #amenti-faculties button{width:30px;height:30px}}'
+    ].join('\n');
     document.head.appendChild(css);
-    b = document.createElement('button');
-    b.id = 'amenti-map-open';
-    b.type = 'button';
-    b.textContent = 'the map';
-    b.setAttribute('aria-label', 'open the map of where the souls stood');
-    containClicks(b);
-    b.addEventListener('click', function () {
-      document.body.classList.contains('scene-map') ? close() : open();
+
+    r = document.createElement('div');
+    r.id = 'amenti-faculties';
+    document.body.appendChild(r);
+    return r;
+  }
+
+  /* A faculty registers itself; it does not learn about the others. */
+  function addFaculty(id, label, svg, onToggle, isOpen) {
+    var r = rail();
+    if (document.getElementById(id)) return;
+    var b = document.createElement('button');
+    b.id = id; b.type = 'button';
+    b.setAttribute('data-label', label);
+    b.setAttribute('aria-label', label);
+    b.innerHTML = svg;
+    b.addEventListener('click', function () { onToggle(); syncRail(); });
+    b._isOpen = isOpen;
+    r.appendChild(b);
+  }
+
+  function syncRail() {
+    var r = document.getElementById('amenti-faculties');
+    if (!r) return;
+    [].forEach.call(r.children, function (b) {
+      if (b._isOpen) b.classList.toggle('on', !!b._isOpen());
     });
-    document.body.appendChild(b);
-    return b;
+  }
+
+  /* a globe with a meridian — WHERE, not a pin: a pin is what the map draws,
+     and the icon for the faculty should not be the mark of one of its tiers */
+  var ICON_MAP =
+    '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/>' +
+    '<path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></svg>';
+
+  function trigger() {
+    addFaculty('fac-map', 'where', ICON_MAP, function () {
+      document.body.classList.contains('scene-map') ? close() : open();
+    }, function () {
+      return document.body.classList.contains('scene-map');
+    });
+    return document.getElementById('fac-map');
   }
 
   /* ESCAPE CLOSES THE MAP FIRST. hall.html already binds Escape to restoring
@@ -319,6 +382,7 @@
       if (opts && typeof opts.year === 'number') { hi = opts.year; lo = hi - 400; sl.value = hi; }
       draw();
       document.body.classList.add('scene-map');
+      syncRail();
       return el;
     }, function (e) {
       /* A register that will not load is stated, never papered over. */
@@ -328,7 +392,7 @@
     });
   }
 
-  function close() { document.body.classList.remove('scene-map'); }
+  function close() { document.body.classList.remove('scene-map'); syncRail(); }
 
   /* The trigger mounts itself the moment the file loads, so wiring the map
      into hall.html is ONE script tag and no edit to its logic. */
@@ -336,5 +400,9 @@
     document.addEventListener('DOMContentLoaded', trigger);
   else trigger();
 
-  window.AmentiMap = { open: open, close: close, trigger: trigger };
+  /* addFaculty is exported so the GRAPH can join the rail when it is ready,
+     without touching this file or hall.html:
+         AmentiMap.addFaculty('fac-graph','who',svg,toggleFn,isOpenFn)  */
+  window.AmentiMap = { open: open, close: close, trigger: trigger,
+                       addFaculty: addFaculty, syncRail: syncRail };
 })();
