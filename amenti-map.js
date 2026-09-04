@@ -85,9 +85,33 @@
       '  transition:opacity .45s ease .15s, visibility .45s;',
       '  font:400 13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;color:#b8c4d8}',
       'body.scene-map #amenti-map{opacity:1;visibility:visible}',
+      /* ── THE HALL MUST GO, AND scene-bare CANNOT DO IT · SEEN LIVE 3 Sep ──
+         takeScreen() clears scene-bare so the timeline is not left standing —
+         but scene-bare is ALSO what hides #hall-main, so clearing it put the
+         title, the QR, the footer links and the seed questions back on screen
+         UNDERNEATH a 78%-opaque scrim. The map opened over a legible hall.
+
+         Restoring scene-bare is not the fix: that is the timeline's reveal.
+         The two jobs scene-bare was doing — "hide the reading" and "show the
+         timeline" — are the same class only by accident, and this is where
+         the accident surfaced. So scene-map hides the reading on its own
+         terms, by the same rule and with the same transition. */
+      'body.scene-map #hall-main,',
+      'body.scene-map .hall-chrome,',
+      'body.scene-map header,',
+      'body.scene-map footer,',
+      'body.scene-map #amenti-handover,',
+      'body.scene-map #scene-hint{opacity:0;visibility:hidden;pointer-events:none;',
+      '  transition:opacity .45s ease, visibility .45s}',
       '#amenti-map .mp-scrim{position:absolute;inset:0;background:rgba(6,7,14,.78);pointer-events:none}',
-      '#amenti-map .mp-wrap{position:absolute;inset:0;display:flex;flex-direction:column;padding:28px 26px 18px}',
-      '#amenti-map svg{flex:1;width:100%;height:auto;overflow:visible}',
+      '#amenti-map .mp-wrap{position:absolute;inset:0;display:flex;flex-direction:column;',
+      /* right padding CLEARS THE FACULTY RAIL. Seen live: the legend ran under
+         the globe and "no honest place — not drawn" was cut mid-word, which
+         is the one line on this surface that declares what the map omits. */
+      '  padding:26px 84px 18px 26px;gap:0}',
+      /* min-height:0 or the SVG refuses to shrink and shoves the slider and the
+         attribution off the bottom of the viewport — seen live, both gone. */
+      '#amenti-map svg{flex:1 1 auto;min-height:0;width:100%;overflow:visible}',
 
       /* the land: an outline, not a fill — the map is a chart, not a picture */
       '#amenti-map .mp-land{fill:#0e1420;stroke:#243044;stroke-width:.6;vector-effect:non-scaling-stroke}',
@@ -105,7 +129,7 @@
 
       /* the readout */
       '#amenti-map .mp-head{display:flex;justify-content:space-between;align-items:baseline;',
-      '  gap:18px;margin-bottom:10px;flex-wrap:wrap}',
+      '  gap:10px 18px;margin-bottom:8px;flex-wrap:wrap;flex:0 0 auto}',
       '#amenti-map .mp-title{color:#dbe4f0;letter-spacing:.14em;text-transform:uppercase;font-size:12px}',
       '#amenti-map .mp-key{display:flex;gap:16px;align-items:center;font-size:11.5px;color:#8fa2ba}',
       '#amenti-map .mp-key i{display:inline-block;vertical-align:middle;margin-right:6px}',
@@ -113,10 +137,10 @@
       '#amenti-map .mp-key .k-wash{width:16px;height:9px;border-radius:2px;background:rgba(74,108,143,.42)}',
       '#amenti-map .mp-key .k-none{width:16px;height:9px;border:1px dashed #3c4a5e;border-radius:2px}',
 
-      '#amenti-map .mp-foot{display:flex;align-items:center;gap:14px;margin-top:12px;font-size:12px}',
+      '#amenti-map .mp-foot{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:12px;flex:0 0 auto}',
       '#amenti-map .mp-foot input[type=range]{flex:1;accent-color:#5fd0e8}',
       '#amenti-map .mp-read{color:#dbe4f0;min-width:190px}',
-      '#amenti-map .mp-note{color:#6f8098;font-size:11px;margin-top:6px;line-height:1.5}',
+      '#amenti-map .mp-note{color:#6f8098;font-size:11px;margin-top:6px;line-height:1.5;flex:0 0 auto}',
       '#amenti-map .mp-hit{position:absolute;pointer-events:none;background:rgba(8,12,20,.94);',
       '  border:1px solid #2b3purple;padding:6px 9px;border-radius:3px;font-size:11.5px;',
       '  color:#dbe4f0;white-space:nowrap;opacity:0;transition:opacity .12s}'
