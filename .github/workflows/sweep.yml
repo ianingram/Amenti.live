@@ -1,0 +1,142 @@
+# THE SWEEP
+#
+# Removes files that have finished their work. MANUAL ONLY, DRY-RUN BY DEFAULT,
+# and it REFUSES to delete anything the repo still mentions.
+#
+# ── WHY THIS IS THE MOST DANGEROUS WORKFLOW ON THE SHIP ─────────────────────
+# Every other workflow adds or measures. This one takes away, and a wrong
+# deletion is discovered days later by a page that has quietly stopped working.
+# So it is built the opposite way round from the others:
+#
+#   1 · NEVER SCHEDULED, NEVER ON PUSH. A sweep that runs by itself is a sweep
+#       nobody is watching. Dispatch only, by a person, on purpose.
+#
+#   2 · DRY RUN IS THE DEFAULT. It prints what it would remove and stops. To
+#       actually delete, the word SWEEP must be typed into `confirm`. A default
+#       that destroys is a trap for the one time somebody clicks through.
+#
+#   3 · IT GREPS THE REPO FIRST AND REFUSES. If any file still mentions a
+#       candidate by name, that candidate is KEPT and the run says so. This is
+#       the guard that matters: the reason geo-tier.mjs is on the list is that
+#       it is orphaned, and the way to be sure is to look, not to remember.
+#
+# NOTHING IS TRULY LOST. Git keeps every deleted file in history; `git show
+# <sha>:<path>` brings it back. This removes files from the WORKING TREE, which
+# is where confusion lives — two copies of one classifier that have already
+# drifted is worse than one copy plus a history.
+#
+# ── HOW TO ADD A CANDIDATE ──────────────────────────────────────────────────
+# Put it in CANDIDATES below with a reason on the same line. A file with no
+# stated reason does not get swept: if nobody can say why it goes, it stays.
+
+name: the sweep
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type SWEEP to actually delete. Anything else is a dry run.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: the-sweep
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: what would go, and what is still spoken for
+        id: plan
+        run: |
+          # ── THE CANDIDATES · path | why ─────────────────────────────────
+          # Proven duplicates first. Everything below them is judgement, and
+          # the reference check is what keeps judgement from being a mistake.
+          cat > /tmp/candidates.txt <<'LIST'
+          geo-tier.mjs|stale duplicate of probes/geo-tier.mjs — the two ALREADY DIFFER (4882 vs 5513 bytes); probe-geo.mjs imports the probes/ copy
+          book/book-the-harvester.md|duplicate chapter, kept as book/24-the-harvester.md — on the hall-upgrade handoff's own loose-ends list
+          apply_fix_01.py|one-shot fixer, ran two months ago
+          apply_fix_02.py|one-shot fixer, ran two months ago
+          apply_fix_03.py|one-shot fixer, ran two months ago
+          remove_moon_key.py|one-shot fixer, ran two months ago
+          strip-tweaks-panel.sh|one-shot fixer, ran two months ago
+          seeds_scan.py|one-shot scan, superseded by probes/
+          audit2.py|superseded by the probes and the full audit
+          goldleaf2.py|one-shot art script, two months idle
+          TODO.md|superseded by THE-STANDING-SLIP.md
+          HANDOFF.md|two months old, superseded by the handoffs in slip/
+          LIST
+
+          echo "── the sweep ────────────────────────────────────────────"
+          go=0; keep=0; missing=0
+          : > /tmp/todelete.txt
+
+          while IFS='|' read -r path why; do
+            [ -z "$path" ] && continue
+            if [ ! -e "$path" ]; then
+              echo "  ·  $path — already gone"
+              missing=$((missing+1)); continue
+            fi
+
+            # ── THE REFERENCE CHECK ──────────────────────────────────────
+            # Search every tracked file except the candidate itself and this
+            # workflow for the basename. A hit means something still calls it.
+            base=$(basename "$path")
+            hits=$(git grep -l -F -- "$base" -- . \
+                   ':!'"$path" ':!.github/workflows/sweep.yml' 2>/dev/null || true)
+
+            if [ -n "$hits" ]; then
+              echo "  ✗  $path — KEPT, still named by:"
+              echo "$hits" | sed 's/^/         /'
+              keep=$((keep+1))
+            else
+              echo "  →  $path — $why"
+              echo "$path" >> /tmp/todelete.txt
+              go=$((go+1))
+            fi
+          done < /tmp/candidates.txt
+
+          echo "─────────────────────────────────────────────────────────"
+          echo "$go to remove · $keep kept because something still names them · $missing already gone"
+          echo "count=$go" >> "$GITHUB_OUTPUT"
+
+      - name: dry run — nothing was removed
+        if: inputs.confirm != 'SWEEP'
+        run: |
+          echo "DRY RUN. Nothing was deleted."
+          echo "To sweep for real, run this workflow again and type SWEEP into confirm."
+          echo "Read the list above first — anything marked KEPT is still referenced"
+          echo "and would be a real breakage."
+
+      - name: sweep
+        if: inputs.confirm == 'SWEEP' && steps.plan.outputs.count != '0'
+        run: |
+          git config user.name  "the sweep"
+          git config user.email "actions@users.noreply.github.com"
+          while read -r p; do
+            [ -z "$p" ] && continue
+            git rm -q -- "$p"
+            echo "removed $p"
+          done < /tmp/todelete.txt
+
+          git commit -m "the sweep: $(wc -l < /tmp/todelete.txt) file(s) removed $(date -u +%Y-%m-%d) [skip ci]"
+          # the same rebase-and-retry every committing workflow carries (#62)
+          pushed=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              pushed=1; echo "swept (attempt $i)"; break
+            fi
+            echo "push attempt $i lost the race; retrying"
+            sleep 5
+          done
+          if [ "$pushed" != "1" ]; then
+            echo "::error::the sweep could not be pushed after 5 attempts — nothing was removed from main"
+            exit 1
+          fi
+          echo "Every removed file remains in git history: git show HEAD~1:<path>"
