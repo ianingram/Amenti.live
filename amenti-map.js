@@ -51,7 +51,63 @@
      zoomed would hide the one thing this surface is for: the centre of
      gravity moving across the whole world. */
   var YEAR_MIN = -4000, YEAR_MAX = new Date().getUTCFullYear();
-  var lo = YEAR_MIN, hi = YEAR_MAX;
+
+  /* ── THE APERTURE · 4 Sep ─────────────────────────────────────────────────
+     SEEN LIVE: the map opened reading "4000 BC — AD 2026". lo was only ever
+     set to hi-400 when the slider moved, so the FIRST thing a reader saw was
+     every soul at once — 864 seats, 346 names with no room to print, and the
+     sky reporting all 1,604 of its events in one breath. Every honest number
+     under the map was correct and the view was useless.
+
+     The apertures are the timeline's own SPANS, deliberately: a reader who
+     learns what 200 years looks like on one instrument should not have to
+     learn it again on the other. "A life, an age, an era, all of it."
+     3000 is not a window so much as an admission that you are looking at
+     everything, and it is a CHOICE now rather than the default. */
+/* ── THE APERTURE IS PLANETARY · 4 Sep ────────────────────────────────────
+     Not 10-50-200-800. Those are decimal habits, and nothing in this register
+     runs on tens. The windows are the PERIODS THE SKY REGISTER ACTUALLY
+     CONTAINS, measured from the file rather than looked up:
+
+         Jupiter due-east        6 y    830 events, gaps 5-7
+         Saturn due-east        15 y    335
+         great conjunction      20 y    248, gaps 18-21
+         Uranus                 42 y    117, gaps 41-43
+         Halley                 76 y     48, gaps 62-79
+         Neptune                82 y     60, gaps 82-83
+         outer-planet gathering 179 y     14, BUT gaps 40-1367
+
+     WHAT IS LEFT OUT, AND WHY. Neptune's 82 sits four years from Halley's 76
+     — two buttons doing one job is a worse instrument, so Halley keeps the
+     rung. The gathering's 179 is a MEDIAN, NOT A PERIOD: its gaps run from 40
+     to 1367 years, and offering it as an aperture would dress noise as a
+     cycle, which is the one thing this surface may not do. Saturn's 15 falls
+     between Jupiter and the conjunction and earns no rung of its own.
+
+     What this buys is not decoration. At the Jupiter window a reader sees one
+     rising; at the conjunction window, one conjunction; at the Halley window,
+     one comet. The aperture stops being a number and becomes a QUESTION —
+     what does one turn of this body look like, and who was alive for it.
+
+  ── AND THE APERTURE CHANGES WHAT IS SHOWN, NOT ONLY HOW MUCH ──────────────
+     Narrowing is not a filter, it is a different reading. At "all of it" a
+     seat can only be "Constantinople · 124", because 124 names on one dot is
+     a smear and Jupiter rising seventy times is a metronome, not news. At the
+     Jupiter window the same dot holds two people who can both be named, and a
+     planet rising due east IS the event.
+
+     The timeline reached this first and wrote it down: Jupiter is "kept for
+     the close zooms only, which is the tiering its own gloss asks for." */
+  var APERTURES = [6, 20, 42, 76, 3000];
+  var AP_LABEL  = { 6: '\u2643', 20: '\u2643\u2644', 42: '\u2645',
+                    76: '\u2604', 3000: 'all of it' };
+  var AP_NAME   = { 6: 'one Jupiter rising \u00b7 6 years',
+                    20: 'one great conjunction \u00b7 20 years',
+                    42: 'one Uranus return \u00b7 42 years',
+                    76: 'one Halley \u00b7 76 years',
+                    3000: 'the whole register' };
+  var APERTURE  = 76;   /* open on one Halley — a human span, and a real one */
+  var hi = YEAR_MAX, lo = hi - APERTURE;
 
   var geo = null, world = null, sky = null, comets = null, mounted = null;
 
@@ -262,6 +318,16 @@
       '#amenti-map .mp-foot{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:12px;flex:0 0 auto}',
       '#amenti-map .mp-foot input[type=range]{flex:1;accent-color:#5fd0e8}',
       '#amenti-map .mp-read{color:#dbe4f0;min-width:190px}',
+      '#amenti-map .mp-ap{display:flex;gap:4px}',
+      '#amenti-map .mp-ap button{font:400 10.5px/1 ui-monospace,Menlo,monospace;',
+      '  letter-spacing:.1em;color:#7d8ea6;background:transparent;cursor:pointer;',
+      '  border:1px solid #23303f;border-radius:3px;padding:4px 7px}',
+      '#amenti-map .mp-ap button.on{color:#e8c98a;border-color:#7a5f33}',
+      '#amenti-map .mp-ap button{min-width:30px}',
+      '#amenti-map .mp-dial{cursor:grab;flex:0 0 auto}',
+      '#amenti-map .mp-dial.turning{cursor:grabbing}',
+      '#amenti-map .mp-dial circle{fill:none;stroke:#2b3a50;stroke-width:1.4}',
+      '#amenti-map .mp-dial line{stroke:#5fd0e8;stroke-width:1.6;stroke-linecap:round}',
       '#amenti-map .mp-note{color:#6f8098;font-size:11px;margin-top:6px;line-height:1.5;flex:0 0 auto}',
       '#amenti-map .mp-hit{position:absolute;pointer-events:none;background:rgba(8,12,20,.94);',
       '  border:1px solid #2b3purple;padding:6px 9px;border-radius:3px;font-size:11.5px;',
@@ -293,7 +359,18 @@
         '</svg>' +
         '<div class="mp-foot">' +
           '<span class="mp-read"></span>' +
+          '<span class="mp-ap">' +
+            APERTURES.map(function (a) {
+              return '<button type="button" data-ap="' + a + '"' +
+                     (a === APERTURE ? ' class="on"' : '') +
+                     ' title="' + AP_NAME[a] + '">' + AP_LABEL[a] + '</button>';
+            }).join('') +
+          '</span>' +
           '<input type="range" class="mp-slider" min="-4000" max="' + YEAR_MAX + '" step="10" value="' + YEAR_MAX + '">' +
+          '<svg class="mp-dial" viewBox="0 0 26 26" width="26" height="26" aria-label="turn to move through time">' +
+            '<circle cx="13" cy="13" r="11"/>' +
+            '<g class="mp-dial-hand"><line x1="13" y1="13" x2="13" y2="4"/></g>' +
+          '</svg>' +
         '</div>' +
         '<div class="mp-note"></div>' +
       '</div>' +
@@ -431,7 +508,12 @@
       ring.setAttribute('cy', xy[1].toFixed(1));
       ring.setAttribute('r', '4.6');
 
-      var label = p.who.length === 1 ? p.who[0] : p.place + ' \u00b7 ' + p.who.length;
+      /* CLOSE IN, PEOPLE HAVE NAMES. At 10 or 50 years a shared seat holds a
+         handful, not a hundred, so it can say who rather than how many. */
+      var label;
+      if (p.who.length === 1) label = p.who[0];
+      else if (APERTURE <= 42 && p.who.length <= 4) label = p.who.join(', ');
+      else label = p.place + ' \u00b7 ' + p.who.length;
       var t = g.querySelector('text');
       t.textContent = label;
       t.setAttribute('x', xy[0].toFixed(1));
@@ -519,12 +601,28 @@
          per rising. A sign is the body; the number is how often it rose. */
       var SIGN = { Jupiter: '\u2643', Saturn: '\u2644', Uranus: '\u2645', Neptune: '\u2646' };
       var order = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'], x = 120;
-      order.forEach(function (b) {
-        if (!byBody[b]) return;
-        h += '<text class="mp-sign" x="' + x + '" y="' + (bandY + 3) + '">' + SIGN[b] + '</text>' +
-             '<text class="mp-signn" x="' + (x + 9) + '" y="' + (bandY + 3) + '">' + byBody[b] + '</text>';
-        x += 34;
-      });
+      var closeIn = APERTURE <= 42;
+      if (closeIn) {
+        /* A RISING IS NEWS AT THIS SCALE. Ten years holds one or two, so each
+           gets its own sign AND ITS YEAR — the thing a count can never say. */
+        inWin.filter(function (e) { return e.kind === 'due-east'; })
+             .sort(function (a, b) { return a.y - b.y; })
+             .slice(0, 10)
+             .forEach(function (e) {
+               h += '<text class="mp-sign" x="' + x + '" y="' + (bandY + 3) + '">' +
+                    (SIGN[e.body] || '\u2726') + '</text>' +
+                    '<text class="mp-signn" x="' + (x - 6) + '" y="' + (bandY + 11) + '">' +
+                    yr(e.y).replace('AD ', '') + '</text>';
+               x += 30;
+             });
+      } else {
+        order.forEach(function (b) {
+          if (!byBody[b]) return;
+          h += '<text class="mp-sign" x="' + x + '" y="' + (bandY + 3) + '">' + SIGN[b] + '</text>' +
+               '<text class="mp-signn" x="' + (x + 9) + '" y="' + (bandY + 3) + '">' + byBody[b] + '</text>';
+          x += 34;
+        });
+      }
 
       /* a conjunction is a ring; a gathering is a filled orb — the same two
          shapes the timeline uses, so one event reads the same on both */
@@ -618,6 +716,7 @@
     var t = geo.totals;
     el.querySelector('.mp-read').textContent = yr(lo) + ' \u2014 ' + yr(hi);
     el.querySelector('.mp-note').textContent =
+      (AP_NAME[APERTURE] ? AP_NAME[APERTURE] + ' \u00b7 ' : '') +
       pins.length + ' seats drawn \u00b7 ' + lastShown + ' named' +
       (lastHidden ? ', ' + lastHidden + ' name(s) with no room \u2014 hover the pin' : '') +
       ' \u00b7 ' + washes.length + ' souls shown as territory' +
@@ -628,6 +727,21 @@
       (t.silent + t.unplaced) + ' of ' + t.souls + ' carry no place this map can honestly draw ' +
       '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
       'Seats from GeoNames (CC BY 4.0); coastline Natural Earth.';
+  }
+
+  /* One place sets the window, so the slider, the wheel and the dial cannot
+     drift apart or clamp differently. */
+  function setEdge(edge) {
+    hi = Math.max(YEAR_MIN + 10, Math.min(YEAR_MAX, Math.round(edge)));
+    lo = hi - APERTURE;
+    var el = mounted;
+    if (el) {
+      var sl = el.querySelector('.mp-slider');
+      if (sl && +sl.value !== hi) sl.value = hi;
+      var d = el.querySelector('.mp-dial-hand');
+      if (d) d.setAttribute('transform', 'rotate(' + ((hi % APERTURE) / APERTURE * 360).toFixed(1) + ' 13 13)');
+    }
+    draw();
   }
 
   function yr(y) { return y < 0 ? Math.abs(y) + ' BC' : 'AD ' + y; }
@@ -773,12 +887,64 @@
       var sl = el.querySelector('.mp-slider');
       if (!sl.dataset.wired) {
         sl.dataset.wired = '1';
-        sl.addEventListener('input', function () {
-          hi = +sl.value; lo = hi - 400;   /* a moving 400-year window */
-          draw();
+        sl.addEventListener('input', function () { setEdge(+sl.value); });
+
+        /* THE APERTURE BUTTONS. Changing the aperture holds the LEADING EDGE
+           still and moves the trailing one, so narrowing does not carry the
+           reader somewhere else — the year they were looking at stays put and
+           the past closes in behind it. */
+        el.querySelectorAll('.mp-ap button').forEach(function (b) {
+          b.addEventListener('click', function () {
+            APERTURE = +b.getAttribute('data-ap');
+            el.querySelectorAll('.mp-ap button').forEach(function (x) {
+              x.classList.toggle('on', +x.getAttribute('data-ap') === APERTURE);
+            });
+            setEdge(hi);
+          });
+        });
+
+        /* ── THE WHEEL · time under the fingers ────────────────────────────
+           Scrolling the map scrubs time: down is forward, up is back, at one
+           twentieth of the aperture a notch — so a narrow window steps in
+           years and a wide one steps in centuries, and the gesture feels the
+           same at every scale. preventDefault, or the page scrolls under the
+           surface while the reader thinks they are moving time. */
+        el.addEventListener('wheel', function (e) {
+          e.preventDefault();
+          var step = Math.max(1, Math.round(APERTURE / 20));
+          setEdge(hi + (e.deltaY > 0 ? step : -step));
+        }, { passive: false });
+
+        /* ── THE DIAL · clockwise is forward ───────────────────────────────
+           A camera ring, as asked for. The angle travelled is what counts,
+           not where the pointer is, so a reader can keep turning past the
+           top of the circle without the year jumping. Clockwise advances,
+           counter-clockwise reverses; a full turn moves one aperture. */
+        var dial = el.querySelector('.mp-dial'), turning = false, lastAng = 0;
+        function angleAt(ev) {
+          var r = dial.getBoundingClientRect();
+          return Math.atan2(ev.clientY - (r.top + r.height / 2),
+                            ev.clientX - (r.left + r.width / 2));
+        }
+        dial.addEventListener('pointerdown', function (ev) {
+          turning = true; lastAng = angleAt(ev); dial.setPointerCapture(ev.pointerId);
+          dial.classList.add('turning');
+        });
+        dial.addEventListener('pointermove', function (ev) {
+          if (!turning) return;
+          var a = angleAt(ev), d = a - lastAng;
+          /* cross the -pi/pi seam without a jump of a whole revolution */
+          if (d >  Math.PI) d -= 2 * Math.PI;
+          if (d < -Math.PI) d += 2 * Math.PI;
+          lastAng = a;
+          setEdge(hi + d / (2 * Math.PI) * APERTURE);
+        });
+        ['pointerup', 'pointercancel'].forEach(function (t) {
+          dial.addEventListener(t, function () { turning = false; dial.classList.remove('turning'); });
         });
       }
-      if (opts && typeof opts.year === 'number') { hi = opts.year; lo = hi - 400; sl.value = hi; }
+      if (opts && typeof opts.year === 'number') setEdge(opts.year);
+      else setEdge(hi);
       draw();
       document.body.classList.add('scene-map');
       syncRail();
