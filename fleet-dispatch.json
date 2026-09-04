@@ -1,12 +1,12 @@
 {
-  "at": "2026-09-04T00:58:56.137Z",
+  "at": "2026-09-04T06:41:27.646Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 129,
+    "count": 131,
     "prefixes": {
-      "atlantica:": 85,
+      "atlantica:": 86,
       "dailyplanet:": 20,
-      "watch:": 18,
+      "watch:": 19,
       "week:": 6
     }
   },
@@ -18,14 +18,13 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 72,
+      "fired": 73,
       "last": {
-        "date": "2026-09-02",
-        "figure": "odysseus"
+        "date": "2026-09-03",
+        "figure": "gilgamesh"
       },
-      "lastAgeDays": 2,
+      "lastAgeDays": 1,
       "missedLast14": [
-        "2026-09-03",
         "2026-08-30",
         "2026-08-26",
         "2026-08-25",
@@ -35,6 +34,11 @@
         "2026-08-21"
       ],
       "recent": [
+        {
+          "figure": "gilgamesh",
+          "date": "2026-09-03",
+          "key": "atlantica:gilgamesh:2026-09-03"
+        },
         {
           "figure": "odysseus",
           "date": "2026-09-02",
@@ -99,14 +103,9 @@
           "figure": "shaka",
           "date": "2026-08-05",
           "key": "atlantica:shaka:2026-08-05"
-        },
-        {
-          "figure": "theodora",
-          "date": "2026-08-05",
-          "key": "atlantica:theodora:2026-08-05"
         }
       ],
-      "note": "72 dispatch(es) in the hold · last 2026-09-02 (odysseus) · MISSED 8 of the last 14 days"
+      "note": "73 dispatch(es) in the hold · last 2026-09-03 (gilgamesh) · MISSED 7 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
