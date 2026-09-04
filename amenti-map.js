@@ -53,9 +53,64 @@
   var YEAR_MIN = -4000, YEAR_MAX = new Date().getUTCFullYear();
   var lo = YEAR_MIN, hi = YEAR_MAX;
 
-  var geo = null, world = null, mounted = null;
+  var geo = null, world = null, sky = null, comets = null, mounted = null;
+
+  /* ── GIZA · THE ONE HONEST COORDINATE FOR A SKY EVENT ─────────────────────
+     SKY.csv is 1,342 due-east risings COMPUTED AT GIZA. A rising does not
+     happen at a place — it is seen from one. So this coordinate is not the
+     event's location, it is the OBSERVER'S, and that is the only reason a
+     sky mark may sit on a map at all. Anywhere else would be an invention;
+     here it is true by construction, and the label says "seen from" rather
+     than "happened at" so a reader is never left to guess which. */
+  var GIZA = [29.9792, 31.1342];
+
+  /* ── WHY HALLEY IS NOT AT GIZA · 4 Sep ────────────────────────────────────
+     The conjunctions and the due-east risings were COMPUTED at Giza, so the
+     Giza mark is honest for them: it is the observer. Halley is not. It comes
+     from EVENTS.csv, which carries no place at all, and a comet is seen from
+     the whole earth — putting it on one coordinate would invent a specificity
+     the record does not have, which is the same error as pinning a continent.
+
+     So the sky gets a BAND above the map: a strip that is plainly not the
+     earth, where an event with no place can sit without claiming one. A
+     hairline drops from the band to Giza for the things actually computed
+     there, so a reader can see which claims are tied to an observer and which
+     belong to the sky at large. */
+  function parseComets(text) {
+    var out = [], lines = String(text).replace(/\r\n/g, '\n').split('\n');
+    lines.forEach(function (line) {
+      if (!line.trim()) return;
+      var cells = [], cur = '', q = false;
+      for (var i = 0; i < line.length; i++) {
+        var c = line[i];
+        if (c === '"') { q = !q; continue; }
+        if (c === ',' && !q) { cells.push(cur); cur = ''; continue; }
+        cur += c;
+      }
+      cells.push(cur);
+      var y = parseFloat(cells[0]);
+      if (isNaN(y)) return;
+      if ((cells[2] || '').trim() !== 'comet') return;
+      out.push({ y: y, name: (cells[1] || '').trim() });
+    });
+    return out;
+  }
+
+  /* Columns: year, body, kind, description — the same tolerant read the
+     timeline uses, so one register is parsed one way by both surfaces. */
+  function parseSky(text) {
+    var out = [];
+    String(text).replace(/\r\n/g, '\n').split('\n').forEach(function (line) {
+      if (!line.trim()) return;
+      var c = line.split(',');
+      var y = parseFloat(c[0]);
+      if (isNaN(y)) return;
+      out.push({ y: y, body: (c[1] || '').trim(), kind: (c[2] || '').trim() });
+    });
+    return out;
+  }
   var SVG = 'http://www.w3.org/2000/svg';
-  var lastShown = 0, lastHidden = 0;
+  var lastShown = 0, lastHidden = 0, lastSky = 0, lastConj = 0, lastGath = 0, lastHalley = 0;
 
   function get(url, asJson) {
     return fetch(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' })
@@ -72,7 +127,15 @@
       /* A map with no coastline is a scatter of dots in a void — it cannot be
          read, so unlike EVENTS.csv this one is NOT optional. If it fails the
          surface says so rather than drawing pins onto nothing. */
-      get(RAW + 'WORLD.json', true).then(function (d) { world = d; })
+      get(RAW + 'WORLD.json', true).then(function (d) { world = d; }),
+      /* THE SKY IS OPTIONAL, as it is for the timeline. A missing sky costs
+         one mark on one coordinate; it must not cost the map. */
+      get(RAW + 'SKY.csv', false).then(function (t) { sky = parseSky(t); },
+                                       function ()  { sky = null; }),
+      /* Halley lives in EVENTS.csv, not SKY.csv — 48 returns, -1404 to 2061,
+         a median 76 years apart. Optional for the same reason. */
+      get(RAW + 'EVENTS.csv', false).then(function (t) { comets = parseComets(t); },
+                                          function ()  { comets = null; })
     ]);
   }
 
@@ -150,6 +213,34 @@
       /* where a seat wears a mark the dot recedes to an anchor: the mark IS
          the point, and two full-strength objects at one coordinate is clutter */
       '#amenti-map .mp-marked .mp-pin{fill-opacity:.3}',
+      /* ── THE SKY · an instrument, not an inhabitant ───────────────────────
+         Amber, deliberately: cyan is the souls and gold is a verified quote,
+         and the sky is neither. An open diamond and hairline rings read as a
+         reading taken, not as a thing that lived at a coordinate. */
+      '#amenti-map .mp-obs{fill:none;stroke:#d8a24a;stroke-width:.7;opacity:.85}',
+      /* THE SIGNS GLOW. A planet is a light; the blur says so without
+         spending gold, which belongs to a verified quote and to nothing else. */
+      '#amenti-map .mp-sign{fill:#e8c98a;font-size:9px;text-anchor:middle;',
+      '  filter:url(#mp-glow);pointer-events:none}',
+      '#amenti-map .mp-signn{fill:#a98c5f;font-size:5.4px;pointer-events:none}',
+      /* over Giza the signs sit smaller than in the band — they are a reading
+         at a place, not the register's own heading */
+      '#amenti-map .mp-over{font-size:7px;fill:#f0d9a4}',
+      '#amenti-map .mp-tether{fill:none;stroke:#d8a24a;stroke-width:.3;',
+      '  stroke-dasharray:2 3;opacity:.3}',
+      /* HALLEY. The only animated thing on the surface, and only ever a few. */
+      '#amenti-map .mp-halley path{fill:#fff3d4;filter:url(#mp-glow)}',
+      '#amenti-map .mp-halley{animation:mp-spark 3.4s ease-in-out infinite;',
+      '  transform-origin:center}',
+      '@keyframes mp-spark{0%,100%{opacity:.25}45%{opacity:1}55%{opacity:.9}}',
+      '@media (prefers-reduced-motion:reduce){',
+      '  #amenti-map .mp-halley{animation:none;opacity:.85}}',
+      '#amenti-map .mp-conj{fill:none;stroke:#d8a24a;stroke-width:.35;opacity:.45}',
+      '#amenti-map .mp-gath{fill:#d8a24a;fill-opacity:.35;stroke:none}',
+      '#amenti-map .mp-obslabel{fill:#c99a4e;font-size:5px;letter-spacing:.1em;',
+      '  text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:#070b12;',
+      '  stroke-width:1.6px;stroke-linejoin:round}',
+      '#amenti-map .mp-sky{transition:opacity .4s ease}',
       /* arriving and leaving — the whole reason to scrub time */
       '#amenti-map .mp-seat{transition:opacity .4s ease}',
       '#amenti-map .mp-seat.mp-in{opacity:0}',
@@ -165,6 +256,8 @@
       '#amenti-map .mp-key .k-pin{width:7px;height:7px;border-radius:50%;background:#5fd0e8}',
       '#amenti-map .mp-key .k-wash{width:16px;height:9px;border-radius:2px;background:rgba(74,108,143,.42)}',
       '#amenti-map .mp-key .k-none{width:16px;height:9px;border:1px dashed #3c4a5e;border-radius:2px}',
+      '#amenti-map .mp-key .k-sky{width:8px;height:8px;border:1px solid #d8a24a;',
+      '  transform:rotate(45deg)}',
 
       '#amenti-map .mp-foot{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:12px;flex:0 0 auto}',
       '#amenti-map .mp-foot input[type=range]{flex:1;accent-color:#5fd0e8}',
@@ -187,11 +280,16 @@
             '<span><i class="k-pin"></i>a seat \u2014 here</span>' +
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
             '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
+            '<span><i class="k-sky"></i>the sky \u2014 seen from giza</span>' +
           '</div>' +
         '</div>' +
         '<svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">' +
+          '<defs><filter id="mp-glow" x="-120%" y="-120%" width="340%" height="340%">' +
+            '<feGaussianBlur stdDeviation="1.5" result="b"/>' +
+            '<feMerge><feMergeNode in="b"/><feMergeNode in="b"/>' +
+            '<feMergeNode in="SourceGraphic"/></feMerge></filter></defs>' +
           '<g class="mp-graticule"></g><path class="mp-land"></path>' +
-          '<g class="mp-washes"></g><g class="mp-pins"></g>' +
+          '<g class="mp-washes"></g><g class="mp-pins"></g><g class="mp-sky"></g>' +
         '</svg>' +
         '<div class="mp-foot">' +
           '<span class="mp-read"></span>' +
@@ -394,13 +492,139 @@
       });
     lastShown = shown; lastHidden = hidden;
 
+    /* ── THE SKY BAND · a THIRD kind of mark ─────────────────────────────────
+       Not a soul and not a territory, so it may not look like either. It is
+       also not ON the earth, which is why it sits in a strip above the
+       coastline rather than at a coordinate.
+
+       WHAT IS DRAWN AND WHAT IS ONLY COUNTED. Jupiter rises due east every
+       six years: at a 400-year window that is seventy risings, which is a
+       metronome rendered as news. The timeline already ruled on this and
+       keeps Jupiter for close zooms only. Same rule, different shape — the
+       BODY gets one sign whatever its count, the rare events get a mark, and
+       the regular ones get a number beside the sign. */
+    var gsky = el.querySelector('.mp-sky');
+    var h = '', bandY = 22;
+    lastSky = lastConj = lastGath = lastHalley = 0;
+
+    if (sky && sky.length) {
+      var inWin = sky.filter(function (e) { return e.y >= lo && e.y <= hi; });
+      var conj  = inWin.filter(function (e) { return e.kind === 'conjunction'; });
+      var gath  = inWin.filter(function (e) { return e.kind === 'gathering'; });
+      var byBody = {};
+      inWin.filter(function (e) { return e.kind === 'due-east'; })
+           .forEach(function (e) { byBody[e.body] = (byBody[e.body] || 0) + 1; });
+
+      /* THE SIGNS. One glyph a body, glowing, with its count — not one mark
+         per rising. A sign is the body; the number is how often it rose. */
+      var SIGN = { Jupiter: '\u2643', Saturn: '\u2644', Uranus: '\u2645', Neptune: '\u2646' };
+      var order = ['Jupiter', 'Saturn', 'Uranus', 'Neptune'], x = 120;
+      order.forEach(function (b) {
+        if (!byBody[b]) return;
+        h += '<text class="mp-sign" x="' + x + '" y="' + (bandY + 3) + '">' + SIGN[b] + '</text>' +
+             '<text class="mp-signn" x="' + (x + 9) + '" y="' + (bandY + 3) + '">' + byBody[b] + '</text>';
+        x += 34;
+      });
+
+      /* a conjunction is a ring; a gathering is a filled orb — the same two
+         shapes the timeline uses, so one event reads the same on both */
+      if (conj.length) {
+        h += '<circle class="mp-conj" cx="' + x + '" cy="' + bandY + '" r="4.4"/>' +
+             '<circle class="mp-conj" cx="' + x + '" cy="' + bandY + '" r="6.8"/>' +
+             '<text class="mp-signn" x="' + (x + 10) + '" y="' + (bandY + 3) + '">' + conj.length + '</text>';
+        x += 40;
+      }
+      if (gath.length) {
+        h += '<circle class="mp-gath" cx="' + x + '" cy="' + bandY + '" r="4"/>' +
+             '<text class="mp-signn" x="' + (x + 8) + '" y="' + (bandY + 3) + '">' + gath.length + '</text>';
+        x += 34;
+      }
+
+      /* THE TETHER. These were computed AT GIZA, so a hairline says from
+         where. Halley gets no tether, because it is tied to no observer. */
+      /* ── THE SIGNS OVER GIZA · 4 Sep ─────────────────────────────────────
+         The bodies in conjunction, drawn above the observer, at the event the
+         reader has most recently crossed. Scrubbing past a conjunction
+         changes what stands over Giza, which is the point — twenty of them at
+         once would be a pile that says nothing about when.
+
+         TWO SIGNS, NOT THREE. Every one of the 248 conjunction rows is
+         Jupiter-Saturn: two bodies, and the register calls it a great
+         conjunction. The 14 gatherings are the four outer planets within
+         10-36 degrees of sky, so those show four. A third sign on a
+         two-planet conjunction would be a number nothing in the register
+         supports, and it is exactly the kind of small invention this surface
+         exists to refuse. */
+      var recent = null;
+      inWin.forEach(function (e) {
+        if (e.kind === 'due-east') return;
+        if (e.y <= hi && (!recent || e.y > recent.y)) recent = e;
+      });
+      if (recent) {
+        var gzc = proj(GIZA[0], GIZA[1]);
+        var bodies = recent.kind === 'gathering'
+          ? ['\u2643', '\u2644', '\u2645', '\u2646']
+          : ['\u2643', '\u2644'];
+        var span = (bodies.length - 1) * 7;
+        bodies.forEach(function (sg, i) {
+          h += '<text class="mp-sign mp-over" x="' + (gzc[0] - span / 2 + i * 7).toFixed(1) +
+               '" y="' + (gzc[1] - 8).toFixed(1) + '">' + sg + '</text>';
+        });
+        h += '<text class="mp-obslabel" x="' + gzc[0].toFixed(1) + '" y="' + (gzc[1] - 15).toFixed(1) +
+             '">' + (recent.kind === 'gathering' ? 'gathering' : 'great conjunction') +
+             ' \u00b7 ' + yr(recent.y) + '</text>';
+      }
+
+      if (inWin.length) {
+        var gz = proj(GIZA[0], GIZA[1]);
+        h += '<path class="mp-tether" d="M' + (x - 20) + ' ' + (bandY + 8) +
+             'Q' + gz[0].toFixed(1) + ' ' + ((bandY + gz[1]) / 2).toFixed(1) +
+             ' ' + gz[0].toFixed(1) + ' ' + (gz[1] - 4).toFixed(1) + '"/>' +
+             '<path class="mp-obs" d="M' + gz[0].toFixed(1) + ' ' + (gz[1] - 3.2).toFixed(1) +
+             'L' + (gz[0] + 3.2).toFixed(1) + ' ' + gz[1].toFixed(1) +
+             'L' + gz[0].toFixed(1) + ' ' + (gz[1] + 3.2).toFixed(1) +
+             'L' + (gz[0] - 3.2).toFixed(1) + ' ' + gz[1].toFixed(1) + 'Z"/>' +
+             '<text class="mp-obslabel" x="' + gz[0].toFixed(1) + '" y="' + (gz[1] + 10).toFixed(1) +
+             '">computed at giza</text>';
+      }
+      lastSky = inWin.length; lastConj = conj.length; lastGath = gath.length;
+    }
+
+    /* ── HALLEY · the one thing on this map that sparkles ────────────────────
+       It earns it by being rare and punctual: 48 returns in the register, a
+       median 76 years apart, so at a 400-year window there are about five and
+       never a crowd. The animation is CSS on a four-point star and stops
+       being drawn the moment the window holds none — a sparkle with nothing
+       behind it would be decoration, and this page does not decorate. */
+    if (comets && comets.length) {
+      var hal = comets.filter(function (e) { return e.y >= lo && e.y <= hi; });
+      lastHalley = hal.length;
+      hal.forEach(function (e, i) {
+        var hx = 640 + (i % 8) * 34, hy = bandY + ((i % 2) ? -7 : 5);
+        h += '<g class="mp-halley" style="animation-delay:' + (i * 0.42).toFixed(2) + 's">' +
+             '<path d="M' + hx + ' ' + (hy - 5) + 'L' + (hx + 1.5) + ' ' + (hy - 1.5) +
+             'L' + (hx + 5) + ' ' + hy + 'L' + (hx + 1.5) + ' ' + (hy + 1.5) +
+             'L' + hx + ' ' + (hy + 5) + 'L' + (hx - 1.5) + ' ' + (hy + 1.5) +
+             'L' + (hx - 5) + ' ' + hy + 'L' + (hx - 1.5) + ' ' + (hy - 1.5) + 'Z"/>' +
+             '<title>' + esc(e.name) + ', ' + yr(e.y) + '</title></g>';
+      });
+      if (hal.length)
+        h += '<text class="mp-obslabel" x="628" y="' + (bandY + 3) + '" text-anchor="end">halley</text>';
+    }
+
+    gsky.innerHTML = h;
+
     /* THE READOUT NAMES THE SILENCE. */
     var t = geo.totals;
     el.querySelector('.mp-read').textContent = yr(lo) + ' \u2014 ' + yr(hi);
     el.querySelector('.mp-note').textContent =
       pins.length + ' seats drawn \u00b7 ' + lastShown + ' named' +
       (lastHidden ? ', ' + lastHidden + ' name(s) with no room \u2014 hover the pin' : '') +
-      ' \u00b7 ' + washes.length + ' souls shown as territory \u00b7 ' +
+      ' \u00b7 ' + washes.length + ' souls shown as territory' +
+      (lastSky ? ' \u00b7 sky: ' + lastConj + ' conjunction(s), ' + lastGath +
+                 ' gathering(s) of ' + lastSky + ' computed at giza' : '') +
+      (lastHalley ? ' \u00b7 ' + lastHalley + ' halley return(s), seen from everywhere' : '') +
+      ' \u00b7 ' +
       (t.silent + t.unplaced) + ' of ' + t.souls + ' carry no place this map can honestly draw ' +
       '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
       'Seats from GeoNames (CC BY 4.0); coastline Natural Earth.';
