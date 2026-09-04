@@ -168,6 +168,15 @@
   }
   var SVG = 'http://www.w3.org/2000/svg';
   var anchorKey = null;
+  /* ── ZOOM · 4 Sep ─────────────────────────────────────────────────────────
+     K is the scale, TX/TY the pan, in viewBox units. Everything geographic
+     lives inside a <g> that carries this transform; everything a reader READS
+     is counter-scaled by 1/K so a pin stays a pin and a name stays legible at
+     every zoom. That is the whole trick, and it is also the point: the labels
+     do not grow, the WORLD grows between them, so at the Aegean there is room
+     for names that could not fit at world scale. 294 dropped labels at AD 2000
+     is not a culling problem, it is a scale problem. */
+  var K = 1, TX = 0, TY = 0, K_MIN = 1, K_MAX = 14;
   var lastShown = 0, lastHidden = 0, lastSeats = 0, lastSky = 0, lastConj = 0, lastGath = 0, lastHalley = 0;
 
   function get(url, asJson) {
@@ -243,21 +252,30 @@
       /* A WASH. Soft, edgeless, large, low. Nothing about it reads as a point. */
       '#amenti-map .mp-wash{fill:#4a6c8f;fill-opacity:.16;stroke:none;pointer-events:all;cursor:default}',
       '#amenti-map .mp-wash:hover{fill-opacity:.30}',
-      '#amenti-map .mp-washlabel{fill:#7d93ad;font-size:7.5px;letter-spacing:.06em;',
+      '#amenti-map .mp-washlabel{fill:#7d93ad;font-size:calc(7.5px * var(--mp-inv));letter-spacing:.06em;',
       '  text-anchor:middle;pointer-events:none;text-transform:lowercase}',
 
       /* A PIN. Small, hard, bright, crisp. Nothing about it reads as an area. */
-      '#amenti-map .mp-pin{fill:#5fd0e8;fill-opacity:.85;stroke:#081018;stroke-width:.35;cursor:pointer}',
+      /* A MARK IS A MARK AT ANY ZOOM. Radii and type are divided by the scale
+         so they hold their size on screen while the world opens up beneath. */
+      '#amenti-map{--mp-inv:1}',
+      '#amenti-map .mp-pin{fill:#5fd0e8;fill-opacity:.85;stroke:#081018;',
+      '  stroke-width:.35;cursor:pointer;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-seat{--s:var(--mp-inv)}',
+      '#amenti-map .mp-land{vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-grat{vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-zoomlab{position:absolute;right:96px;top:26px;',
+      '  font:400 11px/1 ui-monospace,Menlo,monospace;color:#6f8098;pointer-events:none}',
       '#amenti-map .mp-pin:hover{fill:#a9edff;fill-opacity:1}',
       /* THE NAMES. Hidden by default and revealed only when the cull says the
          label fits — so a name never lands on top of another name. */
-      '#amenti-map .mp-name{fill:#c3d3e6;font-size:5.6px;letter-spacing:.02em;',
+      '#amenti-map .mp-name{fill:#c3d3e6;font-size:calc(5.6px * var(--mp-inv));letter-spacing:.02em;',
       '  text-anchor:middle;pointer-events:none;opacity:0;',
       '  paint-order:stroke;stroke:#070b12;stroke-width:1.6px;stroke-linejoin:round;',
       '  transition:opacity .35s ease}',
       '#amenti-map .mp-named .mp-name{opacity:.92}',
       /* AN OFFICE MARK: dim, plain, repeated. It says "one of many". */
-      '#amenti-map .mp-glyph{fill:#93b9d4;font-size:6.4px;text-anchor:middle;',
+      '#amenti-map .mp-glyph{fill:#93b9d4;font-size:calc(6.4px * var(--mp-inv));text-anchor:middle;',
       '  pointer-events:none;opacity:0;paint-order:stroke;stroke:#070b12;',
       '  stroke-width:1.8px;stroke-linejoin:round;transition:opacity .35s ease}',
       '#amenti-map .mp-marked .mp-glyph{opacity:.8}',
@@ -406,8 +424,10 @@
             '<feGaussianBlur stdDeviation="1.5" result="b"/>' +
             '<feMerge><feMergeNode in="b"/><feMergeNode in="b"/>' +
             '<feMergeNode in="SourceGraphic"/></feMerge></filter></defs>' +
-          '<g class="mp-graticule"></g><path class="mp-land"></path>' +
-          '<g class="mp-washes"></g><g class="mp-pins"></g><g class="mp-sky"></g>' +
+          '<g class="mp-view">' +
+            '<g class="mp-graticule"></g><path class="mp-land"></path>' +
+            '<g class="mp-washes"></g><g class="mp-pins"></g>' +
+          '</g><g class="mp-sky"></g>' +
         '</svg>' +
         '<div class="mp-foot">' +
           '<span class="mp-read"></span>' +
@@ -427,7 +447,7 @@
         'the seat names are small on purpose \u2014 press ' +
         (/Mac/.test(navigator.platform) ? '\u2318' : 'Ctrl') + ' and + to enlarge the page</div>' +
       '</div>' +
-      '<div class="mp-hit"></div>';
+      '<div class="mp-hit"></div><div class="mp-zoomlab"></div>';
     document.body.appendChild(el);
     mounted = el;
     return el;
@@ -441,6 +461,18 @@
        century nobody recorded. */
     if (typeof s.b !== 'number' || typeof s.d !== 'number') return false;
     return s.d >= lo && s.b <= hi;
+  }
+
+  function applyView() {
+    var el = mounted; if (!el) return;
+    var g = el.querySelector('.mp-view');
+    if (g) g.setAttribute('transform', 'translate(' + TX.toFixed(2) + ' ' + TY.toFixed(2) +
+                                       ') scale(' + K.toFixed(4) + ')');
+    /* counter-scale everything meant to be READ rather than measured */
+    var inv = (1 / K);
+    el.style.setProperty('--mp-inv', inv.toFixed(4));
+    var z = el.querySelector('.mp-zoomlab');
+    if (z) z.textContent = K > 1.02 ? '\u00d7' + K.toFixed(1) + ' \u00b7 double-click to fit' : '';
   }
 
   function draw() {
@@ -516,7 +548,7 @@
 
     Object.keys(bySeat).forEach(function (k) {
       var p = bySeat[k], xy = proj(p.lat, p.lon);
-      var r = Math.min(4.2, 1.15 + Math.log(p.who.length + 1) * 0.72);
+      var r = Math.min(4.2, 1.15 + Math.log(p.who.length + 1) * 0.72) / K;
       var g = gp.querySelector('[data-seat="' + CSS.escape(k) + '"]');
       if (!g) {
         g = document.createElementNS(SVG, 'g');
@@ -556,7 +588,7 @@
       var gt = g.querySelector('.mp-glyph');
       gt.textContent = mark || '';
       gt.setAttribute('x', xy[0].toFixed(1));
-      gt.setAttribute('y', (xy[1] + 2.4).toFixed(1));
+      gt.setAttribute('y', (xy[1] + 2.4 / K).toFixed(1));
       /* the two tiers must not read alike — see the probe's note */
       g.classList.toggle('mp-own', !!p.personal);
       g.classList.toggle('mp-marked', !!mark);
@@ -576,7 +608,7 @@
       var t = g.querySelector('text');
       t.textContent = label;
       t.setAttribute('x', xy[0].toFixed(1));
-      t.setAttribute('y', (xy[1] - (mark ? 5.4 : r + 2.2)).toFixed(1));
+      t.setAttribute('y', (xy[1] - (mark ? 5.4 / K : r + 2.2 / K)).toFixed(1));
       /* HALF-WIDTH, MEASURED NOT GUESSED. At font-size 5.6px a character
          occupies roughly 2.8px, so half of a label is length * 1.4. The first
          value here was 2.5 — nearly double — and it culled 6 of 11 labels in
@@ -584,8 +616,8 @@
          axis note names: the collision test and the placement share this one
          number, so they will agree with each other whether or not it is
          right. It is checked against the font, and the screen is the judge. */
-      g._w = label.length * 1.45;
-      g._x = xy[0]; g._y = xy[1] - (mark ? 5.4 : r + 2.2);
+      g._w = label.length * 1.45 / K;
+      g._x = xy[0]; g._y = xy[1] - (mark ? 5.4 / K : r + 2.2 / K);
       g._rank = p.who.length;
 
       var title = g.querySelector('title') || g.appendChild(document.createElementNS(SVG, 'title'));
@@ -625,13 +657,14 @@
         var x = g._x, y = g._y, w = g._w, fits = true;
         for (var i = 0; i < placed.length; i++) {
           var q = placed[i];
-          if (Math.abs(x - q.x) < (w + q.w) && Math.abs(y - q.y) < 6.5) { fits = false; break; }
+          if (Math.abs(x - q.x) < (w + q.w) && Math.abs(y - q.y) < 6.5 / K) { fits = false; break; }
         }
         if (fits) { placed.push({ x: x, y: y, w: w }); shown++; }
         g.classList.toggle('mp-named', fits);
         if (!fits) hidden++;
       });
     lastShown = shown; lastHidden = hidden;
+    applyView();
 
     /* ── THE SKY BAND · a THIRD kind of mark ─────────────────────────────────
        Not a soul and not a territory, so it may not look like either. It is
@@ -899,6 +932,14 @@
     sv.innerHTML = h;
   }
 
+  /* The world may not be dragged off its own frame. A map showing empty
+     space where the earth should be is a reader lost with no way back. */
+  function clampView() {
+    var minX = VB_W - VB_W * K, minY = VB_H - VB_H * K;
+    TX = Math.min(0, Math.max(minX, TX));
+    TY = Math.min(0, Math.max(minY, TY));
+  }
+
   function yr(y) { return y < 0 ? Math.abs(y) + ' BC' : 'AD ' + y; }
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
@@ -1089,11 +1130,44 @@
           chrono.addEventListener(t, function () { scrubbing = false; });
         });
 
-        el.addEventListener('wheel', function (e) {
+        /* ── THE WHEEL ZOOMS · not time ────────────────────────────────────
+           The ruler owns time now, so the map's own gesture is free for the
+           thing every reader already expects a map to do. Zoom is about the
+           POINTER, not the centre: a reader points at the Aegean and it comes
+           to them, which is the difference between a map and a diagram. */
+        var svgEl = el.querySelector('svg');
+        svgEl.addEventListener('wheel', function (e) {
           e.preventDefault();
-          var step = Math.max(1, Math.round(APERTURE / 20));
-          setEdge(hi + (e.deltaY > 0 ? step : -step));
+          var r = svgEl.getBoundingClientRect();
+          var mx = (e.clientX - r.left) / r.width * VB_W;
+          var my = (e.clientY - r.top) / r.height * VB_H;
+          var wx = (mx - TX) / K, wy = (my - TY) / K;      /* point under cursor */
+          var k = Math.max(K_MIN, Math.min(K_MAX, K * (e.deltaY > 0 ? 0.88 : 1.14)));
+          if (k === K) return;
+          K = k; TX = mx - wx * K; TY = my - wy * K;
+          clampView(); draw();
         }, { passive: false });
+
+        /* drag to pan, but only when zoomed in — at world scale there is
+           nowhere to go and a drag would only feel broken */
+        var panning = false, px = 0, py = 0;
+        svgEl.addEventListener('pointerdown', function (e) {
+          if (K <= 1.01) return;
+          panning = true; px = e.clientX; py = e.clientY;
+          svgEl.setPointerCapture(e.pointerId); svgEl.style.cursor = 'grabbing';
+        });
+        svgEl.addEventListener('pointermove', function (e) {
+          if (!panning) return;
+          var r = svgEl.getBoundingClientRect();
+          TX += (e.clientX - px) / r.width * VB_W;
+          TY += (e.clientY - py) / r.height * VB_H;
+          px = e.clientX; py = e.clientY;
+          clampView(); applyView();
+        });
+        ['pointerup', 'pointercancel'].forEach(function (t) {
+          svgEl.addEventListener(t, function () { panning = false; svgEl.style.cursor = ''; });
+        });
+        svgEl.addEventListener('dblclick', function () { K = 1; TX = 0; TY = 0; draw(); });
 
         /* The dial is gone — see THE RAILS above. It needed a precise grab
            on a 26px circle and gave no absolute position, so a reader could
