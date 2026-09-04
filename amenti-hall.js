@@ -287,6 +287,55 @@
       .slice(0, 12).map(function (x) { return x.r; });
   }
 
+  /* ── WHO IN THIS QUESTION IS ABOARD ──────────────────────────────────────
+     Only names the question actually contains, so the cost is a few lines and
+     never the list. Longest match first, because "Marcus Aurelius" must beat
+     "Marcus". Four characters minimum: shorter names collide with ordinary
+     words and would report half the roster as mentioned.
+
+     THE THREE STATES THE HALL MUST BE ABLE TO TELL APART:
+        aboard, with a room       -> open the door
+        aboard, no room opened    -> say they are aboard and that no room is open
+        no match on the roster    -> and ONLY THEN may absence be stated */
+  function rosterVerdict(question, souls) {
+    if (!souls) return null;
+    var q = norm(question);
+    if (!q) return null;
+    var hits = [];
+    souls.forEach(function (s) {
+      var n = norm(s.n);
+      if (n.length < 4) return;
+      if ((' ' + q + ' ').indexOf(' ' + n + ' ') === -1) return;
+      hits.push(s);
+    });
+    hits.sort(function (a, b) { return b.n.length - a.n.length; });
+    /* drop a name wholly contained in a longer hit — Homer inside Homerus */
+    var keep = [];
+    hits.forEach(function (s) {
+      var inside = keep.some(function (k) { return norm(k.n).indexOf(norm(s.n)) > -1; });
+      if (!inside) keep.push(s);
+    });
+    return keep.slice(0, 6);
+  }
+
+  function rosterLine(question, souls, total) {
+    if (souls === null)
+      return 'THE ROSTER COULD NOT BE READ THIS TURN. You do not know who is aboard. ' +
+             'Do NOT say any figure is absent from the roster — say the roster could not be read.';
+    var hits = rosterVerdict(question, souls) || [];
+    if (!hits.length)
+      return 'on the roster: no name in this question matches any of the ' +
+             (total || souls.length) + ' souls aboard. Absence may be stated.';
+    return 'on the roster: ' + hits.map(function (s) {
+      var when = (typeof s.b === 'number' && typeof s.d === 'number')
+        ? (s.b < 0 ? Math.abs(s.b) + ' BC' : 'AD ' + s.b) + ' to ' +
+          (s.d < 0 ? Math.abs(s.d) + ' BC' : 'AD ' + s.d)
+        : 'dates unknown';
+      return s.n + ' (' + (s.t || 'no title') + ', ' + when + ') \u2014 ABOARD' +
+             (s.r ? ', and a reading room exists' : ', but NO room has been opened for them');
+    }).join('; ') + '. These souls ARE aboard. Say so.';
+  }
+
   /* ── is it a question? ────────────────────────────────────────────────── */
 
   function isQuestion(text) {
@@ -873,6 +922,7 @@
     p.push('8. Amenti-Workers and Admin are private. Never state costs, tokens, credentials or provider accounts.');
     p.push('9. The figures are the thing; you are the doorway. Asked what a soul thought or felt beyond what the text says, say they can be asked directly.');
     p.push('10. Refuse as yourself, in your own voice. A refusal is a character move, not a system notice.');
+    p.push('11. A ROOM IS NOT THE ROSTER. You may say a figure is not aboard ONLY if the roster line in the coverage block says no name matched. If it names them, they ARE aboard \u2014 say so, give what it tells you, and say plainly that no room has been opened for them yet. Never reason from "no room was opened" to "not on the roster": on 4 Sep that reasoning told a visitor Odysseus and Homer were absent when both are on it.');
     return p.join('\n');
   }
 
@@ -892,12 +942,38 @@
          failing the answer — doorsText says the library could not be read and
          the hall tells the visitor, which is better than a hall that silently
          forgets it has a library. */
-      attempt('LIBRARY.json',   get(RAW + 'LIBRARY.json', true))
+      attempt('LIBRARY.json',   get(RAW + 'LIBRARY.json', true)),
+      /* ── THE ROSTER, FOR THE ANSWER PATH · 4 SEP 2026 ────────────────────
+         SEEN LIVE. Asked "who is Odysseus?", the hall replied that he "is not
+         on the roster here" and that "Homer is not on the list I hold". BOTH
+         ARE ON THE ROSTER — Odysseus at rank 0.47, Ithaca, 1250-1170 BC;
+         Homer a Writer at 800-750 BC — and both are in ROSTER-INDEX.json.
+
+         The model did the only thing it could. buildAnswer is handed HALL.md,
+         the counts, the opened rooms and the coverage line, and the coverage
+         line ends "NOT opened: every other room ... you must not describe
+         them." No room exists for Odysseus, nothing in the catalogue names
+         him, so the hall concluded he was not aboard. THE HALL CONFLATED
+         "no reading room" WITH "not on the roster".
+
+         That is the worst failure this page can have, because the false claim
+         arrived wearing the honesty language: "telling you he might be tucked
+         somewhere aboard would be the one fault this place was built to
+         refuse." It refused a fault it was not committing and committed a
+         different one.
+
+         The list is still NEVER SENT — 57 KB of names would overrun
+         SYSTEM_CHARS and the law against it stands. What goes in is the
+         VERDICT of a lookup: at most a few lines, only for names the question
+         actually contains. A search over the documents is not a search over
+         the library; neither is an answer built only from opened rooms. */
+      attempt('ROSTER-INDEX.json', get(RAW + 'ROSTER-INDEX.json', true))
     ]).then(function (r) {
       var hall  = r[0].ok ? r[0].value : null;
       var state = r[1].ok ? r[1].value : null;
       var src   = r[2].ok ? r[2].value : null;
       var lib   = r[3].ok ? r[3].value : null;
+      var souls = r[4].ok ? (r[4].value.souls || []) : null;
 
       r.forEach(function (x) { if (!x.ok) degraded.push(x.name + ' — ' + x.error); });
 
@@ -958,7 +1034,11 @@
           'opened: ' + (names.length ? names.join(', ') : 'no rooms'),
           'works read in full or in part: ' + read,
           shipLine,
-          'NOT opened: every other room and every other work. You did not see them and must not describe them.'
+          'NOT opened: every other room and every other work. You did not see them and must not describe them.',
+          /* AFTER the not-opened line, deliberately: that sentence is what
+             produced the false absence, so the correction must be the last
+             thing read. A room is not the roster. */
+          rosterLine(question, souls, state && state.souls)
         ].filter(Boolean).join('\n');
 
         /* CALL TWO — answer from what was opened. It does NOT carry the door
