@@ -25,6 +25,7 @@ A register one directory deep is a 404 and a map that will not draw.
 | `geo-tier.mjs` | the tier classifier, exported. |
 | `probe-geo.mjs` | writes `GEO.json`. **Imports `./geo-tier.mjs` — the two must sit in the same directory.** |
 | `probe-map.mjs` | the standing guard on the map's honesty. Reads only; writes nothing. Belongs in CI. |
+| `probe-workflows.mjs` | maps `.github/workflows` and guards it. Writes `WORKFLOWS.json`. Belongs in CI. |
 
 ### → DO NOT COMMIT (keep locally, or gitignore)
 
