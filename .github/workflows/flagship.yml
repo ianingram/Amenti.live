@@ -69,6 +69,24 @@ jobs:
       # `git add` BEFORE `git diff --cached`. The librarian's first run failed
       # on exactly this: an untracked new file is invisible to a staged diff,
       # so the job reported "unchanged" and never committed its first reading.
+      # ── REBASE BEFORE PUSHING · CORRECTED 4 SEP 2026 ──────────────────────
+      # SEEN LIVE. This step went red on 28e6689 with:
+      #
+      #     ! [rejected]  main -> main (fetch first)
+      #     hint: the remote contains work that you do not have locally
+      #
+      # The reading itself was FINE — measured, committed, and then thrown
+      # away because an upload landed on main while the job was in flight.
+      # A bare `git push` is correct in isolation and wrong the moment
+      # anything else writes to the same branch.
+      #
+      # This is patrol.yml's correction 1 and hall.yml's correction of 31
+      # Aug arriving at a THIRD file for the same reason. The lesson was
+      # already written down twice in this repo; this file never got it.
+      #
+      # Five attempts, then SAY SO and fail. Never a silent give-up: a
+      # reading that did not land is a reading the page will be judged by
+      # while the register says something else.
       - name: Commit the reading
         run: |
           git config user.name  "the-flagship-probe"
@@ -77,9 +95,21 @@ jobs:
           if git diff --cached --quiet -- PAGE1.json; then
             echo "the reading is unchanged"
           else
-            git commit -m "probe: read the flagship"
-            git push
-            echo "committed a new reading"
+            git commit -m "probe: read the flagship [skip ci]"
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "committed a new reading (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::the flagship reading could not be pushed after 5 attempts — PAGE1.json on main is STALE"
+              exit 1
+            fi
           fi
 
       # ── THE GUARD, FOR WHEN IT IS EARNED ────────────────────────────────
