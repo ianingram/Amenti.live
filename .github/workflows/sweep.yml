@@ -59,19 +59,23 @@ jobs:
           # Proven duplicates first. Everything below them is judgement, and
           # the reference check is what keeps judgement from being a mistake.
           cat > /tmp/candidates.txt <<'LIST'
-          geo-tier.mjs|stale duplicate of probes/geo-tier.mjs — the two ALREADY DIFFER (4882 vs 5513 bytes); probe-geo.mjs imports the probes/ copy
           book/book-the-harvester.md|duplicate chapter, kept as book/24-the-harvester.md — on the hall-upgrade handoff's own loose-ends list
           apply_fix_01.py|one-shot fixer, ran two months ago
           apply_fix_02.py|one-shot fixer, ran two months ago
           apply_fix_03.py|one-shot fixer, ran two months ago
           remove_moon_key.py|one-shot fixer, ran two months ago
           strip-tweaks-panel.sh|one-shot fixer, ran two months ago
-          seeds_scan.py|one-shot scan, superseded by probes/
-          audit2.py|superseded by the probes and the full audit
-          goldleaf2.py|one-shot art script, two months idle
           TODO.md|superseded by THE-STANDING-SLIP.md
-          HANDOFF.md|two months old, superseded by the handoffs in slip/
           LIST
+          # REMOVED FROM THIS LIST BY THE FIRST DRY RUN, 4 Sep:
+          #   geo-tier.mjs   already deleted by hand
+          #   audit2.py      called by .github/workflows/main.yml and apply_art_session.py
+          #   goldleaf2.py   same
+          #   HANDOFF.md     same
+          #   seeds_scan.py  called by tools/plates.js
+          # Four of twelve were live. The guard was right and the reasoning
+          # that put them on the list was wrong — which is why the guard runs
+          # before the delete and not after.
 
           echo "── the sweep ────────────────────────────────────────────"
           go=0; keep=0; missing=0
@@ -84,19 +88,53 @@ jobs:
               missing=$((missing+1)); continue
             fi
 
-            # ── THE REFERENCE CHECK ──────────────────────────────────────
-            # Search every tracked file except the candidate itself and this
-            # workflow for the basename. A hit means something still calls it.
+            # ── THE REFERENCE CHECK · CORRECTED AFTER THE FIRST DRY RUN ──
+            # The first version searched every tracked file and kept anything
+            # that was named anywhere. It kept ALL TWELVE — because CHART.json
+            # is a GENERATED INVENTORY OF THE REPO and therefore names every
+            # file in it. Being listed in a catalogue means "this exists", not
+            # "this is used". A guard that can never pass is not a guard.
+            #
+            # So the search now separates two kinds of mention:
+            #
+            #   A CALLER   a workflow, a script, a page that would BREAK
+            #              -> the file is KEPT. This is the real guard, and on
+            #                 the first run it correctly saved audit2.py,
+            #                 goldleaf2.py, HANDOFF.md (all named by
+            #                 .github/workflows/main.yml and
+            #                 apply_art_session.py) and seeds_scan.py (named by
+            #                 tools/plates.js). "Two months idle" was wrong
+            #                 about every one of them.
+            #
+            #   A CATALOGUE  a generated register that lists what exists
+            #              -> the file may go, AND THE REGISTER MUST BE
+            #                 REGENERATED AFTER, or it now describes a file
+            #                 that is not there. That is stated per file below,
+            #                 never silently ignored.
+            #
+            # Other candidates are excluded too: HANDOFF.md naming apply_fix_01
+            # is not a reason to keep either, since both are going.
             base=$(basename "$path")
-            hits=$(git grep -l -F -- "$base" -- . \
-                   ':!'"$path" ':!.github/workflows/sweep.yml' 2>/dev/null || true)
 
-            if [ -n "$hits" ]; then
-              echo "  ✗  $path — KEPT, still named by:"
-              echo "$hits" | sed 's/^/         /'
+            all=$(git grep -l -F -- "$base" -- . \
+                  ':!'"$path" ':!.github/workflows/sweep.yml' 2>/dev/null || true)
+
+            # generated inventories — they describe the tree, they do not use it
+            cats=$(echo "$all" | grep -E '^(CHART|SOURCES|SURFACES|WORKFLOWS|SERVES|BOOK|PRODUCTION|SPELL|CITATIONS)[A-Za-z.-]*\.json$' || true)
+            # a mention inside another candidate is not a reason to keep
+            others=$(echo "$all" | grep -F -x -f <(cut -d'|' -f1 /tmp/candidates.txt) || true)
+            callers=$(echo "$all" | grep -v -x -F -e "$cats" -e "$others" 2>/dev/null | grep -v '^$' || true)
+
+            if [ -n "$callers" ]; then
+              echo "  ✗  $path — KEPT, a caller still needs it:"
+              echo "$callers" | sed 's/^/         /'
               keep=$((keep+1))
             else
               echo "  →  $path — $why"
+              if [ -n "$cats" ]; then
+                echo "         catalogued in: $(echo $cats | tr '\n' ' ')"
+                echo "         ^ regenerate these after the sweep, or they describe a file that is gone"
+              fi
               echo "$path" >> /tmp/todelete.txt
               go=$((go+1))
             fi
