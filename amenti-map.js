@@ -333,6 +333,29 @@
       '#amenti-map .mp-read{color:#f0f5fb;min-width:270px;font-size:21px;',
       '  letter-spacing:.06em;font-variant-numeric:tabular-nums}',
       '#amenti-map .mp-chrono{position:relative;flex:1;display:block;min-width:0}',
+      /* Page2's measurements, kept deliberately: 60px sidebar, a 4px track
+         running 10vh-90vh, a white pill centred on it. A reader who has used
+         the helix already knows how to hold this. */
+      '#amenti-map .mp-rail{position:absolute;top:0;height:100%;width:60px;z-index:6;',
+      '  pointer-events:all;user-select:none}',
+      '#amenti-map .mp-rail-x{left:8px}',
+      '#amenti-map .mp-rail-a{left:52px}',
+      '#amenti-map .mp-track{position:relative;width:5px;height:74%;margin:13% auto 0;',
+      '  border-radius:4px;border:1px solid rgba(255,255,255,.42);cursor:ns-resize;',
+      '  background:linear-gradient(180deg,#5fd0e8,#8b6ff0,#e8c98a);',
+      '  box-shadow:0 0 14px rgba(95,208,232,.28)}',
+      '#amenti-map .mp-track-ap{background:linear-gradient(180deg,#e879f9,#3b0764);',
+      '  border-color:rgba(217,70,239,.55);box-shadow:0 0 14px rgba(217,70,239,.3)}',
+      '#amenti-map .mp-cursor{position:absolute;left:50%;transform:translateX(-50%);',
+      '  height:20px;padding:0 9px;background:#fff;color:#000;border-radius:2px;',
+      '  font:900 10px/20px ui-monospace,Menlo,monospace;white-space:nowrap;',
+      '  pointer-events:none;box-shadow:0 0 12px rgba(255,255,255,.35)}',
+      '#amenti-map .mp-cursor-ap{background:#e879f9;color:#fff}',
+      '#amenti-map .mp-raillab{position:absolute;bottom:2%;left:50%;transform:translateX(-50%);',
+      '  font:400 9px/1 ui-monospace,Menlo,monospace;letter-spacing:.16em;',
+      '  text-transform:uppercase;color:#6f8098;pointer-events:none}',
+      /* the map itself steps aside for them */
+      '#amenti-map .mp-wrap{padding-left:120px}',
       '#amenti-map .mp-ruler{display:block;width:100%;height:34px;overflow:visible}',
       '#amenti-map .mp-tick{stroke:#2c3a4d;stroke-width:1;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-tickM{stroke:#43566e}',
@@ -382,6 +405,20 @@
     el.id = 'amenti-map';
     el.innerHTML =
       '<div class="mp-scrim"></div>' +
+      /* ── THE RAILS · Page2's analog sidebar, on the map · 4 Sep ────────────
+         The bottom row was a 26px dial and a hairline range input, and neither
+         was usable — the dial needed a precise grab and the input sat under an
+         SVG. Page2 already solved this and its answer is better: a VERTICAL
+         RAIL with a bright gradient and a white pill riding it that states the
+         value. It is visible from across the room, it has a large hit area,
+         and the left margin of a world map is empty because the Pacific is
+         there. One page, one way of holding an axis. */
+      '<div class="mp-rail mp-rail-x" data-rail="x">' +
+        '<div class="mp-track"></div><div class="mp-cursor">\u2014</div>' +
+        '<div class="mp-raillab">time</div></div>' +
+      '<div class="mp-rail mp-rail-a" data-rail="a">' +
+        '<div class="mp-track mp-track-ap"></div><div class="mp-cursor mp-cursor-ap">\u2014</div>' +
+        '<div class="mp-raillab">aperture</div></div>' +
       '<div class="mp-wrap">' +
         '<div class="mp-head">' +
           '<div class="mp-title">where the souls stood</div>' +
@@ -411,12 +448,7 @@
           '</span>' +
           '<span class="mp-chrono">' +
             '<svg class="mp-ruler" viewBox="0 0 1000 34" preserveAspectRatio="none"></svg>' +
-            '<input type="range" class="mp-slider" min="-4000" max="' + YEAR_MAX + '" step="1" value="' + APERTURE_START + '">' +
-          '</span>' +
-          '<svg class="mp-dial" viewBox="0 0 26 26" width="26" height="26" aria-label="turn to move through time">' +
-            '<circle cx="13" cy="13" r="11"/>' +
-            '<g class="mp-dial-hand"><line x1="13" y1="13" x2="13" y2="4"/></g>' +
-          '</svg>' +
+            '</span>' +
         '</div>' +
         '<div class="mp-note"></div>' +
         '<div class="mp-zoom">scroll the map or turn the dial to move through time \u00b7 ' +
@@ -846,10 +878,17 @@
     lo = hi - APERTURE;
     var el = mounted;
     if (el) {
-      var sl = el.querySelector('.mp-slider');
-      if (sl && +sl.value !== hi) sl.value = hi;
-      var d = el.querySelector('.mp-dial-hand');
-      if (d) d.setAttribute('transform', 'rotate(' + ((hi % APERTURE) / APERTURE * 360).toFixed(1) + ' 13 13)');
+      /* the pills ride their rails and state the value — 10% to 84% of the
+         track, matching where the gradient actually is */
+      var fx = (hi - YEAR_MIN) / (YEAR_MAX - YEAR_MIN);
+      var cx = el.querySelector('.mp-rail-x .mp-cursor');
+      if (cx) { cx.style.top = (13 + fx * 74).toFixed(1) + '%'; cx.textContent = yr(hi); }
+      var ia = APERTURES.indexOf(APERTURE);
+      var fa = ia < 0 ? 0 : (APERTURES.length - 1 - ia) / (APERTURES.length - 1);
+      var ca = el.querySelector('.mp-rail-a .mp-cursor');
+      if (ca) { ca.style.top = (13 + fa * 74).toFixed(1) + '%';
+                ca.textContent = (AP_LABEL[APERTURE] || APERTURE) + ' ' +
+                                 (APERTURE === 3000 ? '' : APERTURE + 'y'); }
       /* FOUND BY THE PROBE, 4 Sep: this call was missing and the chronometer
          track rendered nothing at all — no ticks, no window band, no Halley
          marks. The feature was dead and the surface looked fine, which is
@@ -1037,10 +1076,8 @@
       var el = mount();
       containClicks(el);
       takeScreen();
-      var sl = el.querySelector('.mp-slider');
-      if (!sl.dataset.wired) {
-        sl.dataset.wired = '1';
-        sl.addEventListener('input', function () { setEdge(+sl.value); });
+      if (!el.dataset.wired) {
+        el.dataset.wired = '1';
 
         /* THE APERTURE BUTTONS. Changing the aperture holds the LEADING EDGE
            still and moves the trailing one, so narrowing does not carry the
@@ -1062,39 +1099,56 @@
            years and a wide one steps in centuries, and the gesture feels the
            same at every scale. preventDefault, or the page scrolls under the
            surface while the reader thinks they are moving time. */
+        /* ── HOLDING A RAIL ──────────────────────────────────────────────
+           The value is read from where the pointer IS, not from how far it
+           moved — a rail is an absolute scale, unlike the dial it replaces,
+           so a reader can jump to a millennium instead of winding to it.
+           Top is the deep past, bottom is now: the same sense as the ruler
+           beneath, so the two never contradict each other. */
+        var dragging = null;
+        function railValue(railEl, ev) {
+          var t = railEl.querySelector('.mp-track').getBoundingClientRect();
+          return Math.max(0, Math.min(1, (ev.clientY - t.top) / t.height));
+        }
+        el.querySelectorAll('.mp-rail').forEach(function (railEl) {
+          railEl.addEventListener('pointerdown', function (ev) {
+            dragging = railEl; railEl.setPointerCapture(ev.pointerId);
+            applyRail(railEl, ev);
+          });
+          railEl.addEventListener('pointermove', function (ev) {
+            if (dragging === railEl) applyRail(railEl, ev);
+          });
+          ['pointerup', 'pointercancel'].forEach(function (t) {
+            railEl.addEventListener(t, function () { dragging = null; });
+          });
+        });
+        function applyRail(railEl, ev) {
+          var f = railValue(railEl, ev);
+          if (railEl.getAttribute('data-rail') === 'x') {
+            setEdge(YEAR_MIN + f * (YEAR_MAX - YEAR_MIN));
+          } else {
+            /* the ladder is discrete, so the rail snaps to a real period —
+               there is no aperture between one Uranus and one Halley and
+               pretending otherwise would invent a window the sky has not */
+            var i = Math.min(APERTURES.length - 1,
+                             Math.floor(f * APERTURES.length));
+            APERTURE = APERTURES[APERTURES.length - 1 - i];
+            el.querySelectorAll('.mp-ap button').forEach(function (x) {
+              x.classList.toggle('on', +x.getAttribute('data-ap') === APERTURE);
+            });
+            setEdge(hi);
+          }
+        }
+
         el.addEventListener('wheel', function (e) {
           e.preventDefault();
           var step = Math.max(1, Math.round(APERTURE / 20));
           setEdge(hi + (e.deltaY > 0 ? step : -step));
         }, { passive: false });
 
-        /* ── THE DIAL · clockwise is forward ───────────────────────────────
-           A camera ring, as asked for. The angle travelled is what counts,
-           not where the pointer is, so a reader can keep turning past the
-           top of the circle without the year jumping. Clockwise advances,
-           counter-clockwise reverses; a full turn moves one aperture. */
-        var dial = el.querySelector('.mp-dial'), turning = false, lastAng = 0;
-        function angleAt(ev) {
-          var r = dial.getBoundingClientRect();
-          return Math.atan2(ev.clientY - (r.top + r.height / 2),
-                            ev.clientX - (r.left + r.width / 2));
-        }
-        dial.addEventListener('pointerdown', function (ev) {
-          turning = true; lastAng = angleAt(ev); dial.setPointerCapture(ev.pointerId);
-          dial.classList.add('turning');
-        });
-        dial.addEventListener('pointermove', function (ev) {
-          if (!turning) return;
-          var a = angleAt(ev), d = a - lastAng;
-          /* cross the -pi/pi seam without a jump of a whole revolution */
-          if (d >  Math.PI) d -= 2 * Math.PI;
-          if (d < -Math.PI) d += 2 * Math.PI;
-          lastAng = a;
-          setEdge(hi + d / (2 * Math.PI) * APERTURE);
-        });
-        ['pointerup', 'pointercancel'].forEach(function (t) {
-          dial.addEventListener(t, function () { turning = false; dial.classList.remove('turning'); });
-        });
+        /* The dial is gone — see THE RAILS above. It needed a precise grab
+           on a 26px circle and gave no absolute position, so a reader could
+           wind for a while without knowing where they were. */
       }
       if (opts && typeof opts.year === 'number') setEdge(opts.year);
       else setEdge(hi);
