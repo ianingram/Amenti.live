@@ -77,25 +77,81 @@ const HISTORICAL = {
   'tauresium':[41.930,21.680],'demotika':[41.348,26.505],'herstal':[50.667,5.633],
   'saint domingue':[18.594,-72.307],'aachen':[50.776,6.084],'siegen':[50.875,8.024],
   'stettin':[53.428,14.553],'salonika':[40.640,22.944],'farab':[41.100,68.100],
-  'amasya':[40.653,35.833],'manisa':[38.614,27.426],'edirne':[41.677,26.556]
+  'amasya':[40.653,35.833],'manisa':[38.614,27.426],'edirne':[41.677,26.556],
+  /* ── REGION-QUALIFIED · 'place|region' ────────────────────────────────────
+     "Memphis" is a real city in North Africa and a real city in North America,
+     and both are in this roster. An unqualified entry would send every Memphis
+     to Egypt, which is the same namesake error in the other direction. These
+     keys are tried FIRST and only match when the soul's own Region agrees. */
+  'memphis|north africa':[29.845,31.251], 'thebes|north africa':[25.720,32.610],
+  'goshen|middle east':[30.800,31.900],   'pella|southern europe':[40.762,22.524],
+  'ithaca|southern europe':[38.400,20.717],'stagira|southern europe':[40.535,23.750],
+  'medellin|southwestern europe':[38.966,-5.933],'tus|western asia':[36.535,59.520],
+  'shadwell|north america':[38.010,-78.400],'nazareth|middle east':[32.702,35.298],
+  'qin|east asia':[34.370,108.950],       'sparta|southern europe':[37.074,22.430],
+  'uruk|western asia':[31.324,45.636],    'trier|central europe':[49.756,6.639]
 };
+
+/* ── THE OFFICE GLYPHS · what a soul WAS ──────────────────────────────────
+   Title is 97% filled across 2,043 souls — 146 distinct values, the top 24
+   covering 1,440 people. That density is the whole reason this layer exists:
+   a mark authored one soul at a time reaches 2% and the map stays dark, while
+   a mark for the OFFICE reaches nearly everyone and lets a reader watch kinds
+   of authority rise and fall in place as they scrub.
+
+   TWO TIERS, AND THEY MUST NOT LOOK ALIKE. An office mark says "one of 217
+   popes"; a personal mark says "this sign is his". Rendered the same, the map
+   would quietly claim those are the same kind of fact — the pin-and-wash
+   error in another costume. The surface draws the office dim and repeated,
+   the personal bright and ringed.
+
+   MONOCHROME UNICODE, NOT EMOJI. The 34 marks already in the roster are
+   emoji, including a top hat, which will not survive on a dark map beside a
+   photograph. These are sigils.
+
+   Matched longest-first on the title text, so "Emperor of China" is tested
+   before "Emperor". Anything unmatched gets NO MARK rather than a fallback —
+   a generic sigil on 60 unrecognised titles would be decoration. */
+const OFFICE = [
+  [/pope|bishop|cardinal|saint|abbot|friar|monk|priest|patriarch|martyr|theolog|reformer/i, '\u2629', 'the church'],
+  [/caliph|sultan|emir|vizier|imam|shah|mughal/i,                      '\u263E', 'islamic rule'],
+  [/pharaoh|vizier of egypt|egyptian/i,                                '\u2625', 'ancient egypt'],
+  [/emperor of china|emperor of japan|shogun|chinese|japanese emperor/i,'\u262F', 'east asian rule'],
+  [/emperor|empress|king|queen|monarch|tsar|prince|princess|sultana|valide|caesar|consul/i, '\u2654', 'crown'],
+  [/general|conqueror|warlord|warrior|soldier|admiral|commander|knight/i,'\u2694', 'arms'],
+  [/philosopher|logician|theorist|scholar|sage|mystic|seer|luminary|oracle/i, '\u2727', 'thought'],
+  [/author|writer|poet|playwright|novelist|journalist|historian|storyteller|orator|dramatist/i, '\u2712', 'the pen'],
+  [/scientist|physicist|chemist|biologist|astronom|mathematic|alchemist|naturalist|anatomist|geolog|neurolog/i, '\u2697', 'the retort'],
+  [/physician|doctor|surgeon|nurse|healer|apothecar/i,                 '\u2695', 'medicine'],
+  [/statesman|president|prime minister|senator|diplomat|politician|jurist|lawyer|judge|legislator|activist|whistleblower/i, '\u2696', 'the balance'],
+  [/architect|engineer|inventor|builder|urbanist|developer|entrepreneur|financier|industrialist|merchant/i, '\u2692', 'the making'],
+  [/explorer|navigator|voyager|pioneer|aviator|cartograph|geograph/i,  '\u2693', 'the voyage'],
+  [/composer|musician|singer|conductor|violinist|pianist/i,            '\u266B', 'music'],
+  [/artist|painter|sculptor|director|actor|photograph|designer|icon|dancer/i, '\u2726', 'the made image']
+];
+function office(title) {
+  var t = String(title || '').trim();
+  if (!t) return null;
+  for (var i = 0; i < OFFICE.length; i++) if (OFFICE[i][0].test(t)) return OFFICE[i][1];
+  return null;
+}
 
 /* ── TERRITORY EXTENTS · [south, west, north, east] ────────────────────────
    A wash, never a dot. Deliberately generous: the point of an extent is to
    say "somewhere in here", and a tight box would imply a precision the record
    does not carry. */
 const EXTENT = {
-  'southern europe':[36,-10,47,29],'western europe':[43,-5,54,8],
-  'central europe':[45,8,55,24],'eastern europe':[44,22,60,50],
-  'northern europe':[54,4,71,31],'southeastern europe':[38,13,48,30],
-  'southeast europe':[38,13,48,30],'southwestern europe':[36,-10,44,4],
-  'europe':[36,-10,66,40],'east asia':[20,100,50,146],'south asia':[6,66,35,92],
+  'southern europe':[36,-10,47,29],'western europe':[41,-11,61,9],
+  'central europe':[44,1,56,25],'eastern europe':[44,22,60,50],
+  'northern europe':[54,-25,72,32],'southeastern europe':[38,13,48,30],
+  'southeast europe':[38,13,48,30],'southwestern europe':[35,-10,44,5],
+  'europe':[34,-25,72,42],'east asia':[20,100,50,146],'south asia':[6,66,35,92],
   'southeast asia':[-10,92,23,141],'central asia':[35,52,50,80],
-  'western asia':[12,34,42,63],'asia':[0,30,60,146],'north africa':[20,-17,37,35],
+  'western asia':[12,25,43,63],'asia':[0,30,60,146],'north africa':[20,-17,37,35],
   'east africa':[-12,29,18,52],'west africa':[4,-17,20,15],'africa':[-35,-17,37,51],
-  'north america':[25,-125,60,-66],'central america':[7,-92,18,-77],
-  'south america':[-55,-81,12,-35],'mesoamerica':[14,-105,22,-86],
-  'middle east':[12,34,40,63],'eastern mediterranean':[30,25,42,42],
+  'north america':[14,-170,72,-52],'central america':[7,-118,24,-77],
+  'south america':[-56,-82,13,-34],'mesoamerica':[14,-105,22,-86],
+  'middle east':[12,30,42,63],'eastern mediterranean':[29,20,42,43],
   'mediterranean':[30,-6,46,36],'anatolia':[36,26,42,45],'oceania':[-45,112,-10,180],
   'caribbean':[10,-85,25,-60],'andes':[-35,-79,10,-63],'pacific islands':[-20,140,20,-160],
   'mesopotamia':[30,40,37,48],'nile delta':[30.0,30.4,31.6,32.2],
@@ -123,6 +179,46 @@ const EXTENT = {
   'iroquois confederacy':[42.0,-79.8,44.5,-74.0]
 };
 
+/* ── PICKING THE RIGHT CITY OF THE NAME · 4 Sep ────────────────────────────
+   FOUND BY ATTACK, and it was bad. The first matcher kept the HIGHEST
+   POPULATION city for each name, which is the obvious rule and is wrong for a
+   roster of the ancient and medieval world. It produced, with full confidence
+   and real coordinates:
+
+       Averroes    → Cordoba, ARGENTINA        (not Spain)
+       Al-Ghazali  → "Tus" → TUCSON, ARIZONA
+       John Cabot  → Venice, OHIO              (not Italy)
+       Cortes      → Medellin, COLOMBIA        (not Spain)
+       Moses       → Goshen, INDIANA
+       Sparta      → Sparta, TURKEY
+       Pella       → Pella, RUSSIA
+
+   Checked against the roster's own Region column, 119 of 899 pins — 13% —
+   stood outside the region the record assigns them. A WRONG PIN IS WORSE THAN
+   NO PIN: an unplaced soul is a stated gap, while this is the map asserting
+   something false and looking certain doing it.
+
+   THE ROSTER ALREADY CARRIED THE ANSWER. Region is 72% filled and entirely
+   independent of Location, so it can arbitrate between namesakes. A candidate
+   inside the soul's own region wins; population only breaks ties WITHIN it.
+
+   AND WHEN NOTHING FITS, NOTHING IS PINNED. If a region is known and no
+   candidate of that name lies in it, the soul falls through to unplaced and
+   is reported — rather than being dropped onto the biggest namesake on earth,
+   which is exactly how Al-Ghazali ended up in Arizona. */
+function pick(name, region) {
+  const list = G.get(norm(name));
+  if (!list || !list.length) return null;
+  const box = region ? EXTENT[norm(region)] : null;
+  if (box) {
+    const inside = list.filter(c => c.lat >= box[0] && c.lat <= box[2] &&
+                                    c.lon >= box[1] && c.lon <= box[3]);
+    if (inside.length) return inside.reduce((a, c) => c.pop > a.pop ? c : a);
+    return { _refused: true };     /* a region is known and this is not in it */
+  }
+  return list.reduce((a, c) => c.pop > a.pop ? c : a);
+}
+
 /* ── read the roster ─────────────────────────────────────────────────────── */
 if (!fs.existsSync(ROSTER)) die('no names.csv at ' + path.resolve(ROSTER));
 const lines = fs.readFileSync(ROSTER,'utf8').split(/\r?\n/).filter(l => l.trim());
@@ -131,7 +227,9 @@ const head  = cut(lines[0]).map(s => s.trim().toLowerCase());
 const nameCol = ['full name','name'].map(w => head.indexOf(w)).find(i => i > -1);
 if (nameCol === undefined) die('names.csv has no "Full Name" column.');
 const locCol = head.indexOf('location');
+const regCol = head.indexOf('region');
 const bCol = head.indexOf('birth-date'), dCol = head.indexOf('death-date');
+const tCol = head.indexOf('title'), gCol = head.indexOf('glyph');
 const yr = v => { const m = /^-?\d+/.exec(String(v==null?'':v).trim()); return m ? Number(m[0]) : null; };
 if (locCol === -1) die('names.csv has no "Location" column — there is nothing to place.');
 
@@ -148,7 +246,9 @@ if (fs.existsSync(GAZ)) {
     if (!Number.isFinite(rec.lat) || !Number.isFinite(rec.lon)) continue;
     for (const k of [f[1], f[2], ...(f[3] ? f[3].split(',') : [])]) {
       const n = norm(k); if (!n) continue;
-      const p = G.get(n); if (!p || rec.pop > p.pop) G.set(n, rec);
+      /* EVERY CANDIDATE, not just the biggest — see the note at pick() */
+      const list = G.get(n) || (G.set(n, []), G.get(n));
+      list.push(rec);
     }
   }
 } else if (ALLOW_THIN) {
@@ -196,12 +296,21 @@ for (const line of lines.slice(1)) {
   const b = bCol > -1 ? yr(r[bCol]) : null, d = dCol > -1 ? yr(r[dCol]) : null;
   if (b !== null) o.b = b;
   if (d !== null) o.d = d;
+  /* o = the OFFICE mark (what they were, shared with everyone of that office)
+     pg = the PERSONAL mark, if the roster authored one for this soul alone */
+  var og = tCol > -1 ? office(r[tCol]) : null;
+  if (og) o.o = og;
+  var pg = gCol > -1 ? (r[gCol] || '').trim() : '';
+  if (pg) o.pg = pg;
   if (g.note) o.note = g.note;
 
   if (tier === 'city') {
-    const hit = HISTORICAL[norm(place)] || HISTORICAL[norm(g.full || '')];
-    const gz  = G.get(norm(place));
+    var rgn = regCol > -1 ? (r[regCol] || '').trim() : '';
+    const hit = HISTORICAL[norm(place) + '|' + norm(rgn)] ||
+                HISTORICAL[norm(place)] || HISTORICAL[norm(g.full || '')];
+    const gz  = pick(place, rgn);
     if (hit)      { o.lat = hit[0]; o.lon = hit[1]; o.src = 'historical'; pin++; }
+    else if (gz && gz._refused) { o.tier = 'unplaced'; o.why = 'no ' + place + ' in ' + (r[regCol]||'').trim(); misses.set(place + ' (in ' + (r[regCol]||'').trim() + ')', (misses.get(place + ' (in ' + (r[regCol]||'').trim() + ')')||0)+1); }
     else if (gz)  { o.lat = +gz.lat.toFixed(4); o.lon = +gz.lon.toFixed(4); o.src = 'geonames'; pin++; }
     else          { o.tier = 'unplaced'; misses.set(place, (misses.get(place)||0)+1); }
     o.place = place;
@@ -224,6 +333,8 @@ console.log('pins          ' + pin + '   (a dot — the record supports a point)
 console.log('washes        ' + wash + '   (an extent — "somewhere in here", never a dot)');
 console.log('silent        ' + silent + '   (myth or no record — no mark, honestly)');
 console.log('UNPLACED      ' + unplaced + '   (a name nothing could resolve — reported, never guessed)');
+console.log('offices       ' + souls.filter(s=>s.o).length + '   (a mark for what they were)' +
+            '  ·  personal ' + souls.filter(s=>s.pg).length);
 console.log('  by source:  geonames ' + souls.filter(s=>s.src==='geonames').length +
             ' · historical ' + souls.filter(s=>s.src==='historical').length);
 
