@@ -509,8 +509,8 @@
             '</span>' +
         '</div>' +
         '<div class="mp-note"></div>' +
-        '<div class="mp-zoom">scroll the map or turn the dial to move through time \u00b7 ' +
-        'the seat names are small on purpose \u2014 press ' +
+                '<div class="mp-zoom">drag the years below to travel \u00b7 scroll the map to zoom, drag to move, double-click to fit \u00b7 the seat names are small on purpose \u2014 press ' +
+        (/Mac/.test(navigator.platform) ? '\u2318' : 'Ctrl') + ' and + to enlarge the page</div>' +
         (/Mac/.test(navigator.platform) ? '\u2318' : 'Ctrl') + ' and + to enlarge the page</div>' +
       '</div>' +
       '<div class="mp-hit"></div><div class="mp-zoomlab"></div>';
@@ -1252,9 +1252,22 @@
            POINTER, not the centre: a reader points at the Aegean and it comes
            to them, which is the difference between a map and a diagram. */
         var svgEl = el.querySelector('svg');
-        svgEl.addEventListener('wheel', function (e) {
+        /* ── LISTEN ON THE MAP, NOT THE SVG · 4 Sep ────────────────────────
+           This was bound to the <svg>, which meant the gesture only worked if
+           the event travelled up from whatever happened to be under the
+           cursor — the sea rect, a pin, a wash, the relief. One layer that
+           swallows events and the zoom is dead, with nothing in the console
+           to say why. Reported twice as "the zoom is gone".
+
+           The container catches it whatever is on top; the SVG's rectangle is
+           still what the maths uses, so the point under the cursor is
+           unchanged. A gesture should not depend on the z-order of a
+           decoration. */
+        el.addEventListener('wheel', function (e) {
+          if (!el.contains(e.target)) return;
           e.preventDefault();
           var r = svgEl.getBoundingClientRect();
+          if (!r.width || !r.height) return;
           var mx = (e.clientX - r.left) / r.width * VB_W;
           var my = (e.clientY - r.top) / r.height * VB_H;
           var wx = (mx - TX) / K, wy = (my - TY) / K;      /* point under cursor */
@@ -1267,12 +1280,13 @@
         /* drag to pan, but only when zoomed in — at world scale there is
            nowhere to go and a drag would only feel broken */
         var panning = false, px = 0, py = 0;
-        svgEl.addEventListener('pointerdown', function (e) {
+        el.addEventListener('pointerdown', function (e) {
           if (K <= 1.01) return;
+          if (e.target.closest && e.target.closest('.mp-foot,.mp-head,.mp-ap,.mp-chrono')) return;
           panning = true; px = e.clientX; py = e.clientY;
-          svgEl.setPointerCapture(e.pointerId); svgEl.style.cursor = 'grabbing';
+          el.setPointerCapture(e.pointerId); svgEl.style.cursor = 'grabbing';
         });
-        svgEl.addEventListener('pointermove', function (e) {
+        el.addEventListener('pointermove', function (e) {
           if (!panning) return;
           var r = svgEl.getBoundingClientRect();
           TX += (e.clientX - px) / r.width * VB_W;
@@ -1281,9 +1295,9 @@
           clampView(); applyView();
         });
         ['pointerup', 'pointercancel'].forEach(function (t) {
-          svgEl.addEventListener(t, function () { panning = false; svgEl.style.cursor = ''; });
+          el.addEventListener(t, function () { panning = false; svgEl.style.cursor = ''; });
         });
-        svgEl.addEventListener('dblclick', function () { K = 1; TX = 0; TY = 0; draw(); });
+        el.addEventListener('dblclick', function () { K = 1; TX = 0; TY = 0; draw(); });
 
         /* The dial is gone — see THE RAILS above. It needed a precise grab
            on a 26px circle and gave no absolute position, so a reader could
