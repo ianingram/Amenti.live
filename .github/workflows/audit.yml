@@ -1,0 +1,128 @@
+# THE FULL AUDIT
+#
+# Runs every standing guard on the ship, writes the registers they produce, and
+# fails deliberately at the end if any of them found something.
+#
+# ── WHY THIS EXISTS ─────────────────────────────────────────────────────────
+# The probes were written one at a time, each for a fault that had already been
+# paid for, and each ran only when a human remembered to run it. On 4 Sep a
+# hand audit of the automation read five files out of eight and reported "five
+# of five carry the correction" — three bare pushes went unseen for as long as
+# nobody thought to look.
+#
+# A guard that runs when remembered is not a guard. This is the schedule.
+#
+# ── THE RUNG ────────────────────────────────────────────────────────────────
+# :32. Taken rungs, read from WORKFLOWS.json rather than from memory:
+#   "0 6" librarian · "0 11" atlantica · "17 */6" patrol · "20 6" flagship
+#   "22 */6" sources · "42 */6" the hall
+# And hall.yml's own note reserves :07 :27 :37 :47 for the strands and :52 for
+# the third tier. :32 is free and stays free — probe-workflows.mjs now checks
+# rung collisions, so the next person to take one will be told.
+#
+# ── continue-on-error, AND THE GATES LAST ───────────────────────────────────
+# Straight from patrol.yml and hall.yml, for the third time. A plain `run:`
+# that exits 1 ABORTS THE JOB AT THAT LINE, so the commit below would never
+# happen and the registers would be thrown away by the alarm about them. An
+# alarm that loses its own evidence is not an alarm. Each probe records its
+# finding, the registers commit, and the job is failed at the end.
+#
+# Each gate names ONE probe, so a red run says which instrument spoke rather
+# than leaving a reader to guess between them.
+
+name: the full audit
+
+on:
+  schedule:
+    - cron: '32 */6 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'probes/**'
+      - '.github/workflows/**'
+      - 'GEO.json'
+      - 'names.csv'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: the-full-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Reads .github/workflows itself, so it sees every file — including the
+      # ones a human would not have thought to name. That is the whole point.
+      - name: is the automation safe
+        id: flows
+        continue-on-error: true
+        run: node probes/probe-workflows.mjs .
+
+      # Needs no gazetteer: it reads GEO.json as committed, not as rebuilt.
+      - name: is the map still honest
+        id: map
+        continue-on-error: true
+        run: node probes/probe-map.mjs .
+
+      # --check writes nothing. It exits 2 when cities15000.txt is absent,
+      # which is a real finding: without it nobody can regenerate GEO.json.
+      - name: can the place register be rebuilt
+        id: geo
+        continue-on-error: true
+        run: node probes/probe-geo.mjs . --check
+
+      - name: commit the registers
+        run: |
+          git config user.name  "the full audit"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f WORKFLOWS.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "the registers are unchanged"
+          else
+            git commit -m "the audit: read $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
+            pushed=0
+            for i in 1 2 3 4 5; do
+              if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                pushed=1
+                echo "committed the audit (attempt $i)"
+                break
+              fi
+              echo "push attempt $i lost the race; retrying"
+              sleep 5
+            done
+            if [ "$pushed" != "1" ]; then
+              echo "::error::the audit could not be pushed after 5 attempts — WORKFLOWS.json on main is STALE"
+              exit 1
+            fi
+          fi
+
+      - name: report
+        if: always()
+        run: |
+          [ -f WORKFLOWS.json ] && node -e "const d=require('./WORKFLOWS.json');console.log(JSON.stringify(d.totals));(d.findings||[]).forEach(f=>console.log('  '+f))" || true
+
+      - name: an unsafe workflow is a real finding
+        if: steps.flows.outcome == 'failure'
+        run: |
+          echo "::error::A WORKFLOW THAT COMMITS CANNOT SURVIVE A RACE, or two hold one cron rung. See the 'is the automation safe' step — it says which."
+          exit 1
+
+      - name: a map that overstates itself is a real finding
+        if: steps.map.outcome == 'failure'
+        run: |
+          echo "::error::THE MAP IS CLAIMING MORE THAN IT CAN SUPPORT. See the 'is the map still honest' step. The Region tripwire fails above 3% — the namesake bug put it at 13% on 4 Sep."
+          exit 1
+
+      - name: a register that cannot be rebuilt is a real finding
+        if: steps.geo.outcome == 'failure'
+        run: |
+          echo "::error::GEO.json CANNOT BE REGENERATED — cities15000.txt is missing, or the register has thinned. See the 'can the place register be rebuilt' step. A repo that cannot rebuild its own register is one bad commit from having none."
+          exit 1
