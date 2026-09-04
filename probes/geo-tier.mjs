@@ -38,25 +38,34 @@ export function geoTier(raw){
   return {tier:'city',place:v,note:'city?'+(compound?' compound':'')};
 }
 
-/* ---- run ---- */
-const lines=fs.readFileSync('names.csv','utf8').split(/\r?\n/).filter(l=>l.trim());
-const head=cut(lines[0]).map(s=>s.trim().toLowerCase());
-const L=head.indexOf('location'), N=head.indexOf('full name');
-const rows=lines.slice(1).map(cut);
-const tag=rows.map(r=>({n:r[N],raw:(r[L]||'').trim(),...geoTier(r[L])}));
-const count=t=>tag.filter(x=>x.tier===t).length;
-console.log('── GEO-TIER ────────────────────────────────');
-console.log('souls        ',tag.length);
-for(const t of ['city','country','region','mythic','none'])
-  console.log((t+'         ').slice(0,9),String(count(t)).padStart(5),
-    '  '+Math.round(count(t)/tag.length*100)+'%');
-console.log('\nPINNABLE (city)   ',count('city'));
-console.log('TERRITORY (c+r)   ',count('country')+count('region'));
-console.log('NO MARK (myth+none)',count('mythic')+count('none'));
-console.log('\ncompound (took first place):',tag.filter(x=>/compound/.test(x.note)).length);
-const q=tag.filter(x=>/city\?/.test(x.note));
-console.log('\n── city? bucket — '+q.length+' rows, needs spot-check ──');
-const qc={};q.forEach(x=>qc[x.place]=(qc[x.place]||0)+1);
-Object.entries(qc).sort((a,b)=>b[1]-a[1]).slice(0,40).forEach(([k,v])=>console.log(String(v).padStart(4),k));
-console.log('\n── mythic ──');
-tag.filter(x=>x.tier==='mythic').forEach(x=>console.log('   ',x.n,'·',x.raw));
+/* ── ONLY WHEN RUN DIRECTLY · 4 Sep ───────────────────────────────────────
+   FOUND BY ATTACK. This block sat at module scope, so `import { geoTier }`
+   ran the whole audit as a side effect — probe-geo.mjs printed a second,
+   unrelated report before its own, and reading names.csv from the CURRENT
+   directory meant importing the classifier from anywhere else would THROW.
+   A module that acts when it is merely read is not a library. */
+if (import.meta.url === 'file://' + process.argv[1]) {
+  /* ---- run ---- */
+  const lines=fs.readFileSync('names.csv','utf8').split(/\r?\n/).filter(l=>l.trim());
+  const head=cut(lines[0]).map(s=>s.trim().toLowerCase());
+  const L=head.indexOf('location'), N=head.indexOf('full name');
+  const rows=lines.slice(1).map(cut);
+  const tag=rows.map(r=>({n:r[N],raw:(r[L]||'').trim(),...geoTier(r[L])}));
+  const count=t=>tag.filter(x=>x.tier===t).length;
+  console.log('── GEO-TIER ────────────────────────────────');
+  console.log('souls        ',tag.length);
+  for(const t of ['city','country','region','mythic','none'])
+    console.log((t+'         ').slice(0,9),String(count(t)).padStart(5),
+      '  '+Math.round(count(t)/tag.length*100)+'%');
+  console.log('\nPINNABLE (city)   ',count('city'));
+  console.log('TERRITORY (c+r)   ',count('country')+count('region'));
+  console.log('NO MARK (myth+none)',count('mythic')+count('none'));
+  console.log('\ncompound (took first place):',tag.filter(x=>/compound/.test(x.note)).length);
+  const q=tag.filter(x=>/city\?/.test(x.note));
+  console.log('\n── city? bucket — '+q.length+' rows, needs spot-check ──');
+  const qc={};q.forEach(x=>qc[x.place]=(qc[x.place]||0)+1);
+  Object.entries(qc).sort((a,b)=>b[1]-a[1]).slice(0,40).forEach(([k,v])=>console.log(String(v).padStart(4),k));
+  console.log('\n── mythic ──');
+  tag.filter(x=>x.tier==='mythic').forEach(x=>console.log('   ',x.n,'·',x.raw));
+
+}
