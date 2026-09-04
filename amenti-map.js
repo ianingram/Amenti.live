@@ -107,6 +107,7 @@
                     76: 'one Halley \u00b7 76 years',
                     3000: 'the whole register' };
   var APERTURE  = 76;   /* open on one Halley — a human span, and a real one */
+  var APERTURE_START = YEAR_MAX;
   var hi = YEAR_MAX, lo = hi - APERTURE;
 
   var geo = null, world = null, sky = null, comets = null, mounted = null;
@@ -166,7 +167,7 @@
     return out;
   }
   var SVG = 'http://www.w3.org/2000/svg';
-  var lastShown = 0, lastHidden = 0, lastSky = 0, lastConj = 0, lastGath = 0, lastHalley = 0;
+  var lastShown = 0, lastHidden = 0, lastSeats = 0, lastSky = 0, lastConj = 0, lastGath = 0, lastHalley = 0;
 
   function get(url, asJson) {
     return fetch(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' })
@@ -317,18 +318,50 @@
 
       '#amenti-map .mp-foot{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:12px;flex:0 0 auto}',
       '#amenti-map .mp-foot input[type=range]{flex:1;accent-color:#5fd0e8}',
-      '#amenti-map .mp-read{color:#dbe4f0;min-width:190px}',
+      /* THE READOUT IS THE INSTRUMENT'S FACE — it was 12px and unreadable
+         across a room. The names on the map may stay small; the year may not. */
+      '#amenti-map .mp-read{color:#f0f5fb;min-width:270px;font-size:21px;',
+      '  letter-spacing:.06em;font-variant-numeric:tabular-nums}',
+      '#amenti-map .mp-chrono{position:relative;flex:1;display:block;min-width:0}',
+      '#amenti-map .mp-ruler{display:block;width:100%;height:34px;overflow:visible}',
+      '#amenti-map .mp-tick{stroke:#2c3a4d;stroke-width:1;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-tickM{stroke:#43566e}',
+      '#amenti-map .mp-rlab{fill:#7d8ea6;font-size:9px;text-anchor:middle;',
+      '  font-family:ui-monospace,Menlo,monospace;letter-spacing:.08em}',
+      '#amenti-map .mp-rhal{stroke:#e8c98a;stroke-width:1;opacity:.75;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-rgath{fill:#d8a24a;opacity:.8}',
+      '#amenti-map .mp-rwin{fill:#5fd0e8;fill-opacity:.28;stroke:#5fd0e8;stroke-width:.8;',
+      '  vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-slider{width:100%;margin:0;display:block}',
       '#amenti-map .mp-ap{display:flex;gap:4px}',
       '#amenti-map .mp-ap button{font:400 10.5px/1 ui-monospace,Menlo,monospace;',
       '  letter-spacing:.1em;color:#7d8ea6;background:transparent;cursor:pointer;',
       '  border:1px solid #23303f;border-radius:3px;padding:4px 7px}',
       '#amenti-map .mp-ap button.on{color:#e8c98a;border-color:#7a5f33}',
+      '#amenti-map .mp-ap button{position:relative;font-size:14px;padding:5px 9px}',
+      /* WHAT DOES THIS BUTTON DO. A title attribute waits a second and then
+         renders in the OS font at the OS size, which on this surface reads as
+         a bug. Same hover label the faculty rail uses, so one page has one
+         way of explaining a control. */
+      '#amenti-map .mp-ap button::after{content:attr(data-name);position:absolute;',
+      '  bottom:34px;left:50%;transform:translateX(-50%);font:400 11px/1 ui-monospace,',
+      '  Menlo,monospace;letter-spacing:.08em;color:#dbe4f0;background:rgba(8,12,20,.95);',
+      '  border:1px solid #2b3a50;padding:6px 8px;border-radius:3px;white-space:nowrap;',
+      '  opacity:0;pointer-events:none;transition:opacity .15s}',
+      '#amenti-map .mp-ap button:hover::after{opacity:1}',
+      '#amenti-map .mp-dial{position:relative}',
+      '#amenti-map .mp-dial::after{content:\'turn \\2014 clockwise is forward\';position:absolute;',
+      '  bottom:32px;right:0;font:400 11px/1 ui-monospace,Menlo,monospace;color:#dbe4f0;',
+      '  background:rgba(8,12,20,.95);border:1px solid #2b3a50;padding:6px 8px;',
+      '  border-radius:3px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}',
+      '#amenti-map .mp-dial:hover::after{opacity:1}',
       '#amenti-map .mp-ap button{min-width:30px}',
       '#amenti-map .mp-dial{cursor:grab;flex:0 0 auto}',
       '#amenti-map .mp-dial.turning{cursor:grabbing}',
       '#amenti-map .mp-dial circle{fill:none;stroke:#2b3a50;stroke-width:1.4}',
       '#amenti-map .mp-dial line{stroke:#5fd0e8;stroke-width:1.6;stroke-linecap:round}',
-      '#amenti-map .mp-note{color:#6f8098;font-size:11px;margin-top:6px;line-height:1.5;flex:0 0 auto}',
+      '#amenti-map .mp-note{color:#8395ab;font-size:13px;margin-top:8px;line-height:1.55;flex:0 0 auto}',
+      '#amenti-map .mp-zoom{color:#5c6b80;font-size:12px;margin-top:4px;flex:0 0 auto}',
       '#amenti-map .mp-hit{position:absolute;pointer-events:none;background:rgba(8,12,20,.94);',
       '  border:1px solid #2b3purple;padding:6px 9px;border-radius:3px;font-size:11.5px;',
       '  color:#dbe4f0;white-space:nowrap;opacity:0;transition:opacity .12s}'
@@ -363,16 +396,22 @@
             APERTURES.map(function (a) {
               return '<button type="button" data-ap="' + a + '"' +
                      (a === APERTURE ? ' class="on"' : '') +
-                     ' title="' + AP_NAME[a] + '">' + AP_LABEL[a] + '</button>';
+                     ' data-name="' + AP_NAME[a] + '">' + AP_LABEL[a] + '</button>';
             }).join('') +
           '</span>' +
-          '<input type="range" class="mp-slider" min="-4000" max="' + YEAR_MAX + '" step="10" value="' + YEAR_MAX + '">' +
+          '<span class="mp-chrono">' +
+            '<svg class="mp-ruler" viewBox="0 0 1000 34" preserveAspectRatio="none"></svg>' +
+            '<input type="range" class="mp-slider" min="-4000" max="' + YEAR_MAX + '" step="1" value="' + APERTURE_START + '">' +
+          '</span>' +
           '<svg class="mp-dial" viewBox="0 0 26 26" width="26" height="26" aria-label="turn to move through time">' +
             '<circle cx="13" cy="13" r="11"/>' +
             '<g class="mp-dial-hand"><line x1="13" y1="13" x2="13" y2="4"/></g>' +
           '</svg>' +
         '</div>' +
         '<div class="mp-note"></div>' +
+        '<div class="mp-zoom">scroll the map or turn the dial to move through time \u00b7 ' +
+        'the seat names are small on purpose \u2014 press ' +
+        (/Mac/.test(navigator.platform) ? '\u2318' : 'Ctrl') + ' and + to enlarge the page</div>' +
       '</div>' +
       '<div class="mp-hit"></div>';
     document.body.appendChild(el);
@@ -456,6 +495,7 @@
 
     var gp = el.querySelector('.mp-pins');
     var live = {};
+    lastSeats = Object.keys(bySeat).length;
 
     Object.keys(bySeat).forEach(function (k) {
       var p = bySeat[k], xy = proj(p.lat, p.lon);
@@ -717,7 +757,11 @@
     el.querySelector('.mp-read').textContent = yr(lo) + ' \u2014 ' + yr(hi);
     el.querySelector('.mp-note').textContent =
       (AP_NAME[APERTURE] ? AP_NAME[APERTURE] + ' \u00b7 ' : '') +
-      pins.length + ' seats drawn \u00b7 ' + lastShown + ' named' +
+      /* SOULS AND SEATS ARE DIFFERENT NUMBERS and this line said "seats" while
+         counting souls — 379 souls at 246 seats, because Constantinople alone
+         holds 124. On a surface whose whole argument is that a dot may stand
+         for many, conflating the two is not a wording slip. */
+      pins.length + ' souls at ' + lastSeats + ' seats \u00b7 ' + lastShown + ' named' +
       (lastHidden ? ', ' + lastHidden + ' name(s) with no room \u2014 hover the pin' : '') +
       ' \u00b7 ' + washes.length + ' souls shown as territory' +
       (lastSky ? ' \u00b7 sky: ' + lastConj + ' conjunction(s), ' + lastGath +
@@ -740,8 +784,51 @@
       if (sl && +sl.value !== hi) sl.value = hi;
       var d = el.querySelector('.mp-dial-hand');
       if (d) d.setAttribute('transform', 'rotate(' + ((hi % APERTURE) / APERTURE * 360).toFixed(1) + ' 13 13)');
+      /* FOUND BY THE PROBE, 4 Sep: this call was missing and the chronometer
+         track rendered nothing at all — no ticks, no window band, no Halley
+         marks. The feature was dead and the surface looked fine, which is
+         exactly the class of failure a probe exists to catch and an eye does
+         not. Draw the track before the map so the two never disagree. */
+      ruler();
     }
     draw();
+  }
+
+  /* ── THE CHRONOMETER · 4 Sep ──────────────────────────────────────────────
+     A bare range input tells a reader nothing: the handle sits a third of the
+     way along and that is all they know. A chronometer has to answer three
+     questions at a glance — WHERE AM I in the whole span, HOW WIDE is the
+     window I am holding, and WHAT IS NEAR that I might want to turn toward.
+
+     So the track carries a millennium scale, a lit band showing the aperture
+     at true width against all 6,026 years (at one Halley that band is barely
+     a hair, which is honest and worth seeing), and the rare sky events as
+     marks a reader can steer by. Halley and the gatherings only — the 248
+     conjunctions would be a picket fence, and a scale you cannot read past is
+     not a scale. */
+  function ruler() {
+    var el = mounted; if (!el) return;
+    var sv = el.querySelector('.mp-ruler'), span = YEAR_MAX - YEAR_MIN;
+    var X = function (y) { return (y - YEAR_MIN) / span * 1000; };
+    var h = '', y;
+
+    for (y = -4000; y <= YEAR_MAX; y += 250)
+      h += '<line class="mp-tick" x1="' + X(y).toFixed(1) + '" y1="20" x2="' + X(y).toFixed(1) + '" y2="26"/>';
+    for (y = -4000; y <= YEAR_MAX; y += 1000) {
+      h += '<line class="mp-tick mp-tickM" x1="' + X(y).toFixed(1) + '" y1="16" x2="' + X(y).toFixed(1) + '" y2="26"/>';
+      h += '<text class="mp-rlab" x="' + X(y).toFixed(1) + '" y="12">' +
+           (y < 0 ? Math.abs(y) / 1000 + 'k bc' : (y === 0 ? '0' : 'ad ' + y)) + '</text>';
+    }
+    if (comets) comets.forEach(function (e) {
+      h += '<line class="mp-rhal" x1="' + X(e.y).toFixed(1) + '" y1="27" x2="' + X(e.y).toFixed(1) + '" y2="33"/>';
+    });
+    if (sky) sky.filter(function (e) { return e.kind === 'gathering'; }).forEach(function (e) {
+      h += '<circle class="mp-rgath" cx="' + X(e.y).toFixed(1) + '" cy="30" r="2"/>';
+    });
+    /* the aperture, at true width — a hair at 76 years, the world at 3000 */
+    h += '<rect class="mp-rwin" x="' + X(lo).toFixed(1) + '" y="15" width="' +
+         Math.max(0.8, X(hi) - X(lo)).toFixed(2) + '" height="12"/>';
+    sv.innerHTML = h;
   }
 
   function yr(y) { return y < 0 ? Math.abs(y) + ' BC' : 'AD ' + y; }

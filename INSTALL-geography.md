@@ -24,6 +24,7 @@ A register one directory deep is a 404 and a map that will not draw.
 |---|---|
 | `geo-tier.mjs` | the tier classifier, exported. |
 | `probe-geo.mjs` | writes `GEO.json`. **Imports `./geo-tier.mjs` — the two must sit in the same directory.** |
+| `probe-map.mjs` | the standing guard on the map's honesty. Reads only; writes nothing. Belongs in CI. |
 
 ### → DO NOT COMMIT (keep locally, or gitignore)
 
@@ -67,6 +68,8 @@ exists so the refusal can be overridden deliberately, never by accident.
 node probes/probe-geo.mjs .          # expect: pins 901 · washes 747 · unplaced 191
 node probes/probe-geo.mjs . --check  # exit 0 clean, exit 1 if the register thins,
                                      #          exit 2 if the gazetteer is gone
+node probes/probe-map.mjs .          # is the map still honest — 18 checks
+node probes/probe-map.mjs . --check  # exit 1 on any finding
 ```
 
 ---
@@ -90,6 +93,8 @@ committed at all.
 None of this could be verified from the build environment. In rough order of
 what is most likely to be wrong:
 
+- [ ] The **Giza sky mark** (amber open diamond, Nile delta) does not collide
+      with soul pins in Lower Egypt, and its rings stay legible against them.
 - [ ] The **faculty rail** (globe icon, top right) sits sensibly against the
       title, and does not collide with anything in `<header>`. It is fixed at
       z-index 5 — above the map's own scrim — because an icon inside
