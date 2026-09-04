@@ -1,0 +1,269 @@
+/* ============================================================================
+   amenti-map.js  ·  THE MAP — the spatial twin of the timeline
+   ----------------------------------------------------------------------------
+   The hall knows WHEN (the timeline) and WHO-KNEW-WHOM (the connections). This
+   is WHERE. It reads GEO.json and WORLD.json and draws nothing else.
+
+   ── THE ONE LAW OF THIS FILE ──────────────────────────────────────────────
+   A PIN AND A WASH MUST NEVER BE MISTAKEN FOR ONE ANOTHER.
+
+   The most common Location in the roster is "Southern Europe" — 334 souls, a
+   continent. Drawn as a dot in the Mediterranean it would be the single
+   biggest lie on the page, and it would be the DEFAULT lie, told most often.
+   So the two tiers do not share a shape, a hardness, or a colour:
+
+       a pin   a small hard dot, full opacity, a crisp edge      "here"
+       a wash  a large soft rectangle, no edge, low opacity      "somewhere
+               with a floating label, never a point               in here"
+
+   They cannot be confused at a glance, at any zoom, which is the test.
+
+   ── GOLD IS RESERVED ──────────────────────────────────────────────────────
+   Gold is the colour of a VERIFIED QUOTE and is not spent here. A place is
+   never as certain as a quote and must not look it. Pins are cyan, washes a
+   dim slate. Nothing on this surface is gold.
+
+   ── WHAT IS NOT DRAWN ─────────────────────────────────────────────────────
+   204 souls are myth or have no record; 191 carry a name nothing could
+   resolve. They get NO MARK. The legend STATES their number, because a map
+   that silently omits a fifth of the roster is claiming a completeness it
+   does not have. The silence is honest only if it is declared.
+
+   ── ADDITIVE AND SEPARATE ─────────────────────────────────────────────────
+   This file touches no answer prose and no quote guard. It renders in its own
+   surface, mounts once, and reads registers the ship already publishes.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
+
+  /* Equirectangular, matching WORLD.json's own box. The projection is stated
+     rather than assumed: if the coastline is ever regenerated on another
+     projection, these two numbers are the thing that must move with it. */
+  var VB_W = 1000, VB_H = 500;
+  var proj = function (lat, lon) {
+    return [ (lon + 180) / 360 * VB_W, (90 - lat) / 180 * VB_H ];
+  };
+
+  /* The window opens on ALL of it. Unlike the timeline — where 200 years is a
+     promise about comparability — a map has no natural span, and starting
+     zoomed would hide the one thing this surface is for: the centre of
+     gravity moving across the whole world. */
+  var YEAR_MIN = -4000, YEAR_MAX = new Date().getUTCFullYear();
+  var lo = YEAR_MIN, hi = YEAR_MAX;
+
+  var geo = null, world = null, mounted = null;
+
+  function get(url, asJson) {
+    return fetch(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error(url.split('/').pop() + ' \u2014 ' + r.status);
+        return asJson ? r.json() : r.text();
+      });
+  }
+
+  function load() {
+    if (geo && world) return Promise.resolve();
+    return Promise.all([
+      get(RAW + 'GEO.json', true).then(function (d) { geo = d; }),
+      /* A map with no coastline is a scatter of dots in a void — it cannot be
+         read, so unlike EVENTS.csv this one is NOT optional. If it fails the
+         surface says so rather than drawing pins onto nothing. */
+      get(RAW + 'WORLD.json', true).then(function (d) { world = d; })
+    ]);
+  }
+
+  /* ── the frame ──────────────────────────────────────────────────────────── */
+
+  function mount() {
+    if (mounted) return mounted;
+
+    var css = document.createElement('style');
+    css.textContent = [
+      '#amenti-map{position:fixed;inset:0;z-index:3;opacity:0;visibility:hidden;',
+      '  transition:opacity .45s ease .15s, visibility .45s;',
+      '  font:400 13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;color:#b8c4d8}',
+      'body.scene-map #amenti-map{opacity:1;visibility:visible}',
+      '#amenti-map .mp-scrim{position:absolute;inset:0;background:rgba(6,7,14,.78);pointer-events:none}',
+      '#amenti-map .mp-wrap{position:absolute;inset:0;display:flex;flex-direction:column;padding:28px 26px 18px}',
+      '#amenti-map svg{flex:1;width:100%;height:auto;overflow:visible}',
+
+      /* the land: an outline, not a fill — the map is a chart, not a picture */
+      '#amenti-map .mp-land{fill:#0e1420;stroke:#243044;stroke-width:.6;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-grat{stroke:#1a2334;stroke-width:.4;fill:none;vector-effect:non-scaling-stroke}',
+
+      /* A WASH. Soft, edgeless, large, low. Nothing about it reads as a point. */
+      '#amenti-map .mp-wash{fill:#4a6c8f;fill-opacity:.16;stroke:none;pointer-events:all;cursor:default}',
+      '#amenti-map .mp-wash:hover{fill-opacity:.30}',
+      '#amenti-map .mp-washlabel{fill:#7d93ad;font-size:7.5px;letter-spacing:.06em;',
+      '  text-anchor:middle;pointer-events:none;text-transform:lowercase}',
+
+      /* A PIN. Small, hard, bright, crisp. Nothing about it reads as an area. */
+      '#amenti-map .mp-pin{fill:#5fd0e8;fill-opacity:.85;stroke:#081018;stroke-width:.35;cursor:pointer}',
+      '#amenti-map .mp-pin:hover{fill:#a9edff;fill-opacity:1}',
+
+      /* the readout */
+      '#amenti-map .mp-head{display:flex;justify-content:space-between;align-items:baseline;',
+      '  gap:18px;margin-bottom:10px;flex-wrap:wrap}',
+      '#amenti-map .mp-title{color:#dbe4f0;letter-spacing:.14em;text-transform:uppercase;font-size:12px}',
+      '#amenti-map .mp-key{display:flex;gap:16px;align-items:center;font-size:11.5px;color:#8fa2ba}',
+      '#amenti-map .mp-key i{display:inline-block;vertical-align:middle;margin-right:6px}',
+      '#amenti-map .mp-key .k-pin{width:7px;height:7px;border-radius:50%;background:#5fd0e8}',
+      '#amenti-map .mp-key .k-wash{width:16px;height:9px;border-radius:2px;background:rgba(74,108,143,.42)}',
+      '#amenti-map .mp-key .k-none{width:16px;height:9px;border:1px dashed #3c4a5e;border-radius:2px}',
+
+      '#amenti-map .mp-foot{display:flex;align-items:center;gap:14px;margin-top:12px;font-size:12px}',
+      '#amenti-map .mp-foot input[type=range]{flex:1;accent-color:#5fd0e8}',
+      '#amenti-map .mp-read{color:#dbe4f0;min-width:190px}',
+      '#amenti-map .mp-note{color:#6f8098;font-size:11px;margin-top:6px;line-height:1.5}',
+      '#amenti-map .mp-hit{position:absolute;pointer-events:none;background:rgba(8,12,20,.94);',
+      '  border:1px solid #2b3purple;padding:6px 9px;border-radius:3px;font-size:11.5px;',
+      '  color:#dbe4f0;white-space:nowrap;opacity:0;transition:opacity .12s}'
+    ].join('\n').replace('#2b3purple', '#2b3a50');
+    document.head.appendChild(css);
+
+    var el = document.createElement('div');
+    el.id = 'amenti-map';
+    el.innerHTML =
+      '<div class="mp-scrim"></div>' +
+      '<div class="mp-wrap">' +
+        '<div class="mp-head">' +
+          '<div class="mp-title">where the souls stood</div>' +
+          '<div class="mp-key">' +
+            '<span><i class="k-pin"></i>a seat \u2014 here</span>' +
+            '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
+            '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
+          '</div>' +
+        '</div>' +
+        '<svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">' +
+          '<g class="mp-graticule"></g><path class="mp-land"></path>' +
+          '<g class="mp-washes"></g><g class="mp-pins"></g>' +
+        '</svg>' +
+        '<div class="mp-foot">' +
+          '<span class="mp-read"></span>' +
+          '<input type="range" class="mp-slider" min="-4000" max="' + YEAR_MAX + '" step="25" value="' + YEAR_MAX + '">' +
+        '</div>' +
+        '<div class="mp-note"></div>' +
+      '</div>' +
+      '<div class="mp-hit"></div>';
+    document.body.appendChild(el);
+    mounted = el;
+    return el;
+  }
+
+  /* ── the drawing ────────────────────────────────────────────────────────── */
+
+  function alive(s) {
+    /* A soul counts as present in the window if their span overlaps it. A soul
+       with no dates is NOT claimed by any window — it is not placed in a
+       century nobody recorded. */
+    if (typeof s.b !== 'number' || typeof s.d !== 'number') return false;
+    return s.d >= lo && s.b <= hi;
+  }
+
+  function draw() {
+    var el = mounted, svg = el.querySelector('svg');
+    el.querySelector('.mp-land').setAttribute('d', world.path);
+
+    /* graticule: every 30°, so a reader can judge a wash's size against
+       something. Drawn once. */
+    var g = el.querySelector('.mp-graticule');
+    if (!g.childNodes.length) {
+      var d = '';
+      for (var x = 0; x <= 360; x += 30) d += 'M' + (x / 360 * VB_W) + ' 0V' + VB_H;
+      for (var y = 0; y <= 180; y += 30) d += 'M0 ' + (y / 180 * VB_H) + 'H' + VB_W;
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('class', 'mp-grat'); p.setAttribute('d', d); g.appendChild(p);
+    }
+
+    var souls = geo.souls.filter(alive);
+    var pins   = souls.filter(function (s) { return s.tier === 'city' && s.lat != null; });
+    var washes = souls.filter(function (s) { return s.ext; });
+
+    /* WASHES FIRST, and grouped. 334 souls share "Southern Europe": drawing
+       334 stacked rectangles would compound opacity into something as hard as
+       a pin, which is the one thing forbidden. One rectangle per territory,
+       its weight carried by the LABEL's count, not by stacking. */
+    var byExt = {};
+    washes.forEach(function (s) {
+      var k = s.ext.join(',');
+      (byExt[k] || (byExt[k] = { ext: s.ext, place: s.place, n: 0 })).n++;
+    });
+    var wh = '';
+    Object.keys(byExt).forEach(function (k) {
+      var w = byExt[k], a = proj(w.ext[2], w.ext[1]), b = proj(w.ext[0], w.ext[3]);
+      var x = a[0], y = a[1], ww = Math.max(2, b[0] - a[0]), hh = Math.max(2, b[1] - a[1]);
+      wh += '<rect class="mp-wash" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) +
+            '" width="' + ww.toFixed(1) + '" height="' + hh.toFixed(1) + '" rx="5">' +
+            '<title>' + esc(w.place) + ' \u2014 ' + w.n + ' soul' + (w.n === 1 ? '' : 's') +
+            ', somewhere in this area</title></rect>' +
+            '<text class="mp-washlabel" x="' + (x + ww / 2).toFixed(1) + '" y="' + (y + hh / 2).toFixed(1) +
+            '">' + esc(w.place) + ' \u00b7 ' + w.n + '</text>';
+    });
+    el.querySelector('.mp-washes').innerHTML = wh;
+
+    /* PINS. Radius grows only slightly with how many souls share a seat —
+       Constantinople holds 124 — but never enough to read as an area. */
+    var bySeat = {};
+    pins.forEach(function (s) {
+      var k = s.lat + ',' + s.lon;
+      (bySeat[k] || (bySeat[k] = { lat: s.lat, lon: s.lon, place: s.place, who: [] })).who.push(s.n);
+    });
+    var ph = '';
+    Object.keys(bySeat).forEach(function (k) {
+      var p = bySeat[k], xy = proj(p.lat, p.lon);
+      var r = Math.min(4.2, 1.15 + Math.log(p.who.length + 1) * 0.72);
+      ph += '<circle class="mp-pin" cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) +
+            '" r="' + r.toFixed(2) + '"><title>' + esc(p.place) + ' \u2014 ' +
+            esc(p.who.slice(0, 8).join(', ')) + (p.who.length > 8 ? ' \u2026 (' + p.who.length + ')' : '') +
+            '</title></circle>';
+    });
+    el.querySelector('.mp-pins').innerHTML = ph;
+
+    /* THE READOUT NAMES THE SILENCE. */
+    var t = geo.totals;
+    el.querySelector('.mp-read').textContent = yr(lo) + ' \u2014 ' + yr(hi);
+    el.querySelector('.mp-note').textContent =
+      pins.length + ' seats drawn \u00b7 ' + washes.length + ' souls shown as territory \u00b7 ' +
+      (t.silent + t.unplaced) + ' of ' + t.souls + ' carry no place this map can honestly draw ' +
+      '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
+      'Seats from GeoNames (CC BY 4.0); coastline Natural Earth.';
+  }
+
+  function yr(y) { return y < 0 ? Math.abs(y) + ' BC' : 'AD ' + y; }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  /* ── the public door ────────────────────────────────────────────────────── */
+
+  function open(opts) {
+    return load().then(function () {
+      var el = mount();
+      var sl = el.querySelector('.mp-slider');
+      if (!sl.dataset.wired) {
+        sl.dataset.wired = '1';
+        sl.addEventListener('input', function () {
+          hi = +sl.value; lo = hi - 400;   /* a moving 400-year window */
+          draw();
+        });
+      }
+      if (opts && typeof opts.year === 'number') { hi = opts.year; lo = hi - 400; sl.value = hi; }
+      draw();
+      document.body.classList.add('scene-map');
+      return el;
+    }, function (e) {
+      /* A register that will not load is stated, never papered over. */
+      var el = mount();
+      el.querySelector('.mp-note').textContent = 'the map cannot draw \u2014 ' + e.message;
+      document.body.classList.add('scene-map');
+    });
+  }
+
+  function close() { document.body.classList.remove('scene-map'); }
+
+  window.AmentiMap = { open: open, close: close };
+})();
