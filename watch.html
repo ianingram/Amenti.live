@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>THE WATCH · Amenti</title>
+<!-- ===========================================================================
+     watch.html · THE WATCH — what the guards found
+
+     ── WHY THIS EXISTS ─────────────────────────────────────────────────────
+     BRIEF-NOTHING-MAPS-THE-SURFACES, 27 Aug: every register maps the
+     machinery, and nothing maps the places a person can BE. The probes are
+     that gap in a third form — a dozen standing guards, each writing a real
+     finding into a workflow log that nobody opens until something is already
+     wrong. A finding recorded where no one looks is a finding not made.
+
+     This reads the registers the probes write and states, on one page, what
+     the ship currently knows about itself.
+
+     ── IT COMPUTES NOTHING ─────────────────────────────────────────────────
+     Every number here is READ from a register. This page has no opinion and
+     no arithmetic of its own — if it disagreed with a probe there would be
+     two truths and no way to tell which. A register that will not load is
+     SAID SO, in the pane, in place of the number. An empty glass is stated,
+     never filled from somewhere else.
+     ========================================================================== -->
+<style>
+  :root {
+    --bg:#06070e; --ink:#b8c4d8; --bright:#f0f5fb; --dim:#6f8098;
+    --line:#1e2836; --cyan:#5fd0e8; --amber:#e8c98a; --bad:#ff6a5e; --good:#5fd0e8;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--bg); color:var(--ink);
+    font:400 14px/1.6 ui-monospace,Menlo,Consolas,monospace;
+    padding:44px 28px 80px; max-width:1180px; margin:0 auto;
+  }
+  h1 { font-size:15px; letter-spacing:.22em; text-transform:uppercase;
+       color:var(--bright); margin:0 0 4px; font-weight:400; }
+  .sub { color:var(--dim); font-size:12px; margin-bottom:32px; }
+  section { margin-bottom:34px; }
+  h2 { font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+       color:var(--dim); font-weight:400; margin:0 0 12px;
+       border-bottom:1px solid var(--line); padding-bottom:7px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:1px;
+          background:var(--line); border:1px solid var(--line); }
+  .cell { background:var(--bg); padding:14px 15px; }
+  .n { font-size:26px; color:var(--bright); letter-spacing:.02em;
+       font-variant-numeric:tabular-nums; line-height:1.15; }
+  .n.bad { color:var(--bad); }
+  .k { font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-top:5px; }
+  .note { font-size:11.5px; color:var(--dim); margin-top:5px; line-height:1.5; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th { text-align:left; font-weight:400; color:var(--dim); font-size:10.5px;
+       letter-spacing:.14em; text-transform:uppercase; padding:0 10px 7px 0; }
+  td { padding:6px 10px 6px 0; border-top:1px solid var(--line); vertical-align:top; }
+  .ok { color:var(--good); } .no { color:var(--bad); }
+  .findings { border:1px solid rgba(255,106,94,.32); background:rgba(255,106,94,.05);
+              padding:14px 16px; }
+  .findings div { color:#ffb3ac; margin:5px 0; font-size:12.5px; }
+  .clear { border:1px solid rgba(95,208,232,.25); background:rgba(95,208,232,.04);
+           padding:14px 16px; color:var(--cyan); font-size:12.5px; }
+  .stale { color:var(--amber); }
+  footer { color:var(--dim); font-size:11.5px; border-top:1px solid var(--line);
+           padding-top:14px; margin-top:34px; line-height:1.65; }
+  a { color:var(--cyan); }
+</style>
+</head>
+<body>
+
+<h1>The Watch</h1>
+<div class="sub" id="asof">reading the registers…</div>
+
+<section>
+  <h2>The Automation</h2>
+  <div class="grid" id="flowcells"></div>
+  <div id="flowfind" style="margin-top:14px"></div>
+  <div style="margin-top:16px"><table id="flowtable"></table></div>
+</section>
+
+<section>
+  <h2>The Place Register</h2>
+  <div class="grid" id="geocells"></div>
+  <div class="note" id="geonote"></div>
+</section>
+
+<section>
+  <h2>The Roster</h2>
+  <div class="grid" id="rostercells"></div>
+</section>
+
+<footer id="foot"></footer>
+
+<script>
+(function () {
+  'use strict';
+  var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
+
+  /* The same cache-busted read the hall's surfaces use. A watch showing a
+     cached register is worse than no watch: it reports a fault as fixed. */
+  function get(u) {
+    return fetch(RAW + u + '?_=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(u + ' — ' + r.status); return r.json(); });
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; });
+  }
+  function cells(el, list) {
+    document.getElementById(el).innerHTML = list.map(function (c) {
+      return '<div class="cell"><div class="n' + (c.bad ? ' bad' : '') + '">' +
+             esc(c.n) + '</div><div class="k">' + esc(c.k) + '</div>' +
+             (c.note ? '<div class="note">' + esc(c.note) + '</div>' : '') + '</div>';
+    }).join('');
+  }
+  /* EVERY FAILED READ IS SAID. Never a zero, never a blank — a zero asserts a
+     measurement that did not happen, which is the fault probe-roster.mjs
+     records about "searched: 0 rooms" on 31 Aug. */
+  function unread(el, name, err) {
+    document.getElementById(el).innerHTML =
+      '<div class="cell"><div class="n stale">—</div><div class="k">' + esc(name) +
+      ' could not be read</div><div class="note">' + esc(err.message) +
+      '. No number is shown, because none was taken.</div></div>';
+  }
+
+  var age = function (iso) {
+    var h = (Date.now() - new Date(iso).getTime()) / 36e5;
+    return h < 1 ? Math.round(h * 60) + ' min ago'
+         : h < 48 ? Math.round(h) + ' h ago'
+         : Math.round(h / 24) + ' days ago';
+  };
+
+  /* ── the automation ─────────────────────────────────────────────────── */
+  get('WORKFLOWS.json').then(function (d) {
+    var t = d.totals || {};
+    cells('flowcells', [
+      { n: t.workflows,  k: 'workflows' },
+      { n: t.committing, k: 'that commit', note: 'each can lose a race' },
+      { n: t.scheduled,  k: 'scheduled' },
+      { n: t.findings,   k: 'findings', bad: t.findings > 0 }
+    ]);
+    var f = d.findings || [];
+    document.getElementById('flowfind').innerHTML = f.length
+      ? '<div class="findings">' + f.map(function (x) { return '<div>' + esc(x) + '</div>'; }).join('') + '</div>'
+      : '<div class="clear">every workflow that writes can survive a race · no two share a rung</div>';
+
+    document.getElementById('flowtable').innerHTML =
+      '<tr><th>workflow</th><th>writes</th><th>survives a race</th><th>triggers</th><th>rung</th></tr>' +
+      (d.workflows || []).map(function (w) {
+        var safe = !w.commits ? '<span style="color:var(--dim)">—</span>'
+                 : (w.rebase && w.retry) ? '<span class="ok">yes</span>'
+                 : '<span class="no">NO</span>';
+        return '<tr><td>' + esc(w.file) + '</td><td>' + (w.commits ? 'commits' : 'reads') +
+               '</td><td>' + safe + '</td><td>' + esc((w.on || []).join(' + ')) +
+               '</td><td>' + esc((w.crons || []).join(' ')) + '</td></tr>';
+      }).join('');
+    document.getElementById('asof').textContent = 'audited ' + age(d.generated) + ' · ' + d.generated;
+  }, function (e) { unread('flowcells', 'WORKFLOWS.json', e);
+    document.getElementById('asof').textContent = 'the audit register could not be read'; });
+
+  /* ── the place register ─────────────────────────────────────────────── */
+  get('GEO.json').then(function (d) {
+    var t = d.totals || {};
+    cells('geocells', [
+      { n: t.pins,     k: 'pins', note: 'a dot the record supports' },
+      { n: t.washes,   k: 'territory', note: 'somewhere in here' },
+      { n: t.silent,   k: 'silent', note: 'myth or unrecorded' },
+      { n: t.unplaced, k: 'unplaced', note: 'named, unresolved' }
+    ]);
+    var sum = (t.pins || 0) + (t.washes || 0) + (t.silent || 0) + (t.unplaced || 0);
+    document.getElementById('geonote').innerHTML = sum === t.souls
+      ? 'every one of ' + t.souls + ' souls is accounted for · generated ' + age(d.generated) +
+        ' · <span class="stale">' + esc(d.attribution || '') + '</span>'
+      : '<span class="no">the totals do not add up: ' + sum + ' against ' + t.souls + ' souls.</span>';
+  }, function (e) { unread('geocells', 'GEO.json', e); });
+
+  /* ── the roster ─────────────────────────────────────────────────────── */
+  get('ROSTER-INDEX.json').then(function (d) {
+    var t = d.totals || {};
+    cells('rostercells', [
+      { n: t.souls,     k: 'souls' },
+      { n: t.withRoom,  k: 'with a room', note: 'the deepest mark, and the rarest' },
+      { n: t.placeable, k: 'placeable in time', note: 'both dates — a span a surface can draw' },
+      { n: t.collisions, k: 'colliding slugs', bad: t.collisions > 0 }
+    ]);
+  }, function (e) { unread('rostercells', 'ROSTER-INDEX.json', e); });
+
+  document.getElementById('foot').innerHTML =
+    'Read live from the registers on main. This page computes nothing — every ' +
+    'number is a probe\u2019s, and a register that will not load says so rather ' +
+    'than showing a zero. Guards: probe-workflows, probe-map, probe-geo, ' +
+    'probe-roster, probe-hall. The full audit runs at :32 past every sixth hour.';
+})();
+</script>
+</body>
+</html>
