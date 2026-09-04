@@ -1028,6 +1028,7 @@
              ship.sections.join(', ') + (ship.held ? ', and ' + ship.held + ' NOT shown' : ''))
           : null;
 
+        var hits = souls ? (rosterVerdict(question, souls) || []) : [];
         var coverage = [
           lib ? ('searched: ' + nRooms + ' rooms holding ' + nWorks + ' works, and ' + nDocs + ' documents of the architecture')
               : ('searched: ' + nDocs + ' documents of the architecture. THE LIBRARY REGISTER COULD NOT BE READ THIS TURN, so no room was searched at all — do not say the library is empty, say it could not be read.'),
@@ -1056,6 +1057,14 @@
         }).then(function (answer) {
           return {
             answer: answer,
+            /* ── THE SOULS THE QUESTION NAMED · 4 SEP 2026 ──────────────────
+               Returned so a SURFACE can place them. Until now the timeline
+               was placed from `opened` — the rooms — so asking about Odysseus
+               moved nothing, because he has no room. A soul is placeable the
+               moment it is DATED (THE STANDING SLIP #61), and 2,043 of 2,043
+               are dated. Rooms are one depth; they are not the unit of
+               existence, and they were never the right key for a position. */
+            souls: hits,
             cited: opened.map(function (x) { return x.work.title; }),
             counts: state,
             sources: items.length,

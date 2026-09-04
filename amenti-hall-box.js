@@ -667,13 +667,39 @@
          register that will not load — the timeline simply is not there, and
          the bare state is what it was before. Nothing about the reading
          depends on it. */
+      /* ── THE SOUL PLACES THE SURFACES, NOT THE ROOM · 4 SEP 2026 ──────
+         SEEN LIVE: the hall answered about Odysseus and neither the timeline
+         nor the map moved. Both were driven from `r.opened` — the ROOMS — and
+         Odysseus has no room. So the answer said one thing and the two
+         instruments beside it said another, with nothing on the page to
+         explain why.
+
+         That is THE STANDING SLIP #61 running backwards inside the surfaces:
+         a soul is placeable the moment it is DATED, and all 2,043 are. A room
+         is the deepest mark, not the unit of existence, and it was never the
+         right key for a position.
+
+         So the SOULS the question named come first, and the opened rooms are
+         the fallback — which keeps every reading that worked before working
+         exactly as it did, and adds the ~1,990 that silently did nothing. */
+      var anchors = (r.souls && r.souls.length)
+        ? r.souls.map(function (s) { return s.k || s.n; })
+        : (r.opened || []).map(function (o) { return o.room; });
+
       if (window.AmentiTimeline) {
-        if (r.opened && r.opened.length) {
-          try { window.AmentiTimeline.place(r.opened.map(function (o) { return o.room; })); }
+        if (anchors.length) {
+          try { window.AmentiTimeline.place(anchors); }
           catch (e) { /* a timeline is a courtesy, never a dependency */ }
         } else {
           try { window.AmentiTimeline.clear(); } catch (e) {}
         }
+      }
+
+      /* The map takes the same keys in the same shape, so the two instruments
+         cannot drift apart. It stays CLOSED — placing sets where it will open,
+         it does not seize the screen from a reader who is still reading. */
+      if (window.AmentiMap && anchors.length) {
+        try { window.AmentiMap.place(anchors); } catch (e) {}
       }
 
       if (r.degraded && r.degraded.length) {

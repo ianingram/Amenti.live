@@ -167,6 +167,7 @@
     return out;
   }
   var SVG = 'http://www.w3.org/2000/svg';
+  var anchorKey = null;
   var lastShown = 0, lastHidden = 0, lastSeats = 0, lastSky = 0, lastConj = 0, lastGath = 0, lastHalley = 0;
 
   function get(url, asJson) {
@@ -267,6 +268,11 @@
       '#amenti-map .mp-ring{fill:none;stroke:#5fd0e8;stroke-width:.5;opacity:0;',
       '  transition:opacity .35s ease}',
       '#amenti-map .mp-own .mp-ring{opacity:.55}',
+      /* THE ANCHOR — the soul the hall was asked about. Not gold: gold is a
+         verified quote. A brighter cyan and a held ring, so the eye lands. */
+      '#amenti-map .mp-anchor .mp-pin{fill:#a9edff;fill-opacity:1}',
+      '#amenti-map .mp-anchor .mp-ring{opacity:.9;stroke:#a9edff;stroke-width:.8}',
+      '#amenti-map .mp-anchor .mp-name{opacity:1;fill:#eaf6ff;font-size:6.4px}',
       /* where a seat wears a mark the dot recedes to an anchor: the mark IS
          the point, and two full-strength objects at one coordinate is clutter */
       '#amenti-map .mp-marked .mp-pin{fill-opacity:.3}',
@@ -495,6 +501,9 @@
          is shared by hundreds, a personal sign by one, and the scarcer claim
          is the more informative one. */
       if (s.pg && !seat.personal) { seat.personal = s.pg; seat.pname = s.n; }
+      /* the soul the hall was asked about, so the reader can find them among
+         four hundred dots without hunting */
+      if (anchorKey && s.k === anchorKey) { seat.anchor = true; seat.aname = s.n; }
     });
 
     var gp = el.querySelector('.mp-pins');
@@ -547,6 +556,8 @@
       /* the two tiers must not read alike — see the probe's note */
       g.classList.toggle('mp-own', !!p.personal);
       g.classList.toggle('mp-marked', !!mark);
+      g.classList.toggle('mp-anchor', !!p.anchor);
+      if (p.anchor) label = p.aname;        /* the asked-about soul keeps their name */
       var ring = g.querySelector('.mp-ring');
       ring.setAttribute('cx', xy[0].toFixed(1));
       ring.setAttribute('cy', xy[1].toFixed(1));
@@ -1101,6 +1112,77 @@
 
   function close() { document.body.classList.remove('scene-map'); syncRail(); }
 
+  /* ── place(keys) · THE SAME DOOR THE TIMELINE HAS · 4 Sep ─────────────────
+     SEEN LIVE: the hall answered about a figure and the map showed whatever
+     window it had been left on. Three surfaces answering three different
+     questions, and a reader clicking between them with no reason to think
+     they were unrelated.
+
+     The timeline solved this with place(keys) and the box calls it. The map
+     had no such door, so it could not be told. It has one now, and it takes
+     the same argument in the same shape — one key or several, the FIRST
+     placeable wins — so the box drives both instruments identically and
+     neither can drift from the other.
+
+     THE APERTURE IS CHOSEN, NOT FIXED. The narrowest planetary window that
+     still contains the whole life: a 63-year life gets one Halley, a
+     seven-year reign gets one Jupiter. The edge lands on the death year so
+     the soul is present at the leading edge rather than halfway out of view.
+
+     Eternals are skipped for the timeline's own reason: Apollo runs 10000 BC
+     to 3000 BC, and an aperture that holds a 7,000-year bar is the whole
+     register, which places nobody. */
+  function place(keys) {
+    var list = [].concat(keys || []).filter(Boolean).map(function (k) {
+      return String(k.k || k.n || k).toLowerCase();
+    });
+    if (!list.length) return Promise.resolve(false);
+    return load().then(function () {
+      var byKey = {};
+      geo.souls.forEach(function (s) { byKey[s.k] = s; byKey[s.n.toLowerCase()] = s; });
+      var soul = null;
+      for (var i = 0; i < list.length && !soul; i++) {
+        var c = byKey[list[i]];
+        if (!c || typeof c.b !== 'number' || typeof c.d !== 'number') continue;
+        if (c.d - c.b >= 1000) continue;          /* an eternal places nobody */
+        soul = c;
+      }
+      if (!soul) return false;
+
+      /* FOUND BY TEST, 4 Sep: "narrowest aperture that contains the life" sent
+         an 80-YEAR LIFE TO "ALL OF IT" — Odysseus at 80 and Plato at 80 both
+         overshoot Halley's 76 by four years, and the next rung is 3,000. A
+         four-year overshoot cost three thousand years of view, and "all of it"
+         places nobody, which is the very thing the eternals rule guards.
+
+         The ladder is planetary and therefore has real gaps; the fix is to
+         accept the widest true window rather than fall off the end of it. A
+         life a little longer than the aperture is still READ at the leading
+         edge — the death year is on screen and most of the life behind it.
+         Only a span that is genuinely beyond the ladder gets the whole
+         register, and then it is a statement rather than an accident. */
+      var span = Math.max(1, soul.d - soul.b);
+      var widest = APERTURES[APERTURES.length - 2];   /* one Halley, 76 */
+      APERTURE = null;
+      for (var a = 0; a < APERTURES.length; a++)
+        if (APERTURES[a] >= span) { APERTURE = APERTURES[a]; break; }
+      if (APERTURE === null || (APERTURE === APERTURES[APERTURES.length - 1] && span <= widest * 3))
+        APERTURE = widest;
+      var el = mount();
+      el.querySelectorAll('.mp-ap button').forEach(function (x) {
+        x.classList.toggle('on', +x.getAttribute('data-ap') === APERTURE);
+      });
+      containClicks(el);
+      takeScreen();
+      setEdge(soul.d);
+      anchorKey = soul.k;
+      draw();
+      document.body.classList.add('scene-map');
+      syncRail();
+      return true;
+    }, function () { return false; });
+  }
+
   /* The trigger mounts itself the moment the file loads, so wiring the map
      into hall.html is ONE script tag and no edit to its logic. */
   if (document.readyState === 'loading')
@@ -1110,6 +1192,6 @@
   /* addFaculty is exported so the GRAPH can join the rail when it is ready,
      without touching this file or hall.html:
          AmentiMap.addFaculty('fac-graph','who',svg,toggleFn,isOpenFn)  */
-  window.AmentiMap = { open: open, close: close, trigger: trigger,
+  window.AmentiMap = { open: open, close: close, place: place, trigger: trigger,
                        addFaculty: addFaculty, syncRail: syncRail };
 })();
