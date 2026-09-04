@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-04T02:26:52.544Z",
+    "generated": "2026-09-04T02:28:02.685Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -811,6 +811,19 @@
       "tables": []
     },
     {
+      "file": "amenti-map.js",
+      "bytes": 14237,
+      "sha256": "36c7a41cfbeab6c2",
+      "type": "js",
+      "declares": [
+        "AmentiMap"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-mascot.js",
       "bytes": 5575,
       "sha256": "855eb490f6329e91",
@@ -1342,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49031,
-      "sha256": "74e28c28606e836c",
+      "sha256": "593b8ca85b928f2d",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1969,6 +1982,14 @@
         "file": "amenti-hall.js",
         "declares": [
           "AmentiHall"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-map.js",
+        "declares": [
+          "AmentiMap"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
