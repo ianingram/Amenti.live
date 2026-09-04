@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-04T03:51:02.180Z",
+    "generated": "2026-09-04T04:13:56.627Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49280,
-      "sha256": "e590155a63890252",
+      "sha256": "6c533d9d089b5ade",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1481,7 +1481,7 @@
     {
       "file": "hall.html",
       "bytes": 18175,
-      "sha256": "02df37c144efd432",
+      "sha256": "04cab6cbd40d45c4",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1502,7 +1502,7 @@
           "line": 300
         },
         {
-          "file": "amenti-map.js?v=198407e7",
+          "file": "amenti-map.js?v=4ff4f718",
           "line": 305
         },
         {
@@ -1682,7 +1682,7 @@
         "file": "probe-geo.mjs",
         "title": "THE PLACE REGISTER",
         "guards": null,
-        "bytes": 15620
+        "bytes": 22907
       },
       {
         "file": "probe-hall-wall.mjs",
