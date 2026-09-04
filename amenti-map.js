@@ -111,6 +111,7 @@
   var hi = YEAR_MAX, lo = hi - APERTURE;
 
   var geo = null, world = null, sky = null, comets = null, mounted = null;
+  var rivers = null, peaks = null;
 
   /* ── GIZA · THE ONE HONEST COORDINATE FOR A SKY EVENT ─────────────────────
      SKY.csv is 1,342 due-east risings COMPUTED AT GIZA. A rising does not
@@ -197,6 +198,18 @@
       get(RAW + 'WORLD.json', true).then(function (d) { world = d; }),
       /* THE SKY IS OPTIONAL, as it is for the timeline. A missing sky costs
          one mark on one coordinate; it must not cost the map. */
+      /* ── RIVERS AND PEAKS · 4 Sep ─────────────────────────────────────────
+         Natural Earth, public domain, the same provenance as the coastline.
+         Both are OPTIONAL: a map without them is the map we had this morning,
+         and neither is allowed to cost the surface if it fails to load.
+
+         THEY HOLD LON/LAT, NOT SCREEN COORDINATES, unlike WORLD.json whose
+         projection is baked in. That is the first step of the un-baking #65
+         needs, taken here because a new register may as well be born right. */
+      get(RAW + 'RIVERS.json', true).then(function (d) { rivers = d.rivers || []; },
+                                          function ()  { rivers = null; }),
+      get(RAW + 'PEAKS.json', true).then(function (d) { peaks = d.peaks || []; },
+                                         function ()  { peaks = null; }),
       get(RAW + 'SKY.csv', false).then(function (t) { sky = parseSky(t); },
                                        function ()  { sky = null; }),
       /* Halley lives in EVENTS.csv, not SKY.csv — 48 returns, -1404 to 2061,
@@ -240,7 +253,7 @@
       /* right padding CLEARS THE FACULTY RAIL. Seen live: the legend ran under
          the globe and "no honest place — not drawn" was cut mid-word, which
          is the one line on this surface that declares what the map omits. */
-      '  padding:26px 84px 22px 30px;gap:0}',
+      '  padding:26px 84px 22px 262px;gap:0}',
       /* min-height:0 or the SVG refuses to shrink and shoves the slider and the
          attribution off the bottom of the viewport — seen live, both gone. */
       '#amenti-map svg{flex:1 1 auto;min-height:0;width:100%;overflow:visible}',
@@ -267,7 +280,33 @@
       '  stroke-width:.35;cursor:pointer;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-land{vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-grat{vector-effect:non-scaling-stroke}',
-      '#amenti-map .mp-zoomlab{position:absolute;right:96px;top:26px;',
+      '#amenti-map .mp-zoomctl{position:absolute;right:26px;bottom:150px;z-index:6;',
+      '  display:flex;flex-direction:column;gap:1px;background:#23303f;',
+      '  border:1px solid #23303f;border-radius:4px;overflow:hidden}',
+      '#amenti-map .mp-zoomctl button{width:34px;height:30px;padding:0;border:0;',
+      '  background:rgba(10,14,22,.9);color:#8fa2ba;cursor:pointer;',
+      '  font:400 15px/1 ui-monospace,Menlo,monospace}',
+      '#amenti-map .mp-zoomctl button[data-z="fit"]{font-size:10.5px;letter-spacing:.08em}',
+      '#amenti-map .mp-zoomctl button:hover{color:#a9edff;background:rgba(12,24,34,.95)}',
+      '#amenti-map .mp-zoomctl button:focus-visible{outline:2px solid #5fd0e8;outline-offset:-2px}',
+      /* the list */
+      '#amenti-map .mp-list{position:absolute;left:26px;top:74px;bottom:150px;width:210px;',
+      '  z-index:6;display:flex;flex-direction:column;pointer-events:auto}',
+      '#amenti-map .mp-listhead{font:400 10.5px/1.4 ui-monospace,Menlo,monospace;',
+      '  color:#6f8098;padding-bottom:7px;border-bottom:1px solid #1e2836;margin-bottom:5px}',
+      '#amenti-map .mp-listbody{overflow-y:auto;overflow-x:hidden;flex:1;',
+      '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent}',
+      '#amenti-map .mp-listbody::-webkit-scrollbar{width:6px}',
+      '#amenti-map .mp-listbody::-webkit-scrollbar-thumb{background:#2b3a50;border-radius:3px}',
+      '#amenti-map .mp-li{font:400 12.5px/1.45 ui-monospace,Menlo,monospace;color:#9fb1c7;',
+      '  padding:2px 6px 2px 0;cursor:default;white-space:nowrap;overflow:hidden;',
+      '  text-overflow:ellipsis;border-left:2px solid transparent;padding-left:7px}',
+      '#amenti-map .mp-li:hover,#amenti-map .mp-li.mp-lit{color:#eaf6ff;',
+      '  border-left-color:#5fd0e8;background:rgba(95,208,232,.07)}',
+      '#amenti-map .mp-li .mp-liwhere{color:#5d6e84;font-size:11px}',
+      '#amenti-map .mp-seat.mp-lit .mp-pin{fill:#a9edff;fill-opacity:1}',
+      '#amenti-map .mp-seat.mp-lit .mp-name{opacity:1;fill:#eaf6ff}',
+      '#amenti-map .mp-zoomlab{position:absolute;right:70px;bottom:152px;',
       '  font:400 11px/1 ui-monospace,Menlo,monospace;color:#6f8098;pointer-events:none}',
       '#amenti-map .mp-pin:hover{fill:#a9edff;fill-opacity:1}',
       /* THE NAMES. Hidden by default and revealed only when the cull says the
@@ -377,6 +416,17 @@
       '#amenti-map .mp-relief,#amenti-map .mp-sea,#amenti-map .mp-land,',
       '#amenti-map .mp-skygeo,#amenti-map .mp-sky,',
       '#amenti-map .mp-graticule{pointer-events:none}',
+      /* water reads as water: a cool line, thin, under everything a reader
+         is meant to click */
+      '#amenti-map .mp-river{fill:none;stroke:#3f6f8f;stroke-width:.5;opacity:.62;',
+      '  vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}',
+      '#amenti-map.mp-atlas .mp-river{stroke:#4d86ad;opacity:.75}',
+      '#amenti-map .mp-peak{fill:none;stroke:#8a9bb0;stroke-width:.6;opacity:.75;',
+      '  vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-peak.mp-dep{stroke:#6b7c91;opacity:.55}',
+      '#amenti-map .mp-peaklab{fill:#8fa2ba;text-anchor:middle;opacity:.8;',
+      '  paint-order:stroke;stroke:#070b12;stroke-width:1.4px;stroke-linejoin:round}',
+      '#amenti-map .mp-rivers,#amenti-map .mp-peaks{pointer-events:none}',
       '#amenti-map .mp-relief{display:none;opacity:.95}',
       '#amenti-map.mp-atlas .mp-relief{display:block}',
       '#amenti-map.mp-atlas .mp-land{fill:none;stroke:#31435c}',
@@ -458,6 +508,7 @@
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
             '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
             '<span><i class="k-sky"></i>the sky \u2014 seen from giza</span>' +
+            '<span><i class="k-river"></i>rivers and named summits</span>' +
           '</div>' +
         '</div>' +
         '<svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">' +
@@ -482,6 +533,7 @@
             '<image class="mp-relief" href="" x="0" y="0" width="1000" height="500" ' +
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
             '<path class="mp-land"></path>' +
+            '<g class="mp-rivers"></g><g class="mp-peaks"></g>' +
             '<g class="mp-washes"></g><g class="mp-pins"></g>' +
             /* ── THE SKY HAS TWO HALVES · 4 Sep ────────────────────────────
                Found when zoom landed. The Giza diamond, its label, the signs
@@ -509,11 +561,29 @@
             '</span>' +
         '</div>' +
         '<div class="mp-note"></div>' +
-                '<div class="mp-zoom">drag the years below to travel \u00b7 scroll the map to zoom, drag to move, double-click to fit \u00b7 the seat names are small on purpose \u2014 press ' +
-        (/Mac/.test(navigator.platform) ? '\u2318' : 'Ctrl') + ' and + to enlarge the page</div>' +
-        (/Mac/.test(navigator.platform) ? '\u2318' : 'Ctrl') + ' and + to enlarge the page</div>' +
+                '<div class="mp-zoom">drag the years below to travel \u00b7 scroll or use \u2212 / + to zoom \u00b7 drag to move \u00b7 double-click to fit</div>' +
       '</div>' +
-      '<div class="mp-hit"></div><div class="mp-zoomlab"></div>';
+      '<div class="mp-hit"></div><div class="mp-zoomlab"></div>' +
+      /* ── ZOOM THAT DOES NOT DEPEND ON A WHEEL · 4 Sep ──────────────────────
+         The wheel was reported dead twice and fixed twice on theory. A gesture
+         that cannot be seen cannot be checked by a reader, and a surface whose
+         only way in is a gesture has no way in at all on a device without one.
+         Buttons are the floor: they work, they are visible, and they say what
+         the wheel is for. */
+      '<div class="mp-zoomctl">' +
+        '<button type="button" data-z="out" aria-label="zoom out">\u2212</button>' +
+        '<button type="button" data-z="in" aria-label="zoom in">+</button>' +
+        '<button type="button" data-z="fit" aria-label="fit the world">fit</button>' +
+      '</div>' +
+      /* ── THE LIST · 4 Sep ─────────────────────────────────────────────────
+         Seat names on the map are 5.6px because four hundred of them must not
+         collide. That is right for the map and wrong for READING, and the two
+         needs were fighting. So the same souls are listed at a legible size
+         down the left, where there is room, and the two halves point at each
+         other: hover a name and its seat lights; hover a seat and its name
+         lights. The map answers WHERE, the list answers WHO, and neither has
+         to compromise for the other. */
+      '<div class="mp-list"><div class="mp-listhead"></div><div class="mp-listbody"></div></div>';
     document.body.appendChild(el);
     mounted = el;
     return el;
@@ -587,6 +657,61 @@
     var souls = geo.souls.filter(alive);
     var pins   = souls.filter(function (s) { return s.tier === 'city' && s.lat != null; });
     var washes = souls.filter(function (s) { return s.ext; });
+
+    /* ── THE RIVERS · drawn by rank, revealed by zoom ────────────────────────
+       Natural Earth ranks a river 1 (a great one) to 12 (a minor one). At
+       world scale only the first ranks are drawn: 909 segments at once is a
+       net over the continents, and a river nobody can trace is not
+       information. Going in reveals the tributaries, which is the same rule
+       the labels follow — the aperture decides what a reader can be shown.
+
+       Rivers matter here beyond decoration. Every early seat on this map sits
+       on one, and a trade route follows water long before it follows a road. */
+    var gr = el.querySelector('.mp-rivers');
+    if (rivers && gr) {
+      var maxRank = K < 1.5 ? 3 : K < 3 ? 4 : K < 6 ? 5 : 6;
+      var d = '';
+      for (var ri = 0; ri < rivers.length; ri++) {
+        var rv = rivers[ri];
+        if (rv.r > maxRank) break;                 /* sorted by rank */
+        var pp = rv.p, seg = '';
+        for (var pi = 0; pi < pp.length; pi += 2) {
+          var xy2 = proj(pp[pi + 1], pp[pi]);
+          seg += (pi ? 'L' : 'M') + xy2[0].toFixed(1) + ' ' + xy2[1].toFixed(1);
+        }
+        d += seg;
+      }
+      gr.innerHTML = '<path class="mp-river" d="' + d + '"/>';
+    }
+
+    /* ── THE PEAKS · named summits, not ranges ───────────────────────────────
+       76 mountains, 9 depressions and the Khyber Pass, each with an elevation
+       the record gives in metres. THESE ARE POINTS. A mountain range has no
+       agreed boundary and none is drawn: the relief shows the range, this
+       names the summit, and the difference is the same one that keeps a
+       territory from being a pin.
+
+       Only the highest show at world scale; the rest arrive with the zoom. */
+    var gp2 = el.querySelector('.mp-peaks');
+    if (peaks && gp2) {
+      var floor = K < 1.5 ? 6000 : K < 3 ? 4500 : K < 6 ? 2500 : -500;
+      var ph = '', iv3 = 1 / K;
+      peaks.forEach(function (pk) {
+        if (pk.e < floor && pk.k === 'mountain') return;
+        if (pk.k !== 'mountain' && K < 3) return;
+        var xy3 = proj(pk.y, pk.x), up = pk.k !== 'depression';
+        var a = 2.6 * iv3;
+        ph += '<path class="mp-peak' + (up ? '' : ' mp-dep') + '" d="M' +
+              (xy3[0] - a).toFixed(2) + ' ' + (xy3[1] + (up ? a : -a)).toFixed(2) +
+              'L' + xy3[0].toFixed(2) + ' ' + (xy3[1] - (up ? a : -a)).toFixed(2) +
+              'L' + (xy3[0] + a).toFixed(2) + ' ' + (xy3[1] + (up ? a : -a)).toFixed(2) + '"/>';
+        if (K >= 2)
+          ph += '<text class="mp-peaklab" x="' + xy3[0].toFixed(2) + '" y="' +
+                (xy3[1] - 4 * iv3).toFixed(2) + '" font-size="' + (5 * iv3).toFixed(3) + '">' +
+                esc(pk.n) + ' \u00b7 ' + pk.e + 'm</text>';
+      });
+      gp2.innerHTML = ph;
+    }
 
     /* WASHES FIRST, and grouped. 334 souls share "Southern Europe": drawing
        334 stacked rectangles would compound opacity into something as hard as
@@ -758,6 +883,24 @@
         if (!fits) hidden++;
       });
     lastShown = shown; lastHidden = hidden;
+
+    /* THE LIST, from the same seats the map just drew — one source, so the
+       two can never disagree about who is present. */
+    var lb = el.querySelector('.mp-listbody'), lh = el.querySelector('.mp-listhead');
+    if (lb) {
+      var rows = Object.keys(bySeat).map(function (k) { return bySeat[k]; })
+        .sort(function (a, b) { return b.who.length - a.who.length || a.place.localeCompare(b.place); });
+      var lhtml = '';
+      rows.forEach(function (p) {
+        var key = p.lat + ',' + p.lon;
+        p.who.slice(0, 40).forEach(function (n) {
+          lhtml += '<div class="mp-li" data-seat="' + esc(key) + '">' + esc(n) +
+                   ' <span class="mp-liwhere">' + esc(p.place) + '</span></div>';
+        });
+      });
+      lb.innerHTML = lhtml || '<div class="mp-li" style="color:#5d6e84">no seat in this window</div>';
+      lh.textContent = pins.length + ' here \u00b7 ' + washes.length + ' somewhere';
+    }
     applyView();
 
     /* ── THE SKY BAND · a THIRD kind of mark ─────────────────────────────────
@@ -979,8 +1122,8 @@
       '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
       'Seats from GeoNames (CC BY 4.0); ' +
       (el.classList.contains('mp-atlas')
-        ? 'coastline and relief from Natural Earth.'
-        : 'coastline Natural Earth.');
+        ? 'coastline, relief, rivers and peaks from Natural Earth.'
+        : 'coastline, rivers and peaks from Natural Earth.');
   }
 
   /* One place sets the window, so the slider, the wheel and the dial cannot
@@ -1221,6 +1364,46 @@
            absolute scale, so a reader can reach 3000 BC in one gesture rather
            than winding for it — which is what the dial could not do and the
            rail did at the cost of covering the Pacific. */
+        /* the buttons, and the wheel, share one function */
+        function zoomBy(f, cx, cy) {
+          var r = el.querySelector('svg').getBoundingClientRect();
+          if (!r.width) return;
+          var mx = cx == null ? VB_W / 2 : (cx - r.left) / r.width * VB_W;
+          var my = cy == null ? VB_H / 2 : (cy - r.top) / r.height * VB_H;
+          var wx = (mx - TX) / K, wy = (my - TY) / K;
+          var k = Math.max(K_MIN, Math.min(K_MAX, K * f));
+          if (k === K) return;
+          K = k; TX = mx - wx * K; TY = my - wy * K;
+          clampView(); draw();
+        }
+        el.querySelectorAll('.mp-zoomctl button').forEach(function (b) {
+          b.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            var z = b.getAttribute('data-z');
+            if (z === 'fit') { K = 1; TX = 0; TY = 0; draw(); }
+            else zoomBy(z === 'in' ? 1.5 : 1 / 1.5);
+          });
+        });
+
+        /* ── THE LIST AND THE MAP POINT AT EACH OTHER ──────────────────────
+           Delegated, because both sides are rebuilt on every draw and a
+           listener bound to a node would die with it. */
+        function lightSeat(key, on) {
+          var li = el.querySelectorAll('.mp-li[data-seat="' + (key || '').replace(/"/g, '') + '"]');
+          for (var i = 0; i < li.length; i++) li[i].classList.toggle('mp-lit', on);
+          var g = el.querySelector('.mp-pins [data-seat="' + CSS.escape(key || '') + '"]');
+          if (g) g.classList.toggle('mp-lit', on);
+        }
+        var litKey = null;
+        el.addEventListener('pointerover', function (ev) {
+          var t = ev.target.closest ? ev.target.closest('.mp-li,.mp-seat') : null;
+          var key = t ? (t.getAttribute('data-seat')) : null;
+          if (key === litKey) return;
+          if (litKey) lightSeat(litKey, false);
+          litKey = key;
+          if (litKey) lightSeat(litKey, true);
+        });
+
         var atlasBtn = el.querySelector('.mp-atlas-btn');
         atlasBtn.addEventListener('click', function () {
           var on = !el.classList.contains('mp-atlas');
@@ -1265,6 +1448,7 @@
            decoration. */
         el.addEventListener('wheel', function (e) {
           if (!el.contains(e.target)) return;
+          if (e.target.closest && e.target.closest('.mp-listbody')) return;   /* the list scrolls */
           e.preventDefault();
           var r = svgEl.getBoundingClientRect();
           if (!r.width || !r.height) return;
