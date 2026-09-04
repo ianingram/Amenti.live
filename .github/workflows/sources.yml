@@ -50,8 +50,36 @@ jobs:
           git config user.name  "the source index"
           git config user.email "actions@users.noreply.github.com"
           git add SOURCES.json
-          git commit -m "the source index: walked $(date -u +%Y-%m-%d)"
-          git push
+          git commit -m "the source index: walked $(date -u +%Y-%m-%d) [skip ci]"
+          # ── REBASE BEFORE PUSHING · 4 SEP 2026 ──────────────────────────
+          # THE LAST BARE PUSH IN THIS REPO, fixed before it bit rather than
+          # after. patrol.yml learned this first, hall.yml on 31 Aug, and
+          # flagship.yml went red on 4 Sep with "! [rejected] main -> main"
+          # after an upload landed while its job was in flight — a good
+          # reading thrown away by a collision, not by a fault.
+          #
+          # This file had the same shape and had simply not lost a race yet.
+          # A bare push is correct in isolation and wrong the moment anything
+          # else writes to the branch, which on this repo is routine: five
+          # workflows and a human all commit to main.
+          #
+          # Five attempts, then SAY SO. A silent give-up would leave
+          # SOURCES.json stale on main while the walk reports success, and
+          # the hall states its counts from registers like this one.
+          pushed=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              pushed=1
+              echo "committed the source index (attempt $i)"
+              break
+            fi
+            echo "push attempt $i lost the race; retrying"
+            sleep 5
+          done
+          if [ "$pushed" != "1" ]; then
+            echo "::error::the source index could not be pushed after 5 attempts — SOURCES.json on main is STALE and the hall will read it as current"
+            exit 1
+          fi
 
       - name: report
         if: always()
