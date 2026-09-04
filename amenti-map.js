@@ -283,6 +283,10 @@
       /* over Giza the signs sit smaller than in the band — they are a reading
          at a place, not the register's own heading */
       '#amenti-map .mp-over{font-size:7px;fill:#f0d9a4}',
+      '#amenti-map .mp-return{stroke:#d8a24a;stroke-width:.3;stroke-dasharray:1 4;',
+      '  opacity:.28;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-jup{fill:#e8c98a;font-size:8px;text-anchor:middle;',
+      '  filter:url(#mp-glow);pointer-events:none;transition:opacity .3s ease}',
       '#amenti-map .mp-tether{fill:none;stroke:#d8a24a;stroke-width:.3;',
       '  stroke-dasharray:2 3;opacity:.3}',
       /* HALLEY. The only animated thing on the surface, and only ever a few. */
@@ -726,6 +730,57 @@
              '">computed at giza</text>';
       }
       lastSky = inWin.length; lastConj = conj.length; lastGath = gath.length;
+    }
+
+    /* ── THE RETURN LINE · Jupiter, until it stands over Giza again ──────────
+       A hairline along Giza's OWN LATITUDE, circling the map, with Jupiter's
+       sign travelling it. One full lap between one due-east rising and the
+       next, arriving over the pyramids exactly at the rising year.
+
+       WHAT THIS CLAIMS, AND WHAT IT MUST NOT. The claim is the INTERVAL —
+       830 risings in the register, 5 to 7 years apart, and each lap is timed
+       to the true gap between ITS OWN two risings rather than to an average,
+       so a 5-year return runs faster than a 7-year one and the difference is
+       the record speaking.
+
+       IT IS NOT JUPITER'S POSITION. The sub-planetary point sweeps the whole
+       globe every day; at a register whose resolution is the YEAR there is no
+       honest longitude to draw, and computing one from orbital elements would
+       put a second, worse sky beside the DE422 one already here. So this is a
+       CLOCK laid on the ground, the line is real geography, the arrivals are
+       real years, and the label says count, not position. Where a reader
+       could mistake it for an ephemeris, the mistake is the whole risk. */
+    if (sky && sky.length) {
+      var rises = sky.filter(function (e) {
+        return e.body === 'Jupiter' && e.kind === 'due-east';
+      }).sort(function (a, b) { return a.y - b.y; });
+
+      var prev = null, next = null;
+      for (var ri = 0; ri < rises.length; ri++) {
+        if (rises[ri].y <= hi) prev = rises[ri];
+        if (rises[ri].y > hi) { next = rises[ri]; break; }
+      }
+      if (prev && next) {
+        var gzr = proj(GIZA[0], GIZA[1]);
+        var frac = (hi - prev.y) / (next.y - prev.y);      /* 0 at a rising, 1 at the next */
+        /* west to east, so it returns TO Giza rather than away from it */
+        var lonNow = GIZA[1] + frac * 360;
+        while (lonNow > 180) lonNow -= 360;
+        var jp = proj(GIZA[0], lonNow);
+
+        h += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(1) +
+             '" x2="1000" y2="' + gzr[1].toFixed(1) + '"/>';
+        /* the mark thickens as it closes on Giza — the return is the event */
+        var near = 1 - Math.min(1, Math.abs(0.5 - frac) * 2);
+        h += '<text class="mp-jup" x="' + jp[0].toFixed(1) + '" y="' + (gzr[1] + 2.6).toFixed(1) +
+             '" opacity="' + (0.45 + 0.55 * (1 - near)).toFixed(2) + '">\u2643</text>';
+        h += '<title>Jupiter\u2019s return: rose due east over Giza in ' + yr(prev.y) +
+             ', next in ' + yr(next.y) + ' \u2014 ' + (next.y - prev.y) + ' years. ' +
+             'This line is a COUNT to that return along Giza\u2019s latitude, not Jupiter\u2019s position.</title>';
+        h += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4).toFixed(1) +
+             '" text-anchor="start">\u2643 returns due east over giza in ' +
+             Math.max(0, next.y - hi) + 'y \u00b7 a count, not a position</text>';
+      }
     }
 
     /* ── HALLEY · the one thing on this map that sparkles ────────────────────
