@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-04T07:11:03.945Z",
+    "generated": "2026-09-04T07:12:12.395Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49260,
-      "sha256": "6a7f659d2e4724f2",
+      "sha256": "4019c7ab1d76088b",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1652,7 +1652,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 40,
+    "count": 41,
     "files": [
       {
         "file": "geo-tier.mjs",
@@ -1779,6 +1779,12 @@
         "title": "THE WATCH PROBE",
         "guards": null,
         "bytes": 21892
+      },
+      {
+        "file": "probe-workflows.mjs",
+        "title": "THE WORKFLOW REGISTER",
+        "guards": null,
+        "bytes": 7849
       },
       {
         "file": "probe.js",
