@@ -9,8 +9,8 @@ key,from,to,place,what,note
 # Because a life is not a point. names.csv holds one Location per soul, and
 # measured on 5 Sep that column is THE BIRTHPLACE — nineteen of twenty
 # unambiguous figures. Newton in Lincolnshire, Einstein at Ulm, Marx at Trier,
-# Curie in Warsaw. Not one of them worked there. The map said "principal place
-# of activity" and drew where people were born (SLIP #68).
+# Curie in Warsaw. Not one of them worked there. The map said 'principal place
+# of activity' and drew where people were born (SLIP #68).
 #
 # A single Seat column would fix the label and still say nothing true about a
 # life: Einstein at Berlin is better than Einstein at Ulm and is still one
@@ -27,8 +27,8 @@ key,from,to,place,what,note
 # ── THE COLUMNS ──────────────────────────────────────────────────────────────
 #   key    the soul's roster key, from ROSTER-INDEX.json
 #   from   the year the position begins. A BEST DATE, not a certainty.
-#   to     the year it ends. Blank means "until death".
-#   place  same vocabulary as Location: "City, Country" is a pin, a bare
+#   to     the year it ends. Blank means 'until death'.
+#   place  same vocabulary as Location: 'City, Country' is a pin, a bare
 #          region is a wash. Verified by the probe, never invented.
 #   what   why they were there in one or two words — born · studied · worked ·
 #          ruled · exiled · died. It is the reason a reader can judge the claim.
