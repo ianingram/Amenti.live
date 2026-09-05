@@ -129,6 +129,11 @@ if (fs.existsSync(GAZ)) {
 }
 
 const lines = fs.readFileSync(SRC, 'utf8').split(/\r?\n/).filter(l => l.trim());
+
+/* the comet's own returns, read from the register rather than computed */
+const HALLEY = lines.slice(1).map(l => cut(l))
+  .filter(r => /comet/i.test((r[2] || '')) && /halley/i.test(r[1] || ''))
+  .map(r => parseFloat(r[0])).filter(n => !isNaN(n)).sort((a, b) => a - b);
 const head  = cut(lines[0]).map(s => s.trim().toLowerCase());
 const C = n => head.indexOf(n);
 const yC = C('year'), nC = C('name'), catC = C('category'), dC = C('description');
@@ -148,6 +153,39 @@ for (const line of lines.slice(1)) {
   const place = (r[pC] || '').trim();
   const o = { y: y, n: name, c: (r[catC] || '').trim() };
   const note = noteC > -1 ? (r[noteC] || '').trim() : '';
+  /* ECHO · how long the event went on mattering. A JUDGEMENT, authored in
+     EVENTS.csv the way Place is, and carried through unchanged. The probe does
+     not check it because there is nothing to check it against — which is
+     itself worth knowing, and is why the surface must call it a reading. */
+  /* ── SMOULDERING, COUNTED IN COMET PASSES · 5 Sep ─────────────────────
+     `passes` is how many Halley returns an event went on mattering for. The
+     probe turns it into a REAL END YEAR from the register's own 48 returns,
+     so the smouldering stops at a date the sky supplies rather than at
+     year-plus-a-number somebody chose.
+
+     A property nobody designed: the span varies with where the event falls
+     between returns. Rome burns in 64 with the comet almost due, so two
+     passes is 77 years; Vesuvius is fifteen years later and gets 139. The
+     sky counts, not a judgement about which mattered more. */
+  var passC = C('passes');
+  var pv = passC > -1 ? (r[passC] || '').trim() : '';
+  if (pv === 'open') {
+    /* ── AN OPEN CLAIM NEEDS AN OPEN VALUE · 5 Sep ──────────────────────
+       "It has not gone out" is not a duration, and giving it one broke it.
+       Written first as 26 passes, Egyptian Unification went out in AD 374
+       and the Crucifixion in 1986, while the World Wide Web — three years
+       old — burned to 2061 on the same count. A bounded number cannot carry
+       an unbounded claim. `open` runs to the edge of the register and says
+       what it means. */
+    o.passes = 'open';
+    o.until = null;
+  } else if (pv && !isNaN(parseInt(pv, 10))) {
+    var np = parseInt(pv, 10);
+    o.passes = np;
+    var after = HALLEY.filter(function (h) { return h > y; });
+    o.until = after[np - 1] != null ? after[np - 1]
+            : (HALLEY[HALLEY.length - 1] > y ? HALLEY[HALLEY.length - 1] : y + 76);
+  }
   if (note) o.note = note;
 
   if (!place) { silent++; out.push(o); continue; }
@@ -193,6 +231,8 @@ console.log('── where the events happened ───────────�
 console.log('events        ' + out.length);
 console.log('pins          ' + (pinB + pinS + pinG) +
             '   (authored ' + (pinB + pinS) + ' · geonames ' + pinG + ')');
+console.log('smouldering   ' + out.filter(e=>e.passes).length +
+            '   (events with an authored number of comet passes)');
 console.log('territories   ' + wash);
 console.log('no place given' + String(silent).padStart(6) + '   (the column is empty — nothing is claimed)');
 console.log('UNPLACED      ' + String(unplaced).padStart(6) + '   (a place was named and could not be verified)');
