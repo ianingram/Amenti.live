@@ -538,7 +538,10 @@
          (The rejected value is deliberately not written here. The guard reads
          this file as TEXT, so naming the colour in a comment about not using
          the colour trips the guard about not using it.) */
-      '#amenti-map .mp-flash{fill:#ff9d5c;pointer-events:none}',
+      /* the fill is set per-mark: it is a TEMPERATURE, not a colour */
+      '#amenti-map .mp-flash{pointer-events:none;filter:url(#mp-glow)}',
+      '#amenti-map .mp-halo{fill:none;stroke:#ffffff;stroke-width:.6;',
+      '  vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-map .mp-evmark{fill:none;stroke:#e0794a;stroke-width:.75;',
       '  stroke-linecap:round;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-ev{cursor:default}',
@@ -836,6 +839,12 @@
             'on the pyramids at each rising. It is <b>a count, not a ' +
             'position</b>: at a register measured in years there is no honest ' +
             'longitude to draw.</p>' +
+          '<p><b>The event\u2019s own decade burns WHITE.</b> Ten real years \u2014 not ' +
+            'a fraction of the window and not a fraction of the echo, because ' +
+            'how hot a thing burned and how long it smouldered are different ' +
+            'claims. After that it cools along a ramp, white to amber to ember, ' +
+            'so the mark reads as a temperature falling rather than a dot ' +
+            'fading out.</p>' +
           '<p><b>An event smoulders for a number of COMET PASSES.</b> Rome ' +
             'burns in AD 64 and Halley returns in 66 and 141, so two passes puts ' +
             'it out in 141 \u2014 a date the sky supplies, not a number anyone ' +
@@ -1309,10 +1318,39 @@
               eh += '<circle class="mp-pulse" cx="' + xy[0].toFixed(2) + '" cy="' +
                     xy[1].toFixed(2) + '" r="' + rr.toFixed(2) + '" opacity="' +
                     ro.toFixed(3) + '"/>';
-            /* and the year itself is a bright point, before it becomes a ring */
-            if (since <= Math.max(1, echo / 60))
+            /* ── WHITE HOT, THEN COOLING · 5 Sep ───────────────────────────
+               The event's own decade burns WHITE. Not the ember orange the
+               ring uses — white, because that is what the top of a fire looks
+               like, and because a smoulder that never had a hot moment is not
+               a smoulder, it is a stain.
+
+               THE DECADE IS TEN REAL YEARS, not a fraction of anything. It
+               does not scale with the aperture and it does not scale with the
+               echo: an event is white hot for a decade whether it went on to
+               matter for two comet passes or twenty-six. How LONG it burned
+               and how HOT are different claims and must not be tied together.
+
+               After the decade it cools along a ramp — white to amber to the
+               ember the ring is drawn in — so the mark reads as a temperature
+               falling rather than a dot fading. The sky's whites are warm
+               creams and live in the band and over Giza; this one is cold
+               white on the land, and the two do not meet. */
+            var HOT = 10;
+            if (since <= HOT) {
+              var heat = 1 - since / HOT;             /* 1 at the year, 0 a decade on */
+              var cr = 255,
+                  cg = Math.round(255 - (1 - heat) * 80),
+                  cb = Math.round(255 - (1 - heat) * 160);
               eh += '<circle class="mp-flash" cx="' + xy[0].toFixed(2) + '" cy="' +
-                    xy[1].toFixed(2) + '" r="' + (1.6 * ivE).toFixed(2) + '"/>';
+                    xy[1].toFixed(2) + '" r="' + ((1.4 + heat * 1.8) * ivE).toFixed(2) +
+                    '" fill="rgb(' + cr + ',' + cg + ',' + cb + ')" opacity="' +
+                    (0.55 + heat * 0.45).toFixed(2) + '"/>';
+              /* a halo only at the height of it, so the decade has a peak */
+              if (heat > 0.5)
+                eh += '<circle class="mp-halo" cx="' + xy[0].toFixed(2) + '" cy="' +
+                      xy[1].toFixed(2) + '" r="' + ((3 + heat * 4) * ivE).toFixed(2) +
+                      '" opacity="' + ((heat - 0.5) * 0.5).toFixed(3) + '"/>';
+            }
           }
           eh += '<g class="mp-ev" data-y="' + ev.y + '" data-n="' + esc(ev.n) + '" opacity="' + op.toFixed(2) + '">' +
                 '<path class="mp-evmark" d="M' + (xy[0] - a).toFixed(2) + ' ' + xy[1].toFixed(2) +
