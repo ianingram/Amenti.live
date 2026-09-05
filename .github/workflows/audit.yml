@@ -79,6 +79,30 @@ jobs:
         continue-on-error: true
         run: node probes/probe-geo.mjs . --check
 
+      # Added 5 Sep. EVENTS.csv carries an AUTHORED Place column; this checks
+      # that every place still resolves and that the country in each string
+      # still agrees with the gazetteer. That check caught Thebes-in-Greece,
+      # Olympia-in-Washington, Bethlehem-in-Brazil and Carthage-in-Ohio.
+      - name: do the events still know where they happened
+        id: events
+        continue-on-error: true
+        run: node probes/probe-events.mjs . --check
+
+      # ── AND THE ONE THE OTHERS CANNOT DO · 5 Sep ─────────────────────────
+      # probe-geo guards the souls, probe-events the events, probe-map the
+      # drawing — and NOT ONE OF THEM CAN SEE A BAD JOIN, because in a bad join
+      # nothing inside either register is wrong. Both parents pass their own
+      # checks and the child is still false. That is the shape of every fault
+      # found on 4 Sep, and the reason edge data (#66) needed its own guard.
+      #
+      # On its first run it caught GEO.json and EVENTS.json being unable to
+      # PROVE they rested on the same gazetteer — two registers that cannot be
+      # shown to share ground cannot honestly be joined.
+      - name: is the edge data honest
+        id: join
+        continue-on-error: true
+        run: node probes/probe-join.mjs . --check
+
       - name: commit the registers
         run: |
           git config user.name  "the full audit"
@@ -119,6 +143,18 @@ jobs:
         if: steps.map.outcome == 'failure'
         run: |
           echo "::error::THE MAP IS CLAIMING MORE THAN IT CAN SUPPORT. See the 'is the map still honest' step. The Region tripwire fails above 3% — the namesake bug put it at 13% on 4 Sep."
+          exit 1
+
+      - name: an event that lost its place is a real finding
+        if: steps.events.outcome == 'failure'
+        run: |
+          echo "::error::AN EVENT'S PLACE NO LONGER RESOLVES, or a country check failed. See the 'do the events still know where they happened' step. Place is AUTHORED in EVENTS.csv — a machine may verify it and must never invent one."
+          exit 1
+
+      - name: a join that claims too much is a real finding
+        if: steps.join.outcome == 'failure'
+        run: |
+          echo "::error::THE EDGE DATA IS CLAIMING MORE THAN ITS TWO PARENTS CAN CARRY. See the 'is the edge data honest' step. Nothing inside either register need be wrong for this to fire — that is what it is for."
           exit 1
 
       - name: a register that cannot be rebuilt is a real finding
