@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-05T22:12:06.632Z",
+    "generated": "2026-09-05T22:13:31.719Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49506,
-      "sha256": "54b51fd525a41095",
+      "sha256": "bdb5dcd1df198943",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1711,7 +1711,7 @@
         "file": "probe-geo.mjs",
         "title": "THE PLACE REGISTER",
         "guards": null,
-        "bytes": 30023
+        "bytes": 33434
       },
       {
         "file": "probe-hall-wall.mjs",
@@ -1783,7 +1783,7 @@
         "file": "probe-seats.mjs",
         "title": "WAS THE SOUL WHERE AND WHEN IT SAYS",
         "guards": "──────────────────────────────────────────────────────",
-        "bytes": 9131
+        "bytes": 10021
       },
       {
         "file": "probe-serves.mjs",
