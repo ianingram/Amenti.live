@@ -91,7 +91,73 @@ export const BATTLEFIELDS = {
 };
 
 /* seats no modern gazetteer holds, specific to the events */
+// ── added 5 Sep · every one refused by the country check ─────────────────────
+// The gazetteer keeps the LARGEST place of each name, which for a historical
+// register is the wrong one over and over: Thebes resolved to Greece, Olympia
+// to Washington State, Bethlehem to Brazil, Verdun to Canada, Cordoba to
+// Argentina for the THIRD time tonight, and Venice — by an alternate-name
+// collision — to Dayton, Ohio. Each was refused rather than pinned. These are
+// the real coordinates.
 export const EVENT_SEATS = {
+  /* ancient and remote seats no population gazetteer holds. Several are
+     already in probe-geo's HISTORICAL table for the souls; they are repeated
+     here rather than cross-imported because that table is keyed to a soul's
+     Location and this one to an event's Place, and one table serving two
+     different questions is how a shared file starts to disagree with itself. */
+  'babylon':          [ 32.5420,  44.4210],
+  'lumbini':          [ 27.4690,  83.2760],
+  'chang an':         [ 34.3416, 108.9398],   /* Xi'an */
+  'woolsthorpe':      [ 52.8090,  -0.6260],   /* the manor, Lincolnshire */
+  'saint helena':     [-15.9650,  -5.7080],
+  'antarctica':       [-90.0000,   0.0000],   /* the pole itself */
+  'baikonur':          [  45.9650,    63.3050],
+  'balmoral':          [  57.0400,    -3.2300],
+  'berkeley':          [  51.6910,    -2.4570]   /* Berkeley, Gloucestershire — NOT Berkeley, California */,
+  'bethlehem':         [  31.7050,    35.2030]   /* NOT Belem, Brazil */,
+  'blackburn':         [  53.7480,    -2.4830],
+  'boca raton':        [  26.3590,   -80.0830],
+  'cambridge':         [  42.3736,   -71.1097]   /* Cambridge, Massachusetts — the England one is separate below */,
+  'clermont-ferrand':  [  45.7770,     3.0870],
+  'coalbrookdale':     [  52.6370,    -2.4890],
+  'cordoba':           [  37.8916,    -4.7728]   /* Cordoba, Andalusia — NOT Cordoba, Argentina */,
+  'crotone':           [  39.0800,    17.1200],
+  'darlington':        [  54.5230,    -1.5590],
+  'dayton':            [  39.7590,   -84.1920]   /* Dayton, Ohio — the Accords; Dayton TENNESSEE is the Scopes trial */,
+  'dudley':            [  52.5120,    -2.0810],
+  'dunhuang':          [  40.1420,    94.6620],
+  'frombork':          [  54.3590,    19.6800],
+  'fulton':            [  38.8470,   -91.9480]   /* Fulton, Missouri — the Iron Curtain speech */,
+  'iznik':             [  40.4290,    29.7200]   /* Nicaea */,
+  'kamakura':          [  35.3190,   139.5500],
+  'killingworth':      [  55.0300,    -1.5600],
+  'kitty hawk':        [  36.0640,   -75.7060],
+  'kothen':            [  51.7510,    11.9700]   /* Kothen, Anhalt */,
+  'kozhikode':         [  11.2588,    75.7804]   /* Calicut */,
+  'maastricht':        [  50.8510,     5.6910],
+  'menlo park':        [  40.5470,   -74.3320]   /* Menlo Park, New Jersey — Edison; NOT Menlo Park, California */,
+  'montgomery':        [  32.3668,   -86.3000]   /* Montgomery, Alabama — NOT Sahiwal, Pakistan */,
+  'munster':           [  51.9620,     7.6260]   /* Munster, Westphalia */,
+  'murray hill':       [  40.6840,   -74.4010]   /* Bell Labs, New Jersey */,
+  'oldham':            [  53.5410,    -2.1180],
+  'olympia':           [  37.6380,    21.6300]   /* Olympia, Elis — NOT Olympia, Washington */,
+  'promontory':        [  41.6200,  -112.5500]   /* Promontory Summit, Utah */,
+  'qufu':              [  35.6000,   116.9900],
+  'rashid':            [  31.4040,    30.4160]   /* Rosetta */,
+  'runnymede':         [  51.4440,    -0.5670],
+  'san mateo':         [  37.5630,  -122.3255]   /* San Mateo, California — NOT San Mateo, Philippines */,
+  'santa clara':       [  37.3541,  -121.9552]   /* Santa Clara, California — NOT Santa Clara, Cuba */,
+  'seneca falls':      [  42.9110,   -76.7960],
+  'shenzhen':          [  22.5430,   114.0580],
+  'thebes':            [  25.7200,    32.6100]   /* Egyptian Thebes, at Luxor — NOT Thivai in Greece */,
+  'titusville':        [  41.6270,   -79.6720]   /* Titusville, Pennsylvania */,
+  'tordesillas':       [  41.5040,    -5.0030],
+  'trento':            [  46.0670,    11.1210]   /* Trent */,
+  'venice':            [  45.4371,    12.3326]   /* NOT Venice, Florida, and NOT Dayton, Ohio */,
+  'verdun':            [  49.1600,     5.3800]   /* NOT Verdun, Quebec */,
+  'wittenberg':        [  51.8670,    12.6470]   /* Lutherstadt Wittenberg */,
+  'worms':             [  49.6330,     8.3600],
+  'wurzburg':          [  49.7910,     9.9530],
+  'xianyang':          [  34.3300,   108.7000],
   'pompeii':         [  40.7500,    14.4860]   /* buried 79 AD */,
   'tenochtitlan':    [  19.4350,   -99.1410]   /* beneath Mexico City */
 };
@@ -100,6 +166,11 @@ export const EVENT_SEATS = {
    probes/extents.mjs, which the souls use too. Only names that table does not
    already carry belong here. [south, west, north, east] */
 export const EVENT_EXTENTS = {
+  /* a national election has no seat — it is the whole country, one day */
+  'united states':    [24.0, -125.0, 49.5, -66.0],
+  'united kingdom':   [49.9,  -8.2,  60.9,   1.8],
+  'levant':           [29.5,  34.0,  37.3,  42.4],
+  'western asia':     [12.0,  25.0,  43.0,  63.0],
   'haiti':            [18.0, -74.5, 20.1, -71.6],
   'cuba':             [19.8, -85.0, 23.3, -74.1],
   'crimea':           [44.3,  32.4, 46.3,  36.7],
