@@ -442,9 +442,14 @@
       '  flex:0 0 auto;user-select:none}',
       /* THE YEAR IS THE FACE OF THE INSTRUMENT. Everything else on this band
          is a means of changing it, so it is the only thing set large. */
-      '#amenti-map .mp-read{color:#f0f5fb;font-size:27px;letter-spacing:.01em;',
-      '  font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;',
-      '  min-width:250px;line-height:1}',
+      '#amenti-map .mp-readwrap{flex:0 0 auto;min-width:250px}',
+      '#amenti-map .mp-mark{display:block;height:15px;font:400 12px/15px ui-monospace,',
+      '  Menlo,monospace;color:#e8c98a;letter-spacing:.04em;white-space:nowrap;',
+      '  opacity:0;transition:opacity .25s ease}',
+      '#amenti-map .mp-mark.on{opacity:1}',
+      '#amenti-map .mp-mark .mp-marksign{font-size:14px;filter:url(#mp-glow)}',
+      '#amenti-map .mp-read{display:block;color:#f0f5fb;font-size:27px;letter-spacing:.01em;',
+      '  font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1}',
       '#amenti-map .mp-ap{display:flex;gap:0;flex:0 0 auto;',
       '  border:1px solid #23303f;border-radius:4px;overflow:hidden}',
       '#amenti-map .mp-ap button{position:relative;font:400 13px/1 ui-monospace,Menlo,monospace;',
@@ -548,7 +553,21 @@
           '</g><g class="mp-sky"></g>' +
         '</svg>' +
         '<div class="mp-foot">' +
-          '<span class="mp-read"></span>' +
+          '<span class="mp-readwrap">' +
+            /* ── WHAT HAPPENED IN THIS YEAR · 4 Sep ────────────────────────
+               The band counts what is in the window; the Giza mark shows the
+               last event crossed. Neither says THIS YEAR, and that is the
+               claim the sky most naturally makes — a conjunction is a
+               date-fact before it is a place-fact, and the year readout is
+               where a reader is already looking.
+
+               So it lights only when the leading edge is ON the event, and
+               goes dark again the moment it is passed. A permanent badge
+               would be a third copy of the same information; a flash as you
+               cross 1486 is a reading. */
+            '<span class="mp-mark"></span>' +
+            '<span class="mp-read"></span>' +
+          '</span>' +
           '<span class="mp-ap">' +
             APERTURES.map(function (a) {
               return '<button type="button" data-ap="' + a + '"' +
@@ -992,16 +1011,42 @@
         var bodies = recent.kind === 'gathering'
           ? ['\u2643', '\u2644', '\u2645', '\u2646']
           : ['\u2643', '\u2644'];
-        var span = (bodies.length - 1) * 7 * iv;
-        bodies.forEach(function (sg, i) {
-          hg += '<text class="mp-sign mp-over" x="' + (gzc[0] - span / 2 + i * 7 * iv).toFixed(2) +
-                '" y="' + (gzc[1] - 8 * iv).toFixed(2) + '" font-size="' + (7 * iv).toFixed(3) +
-                '">' + sg + '</text>';
-        });
-        hg += '<text class="mp-obslabel" x="' + gzc[0].toFixed(2) + '" y="' + (gzc[1] - 15 * iv).toFixed(2) +
-              '" font-size="' + (5 * iv).toFixed(3) + '">' +
-              (recent.kind === 'gathering' ? 'gathering' : 'great conjunction') +
-              ' \u00b7 ' + yr(recent.y) + '</text>';
+        /* ── WHEN GIZA LEAVES THE FRAME · 4 Sep ────────────────────────────
+           The signs are anchored over Giza because that is where the register
+           computed them, and at world scale that is the whole story. Zoomed
+           in it is not: MEASURED, Giza is off screen at Chang'an by x4 and
+           anywhere in the Americas from x2, so a reader exploring the Han
+           court or Tenochtitlan silently loses the event entirely.
+
+           Leaving it would be defensible and unhelpful. Drawing it where they
+           are looking would be a lie — the conjunction was not observed over
+           Chang'an. So it moves to THE BAND, which is already declared as not
+           the earth and is exactly where a placeless sky claim belongs. Same
+           reasoning that put Halley there rather than on a coordinate. The
+           label keeps saying over Giza, so the observer is never lost. */
+        var gizaOn = (gzc[0] * K + TX) >= 0 && (gzc[0] * K + TX) <= VB_W &&
+                     (gzc[1] * K + TY) >= 0 && (gzc[1] * K + TY) <= VB_H;
+        var kindWord = recent.kind === 'gathering' ? 'gathering' : 'great conjunction';
+
+        if (gizaOn) {
+          var span = (bodies.length - 1) * 7 * iv;
+          bodies.forEach(function (sg, i) {
+            hg += '<text class="mp-sign mp-over" x="' + (gzc[0] - span / 2 + i * 7 * iv).toFixed(2) +
+                  '" y="' + (gzc[1] - 8 * iv).toFixed(2) + '" font-size="' + (7 * iv).toFixed(3) +
+                  '">' + sg + '</text>';
+          });
+          hg += '<text class="mp-obslabel" x="' + gzc[0].toFixed(2) + '" y="' + (gzc[1] - 15 * iv).toFixed(2) +
+                '" font-size="' + (5 * iv).toFixed(3) + '">' + kindWord +
+                ' \u00b7 ' + yr(recent.y) + '</text>';
+        } else {
+          var bx = 560;
+          bodies.forEach(function (sg, i) {
+            h += '<text class="mp-sign" x="' + (bx + i * 9) + '" y="' + (bandY + 3) + '">' + sg + '</text>';
+          });
+          h += '<text class="mp-obslabel" x="' + (bx + bodies.length * 9 + 4) + '" y="' + (bandY + 3) +
+               '" text-anchor="start">' + kindWord + ' \u00b7 ' + yr(recent.y) +
+               ' \u00b7 over giza, off frame</text>';
+        }
       }
 
       if (inWin.length) {
@@ -1101,6 +1146,37 @@
     gsky.innerHTML = h;
     var gskygeo = el.querySelector('.mp-skygeo');
     if (gskygeo) gskygeo.innerHTML = hg;
+
+    /* ── THE YEAR'S OWN EVENT ────────────────────────────────────────────────
+       Tolerance scales with the aperture: at one Jupiter a reader steps in
+       years and the edge lands squarely on a date; at "all of it" a step is
+       decades and nothing would ever match exactly. A hundredth of the window
+       either side, and at least one year — so the flash means "you are on it"
+       at every scale rather than only at the close ones. */
+    var mk = el.querySelector('.mp-mark');
+    if (mk) {
+      var tol = Math.max(1, Math.round(APERTURE / 100)), at = [];
+      if (sky) sky.forEach(function (e) {
+        if (e.kind === 'due-east') return;
+        if (Math.abs(e.y - hi) <= tol)
+          at.push({ sign: e.kind === 'gathering' ? '\u2643\u2644\u2645\u2646' : '\u2643\u2644',
+                    what: e.kind === 'gathering' ? 'the outer planets gather' : 'a great conjunction',
+                    y: e.y });
+      });
+      if (comets) comets.forEach(function (e) {
+        if (Math.abs(e.y - hi) <= tol)
+          at.push({ sign: '\u2604', what: 'Halley returns', y: e.y });
+      });
+      if (at.length) {
+        mk.innerHTML = at.slice(0, 2).map(function (a) {
+          return '<span class="mp-marksign">' + a.sign + '</span> ' + esc(a.what) +
+                 ', ' + yr(a.y);
+        }).join('   \u00b7   ');
+        mk.classList.add('on');
+      } else {
+        mk.classList.remove('on');
+      }
+    }
 
     /* THE READOUT NAMES THE SILENCE. */
     var t = geo.totals;
