@@ -253,7 +253,7 @@
       /* right padding CLEARS THE FACULTY RAIL. Seen live: the legend ran under
          the globe and "no honest place — not drawn" was cut mid-word, which
          is the one line on this surface that declares what the map omits. */
-      '  padding:26px 84px 22px 262px;gap:0}',
+      '  padding:26px 84px 22px 268px;gap:0}',
       /* min-height:0 or the SVG refuses to shrink and shoves the slider and the
          attribution off the bottom of the viewport — seen live, both gone. */
       '#amenti-map svg{flex:1 1 auto;min-height:0;width:100%;overflow:visible}',
@@ -290,8 +290,17 @@
       '#amenti-map .mp-zoomctl button:hover{color:#a9edff;background:rgba(12,24,34,.95)}',
       '#amenti-map .mp-zoomctl button:focus-visible{outline:2px solid #5fd0e8;outline-offset:-2px}',
       /* the list */
-      '#amenti-map .mp-list{position:absolute;left:26px;top:74px;bottom:150px;width:210px;',
-      '  z-index:6;display:flex;flex-direction:column;pointer-events:auto}',
+      /* ── THE LIST NEEDS A GROUND · 4 Sep ──────────────────────────────────
+         SEEN LIVE: the names were drawn straight onto the Pacific with nothing
+         behind them, so "Arcadius Constantinople" floated in open water and
+         read as a label ON the map rather than a list BESIDE it. A panel and
+         a rule fix it: the column is now plainly a different surface, and the
+         eye stops trying to place it geographically. */
+      '#amenti-map .mp-list{position:absolute;left:0;top:64px;bottom:142px;width:246px;',
+      '  z-index:6;display:flex;flex-direction:column;pointer-events:auto;',
+      '  padding:14px 14px 14px 26px;background:linear-gradient(90deg,',
+      '  rgba(6,8,14,.94) 0%,rgba(6,8,14,.92) 72%,rgba(6,8,14,0) 100%);',
+      '  border-right:1px solid rgba(43,58,80,.5)}',
       '#amenti-map .mp-listhead{font:400 10.5px/1.4 ui-monospace,Menlo,monospace;',
       '  color:#6f8098;padding-bottom:7px;border-bottom:1px solid #1e2836;margin-bottom:5px}',
       '#amenti-map .mp-listbody{overflow-y:auto;overflow-x:hidden;flex:1;',
@@ -430,7 +439,15 @@
       '#amenti-map .mp-relief{display:none;opacity:.95}',
       '#amenti-map.mp-atlas .mp-relief{display:block}',
       '#amenti-map.mp-atlas .mp-land{fill:none;stroke:#31435c}',
-      '#amenti-map .mp-key{display:flex;gap:18px;align-items:center;font-size:12px;color:#8fa2ba}',
+      /* ── THE LEGEND MUST NOT RUN OFF THE PAGE · 4 Sep ─────────────────────
+         SEEN LIVE: five entries on one line overflowed the right edge, and
+         the last swatch — the amber diamond — was left stranded with its
+         words cut off. A key without its text is worse than no key: a reader
+         sees a mark they cannot look up and assumes it means something on the
+         map. It wraps now, and the row can grow. */
+      '#amenti-map .mp-key{display:flex;gap:6px 18px;align-items:center;font-size:12px;',
+      '  color:#8fa2ba;flex-wrap:wrap;justify-content:flex-end;max-width:62vw}',
+      '#amenti-map .mp-key>span{white-space:nowrap}',
       '#amenti-map .mp-key i{display:inline-block;vertical-align:middle;margin-right:7px}',
       '#amenti-map .mp-key .k-pin{width:7px;height:7px;border-radius:50%;background:#5fd0e8}',
       '#amenti-map .mp-key .k-wash{width:16px;height:9px;border-radius:2px;background:rgba(74,108,143,.42)}',
@@ -887,12 +904,18 @@
        STATED under the map. A hidden name is a fact about the view, not an
        absence to be quiet about. Every dropped label is still on its pin's
        hover. */
+    /* Seats behind the list panel keep their dot and lose their label: the
+       name is already in the column, two feet to the left and four times the
+       size. Printing it twice is how Constantinople ended up written over
+       itself. */
+    var GUTTER = 268 / (el.querySelector('svg') || { clientWidth: 1000 }).clientWidth * VB_W;
     var placed = [], shown = 0, hidden = 0;
     [].slice.call(gp.children)
       .filter(function (g) { return !g.classList.contains('mp-out'); })
       .sort(function (x, y) { return y._rank - x._rank; })
       .forEach(function (g) {
         var x = g._x, y = g._y, w = g._w, fits = true;
+        if (x * K + TX < 0) fits = false;      /* off the left edge entirely */
         for (var i = 0; i < placed.length; i++) {
           var q = placed[i];
           if (Math.abs(x - q.x) < (w + q.w) && Math.abs(y - q.y) < 6.5 / K) { fits = false; break; }
