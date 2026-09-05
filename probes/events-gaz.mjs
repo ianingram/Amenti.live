@@ -99,6 +99,30 @@ export const BATTLEFIELDS = {
 // collision — to Dayton, Ohio. Each was refused rather than pinned. These are
 // the real coordinates.
 export const EVENT_SEATS = {
+  /* ── VILLAGES A LIFE PASSED THROUGH · added 5 Sep for SEATS.csv ──────────
+     A population gazetteer holds cities. A life is often lived in places too
+     small to be in one — Woolsthorpe, Downe, Zundert, Vinci. Same shape as the
+     battlefields above, and for the same reason: the record names them and
+     GeoNames has no cause to. */
+  'downe':            [ 51.3310,   0.0530],   /* Down House, Kent */
+  'pribor':           [ 49.6410,  18.1440],   /* Freiberg, Moravia */
+  'smiljan':          [ 44.5670,  15.3080],
+  'vinci':            [ 43.7830,  10.9250],
+  'amboise':          [ 47.4130,   0.9830],
+  'zundert':          [ 51.4700,   4.6560],
+  'auvers sur oise':  [ 49.0700,   2.1700],
+  'auvers-sur-oise':  [ 49.0700,   2.1700],
+  'roccasecca':       [ 41.5560,  13.6690],
+  'tauresium':        [ 41.9300,  21.6800],   /* near modern Skopje */
+  'caprese michelangelo':[43.6420, 11.9840],
+  'kothen':           [ 51.7510,  11.9700],
+  'santiponce':       [ 37.4360,  -6.0430],   /* Italica */
+  'saint helena':     [-15.9650,  -5.7080],
+  'woolsthorpe':      [ 52.8090,  -0.6260],
+  'darvel':           [ 55.6170,  -4.2900],
+  'wrington':         [ 51.3720,  -2.7640],
+  'szczecin':         [ 53.4280,  14.5530],   /* Stettin */
+
   /* ancient and remote seats no population gazetteer holds. Several are
      already in probe-geo's HISTORICAL table for the souls; they are repeated
      here rather than cross-imported because that table is keyed to a soul's
