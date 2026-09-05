@@ -1,537 +1,537 @@
-year,name,category,description
--9500,Gobekli Tepe built,monument,Oldest known megalithic temple complex.
--7500,Catalhoyuk settlement,civilization,Large Neolithic town in Anatolia.
--5500,Sumerian cities emerge,civilization,Earliest urban centers in Mesopotamia.
--4500,Wheel invented,invention,First evidence of the wheel in Mesopotamia.
--3500,Cuneiform script,invention,"Earliest writing system, Sumer."
--3200,Egyptian hieroglyphs,invention,Earliest known hieroglyphic writing.
--3100,Egyptian Unification,civilization,Upper and Lower Egypt unify under Narmer.
--2700,Step Pyramid of Djoser,monument,"Egypt's first pyramid, by Imhotep."
--2600,Indus Valley Civilization,civilization,Harappa and Mohenjo-daro flourish.
--2560,Great Pyramid of Giza,monument,Khufu's pyramid completed.
--2334,Sargon of Akkad,conquest,First known empire founded.
--2100,Epic of Gilgamesh recorded,culture,Oldest preserved literary work.
--1800,Stonehenge completed,monument,Megalithic monument finalized.
--1750,Code of Hammurabi,law,First written legal code in Babylon.
--1600,Minoan Thera eruption,disaster,Volcanic eruption ends Minoan civilization.
--1500,Vedas composed,religion,"Earliest Hindu scriptures, ancient India."
--1404,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--1334,Tutankhamun reigns,politics,Boy pharaoh restores Egyptian religion.
--1334,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--1274,Battle of Kadesh,conflict,Largest chariot battle in history.
--1265,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--1200,Bronze Age Collapse,disaster,Mediterranean civilizations collapse simultaneously.
--1200,Trojan War (traditional date),conflict,Mythic siege of Troy.
--1197,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--1130,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--1100,Phoenician alphabet,invention,First widely-used alphabet.
--1063,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--995,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--960,Solomon's Temple built,religion,First Temple in Jerusalem.
--930,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--866,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--802,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--800,Homer's epics composed,culture,Iliad and Odyssey take shape.
--776,First Olympic Games,culture,"Olympia, Greece."
--753,Founding of Rome,civilization,Traditional date of Rome's founding.
--740,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--677,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--660,Founding of Japan (legend),civilization,Traditional date of Emperor Jimmu.
--625,Lao Tzu born (traditional),religion,"Founder of Taoism, China."
--615,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--586,Babylonian destruction of Jerusalem,conflict,First Temple destroyed.
--563,Birth of the Buddha,religion,Siddhartha Gautama born in Lumbini.
--551,Confucius born,religion,Chinese philosopher and teacher.
--540,Pythagoras flourishes,science,Greek mathematician and mystic.
--540,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--525,Persia conquers Egypt,conquest,Cambyses II annexes Egypt.
--509,Roman Republic Founded,politics,Last king expelled; Republic begins.
--508,Athenian democracy,politics,"Cleisthenes reforms, first democracy."
--490,Battle of Marathon,conflict,Athenian victory over Persia.
--480,Battle of Thermopylae,conflict,Spartan stand against Xerxes.
--465,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--447,Parthenon construction begins,monument,"Athens, on the Acropolis."
--431,Peloponnesian War begins,conflict,Athens vs Sparta.
--399,Trial and death of Socrates,culture,Athenian philosopher executed.
--391,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--387,Plato founds the Academy,culture,First institution of higher learning.
--336,Alexander the Great rises,conquest,Begins his conquests at 20.
--335,Aristotle founds Lyceum,culture,Athens; tutor of Alexander.
--330,Persian Empire falls,conquest,Alexander defeats Darius III.
--323,Death of Alexander,politics,Empire fragments into Diadochi.
--315,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--300,Euclid's Elements,science,"Foundational geometry text, Alexandria."
--264,First Punic War,conflict,Rome vs Carthage begins.
--250,Library of Alexandria flourishes,culture,Greatest library of antiquity.
--239,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--221,Qin unifies China,politics,First Emperor Shi Huangdi.
--218,Hannibal crosses the Alps,conflict,Second Punic War.
--214,Great Wall of China started,monument,Initial unification of fortifications.
--202,Han Dynasty begins,politics,Liu Bang founds Han China.
--164,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--146,Destruction of Carthage,conflict,Third Punic War ends.
--100,Birth of Julius Caesar,politics,Roman general and statesman.
--86,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--63,Pompey takes Jerusalem,conflict,Rome enters Judea.
--44,Assassination of Caesar,politics,Ides of March; Roman Republic ends.
--31,Battle of Actium,conflict,Octavian defeats Antony and Cleopatra.
--27,Roman Empire begins,politics,Augustus becomes first Emperor.
--11,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
--4,Birth of Jesus (traditional),religion,Bethlehem.
-9,Battle of Teutoburg Forest,conflict,Germanic tribes destroy Roman legions.
-33,Crucifixion of Jesus,religion,Traditional date.
-43,Roman invasion of Britain,conquest,Claudius begins conquest.
-64,Great Fire of Rome,disaster,Nero blamed; Christians persecuted.
-66,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-70,Fall of Jerusalem,conflict,Roman destruction of Second Temple.
-79,Eruption of Vesuvius,disaster,Pompeii buried.
-80,Colosseum inaugurated,monument,"50,000-seat amphitheater opens in Rome."
-105,Paper invented in China,invention,Cai Lun develops papermaking.
-122,Hadrian's Wall built,monument,Frontier of Roman Britain.
-141,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-180,Antonine Plague peaks,disaster,Smallpox/measles ravages Roman Empire.
-218,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-220,Han Dynasty ends,politics,Three Kingdoms period begins in China.
-284,Diocletian reforms Rome,politics,Tetrarchy and economic reforms.
-295,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-312,Conversion of Constantine,religion,Battle of Milvian Bridge.
-313,Edict of Milan,religion,Christianity legalized in Roman Empire.
-325,Council of Nicaea,religion,First ecumenical council.
-330,Constantinople founded,civilization,Constantine's new Roman capital.
-374,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-378,Battle of Adrianople,conflict,Goths defeat Romans; military revolution.
-380,Christianity official Roman religion,religion,Edict of Thessalonica.
-395,Roman Empire splits,politics,East and West divided permanently.
-410,Sack of Rome by Visigoths,conflict,Alaric breaches the city.
-451,Battle of Chalons,conflict,Attila the Hun defeated in Gaul.
-451,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-455,Vandal sack of Rome,conflict,Genseric plunders the eternal city.
-476,Fall of Western Rome,politics,Last Western Emperor deposed.
-527,Justinian becomes Emperor,politics,Begins reconquest of the West.
-530,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-532,Hagia Sophia construction,monument,Justinian's great cathedral begun.
-535,Volcanic winter of 536,disaster,Worst climate catastrophe in 2000 years.
-541,Plague of Justinian,disaster,First recorded bubonic plague pandemic.
-570,Birth of Muhammad,religion,In Mecca.
-600,Gregorian chant codified,culture,Pope Gregory the Great.
-607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-610,Muhammad's first revelation,religion,In the cave of Hira.
-622,Hijra to Medina,religion,Year 1 of the Islamic calendar.
-630,Conquest of Mecca,conquest,Muhammad returns to Mecca.
-632,Death of Muhammad,religion,Rashidun Caliphate begins.
-636,Battle of Yarmouk,conflict,Muslim conquest of Levant.
-661,Umayyad Caliphate begins,politics,Capital moves to Damascus.
-684,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-711,Muslim conquest of Iberia,conquest,Tariq ibn Ziyad lands at Gibraltar.
-732,Battle of Tours,conflict,Charles Martel halts Umayyad advance.
-750,Abbasid Caliphate,politics,Capital moves to Baghdad.
-760,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-793,Lindisfarne raid,conflict,Viking Age begins.
-800,Charlemagne crowned Emperor,politics,Holy Roman Empire begins.
-802,Khmer Empire founded,civilization,Jayavarman II in Cambodia.
-820,Algebra invented,science,Al-Khwarizmi in Baghdad.
-837,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-843,Treaty of Verdun,politics,Carolingian Empire divided.
-862,Founding of Kievan Rus,civilization,Rurik in Novgorod.
-868,Diamond Sutra printed,invention,"Earliest dated printed book, China."
-907,Tang Dynasty falls,politics,Five Dynasties period in China.
-912,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-962,Holy Roman Empire founded,politics,Otto I crowned by the Pope.
-988,Conversion of Kievan Rus,religion,Vladimir adopts Orthodox Christianity.
-989,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1054,Great Schism,religion,Catholic and Orthodox churches split.
-1066,Battle of Hastings,conflict,William the Conqueror takes England.
-1066,Norman Conquest of England,conflict,Battle of Hastings.
-1066,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1071,Battle of Manzikert,conflict,Seljuks defeat Byzantines.
-1086,Domesday Book,law,William I survey of England.
-1095,First Crusade declared,religion,Pope Urban II at Clermont.
-1099,Crusaders take Jerusalem,conflict,First Crusade succeeds.
-1126,Averroes born,culture,Andalusian polymath.
-1145,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1147,Second Crusade,conflict,Failed campaign in the Holy Land.
-1163,Notre-Dame de Paris begun,monument,Gothic cathedral construction starts.
-1189,Third Crusade,conflict,Richard Lionheart vs Saladin.
-1192,Kamakura Shogunate,politics,First samurai government in Japan.
-1204,Sack of Constantinople,conflict,Fourth Crusade turns on Byzantines.
-1206,Genghis Khan unifies Mongols,conquest,Mongol Empire founded.
-1209,Albigensian Crusade,religion,Against Cathars in southern France.
-1215,Magna Carta,law,King John signs at Runnymede.
-1220,University of Paris chartered,culture,Formal recognition.
-1222,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1227,Death of Genghis Khan,politics,Mongol Empire at its peak.
-1241,Mongols invade Europe,conflict,"Battle of Mohi, Legnica."
-1258,Mongol sack of Baghdad,conflict,End of the Abbasid Caliphate.
-1271,Marco Polo journeys east,exploration,Begins journey to China.
-1271,Yuan Dynasty founded,politics,Kublai Khan rules China.
-1273,Aquinas Summa Theologica,religion,Defining work of scholastic theology.
-1291,Fall of Acre,conflict,Last Crusader state falls.
-1295,Marco Polo returns,exploration,Account of travels published.
-1301,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1307,Templars suppressed,religion,Philip IV arrests the order in France.
-1309,Avignon Papacy begins,religion,Popes move to France.
-1314,Battle of Bannockburn,conflict,Scottish independence from England.
-1325,Aztecs found Tenochtitlan,civilization,Capital on Lake Texcoco.
-1337,Hundred Years' War begins,conflict,England vs France.
-1346,Battle of Crecy,conflict,English longbow defeats French knights.
-1347,Black Death begins in Europe,disaster,Plague pandemic kills ~1/3 of Europe.
-1368,Ming Dynasty founded,politics,Hongwu Emperor expels the Mongols.
-1378,Western Schism,religion,Rival popes in Rome and Avignon.
-1378,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1381,Peasants' Revolt,politics,Wat Tyler's rebellion in England.
-1389,Battle of Kosovo,conflict,Ottoman advance into the Balkans.
-1397,Medici Bank founded,commerce,Florence; financiers of the Renaissance.
-1398,Timur sacks Delhi,conflict,Tamerlane's devastating raid.
-1402,Battle of Ankara,conflict,Timur captures Ottoman Sultan Bayezid.
-1415,Battle of Agincourt,conflict,Henry V's famous English victory.
-1431,Joan of Arc burned,conflict,Executed at Rouen.
-1438,Inca Empire expands,conquest,Pachacuti begins major expansion.
-1453,End of Hundred Years' War,conflict,French victory at Castillon.
-1453,Fall of Constantinople,conflict,Ottoman conquest; Byzantine Empire ends.
-1455,Gutenberg Bible printed,invention,First major book printed with movable type.
-1456,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1469,Birth of Machiavelli,culture,Florentine political theorist.
-1478,Spanish Inquisition begins,religion,Ferdinand and Isabella authorize.
-1485,Battle of Bosworth Field,conflict,Tudor dynasty begins in England.
-1488,Bartolomeu Dias rounds Cape,exploration,First European to round Africa.
-1492,Columbus reaches Americas,exploration,European contact with the New World.
-1494,Treaty of Tordesillas,politics,Spain and Portugal divide the world.
-1498,Vasco da Gama reaches India,exploration,First sea route to India.
-1502,First African slaves to Americas,commerce,Transatlantic slave trade begins.
-1503,Mona Lisa painted,culture,Leonardo begins the portrait.
-1508,Sistine Chapel ceiling,culture,Michelangelo begins the work.
-1513,Balboa reaches Pacific,exploration,First European on the Pacific from the New World.
-1517,Luther's 95 Theses,religion,Protestant Reformation begins.
-1517,Reformation begins,religion,Luther posts the 95 Theses.
-1519,Cortes conquers Aztecs,conquest,Fall of Tenochtitlan to follow.
-1519,Magellan begins circumnavigation,exploration,Spanish expedition departs.
-1521,Diet of Worms,religion,Luther refuses to recant.
-1521,Fall of Tenochtitlan,conquest,Aztec Empire ends.
-1531,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1532,Pizarro conquers Inca,conquest,Atahualpa captured at Cajamarca.
-1534,Act of Supremacy,religion,Henry VIII heads Church of England.
-1543,Copernicus De Revolutionibus,science,Heliocentric model published.
-1543,Vesalius On the Fabric,science,Modern anatomy founded.
-1545,Council of Trent begins,religion,Counter-Reformation.
-1556,Akbar becomes Mughal Emperor,politics,Great expansion of Mughal India.
-1564,Birth of Galileo,science,Italian astronomer and physicist.
-1564,Birth of Shakespeare,culture,Stratford-upon-Avon.
-1572,St Bartholomew's Day massacre,conflict,French Protestants killed.
-1582,Gregorian calendar,science,Pope Gregory XIII reforms the calendar.
-1588,Spanish Armada defeated,conflict,English victory over Philip II's fleet.
-1592,Imjin War,conflict,Japanese invasions of Korea.
-1598,Edict of Nantes,law,Religious toleration for Huguenots.
-1600,British East India Company,commerce,Royal charter granted.
-1602,Dutch East India Company,commerce,First multinational corporation.
-1605,Don Quixote published,culture,Cervantes; modern novel begins.
-1605,Gunpowder Plot,conflict,Failed attempt to blow up Parliament.
-1607,Jamestown founded,colonization,First permanent English colony in Americas.
-1607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1609,Galileo's telescope,science,Astronomical observations begin.
-1610,Galileo discovers Jupiter's moons,science,Four Galilean moons found.
-1611,King James Bible,religion,Authorized English translation.
-1618,Thirty Years' War begins,conflict,Defenestration of Prague.
-1620,Bacon's Novum Organum,science,Scientific method codified.
-1620,Mayflower lands at Plymouth,colonization,Pilgrims arrive in North America.
-1632,Galileo Dialogue published,science,Two World Systems; tried by Inquisition.
-1632,Taj Mahal begun,monument,Shah Jahan's tomb for Mumtaz.
-1633,Galileo trial,religion,Forced to recant heliocentrism.
-1637,Descartes Discourse on Method,science,Cogito ergo sum.
-1644,Ming Dynasty falls,politics,Qing Dynasty begins in China.
-1648,Treaty of Westphalia,politics,Ends Thirty Years' War; modern state system.
-1649,Charles I executed,politics,English Commonwealth begins.
-1660,Restoration of Charles II,politics,Stuart monarchy restored.
-1660,Royal Society chartered,science,England's scientific academy.
-1665,Great Plague of London,disaster,Last major plague outbreak in England.
-1666,Great Fire of London,disaster,Most of medieval London destroyed.
-1666,Newton's annus mirabilis,science,"Calculus, optics, gravitation."
-1675,Royal Observatory Greenwich,science,Founded for navigation.
-1682,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1683,Siege of Vienna,conflict,Ottoman advance halted.
-1687,Newton's Principia,science,Mathematical laws of motion and gravity.
-1689,English Bill of Rights,law,Constitutional limits on monarchy.
-1690,Locke's Two Treatises,politics,Natural rights and government by consent.
-1700,Great Northern War begins,conflict,Russia rises under Peter the Great.
-1703,Founding of St Petersburg,civilization,Peter the Great's new capital.
-1707,Act of Union (Britain),politics,Scotland and England unite.
-1709,Iron smelted with coke,invention,Abraham Darby; Industrial Revolution input.
-1712,Newcomen Steam Engine,invention,First practical atmospheric steam engine.
-1714,Hanoverian succession,politics,George I becomes British king.
-1721,Bach Brandenburg Concertos,culture,High Baroque masterpiece.
-1725,Bach Well-Tempered Clavier I,culture,Foundation of tonal music.
-1735,Linnaeus Systema Naturae,science,Modern taxonomy founded.
-1751,Encyclopedie begins,culture,Diderot and d'Alembert's great work.
-1755,Lisbon earthquake,disaster,Enlightenment crisis of theodicy.
-1756,Seven Years' War,conflict,First true world war.
-1759,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1760,Industrial Revolution begins,civilization,Britain begins mechanization.
-1762,Rousseau Social Contract,politics,Sovereignty of the people.
-1764,Spinning Jenny,invention,Hargreaves transforms textiles.
-1769,Watt's Steam Engine patent,invention,Modern steam engine; Industrial Revolution.
-1773,Boston Tea Party,politics,American protest against British tax.
-1775,American Revolution begins,conflict,Battles of Lexington and Concord.
-1776,US Declaration of Independence,politics,Thirteen colonies declare independence.
-1776,Wealth of Nations,economics,Adam Smith founds modern economics.
-1781,Battle of Yorktown,conflict,British surrender; American victory.
-1783,Montgolfier balloon flight,invention,First human flight.
-1783,Treaty of Paris,politics,US independence recognized.
-1787,US Constitution drafted,law,Philadelphia Convention.
-1789,French Revolution begins,politics,Storming of the Bastille.
-1789,Washington inaugurated,politics,First US President.
-1791,Haitian Revolution begins,conflict,Largest successful slave revolt.
-1791,US Bill of Rights ratified,law,First ten amendments.
-1793,Reign of Terror,politics,Robespierre dominates France.
-1796,Jenner smallpox vaccine,science,First vaccine in history.
-1798,Napoleon's Egyptian campaign,conquest,French invasion of Egypt.
-1799,Rosetta Stone discovered,science,Key to Egyptian hieroglyphs.
-1803,Louisiana Purchase,politics,US doubles in size.
-1804,Napoleon crowned Emperor,politics,Crowns himself in Notre-Dame.
-1807,Britain abolishes slave trade,law,Slave Trade Act.
-1807,Fulton's steamboat,invention,First commercial steamboat.
-1812,Napoleon invades Russia,conflict,Disastrous retreat from Moscow.
-1814,Stephenson's locomotive,invention,First practical steam locomotive.
-1815,Battle of Waterloo,conflict,Napoleon defeated; Concert of Europe begins.
-1820,Missouri Compromise,law,US slavery balance maintained.
-1821,Death of Napoleon,politics,Exiled at Saint Helena.
-1821,Faraday's electric motor,invention,First electromagnetic rotary device.
-1823,Monroe Doctrine,politics,Americas closed to European colonization.
-1825,Erie Canal opens,engineering,NYC to Great Lakes.
-1825,First passenger railway,invention,Stockton & Darlington Railway opens.
-1830,Indian Removal Act,politics,US forced relocation of native nations.
-1831,Faraday electromagnetic induction,science,Foundation of electric generators.
-1833,British abolish slavery,law,Slavery Abolition Act.
-1834,Mechanical refrigeration,invention,Jacob Perkins patents vapor compression -- the invention of ice.
-1835,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1837,Victoria becomes Queen,politics,Beginning of the Victorian era.
-1838,Trail of Tears,disaster,Forced Cherokee relocation.
-1839,Daguerreotype announced,invention,First practical photographic process.
-1839,First Opium War,conflict,Britain forces opium trade on China.
-1842,Treaty of Nanking,politics,Hong Kong ceded to Britain.
-1844,Telegraph: What hath God wrought,invention,Morse's first long message.
-1845,Irish Potato Famine,disaster,"Million dead, million emigrate."
-1848,California Gold Rush,civilization,Forty-niners head west.
-1848,Communist Manifesto published,politics,Marx and Engels.
-1848,Revolutions of 1848,politics,Liberal uprisings across Europe.
-1848,Seneca Falls Convention,politics,First women's rights convention.
-1851,Great Exhibition London,culture,Crystal Palace; first world's fair.
-1853,Perry opens Japan,politics,US Navy ends Japanese isolation.
-1854,Crimean War,conflict,"Russia vs Britain, France, Ottomans."
-1859,Darwin's Origin of Species,science,Theory of evolution by natural selection.
-1859,First commercial oil well,invention,Drake well in Pennsylvania.
-1860,Italian unification advances,politics,Garibaldi's Sicilian expedition.
-1861,American Civil War begins,conflict,Fort Sumter attacked.
-1863,Emancipation Proclamation,law,Lincoln frees Confederate slaves.
-1864,Geneva Convention,law,Rules of war and Red Cross founded.
-1865,Lincoln assassinated,politics,End of US Civil War; Reconstruction begins.
-1866,Mendel's laws of inheritance,science,Foundation of genetics.
-1867,Marx's Capital Volume I,economics,Critique of political economy.
-1869,Suez Canal opens,engineering,Connects Mediterranean and Red Sea.
-1869,Transcontinental Railroad,engineering,US east and west coasts connected.
-1871,German Empire founded,politics,Bismarck unifies Germany.
-1873,Maxwell electromagnetism,science,Unified theory of light and electricity.
-1876,Battle of Little Bighorn,conflict,Custer's last stand.
-1876,Bell patents telephone,invention,Voice transmission over wires.
-1877,Edison phonograph,invention,First sound recording device.
-1879,Edison's incandescent bulb,invention,Practical electric lighting.
-1882,Edison electric grid,invention,"Pearl Street Station, NYC."
-1884,Berlin Conference,politics,European partition of Africa.
-1885,Benz Patent Motorwagen,invention,First automobile.
-1886,Coca-Cola invented,commerce,"Atlanta, Georgia."
-1886,Statue of Liberty dedicated,monument,Gift from France to the US.
-1888,Hertz proves radio waves,science,Experimental confirmation of Maxwell.
-1889,Eiffel Tower opens,monument,Paris World's Fair centerpiece.
-1893,Women's suffrage in NZ,politics,First nation to grant women the vote.
-1895,Lumiere brothers cinema,invention,"First public film screening, Paris."
-1895,Roentgen discovers X-rays,science,New form of radiation.
-1896,Athens Olympics,culture,First modern Olympic Games.
-1898,Discovery of radium,science,Marie and Pierre Curie.
-1898,Spanish-American War,conflict,US emerges as global power.
-1900,Boxer Rebellion,conflict,Anti-foreign uprising in China.
-1900,Planck quantum hypothesis,science,Birth of quantum theory.
-1901,Marconi transatlantic radio,invention,First wireless transmission across Atlantic.
-1902,End of Boer War,conflict,Britain wins in South Africa.
-1903,Ford Motor Company,commerce,"Detroit, Michigan."
-1903,Wright Brothers first flight,invention,Kitty Hawk powered flight.
-1904,Russo-Japanese War,conflict,Japan defeats a European power.
-1905,Einstein Annus Mirabilis,science,"Special relativity, photoelectric, Brownian motion, E=mcÂ²."
-1908,Ford Model T,invention,Affordable automobile for the masses.
-1909,Peary at the North Pole,exploration,Or so he claimed.
-1910,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1911,Amundsen at South Pole,exploration,First confirmed to reach.
-1911,Chinese Revolution,politics,End of imperial China.
-1912,Titanic sinks,disaster,1500 dead in North Atlantic.
-1913,Bohr atomic model,science,Quantized electron orbits.
-1914,Panama Canal opens,engineering,Atlantic-Pacific shortcut.
-1914,World War I begins,conflict,Assassination of Archduke Franz Ferdinand.
-1915,Armenian Genocide,disaster,Ottoman massacre of Armenians.
-1915,Einstein general relativity,science,New theory of gravity.
-1916,Battle of the Somme,conflict,One million casualties.
-1916,Easter Rising,conflict,Irish independence struggle.
-1917,Balfour Declaration,politics,Britain supports Jewish homeland.
-1917,Russian Revolution,politics,Bolsheviks seize power.
-1917,US enters WWI,conflict,Wilson declares war.
-1918,Spanish Flu pandemic,disaster,~50 million dead worldwide.
-1918,WWI ends,conflict,Armistice on November 11.
-1919,Treaty of Versailles,politics,Punitive peace with Germany.
-1920,19th Amendment ratified,law,US women win the vote.
-1920,League of Nations founded,politics,Failed predecessor to UN.
-1922,Mussolini March on Rome,politics,Fascist takeover of Italy.
-1922,Soviet Union founded,politics,USSR formally established.
-1922,Tutankhamun's tomb discovered,science,Howard Carter in the Valley of the Kings.
-1923,Republic of Turkey founded,politics,Ataturk modernizes.
-1924,Death of Lenin,politics,Stalin's rise begins.
-1925,Scopes Monkey Trial,culture,Evolution on trial in Tennessee.
-1927,First talking film,culture,The Jazz Singer.
-1927,Lindbergh transatlantic flight,invention,"Spirit of St Louis, NYC to Paris."
-1928,Pact of Paris,politics,Kellogg-Briand renounces war.
-1928,Penicillin discovered,science,Alexander Fleming.
-1929,Wall Street Crash,economics,Great Depression begins.
-1931,Empire State Building,monument,Tallest building in the world.
-1933,FDR New Deal,politics,US response to Great Depression.
-1933,Hitler becomes Chancellor,politics,Nazi Party takes power.
-1935,Nuremberg Laws,law,Anti-Jewish legislation in Germany.
-1936,Spanish Civil War begins,conflict,Republic vs Nationalists.
-1937,Hindenburg disaster,disaster,Airship era ends.
-1937,Japanese invasion of China,conflict,Nanjing Massacre.
-1938,Kristallnacht,conflict,Night of Broken Glass against German Jews.
-1938,Munich Agreement,politics,Appeasement of Hitler.
-1939,Hitler-Stalin Pact,politics,Non-aggression treaty.
-1939,World War II begins,conflict,Germany invades Poland.
-1940,Battle of Britain,conflict,RAF defends against the Luftwaffe.
-1940,Fall of France,conflict,Nazi Germany conquers in six weeks.
-1941,Operation Barbarossa,conflict,Germany invades Soviet Union.
-1941,Pearl Harbor attack,conflict,US enters WWII.
-1942,Battle of Midway,conflict,Turning point in the Pacific.
-1942,Battle of Stalingrad,conflict,Turning point on the Eastern Front.
-1942,Wannsee Conference,conflict,Final Solution formalized.
-1944,D-Day Normandy,conflict,Allied invasion of Europe.
-1945,Atomic bombs on Japan,conflict,Hiroshima and Nagasaki; nuclear age begins.
-1945,Death of Hitler,politics,Suicide in Berlin bunker.
-1945,United Nations founded,politics,UN Charter signed in San Francisco.
-1945,VE Day,conflict,Germany surrenders.
-1945,Yalta Conference,politics,Allies divide postwar world.
-1946,Iron Curtain speech,politics,"Churchill at Fulton, Missouri."
-1947,Indian Independence,politics,Partition of British India.
-1947,Marshall Plan,economics,US aid rebuilds Europe.
-1947,Transistor invented,invention,Bell Labs; modern electronics.
-1948,Berlin Airlift,conflict,Cold War crisis.
-1948,State of Israel founded,politics,Modern Israel declares independence.
-1949,Mao founds PRC,politics,People's Republic of China.
-1949,NATO founded,politics,Western military alliance.
-1950,Korean War begins,conflict,North invades South.
-1953,DNA structure discovered,science,Watson and Crick double helix.
-1953,Stalin dies,politics,Khrushchev rises.
-1954,Brown v. Board of Education,law,US school segregation unconstitutional.
-1955,Rosa Parks,politics,Montgomery bus boycott begins.
-1956,Hungarian Revolution,conflict,Crushed by Soviet tanks.
-1956,Suez Crisis,conflict,End of European imperialism.
-1957,Sputnik launched,invention,First artificial satellite; Space Age begins.
-1958,Integrated circuit,invention,Jack Kilby at Texas Instruments.
-1958,NASA founded,science,US response to Sputnik.
-1959,Cuban Revolution,politics,Castro takes power.
-1960,Birth control pill approved,science,FDA approves Enovid.
-1961,Berlin Wall built,politics,Division of Germany formalized.
-1961,Gagarin in space,exploration,First human in orbit.
-1962,Cuban Missile Crisis,conflict,World on brink of nuclear war.
-1963,I Have a Dream speech,politics,MLK at the March on Washington.
-1963,Kennedy assassinated,politics,"Dallas, Texas."
-1964,Civil Rights Act,law,US bans racial discrimination.
-1965,US troops to Vietnam,conflict,Major escalation begins.
-1965,Voting Rights Act,law,US protects minority voting.
-1967,First heart transplant,science,Christiaan Barnard in South Africa.
-1967,Six-Day War,conflict,Israel vs Arab neighbors.
-1968,Apollo 8 orbits Moon,exploration,Earthrise photograph.
-1968,MLK assassinated,politics,"Memphis, Tennessee."
-1968,Prague Spring,politics,Crushed by Warsaw Pact invasion.
-1969,Apollo 11 moon landing,invention,Armstrong walks on the moon.
-1970,First Earth Day,culture,Environmental movement crystallizes.
-1971,Microprocessor invented,invention,Intel 4004.
-1972,Nixon visits China,politics,US-China rapprochement.
-1972,Watergate break-in,politics,Scandal that brings down Nixon.
-1973,OPEC oil embargo,economics,Energy crisis hits the West.
-1973,Roe v. Wade,law,US Supreme Court on abortion.
-1974,Nixon resigns,politics,First US president to resign.
-1975,Fall of Saigon,conflict,Vietnam War ends.
-1975,Microsoft founded,commerce,Gates and Allen.
-1976,Apple founded,commerce,Jobs and Wozniak.
-1977,First Star Wars film,culture,Blockbuster era begins.
-1978,First test-tube baby,science,Louise Brown via IVF.
-1979,Iranian Revolution,politics,Khomeini overthrows Shah.
-1979,Soviet invasion of Afghanistan,conflict,Decade-long quagmire begins.
-1979,Three Mile Island accident,disaster,US nuclear scare.
-1980,CNN launched,culture,First 24-hour news network.
-1981,AIDS first identified,disaster,Beginning of the epidemic.
-1981,IBM PC released,invention,Personal computing standardized.
-1981,Reagan assassination attempt,politics,Hinckley shoots the President.
-1982,Falklands War,conflict,UK vs Argentina.
-1984,Apple Macintosh,invention,GUI for the masses.
-1984,Bhopal disaster,disaster,Union Carbide gas leak in India.
-1985,Gorbachev becomes Soviet leader,politics,Glasnost and perestroika begin.
-1986,Challenger explosion,disaster,Space Shuttle disaster.
-1986,Chernobyl disaster,disaster,Worst nuclear accident.
-1986,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
-1987,Tear down this wall speech,politics,Reagan at Brandenburg Gate.
-1988,Iran-Iraq War ends,conflict,Eight-year war concludes.
-1989,Fall of Berlin Wall,politics,End of the Cold War era.
-1989,Tiananmen Square protests,politics,Chinese government crackdown.
-1990,Gulf War,conflict,Iraq invades Kuwait; US-led coalition responds.
-1990,Hubble telescope launched,science,Space-based observatory.
-1990,Mandela released,politics,After 27 years in prison.
-1991,Soviet Union dissolved,politics,15 successor states.
-1991,World Wide Web public,invention,Tim Berners-Lee releases WWW.
-1992,Maastricht Treaty,politics,European Union founded.
-1993,World Trade Center bombing,conflict,First attack on the towers.
-1994,Mandela elected President,politics,First democratic election in South Africa.
-1994,Rwandan Genocide,disaster,"800,000 killed in 100 days."
-1995,Dayton Accords,politics,End of Bosnian War.
-1995,Oklahoma City bombing,conflict,McVeigh's domestic terror attack.
-1996,Dolly the sheep cloned,science,First mammal cloned from adult cell.
-1997,Hong Kong handover,politics,British colony returns to China.
-1998,Good Friday Agreement,politics,Peace in Northern Ireland.
-1998,Google founded,commerce,Page and Brin at Stanford.
-1999,Columbine school shooting,conflict,Modern era of US school shootings.
-1999,Euro currency introduced,economics,European single currency.
-2000,Y2K transition,culture,Feared computer disaster averted.
-2001,9/11 attacks,conflict,"World Trade Center, Pentagon."
-2001,Wikipedia launched,culture,Free online encyclopedia.
-2002,Euro physical currency,economics,Euro notes and coins circulate.
-2003,Human Genome sequenced,science,Complete reference genome.
-2003,Iraq War begins,conflict,US-led invasion to topple Saddam.
-2003,Space Shuttle Columbia,disaster,Lost during re-entry.
-2004,Facebook launched,commerce,Social media transforms communication.
-2004,Indian Ocean tsunami,disaster,"230,000 dead across 14 countries."
-2005,Hurricane Katrina,disaster,New Orleans devastated.
-2005,YouTube launched,culture,Video sharing transforms media.
-2006,Twitter launched,culture,Microblogging emerges.
-2007,iPhone introduced,invention,Mobile computing era begins.
-2007,iPhone introduced (initial),invention,Smartphone era begins.
-2008,Global Financial Crisis,economics,Lehman collapse.
-2008,Obama elected,politics,First African-American US president.
-2009,Bitcoin genesis block,invention,First cryptocurrency launched.
-2010,Arab Spring begins,politics,Tunisian Revolution sparks regional uprisings.
-2010,Deepwater Horizon spill,disaster,Largest marine oil spill in history.
-2011,Death of bin Laden,conflict,US Navy SEAL raid in Pakistan.
-2011,Fukushima disaster,disaster,Nuclear meltdown after tsunami.
-2011,Syrian Civil War begins,conflict,Long and devastating conflict.
-2012,Higgs boson discovered,science,CERN announces discovery.
-2013,Snowden revelations,politics,NSA surveillance exposed.
-2014,Ebola outbreak West Africa,disaster,Largest Ebola epidemic in history.
-2014,Russia annexes Crimea,conflict,First land grab in Europe since WWII.
-2015,Paris Climate Agreement,politics,Global commitment to emissions.
-2015,Same-sex marriage legalized US,law,Obergefell v. Hodges.
-2016,Brexit referendum,politics,UK votes to leave EU.
-2016,Trump elected,politics,Disrupts US political establishment.
-2017,Total solar eclipse US,science,Path of totality across America.
-2018,CRISPR-edited babies,science,He Jiankui announces genetically modified twins.
-2019,Hong Kong protests,politics,Massive demonstrations for democracy.
-2020,COVID-19 pandemic,disaster,Global lockdowns.
-2020,George Floyd protests,politics,Global Black Lives Matter mobilization.
-2021,January 6 Capitol attack,politics,US Capitol breached.
-2021,Taliban retake Afghanistan,conflict,US withdrawal; 20-year war ends.
-2022,ChatGPT released,invention,Large-language-model era reaches public.
-2022,Queen Elizabeth II dies,politics,After 70-year reign.
-2022,Russia invades Ukraine,conflict,Largest European war since WWII.
-2023,GPT-4 released,invention,Multimodal AI reaches mainstream.
-2024,AI Nobel Prizes,science,Physics and Chemistry both for AI work.
-2024,US presidential election,politics,Trump returns to office.
-2061,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.
+year,name,category,description,Place,note
+-9500,Gobekli Tepe built,monument,Oldest known megalithic temple complex.,"Gobekli Tepe, Turkey",
+-7500,Catalhoyuk settlement,civilization,Large Neolithic town in Anatolia.,"Catalhoyuk, Turkey",
+-5500,Sumerian cities emerge,civilization,Earliest urban centers in Mesopotamia.,Mesopotamia,
+-4500,Wheel invented,invention,First evidence of the wheel in Mesopotamia.,,
+-3500,Cuneiform script,invention,"Earliest writing system, Sumer.",,
+-3200,Egyptian hieroglyphs,invention,Earliest known hieroglyphic writing.,,
+-3100,Egyptian Unification,civilization,Upper and Lower Egypt unify under Narmer.,Egypt,"Narmer unites Upper and Lower Egypt; the seat is Memphis, the claim is the Nile"
+-2700,Step Pyramid of Djoser,monument,"Egypt's first pyramid, by Imhotep.","Saqqara, Egypt",
+-2600,Indus Valley Civilization,civilization,Harappa and Mohenjo-daro flourish.,South Asia,
+-2560,Great Pyramid of Giza,monument,Khufu's pyramid completed.,"Giza, Egypt",
+-2334,Sargon of Akkad,conquest,First known empire founded.,,"an empire founded, not a battle — Akkad is the seat, is that the claim?"
+-2100,Epic of Gilgamesh recorded,culture,Oldest preserved literary work.,,
+-1800,Stonehenge completed,monument,Megalithic monument finalized.,"Stonehenge, England",
+-1750,Code of Hammurabi,law,First written legal code in Babylon.,,
+-1600,Minoan Thera eruption,disaster,Volcanic eruption ends Minoan civilization.,"Santorini, Greece",
+-1500,Vedas composed,religion,"Earliest Hindu scriptures, ancient India.",,
+-1404,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-1334,Tutankhamun reigns,politics,Boy pharaoh restores Egyptian religion.,,
+-1334,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-1274,Battle of Kadesh,conflict,Largest chariot battle in history.,"Kadesh, Syria",
+-1265,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-1200,Bronze Age Collapse,disaster,Mediterranean civilizations collapse simultaneously.,,"a region-wide collapse over decades; no moment, no single theatre"
+-1200,Trojan War (traditional date),conflict,Mythic siege of Troy.,,the tradition names Troy; whether the war happened is the question
+-1197,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-1130,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-1100,Phoenician alphabet,invention,First widely-used alphabet.,,
+-1063,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-995,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-960,Solomon's Temple built,religion,First Temple in Jerusalem.,,
+-930,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-866,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-802,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-800,Homer's epics composed,culture,Iliad and Odyssey take shape.,,
+-776,First Olympic Games,culture,"Olympia, Greece.",,
+-753,Founding of Rome,civilization,Traditional date of Rome's founding.,"Rome, Italy",traditional date
+-740,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-677,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-660,Founding of Japan (legend),civilization,Traditional date of Emperor Jimmu.,Japan,legendary; no site the record can hold
+-625,Lao Tzu born (traditional),religion,"Founder of Taoism, China.",,
+-615,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-586,Babylonian destruction of Jerusalem,conflict,First Temple destroyed.,"Jerusalem, Israel",
+-563,Birth of the Buddha,religion,Siddhartha Gautama born in Lumbini.,,
+-551,Confucius born,religion,Chinese philosopher and teacher.,,
+-540,Pythagoras flourishes,science,Greek mathematician and mystic.,,
+-540,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-525,Persia conquers Egypt,conquest,Cambyses II annexes Egypt.,Egypt,
+-509,Roman Republic Founded,politics,Last king expelled; Republic begins.,,
+-508,Athenian democracy,politics,"Cleisthenes reforms, first democracy.",,
+-490,Battle of Marathon,conflict,Athenian victory over Persia.,"Marathon, Greece",
+-480,Battle of Thermopylae,conflict,Spartan stand against Xerxes.,"Thermopylae, Greece",
+-465,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-447,Parthenon construction begins,monument,"Athens, on the Acropolis.","Athens, Greece",
+-431,Peloponnesian War begins,conflict,Athens vs Sparta.,"Athens, Greece",Athens votes for war; the theatre is the whole Aegean
+-399,Trial and death of Socrates,culture,Athenian philosopher executed.,,
+-391,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-387,Plato founds the Academy,culture,First institution of higher learning.,,
+-336,Alexander the Great rises,conquest,Begins his conquests at 20.,"Pella, Greece",he takes the throne at Pella; the conquest is three continents
+-335,Aristotle founds Lyceum,culture,Athens; tutor of Alexander.,,
+-330,Persian Empire falls,conquest,Alexander defeats Darius III.,Persia,
+-323,Death of Alexander,politics,Empire fragments into Diadochi.,,
+-315,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-300,Euclid's Elements,science,"Foundational geometry text, Alexandria.",,
+-264,First Punic War,conflict,Rome vs Carthage begins.,Sicily,"Rome against Carthage, fought for Sicily and at sea"
+-250,Library of Alexandria flourishes,culture,Greatest library of antiquity.,,
+-239,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-221,Qin unifies China,politics,First Emperor Shi Huangdi.,,
+-218,Hannibal crosses the Alps,conflict,Second Punic War.,the Alps,
+-214,Great Wall of China started,monument,Initial unification of fortifications.,China,fortifications joined across the northern frontier
+-202,Han Dynasty begins,politics,Liu Bang founds Han China.,,
+-164,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-146,Destruction of Carthage,conflict,Third Punic War ends.,"Carthage, Tunisia",
+-100,Birth of Julius Caesar,politics,Roman general and statesman.,,
+-86,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-63,Pompey takes Jerusalem,conflict,Rome enters Judea.,"Jerusalem, Israel",
+-44,Assassination of Caesar,politics,Ides of March; Roman Republic ends.,,
+-31,Battle of Actium,conflict,Octavian defeats Antony and Cleopatra.,"Actium, Greece",
+-27,Roman Empire begins,politics,Augustus becomes first Emperor.,,
+-11,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+-4,Birth of Jesus (traditional),religion,Bethlehem.,,
+9,Battle of Teutoburg Forest,conflict,Germanic tribes destroy Roman legions.,"Kalkriese, Germany",
+33,Crucifixion of Jesus,religion,Traditional date.,,
+43,Roman invasion of Britain,conquest,Claudius begins conquest.,"Richborough, England",Claudius' landing; the conquest takes forty years
+64,Great Fire of Rome,disaster,Nero blamed; Christians persecuted.,"Rome, Italy",
+66,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+70,Fall of Jerusalem,conflict,Roman destruction of Second Temple.,"Jerusalem, Israel",
+79,Eruption of Vesuvius,disaster,Pompeii buried.,"Pompeii, Italy",
+80,Colosseum inaugurated,monument,"50,000-seat amphitheater opens in Rome.","Rome, Italy",
+105,Paper invented in China,invention,Cai Lun develops papermaking.,,
+122,Hadrian's Wall built,monument,Frontier of Roman Britain.,,"117 km from the Tyne to the Solway — a line, not a point"
+141,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+180,Antonine Plague peaks,disaster,Smallpox/measles ravages Roman Empire.,Roman Empire,
+218,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+220,Han Dynasty ends,politics,Three Kingdoms period begins in China.,,
+284,Diocletian reforms Rome,politics,Tetrarchy and economic reforms.,,
+295,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+312,Conversion of Constantine,religion,Battle of Milvian Bridge.,,
+313,Edict of Milan,religion,Christianity legalized in Roman Empire.,,
+325,Council of Nicaea,religion,First ecumenical council.,,
+330,Constantinople founded,civilization,Constantine's new Roman capital.,Constantinople,
+374,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+378,Battle of Adrianople,conflict,Goths defeat Romans; military revolution.,"Edirne, Turkey",
+380,Christianity official Roman religion,religion,Edict of Thessalonica.,,
+395,Roman Empire splits,politics,East and West divided permanently.,,
+410,Sack of Rome by Visigoths,conflict,Alaric breaches the city.,"Rome, Italy",
+451,Battle of Chalons,conflict,Attila the Hun defeated in Gaul.,"Chalons-en-Champagne, France",
+451,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+455,Vandal sack of Rome,conflict,Genseric plunders the eternal city.,"Rome, Italy",
+476,Fall of Western Rome,politics,Last Western Emperor deposed.,,
+527,Justinian becomes Emperor,politics,Begins reconquest of the West.,,
+530,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+532,Hagia Sophia construction,monument,Justinian's great cathedral begun.,Constantinople,
+535,Volcanic winter of 536,disaster,Worst climate catastrophe in 2000 years.,,cause and vent still debated — Iceland or the tropics; a global effect with no agreed source
+541,Plague of Justinian,disaster,First recorded bubonic plague pandemic.,Constantinople,
+570,Birth of Muhammad,religion,In Mecca.,,
+600,Gregorian chant codified,culture,Pope Gregory the Great.,,
+607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+610,Muhammad's first revelation,religion,In the cave of Hira.,,
+622,Hijra to Medina,religion,Year 1 of the Islamic calendar.,,
+630,Conquest of Mecca,conquest,Muhammad returns to Mecca.,"Mecca, Saudi Arabia",
+632,Death of Muhammad,religion,Rashidun Caliphate begins.,,
+636,Battle of Yarmouk,conflict,Muslim conquest of Levant.,"Yarmouk, Syria",
+661,Umayyad Caliphate begins,politics,Capital moves to Damascus.,,
+684,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+711,Muslim conquest of Iberia,conquest,Tariq ibn Ziyad lands at Gibraltar.,Gibraltar,Tariq ibn Ziyad lands here; the conquest is the peninsula
+732,Battle of Tours,conflict,Charles Martel halts Umayyad advance.,"Tours, France",
+750,Abbasid Caliphate,politics,Capital moves to Baghdad.,,
+760,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+793,Lindisfarne raid,conflict,Viking Age begins.,"Lindisfarne, England",
+800,Charlemagne crowned Emperor,politics,Holy Roman Empire begins.,,
+802,Khmer Empire founded,civilization,Jayavarman II in Cambodia.,"Angkor, Cambodia",Jayavarman II; the capital moves later
+820,Algebra invented,science,Al-Khwarizmi in Baghdad.,,
+837,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+843,Treaty of Verdun,politics,Carolingian Empire divided.,,
+862,Founding of Kievan Rus,civilization,Rurik in Novgorod.,"Novgorod, Russia","Rurik at Novgorod, not yet Kiev"
+868,Diamond Sutra printed,invention,"Earliest dated printed book, China.",,
+907,Tang Dynasty falls,politics,Five Dynasties period in China.,,
+912,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+962,Holy Roman Empire founded,politics,Otto I crowned by the Pope.,,
+988,Conversion of Kievan Rus,religion,Vladimir adopts Orthodox Christianity.,,
+989,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1054,Great Schism,religion,Catholic and Orthodox churches split.,,
+1066,Battle of Hastings,conflict,William the Conqueror takes England.,"Hastings, England",
+1066,Norman Conquest of England,conflict,Battle of Hastings.,"Hastings, England",
+1066,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1071,Battle of Manzikert,conflict,Seljuks defeat Byzantines.,"Manzikert, Turkey",
+1086,Domesday Book,law,William I survey of England.,,
+1095,First Crusade declared,religion,Pope Urban II at Clermont.,,
+1099,Crusaders take Jerusalem,conflict,First Crusade succeeds.,"Jerusalem, Israel",
+1126,Averroes born,culture,Andalusian polymath.,,
+1145,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1147,Second Crusade,conflict,Failed campaign in the Holy Land.,Middle East,
+1163,Notre-Dame de Paris begun,monument,Gothic cathedral construction starts.,"Paris, France",
+1189,Third Crusade,conflict,Richard Lionheart vs Saladin.,Middle East,
+1192,Kamakura Shogunate,politics,First samurai government in Japan.,,
+1204,Sack of Constantinople,conflict,Fourth Crusade turns on Byzantines.,Constantinople,
+1206,Genghis Khan unifies Mongols,conquest,Mongol Empire founded.,Mongolia,a kurultai on the steppe; no fixed seat
+1209,Albigensian Crusade,religion,Against Cathars in southern France.,,
+1215,Magna Carta,law,King John signs at Runnymede.,,
+1220,University of Paris chartered,culture,Formal recognition.,,
+1222,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1227,Death of Genghis Khan,politics,Mongol Empire at its peak.,,
+1241,Mongols invade Europe,conflict,"Battle of Mohi, Legnica.",Eastern Europe,
+1258,Mongol sack of Baghdad,conflict,End of the Abbasid Caliphate.,"Baghdad, Iraq",
+1271,Marco Polo journeys east,exploration,Begins journey to China.,,
+1271,Yuan Dynasty founded,politics,Kublai Khan rules China.,,
+1273,Aquinas Summa Theologica,religion,Defining work of scholastic theology.,,
+1291,Fall of Acre,conflict,Last Crusader state falls.,"Acre, Israel",
+1295,Marco Polo returns,exploration,Account of travels published.,,
+1301,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1307,Templars suppressed,religion,Philip IV arrests the order in France.,,
+1309,Avignon Papacy begins,religion,Popes move to France.,,
+1314,Battle of Bannockburn,conflict,Scottish independence from England.,"Bannockburn, Scotland",
+1325,Aztecs found Tenochtitlan,civilization,Capital on Lake Texcoco.,Tenochtitlan,
+1337,Hundred Years' War begins,conflict,England vs France.,"Paris, France",Edward III claims the French crown; the war is fought across France
+1346,Battle of Crecy,conflict,English longbow defeats French knights.,"Crecy, France",
+1347,Black Death begins in Europe,disaster,Plague pandemic kills ~1/3 of Europe.,Europe,entered through Caffa and Messina; the row names Europe
+1368,Ming Dynasty founded,politics,Hongwu Emperor expels the Mongols.,,
+1378,Western Schism,religion,Rival popes in Rome and Avignon.,,
+1378,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1381,Peasants' Revolt,politics,Wat Tyler's rebellion in England.,,
+1389,Battle of Kosovo,conflict,Ottoman advance into the Balkans.,"Pristina, Kosovo",
+1397,Medici Bank founded,commerce,Florence; financiers of the Renaissance.,,
+1398,Timur sacks Delhi,conflict,Tamerlane's devastating raid.,"Delhi, India",
+1402,Battle of Ankara,conflict,Timur captures Ottoman Sultan Bayezid.,"Ankara, Turkey",
+1415,Battle of Agincourt,conflict,Henry V's famous English victory.,"Agincourt, France",
+1431,Joan of Arc burned,conflict,Executed at Rouen.,"Rouen, France",
+1438,Inca Empire expands,conquest,Pachacuti begins major expansion.,Cusco,Pachacuti expands from Cusco; the empire becomes the Andes
+1453,End of Hundred Years' War,conflict,French victory at Castillon.,France,the English driven out; no single field
+1453,Fall of Constantinople,conflict,Ottoman conquest; Byzantine Empire ends.,Constantinople,
+1455,Gutenberg Bible printed,invention,First major book printed with movable type.,,
+1456,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1469,Birth of Machiavelli,culture,Florentine political theorist.,,
+1478,Spanish Inquisition begins,religion,Ferdinand and Isabella authorize.,,
+1485,Battle of Bosworth Field,conflict,Tudor dynasty begins in England.,"Bosworth, England",
+1488,Bartolomeu Dias rounds Cape,exploration,First European to round Africa.,,
+1492,Columbus reaches Americas,exploration,European contact with the New World.,,
+1494,Treaty of Tordesillas,politics,Spain and Portugal divide the world.,,
+1498,Vasco da Gama reaches India,exploration,First sea route to India.,,
+1502,First African slaves to Americas,commerce,Transatlantic slave trade begins.,,
+1503,Mona Lisa painted,culture,Leonardo begins the portrait.,,
+1508,Sistine Chapel ceiling,culture,Michelangelo begins the work.,,
+1513,Balboa reaches Pacific,exploration,First European on the Pacific from the New World.,,
+1517,Luther's 95 Theses,religion,Protestant Reformation begins.,,
+1517,Reformation begins,religion,Luther posts the 95 Theses.,,
+1519,Cortes conquers Aztecs,conquest,Fall of Tenochtitlan to follow.,Tenochtitlan,
+1519,Magellan begins circumnavigation,exploration,Spanish expedition departs.,,
+1521,Diet of Worms,religion,Luther refuses to recant.,,
+1521,Fall of Tenochtitlan,conquest,Aztec Empire ends.,Tenochtitlan,
+1531,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1532,Pizarro conquers Inca,conquest,Atahualpa captured at Cajamarca.,"Cajamarca, Peru",Atahualpa captured here
+1534,Act of Supremacy,religion,Henry VIII heads Church of England.,,
+1543,Copernicus De Revolutionibus,science,Heliocentric model published.,,
+1543,Vesalius On the Fabric,science,Modern anatomy founded.,,
+1545,Council of Trent begins,religion,Counter-Reformation.,,
+1556,Akbar becomes Mughal Emperor,politics,Great expansion of Mughal India.,,
+1564,Birth of Galileo,science,Italian astronomer and physicist.,,
+1564,Birth of Shakespeare,culture,Stratford-upon-Avon.,,
+1572,St Bartholomew's Day massacre,conflict,French Protestants killed.,"Paris, France",
+1582,Gregorian calendar,science,Pope Gregory XIII reforms the calendar.,,
+1588,Spanish Armada defeated,conflict,English victory over Philip II's fleet.,England,
+1592,Imjin War,conflict,Japanese invasions of Korea.,Korea,
+1598,Edict of Nantes,law,Religious toleration for Huguenots.,,
+1600,British East India Company,commerce,Royal charter granted.,,
+1602,Dutch East India Company,commerce,First multinational corporation.,,
+1605,Don Quixote published,culture,Cervantes; modern novel begins.,,
+1605,Gunpowder Plot,conflict,Failed attempt to blow up Parliament.,"London, England",
+1607,Jamestown founded,colonization,First permanent English colony in Americas.,"Jamestown, United States",
+1607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1609,Galileo's telescope,science,Astronomical observations begin.,,
+1610,Galileo discovers Jupiter's moons,science,Four Galilean moons found.,,
+1611,King James Bible,religion,Authorized English translation.,,
+1618,Thirty Years' War begins,conflict,Defenestration of Prague.,"Prague, Czechia",the Defenestration of Prague; the war is Central Europe entire
+1620,Bacon's Novum Organum,science,Scientific method codified.,,
+1620,Mayflower lands at Plymouth,colonization,Pilgrims arrive in North America.,"Plymouth, United States",
+1632,Galileo Dialogue published,science,Two World Systems; tried by Inquisition.,,
+1632,Taj Mahal begun,monument,Shah Jahan's tomb for Mumtaz.,"Agra, India",
+1633,Galileo trial,religion,Forced to recant heliocentrism.,,
+1637,Descartes Discourse on Method,science,Cogito ergo sum.,,
+1644,Ming Dynasty falls,politics,Qing Dynasty begins in China.,,
+1648,Treaty of Westphalia,politics,Ends Thirty Years' War; modern state system.,,
+1649,Charles I executed,politics,English Commonwealth begins.,,
+1660,Restoration of Charles II,politics,Stuart monarchy restored.,,
+1660,Royal Society chartered,science,England's scientific academy.,,
+1665,Great Plague of London,disaster,Last major plague outbreak in England.,"London, England",
+1666,Great Fire of London,disaster,Most of medieval London destroyed.,"London, England",
+1666,Newton's annus mirabilis,science,"Calculus, optics, gravitation.",,
+1675,Royal Observatory Greenwich,science,Founded for navigation.,,
+1682,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1683,Siege of Vienna,conflict,Ottoman advance halted.,"Vienna, Austria",
+1687,Newton's Principia,science,Mathematical laws of motion and gravity.,,
+1689,English Bill of Rights,law,Constitutional limits on monarchy.,,
+1690,Locke's Two Treatises,politics,Natural rights and government by consent.,,
+1700,Great Northern War begins,conflict,Russia rises under Peter the Great.,"Copenhagen, Denmark",the allied attack on Holstein-Gottorp opens it; the theatre is the Baltic
+1703,Founding of St Petersburg,civilization,Peter the Great's new capital.,"Saint Petersburg, Russia",
+1707,Act of Union (Britain),politics,Scotland and England unite.,,
+1709,Iron smelted with coke,invention,Abraham Darby; Industrial Revolution input.,,
+1712,Newcomen Steam Engine,invention,First practical atmospheric steam engine.,,
+1714,Hanoverian succession,politics,George I becomes British king.,,
+1721,Bach Brandenburg Concertos,culture,High Baroque masterpiece.,,
+1725,Bach Well-Tempered Clavier I,culture,Foundation of tonal music.,,
+1735,Linnaeus Systema Naturae,science,Modern taxonomy founded.,,
+1751,Encyclopedie begins,culture,Diderot and d'Alembert's great work.,,
+1755,Lisbon earthquake,disaster,Enlightenment crisis of theodicy.,"Lisbon, Portugal",
+1756,Seven Years' War,conflict,First true world war.,Europe,"the first global war — also India, North America, the Caribbean"
+1759,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1760,Industrial Revolution begins,civilization,Britain begins mechanization.,England,no moment and no site; the row says Britain begins
+1762,Rousseau Social Contract,politics,Sovereignty of the people.,,
+1764,Spinning Jenny,invention,Hargreaves transforms textiles.,,
+1769,Watt's Steam Engine patent,invention,Modern steam engine; Industrial Revolution.,,
+1773,Boston Tea Party,politics,American protest against British tax.,,
+1775,American Revolution begins,conflict,Battles of Lexington and Concord.,"Lexington, United States",the first shot; the revolution is thirteen colonies
+1776,US Declaration of Independence,politics,Thirteen colonies declare independence.,,
+1776,Wealth of Nations,economics,Adam Smith founds modern economics.,,
+1781,Battle of Yorktown,conflict,British surrender; American victory.,"Yorktown, United States",
+1783,Montgolfier balloon flight,invention,First human flight.,,
+1783,Treaty of Paris,politics,US independence recognized.,,
+1787,US Constitution drafted,law,Philadelphia Convention.,,
+1789,French Revolution begins,politics,Storming of the Bastille.,,
+1789,Washington inaugurated,politics,First US President.,,
+1791,Haitian Revolution begins,conflict,Largest successful slave revolt.,Haiti,
+1791,US Bill of Rights ratified,law,First ten amendments.,,
+1793,Reign of Terror,politics,Robespierre dominates France.,,
+1796,Jenner smallpox vaccine,science,First vaccine in history.,,
+1798,Napoleon's Egyptian campaign,conquest,French invasion of Egypt.,Egypt,
+1799,Rosetta Stone discovered,science,Key to Egyptian hieroglyphs.,,
+1803,Louisiana Purchase,politics,US doubles in size.,,
+1804,Napoleon crowned Emperor,politics,Crowns himself in Notre-Dame.,,
+1807,Britain abolishes slave trade,law,Slave Trade Act.,,
+1807,Fulton's steamboat,invention,First commercial steamboat.,,
+1812,Napoleon invades Russia,conflict,Disastrous retreat from Moscow.,Russia,
+1814,Stephenson's locomotive,invention,First practical steam locomotive.,,
+1815,Battle of Waterloo,conflict,Napoleon defeated; Concert of Europe begins.,"Waterloo, Belgium",
+1820,Missouri Compromise,law,US slavery balance maintained.,,
+1821,Death of Napoleon,politics,Exiled at Saint Helena.,,
+1821,Faraday's electric motor,invention,First electromagnetic rotary device.,,
+1823,Monroe Doctrine,politics,Americas closed to European colonization.,,
+1825,Erie Canal opens,engineering,NYC to Great Lakes.,,
+1825,First passenger railway,invention,Stockton & Darlington Railway opens.,,
+1830,Indian Removal Act,politics,US forced relocation of native nations.,,
+1831,Faraday electromagnetic induction,science,Foundation of electric generators.,,
+1833,British abolish slavery,law,Slavery Abolition Act.,,
+1834,Mechanical refrigeration,invention,Jacob Perkins patents vapor compression -- the invention of ice.,,
+1835,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1837,Victoria becomes Queen,politics,Beginning of the Victorian era.,,
+1838,Trail of Tears,disaster,Forced Cherokee relocation.,,"a forced march of 1,600 km from Georgia to Oklahoma — a route, not a point"
+1839,Daguerreotype announced,invention,First practical photographic process.,,
+1839,First Opium War,conflict,Britain forces opium trade on China.,China,
+1842,Treaty of Nanking,politics,Hong Kong ceded to Britain.,,
+1844,Telegraph: What hath God wrought,invention,Morse's first long message.,,
+1845,Irish Potato Famine,disaster,"Million dead, million emigrate.",Ireland,
+1848,California Gold Rush,civilization,Forty-niners head west.,"Sacramento, United States",Sutter's Mill; the rush is the whole state
+1848,Communist Manifesto published,politics,Marx and Engels.,,
+1848,Revolutions of 1848,politics,Liberal uprisings across Europe.,,
+1848,Seneca Falls Convention,politics,First women's rights convention.,,
+1851,Great Exhibition London,culture,Crystal Palace; first world's fair.,,
+1853,Perry opens Japan,politics,US Navy ends Japanese isolation.,,
+1854,Crimean War,conflict,"Russia vs Britain, France, Ottomans.",Crimea,
+1859,Darwin's Origin of Species,science,Theory of evolution by natural selection.,,
+1859,First commercial oil well,invention,Drake well in Pennsylvania.,,
+1860,Italian unification advances,politics,Garibaldi's Sicilian expedition.,,
+1861,American Civil War begins,conflict,Fort Sumter attacked.,"Charleston, United States",Fort Sumter; the war is half a continent
+1863,Emancipation Proclamation,law,Lincoln frees Confederate slaves.,,
+1864,Geneva Convention,law,Rules of war and Red Cross founded.,,
+1865,Lincoln assassinated,politics,End of US Civil War; Reconstruction begins.,,
+1866,Mendel's laws of inheritance,science,Foundation of genetics.,,
+1867,Marx's Capital Volume I,economics,Critique of political economy.,,
+1869,Suez Canal opens,engineering,Connects Mediterranean and Red Sea.,,
+1869,Transcontinental Railroad,engineering,US east and west coasts connected.,,
+1871,German Empire founded,politics,Bismarck unifies Germany.,,
+1873,Maxwell electromagnetism,science,Unified theory of light and electricity.,,
+1876,Battle of Little Bighorn,conflict,Custer's last stand.,"Little Bighorn, United States",
+1876,Bell patents telephone,invention,Voice transmission over wires.,,
+1877,Edison phonograph,invention,First sound recording device.,,
+1879,Edison's incandescent bulb,invention,Practical electric lighting.,,
+1882,Edison electric grid,invention,"Pearl Street Station, NYC.",,
+1884,Berlin Conference,politics,European partition of Africa.,,
+1885,Benz Patent Motorwagen,invention,First automobile.,,
+1886,Coca-Cola invented,commerce,"Atlanta, Georgia.",,
+1886,Statue of Liberty dedicated,monument,Gift from France to the US.,"New York City, United States",
+1888,Hertz proves radio waves,science,Experimental confirmation of Maxwell.,,
+1889,Eiffel Tower opens,monument,Paris World's Fair centerpiece.,"Paris, France",
+1893,Women's suffrage in NZ,politics,First nation to grant women the vote.,,
+1895,Lumiere brothers cinema,invention,"First public film screening, Paris.",,
+1895,Roentgen discovers X-rays,science,New form of radiation.,,
+1896,Athens Olympics,culture,First modern Olympic Games.,,
+1898,Discovery of radium,science,Marie and Pierre Curie.,,
+1898,Spanish-American War,conflict,US emerges as global power.,Caribbean,"Cuba, Puerto Rico and the Philippines at once"
+1900,Boxer Rebellion,conflict,Anti-foreign uprising in China.,"Beijing, China",
+1900,Planck quantum hypothesis,science,Birth of quantum theory.,,
+1901,Marconi transatlantic radio,invention,First wireless transmission across Atlantic.,,
+1902,End of Boer War,conflict,Britain wins in South Africa.,South Africa,the peace signed at Vereeniging; the war was the veld
+1903,Ford Motor Company,commerce,"Detroit, Michigan.",,
+1903,Wright Brothers first flight,invention,Kitty Hawk powered flight.,,
+1904,Russo-Japanese War,conflict,Japan defeats a European power.,East Asia,Manchuria and the Tsushima Strait
+1905,Einstein Annus Mirabilis,science,"Special relativity, photoelectric, Brownian motion, E=mcÂ².",,
+1908,Ford Model T,invention,Affordable automobile for the masses.,,
+1909,Peary at the North Pole,exploration,Or so he claimed.,,
+1910,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1911,Amundsen at South Pole,exploration,First confirmed to reach.,,
+1911,Chinese Revolution,politics,End of imperial China.,,
+1912,Titanic sinks,disaster,1500 dead in North Atlantic.,,"41.7N 49.9W, mid-Atlantic — a real position, but this map has no seat at sea"
+1913,Bohr atomic model,science,Quantized electron orbits.,,
+1914,Panama Canal opens,engineering,Atlantic-Pacific shortcut.,,
+1914,World War I begins,conflict,Assassination of Archduke Franz Ferdinand.,"Sarajevo, Bosnia and Herzegovina",the assassination; the war is a continent and beyond
+1915,Armenian Genocide,disaster,Ottoman massacre of Armenians.,Anatolia,
+1915,Einstein general relativity,science,New theory of gravity.,,
+1916,Battle of the Somme,conflict,One million casualties.,"Somme, France",
+1916,Easter Rising,conflict,Irish independence struggle.,"Dublin, Ireland",
+1917,Balfour Declaration,politics,Britain supports Jewish homeland.,,
+1917,Russian Revolution,politics,Bolsheviks seize power.,,
+1917,US enters WWI,conflict,Wilson declares war.,"Washington, United States",a declaration made here about a war fought in France
+1918,Spanish Flu pandemic,disaster,~50 million dead worldwide.,,worldwide; the name is a censorship artefact and the origin is disputed
+1918,WWI ends,conflict,Armistice on November 11.,"Compiegne, France",the armistice signed in a railway carriage
+1919,Treaty of Versailles,politics,Punitive peace with Germany.,,
+1920,19th Amendment ratified,law,US women win the vote.,,
+1920,League of Nations founded,politics,Failed predecessor to UN.,,
+1922,Mussolini March on Rome,politics,Fascist takeover of Italy.,,
+1922,Soviet Union founded,politics,USSR formally established.,,
+1922,Tutankhamun's tomb discovered,science,Howard Carter in the Valley of the Kings.,,
+1923,Republic of Turkey founded,politics,Ataturk modernizes.,,
+1924,Death of Lenin,politics,Stalin's rise begins.,,
+1925,Scopes Monkey Trial,culture,Evolution on trial in Tennessee.,,
+1927,First talking film,culture,The Jazz Singer.,,
+1927,Lindbergh transatlantic flight,invention,"Spirit of St Louis, NYC to Paris.",,
+1928,Pact of Paris,politics,Kellogg-Briand renounces war.,,
+1928,Penicillin discovered,science,Alexander Fleming.,,
+1929,Wall Street Crash,economics,Great Depression begins.,,
+1931,Empire State Building,monument,Tallest building in the world.,"New York City, United States",
+1933,FDR New Deal,politics,US response to Great Depression.,,
+1933,Hitler becomes Chancellor,politics,Nazi Party takes power.,,
+1935,Nuremberg Laws,law,Anti-Jewish legislation in Germany.,,
+1936,Spanish Civil War begins,conflict,Republic vs Nationalists.,Spain,
+1937,Hindenburg disaster,disaster,Airship era ends.,"Lakehurst, United States",
+1937,Japanese invasion of China,conflict,Nanjing Massacre.,China,
+1938,Kristallnacht,conflict,Night of Broken Glass against German Jews.,Germany,
+1938,Munich Agreement,politics,Appeasement of Hitler.,,
+1939,Hitler-Stalin Pact,politics,Non-aggression treaty.,,
+1939,World War II begins,conflict,Germany invades Poland.,"Warsaw, Poland",the invasion of Poland — CONTESTED: from Beijing the war begins in 1937
+1940,Battle of Britain,conflict,RAF defends against the Luftwaffe.,England,
+1940,Fall of France,conflict,Nazi Germany conquers in six weeks.,France,
+1941,Operation Barbarossa,conflict,Germany invades Soviet Union.,Eastern Europe,
+1941,Pearl Harbor attack,conflict,US enters WWII.,"Honolulu, United States",
+1942,Battle of Midway,conflict,Turning point in the Pacific.,Midway Atoll,
+1942,Battle of Stalingrad,conflict,Turning point on the Eastern Front.,"Volgograd, Russia",
+1942,Wannsee Conference,conflict,Final Solution formalized.,"Berlin, Germany",
+1944,D-Day Normandy,conflict,Allied invasion of Europe.,Normandy,
+1945,Atomic bombs on Japan,conflict,Hiroshima and Nagasaki; nuclear age begins.,"Hiroshima, Japan",
+1945,Death of Hitler,politics,Suicide in Berlin bunker.,,
+1945,United Nations founded,politics,UN Charter signed in San Francisco.,,
+1945,VE Day,conflict,Germany surrenders.,Europe,"a surrender signed at Reims, a day marked across a continent"
+1945,Yalta Conference,politics,Allies divide postwar world.,,
+1946,Iron Curtain speech,politics,"Churchill at Fulton, Missouri.",,
+1947,Indian Independence,politics,Partition of British India.,,
+1947,Marshall Plan,economics,US aid rebuilds Europe.,,
+1947,Transistor invented,invention,Bell Labs; modern electronics.,,
+1948,Berlin Airlift,conflict,Cold War crisis.,"Berlin, Germany",
+1948,State of Israel founded,politics,Modern Israel declares independence.,,
+1949,Mao founds PRC,politics,People's Republic of China.,,
+1949,NATO founded,politics,Western military alliance.,,
+1950,Korean War begins,conflict,North invades South.,Korea,
+1953,DNA structure discovered,science,Watson and Crick double helix.,,
+1953,Stalin dies,politics,Khrushchev rises.,,
+1954,Brown v. Board of Education,law,US school segregation unconstitutional.,,
+1955,Rosa Parks,politics,Montgomery bus boycott begins.,,
+1956,Hungarian Revolution,conflict,Crushed by Soviet tanks.,"Budapest, Hungary",
+1956,Suez Crisis,conflict,End of European imperialism.,"Suez, Egypt",
+1957,Sputnik launched,invention,First artificial satellite; Space Age begins.,,
+1958,Integrated circuit,invention,Jack Kilby at Texas Instruments.,,
+1958,NASA founded,science,US response to Sputnik.,,
+1959,Cuban Revolution,politics,Castro takes power.,,
+1960,Birth control pill approved,science,FDA approves Enovid.,,
+1961,Berlin Wall built,politics,Division of Germany formalized.,,
+1961,Gagarin in space,exploration,First human in orbit.,,
+1962,Cuban Missile Crisis,conflict,World on brink of nuclear war.,Cuba,
+1963,I Have a Dream speech,politics,MLK at the March on Washington.,,
+1963,Kennedy assassinated,politics,"Dallas, Texas.",,
+1964,Civil Rights Act,law,US bans racial discrimination.,,
+1965,US troops to Vietnam,conflict,Major escalation begins.,Vietnam,
+1965,Voting Rights Act,law,US protects minority voting.,,
+1967,First heart transplant,science,Christiaan Barnard in South Africa.,,
+1967,Six-Day War,conflict,Israel vs Arab neighbors.,Israel,
+1968,Apollo 8 orbits Moon,exploration,Earthrise photograph.,,
+1968,MLK assassinated,politics,"Memphis, Tennessee.",,
+1968,Prague Spring,politics,Crushed by Warsaw Pact invasion.,,
+1969,Apollo 11 moon landing,invention,Armstrong walks on the moon.,,
+1970,First Earth Day,culture,Environmental movement crystallizes.,,
+1971,Microprocessor invented,invention,Intel 4004.,,
+1972,Nixon visits China,politics,US-China rapprochement.,,
+1972,Watergate break-in,politics,Scandal that brings down Nixon.,,
+1973,OPEC oil embargo,economics,Energy crisis hits the West.,,
+1973,Roe v. Wade,law,US Supreme Court on abortion.,,
+1974,Nixon resigns,politics,First US president to resign.,,
+1975,Fall of Saigon,conflict,Vietnam War ends.,"Ho Chi Minh City, Vietnam",
+1975,Microsoft founded,commerce,Gates and Allen.,,
+1976,Apple founded,commerce,Jobs and Wozniak.,,
+1977,First Star Wars film,culture,Blockbuster era begins.,,
+1978,First test-tube baby,science,Louise Brown via IVF.,,
+1979,Iranian Revolution,politics,Khomeini overthrows Shah.,,
+1979,Soviet invasion of Afghanistan,conflict,Decade-long quagmire begins.,Afghanistan,
+1979,Three Mile Island accident,disaster,US nuclear scare.,"Harrisburg, United States",
+1980,CNN launched,culture,First 24-hour news network.,,
+1981,AIDS first identified,disaster,Beginning of the epidemic.,,"identified in Los Angeles and New York at once; the epidemic began elsewhere, earlier"
+1981,IBM PC released,invention,Personal computing standardized.,,
+1981,Reagan assassination attempt,politics,Hinckley shoots the President.,,
+1982,Falklands War,conflict,UK vs Argentina.,Falkland Islands,
+1984,Apple Macintosh,invention,GUI for the masses.,,
+1984,Bhopal disaster,disaster,Union Carbide gas leak in India.,"Bhopal, India",
+1985,Gorbachev becomes Soviet leader,politics,Glasnost and perestroika begin.,,
+1986,Challenger explosion,disaster,Space Shuttle disaster.,"Cape Canaveral, United States",
+1986,Chernobyl disaster,disaster,Worst nuclear accident.,"Chernobyl, Ukraine",
+1986,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+1987,Tear down this wall speech,politics,Reagan at Brandenburg Gate.,,
+1988,Iran-Iraq War ends,conflict,Eight-year war concludes.,"Baghdad, Iraq",a ceasefire accepted; the war was a border eight years long
+1989,Fall of Berlin Wall,politics,End of the Cold War era.,,
+1989,Tiananmen Square protests,politics,Chinese government crackdown.,,
+1990,Gulf War,conflict,Iraq invades Kuwait; US-led coalition responds.,Kuwait,
+1990,Hubble telescope launched,science,Space-based observatory.,,
+1990,Mandela released,politics,After 27 years in prison.,,
+1991,Soviet Union dissolved,politics,15 successor states.,,
+1991,World Wide Web public,invention,Tim Berners-Lee releases WWW.,,
+1992,Maastricht Treaty,politics,European Union founded.,,
+1993,World Trade Center bombing,conflict,First attack on the towers.,"New York City, United States",
+1994,Mandela elected President,politics,First democratic election in South Africa.,,
+1994,Rwandan Genocide,disaster,"800,000 killed in 100 days.",Rwanda,
+1995,Dayton Accords,politics,End of Bosnian War.,,
+1995,Oklahoma City bombing,conflict,McVeigh's domestic terror attack.,"Oklahoma City, United States",
+1996,Dolly the sheep cloned,science,First mammal cloned from adult cell.,,
+1997,Hong Kong handover,politics,British colony returns to China.,,
+1998,Good Friday Agreement,politics,Peace in Northern Ireland.,,
+1998,Google founded,commerce,Page and Brin at Stanford.,,
+1999,Columbine school shooting,conflict,Modern era of US school shootings.,"Littleton, United States",
+1999,Euro currency introduced,economics,European single currency.,,
+2000,Y2K transition,culture,Feared computer disaster averted.,,
+2001,9/11 attacks,conflict,"World Trade Center, Pentagon.","New York City, United States",
+2001,Wikipedia launched,culture,Free online encyclopedia.,,
+2002,Euro physical currency,economics,Euro notes and coins circulate.,,
+2003,Human Genome sequenced,science,Complete reference genome.,,
+2003,Iraq War begins,conflict,US-led invasion to topple Saddam.,Iraq,
+2003,Space Shuttle Columbia,disaster,Lost during re-entry.,,"broke up over Texas on re-entry — a path across two states, not a point"
+2004,Facebook launched,commerce,Social media transforms communication.,,
+2004,Indian Ocean tsunami,disaster,"230,000 dead across 14 countries.",Southeast Asia,the epicentre is off Sumatra; the disaster is fourteen countries
+2005,Hurricane Katrina,disaster,New Orleans devastated.,"New Orleans, United States",
+2005,YouTube launched,culture,Video sharing transforms media.,,
+2006,Twitter launched,culture,Microblogging emerges.,,
+2007,iPhone introduced,invention,Mobile computing era begins.,,
+2007,iPhone introduced (initial),invention,Smartphone era begins.,,
+2008,Global Financial Crisis,economics,Lehman collapse.,,
+2008,Obama elected,politics,First African-American US president.,,
+2009,Bitcoin genesis block,invention,First cryptocurrency launched.,,
+2010,Arab Spring begins,politics,Tunisian Revolution sparks regional uprisings.,,
+2010,Deepwater Horizon spill,disaster,Largest marine oil spill in history.,,a wellhead in the Gulf of Mexico — at sea again
+2011,Death of bin Laden,conflict,US Navy SEAL raid in Pakistan.,"Abbottabad, Pakistan",
+2011,Fukushima disaster,disaster,Nuclear meltdown after tsunami.,"Fukushima, Japan",
+2011,Syrian Civil War begins,conflict,Long and devastating conflict.,Syria,
+2012,Higgs boson discovered,science,CERN announces discovery.,,
+2013,Snowden revelations,politics,NSA surveillance exposed.,,
+2014,Ebola outbreak West Africa,disaster,Largest Ebola epidemic in history.,West Africa,
+2014,Russia annexes Crimea,conflict,First land grab in Europe since WWII.,Crimea,
+2015,Paris Climate Agreement,politics,Global commitment to emissions.,,
+2015,Same-sex marriage legalized US,law,Obergefell v. Hodges.,,
+2016,Brexit referendum,politics,UK votes to leave EU.,,
+2016,Trump elected,politics,Disrupts US political establishment.,,
+2017,Total solar eclipse US,science,Path of totality across America.,,
+2018,CRISPR-edited babies,science,He Jiankui announces genetically modified twins.,,
+2019,Hong Kong protests,politics,Massive demonstrations for democracy.,,
+2020,COVID-19 pandemic,disaster,Global lockdowns.,,"first identified at Wuhan; the pandemic is the world, and the origin is contested"
+2020,George Floyd protests,politics,Global Black Lives Matter mobilization.,,
+2021,January 6 Capitol attack,politics,US Capitol breached.,,
+2021,Taliban retake Afghanistan,conflict,US withdrawal; 20-year war ends.,"Kabul, Afghanistan",
+2022,ChatGPT released,invention,Large-language-model era reaches public.,,
+2022,Queen Elizabeth II dies,politics,After 70-year reign.,,
+2022,Russia invades Ukraine,conflict,Largest European war since WWII.,Ukraine,
+2023,GPT-4 released,invention,Multimodal AI reaches mainstream.,,
+2024,AI Nobel Prizes,science,Physics and Chemistry both for AI work.,,
+2024,US presidential election,politics,Trump returns to office.,,
+2061,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
