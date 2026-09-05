@@ -111,7 +111,7 @@
   var hi = YEAR_MAX, lo = hi - APERTURE;
 
   var geo = null, world = null, sky = null, comets = null, mounted = null;
-  var rivers = null, peaks = null;
+  var rivers = null, peaks = null, events = null;
 
   /* ── GIZA · THE ONE HONEST COORDINATE FOR A SKY EVENT ─────────────────────
      SKY.csv is 1,342 due-east risings COMPUTED AT GIZA. A rising does not
@@ -178,7 +178,7 @@
      for names that could not fit at world scale. 294 dropped labels at AD 2000
      is not a culling problem, it is a scale problem. */
   var K = 1, TX = 0, TY = 0, K_MIN = 1, K_MAX = 14;
-  var lastShown = 0, lastHidden = 0, lastSeats = 0, lastSky = 0, lastConj = 0, lastGath = 0, lastHalley = 0;
+  var lastShown = 0, lastHidden = 0, lastSeats = 0, lastEvents = 0, lastSky = 0, lastConj = 0, lastGath = 0, lastHalley = 0;
 
   function get(url, asJson) {
     return fetch(url + (url.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now(), { cache: 'no-store' })
@@ -210,6 +210,14 @@
                                           function ()  { rivers = null; }),
       get(RAW + 'PEAKS.json', true).then(function (d) { peaks = d.peaks || []; },
                                          function ()  { peaks = null; }),
+      /* ── WHAT HAPPENED · 4 Sep ────────────────────────────────────────────
+         536 events, 111 with a coordinate and 52 with an extent, every Place
+         AUTHORED in EVENTS.csv and verified by probes/probe-events.mjs. The
+         machine may check a place and may never invent one — an earlier
+         attempt to derive them from prose put Marathon in Provence, Waterloo
+         in Texas and Carthage in Ohio. */
+      get(RAW + 'EVENTS.json', true).then(function (d) { events = d.events || []; },
+                                          function ()  { events = null; }),
       get(RAW + 'SKY.csv', false).then(function (t) { sky = parseSky(t); },
                                        function ()  { sky = null; }),
       /* Halley lives in EVENTS.csv, not SKY.csv — 48 returns, -1404 to 2061,
@@ -458,6 +466,16 @@
       '#amenti-map .mp-peak.mp-dep{stroke:#6b7c91;opacity:.55}',
       '#amenti-map .mp-peaklab{fill:#8fa2ba;text-anchor:middle;opacity:.8;',
       '  paint-order:stroke;stroke:#070b12;stroke-width:1.4px;stroke-linejoin:round}',
+      /* AN EMBER, OPEN AT THE CENTRE — never a disc, never cyan, never gold */
+      '#amenti-map .mp-evmark{fill:none;stroke:#e0794a;stroke-width:.75;',
+      '  stroke-linecap:round;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-ev{cursor:default}',
+      '#amenti-map .mp-ev:hover .mp-evmark{stroke:#ffb08a;stroke-width:1.1}',
+      '#amenti-map .mp-evlab{fill:#e0925a;text-anchor:middle;pointer-events:none;',
+      '  paint-order:stroke;stroke:#070b12;stroke-width:1.5px;stroke-linejoin:round}',
+      /* a territory event is an OUTLINE — a war is not a wash */
+      '#amenti-map .mp-evarea{fill:none;stroke:#e0794a;stroke-width:.6;',
+      '  stroke-dasharray:3 3;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-rivers,#amenti-map .mp-peaks{pointer-events:none}',
       '#amenti-map .mp-relief{display:none;opacity:.95}',
       '#amenti-map.mp-atlas .mp-relief{display:block}',
@@ -566,6 +584,7 @@
             '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
             '<span><i class="k-sky"></i>the sky \u2014 seen from giza</span>' +
             '<span><i class="k-river"></i>rivers and named summits</span>' +
+            '<span><i class="k-ev"></i>what happened \u2014 fading as it passes</span>' +
           '</div>' +
         '</div>' +
         '<svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">' +
@@ -590,7 +609,7 @@
             '<image class="mp-relief" href="" x="0" y="0" width="1000" height="500" ' +
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
             '<path class="mp-land"></path>' +
-            '<g class="mp-rivers"></g><g class="mp-peaks"></g>' +
+            '<g class="mp-rivers"></g><g class="mp-peaks"></g><g class="mp-events"></g>' +
             '<g class="mp-washes"></g><g class="mp-pins"></g>' +
             /* ── THE SKY HAS TWO HALVES · 4 Sep ────────────────────────────
                Found when zoom landed. The Giza diamond, its label, the signs
@@ -835,6 +854,60 @@
       });
       gp2.innerHTML = ph;
     }
+
+    /* ── THE EVENTS · an instant, not a lifespan ─────────────────────────────
+       A soul is drawn across the whole window because they LIVED through it.
+       An event happened in one year, and drawing it the same way would make a
+       battle behave like a tenure — Rome would burn for four centuries.
+
+       So an event FADES WITH DISTANCE FROM THE LEADING EDGE. Bright at the
+       year you are standing on, dim as it recedes into the window's past,
+       gone when it leaves. Scrubbing forward, an event flares and passes.
+       That is the difference between happening and enduring, drawn.
+
+       AND IT MUST NOT LOOK LIKE A SEAT. A soul is a filled cyan disc; the sky
+       is amber; an event is an EMBER BURST, open at the centre. Drawn alike, a
+       map would assert that a philosopher and the sack of a city are the same
+       kind of fact. A territory event is a DASHED OUTLINE, not the soft fill a
+       soul's territory uses — "somewhere in here" about a war is not the same
+       claim as "somewhere in here" about a life. */
+    var ge = el.querySelector('.mp-events');
+    if (events && ge) {
+      var eh = '', ivE = 1 / K, near = APERTURE <= 42;
+      events.forEach(function (ev) {
+        if (ev.y < lo || ev.y > hi) return;
+        /* age within the window: 0 at the leading edge, 1 at the trailing one */
+        var age = APERTURE ? (hi - ev.y) / APERTURE : 0;
+        var op = Math.max(0.14, 1 - age * 0.86);
+        if (ev.lat != null) {
+          var xy = proj(ev.lat, ev.lon), a = 3.4 * ivE;
+          eh += '<g class="mp-ev" opacity="' + op.toFixed(2) + '">' +
+                '<path class="mp-evmark" d="M' + (xy[0] - a).toFixed(2) + ' ' + xy[1].toFixed(2) +
+                'h' + (a * 0.8).toFixed(2) + 'M' + (xy[0] + a).toFixed(2) + ' ' + xy[1].toFixed(2) +
+                'h' + (-a * 0.8).toFixed(2) + 'M' + xy[0].toFixed(2) + ' ' + (xy[1] - a).toFixed(2) +
+                'v' + (a * 0.8).toFixed(2) + 'M' + xy[0].toFixed(2) + ' ' + (xy[1] + a).toFixed(2) +
+                'v' + (-a * 0.8).toFixed(2) + '"/>' +
+                '<title>' + esc(ev.n) + ' \u00b7 ' + yr(ev.y) +
+                (ev.place ? ' \u00b7 ' + esc(ev.place) : '') +
+                (ev.note ? '\n' + esc(ev.note) : '') + '</title></g>';
+          if (near)
+            eh += '<text class="mp-evlab" x="' + xy[0].toFixed(2) + '" y="' +
+                  (xy[1] + 6 * ivE).toFixed(2) + '" font-size="' + (5.2 * ivE).toFixed(3) +
+                  '" opacity="' + op.toFixed(2) + '">' + esc(ev.n) + '</text>';
+        } else if (ev.ext) {
+          var q = proj(ev.ext[2], ev.ext[1]), r2 = proj(ev.ext[0], ev.ext[3]);
+          eh += '<rect class="mp-evarea" x="' + q[0].toFixed(1) + '" y="' + q[1].toFixed(1) +
+                '" width="' + Math.max(2, r2[0] - q[0]).toFixed(1) + '" height="' +
+                Math.max(2, r2[1] - q[1]).toFixed(1) + '" rx="4" opacity="' + (op * 0.8).toFixed(2) +
+                '"><title>' + esc(ev.n) + ' \u00b7 ' + yr(ev.y) + ' \u00b7 somewhere in ' +
+                esc(ev.place || '') + (ev.note ? '\n' + esc(ev.note) : '') + '</title></rect>';
+        }
+      });
+      ge.innerHTML = eh;
+      lastEvents = events.filter(function (e) {
+        return e.y >= lo && e.y <= hi && (e.lat != null || e.ext);
+      }).length;
+    } else lastEvents = 0;
 
     /* WASHES FIRST, and grouped. 334 souls share "Southern Europe": drawing
        334 stacked rectangles would compound opacity into something as hard as
@@ -1298,6 +1371,7 @@
          holds 124. On a surface whose whole argument is that a dot may stand
          for many, conflating the two is not a wording slip. */
       pins.length + ' souls at ' + lastSeats + ' seats \u00b7 ' + lastShown + ' named' +
+      (lastEvents ? ' \u00b7 ' + lastEvents + ' event(s) in this window' : '') +
       (lastHidden ? ', ' + lastHidden + ' name(s) with no room \u2014 hover the pin' : '') +
       ' \u00b7 ' + washes.length + ' souls shown as territory' +
       (lastSky ? ' \u00b7 sky: ' + lastConj + ' conjunction(s), ' + lastGath +
