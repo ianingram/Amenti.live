@@ -383,8 +383,12 @@
       '  display:flex;justify-content:space-between;padding:0 ' + PAD + 'px;',
       '  letter-spacing:.06em;color:#4f5a6d;pointer-events:none}',
       '#amenti-timeline .tl-back{pointer-events:auto;cursor:pointer;color:#c9a227;',
-      '  background:none;border:0;font:inherit;letter-spacing:.06em;opacity:0;transition:opacity .3s}',
-      '#amenti-timeline .tl-back.on{opacity:1}',
+      '  background:none;border:0;font:inherit;letter-spacing:.06em;opacity:0;',
+      '  transition:opacity .3s,color .3s;white-space:nowrap}',
+      /* present but quiet: a label. Lit: a door. */
+      '#amenti-timeline .tl-back.has{opacity:.42;color:#8f9db4}',
+      '#amenti-timeline .tl-back.has:hover{opacity:.8;color:#c9a227}',
+      '#amenti-timeline .tl-back.on{opacity:1;color:#c9a227}',
       '#amenti-timeline text{cursor:default}',
       '#amenti-timeline .room{cursor:pointer}'
     ].join('');
@@ -1182,9 +1186,19 @@
     mounted.querySelectorAll('.evlit').forEach(function (e) { e.classList.remove('evlit'); });
   }
 
+  /* "Josephus · ad 37-100" while it sits quiet; the arrow appears with the
+     way back, so the control reads as a label until it is needed as a door. */
+  function away_hint(a) {
+    var span = yearLabel(a.b) + '\u2013' + yearLabel(a.d);
+    return '\u2039 ' + a.n + ' \u00b7 ' + span;
+  }
+
   function centreOn(key) {
     var s = byKey[key];
     if (!s || !mounted) return;
+    /* the return is an answer to an action, so it is allowed to be seen */
+    var bk = mounted.querySelector('.tl-back');
+    if (bk) bk.classList.remove('on');
     var mid  = s.b + (s.d - s.b) / 2;
     var rail = mounted.querySelector('.tl-rail');
     var vw   = rail.clientWidth || (SPAN * PX_PER_YR);
@@ -1292,8 +1306,51 @@
        reason #scene-hint exists. */
     var back = mounted.querySelector('.tl-back');
     var a = anchorKey && byKey[anchorKey];
-    var away = a && (a.d < from || a.b > to);
+
+    /* ── AWAY IS TWO AXES, AND THIS TESTED ONE · 5 Sep ────────────────────
+       SEEN LIVE. A visitor asked about Josephus, scrolled, and could not get
+       back — the way back existed, was wired, and would not appear.
+
+       The test was `a.d < from || a.b > to`: is the figure outside the TIME
+       range. The window was AD 24-144 and Josephus lived AD 37-100, so by
+       that test he was on screen. He was not: the rail scrolls in TWO
+       directions, and the reader had scrolled DOWN past his row while his
+       dates stayed perfectly in view.
+
+       A surface that scrolls on two axes cannot report lostness on one.
+       Same fault as the Jupiter line drawn at a quarter opacity — the
+       feature was present and could not be reached, which reads to a visitor
+       as absent and is worse than absent, because nobody thinks to look for
+       it twice. */
+    /* ── THE CHIP NAMES WHO YOU CAME FOR · 5 Sep ─────────────────────────
+       A button that appears only when you are lost answers recovery but not
+       ORIENTATION — and a reader three screens into a century has usually
+       stopped being sure whose window this is before they are sure they are
+       lost. So it is always present while an anchor exists, quiet, carrying
+       the name and the dates, and it brightens into a way back when the
+       figure leaves the screen.
+
+       It is deliberately NOT a second search box. The hall's box is the way
+       in and is one click away — the surface says so itself. A second input
+       would be two paths into one lookup, which is the fault amenti-hall.js
+       names in its opening lines: two roster loaders, two engines, a name
+       changed on a wrong inference. */
+    var away = false;
+    if (a) {
+      back.textContent = away_hint(a);
+      away = (a.d < from || a.b > to);
+      if (!away) {
+        var rail = mounted.querySelector('.tl-rail');
+        var i = state.rows.indexOf(a);
+        if (rail && i > -1) {
+          var rowTop = 12 + i * ROW_H;
+          away = (rowTop + ROW_H < rail.scrollTop) ||
+                 (rowTop > rail.scrollTop + rail.clientHeight);
+        }
+      }
+    }
     back.classList.toggle('on', !!away);
+    back.classList.toggle('has', !!a);
   }
 
   /* ── the public surface ───────────────────────────────────────────────── */
