@@ -34,6 +34,7 @@ import path from 'path';
 import { createHash } from 'crypto';
 import { geoTier, cut } from './geo-tier.mjs';
 import { EXTENT } from './extents.mjs';
+import { BATTLEFIELDS, EVENT_SEATS, COUNTRY_CODE } from './events-gaz.mjs';
 
 const ROOT  = process.argv.find(a => !a.startsWith('--') && a !== process.argv[0] && a !== process.argv[1]) || '.';
 const ROSTER= path.join(ROOT, 'names.csv');
@@ -87,6 +88,11 @@ const RETIER = {
    Each is a real site with a known location. A name that is not here and not
    in the gazetteer FALLS THROUGH and is reported. Nothing is guessed. */
 const HISTORICAL = {
+  /* added 5 Sep for SEATS.csv — namesakes INSIDE one country, which the
+     country check is structurally unable to settle */
+  'princeton':   [ 40.3573, -74.6672],   /* New Jersey — the gazetteer prefers Princeton, FLORIDA */
+  'cambridge':   [ 52.2000,   0.1167],   /* England — the events table means Massachusetts */
+  'shrewsbury':  [ 52.7101,  -2.7521],
   'tenochtitlan':[19.435,-99.141],'uruk':[31.324,45.636],'babylon':[32.542,44.421],
   'eridu':[30.816,45.996],'nippur':[32.126,45.232],'shuruppak':[31.783,45.517],
   'akkad':[33.100,44.100],'knossos':[35.298,25.163],'sardis':[38.488,28.040],
@@ -206,9 +212,126 @@ function pick(name, region) {
   return list.reduce((a, c) => c.pop > a.pop ? c : a);
 }
 
+/* ── THE DATED POSITIONS · 5 Sep ───────────────────────────────────────────
+   SEATS.csv holds where a soul was AND WHEN. It exists because the roster's
+   Location column is the BIRTHPLACE — measured, nineteen of twenty
+   unambiguous figures (SLIP #68) — and because one corrected place would
+   still be a single point standing for a whole life.
+
+   THE RESOLVING HAPPENS HERE, NOT IN THE BROWSER. Every guard that makes a
+   coordinate trustworthy lives in this file and its tables: the country
+   arbitration that caught Cordoba-in-Argentina three times, the historical
+   seats a population gazetteer does not hold, the refusal to guess. A surface
+   that geocoded for itself would have none of them, and would look the same.
+
+   So GEO.json carries positions ALREADY PLACED, and the map only chooses
+   which one a year falls in. */
+function resolveSeats(seatRows, key, region) {
+  const rows = seatRows[key];
+  if (!rows) return null;
+  const out = [];
+  for (const r of rows) {
+    if (!Number.isFinite(r.from)) continue;
+    const o = { from: r.from };
+    if (r.to != null) o.to = r.to;
+    if (r.what) o.what = r.what;
+    if (r.note) o.note = r.note;
+    /* a position may honestly have NO place — Darwin's Beagle years are five
+       years at sea, and a seat there would be an invention */
+    if (r.place) {
+      const g = geoTier(r.place);
+      const k = norm(g.place);
+      const ext = EXTENT[k];
+      if (ext) { o.ext = ext; o.place = g.place; }
+      else {
+        /* ── AN AUTHORED TABLE MUST NOT OUTRANK A NAMED CITY · 5 Sep ─────
+           EVENT_SEATS holds 'cambridge' -> Cambridge, MASSACHUSETTS, added
+           for the founding of Facebook. Consulted first, it put Newton at
+           Harvard. The events table answers "where did this event happen",
+           and a soul's position is a different question with the same key.
+
+           So the authored tables are used only when the place names no
+           country, or when the gazetteer cannot answer. A stated country is
+           the strongest claim in the row and it wins. */
+        /* ── WHOSE TABLE ANSWERS · 5 Sep ─────────────────────────────────
+           HISTORICAL is this file's own — ancient seats for souls. It is
+           consulted FIRST because it is hand-written for exactly this
+           question and settles namesakes a country cannot: there are two
+           Princetons in the United States and the gazetteer prefers the one
+           in Florida.
+
+           EVENT_SEATS belongs to the EVENTS register and answers a different
+           question with the same keys. Consulted first, it holds
+           'cambridge' -> Cambridge, MASSACHUSETTS (added for the founding of
+           Facebook) and it put Newton at Harvard. So it is the LAST resort,
+           after the gazetteer has failed with a stated country. */
+        const hit = HISTORICAL[k];
+        if (hit) { o.lat = hit[0]; o.lon = hit[1]; o.src = 'authored'; o.place = g.place; }
+        else {
+          /* ── THE REGION MUST NOT ARBITRATE A POSITION · 5 Sep ────────────
+             A soul's Region says where they CAME FROM. Using it to judge a
+             later position refuses the very thing this register exists for:
+             Einstein's region is Central Europe, so the Cordoba guard — the
+             one that saved him three times — threw out Princeton at -74
+             degrees, correctly by its own logic and wrongly for this purpose.
+
+             A dated position arbitrates the way an event does: on the COUNTRY
+             WRITTEN IN THE PLACE ITSELF. "Princeton, United States" must
+             resolve inside US or it is refused. The claim carries its own
+             check, which is what lets a life leave the region it began in. */
+          /* G holds a LIST of candidates per name — that is the whole point of
+             it, and reading it as a single record silently unplaced London,
+             Paris and New York. Choose within the list by the stated country. */
+          const list = G.get(k) || [];
+          const stated = (r.place.split(',')[1] || '').trim().toLowerCase();
+          const want = COUNTRY_CODE[stated];
+          const cands = want ? list.filter(c => c.cc === want) : list;
+          const hit2 = cands.sort((a, b) => b.pop - a.pop)[0];
+          if (hit2) {
+            o.lat = +hit2.lat.toFixed(4); o.lon = +hit2.lon.toFixed(4);
+            o.src = 'geonames'; o.place = g.place;
+          } else {
+            /* last resort: a village too small for a population gazetteer.
+               These live in the events table because that is where the first
+               of them were needed; a place is a place. */
+            const alt = BATTLEFIELDS[k] || EVENT_SEATS[k];
+            if (alt) { o.lat = alt[0]; o.lon = alt[1]; o.src = 'authored'; o.place = g.place; }
+            else { o.place = g.place; o.unplaced = true; }
+          }
+        }
+      }
+    }
+    out.push(o);
+  }
+  return out.length ? out.sort((a, b) => a.from - b.from) : null;
+}
+
 /* ── read the roster ─────────────────────────────────────────────────────── */
 if (!fs.existsSync(ROSTER)) die('no names.csv at ' + path.resolve(ROSTER));
 const lines = fs.readFileSync(ROSTER,'utf8').split(/\r?\n/).filter(l => l.trim());
+
+/* SEATS.csv is OPTIONAL: without it every soul falls back to Location, which
+   is the map we had this morning and which the surface now labels honestly. */
+const seatRows = {};
+const SEATS = path.join(ROOT, 'SEATS.csv');
+if (fs.existsSync(SEATS)) {
+  const sl = fs.readFileSync(SEATS, 'utf8').split(/\r?\n/)
+    .filter(l => l.trim() && !l.trim().startsWith('#'));
+  const sh = cut(sl[0]).map(x => x.trim().toLowerCase());
+  const c = n => sh.indexOf(n);
+  for (const line of sl.slice(1)) {
+    const r = cut(line);
+    const k = (r[c('key')] || '').trim();
+    if (!k) continue;
+    (seatRows[k] || (seatRows[k] = [])).push({
+      from: parseInt(r[c('from')], 10),
+      to:   r[c('to')] && r[c('to')].trim() ? parseInt(r[c('to')], 10) : null,
+      place: (r[c('place')] || '').trim(),
+      what:  (r[c('what')]  || '').trim(),
+      note:  (r[c('note')]  || '').trim()
+    });
+  }
+}
 if (lines.length < 2) die('names.csv holds no rows. An empty roster is not an empty library.');
 const head  = cut(lines[0]).map(s => s.trim().toLowerCase());
 const nameCol = ['full name','name'].map(w => head.indexOf(w)).find(i => i > -1);
@@ -229,7 +352,12 @@ if (fs.existsSync(GAZ)) {
   for (const line of fs.readFileSync(GAZ,'utf8').split('\n')) {
     if (!line.trim()) continue;
     const f = line.split('\t');
-    const rec = { lat:+f[4], lon:+f[5], pop:+f[14], name:f[1] };
+    /* cc added 5 Sep: the souls' path arbitrates by REGION BOX and never
+       needed a country. A dated position cannot use the region — a life
+       leaves the region it began in, which is the whole point of SEATS.csv —
+       so it arbitrates on the country written in the place instead, and that
+       needs this field. Costs one property and changes nothing above. */
+    const rec = { lat:+f[4], lon:+f[5], pop:+f[14], name:f[1], cc:f[8] };
     if (!Number.isFinite(rec.lat) || !Number.isFinite(rec.lon)) continue;
     for (const k of [f[1], f[2], ...(f[3] ? f[3].split(',') : [])]) {
       const n = norm(k); if (!n) continue;
@@ -327,6 +455,8 @@ for (const line of lines.slice(1)) {
     silent++;
     if (place) o.place = place;
   }
+  var seats = resolveSeats(seatRows, o.k, rgn);
+  if (seats) o.seats = seats;
   souls.push(o);
 }
 
@@ -337,6 +467,8 @@ console.log('pins          ' + pin + '   (a dot — the record supports a point)
 console.log('washes        ' + wash + '   (an extent — "somewhere in here", never a dot)');
 console.log('silent        ' + silent + '   (myth or no record — no mark, honestly)');
 console.log('UNPLACED      ' + unplaced + '   (a name nothing could resolve — reported, never guessed)');
+console.log('dated seats   ' + souls.filter(s => s.seats).length +
+            '   (souls with a position AND a year \u2014 the rest fall back to Location, which is the birthplace)');
 console.log('offices       ' + souls.filter(s=>s.o).length + '   (a mark for what they were)' +
             '  ·  personal ' + souls.filter(s=>s.pg).length);
 console.log('  by source:  geonames ' + souls.filter(s=>s.src==='geonames').length +
@@ -365,7 +497,8 @@ const payload = {
   generated:new Date().toISOString(), generator:'probes/probe-geo.mjs',
   gazetteer:{ file:'cities15000.txt', sha256:gazSha, matchesAudited:!gazDrift },
   attribution:'City coordinates © GeoNames, CC BY 4.0. Coastline: Natural Earth (public domain).',
-  totals:{ souls:souls.length, pins:pin, washes:wash, silent:silent, unplaced:unplaced },
+  totals:{ souls:souls.length, pins:pin, washes:wash, silent:silent, unplaced:unplaced,
+           datedSeats:souls.filter(s=>s.seats).length },
   souls
 };
 fs.writeFileSync(OUT, JSON.stringify(payload) + '\n');
