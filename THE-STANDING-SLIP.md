@@ -1177,7 +1177,7 @@ libraries. A room is not the unit of existence; it is the unit of DEPTH.
   never again described as a backlog, when growth is undertaken without dread,
   and when room-building follows the graph’s leverage signals.
 
-### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
+### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
 and it shows in the drift report. Delete it.
@@ -1741,6 +1741,176 @@ CAN START UNTIL IT IS DONE.
   textured, with 864 pins on it, and a great circle from Rome to Alexandria
   that a reader can measure against one from Rome to London and see that the
   first is shorter — which the map today gets wrong.
+
+### 66 · EDGE DATA — what neither register holds and both produce on contact
+Named 5 Sep. **A new class of fact on this ship**, and the reason the second
+events worksheet matters far more than its 325 rows suggest.
+
+**THE DEFINITION.** Edge data is not authored and not fetched. It is COMPUTED
+WHERE TWO REGISTERS MEET — a fact neither one contains, which appears only when
+the repo's own data bounces off the constellation.
+
+**THE EXAMPLE ALREADY BUILT.** Scrub the map across AD 1453:
+
+```
+window   Constantinople   Italian seats
+  1400        10                0
+  1440        10                0
+  1453        12                2
+  1470        10                4
+  1500         5                5
+  1530         1                6
+```
+
+The last Palaiologoi hold the city until the fall, then it empties while
+Florence and Venice come up from nothing — Machiavelli, Botticelli, Vespucci,
+Cabot. **Nothing in the roster says this. Nothing in EVENTS.csv says it either.**
+The roster holds dated people with seats; the events hold dated places. The
+crossover is the collision, and it is a real reading of the record.
+
+**IT IS THE POSITIVE TWIN OF A FAULT WE ALREADY NAMED.** GLOSSARY, *the water
+between*: *"where the faults live. Every fault found in the long August session
+lay BETWEEN two registers, each perfectly truthful about its own island. Not one
+was an error inside a register."*
+
+The same seam. A gap between two registers produces faults AND findings, and it
+produced both in one night — Averroes in Argentina came from the roster meeting
+a gazetteer, and the 1453 crossover came from the roster meeting the events.
+**We have been treating that seam as a hazard. It is also the yield.**
+
+**WHY THE 325-ROW WORKSHEET IS THE UNLOCK.** It is not 325 events. It is 325
+new points of contact with 2,043 dated souls, 111 placed events, 909 rivers, 465
+lakes, 522 named regions and 1,604 sky events. The value is not the rows; it is
+what the rows COLLIDE with. Today the Rome window holds seven events and close
+zoom reveals nothing, because there is nothing at that grain to strike.
+
+**WHAT ELSE IS ALREADY LATENT AND UNREAD:**
+- who was alive when a given event happened, and where they stood
+- which seats sit on navigable water — computable, and NOT a claim about trade
+- who could have known whom: the mention graph filtered by overlapping dates
+- which century a territory fills and which it empties
+- whether a soul's seat existed as a place at the time they are said to have
+  stood in it
+
+**THE HONESTY RULES, AND THEY ARE STRICTER THAN FOR A REGISTER.**
+
+- **DERIVED IS NOT READ.** An edge fact must never arrive in the same voice as a
+  sourced one. The coverage block already separates opened from not-opened; this
+  needs its own framing — *the registers together say*, never *the text says*.
+- **RECOMPUTED, NEVER STORED AS AUTHORED.** The moment an edge fact is written
+  into a register by hand it becomes a second copy of a truth that can drift —
+  two geo-tier.mjs, two merge.js, two standing slips, all in one week.
+- **A CROSSOVER IS NOT A CAUSE.** The 1453 pattern would appear whether or not
+  the fall produced it. The map may show the correlation; it must never draw the
+  arrow. This is the trade-route refusal (#64d) arriving in a new place.
+- **AND THE SAMPLE MUST BE STATED.** Five Italian souls is thin. It is the rise
+  of who got WRITTEN INTO THIS ROSTER, not the rise of the Renaissance, and at a
+  wider aperture the effect blurs to nothing. An edge fact carries the weakness
+  of both its parents, multiplied.
+
+**THE MOVE.**
+- Fill `work/EVENTS-PLACES-2-worksheet.csv`. Place is authored; the probe
+  verifies and never invents (see the worksheet header for what a derivation
+  actually produced: Marathon in Provence, Waterloo in Texas, Carthage in Ohio).
+- Then read out the intersections that are already latent — starting with *who
+  was alive and where they stood* when each placed event happened, because that
+  is the one the hall can speak from and the map can draw at once.
+- **A probe on day one.** An edge fact that is wrong is harder to catch than a
+  wrong pin, because nothing in either register is wrong. Both parents will pass
+  their own checks.
+
+- **Acceptance test:** the hall, asked about Josephus, can say who else stood in
+  the world when the Temple burned — and can say it WITHOUT either register
+  containing that sentence, and while stating that it is derived.
+
+### 67 · WHICH ROOMS NEXT — build by leverage, and the leverage register is stale
+Raised 5 Sep. **55 rooms against 2,043 souls.** #61 settled that this is not a
+backlog; #67 is about which of the next fifty are worth the labour, and the
+answer is already computed — in a register that has gone out of date.
+
+**THE RULE IS #61's, NOT A NEW ONE:** *"build rooms by LEVERAGE (what the graph
+shows pays), not by importance."* A room is the deepest mark and the most
+expensive; the question is which one, opened, makes the most other things
+legible.
+
+---
+
+**THE FIRST MEASURE, AND THE FAULT IN IT.**
+
+`GRAPH.json` already computes `cross_corroborated` — souls named by two or more
+INDEPENDENT historians. That is leverage exactly: a figure four separate authors
+name is a figure whose room connects four existing rooms.
+
+Twenty-nine souls qualify. **Only three have rooms** — Solon, Romulus, Theseus.
+Twenty-six do not:
+
+```
+4  Hercules · Claudius            3  Croesus · Augustus
+2  Cicero · Lucretius · Leonidas · Tiberius · Petronius · Vitellius · Nero
+   Vespasian · Galba · Lysimachus · Aesop · Jason · Remus · Numa Pompilius
+   Pythagoras · Polybius · Pericles · Homer · Minos · Euripides · Achilles
+```
+
+**BUT THE REGISTER IS STALE, AND IT SAYS SO IF YOU LOOK.** Its top entry is
+`Brutus`, named by four historians — and **Brutus IS NOT IN THE ROSTER.** He was
+split into separate figures and the graph was never regenerated. The hall-upgrade
+handoff flagged this on 3 Sep: *"Re-run probe-graph.mjs → fresh GRAPH.json
+(current one predates the Brutus split)."* It is still true.
+
+So the ranking above is built on a measurement of a roster that no longer
+exists. It is probably close, and *close* is not a thing this ship builds on.
+
+> **REGENERATE `GRAPH.json` BEFORE PICKING FROM THIS LIST.**
+> One command. Everything below depends on it.
+
+**And its second limit is structural, not stale:** the mention graph holds SEVEN
+authors. "Cross-corroborated" means corroborated *by those seven*, who are
+almost entirely classical. The measure cannot see Dickens, cannot see Baghdad,
+cannot see anything after antiquity. It ranks well inside its window and is
+blind outside it.
+
+---
+
+**THE SECOND MEASURE — souls the events register names in its own rows.**
+
+103 souls appear by name in an event; **90 of them have no room.** Muhammad,
+Edison, Faraday, Genghis Khan, Copernicus, Darwin, Luther, Maxwell, Aristotle,
+Euclid, Marconi, Descartes, Alexander.
+
+This one reaches past antiquity, which the graph cannot. **It is also crude:**
+matching on surnames put four Fredericks and two Alexanders in the list. It is a
+shortlist to read, not a ranking to trust — and it wants a probe before it is
+used in anger.
+
+---
+
+**THE THIRD, AND IT IS FREE.** A soul at a hub seat inherits its traffic.
+Constantinople holds 124 souls, Baghdad 30, Rome and Athens dozens more. A room
+at a full seat is walkable from every other soul standing there.
+
+---
+
+**WHAT TO DO, IN ORDER.**
+1. **Re-run `probe-graph.mjs`.** The leverage measure is stale and one command
+   fixes it. Nothing here is trustworthy until it is done.
+2. Take the corroborated list from the FRESH graph. That is the first tranche
+   and it will be twenty to thirty names, already ranked, already justified.
+3. Cross it against the events measure to reach past antiquity, reading the
+   list rather than trusting it.
+4. **Write a probe for the events measure** if it is to be used more than once.
+   Surname matching is the same class of error as Cordoba: plausible, cheap,
+   and wrong in ways nothing in either register can see.
+
+**AND ONE CORRECTION THAT IS NOT ABOUT ROOMS.** Charles Dickens is seated at
+**Portsmouth**, where he was born and which he left as a small boy. The map's
+rule is PRINCIPAL PLACE OF ACTIVITY, which for Dickens is London by any reading.
+That seat is wrong whether or not he ever gets a room, and it is worth asking
+how many other souls were seated at a birthplace by the same reflex.
+
+- **Acceptance test:** `GRAPH.json` regenerates and no longer names a soul the
+  roster does not hold; the corroborated list is read off it rather than off a
+  three-day-old file; and the first tranche of rooms is chosen from that list
+  with the reason recorded per room.
 
 *Updated 31 Aug 2026: moves 12-22 added, #4 closed by supersession, #5 blocked,
 the critical path reordered. Eight of those moves had been sitting in a log and a
