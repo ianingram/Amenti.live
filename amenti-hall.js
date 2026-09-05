@@ -318,6 +318,50 @@
     return keep.slice(0, 6);
   }
 
+  /* ── WHILE THEY LIVED ─────────────────────────────────────────────────────
+     Bounded on purpose. The mean soul overlaps 41 events and the densest
+     overlaps 159 — six thousand characters against a 20,000 budget, for one
+     name in one question. So: ten, spread evenly across the life rather than
+     taken from its start, and the TRUE TOTAL stated so the hall never implies
+     it has listed everything. A sample presented as a list is a quiet lie. */
+  function whileTheyLived(hits, evts) {
+    if (!evts || !hits || !hits.length) return '';
+    var out = [];
+    hits.slice(0, 2).forEach(function (s) {
+      if (typeof s.b !== 'number' || typeof s.d !== 'number') return;
+      if (s.d - s.b > 300) return;              /* an eternal overlaps everything */
+      var win = evts.filter(function (e) { return e.y >= s.b && e.y <= s.d; });
+      if (!win.length) return;
+      var show = win;
+      if (win.length > 10) {
+        show = [];
+        for (var i = 0; i < 10; i++) show.push(win[Math.round(i * (win.length - 1) / 9)]);
+      }
+      /* ── SHOW THE WORKING, NOT THE LABEL ─────────────────────────────────
+         "Derived, not read" asks a reader to trust a word. The operation is
+         small enough to state, so it is stated: the two inputs, the predicate,
+         and the count it produced. A derived claim that carries its own
+         arithmetic can be CHECKED; one that carries only a disclaimer can only
+         be believed. Every other honest mark on this ship is falsifiable —
+         a pin has a coordinate, a quote has a source — and this is how an
+         edge fact earns the same standing. */
+      var yr2 = function (y) { return y < 0 ? Math.abs(y) + ' BC' : 'AD ' + y; };
+      out.push('[' + s.n + ' ' + yr2(s.b) + '\u2013' + yr2(s.d) +
+               '] \u2229 [EVENTS.json, 536 rows] where ' + s.b + ' \u2264 event.year \u2264 ' +
+               s.d + '  \u2192  ' + win.length + ' match' + (win.length === 1 ? '' : 'es') +
+               (win.length > show.length ? ', ' + show.length + ' shown, spread across the life' : '') +
+               ': ' + show.map(function (e) {
+        return e.n + ' (' + yr2(e.y) + (e.place ? ', ' + e.place : '') + ')';
+      }).join('; ') + '.');
+    });
+    if (!out.length) return '';
+    return 'COMPUTED, NOT READ \u2014 and here is the working, so a reader can ' +
+           'check it rather than trust it: ' + out.join(' ') +
+           ' If you use this, say it is worked out by laying the roster against ' +
+           'the events register, and you may give the arithmetic above if asked. ' +
+           'It appears in no text and no room.';
+  }
+
   function rosterLine(question, souls, total) {
     if (souls === null)
       return 'THE ROSTER COULD NOT BE READ THIS TURN. You do not know who is aboard. ' +
@@ -922,6 +966,7 @@
     p.push('8. Amenti-Workers and Admin are private. Never state costs, tokens, credentials or provider accounts.');
     p.push('9. The figures are the thing; you are the doorway. Asked what a soul thought or felt beyond what the text says, say they can be asked directly.');
     p.push('10. Refuse as yourself, in your own voice. A refusal is a character move, not a system notice.');
+    p.push('12. WHAT IS COMPUTED IS NOT WHAT WAS READ. The \u201clived through\u201d line is worked out by laying the roster against the events register, and the coverage block SHOWS ITS ARITHMETIC \u2014 the two inputs, the test, and the count. Use it freely, mark it as worked out rather than read, and give the working if a reader asks: a derived claim that shows its arithmetic can be checked, one that offers only a disclaimer can only be believed. And a crossing is not a cause \u2014 that two things share a lifetime is not evidence one produced the other.');
     p.push('11. A ROOM IS NOT THE ROSTER. You may say a figure is not aboard ONLY if the roster line in the coverage block says no name matched. If it names them, they ARE aboard \u2014 say so, give what it tells you, and say plainly that no room has been opened for them yet. Never reason from "no room was opened" to "not on the roster": on 4 Sep that reasoning told a visitor Odysseus and Homer were absent when both are on it.');
     return p.join('\n');
   }
@@ -967,13 +1012,27 @@
          VERDICT of a lookup: at most a few lines, only for names the question
          actually contains. A search over the documents is not a search over
          the library; neither is an answer built only from opened rooms. */
-      attempt('ROSTER-INDEX.json', get(RAW + 'ROSTER-INDEX.json', true))
+      attempt('ROSTER-INDEX.json', get(RAW + 'ROSTER-INDEX.json', true)),
+      /* ── WHAT ELSE WAS HAPPENING · 5 SEP 2026 ────────────────────────────
+         EVENTS.json: 536 events, 386 with a coordinate, every Place authored
+         in EVENTS.csv and verified by probes/probe-events.mjs.
+
+         This is the first EDGE DATA the hall can speak from — a fact NEITHER
+         register contains. The roster holds dated people; the events hold
+         dated places; what was happening while a soul lived is the collision,
+         and it is exactly as true as its two parents and no truer.
+
+         It is DERIVED, and the prompt says so in those words. A reader must
+         never take "the Temple burned while Josephus lived" for something the
+         hall read in a text. It read two registers and did arithmetic. */
+      attempt('EVENTS.json', get(RAW + 'EVENTS.json', true))
     ]).then(function (r) {
       var hall  = r[0].ok ? r[0].value : null;
       var state = r[1].ok ? r[1].value : null;
       var src   = r[2].ok ? r[2].value : null;
       var lib   = r[3].ok ? r[3].value : null;
       var souls = r[4].ok ? (r[4].value.souls || []) : null;
+      var evts  = r[5].ok ? (r[5].value.events || []) : null;
 
       r.forEach(function (x) { if (!x.ok) degraded.push(x.name + ' — ' + x.error); });
 
@@ -1039,7 +1098,8 @@
           /* AFTER the not-opened line, deliberately: that sentence is what
              produced the false absence, so the correction must be the last
              thing read. A room is not the roster. */
-          rosterLine(question, souls, state && state.souls)
+          rosterLine(question, souls, state && state.souls),
+          whileTheyLived(hits, evts)
         ].filter(Boolean).join('\n');
 
         /* CALL TWO — answer from what was opened. It does NOT carry the door
@@ -1104,7 +1164,20 @@
     find: function (fragment) {
       return Promise.all([
         attempt('SOURCES.json',      get(RAW + 'SOURCES.json', true)),
-        attempt('ROSTER-INDEX.json', get(RAW + 'ROSTER-INDEX.json', true))
+        attempt('ROSTER-INDEX.json', get(RAW + 'ROSTER-INDEX.json', true)),
+      /* ── WHAT ELSE WAS HAPPENING · 5 SEP 2026 ────────────────────────────
+         EVENTS.json: 536 events, 386 with a coordinate, every Place authored
+         in EVENTS.csv and verified by probes/probe-events.mjs.
+
+         This is the first EDGE DATA the hall can speak from — a fact NEITHER
+         register contains. The roster holds dated people; the events hold
+         dated places; what was happening while a soul lived is the collision,
+         and it is exactly as true as its two parents and no truer.
+
+         It is DERIVED, and the prompt says so in those words. A reader must
+         never take "the Temple burned while Josephus lived" for something the
+         hall read in a text. It read two registers and did arithmetic. */
+      attempt('EVENTS.json', get(RAW + 'EVENTS.json', true))
       ]).then(function (r) {
         var items = r[0].ok ? flatten(r[0].value.sources) : [];
         var souls = r[1].ok ? (r[1].value.souls || []) : [];
