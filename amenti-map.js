@@ -622,7 +622,7 @@
       '<div class="mp-wrap">' +
         '<div class="mp-head">' +
           '<div class="mp-titlewrap">' +
-            '<div class="mp-title">where the souls stood, and what stood over Giza</div>' +
+            '<div class="mp-title">where the souls began, and what stood over Giza</div>' +
             /* ── TWO VIEWS · 4 Sep ────────────────────────────────────────────
                THE BLUEPRINT IS THE DEFAULT, and deliberately. It is the map as
                a chart: flat land, a hard coast, nothing on it that is not a
@@ -650,7 +650,7 @@
               'what you are looking at</button>' +
           '</div>' +
           '<div class="mp-key">' +
-            '<span><i class="k-pin"></i>a seat \u2014 here</span>' +
+            '<span><i class="k-pin"></i>a seat \u2014 where the record places them</span>' +
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
             '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
             '<span><i class="k-sky"></i>the sky \u2014 seen from giza</span>' +
@@ -729,8 +729,35 @@
       '<div class="mp-what" hidden>' +
         '<div class="mp-whatcol">' +
           '<h3>the marks</h3>' +
-          '<p><b>a seat</b> — a dot. The record supports a point: a city, a ' +
-            'named place. One seat can hold many souls; Constantinople holds 124.</p>' +
+          /* ── WHAT THE SEAT ACTUALLY IS · 5 Sep ────────────────────────────
+             MEASURED, and it is not what this surface claimed. The geography
+             handoff settled the claim as "principal place of activity, NOT
+             birthplace, because birthplace misleads for anyone who mattered
+             elsewhere." The roster's Location column does not hold that.
+
+             Tested against twenty unambiguous figures, NINETEEN are the
+             birthplace — Newton in Lincolnshire, Einstein at Ulm, Marx at
+             Trier, Curie in Warsaw, Mozart at Salzburg. Not one of them worked
+             there. Tested again against rulers, the same: Constantine at
+             Naissus, Justinian at Tauresium, Hadrian at Italica, Catherine at
+             Stettin, Saladin at Tikrit.
+
+             Every individual value is CORRECT — Newton was born in
+             Lincolnshire — which is why no audit caught it. The register is
+             truthful and the label on it was not. The water between, again.
+
+             So the surface says what it draws until the roster carries a seat
+             of its own. A map that overstates by one word is still a map that
+             overstates. */
+          '<p><b>a seat</b> — a dot, and <b>most often the place a soul was ' +
+            'BORN</b>, not where they worked. Tested against twenty ' +
+            'unmistakable figures, nineteen are the birthplace: Newton in ' +
+            'Lincolnshire, Einstein at Ulm, Marx at Trier, Mozart at Salzburg. ' +
+            'None of them worked there. This map therefore shows where notable ' +
+            'people BEGAN — a real thing, and not the same thing as where they ' +
+            'acted. Until the roster carries a seat of its own, read every dot ' +
+            'that way.</p>' +
+          '<p>One seat can hold many souls; Constantinople holds 124.</p>' +
           '<p><b>a territory</b> — a soft area, never a dot. The record says ' +
             'only <i>somewhere in here</i>. The commonest value in the roster is ' +
             '\u201cSouthern Europe\u201d, a continent, held by 334 souls \u2014 ' +
@@ -1547,6 +1574,7 @@
     el.querySelector('.mp-read').textContent = yr(lo) + ' \u2014 ' + yr(hi);
     el.querySelector('.mp-note').textContent =
       (AP_NAME[APERTURE] ? AP_NAME[APERTURE] + ' \u00b7 ' : '') +
+      'seats are mostly BIRTHPLACES, not where a soul worked \u00b7 ' +
       /* SOULS AND SEATS ARE DIFFERENT NUMBERS and this line said "seats" while
          counting souls — 379 souls at 246 seats, because Constantinople alone
          holds 124. On a surface whose whole argument is that a dot may stand

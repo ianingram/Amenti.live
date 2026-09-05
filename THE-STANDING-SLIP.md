@@ -1912,6 +1912,86 @@ how many other souls were seated at a birthplace by the same reflex.
   three-day-old file; and the first tranche of rooms is chosen from that list
   with the reason recorded per room.
 
+### 68 · THE SEAT IS NOT THE BIRTHPLACE — and the roster only holds one of them
+Raised 5 Sep, while adding coordinates for the 228 unresolved places. **The map
+has been drawing something other than what it said**, and the reason nothing
+caught it is the reason it is worth an entry.
+
+**THE CLAIM, SETTLED BEFORE ANY OF IT WAS BUILT.** The geography handoff:
+
+> A soul's map position represents *"principal place of activity, at honest
+> granularity."* **Not birthplace** (misleads for anyone who mattered
+> elsewhere), not death-place (arbitrary).
+
+**THE MEASUREMENT.** Twenty unmistakable figures, tested against what the map
+actually draws:
+
+```
+Newton      Lincolnshire   worked Cambridge      Einstein  Ulm        worked Berlin
+Marx        Trier          worked London         Curie     Warsaw     worked Paris
+Mozart      Salzburg       worked Vienna         Tesla     Smiljan    worked New York
+Beethoven   Bonn           worked Vienna         Darwin    Shrewsbury worked Down
+Freud       Freiberg       worked Vienna         Smith     Kirkcaldy  worked Edinburgh
+```
+
+**NINETEEN OF TWENTY ARE THE BIRTHPLACE.** The one exception is Kant, who was
+born and died in the same city.
+
+Tested again against rulers, where birth and seat diverge most, the same
+result: Constantine at **Naissus**, Justinian at **Tauresium**, Hadrian and
+Trajan at **Italica**, Catherine at **Stettin**, Peter at **Moscow**, Saladin at
+**Tikrit**. A handful are seats — Charlemagne at Aachen, Mehmed at
+Constantinople — so it is a rule with exceptions rather than a law.
+
+**WHY NO AUDIT CAUGHT IT.** Because every value is correct. Newton WAS born in
+Lincolnshire. `probe-geo` verified the coordinate, the Region column
+arbitrated the namesake, the gazetteer hash matched. **The register is
+truthful; the label on it was not.** GLOSSARY, *the water between* — the fault
+is not inside a register, it is between the register and the claim made about
+it. It is also #66's warning arriving from the other direction: this is not a
+bad join, it is a bad NAME for a good column.
+
+---
+
+**DONE, 5 Sep — the surface no longer overstates.** Relabelled: the title reads
+*where the souls began*, the legend says *where the record places them*, the
+footer states plainly that seats are mostly birthplaces, and the panel gives the
+measurement. That costs nothing and makes the map true today.
+
+**And it is worth saying what the map is now honestly showing:** the geography
+of where notable people were BORN, across six thousand years. That is a real
+subject and an interesting one. It is not the subject the handoff specified.
+
+---
+
+**THE MOVE — a `Seat` column, authored.**
+
+- Add `Seat` to `names.csv` for principal place of activity. `probe-geo` places
+  from `Seat` where it exists and falls back to `Location`, so the map improves
+  soul by soul rather than in one pass.
+- **It cannot be derived.** The biography column holds prose, and deriving a
+  seat from prose is the same operation that put Marathon in Provence and
+  Waterloo in Texas (see `work/README.md`). Authored, verified, never invented.
+- **Do the placed before the unplaced.** 864 souls are on the map now, most at
+  a birthplace. Correcting Newton to Cambridge changes what a reader sees;
+  adding a coordinate for Wapakoneta only makes a mislabelled dot more precise.
+- **THE 228 WAIT ON THIS.** Adding coordinates for Darvel, Woodbine and
+  Braunau am Inn would resolve them and place them wrongly by the map's own
+  rule. An unplaced soul is a stated gap; a soul precisely pinned at the wrong
+  claim is worse, because it looks finished.
+
+**WHAT IT UNLOCKS.** Every edge fact currently rests on birthplaces. The 1453
+crossover — Constantinople emptying into Florence — is a claim about where those
+souls were BORN, not where they worked, and it survives only because for
+Byzantine emperors and Florentine painters the two mostly coincide. Elsewhere it
+will not. **Seats would make the centre-of-gravity readings mean what they
+appear to mean.**
+
+- **Acceptance test:** `Seat` exists and is filled for the 100 souls whose
+  birthplace and workplace are known to differ; the map draws from it; Newton
+  is at Cambridge, Einstein at Berlin, Marx in London — and the surface says
+  *seat* where it now says *born*.
+
 *Updated 31 Aug 2026: moves 12-22 added, #4 closed by supersession, #5 blocked,
 the critical path reordered. Eight of those moves had been sitting in a log and a
 handoff since 30 Aug without reaching this file, and one design decision existed
