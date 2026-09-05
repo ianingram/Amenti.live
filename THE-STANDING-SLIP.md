@@ -2043,6 +2043,101 @@ can only be believed.
   returns 200, or carries a recorded note saying it is lost — and a probe fails
   when that stops being true.
 
+### 70 · A LIFE IS NOT A POINT — dated positions, and the one line that is allowed
+Built 5 Sep, out of #68. Two registers, and a rule that took two corrections to
+arrive at.
+
+**THE PROBLEM #68 LEFT.** The roster holds one Location per soul and that column
+is THE BIRTHPLACE — nineteen of twenty measured. Correcting it to a single seat
+would have been better and still wrong: Einstein at Berlin is one point standing
+for seventy-six years across four countries.
+
+**`SEATS.csv` — where a soul was, AND WHEN.** One row is one dated position; a
+soul may have several. The map asks the year at the leading edge and places them
+where they stood. Einstein: Ulm, Bern, Berlin, Princeton. Newton: Woolsthorpe,
+Cambridge, London. Scrub, and they move. 27 souls today; everyone else falls
+back to Location, and the surface says which is which — **a dated mark is
+ringed**, because "the record places them here in this year" and "this is where
+they were born" are different claims and a reader cannot tell them apart
+otherwise.
+
+> **A POSITION WITH NO DATE IS NOT A POSITION.** Undated places already have a
+> home. That is the Location column.
+
+---
+
+**THE FIRST CORRECTION — I MADE DARWIN VANISH.**
+
+`SEATS.csv` shipped with Darwin 1831–36 carrying NO PLACE, on the reasoning that
+a voyage is not a seat. The captain: *"Darwin is on a ship which is on an ocean —
+why should he vanish?"*
+
+Right, and the refusal was lazy. **The Beagle is one of the best-documented
+journeys in history** — Plymouth December 1831, Cape Verde, Rio, Tierra del
+Fuego, Valparaíso, the Galápagos in September 1835, Sydney, Falmouth October
+1836. Those are dated positions exactly like Berlin. He is now the
+best-tracked soul on the map, which is the honest reading: the voyage is better
+recorded than most people's addresses.
+
+**The lesson is not about Darwin.** It is that "the record cannot support this"
+must be MEASURED and not assumed. I have refused twice on that ground this week
+and been wrong once — and a wrong refusal is invisible, because what it produces
+is an absence nobody questions.
+
+---
+
+**THE SECOND CORRECTION — AND THE RULE.**
+
+Asked why Rand's emigration could not be drawn. The blanket refusal on lines
+(#64d, troop movements and trade routes) was too blunt.
+
+What #64d actually refuses is INFERRING a route: two seats with a gap between
+them, where a line invents a passage nobody recorded. Newton at Woolsthorpe and
+then at Cambridge does not mean he walked a line between them on a day.
+
+**An emigration is not an inference.** Leaving Petrograd in 1926 and arriving in
+America IS the recorded fact — the crossing is the event, dated at both ends.
+
+> **A LINE MUST BE AUTHORED AS A JOURNEY, NEVER DERIVED FROM TWO SEATS.**
+
+`JOURNEYS.csv` holds them: Rand's emigration, Einstein fleeing Berlin in 1933,
+Freud out of Vienna in 1938, Napoleon to Saint Helena, Tesla arriving with four
+cents. Eight today.
+
+**And it is a connector, not a route.** Rand sailed by Riga, Berlin, Paris and Le
+Havre; a straight line Petrograd to New York is right about the fact and wrong
+about the route. So it draws as a DASHED ARC, bowed off the straight line, and
+the hover ends *"from here to here — not the route taken."* Where waypoints are
+known and matter they belong in `SEATS.csv`, which is how the Beagle is held.
+
+---
+
+**WHAT IT COST TO WIRE, and it is a pattern worth naming.** Three failed runs,
+each because I GUESSED A STRUCTURE INSTEAD OF READING IT: `G` holds a list of
+candidates, not one record; those records carried no country code; and
+`EVENT_SEATS` answers a different question with the same keys — it holds
+`cambridge` → Cambridge MASSACHUSETTS, added for the founding of Facebook, and
+put Newton at Harvard. Each was one grep away.
+
+**And the resolving happens in the probe, never the browser.** Every guard that
+makes a coordinate trustworthy lives there: the country arbitration that caught
+Cordoba-in-Argentina three times, the historical seats, the refusal to guess. A
+surface that geocoded for itself would have none of them and would look the same.
+
+**THE MOVE.**
+- **More seats.** The machinery is built and 27 souls use it. Every addition
+  turns a birth certificate into a life, and it is the only work here that
+  compounds — the 228 unresolved, the edge data, and the centre-of-gravity
+  readings all improve with it.
+- **Start with the placed.** Correcting a soul already on the map changes what a
+  reader sees; resolving an unplaced village does not.
+- Watch for the intra-country namesake, which no country check can catch: two
+  Princetons, and the gazetteer prefers Florida.
+
+- **Acceptance test:** a hundred souls carry dated positions; scrubbing a
+  century visibly moves people rather than lighting and dimming them; and every
+  line on the map traces to a row somebody wrote.
+
 *Updated 31 Aug 2026: moves 12-22 added, #4 closed by supersession, #5 blocked,
 the critical path reordered. Eight of those moves had been sitting in a log and a
 handoff since 30 Aug without reaching this file, and one design decision existed
