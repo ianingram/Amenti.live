@@ -43,6 +43,20 @@ import { geoTier, cut } from './geo-tier.mjs';
 import { EXTENT } from './extents.mjs';
 import { BATTLEFIELDS, EVENT_SEATS, COUNTRY_CODE } from './events-gaz.mjs';
 
+/* ── THE PROBE MUST ASK THE SAME QUESTION THE REGISTER ANSWERS · 5 Sep ─────
+   probe-geo resolves a position by consulting its own HISTORICAL table FIRST,
+   because that table settles namesakes a country cannot — two Princetons in
+   one country, Falmouth in Cornwall against Falmouth as an alternate name for
+   Portland, Maine. A probe that skips it reports faults the register does not
+   have, which is worse than silence: it teaches a reader to ignore findings. */
+const SOUL_SEATS = {};
+try {
+  const src = fs.readFileSync(new URL('./probe-geo.mjs', import.meta.url), 'utf8');
+  const blk = /const HISTORICAL = \{([\s\S]*?)\n\};/.exec(src);
+  if (blk) for (const m of blk[1].matchAll(/'([^']+)':\s*\[\s*(-?[\d.]+),\s*(-?[\d.]+)/g))
+    SOUL_SEATS[m[1]] = [ +m[2], +m[3] ];
+} catch (e) { /* the probe still runs without it, and says so below */ }
+
 const ROOT  = process.argv.find(a => !a.startsWith('--') && a !== process.argv[0] && a !== process.argv[1]) || '.';
 const CHECK = process.argv.includes('--check');
 const P = f => path.join(ROOT, f);
@@ -102,7 +116,7 @@ for (const line of lines.slice(1)) {
   const g = geoTier(place);
   const k = norm(g.place);
   if (EXTENT[k] || g.tier === 'country' || g.tier === 'region') { resolved++; continue; }
-  if (BATTLEFIELDS[k] || EVENT_SEATS[k]) { resolved++; continue; }
+  if (SOUL_SEATS[k] || BATTLEFIELDS[k] || EVENT_SEATS[k]) { resolved++; continue; }
   const hit = G.get(k);
   if (!hit) { if (G.size) unresolvable.push(key + ' \u2192 ' + place); continue; }
   const stated = (place.split(',')[1] || '').trim().toLowerCase();

@@ -93,6 +93,11 @@ const HISTORICAL = {
   'princeton':   [ 40.3573, -74.6672],   /* New Jersey — the gazetteer prefers Princeton, FLORIDA */
   'cambridge':   [ 52.2000,   0.1167],   /* England — the events table means Massachusetts */
   'shrewsbury':  [ 52.7101,  -2.7521],
+  'falmouth':    [ 50.1544,  -5.0711],
+  'palos de la frontera': [ 37.2280, -6.8930],   /* whence Columbus sailed, 1492 */   /* Cornwall — an alternate-name collision sends this to Portland, Maine */
+  'puerto baquerizo moreno': [ -0.9017, -89.6100],   /* San Cristobal, Galapagos */
+  'praia':       [ 14.9315, -23.5125],   /* Cape Verde — St Jago */
+  'ushuaia':     [-54.8019, -68.3030],
   'tenochtitlan':[19.435,-99.141],'uruk':[31.324,45.636],'babylon':[32.542,44.421],
   'eridu':[30.816,45.996],'nippur':[32.126,45.232],'shuruppak':[31.783,45.517],
   'akkad':[33.100,44.100],'knossos':[35.298,25.163],'sardis':[38.488,28.040],
@@ -306,13 +311,70 @@ function resolveSeats(seatRows, key, region) {
   return out.length ? out.sort((a, b) => a.from - b.from) : null;
 }
 
+/* ── THE CROSSINGS · 5 Sep ─────────────────────────────────────────────────
+   JOURNEYS.csv holds a move that was ITSELF AN EVENT — an emigration, an
+   exile, a flight. Resolved here for the same reason the seats are: every
+   guard that makes a coordinate trustworthy lives in this file.
+
+   It is deliberately NOT derived from SEATS.csv. Two seats with a gap between
+   them are not a journey; joining them would invent the passage. A crossing is
+   authored, or it is not drawn. */
+function resolveJourneys(jrows, key, region) {
+  const rows = jrows[key];
+  if (!rows) return null;
+  const out = [];
+  for (const r of rows) {
+    if (!Number.isFinite(r.year)) continue;
+    const a = placeOnce(r.from, region), b = placeOnce(r.to, region);
+    if (!a || !b) continue;                 /* an endpoint that will not resolve is not a line */
+    out.push({ y: r.year, a: [a.lat, a.lon], b: [b.lat, b.lon],
+               from: a.place, to: b.place, what: r.what || '', note: r.note || '' });
+  }
+  return out.length ? out.sort((x, y) => x.y - y.y) : null;
+}
+
+/* one place string to one coordinate, by the same ladder a position uses */
+function placeOnce(place, region) {
+  if (!place) return null;
+  const g = geoTier(place);
+  const k = norm(g.place);
+  const hit = HISTORICAL[k];
+  if (hit) return { lat: hit[0], lon: hit[1], place: g.place };
+  const ext = EXTENT[k];
+  if (ext) return { lat: (ext[0] + ext[2]) / 2, lon: (ext[1] + ext[3]) / 2, place: g.place };
+  const list = G.get(k) || [];
+  const stated = (place.split(',')[1] || '').trim().toLowerCase();
+  const want = COUNTRY_CODE[stated];
+  const c = (want ? list.filter(x => x.cc === want) : list).sort((x, y) => y.pop - x.pop)[0];
+  if (c) return { lat: +c.lat.toFixed(4), lon: +c.lon.toFixed(4), place: g.place };
+  const alt = BATTLEFIELDS[k] || EVENT_SEATS[k];
+  return alt ? { lat: alt[0], lon: alt[1], place: g.place } : null;
+}
+
 /* ── read the roster ─────────────────────────────────────────────────────── */
 if (!fs.existsSync(ROSTER)) die('no names.csv at ' + path.resolve(ROSTER));
 const lines = fs.readFileSync(ROSTER,'utf8').split(/\r?\n/).filter(l => l.trim());
 
 /* SEATS.csv is OPTIONAL: without it every soul falls back to Location, which
    is the map we had this morning and which the surface now labels honestly. */
-const seatRows = {};
+const seatRows = {}, jrnRows = {};
+const JRN = path.join(ROOT, 'JOURNEYS.csv');
+if (fs.existsSync(JRN)) {
+  const jl = fs.readFileSync(JRN, 'utf8').split(/\r?\n/)
+    .filter(l => l.trim() && !l.trim().startsWith('#'));
+  const jh = cut(jl[0]).map(x => x.trim().toLowerCase());
+  const c = n => jh.indexOf(n);
+  for (const line of jl.slice(1)) {
+    const r = cut(line);
+    const k = (r[c('key')] || '').trim();
+    if (!k) continue;
+    (jrnRows[k] || (jrnRows[k] = [])).push({
+      year: parseInt(r[c('year')], 10),
+      from: (r[c('from')] || '').trim(), to: (r[c('to')] || '').trim(),
+      what: (r[c('what')] || '').trim(), note: (r[c('note')] || '').trim()
+    });
+  }
+}
 const SEATS = path.join(ROOT, 'SEATS.csv');
 if (fs.existsSync(SEATS)) {
   const sl = fs.readFileSync(SEATS, 'utf8').split(/\r?\n/)
@@ -457,6 +519,8 @@ for (const line of lines.slice(1)) {
   }
   var seats = resolveSeats(seatRows, o.k, rgn);
   if (seats) o.seats = seats;
+  var jrn = resolveJourneys(jrnRows, o.k, rgn);
+  if (jrn) o.journeys = jrn;
   souls.push(o);
 }
 
@@ -469,6 +533,8 @@ console.log('silent        ' + silent + '   (myth or no record — no mark, hone
 console.log('UNPLACED      ' + unplaced + '   (a name nothing could resolve — reported, never guessed)');
 console.log('dated seats   ' + souls.filter(s => s.seats).length +
             '   (souls with a position AND a year \u2014 the rest fall back to Location, which is the birthplace)');
+console.log('crossings     ' + souls.reduce((n,s)=>n+(s.journeys?s.journeys.length:0),0) +
+            '   (a journey that was itself an event \u2014 authored, never derived from two seats)');
 console.log('offices       ' + souls.filter(s=>s.o).length + '   (a mark for what they were)' +
             '  ·  personal ' + souls.filter(s=>s.pg).length);
 console.log('  by source:  geonames ' + souls.filter(s=>s.src==='geonames').length +
@@ -498,7 +564,8 @@ const payload = {
   gazetteer:{ file:'cities15000.txt', sha256:gazSha, matchesAudited:!gazDrift },
   attribution:'City coordinates © GeoNames, CC BY 4.0. Coastline: Natural Earth (public domain).',
   totals:{ souls:souls.length, pins:pin, washes:wash, silent:silent, unplaced:unplaced,
-           datedSeats:souls.filter(s=>s.seats).length },
+           datedSeats:souls.filter(s=>s.seats).length,
+           crossings:souls.reduce((n,s)=>n+(s.journeys?s.journeys.length:0),0) },
   souls
 };
 fs.writeFileSync(OUT, JSON.stringify(payload) + '\n');
