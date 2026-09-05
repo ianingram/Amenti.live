@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-05T02:08:42.259Z",
+    "generated": "2026-09-05T02:21:27.906Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49506,
-      "sha256": "62de2a685a19577e",
+      "sha256": "9eef819a0c454483",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1699,7 +1699,7 @@
         "file": "probe-events.mjs",
         "title": "WHERE THE EVENTS HAPPENED",
         "guards": null,
-        "bytes": 9306
+        "bytes": 11695
       },
       {
         "file": "probe-gate.mjs",
@@ -1711,7 +1711,7 @@
         "file": "probe-geo.mjs",
         "title": "THE PLACE REGISTER",
         "guards": null,
-        "bytes": 20390
+        "bytes": 22766
       },
       {
         "file": "probe-hall-wall.mjs",
