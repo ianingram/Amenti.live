@@ -1563,12 +1563,24 @@
       el.querySelectorAll('.mp-ap button').forEach(function (x) {
         x.classList.toggle('on', +x.getAttribute('data-ap') === APERTURE);
       });
+      /* ── PLACING IS NOT OPENING · 4 Sep ──────────────────────────────────
+         This called takeScreen() and added scene-map, so answering a question
+         about Josephus threw the map over the answer ABOUT A SECOND AFTER IT
+         ARRIVED — the reader is mid-sentence and the page changes underneath
+         them. Nothing asked for the map; the hall was asked for a name.
+
+         Placing SETS WHERE THE MAP WILL OPEN. It does not take the screen.
+         The faculty rail is how a reader opens a surface, and it stays the
+         only way — a view a visitor did not ask for is an interruption, not a
+         feature, however good the view is.
+
+         If the map is ALREADY open the reader is looking at it, and moving it
+         to the soul they just asked about is the answer rather than an
+         interruption. So: redraw when open, stay quiet when closed. */
       containClicks(el);
-      takeScreen();
-      setEdge(soul.d);
       anchorKey = soul.k;
-      draw();
-      document.body.classList.add('scene-map');
+      setEdge(soul.d);
+      if (document.body.classList.contains('scene-map')) draw();
       syncRail();
       return true;
     }, function () { return false; });
