@@ -549,6 +549,9 @@
       '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-land.mp-hasfine{stroke:none}',
       '#amenti-map .mp-regions,#amenti-map .mp-lakes,#amenti-map .mp-coast,',
+      '#amenti-map .mp-jrn{fill:none;stroke:#d9a3e8;stroke-width:.7;',
+      '  stroke-dasharray:4 4;vector-effect:non-scaling-stroke;stroke-linecap:round}',
+      '#amenti-map .mp-jrn:hover{stroke:#f0c8ff;stroke-width:1.1}',
       '#amenti-map .mp-rivers,#amenti-map .mp-peaks{pointer-events:none}',
       '#amenti-map .mp-relief{display:none;opacity:.95}',
       '#amenti-map.mp-atlas .mp-relief{display:block}',
@@ -654,6 +657,7 @@
           '<div class="mp-key">' +
             '<span><i class="k-pin"></i>a seat \u2014 where the record places them</span>' +
             '<span><i class="k-dated"></i>ringed \u2014 a DATED position, not a birthplace</span>' +
+            '<span><i class="k-jrn"></i>a crossing \u2014 from here to here, not the route</span>' +
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
             '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
             '<span><i class="k-sky"></i>the sky \u2014 seen from giza</span>' +
@@ -683,7 +687,7 @@
             '<image class="mp-relief" href="" x="0" y="0" width="1000" height="500" ' +
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
             '<path class="mp-land"></path><path class="mp-coast"></path>' +
-            '<g class="mp-regions"></g><g class="mp-lakes"></g>' +
+            '<g class="mp-regions"></g><g class="mp-lakes"></g><g class="mp-journeys"></g>' +
             '<g class="mp-rivers"></g><g class="mp-peaks"></g><g class="mp-events"></g>' +
             '<g class="mp-washes"></g><g class="mp-pins"></g>' +
             /* ── THE SKY HAS TWO HALVES · 4 Sep ────────────────────────────
@@ -1088,6 +1092,48 @@
                 esc(pk.n) + ' \u00b7 ' + pk.e + 'm</text>';
       });
       gp2.innerHTML = ph;
+    }
+
+    /* ── THE CROSSINGS · a line only where the journey IS the fact ───────────
+       An emigration, an exile, a flight. These are AUTHORED in JOURNEYS.csv
+       and never derived from two seats, because two seats with a gap between
+       them are not a journey — joining them would invent the passage, which is
+       the refusal standing since #64d.
+
+       DRAWN AS AN ARC, DASHED, AND IT MEANS "FROM HERE TO HERE" — NOT "THIS
+       WAY". Rand sailed by Riga, Berlin, Paris and Le Havre; a straight line
+       Petrograd to New York is right about the fact and wrong about the route.
+       The curve and the dashes are there so no reader mistakes the one for the
+       other. Where the waypoints are known and matter they belong in
+       SEATS.csv, which is how the Beagle is held.
+
+       It fades with the window like an event, because a crossing IS an event:
+       bright at the year, gone once it has passed. */
+    var gj = el.querySelector('.mp-journeys');
+    if (gj) {
+      var jh = '';
+      geo.souls.forEach(function (s) {
+        if (!s.journeys) return;
+        s.journeys.forEach(function (j) {
+          if (j.y < lo || j.y > hi) return;
+          var age = APERTURE ? (hi - j.y) / APERTURE : 0;
+          var op = Math.max(0.12, 1 - age * 0.88);
+          var A = proj(j.a[0], j.a[1]), B = proj(j.b[0], j.b[1]);
+          /* bow it away from the straight line, so it cannot be read as one */
+          var mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
+          var dx = B[0] - A[0], dy = B[1] - A[1];
+          var len = Math.hypot(dx, dy) || 1;
+          var cx = mx - dy / len * len * 0.16, cy = my + dx / len * len * 0.16;
+          jh += '<path class="mp-jrn" opacity="' + op.toFixed(2) + '" d="M' +
+                A[0].toFixed(1) + ' ' + A[1].toFixed(1) + 'Q' + cx.toFixed(1) + ' ' +
+                cy.toFixed(1) + ' ' + B[0].toFixed(1) + ' ' + B[1].toFixed(1) + '">' +
+                '<title>' + esc(s.n) + ' \u00b7 ' + yr(j.y) + ' \u00b7 ' + esc(j.what) +
+                ' \u00b7 ' + esc(j.from) + ' to ' + esc(j.to) +
+                (j.note ? '\n' + esc(j.note) : '') +
+                '\nFROM HERE TO HERE \u2014 not the route taken</title></path>';
+        });
+      });
+      gj.innerHTML = jh;
     }
 
     /* ── THE EVENTS · an instant, not a lifespan ─────────────────────────────
