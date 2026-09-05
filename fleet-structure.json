@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-05T20:31:16.964Z",
+    "generated": "2026-09-05T20:39:18.295Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49506,
-      "sha256": "b407fd738833b688",
+      "sha256": "5286446a6c4d2f34",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1663,7 +1663,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 44,
+    "count": 45,
     "files": [
       {
         "file": "events-gaz.mjs",
@@ -1730,6 +1730,12 @@
         "title": null,
         "guards": null,
         "bytes": 10640
+      },
+      {
+        "file": "probe-join.mjs",
+        "title": "IS THE EDGE DATA HONEST",
+        "guards": null,
+        "bytes": 8946
       },
       {
         "file": "probe-library.mjs",
