@@ -1992,6 +1992,57 @@ appear to mean.**
   is at Cambridge, Einstein at Berlin, Marx in London — and the surface says
   *seat* where it now says *born*.
 
+### 69 · TWO PROMPT FILES ARE GONE — the recipe half of the provenance
+Carried out of `TODO.md` on 5 Sep, when that file was renamed to
+`SESSION-2026-08-01.md`. It was the only item in it still open, and it was
+smaller than the August entry thought.
+
+**WHAT THE AUGUST ENTRY SAID.** *"Every prompt file is 404. Six of them, all in
+`img/prompts/`, and fifteen manifest records point at one. The images and every
+audit number are safely recorded. What is missing is the RECIPE HALF OF THE
+PROVENANCE."*
+
+**WHAT IS TRUE ON 5 SEP.** Four of the six have since been restored. Tested
+against `img/MANIFEST.json`, which cites **23 distinct prompt files across 45
+records**, only two are missing:
+
+```
+PROMPTS_BATCH_05.txt      cited by several records
+PROMPT_milton.txt         cited by the Milton card
+```
+
+So the fault is a twentieth of what it was, and the shape of it has changed:
+this is no longer a systemic gap, it is two files.
+
+**WHY `BATCH_05` IS THE ONE THAT MATTERS.** The manifest QUOTES it — a record
+describes a Parliament-doors scene that *"remains unshot and is a candidate for
+oliver-cromwell-chat.jpg."* The manifest therefore holds a description of a
+prompt whose file no longer exists. **The plate can be judged and cannot be
+reproduced**, which is the exact half of provenance the August entry named.
+
+**AND THE GENERAL POINT, WHICH IS WHY THIS IS WORTH AN ENTRY AT ALL.** Every
+plate on this ship is audited — `value_span`, accent radials, the four enforced
+rules, all recorded in `MANIFEST.json`. That is the RESULT half. The prompt is
+the METHOD half, and a result without a method is a measurement nobody can
+repeat. It is the same standing this project demands of an edge fact (#66): a
+claim that shows its working can be checked; one that offers only its output
+can only be believed.
+
+**THE MOVE.**
+- Find or rewrite `PROMPTS_BATCH_05.txt` and `PROMPT_milton.txt`. If they cannot
+  be recovered, say so IN THE MANIFEST against the affected records rather than
+  leaving a citation that resolves to nothing — a source that cannot be reached
+  is not a source, it is a thing somebody remembers.
+- **Then a probe.** `probe-plates.mjs` or a check inside an existing one: every
+  prompt path cited by `MANIFEST.json` must resolve. That test would have caught
+  all six in August and would catch the next one the day it happens. This entry
+  exists because nobody was watching the citations, not because prompts are hard
+  to keep.
+
+- **Acceptance test:** every `PROMPT*.txt` cited in `img/MANIFEST.json`
+  returns 200, or carries a recorded note saying it is lost — and a probe fails
+  when that stops being true.
+
 *Updated 31 Aug 2026: moves 12-22 added, #4 closed by supersession, #5 blocked,
 the critical path reordered. Eight of those moves had been sitting in a log and a
 handoff since 30 Aug without reaching this file, and one design decision existed
