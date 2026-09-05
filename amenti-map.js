@@ -440,6 +440,10 @@
       /* the two ends of the count: where it began and where it closes */
       '#amenti-map .mp-retmark{fill:none;stroke:#e8c98a;stroke-width:.6;opacity:.7;',
       '  vector-effect:non-scaling-stroke}',
+      /* travelling: amber. Home: white, and ringed. */
+      '#amenti-map .mp-jup-home{fill:#fff6e2 !important}',
+      '#amenti-map .mp-jup-ring{fill:none;stroke:#fff6e2;stroke-width:.6;opacity:.75;',
+      '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-jup{fill:#e8c98a;font-size:8px;text-anchor:middle;',
       '  filter:url(#mp-glow);pointer-events:none;transition:opacity .3s ease}',
       '#amenti-map .mp-tether{fill:none;stroke:#d8a24a;stroke-width:.3;',
@@ -1452,16 +1456,32 @@
               '<path class="mp-retmark" d="M' + gzr[0].toFixed(2) + ' ' +
               (gzr[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
         /* the mark thickens as it closes on Giza — the return is the event */
-        var near = 1 - Math.min(1, Math.abs(0.5 - frac) * 2);
-        hg += '<text class="mp-jup" x="' + jp[0].toFixed(2) + '" y="' + (gzr[1] + 2.6 / K).toFixed(2) +
-              '" font-size="' + (8 / K).toFixed(3) + '" opacity="' +
-              (0.45 + 0.55 * (1 - near)).toFixed(2) + '">\u2643</text>';
+        /* ── THE ARRIVAL IS THE EVENT · 5 Sep ────────────────────────────────
+           The sign only brightened as it closed, and a brightening is easy to
+           miss on a line that was itself invisible until today. The RETURN is
+           the whole reason this line exists — the moment Jupiter stands due
+           east over the pyramids again — so it changes STATE, not merely
+           intensity: amber while it travels, and white at the arrival.
+
+           The window is a tenth of the interval either side, so at a five-year
+           return it lights for about six months of scrubbing and at a seven-
+           year return for rather less. It marks the event, not its
+           neighbourhood. */
+        var atGiza = frac < 0.1 || frac > 0.9;
+        hg += '<text class="mp-jup' + (atGiza ? ' mp-jup-home' : '') + '" x="' +
+              jp[0].toFixed(2) + '" y="' + (gzr[1] + 2.6 / K).toFixed(2) +
+              '" font-size="' + ((atGiza ? 10 : 8) / K).toFixed(3) + '" opacity="' +
+              (atGiza ? 1 : 0.5 + 0.3 * (1 - Math.min(1, Math.abs(0.5 - frac) * 2))).toFixed(2) +
+              '">\u2643</text>';
+        if (atGiza)
+          hg += '<circle class="mp-jup-ring" cx="' + gzr[0].toFixed(2) + '" cy="' +
+                gzr[1].toFixed(2) + '" r="' + (7 / K).toFixed(2) + '"/>';
         hg += '<title>Jupiter\u2019s return: rose due east over Giza in ' + yr(prev.y) +
              ', next in ' + yr(next.y) + ' \u2014 ' + (next.y - prev.y) + ' years. ' +
              'This line is a COUNT to that return along Giza\u2019s latitude, not Jupiter\u2019s position.</title>';
         hg += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4 / K).toFixed(2) +
-              '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">\u2643 returns due east over giza in ' +
-             Math.max(0, next.y - hi) + 'y \u00b7 a count, not a position</text>';
+              '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">' + (atGiza ? '\u2643 due east over giza \u2014 the return, ' + yr(hi) + ' \u00b7 a count, not a position' : '\u2643 returns due east over giza in ' +
+             Math.max(0, next.y - hi) + 'y \u00b7 a count, not a position') + '</text>';
       }
     }
 
