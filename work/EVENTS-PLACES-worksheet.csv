@@ -1,0 +1,176 @@
+year,name,category,description,Place,Geo-Tier,kind,note
+-1274,Battle of Kadesh,conflict,Largest chariot battle in history.,"Kadesh, Syria",,moment,
+-1200,Trojan War (traditional date),conflict,Mythic siege of Troy.,,,,the tradition names Troy; whether the war happened is the question
+-586,Babylonian destruction of Jerusalem,conflict,First Temple destroyed.,"Jerusalem, Israel",,moment,
+-490,Battle of Marathon,conflict,Athenian victory over Persia.,"Marathon, Greece",,moment,
+-480,Battle of Thermopylae,conflict,Spartan stand against Xerxes.,"Thermopylae, Greece",,moment,
+-431,Peloponnesian War begins,conflict,Athens vs Sparta.,"Athens, Greece",,moment,Athens votes for war; the theatre is the whole Aegean
+-264,First Punic War,conflict,Rome vs Carthage begins.,Sicily,,span,"Rome against Carthage, fought for Sicily and at sea"
+-218,Hannibal crosses the Alps,conflict,Second Punic War.,the Alps,,span,
+-146,Destruction of Carthage,conflict,Third Punic War ends.,"Carthage, Tunisia",,moment,
+-63,Pompey takes Jerusalem,conflict,Rome enters Judea.,"Jerusalem, Israel",,moment,
+-31,Battle of Actium,conflict,Octavian defeats Antony and Cleopatra.,"Actium, Greece",,moment,
+9,Battle of Teutoburg Forest,conflict,Germanic tribes destroy Roman legions.,"Kalkriese, Germany",,moment,
+70,Fall of Jerusalem,conflict,Roman destruction of Second Temple.,"Jerusalem, Israel",,moment,
+378,Battle of Adrianople,conflict,Goths defeat Romans; military revolution.,"Edirne, Turkey",,moment,
+410,Sack of Rome by Visigoths,conflict,Alaric breaches the city.,"Rome, Italy",,moment,
+451,Battle of Chalons,conflict,Attila the Hun defeated in Gaul.,"Chalons-en-Champagne, France",,moment,
+455,Vandal sack of Rome,conflict,Genseric plunders the eternal city.,"Rome, Italy",,moment,
+636,Battle of Yarmouk,conflict,Muslim conquest of Levant.,"Yarmouk, Syria",,moment,
+732,Battle of Tours,conflict,Charles Martel halts Umayyad advance.,"Tours, France",,moment,
+793,Lindisfarne raid,conflict,Viking Age begins.,"Lindisfarne, England",,moment,
+1066,Battle of Hastings,conflict,William the Conqueror takes England.,"Hastings, England",,moment,
+1066,Norman Conquest of England,conflict,Battle of Hastings.,"Hastings, England",,moment,
+1071,Battle of Manzikert,conflict,Seljuks defeat Byzantines.,"Manzikert, Turkey",,moment,
+1099,Crusaders take Jerusalem,conflict,First Crusade succeeds.,"Jerusalem, Israel",,moment,
+1147,Second Crusade,conflict,Failed campaign in the Holy Land.,Middle East,,span,
+1189,Third Crusade,conflict,Richard Lionheart vs Saladin.,Middle East,,span,
+1204,Sack of Constantinople,conflict,Fourth Crusade turns on Byzantines.,Constantinople,,span,
+1241,Mongols invade Europe,conflict,"Battle of Mohi, Legnica.",Eastern Europe,,span,
+1258,Mongol sack of Baghdad,conflict,End of the Abbasid Caliphate.,"Baghdad, Iraq",,moment,
+1291,Fall of Acre,conflict,Last Crusader state falls.,"Acre, Israel",,moment,
+1314,Battle of Bannockburn,conflict,Scottish independence from England.,"Bannockburn, Scotland",,moment,
+1337,Hundred Years' War begins,conflict,England vs France.,"Paris, France",,moment,Edward III claims the French crown; the war is fought across France
+1346,Battle of Crecy,conflict,English longbow defeats French knights.,"Crecy, France",,moment,
+1389,Battle of Kosovo,conflict,Ottoman advance into the Balkans.,"Pristina, Kosovo",,moment,
+1398,Timur sacks Delhi,conflict,Tamerlane's devastating raid.,"Delhi, India",,moment,
+1402,Battle of Ankara,conflict,Timur captures Ottoman Sultan Bayezid.,"Ankara, Turkey",,moment,
+1415,Battle of Agincourt,conflict,Henry V's famous English victory.,"Agincourt, France",,moment,
+1431,Joan of Arc burned,conflict,Executed at Rouen.,"Rouen, France",,moment,
+1453,End of Hundred Years' War,conflict,French victory at Castillon.,France,,span,the English driven out; no single field
+1453,Fall of Constantinople,conflict,Ottoman conquest; Byzantine Empire ends.,Constantinople,,span,
+1485,Battle of Bosworth Field,conflict,Tudor dynasty begins in England.,"Bosworth, England",,moment,
+1572,St Bartholomew's Day massacre,conflict,French Protestants killed.,"Paris, France",,moment,
+1588,Spanish Armada defeated,conflict,English victory over Philip II's fleet.,England,,span,
+1592,Imjin War,conflict,Japanese invasions of Korea.,Korea,,span,
+1605,Gunpowder Plot,conflict,Failed attempt to blow up Parliament.,"London, England",,moment,
+1618,Thirty Years' War begins,conflict,Defenestration of Prague.,"Prague, Czechia",,moment,the Defenestration of Prague; the war is Central Europe entire
+1683,Siege of Vienna,conflict,Ottoman advance halted.,"Vienna, Austria",,moment,
+1700,Great Northern War begins,conflict,Russia rises under Peter the Great.,"Copenhagen, Denmark",,moment,the allied attack on Holstein-Gottorp opens it; the theatre is the Baltic
+1756,Seven Years' War,conflict,First true world war.,Europe,,span,"the first global war — also India, North America, the Caribbean"
+1775,American Revolution begins,conflict,Battles of Lexington and Concord.,"Lexington, United States",,moment,the first shot; the revolution is thirteen colonies
+1781,Battle of Yorktown,conflict,British surrender; American victory.,"Yorktown, United States",,moment,
+1791,Haitian Revolution begins,conflict,Largest successful slave revolt.,Haiti,,span,
+1812,Napoleon invades Russia,conflict,Disastrous retreat from Moscow.,Russia,,span,
+1815,Battle of Waterloo,conflict,Napoleon defeated; Concert of Europe begins.,"Waterloo, Belgium",,moment,
+1839,First Opium War,conflict,Britain forces opium trade on China.,China,,span,
+1854,Crimean War,conflict,"Russia vs Britain, France, Ottomans.",Crimea,,span,
+1861,American Civil War begins,conflict,Fort Sumter attacked.,"Charleston, United States",,moment,Fort Sumter; the war is half a continent
+1876,Battle of Little Bighorn,conflict,Custer's last stand.,"Little Bighorn, United States",,moment,
+1898,Spanish-American War,conflict,US emerges as global power.,Caribbean,,span,"Cuba, Puerto Rico and the Philippines at once"
+1900,Boxer Rebellion,conflict,Anti-foreign uprising in China.,"Beijing, China",,moment,
+1902,End of Boer War,conflict,Britain wins in South Africa.,South Africa,,span,the peace signed at Vereeniging; the war was the veld
+1904,Russo-Japanese War,conflict,Japan defeats a European power.,East Asia,,span,Manchuria and the Tsushima Strait
+1914,World War I begins,conflict,Assassination of Archduke Franz Ferdinand.,"Sarajevo, Bosnia and Herzegovina",,moment,the assassination; the war is a continent and beyond
+1916,Battle of the Somme,conflict,One million casualties.,"Somme, France",,moment,
+1916,Easter Rising,conflict,Irish independence struggle.,"Dublin, Ireland",,moment,
+1917,US enters WWI,conflict,Wilson declares war.,"Washington, United States",,moment,a declaration made here about a war fought in France
+1918,WWI ends,conflict,Armistice on November 11.,"Compiegne, France",,moment,the armistice signed in a railway carriage
+1936,Spanish Civil War begins,conflict,Republic vs Nationalists.,Spain,,span,
+1937,Japanese invasion of China,conflict,Nanjing Massacre.,China,,span,
+1938,Kristallnacht,conflict,Night of Broken Glass against German Jews.,Germany,,span,
+1939,World War II begins,conflict,Germany invades Poland.,"Warsaw, Poland",,moment,the invasion of Poland — CONTESTED: from Beijing the war begins in 1937
+1940,Battle of Britain,conflict,RAF defends against the Luftwaffe.,England,,span,
+1940,Fall of France,conflict,Nazi Germany conquers in six weeks.,France,,span,
+1941,Operation Barbarossa,conflict,Germany invades Soviet Union.,Eastern Europe,,span,
+1941,Pearl Harbor attack,conflict,US enters WWII.,"Honolulu, United States",,moment,
+1942,Battle of Midway,conflict,Turning point in the Pacific.,Midway Atoll,,span,
+1942,Battle of Stalingrad,conflict,Turning point on the Eastern Front.,"Volgograd, Russia",,moment,
+1942,Wannsee Conference,conflict,Final Solution formalized.,"Berlin, Germany",,moment,
+1944,D-Day Normandy,conflict,Allied invasion of Europe.,Normandy,,span,
+1945,Atomic bombs on Japan,conflict,Hiroshima and Nagasaki; nuclear age begins.,"Hiroshima, Japan",,moment,
+1945,VE Day,conflict,Germany surrenders.,Europe,,span,"a surrender signed at Reims, a day marked across a continent"
+1948,Berlin Airlift,conflict,Cold War crisis.,"Berlin, Germany",,moment,
+1950,Korean War begins,conflict,North invades South.,Korea,,span,
+1956,Hungarian Revolution,conflict,Crushed by Soviet tanks.,"Budapest, Hungary",,moment,
+1956,Suez Crisis,conflict,End of European imperialism.,"Suez, Egypt",,moment,
+1962,Cuban Missile Crisis,conflict,World on brink of nuclear war.,Cuba,,span,
+1965,US troops to Vietnam,conflict,Major escalation begins.,Vietnam,,span,
+1967,Six-Day War,conflict,Israel vs Arab neighbors.,Israel,,span,
+1975,Fall of Saigon,conflict,Vietnam War ends.,"Ho Chi Minh City, Vietnam",,moment,
+1979,Soviet invasion of Afghanistan,conflict,Decade-long quagmire begins.,Afghanistan,,span,
+1982,Falklands War,conflict,UK vs Argentina.,Falkland Islands,,span,
+1988,Iran-Iraq War ends,conflict,Eight-year war concludes.,"Baghdad, Iraq",,moment,a ceasefire accepted; the war was a border eight years long
+1990,Gulf War,conflict,Iraq invades Kuwait; US-led coalition responds.,Kuwait,,span,
+1993,World Trade Center bombing,conflict,First attack on the towers.,"New York City, United States",,moment,
+1995,Oklahoma City bombing,conflict,McVeigh's domestic terror attack.,"Oklahoma City, United States",,moment,
+1999,Columbine school shooting,conflict,Modern era of US school shootings.,"Littleton, United States",,moment,
+2001,9/11 attacks,conflict,"World Trade Center, Pentagon.","New York City, United States",,moment,
+2003,Iraq War begins,conflict,US-led invasion to topple Saddam.,Iraq,,span,
+2011,Death of bin Laden,conflict,US Navy SEAL raid in Pakistan.,"Abbottabad, Pakistan",,moment,
+2011,Syrian Civil War begins,conflict,Long and devastating conflict.,Syria,,span,
+2014,Russia annexes Crimea,conflict,First land grab in Europe since WWII.,Crimea,,span,
+2021,Taliban retake Afghanistan,conflict,US withdrawal; 20-year war ends.,"Kabul, Afghanistan",,moment,
+2022,Russia invades Ukraine,conflict,Largest European war since WWII.,Ukraine,,span,
+-2334,Sargon of Akkad,conquest,First known empire founded.,,,,"an empire founded, not a battle — Akkad is the seat, is that the claim?"
+-525,Persia conquers Egypt,conquest,Cambyses II annexes Egypt.,Egypt,,span,
+-336,Alexander the Great rises,conquest,Begins his conquests at 20.,"Pella, Greece",,moment,he takes the throne at Pella; the conquest is three continents
+-330,Persian Empire falls,conquest,Alexander defeats Darius III.,Persia,,span,
+43,Roman invasion of Britain,conquest,Claudius begins conquest.,"Richborough, England",,moment,Claudius' landing; the conquest takes forty years
+630,Conquest of Mecca,conquest,Muhammad returns to Mecca.,"Mecca, Saudi Arabia",,moment,
+711,Muslim conquest of Iberia,conquest,Tariq ibn Ziyad lands at Gibraltar.,Gibraltar,,moment,Tariq ibn Ziyad lands here; the conquest is the peninsula
+1206,Genghis Khan unifies Mongols,conquest,Mongol Empire founded.,Mongolia,,span,a kurultai on the steppe; no fixed seat
+1438,Inca Empire expands,conquest,Pachacuti begins major expansion.,Cusco,,moment,Pachacuti expands from Cusco; the empire becomes the Andes
+1519,Cortes conquers Aztecs,conquest,Fall of Tenochtitlan to follow.,Tenochtitlan,,moment,
+1521,Fall of Tenochtitlan,conquest,Aztec Empire ends.,Tenochtitlan,,span,
+1532,Pizarro conquers Inca,conquest,Atahualpa captured at Cajamarca.,"Cajamarca, Peru",,moment,Atahualpa captured here
+1798,Napoleon's Egyptian campaign,conquest,French invasion of Egypt.,Egypt,,span,
+-1600,Minoan Thera eruption,disaster,Volcanic eruption ends Minoan civilization.,"Santorini, Greece",,moment,
+-1200,Bronze Age Collapse,disaster,Mediterranean civilizations collapse simultaneously.,,,,"a region-wide collapse over decades; no moment, no single theatre"
+64,Great Fire of Rome,disaster,Nero blamed; Christians persecuted.,"Rome, Italy",,moment,
+79,Eruption of Vesuvius,disaster,Pompeii buried.,"Pompeii, Italy",,moment,
+180,Antonine Plague peaks,disaster,Smallpox/measles ravages Roman Empire.,Roman Empire,,span,
+535,Volcanic winter of 536,disaster,Worst climate catastrophe in 2000 years.,,,,cause and vent still debated — Iceland or the tropics; a global effect with no agreed source
+541,Plague of Justinian,disaster,First recorded bubonic plague pandemic.,Constantinople,,span,
+1347,Black Death begins in Europe,disaster,Plague pandemic kills ~1/3 of Europe.,Europe,,span,entered through Caffa and Messina; the row names Europe
+1665,Great Plague of London,disaster,Last major plague outbreak in England.,"London, England",,span,
+1666,Great Fire of London,disaster,Most of medieval London destroyed.,"London, England",,moment,
+1755,Lisbon earthquake,disaster,Enlightenment crisis of theodicy.,"Lisbon, Portugal",,moment,
+1838,Trail of Tears,disaster,Forced Cherokee relocation.,,,,"a forced march of 1,600 km from Georgia to Oklahoma — a route, not a point"
+1845,Irish Potato Famine,disaster,"Million dead, million emigrate.",Ireland,,span,
+1912,Titanic sinks,disaster,1500 dead in North Atlantic.,,,,"41.7N 49.9W, mid-Atlantic — a real position, but this map has no seat at sea"
+1915,Armenian Genocide,disaster,Ottoman massacre of Armenians.,Anatolia,,span,
+1918,Spanish Flu pandemic,disaster,~50 million dead worldwide.,,,,worldwide; the name is a censorship artefact and the origin is disputed
+1937,Hindenburg disaster,disaster,Airship era ends.,"Lakehurst, United States",,moment,
+1979,Three Mile Island accident,disaster,US nuclear scare.,"Harrisburg, United States",,moment,
+1981,AIDS first identified,disaster,Beginning of the epidemic.,,,,"identified in Los Angeles and New York at once; the epidemic began elsewhere, earlier"
+1984,Bhopal disaster,disaster,Union Carbide gas leak in India.,"Bhopal, India",,moment,
+1986,Challenger explosion,disaster,Space Shuttle disaster.,"Cape Canaveral, United States",,moment,
+1986,Chernobyl disaster,disaster,Worst nuclear accident.,"Chernobyl, Ukraine",,moment,
+1994,Rwandan Genocide,disaster,"800,000 killed in 100 days.",Rwanda,,span,
+2003,Space Shuttle Columbia,disaster,Lost during re-entry.,,,,"broke up over Texas on re-entry — a path across two states, not a point"
+2004,Indian Ocean tsunami,disaster,"230,000 dead across 14 countries.",Southeast Asia,,span,the epicentre is off Sumatra; the disaster is fourteen countries
+2005,Hurricane Katrina,disaster,New Orleans devastated.,"New Orleans, United States",,moment,
+2010,Deepwater Horizon spill,disaster,Largest marine oil spill in history.,,,,a wellhead in the Gulf of Mexico — at sea again
+2011,Fukushima disaster,disaster,Nuclear meltdown after tsunami.,"Fukushima, Japan",,moment,
+2014,Ebola outbreak West Africa,disaster,Largest Ebola epidemic in history.,West Africa,,span,
+2020,COVID-19 pandemic,disaster,Global lockdowns.,,,,"first identified at Wuhan; the pandemic is the world, and the origin is contested"
+-9500,Gobekli Tepe built,monument,Oldest known megalithic temple complex.,"Gobekli Tepe, Turkey",,moment,
+-2700,Step Pyramid of Djoser,monument,"Egypt's first pyramid, by Imhotep.","Saqqara, Egypt",,moment,
+-2560,Great Pyramid of Giza,monument,Khufu's pyramid completed.,"Giza, Egypt",,moment,
+-1800,Stonehenge completed,monument,Megalithic monument finalized.,"Stonehenge, England",,moment,
+-447,Parthenon construction begins,monument,"Athens, on the Acropolis.","Athens, Greece",,moment,
+-214,Great Wall of China started,monument,Initial unification of fortifications.,China,,span,fortifications joined across the northern frontier
+80,Colosseum inaugurated,monument,"50,000-seat amphitheater opens in Rome.","Rome, Italy",,moment,
+122,Hadrian's Wall built,monument,Frontier of Roman Britain.,,,,"117 km from the Tyne to the Solway — a line, not a point"
+532,Hagia Sophia construction,monument,Justinian's great cathedral begun.,Constantinople,,moment,
+1163,Notre-Dame de Paris begun,monument,Gothic cathedral construction starts.,"Paris, France",,moment,
+1632,Taj Mahal begun,monument,Shah Jahan's tomb for Mumtaz.,"Agra, India",,moment,
+1886,Statue of Liberty dedicated,monument,Gift from France to the US.,"New York City, United States",,moment,
+1889,Eiffel Tower opens,monument,Paris World's Fair centerpiece.,"Paris, France",,moment,
+1931,Empire State Building,monument,Tallest building in the world.,"New York City, United States",,moment,
+-7500,Catalhoyuk settlement,civilization,Large Neolithic town in Anatolia.,"Catalhoyuk, Turkey",,moment,
+-5500,Sumerian cities emerge,civilization,Earliest urban centers in Mesopotamia.,Mesopotamia,,span,
+-3100,Egyptian Unification,civilization,Upper and Lower Egypt unify under Narmer.,Egypt,,span,"Narmer unites Upper and Lower Egypt; the seat is Memphis, the claim is the Nile"
+-2600,Indus Valley Civilization,civilization,Harappa and Mohenjo-daro flourish.,South Asia,,span,
+-753,Founding of Rome,civilization,Traditional date of Rome's founding.,"Rome, Italy",,moment,traditional date
+-660,Founding of Japan (legend),civilization,Traditional date of Emperor Jimmu.,Japan,,span,legendary; no site the record can hold
+330,Constantinople founded,civilization,Constantine's new Roman capital.,Constantinople,,moment,
+802,Khmer Empire founded,civilization,Jayavarman II in Cambodia.,"Angkor, Cambodia",,moment,Jayavarman II; the capital moves later
+862,Founding of Kievan Rus,civilization,Rurik in Novgorod.,"Novgorod, Russia",,moment,"Rurik at Novgorod, not yet Kiev"
+1325,Aztecs found Tenochtitlan,civilization,Capital on Lake Texcoco.,Tenochtitlan,,moment,
+1703,Founding of St Petersburg,civilization,Peter the Great's new capital.,"Saint Petersburg, Russia",,moment,
+1760,Industrial Revolution begins,civilization,Britain begins mechanization.,England,,span,no moment and no site; the row says Britain begins
+1848,California Gold Rush,civilization,Forty-niners head west.,"Sacramento, United States",,moment,Sutter's Mill; the rush is the whole state
+1607,Jamestown founded,colonization,First permanent English colony in Americas.,"Jamestown, United States",,moment,
+1620,Mayflower lands at Plymouth,colonization,Pilgrims arrive in North America.,"Plymouth, United States",,moment,
