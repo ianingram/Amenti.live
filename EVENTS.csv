@@ -1,537 +1,537 @@
-year,name,category,description,Place,note
--9500,Gobekli Tepe built,monument,Oldest known megalithic temple complex.,"Gobekli Tepe, Turkey",
--7500,Catalhoyuk settlement,civilization,Large Neolithic town in Anatolia.,"Catalhoyuk, Turkey",
--5500,Sumerian cities emerge,civilization,Earliest urban centers in Mesopotamia.,Mesopotamia,
--4500,Wheel invented,invention,First evidence of the wheel in Mesopotamia.,Mesopotamia,earliest evidence; not an event and not a person
--3500,Cuneiform script,invention,"Earliest writing system, Sumer.",Mesopotamia,developed over centuries
--3200,Egyptian hieroglyphs,invention,Earliest known hieroglyphic writing.,Egypt,developed over centuries
--3100,Egyptian Unification,civilization,Upper and Lower Egypt unify under Narmer.,Egypt,"Narmer unites Upper and Lower Egypt; the seat is Memphis, the claim is the Nile"
--2700,Step Pyramid of Djoser,monument,"Egypt's first pyramid, by Imhotep.","Saqqara, Egypt",
--2600,Indus Valley Civilization,civilization,Harappa and Mohenjo-daro flourish.,South Asia,
--2560,Great Pyramid of Giza,monument,Khufu's pyramid completed.,"Giza, Egypt",
--2334,Sargon of Akkad,conquest,First known empire founded.,,"an empire founded, not a battle — Akkad is the seat, is that the claim?"
--2100,Epic of Gilgamesh recorded,culture,Oldest preserved literary work.,Mesopotamia,recorded over centuries on tablets
--1800,Stonehenge completed,monument,Megalithic monument finalized.,"Stonehenge, England",
--1750,Code of Hammurabi,law,First written legal code in Babylon.,Babylon,
--1600,Minoan Thera eruption,disaster,Volcanic eruption ends Minoan civilization.,"Santorini, Greece",
--1500,Vedas composed,religion,"Earliest Hindu scriptures, ancient India.",South Asia,composed over centuries; no site
--1404,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--1334,Tutankhamun reigns,politics,Boy pharaoh restores Egyptian religion.,"Thebes, Egypt","a reign, not a moment; the seat is Thebes"
--1334,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--1274,Battle of Kadesh,conflict,Largest chariot battle in history.,"Kadesh, Syria",
--1265,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--1200,Bronze Age Collapse,disaster,Mediterranean civilizations collapse simultaneously.,,"a region-wide collapse over decades; no moment, no single theatre"
--1200,Trojan War (traditional date),conflict,Mythic siege of Troy.,,the tradition names Troy; whether the war happened is the question
--1197,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--1130,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--1100,Phoenician alphabet,invention,First widely-used alphabet.,Levant,developed over centuries
--1063,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--995,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--960,Solomon's Temple built,religion,First Temple in Jerusalem.,"Jerusalem, Israel",
--930,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--866,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--802,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--800,Homer's epics composed,culture,Iliad and Odyssey take shape.,,"oral tradition; place, date and even the poet are argued"
--776,First Olympic Games,culture,"Olympia, Greece.","Olympia, Greece",
--753,Founding of Rome,civilization,Traditional date of Rome's founding.,"Rome, Italy",traditional date
--740,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--677,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--660,Founding of Japan (legend),civilization,Traditional date of Emperor Jimmu.,Japan,legendary; no site the record can hold
--625,Lao Tzu born (traditional),religion,"Founder of Taoism, China.",China,traditional and disputed; even the person is argued
--615,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--586,Babylonian destruction of Jerusalem,conflict,First Temple destroyed.,"Jerusalem, Israel",
--563,Birth of the Buddha,religion,Siddhartha Gautama born in Lumbini.,Lumbini,
--551,Confucius born,religion,Chinese philosopher and teacher.,"Qufu, China",the state of Lu
--540,Pythagoras flourishes,science,Greek mathematician and mystic.,"Crotone, Italy",his school in Magna Graecia
--540,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--525,Persia conquers Egypt,conquest,Cambyses II annexes Egypt.,Egypt,
--509,Roman Republic Founded,politics,Last king expelled; Republic begins.,"Rome, Italy",
--508,Athenian democracy,politics,"Cleisthenes reforms, first democracy.","Athens, Greece",Cleisthenes' reforms
--490,Battle of Marathon,conflict,Athenian victory over Persia.,"Marathon, Greece",
--480,Battle of Thermopylae,conflict,Spartan stand against Xerxes.,"Thermopylae, Greece",
--465,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--447,Parthenon construction begins,monument,"Athens, on the Acropolis.","Athens, Greece",
--431,Peloponnesian War begins,conflict,Athens vs Sparta.,"Athens, Greece",Athens votes for war; the theatre is the whole Aegean
--399,Trial and death of Socrates,culture,Athenian philosopher executed.,"Athens, Greece",
--391,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--387,Plato founds the Academy,culture,First institution of higher learning.,"Athens, Greece",
--336,Alexander the Great rises,conquest,Begins his conquests at 20.,"Pella, Greece",he takes the throne at Pella; the conquest is three continents
--335,Aristotle founds Lyceum,culture,Athens; tutor of Alexander.,"Athens, Greece",
--330,Persian Empire falls,conquest,Alexander defeats Darius III.,Persia,
--323,Death of Alexander,politics,Empire fragments into Diadochi.,Babylon,
--315,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--300,Euclid's Elements,science,"Foundational geometry text, Alexandria.","Alexandria, Egypt",
--264,First Punic War,conflict,Rome vs Carthage begins.,Sicily,"Rome against Carthage, fought for Sicily and at sea"
--250,Library of Alexandria flourishes,culture,Greatest library of antiquity.,"Alexandria, Egypt",
--239,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--221,Qin unifies China,politics,First Emperor Shi Huangdi.,"Xianyang, China","the Qin capital, near modern Xi'an"
--218,Hannibal crosses the Alps,conflict,Second Punic War.,the Alps,
--214,Great Wall of China started,monument,Initial unification of fortifications.,China,fortifications joined across the northern frontier
--202,Han Dynasty begins,politics,Liu Bang founds Han China.,"Xi'an, China","Chang'an, the Han capital"
--164,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--146,Destruction of Carthage,conflict,Third Punic War ends.,"Carthage, Tunisia",
--100,Birth of Julius Caesar,politics,Roman general and statesman.,"Rome, Italy",
--86,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--63,Pompey takes Jerusalem,conflict,Rome enters Judea.,"Jerusalem, Israel",
--44,Assassination of Caesar,politics,Ides of March; Roman Republic ends.,"Rome, Italy",the Curia of Pompey
--31,Battle of Actium,conflict,Octavian defeats Antony and Cleopatra.,"Actium, Greece",
--27,Roman Empire begins,politics,Augustus becomes first Emperor.,"Rome, Italy",
--11,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
--4,Birth of Jesus (traditional),religion,Bethlehem.,"Bethlehem, Israel",traditional
-9,Battle of Teutoburg Forest,conflict,Germanic tribes destroy Roman legions.,"Kalkriese, Germany",
-33,Crucifixion of Jesus,religion,Traditional date.,"Jerusalem, Israel",traditional date
-43,Roman invasion of Britain,conquest,Claudius begins conquest.,"Richborough, England",Claudius' landing; the conquest takes forty years
-64,Great Fire of Rome,disaster,Nero blamed; Christians persecuted.,"Rome, Italy",
-66,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-70,Fall of Jerusalem,conflict,Roman destruction of Second Temple.,"Jerusalem, Israel",
-79,Eruption of Vesuvius,disaster,Pompeii buried.,"Pompeii, Italy",
-80,Colosseum inaugurated,monument,"50,000-seat amphitheater opens in Rome.","Rome, Italy",
-105,Paper invented in China,invention,Cai Lun develops papermaking.,China,"Cai Lun is the traditional attribution, not the origin"
-122,Hadrian's Wall built,monument,Frontier of Roman Britain.,,"117 km from the Tyne to the Solway — a line, not a point"
-141,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-180,Antonine Plague peaks,disaster,Smallpox/measles ravages Roman Empire.,Roman Empire,
-218,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-220,Han Dynasty ends,politics,Three Kingdoms period begins in China.,"Luoyang, China",
-284,Diocletian reforms Rome,politics,Tetrarchy and economic reforms.,Roman Empire,a reform of the whole administration
-295,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-312,Conversion of Constantine,religion,Battle of Milvian Bridge.,"Rome, Italy","the Milvian Bridge, north of the city"
-313,Edict of Milan,religion,Christianity legalized in Roman Empire.,"Milan, Italy",
-325,Council of Nicaea,religion,First ecumenical council.,"Iznik, Turkey",Nicaea
-330,Constantinople founded,civilization,Constantine's new Roman capital.,Constantinople,
-374,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-378,Battle of Adrianople,conflict,Goths defeat Romans; military revolution.,"Edirne, Turkey",
-380,Christianity official Roman religion,religion,Edict of Thessalonica.,"Thessaloniki, Greece",the Edict of Thessalonica
-395,Roman Empire splits,politics,East and West divided permanently.,Roman Empire,"a division, not a place"
-410,Sack of Rome by Visigoths,conflict,Alaric breaches the city.,"Rome, Italy",
-451,Battle of Chalons,conflict,Attila the Hun defeated in Gaul.,"Chalons-en-Champagne, France",
-451,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-455,Vandal sack of Rome,conflict,Genseric plunders the eternal city.,"Rome, Italy",
-476,Fall of Western Rome,politics,Last Western Emperor deposed.,"Ravenna, Italy","Romulus Augustulus deposed at Ravenna, not Rome"
-527,Justinian becomes Emperor,politics,Begins reconquest of the West.,Constantinople,
-530,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-532,Hagia Sophia construction,monument,Justinian's great cathedral begun.,Constantinople,
-535,Volcanic winter of 536,disaster,Worst climate catastrophe in 2000 years.,,cause and vent still debated — Iceland or the tropics; a global effect with no agreed source
-541,Plague of Justinian,disaster,First recorded bubonic plague pandemic.,Constantinople,
-570,Birth of Muhammad,religion,In Mecca.,"Mecca, Saudi Arabia",
-600,Gregorian chant codified,culture,Pope Gregory the Great.,"Rome, Italy",attributed to Gregory; the codifying took centuries
-607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-610,Muhammad's first revelation,religion,In the cave of Hira.,"Mecca, Saudi Arabia","the cave of Hira, above Mecca"
-622,Hijra to Medina,religion,Year 1 of the Islamic calendar.,"Medina, Saudi Arabia",
-630,Conquest of Mecca,conquest,Muhammad returns to Mecca.,"Mecca, Saudi Arabia",
-632,Death of Muhammad,religion,Rashidun Caliphate begins.,"Medina, Saudi Arabia",
-636,Battle of Yarmouk,conflict,Muslim conquest of Levant.,"Yarmouk, Syria",
-661,Umayyad Caliphate begins,politics,Capital moves to Damascus.,"Damascus, Syria",
-684,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-711,Muslim conquest of Iberia,conquest,Tariq ibn Ziyad lands at Gibraltar.,Gibraltar,Tariq ibn Ziyad lands here; the conquest is the peninsula
-732,Battle of Tours,conflict,Charles Martel halts Umayyad advance.,"Tours, France",
-750,Abbasid Caliphate,politics,Capital moves to Baghdad.,"Baghdad, Iraq",the capital moves here
-760,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-793,Lindisfarne raid,conflict,Viking Age begins.,"Lindisfarne, England",
-800,Charlemagne crowned Emperor,politics,Holy Roman Empire begins.,"Rome, Italy",crowned at St Peter's
-802,Khmer Empire founded,civilization,Jayavarman II in Cambodia.,"Angkor, Cambodia",Jayavarman II; the capital moves later
-820,Algebra invented,science,Al-Khwarizmi in Baghdad.,"Baghdad, Iraq",al-Khwarizmi at the House of Wisdom
-837,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-843,Treaty of Verdun,politics,Carolingian Empire divided.,"Verdun, France",
-862,Founding of Kievan Rus,civilization,Rurik in Novgorod.,"Novgorod, Russia","Rurik at Novgorod, not yet Kiev"
-868,Diamond Sutra printed,invention,"Earliest dated printed book, China.","Dunhuang, China",found at Dunhuang; printed in China
-907,Tang Dynasty falls,politics,Five Dynasties period in China.,Chang'an,
-912,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-962,Holy Roman Empire founded,politics,Otto I crowned by the Pope.,"Rome, Italy",Otto I crowned by the Pope
-988,Conversion of Kievan Rus,religion,Vladimir adopts Orthodox Christianity.,"Kyiv, Ukraine",
-989,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1054,Great Schism,religion,Catholic and Orthodox churches split.,Constantinople,the bull delivered at Hagia Sophia
-1066,Battle of Hastings,conflict,William the Conqueror takes England.,"Hastings, England",
-1066,Norman Conquest of England,conflict,Battle of Hastings.,"Hastings, England",
-1066,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1071,Battle of Manzikert,conflict,Seljuks defeat Byzantines.,"Manzikert, Turkey",
-1086,Domesday Book,law,William I survey of England.,England,a survey of the whole kingdom
-1095,First Crusade declared,religion,Pope Urban II at Clermont.,"Clermont-Ferrand, France",Urban II at Clermont
-1099,Crusaders take Jerusalem,conflict,First Crusade succeeds.,"Jerusalem, Israel",
-1126,Averroes born,culture,Andalusian polymath.,"Cordoba, Spain",
-1145,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1147,Second Crusade,conflict,Failed campaign in the Holy Land.,Middle East,
-1163,Notre-Dame de Paris begun,monument,Gothic cathedral construction starts.,"Paris, France",
-1189,Third Crusade,conflict,Richard Lionheart vs Saladin.,Middle East,
-1192,Kamakura Shogunate,politics,First samurai government in Japan.,"Kamakura, Japan",
-1204,Sack of Constantinople,conflict,Fourth Crusade turns on Byzantines.,Constantinople,
-1206,Genghis Khan unifies Mongols,conquest,Mongol Empire founded.,Mongolia,a kurultai on the steppe; no fixed seat
-1209,Albigensian Crusade,religion,Against Cathars in southern France.,Southern Europe,"the Languedoc, over twenty years"
-1215,Magna Carta,law,King John signs at Runnymede.,"Runnymede, England",
-1220,University of Paris chartered,culture,Formal recognition.,"Paris, France",
-1222,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1227,Death of Genghis Khan,politics,Mongol Empire at its peak.,Mongolia,died on campaign; the site is not known
-1241,Mongols invade Europe,conflict,"Battle of Mohi, Legnica.",Eastern Europe,
-1258,Mongol sack of Baghdad,conflict,End of the Abbasid Caliphate.,"Baghdad, Iraq",
-1271,Marco Polo journeys east,exploration,Begins journey to China.,"Venice, Italy",the departure; the journey is a continent
-1271,Yuan Dynasty founded,politics,Kublai Khan rules China.,"Beijing, China",Khanbaliq
-1273,Aquinas Summa Theologica,religion,Defining work of scholastic theology.,"Paris, France",written at Paris and Naples
-1291,Fall of Acre,conflict,Last Crusader state falls.,"Acre, Israel",
-1295,Marco Polo returns,exploration,Account of travels published.,"Venice, Italy",
-1301,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1307,Templars suppressed,religion,Philip IV arrests the order in France.,"Paris, France",
-1309,Avignon Papacy begins,religion,Popes move to France.,"Avignon, France",
-1314,Battle of Bannockburn,conflict,Scottish independence from England.,"Bannockburn, Scotland",
-1325,Aztecs found Tenochtitlan,civilization,Capital on Lake Texcoco.,Tenochtitlan,
-1337,Hundred Years' War begins,conflict,England vs France.,"Paris, France",Edward III claims the French crown; the war is fought across France
-1346,Battle of Crecy,conflict,English longbow defeats French knights.,"Crecy, France",
-1347,Black Death begins in Europe,disaster,Plague pandemic kills ~1/3 of Europe.,Europe,entered through Caffa and Messina; the row names Europe
-1368,Ming Dynasty founded,politics,Hongwu Emperor expels the Mongols.,"Nanjing, China",the first Ming capital
-1378,Western Schism,religion,Rival popes in Rome and Avignon.,Western Europe,rival popes at Rome and Avignon at once
-1378,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1381,Peasants' Revolt,politics,Wat Tyler's rebellion in England.,"London, England",Wat Tyler at Smithfield
-1389,Battle of Kosovo,conflict,Ottoman advance into the Balkans.,"Pristina, Kosovo",
-1397,Medici Bank founded,commerce,Florence; financiers of the Renaissance.,"Florence, Italy",
-1398,Timur sacks Delhi,conflict,Tamerlane's devastating raid.,"Delhi, India",
-1402,Battle of Ankara,conflict,Timur captures Ottoman Sultan Bayezid.,"Ankara, Turkey",
-1415,Battle of Agincourt,conflict,Henry V's famous English victory.,"Agincourt, France",
-1431,Joan of Arc burned,conflict,Executed at Rouen.,"Rouen, France",
-1438,Inca Empire expands,conquest,Pachacuti begins major expansion.,Cusco,Pachacuti expands from Cusco; the empire becomes the Andes
-1453,End of Hundred Years' War,conflict,French victory at Castillon.,France,the English driven out; no single field
-1453,Fall of Constantinople,conflict,Ottoman conquest; Byzantine Empire ends.,Constantinople,
-1455,Gutenberg Bible printed,invention,First major book printed with movable type.,"Mainz, Germany",
-1456,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1469,Birth of Machiavelli,culture,Florentine political theorist.,"Florence, Italy",
-1478,Spanish Inquisition begins,religion,Ferdinand and Isabella authorize.,Spain,
-1485,Battle of Bosworth Field,conflict,Tudor dynasty begins in England.,"Bosworth, England",
-1488,Bartolomeu Dias rounds Cape,exploration,First European to round Africa.,"Cape Town, South Africa",the Cape of Good Hope
-1492,Columbus reaches Americas,exploration,European contact with the New World.,Caribbean,landfall in the Bahamas; the island is disputed
-1494,Treaty of Tordesillas,politics,Spain and Portugal divide the world.,"Tordesillas, Spain",
-1498,Vasco da Gama reaches India,exploration,First sea route to India.,"Kozhikode, India",Calicut
-1502,First African slaves to Americas,commerce,Transatlantic slave trade begins.,Caribbean,Hispaniola; the trade is an ocean and four centuries
-1503,Mona Lisa painted,culture,Leonardo begins the portrait.,"Florence, Italy",
-1508,Sistine Chapel ceiling,culture,Michelangelo begins the work.,"Rome, Italy",
-1513,Balboa reaches Pacific,exploration,First European on the Pacific from the New World.,"Panama City, Panama",the isthmus
-1517,Luther's 95 Theses,religion,Protestant Reformation begins.,"Wittenberg, Germany",
-1517,Reformation begins,religion,Luther posts the 95 Theses.,"Wittenberg, Germany",
-1519,Cortes conquers Aztecs,conquest,Fall of Tenochtitlan to follow.,Tenochtitlan,
-1519,Magellan begins circumnavigation,exploration,Spanish expedition departs.,"Seville, Spain",the departure; he did not return
-1521,Diet of Worms,religion,Luther refuses to recant.,"Worms, Germany",
-1521,Fall of Tenochtitlan,conquest,Aztec Empire ends.,Tenochtitlan,
-1531,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1532,Pizarro conquers Inca,conquest,Atahualpa captured at Cajamarca.,"Cajamarca, Peru",Atahualpa captured here
-1534,Act of Supremacy,religion,Henry VIII heads Church of England.,"London, England",
-1543,Copernicus De Revolutionibus,science,Heliocentric model published.,"Nuremberg, Germany",printed at Nuremberg; written in Frombork
-1543,Vesalius On the Fabric,science,Modern anatomy founded.,"Basel, Switzerland",printed at Basel
-1545,Council of Trent begins,religion,Counter-Reformation.,"Trento, Italy",
-1556,Akbar becomes Mughal Emperor,politics,Great expansion of Mughal India.,"Delhi, India",
-1564,Birth of Galileo,science,Italian astronomer and physicist.,"Pisa, Italy",
-1564,Birth of Shakespeare,culture,Stratford-upon-Avon.,"Stratford-upon-Avon, England",
-1572,St Bartholomew's Day massacre,conflict,French Protestants killed.,"Paris, France",
-1582,Gregorian calendar,science,Pope Gregory XIII reforms the calendar.,"Rome, Italy",
-1588,Spanish Armada defeated,conflict,English victory over Philip II's fleet.,England,
-1592,Imjin War,conflict,Japanese invasions of Korea.,Korea,
-1598,Edict of Nantes,law,Religious toleration for Huguenots.,"Nantes, France",
-1600,British East India Company,commerce,Royal charter granted.,"London, England",the charter
-1602,Dutch East India Company,commerce,First multinational corporation.,"Amsterdam, Netherlands",
-1605,Don Quixote published,culture,Cervantes; modern novel begins.,"Madrid, Spain",
-1605,Gunpowder Plot,conflict,Failed attempt to blow up Parliament.,"London, England",
-1607,Jamestown founded,colonization,First permanent English colony in Americas.,"Jamestown, United States",
-1607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1609,Galileo's telescope,science,Astronomical observations begin.,"Padua, Italy",
-1610,Galileo discovers Jupiter's moons,science,Four Galilean moons found.,"Padua, Italy",
-1611,King James Bible,religion,Authorized English translation.,"London, England",
-1618,Thirty Years' War begins,conflict,Defenestration of Prague.,"Prague, Czechia",the Defenestration of Prague; the war is Central Europe entire
-1620,Bacon's Novum Organum,science,Scientific method codified.,"London, England",
-1620,Mayflower lands at Plymouth,colonization,Pilgrims arrive in North America.,"Plymouth, United States",
-1632,Galileo Dialogue published,science,Two World Systems; tried by Inquisition.,"Florence, Italy",
-1632,Taj Mahal begun,monument,Shah Jahan's tomb for Mumtaz.,"Agra, India",
-1633,Galileo trial,religion,Forced to recant heliocentrism.,"Rome, Italy",
-1637,Descartes Discourse on Method,science,Cogito ergo sum.,"Leiden, Netherlands",published at Leiden
-1644,Ming Dynasty falls,politics,Qing Dynasty begins in China.,"Beijing, China",
-1648,Treaty of Westphalia,politics,Ends Thirty Years' War; modern state system.,"Munster, Germany",signed at Munster and Osnabruck
-1649,Charles I executed,politics,English Commonwealth begins.,"London, England",Whitehall
-1660,Restoration of Charles II,politics,Stuart monarchy restored.,"London, England",
-1660,Royal Society chartered,science,England's scientific academy.,"London, England",
-1665,Great Plague of London,disaster,Last major plague outbreak in England.,"London, England",
-1666,Great Fire of London,disaster,Most of medieval London destroyed.,"London, England",
-1666,Newton's annus mirabilis,science,"Calculus, optics, gravitation.",Woolsthorpe,at home during the plague
-1675,Royal Observatory Greenwich,science,Founded for navigation.,"London, England",Greenwich
-1682,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1683,Siege of Vienna,conflict,Ottoman advance halted.,"Vienna, Austria",
-1687,Newton's Principia,science,Mathematical laws of motion and gravity.,"London, England",
-1689,English Bill of Rights,law,Constitutional limits on monarchy.,"London, England",
-1690,Locke's Two Treatises,politics,Natural rights and government by consent.,"London, England",published here
-1700,Great Northern War begins,conflict,Russia rises under Peter the Great.,"Copenhagen, Denmark",the allied attack on Holstein-Gottorp opens it; the theatre is the Baltic
-1703,Founding of St Petersburg,civilization,Peter the Great's new capital.,"Saint Petersburg, Russia",
-1707,Act of Union (Britain),politics,Scotland and England unite.,"London, England",
-1709,Iron smelted with coke,invention,Abraham Darby; Industrial Revolution input.,"Coalbrookdale, England",
-1712,Newcomen Steam Engine,invention,First practical atmospheric steam engine.,"Dudley, England",
-1714,Hanoverian succession,politics,George I becomes British king.,"London, England",
-1721,Bach Brandenburg Concertos,culture,High Baroque masterpiece.,"Kothen, Germany",
-1725,Bach Well-Tempered Clavier I,culture,Foundation of tonal music.,"Kothen, Germany",
-1735,Linnaeus Systema Naturae,science,Modern taxonomy founded.,"Leiden, Netherlands",first edition printed at Leiden
-1751,Encyclopedie begins,culture,Diderot and d'Alembert's great work.,"Paris, France",
-1755,Lisbon earthquake,disaster,Enlightenment crisis of theodicy.,"Lisbon, Portugal",
-1756,Seven Years' War,conflict,First true world war.,Europe,"the first global war — also India, North America, the Caribbean"
-1759,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1760,Industrial Revolution begins,civilization,Britain begins mechanization.,England,no moment and no site; the row says Britain begins
-1762,Rousseau Social Contract,politics,Sovereignty of the people.,"Amsterdam, Netherlands","published here, not in France"
-1764,Spinning Jenny,invention,Hargreaves transforms textiles.,"Blackburn, England",
-1769,Watt's Steam Engine patent,invention,Modern steam engine; Industrial Revolution.,"Birmingham, England",the patent; Watt was at Glasgow
-1773,Boston Tea Party,politics,American protest against British tax.,"Boston, United States",
-1775,American Revolution begins,conflict,Battles of Lexington and Concord.,"Lexington, United States",the first shot; the revolution is thirteen colonies
-1776,US Declaration of Independence,politics,Thirteen colonies declare independence.,"Philadelphia, United States",
-1776,Wealth of Nations,economics,Adam Smith founds modern economics.,"London, England",published here; written in Kirkcaldy
-1781,Battle of Yorktown,conflict,British surrender; American victory.,"Yorktown, United States",
-1783,Montgolfier balloon flight,invention,First human flight.,"Paris, France",
-1783,Treaty of Paris,politics,US independence recognized.,"Paris, France",
-1787,US Constitution drafted,law,Philadelphia Convention.,"Philadelphia, United States",
-1789,French Revolution begins,politics,Storming of the Bastille.,"Paris, France",the Bastille
-1789,Washington inaugurated,politics,First US President.,"New York City, United States","Federal Hall, not Washington"
-1791,Haitian Revolution begins,conflict,Largest successful slave revolt.,Haiti,
-1791,US Bill of Rights ratified,law,First ten amendments.,United States,ratified state by state
-1793,Reign of Terror,politics,Robespierre dominates France.,"Paris, France",
-1796,Jenner smallpox vaccine,science,First vaccine in history.,"Berkeley, England","Berkeley, Gloucestershire"
-1798,Napoleon's Egyptian campaign,conquest,French invasion of Egypt.,Egypt,
-1799,Rosetta Stone discovered,science,Key to Egyptian hieroglyphs.,"Rashid, Egypt",Rosetta
-1803,Louisiana Purchase,politics,US doubles in size.,"Paris, France",the treaty signed in Paris; the land is a third of a continent
-1804,Napoleon crowned Emperor,politics,Crowns himself in Notre-Dame.,"Paris, France",Notre-Dame
-1807,Britain abolishes slave trade,law,Slave Trade Act.,"London, England",the Act; the trade was an ocean
-1807,Fulton's steamboat,invention,First commercial steamboat.,"New York City, United States",the Hudson
-1812,Napoleon invades Russia,conflict,Disastrous retreat from Moscow.,Russia,
-1814,Stephenson's locomotive,invention,First practical steam locomotive.,"Killingworth, England",
-1815,Battle of Waterloo,conflict,Napoleon defeated; Concert of Europe begins.,"Waterloo, Belgium",
-1820,Missouri Compromise,law,US slavery balance maintained.,"Washington, United States",
-1821,Death of Napoleon,politics,Exiled at Saint Helena.,Saint Helena,
-1821,Faraday's electric motor,invention,First electromagnetic rotary device.,"London, England",the Royal Institution
-1823,Monroe Doctrine,politics,Americas closed to European colonization.,"Washington, United States",a message to Congress
-1825,Erie Canal opens,engineering,NYC to Great Lakes.,,"584 km from the Hudson to Lake Erie — a line, not a point"
-1825,First passenger railway,invention,Stockton & Darlington Railway opens.,"Darlington, England",Stockton and Darlington
-1830,Indian Removal Act,politics,US forced relocation of native nations.,"Washington, United States",the Act; the removal is a continent
-1831,Faraday electromagnetic induction,science,Foundation of electric generators.,"London, England",the Royal Institution
-1833,British abolish slavery,law,Slavery Abolition Act.,"London, England",
-1834,Mechanical refrigeration,invention,Jacob Perkins patents vapor compression -- the invention of ice.,"London, England",Perkins' patent
-1835,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1837,Victoria becomes Queen,politics,Beginning of the Victorian era.,"London, England",
-1838,Trail of Tears,disaster,Forced Cherokee relocation.,,"a forced march of 1,600 km from Georgia to Oklahoma — a route, not a point"
-1839,Daguerreotype announced,invention,First practical photographic process.,"Paris, France",
-1839,First Opium War,conflict,Britain forces opium trade on China.,China,
-1842,Treaty of Nanking,politics,Hong Kong ceded to Britain.,"Nanjing, China",
-1844,Telegraph: What hath God wrought,invention,Morse's first long message.,"Washington, United States",sent to Baltimore
-1845,Irish Potato Famine,disaster,"Million dead, million emigrate.",Ireland,
-1848,California Gold Rush,civilization,Forty-niners head west.,"Sacramento, United States",Sutter's Mill; the rush is the whole state
-1848,Communist Manifesto published,politics,Marx and Engels.,"London, England",published here in German
-1848,Revolutions of 1848,politics,Liberal uprisings across Europe.,Europe,
-1848,Seneca Falls Convention,politics,First women's rights convention.,"Seneca Falls, United States",
-1851,Great Exhibition London,culture,Crystal Palace; first world's fair.,"London, England","the Crystal Palace, Hyde Park"
-1853,Perry opens Japan,politics,US Navy ends Japanese isolation.,"Yokohama, Japan",Perry's landing at Kanagawa
-1854,Crimean War,conflict,"Russia vs Britain, France, Ottomans.",Crimea,
-1859,Darwin's Origin of Species,science,Theory of evolution by natural selection.,"London, England",published here; the voyage was the world
-1859,First commercial oil well,invention,Drake well in Pennsylvania.,"Titusville, United States",
-1860,Italian unification advances,politics,Garibaldi's Sicilian expedition.,Sicily,Garibaldi's expedition
-1861,American Civil War begins,conflict,Fort Sumter attacked.,"Charleston, United States",Fort Sumter; the war is half a continent
-1863,Emancipation Proclamation,law,Lincoln frees Confederate slaves.,"Washington, United States",
-1864,Geneva Convention,law,Rules of war and Red Cross founded.,"Geneva, Switzerland",
-1865,Lincoln assassinated,politics,End of US Civil War; Reconstruction begins.,"Washington, United States",Ford's Theatre
-1866,Mendel's laws of inheritance,science,Foundation of genetics.,"Brno, Czechia",
-1867,Marx's Capital Volume I,economics,Critique of political economy.,"Hamburg, Germany",published at Hamburg; written in London
-1869,Suez Canal opens,engineering,Connects Mediterranean and Red Sea.,"Suez, Egypt",
-1869,Transcontinental Railroad,engineering,US east and west coasts connected.,"Promontory, United States",the golden spike at Promontory Summit
-1871,German Empire founded,politics,Bismarck unifies Germany.,"Versailles, France","proclaimed in the Hall of Mirrors, in France"
-1873,Maxwell electromagnetism,science,Unified theory of light and electricity.,"London, England","the Treatise, published here"
-1876,Battle of Little Bighorn,conflict,Custer's last stand.,"Little Bighorn, United States",
-1876,Bell patents telephone,invention,Voice transmission over wires.,"Boston, United States",
-1877,Edison phonograph,invention,First sound recording device.,"Menlo Park, United States","Menlo Park, New Jersey"
-1879,Edison's incandescent bulb,invention,Practical electric lighting.,"Menlo Park, United States",
-1882,Edison electric grid,invention,"Pearl Street Station, NYC.","New York City, United States",Pearl Street
-1884,Berlin Conference,politics,European partition of Africa.,"Berlin, Germany",
-1885,Benz Patent Motorwagen,invention,First automobile.,"Mannheim, Germany",
-1886,Coca-Cola invented,commerce,"Atlanta, Georgia.","Atlanta, United States",
-1886,Statue of Liberty dedicated,monument,Gift from France to the US.,"New York City, United States",
-1888,Hertz proves radio waves,science,Experimental confirmation of Maxwell.,"Karlsruhe, Germany",
-1889,Eiffel Tower opens,monument,Paris World's Fair centerpiece.,"Paris, France",
-1893,Women's suffrage in NZ,politics,First nation to grant women the vote.,"Wellington, New Zealand",
-1895,Lumiere brothers cinema,invention,"First public film screening, Paris.","Paris, France",
-1895,Roentgen discovers X-rays,science,New form of radiation.,"Wurzburg, Germany",
-1896,Athens Olympics,culture,First modern Olympic Games.,"Athens, Greece",
-1898,Discovery of radium,science,Marie and Pierre Curie.,"Paris, France",
-1898,Spanish-American War,conflict,US emerges as global power.,Caribbean,"Cuba, Puerto Rico and the Philippines at once"
-1900,Boxer Rebellion,conflict,Anti-foreign uprising in China.,"Beijing, China",
-1900,Planck quantum hypothesis,science,Birth of quantum theory.,"Berlin, Germany",
-1901,Marconi transatlantic radio,invention,First wireless transmission across Atlantic.,"St. John's, Canada",received at Signal Hill from Cornwall
-1902,End of Boer War,conflict,Britain wins in South Africa.,South Africa,the peace signed at Vereeniging; the war was the veld
-1903,Ford Motor Company,commerce,"Detroit, Michigan.","Detroit, United States",
-1903,Wright Brothers first flight,invention,Kitty Hawk powered flight.,"Kitty Hawk, United States",
-1904,Russo-Japanese War,conflict,Japan defeats a European power.,East Asia,Manchuria and the Tsushima Strait
-1905,Einstein Annus Mirabilis,science,"Special relativity, photoelectric, Brownian motion, E=mcÂ².","Bern, Switzerland",written at the patent office
-1908,Ford Model T,invention,Affordable automobile for the masses.,"Detroit, United States",
-1909,Peary at the North Pole,exploration,Or so he claimed.,,the claim is disputed and the position was never fixed
-1910,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1911,Amundsen at South Pole,exploration,First confirmed to reach.,Antarctica,"90 degrees south — a pole, not a seat"
-1911,Chinese Revolution,politics,End of imperial China.,"Wuhan, China",the Wuchang uprising
-1912,Titanic sinks,disaster,1500 dead in North Atlantic.,,"41.7N 49.9W, mid-Atlantic — a real position, but this map has no seat at sea"
-1913,Bohr atomic model,science,Quantized electron orbits.,"Copenhagen, Denmark",
-1914,Panama Canal opens,engineering,Atlantic-Pacific shortcut.,"Panama City, Panama",
-1914,World War I begins,conflict,Assassination of Archduke Franz Ferdinand.,"Sarajevo, Bosnia and Herzegovina",the assassination; the war is a continent and beyond
-1915,Armenian Genocide,disaster,Ottoman massacre of Armenians.,Anatolia,
-1915,Einstein general relativity,science,New theory of gravity.,"Berlin, Germany",
-1916,Battle of the Somme,conflict,One million casualties.,"Somme, France",
-1916,Easter Rising,conflict,Irish independence struggle.,"Dublin, Ireland",
-1917,Balfour Declaration,politics,Britain supports Jewish homeland.,"London, England",a letter written here about a place elsewhere
-1917,Russian Revolution,politics,Bolsheviks seize power.,"Saint Petersburg, Russia",Petrograd
-1917,US enters WWI,conflict,Wilson declares war.,"Washington, United States",a declaration made here about a war fought in France
-1918,Spanish Flu pandemic,disaster,~50 million dead worldwide.,,worldwide; the name is a censorship artefact and the origin is disputed
-1918,WWI ends,conflict,Armistice on November 11.,"Compiegne, France",the armistice signed in a railway carriage
-1919,Treaty of Versailles,politics,Punitive peace with Germany.,"Versailles, France",
-1920,19th Amendment ratified,law,US women win the vote.,United States,ratified state by state
-1920,League of Nations founded,politics,Failed predecessor to UN.,"Geneva, Switzerland",
-1922,Mussolini March on Rome,politics,Fascist takeover of Italy.,"Rome, Italy",
-1922,Soviet Union founded,politics,USSR formally established.,"Moscow, Russia",
-1922,Tutankhamun's tomb discovered,science,Howard Carter in the Valley of the Kings.,"Luxor, Egypt",the Valley of the Kings
-1923,Republic of Turkey founded,politics,Ataturk modernizes.,"Ankara, Turkey",
-1924,Death of Lenin,politics,Stalin's rise begins.,"Moscow, Russia","at Gorki, outside Moscow"
-1925,Scopes Monkey Trial,culture,Evolution on trial in Tennessee.,"Dayton, United States","Dayton, Tennessee — NOT Dayton, Ohio"
-1927,First talking film,culture,The Jazz Singer.,"New York City, United States",the premiere
-1927,Lindbergh transatlantic flight,invention,"Spirit of St Louis, NYC to Paris.","Paris, France",the arrival; the flight is an ocean
-1928,Pact of Paris,politics,Kellogg-Briand renounces war.,"Paris, France",Kellogg-Briand
-1928,Penicillin discovered,science,Alexander Fleming.,"London, England","St Mary's, Paddington"
-1929,Wall Street Crash,economics,Great Depression begins.,"New York City, United States",
-1931,Empire State Building,monument,Tallest building in the world.,"New York City, United States",
-1933,FDR New Deal,politics,US response to Great Depression.,"Washington, United States",
-1933,Hitler becomes Chancellor,politics,Nazi Party takes power.,"Berlin, Germany",
-1935,Nuremberg Laws,law,Anti-Jewish legislation in Germany.,"Nuremberg, Germany",
-1936,Spanish Civil War begins,conflict,Republic vs Nationalists.,Spain,
-1937,Hindenburg disaster,disaster,Airship era ends.,"Lakehurst, United States",
-1937,Japanese invasion of China,conflict,Nanjing Massacre.,China,
-1938,Kristallnacht,conflict,Night of Broken Glass against German Jews.,Germany,
-1938,Munich Agreement,politics,Appeasement of Hitler.,"Munich, Germany",
-1939,Hitler-Stalin Pact,politics,Non-aggression treaty.,"Moscow, Russia",signed in Moscow
-1939,World War II begins,conflict,Germany invades Poland.,"Warsaw, Poland",the invasion of Poland — CONTESTED: from Beijing the war begins in 1937
-1940,Battle of Britain,conflict,RAF defends against the Luftwaffe.,England,
-1940,Fall of France,conflict,Nazi Germany conquers in six weeks.,France,
-1941,Operation Barbarossa,conflict,Germany invades Soviet Union.,Eastern Europe,
-1941,Pearl Harbor attack,conflict,US enters WWII.,"Honolulu, United States",
-1942,Battle of Midway,conflict,Turning point in the Pacific.,Midway Atoll,
-1942,Battle of Stalingrad,conflict,Turning point on the Eastern Front.,"Volgograd, Russia",
-1942,Wannsee Conference,conflict,Final Solution formalized.,"Berlin, Germany",
-1944,D-Day Normandy,conflict,Allied invasion of Europe.,Normandy,
-1945,Atomic bombs on Japan,conflict,Hiroshima and Nagasaki; nuclear age begins.,"Hiroshima, Japan",
-1945,Death of Hitler,politics,Suicide in Berlin bunker.,"Berlin, Germany",
-1945,United Nations founded,politics,UN Charter signed in San Francisco.,"San Francisco, United States",the Charter signed here
-1945,VE Day,conflict,Germany surrenders.,Europe,"a surrender signed at Reims, a day marked across a continent"
-1945,Yalta Conference,politics,Allies divide postwar world.,"Yalta, Ukraine",
-1946,Iron Curtain speech,politics,"Churchill at Fulton, Missouri.","Fulton, United States",
-1947,Indian Independence,politics,Partition of British India.,"Delhi, India",partition is two nations; this is the moment
-1947,Marshall Plan,economics,US aid rebuilds Europe.,"Washington, United States","announced at Harvard, enacted in Washington"
-1947,Transistor invented,invention,Bell Labs; modern electronics.,"Murray Hill, United States",Bell Labs
-1948,Berlin Airlift,conflict,Cold War crisis.,"Berlin, Germany",
-1948,State of Israel founded,politics,Modern Israel declares independence.,"Tel Aviv, Israel",declared at Tel Aviv
-1949,Mao founds PRC,politics,People's Republic of China.,"Beijing, China",Tiananmen
-1949,NATO founded,politics,Western military alliance.,"Washington, United States",the Treaty signed here
-1950,Korean War begins,conflict,North invades South.,Korea,
-1953,DNA structure discovered,science,Watson and Crick double helix.,"Cambridge, England",the Cavendish
-1953,Stalin dies,politics,Khrushchev rises.,"Moscow, Russia",
-1954,Brown v. Board of Education,law,US school segregation unconstitutional.,"Washington, United States",the Supreme Court
-1955,Rosa Parks,politics,Montgomery bus boycott begins.,"Montgomery, United States",
-1956,Hungarian Revolution,conflict,Crushed by Soviet tanks.,"Budapest, Hungary",
-1956,Suez Crisis,conflict,End of European imperialism.,"Suez, Egypt",
-1957,Sputnik launched,invention,First artificial satellite; Space Age begins.,"Baikonur, Kazakhstan",
-1958,Integrated circuit,invention,Jack Kilby at Texas Instruments.,"Dallas, United States",Texas Instruments
-1958,NASA founded,science,US response to Sputnik.,"Washington, United States",
-1959,Cuban Revolution,politics,Castro takes power.,"Havana, Cuba",
-1960,Birth control pill approved,science,FDA approves Enovid.,"Washington, United States",the FDA
-1961,Berlin Wall built,politics,Division of Germany formalized.,"Berlin, Germany",
-1961,Gagarin in space,exploration,First human in orbit.,"Baikonur, Kazakhstan",the launch; the orbit is the earth
-1962,Cuban Missile Crisis,conflict,World on brink of nuclear war.,Cuba,
-1963,I Have a Dream speech,politics,MLK at the March on Washington.,"Washington, United States",the Lincoln Memorial
-1963,Kennedy assassinated,politics,"Dallas, Texas.","Dallas, United States",
-1964,Civil Rights Act,law,US bans racial discrimination.,"Washington, United States",
-1965,US troops to Vietnam,conflict,Major escalation begins.,Vietnam,
-1965,Voting Rights Act,law,US protects minority voting.,"Washington, United States",
-1967,First heart transplant,science,Christiaan Barnard in South Africa.,"Cape Town, South Africa",Groote Schuur
-1967,Six-Day War,conflict,Israel vs Arab neighbors.,Israel,
-1968,Apollo 8 orbits Moon,exploration,Earthrise photograph.,"Cape Canaveral, United States",the launch; the event is at the Moon
-1968,MLK assassinated,politics,"Memphis, Tennessee.","Memphis, United States","Memphis, Tennessee"
-1968,Prague Spring,politics,Crushed by Warsaw Pact invasion.,"Prague, Czechia",
-1969,Apollo 11 moon landing,invention,Armstrong walks on the moon.,,the event is on the Moon; the launch was at Cape Canaveral
-1970,First Earth Day,culture,Environmental movement crystallizes.,United States,
-1971,Microprocessor invented,invention,Intel 4004.,"Santa Clara, United States",Intel
-1972,Nixon visits China,politics,US-China rapprochement.,"Beijing, China",
-1972,Watergate break-in,politics,Scandal that brings down Nixon.,"Washington, United States",
-1973,OPEC oil embargo,economics,Energy crisis hits the West.,Western Asia,
-1973,Roe v. Wade,law,US Supreme Court on abortion.,"Washington, United States",the Supreme Court
-1974,Nixon resigns,politics,First US president to resign.,"Washington, United States",
-1975,Fall of Saigon,conflict,Vietnam War ends.,"Ho Chi Minh City, Vietnam",
-1975,Microsoft founded,commerce,Gates and Allen.,"Albuquerque, United States","founded at Albuquerque, not Redmond"
-1976,Apple founded,commerce,Jobs and Wozniak.,"Cupertino, United States",Los Altos garage; Cupertino is the seat
-1977,First Star Wars film,culture,Blockbuster era begins.,"Los Angeles, United States",the premiere
-1978,First test-tube baby,science,Louise Brown via IVF.,"Oldham, England",
-1979,Iranian Revolution,politics,Khomeini overthrows Shah.,"Tehran, Iran",
-1979,Soviet invasion of Afghanistan,conflict,Decade-long quagmire begins.,Afghanistan,
-1979,Three Mile Island accident,disaster,US nuclear scare.,"Harrisburg, United States",
-1980,CNN launched,culture,First 24-hour news network.,"Atlanta, United States",
-1981,AIDS first identified,disaster,Beginning of the epidemic.,,"identified in Los Angeles and New York at once; the epidemic began elsewhere, earlier"
-1981,IBM PC released,invention,Personal computing standardized.,"Boca Raton, United States",
-1981,Reagan assassination attempt,politics,Hinckley shoots the President.,"Washington, United States",
-1982,Falklands War,conflict,UK vs Argentina.,Falkland Islands,
-1984,Apple Macintosh,invention,GUI for the masses.,"Cupertino, United States",
-1984,Bhopal disaster,disaster,Union Carbide gas leak in India.,"Bhopal, India",
-1985,Gorbachev becomes Soviet leader,politics,Glasnost and perestroika begin.,"Moscow, Russia",
-1986,Challenger explosion,disaster,Space Shuttle disaster.,"Cape Canaveral, United States",
-1986,Chernobyl disaster,disaster,Worst nuclear accident.,"Chernobyl, Ukraine",
-1986,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
-1987,Tear down this wall speech,politics,Reagan at Brandenburg Gate.,"Berlin, Germany",the Brandenburg Gate
-1988,Iran-Iraq War ends,conflict,Eight-year war concludes.,"Baghdad, Iraq",a ceasefire accepted; the war was a border eight years long
-1989,Fall of Berlin Wall,politics,End of the Cold War era.,"Berlin, Germany",
-1989,Tiananmen Square protests,politics,Chinese government crackdown.,"Beijing, China",
-1990,Gulf War,conflict,Iraq invades Kuwait; US-led coalition responds.,Kuwait,
-1990,Hubble telescope launched,science,Space-based observatory.,"Cape Canaveral, United States",the launch; the telescope is in orbit
-1990,Mandela released,politics,After 27 years in prison.,"Cape Town, South Africa","Victor Verster, near Paarl"
-1991,Soviet Union dissolved,politics,15 successor states.,"Moscow, Russia",
-1991,World Wide Web public,invention,Tim Berners-Lee releases WWW.,"Geneva, Switzerland",CERN
-1992,Maastricht Treaty,politics,European Union founded.,"Maastricht, Netherlands",
-1993,World Trade Center bombing,conflict,First attack on the towers.,"New York City, United States",
-1994,Mandela elected President,politics,First democratic election in South Africa.,South Africa,a national election
-1994,Rwandan Genocide,disaster,"800,000 killed in 100 days.",Rwanda,
-1995,Dayton Accords,politics,End of Bosnian War.,"Dayton, United States","negotiated at Dayton, signed in Paris"
-1995,Oklahoma City bombing,conflict,McVeigh's domestic terror attack.,"Oklahoma City, United States",
-1996,Dolly the sheep cloned,science,First mammal cloned from adult cell.,"Edinburgh, Scotland",the Roslin Institute
-1997,Hong Kong handover,politics,British colony returns to China.,Hong Kong,
-1998,Good Friday Agreement,politics,Peace in Northern Ireland.,"Belfast, United Kingdom",
-1998,Google founded,commerce,Page and Brin at Stanford.,"Menlo Park, United States",a Menlo Park garage
-1999,Columbine school shooting,conflict,Modern era of US school shootings.,"Littleton, United States",
-1999,Euro currency introduced,economics,European single currency.,Europe,
-2000,Y2K transition,culture,Feared computer disaster averted.,,"a date, everywhere at once — the one event with no geography at all"
-2001,9/11 attacks,conflict,"World Trade Center, Pentagon.","New York City, United States",
-2001,Wikipedia launched,culture,Free online encyclopedia.,"San Diego, United States",
-2002,Euro physical currency,economics,Euro notes and coins circulate.,Europe,
-2003,Human Genome sequenced,science,Complete reference genome.,,sequenced by a consortium across six countries at once
-2003,Iraq War begins,conflict,US-led invasion to topple Saddam.,Iraq,
-2003,Space Shuttle Columbia,disaster,Lost during re-entry.,,"broke up over Texas on re-entry — a path across two states, not a point"
-2004,Facebook launched,commerce,Social media transforms communication.,"Cambridge, United States",Harvard
-2004,Indian Ocean tsunami,disaster,"230,000 dead across 14 countries.",Southeast Asia,the epicentre is off Sumatra; the disaster is fourteen countries
-2005,Hurricane Katrina,disaster,New Orleans devastated.,"New Orleans, United States",
-2005,YouTube launched,culture,Video sharing transforms media.,"San Mateo, United States",
-2006,Twitter launched,culture,Microblogging emerges.,"San Francisco, United States",
-2007,iPhone introduced,invention,Mobile computing era begins.,"San Francisco, United States",Macworld
-2007,iPhone introduced (initial),invention,Smartphone era begins.,"San Francisco, United States",a duplicate row of the one above
-2008,Global Financial Crisis,economics,Lehman collapse.,"New York City, United States",Lehman; the crisis was global
-2008,Obama elected,politics,First African-American US president.,United States,a national election
-2009,Bitcoin genesis block,invention,First cryptocurrency launched.,,no place; the network has no location and its author no name
-2010,Arab Spring begins,politics,Tunisian Revolution sparks regional uprisings.,"Tunis, Tunisia",Sidi Bouzid; the spring is a region
-2010,Deepwater Horizon spill,disaster,Largest marine oil spill in history.,,a wellhead in the Gulf of Mexico — at sea again
-2011,Death of bin Laden,conflict,US Navy SEAL raid in Pakistan.,"Abbottabad, Pakistan",
-2011,Fukushima disaster,disaster,Nuclear meltdown after tsunami.,"Fukushima, Japan",
-2011,Syrian Civil War begins,conflict,Long and devastating conflict.,Syria,
-2012,Higgs boson discovered,science,CERN announces discovery.,"Geneva, Switzerland",CERN
-2013,Snowden revelations,politics,NSA surveillance exposed.,Hong Kong,where the documents were handed over
-2014,Ebola outbreak West Africa,disaster,Largest Ebola epidemic in history.,West Africa,
-2014,Russia annexes Crimea,conflict,First land grab in Europe since WWII.,Crimea,
-2015,Paris Climate Agreement,politics,Global commitment to emissions.,"Paris, France",
-2015,Same-sex marriage legalized US,law,Obergefell v. Hodges.,"Washington, United States","Obergefell, the Supreme Court"
-2016,Brexit referendum,politics,UK votes to leave EU.,United Kingdom,a national referendum
-2016,Trump elected,politics,Disrupts US political establishment.,United States,a national election
-2017,Total solar eclipse US,science,Path of totality across America.,,"a path of totality 4,000 km long — a line, not a point"
-2018,CRISPR-edited babies,science,He Jiankui announces genetically modified twins.,"Shenzhen, China",
-2019,Hong Kong protests,politics,Massive demonstrations for democracy.,Hong Kong,
-2020,COVID-19 pandemic,disaster,Global lockdowns.,,"first identified at Wuhan; the pandemic is the world, and the origin is contested"
-2020,George Floyd protests,politics,Global Black Lives Matter mobilization.,"Minneapolis, United States",where it began; the protests were global
-2021,January 6 Capitol attack,politics,US Capitol breached.,"Washington, United States",
-2021,Taliban retake Afghanistan,conflict,US withdrawal; 20-year war ends.,"Kabul, Afghanistan",
-2022,ChatGPT released,invention,Large-language-model era reaches public.,"San Francisco, United States",
-2022,Queen Elizabeth II dies,politics,After 70-year reign.,"Balmoral, United Kingdom",
-2022,Russia invades Ukraine,conflict,Largest European war since WWII.,Ukraine,
-2023,GPT-4 released,invention,Multimodal AI reaches mainstream.,"San Francisco, United States",
-2024,AI Nobel Prizes,science,Physics and Chemistry both for AI work.,"Stockholm, Sweden",
-2024,US presidential election,politics,Trump returns to office.,United States,a national election
-2061,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,
+year,name,category,description,Place,note,passes
+-9500,Gobekli Tepe built,monument,Oldest known megalithic temple complex.,"Gobekli Tepe, Turkey",,
+-7500,Catalhoyuk settlement,civilization,Large Neolithic town in Anatolia.,"Catalhoyuk, Turkey",,
+-5500,Sumerian cities emerge,civilization,Earliest urban centers in Mesopotamia.,Mesopotamia,,
+-4500,Wheel invented,invention,First evidence of the wheel in Mesopotamia.,Mesopotamia,earliest evidence; not an event and not a person,
+-3500,Cuneiform script,invention,"Earliest writing system, Sumer.",Mesopotamia,developed over centuries,
+-3200,Egyptian hieroglyphs,invention,Earliest known hieroglyphic writing.,Egypt,developed over centuries,
+-3100,Egyptian Unification,civilization,Upper and Lower Egypt unify under Narmer.,Egypt,"Narmer unites Upper and Lower Egypt; the seat is Memphis, the claim is the Nile",open
+-2700,Step Pyramid of Djoser,monument,"Egypt's first pyramid, by Imhotep.","Saqqara, Egypt",,
+-2600,Indus Valley Civilization,civilization,Harappa and Mohenjo-daro flourish.,South Asia,,
+-2560,Great Pyramid of Giza,monument,Khufu's pyramid completed.,"Giza, Egypt",,
+-2334,Sargon of Akkad,conquest,First known empire founded.,,"an empire founded, not a battle — Akkad is the seat, is that the claim?",
+-2100,Epic of Gilgamesh recorded,culture,Oldest preserved literary work.,Mesopotamia,recorded over centuries on tablets,
+-1800,Stonehenge completed,monument,Megalithic monument finalized.,"Stonehenge, England",,
+-1750,Code of Hammurabi,law,First written legal code in Babylon.,Babylon,,open
+-1600,Minoan Thera eruption,disaster,Volcanic eruption ends Minoan civilization.,"Santorini, Greece",,2
+-1500,Vedas composed,religion,"Earliest Hindu scriptures, ancient India.",South Asia,composed over centuries; no site,
+-1404,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-1334,Tutankhamun reigns,politics,Boy pharaoh restores Egyptian religion.,"Thebes, Egypt","a reign, not a moment; the seat is Thebes",
+-1334,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-1274,Battle of Kadesh,conflict,Largest chariot battle in history.,"Kadesh, Syria",,2
+-1265,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-1200,Bronze Age Collapse,disaster,Mediterranean civilizations collapse simultaneously.,,"a region-wide collapse over decades; no moment, no single theatre",
+-1200,Trojan War (traditional date),conflict,Mythic siege of Troy.,,the tradition names Troy; whether the war happened is the question,
+-1197,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-1130,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-1100,Phoenician alphabet,invention,First widely-used alphabet.,Levant,developed over centuries,
+-1063,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-995,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-960,Solomon's Temple built,religion,First Temple in Jerusalem.,"Jerusalem, Israel",,
+-930,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-866,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-802,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-800,Homer's epics composed,culture,Iliad and Odyssey take shape.,,"oral tradition; place, date and even the poet are argued",
+-776,First Olympic Games,culture,"Olympia, Greece.","Olympia, Greece",,
+-753,Founding of Rome,civilization,Traditional date of Rome's founding.,"Rome, Italy",traditional date,
+-740,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-677,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-660,Founding of Japan (legend),civilization,Traditional date of Emperor Jimmu.,Japan,legendary; no site the record can hold,
+-625,Lao Tzu born (traditional),religion,"Founder of Taoism, China.",China,traditional and disputed; even the person is argued,
+-615,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-586,Babylonian destruction of Jerusalem,conflict,First Temple destroyed.,"Jerusalem, Israel",,
+-563,Birth of the Buddha,religion,Siddhartha Gautama born in Lumbini.,Lumbini,,
+-551,Confucius born,religion,Chinese philosopher and teacher.,"Qufu, China",the state of Lu,
+-540,Pythagoras flourishes,science,Greek mathematician and mystic.,"Crotone, Italy",his school in Magna Graecia,
+-540,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-525,Persia conquers Egypt,conquest,Cambyses II annexes Egypt.,Egypt,,
+-509,Roman Republic Founded,politics,Last king expelled; Republic begins.,"Rome, Italy",,
+-508,Athenian democracy,politics,"Cleisthenes reforms, first democracy.","Athens, Greece",Cleisthenes' reforms,
+-490,Battle of Marathon,conflict,Athenian victory over Persia.,"Marathon, Greece",,5
+-480,Battle of Thermopylae,conflict,Spartan stand against Xerxes.,"Thermopylae, Greece",,2
+-465,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-447,Parthenon construction begins,monument,"Athens, on the Acropolis.","Athens, Greece",,
+-431,Peloponnesian War begins,conflict,Athens vs Sparta.,"Athens, Greece",Athens votes for war; the theatre is the whole Aegean,
+-399,Trial and death of Socrates,culture,Athenian philosopher executed.,"Athens, Greece",,
+-391,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-387,Plato founds the Academy,culture,First institution of higher learning.,"Athens, Greece",,
+-336,Alexander the Great rises,conquest,Begins his conquests at 20.,"Pella, Greece",he takes the throne at Pella; the conquest is three continents,
+-335,Aristotle founds Lyceum,culture,Athens; tutor of Alexander.,"Athens, Greece",,
+-330,Persian Empire falls,conquest,Alexander defeats Darius III.,Persia,,
+-323,Death of Alexander,politics,Empire fragments into Diadochi.,Babylon,,
+-315,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-300,Euclid's Elements,science,"Foundational geometry text, Alexandria.","Alexandria, Egypt",,
+-264,First Punic War,conflict,Rome vs Carthage begins.,Sicily,"Rome against Carthage, fought for Sicily and at sea",
+-250,Library of Alexandria flourishes,culture,Greatest library of antiquity.,"Alexandria, Egypt",,
+-239,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-221,Qin unifies China,politics,First Emperor Shi Huangdi.,"Xianyang, China","the Qin capital, near modern Xi'an",open
+-218,Hannibal crosses the Alps,conflict,Second Punic War.,the Alps,,
+-214,Great Wall of China started,monument,Initial unification of fortifications.,China,fortifications joined across the northern frontier,
+-202,Han Dynasty begins,politics,Liu Bang founds Han China.,"Xi'an, China","Chang'an, the Han capital",
+-164,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-146,Destruction of Carthage,conflict,Third Punic War ends.,"Carthage, Tunisia",,5
+-100,Birth of Julius Caesar,politics,Roman general and statesman.,"Rome, Italy",,
+-86,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-63,Pompey takes Jerusalem,conflict,Rome enters Judea.,"Jerusalem, Israel",,
+-44,Assassination of Caesar,politics,Ides of March; Roman Republic ends.,"Rome, Italy",the Curia of Pompey,5
+-31,Battle of Actium,conflict,Octavian defeats Antony and Cleopatra.,"Actium, Greece",,5
+-27,Roman Empire begins,politics,Augustus becomes first Emperor.,"Rome, Italy",,5
+-11,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+-4,Birth of Jesus (traditional),religion,Bethlehem.,"Bethlehem, Israel",traditional,
+9,Battle of Teutoburg Forest,conflict,Germanic tribes destroy Roman legions.,"Kalkriese, Germany",,2
+33,Crucifixion of Jesus,religion,Traditional date.,"Jerusalem, Israel",traditional date,open
+43,Roman invasion of Britain,conquest,Claudius begins conquest.,"Richborough, England",Claudius' landing; the conquest takes forty years,
+64,Great Fire of Rome,disaster,Nero blamed; Christians persecuted.,"Rome, Italy",,2
+66,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+70,Fall of Jerusalem,conflict,Roman destruction of Second Temple.,"Jerusalem, Israel",,5
+79,Eruption of Vesuvius,disaster,Pompeii buried.,"Pompeii, Italy",,2
+80,Colosseum inaugurated,monument,"50,000-seat amphitheater opens in Rome.","Rome, Italy",,
+105,Paper invented in China,invention,Cai Lun develops papermaking.,China,"Cai Lun is the traditional attribution, not the origin",
+122,Hadrian's Wall built,monument,Frontier of Roman Britain.,,"117 km from the Tyne to the Solway — a line, not a point",
+141,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+180,Antonine Plague peaks,disaster,Smallpox/measles ravages Roman Empire.,Roman Empire,,
+218,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+220,Han Dynasty ends,politics,Three Kingdoms period begins in China.,"Luoyang, China",,
+284,Diocletian reforms Rome,politics,Tetrarchy and economic reforms.,Roman Empire,a reform of the whole administration,
+295,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+312,Conversion of Constantine,religion,Battle of Milvian Bridge.,"Rome, Italy","the Milvian Bridge, north of the city",
+313,Edict of Milan,religion,Christianity legalized in Roman Empire.,"Milan, Italy",,5
+325,Council of Nicaea,religion,First ecumenical council.,"Iznik, Turkey",Nicaea,open
+330,Constantinople founded,civilization,Constantine's new Roman capital.,Constantinople,,
+374,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+378,Battle of Adrianople,conflict,Goths defeat Romans; military revolution.,"Edirne, Turkey",,
+380,Christianity official Roman religion,religion,Edict of Thessalonica.,"Thessaloniki, Greece",the Edict of Thessalonica,
+395,Roman Empire splits,politics,East and West divided permanently.,Roman Empire,"a division, not a place",
+410,Sack of Rome by Visigoths,conflict,Alaric breaches the city.,"Rome, Italy",,
+451,Battle of Chalons,conflict,Attila the Hun defeated in Gaul.,"Chalons-en-Champagne, France",,
+451,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+455,Vandal sack of Rome,conflict,Genseric plunders the eternal city.,"Rome, Italy",,
+476,Fall of Western Rome,politics,Last Western Emperor deposed.,"Ravenna, Italy","Romulus Augustulus deposed at Ravenna, not Rome",open
+527,Justinian becomes Emperor,politics,Begins reconquest of the West.,Constantinople,,
+530,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+532,Hagia Sophia construction,monument,Justinian's great cathedral begun.,Constantinople,,
+535,Volcanic winter of 536,disaster,Worst climate catastrophe in 2000 years.,,cause and vent still debated — Iceland or the tropics; a global effect with no agreed source,
+541,Plague of Justinian,disaster,First recorded bubonic plague pandemic.,Constantinople,,
+570,Birth of Muhammad,religion,In Mecca.,"Mecca, Saudi Arabia",,
+600,Gregorian chant codified,culture,Pope Gregory the Great.,"Rome, Italy",attributed to Gregory; the codifying took centuries,
+607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+610,Muhammad's first revelation,religion,In the cave of Hira.,"Mecca, Saudi Arabia","the cave of Hira, above Mecca",
+622,Hijra to Medina,religion,Year 1 of the Islamic calendar.,"Medina, Saudi Arabia",,open
+630,Conquest of Mecca,conquest,Muhammad returns to Mecca.,"Mecca, Saudi Arabia",,5
+632,Death of Muhammad,religion,Rashidun Caliphate begins.,"Medina, Saudi Arabia",,
+636,Battle of Yarmouk,conflict,Muslim conquest of Levant.,"Yarmouk, Syria",,2
+661,Umayyad Caliphate begins,politics,Capital moves to Damascus.,"Damascus, Syria",,
+684,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+711,Muslim conquest of Iberia,conquest,Tariq ibn Ziyad lands at Gibraltar.,Gibraltar,Tariq ibn Ziyad lands here; the conquest is the peninsula,5
+732,Battle of Tours,conflict,Charles Martel halts Umayyad advance.,"Tours, France",,5
+750,Abbasid Caliphate,politics,Capital moves to Baghdad.,"Baghdad, Iraq",the capital moves here,5
+760,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+793,Lindisfarne raid,conflict,Viking Age begins.,"Lindisfarne, England",,
+800,Charlemagne crowned Emperor,politics,Holy Roman Empire begins.,"Rome, Italy",crowned at St Peter's,5
+802,Khmer Empire founded,civilization,Jayavarman II in Cambodia.,"Angkor, Cambodia",Jayavarman II; the capital moves later,
+820,Algebra invented,science,Al-Khwarizmi in Baghdad.,"Baghdad, Iraq",al-Khwarizmi at the House of Wisdom,
+837,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+843,Treaty of Verdun,politics,Carolingian Empire divided.,"Verdun, France",,
+862,Founding of Kievan Rus,civilization,Rurik in Novgorod.,"Novgorod, Russia","Rurik at Novgorod, not yet Kiev",
+868,Diamond Sutra printed,invention,"Earliest dated printed book, China.","Dunhuang, China",found at Dunhuang; printed in China,
+907,Tang Dynasty falls,politics,Five Dynasties period in China.,Chang'an,,
+912,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+962,Holy Roman Empire founded,politics,Otto I crowned by the Pope.,"Rome, Italy",Otto I crowned by the Pope,
+988,Conversion of Kievan Rus,religion,Vladimir adopts Orthodox Christianity.,"Kyiv, Ukraine",,
+989,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1054,Great Schism,religion,Catholic and Orthodox churches split.,Constantinople,the bull delivered at Hagia Sophia,5
+1066,Battle of Hastings,conflict,William the Conqueror takes England.,"Hastings, England",,5
+1066,Norman Conquest of England,conflict,Battle of Hastings.,"Hastings, England",,
+1066,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1071,Battle of Manzikert,conflict,Seljuks defeat Byzantines.,"Manzikert, Turkey",,2
+1086,Domesday Book,law,William I survey of England.,England,a survey of the whole kingdom,
+1095,First Crusade declared,religion,Pope Urban II at Clermont.,"Clermont-Ferrand, France",Urban II at Clermont,
+1099,Crusaders take Jerusalem,conflict,First Crusade succeeds.,"Jerusalem, Israel",,
+1126,Averroes born,culture,Andalusian polymath.,"Cordoba, Spain",,
+1145,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1147,Second Crusade,conflict,Failed campaign in the Holy Land.,Middle East,,
+1163,Notre-Dame de Paris begun,monument,Gothic cathedral construction starts.,"Paris, France",,
+1189,Third Crusade,conflict,Richard Lionheart vs Saladin.,Middle East,,
+1192,Kamakura Shogunate,politics,First samurai government in Japan.,"Kamakura, Japan",,
+1204,Sack of Constantinople,conflict,Fourth Crusade turns on Byzantines.,Constantinople,,2
+1206,Genghis Khan unifies Mongols,conquest,Mongol Empire founded.,Mongolia,a kurultai on the steppe; no fixed seat,
+1209,Albigensian Crusade,religion,Against Cathars in southern France.,Southern Europe,"the Languedoc, over twenty years",
+1215,Magna Carta,law,King John signs at Runnymede.,"Runnymede, England",,open
+1220,University of Paris chartered,culture,Formal recognition.,"Paris, France",,
+1222,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1227,Death of Genghis Khan,politics,Mongol Empire at its peak.,Mongolia,died on campaign; the site is not known,
+1241,Mongols invade Europe,conflict,"Battle of Mohi, Legnica.",Eastern Europe,,
+1258,Mongol sack of Baghdad,conflict,End of the Abbasid Caliphate.,"Baghdad, Iraq",,5
+1271,Marco Polo journeys east,exploration,Begins journey to China.,"Venice, Italy",the departure; the journey is a continent,
+1271,Yuan Dynasty founded,politics,Kublai Khan rules China.,"Beijing, China",Khanbaliq,
+1273,Aquinas Summa Theologica,religion,Defining work of scholastic theology.,"Paris, France",written at Paris and Naples,
+1291,Fall of Acre,conflict,Last Crusader state falls.,"Acre, Israel",,
+1295,Marco Polo returns,exploration,Account of travels published.,"Venice, Italy",,
+1301,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1307,Templars suppressed,religion,Philip IV arrests the order in France.,"Paris, France",,
+1309,Avignon Papacy begins,religion,Popes move to France.,"Avignon, France",,
+1314,Battle of Bannockburn,conflict,Scottish independence from England.,"Bannockburn, Scotland",,
+1325,Aztecs found Tenochtitlan,civilization,Capital on Lake Texcoco.,Tenochtitlan,,
+1337,Hundred Years' War begins,conflict,England vs France.,"Paris, France",Edward III claims the French crown; the war is fought across France,
+1346,Battle of Crecy,conflict,English longbow defeats French knights.,"Crecy, France",,
+1347,Black Death begins in Europe,disaster,Plague pandemic kills ~1/3 of Europe.,Europe,entered through Caffa and Messina; the row names Europe,2
+1368,Ming Dynasty founded,politics,Hongwu Emperor expels the Mongols.,"Nanjing, China",the first Ming capital,
+1378,Western Schism,religion,Rival popes in Rome and Avignon.,Western Europe,rival popes at Rome and Avignon at once,
+1378,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1381,Peasants' Revolt,politics,Wat Tyler's rebellion in England.,"London, England",Wat Tyler at Smithfield,
+1389,Battle of Kosovo,conflict,Ottoman advance into the Balkans.,"Pristina, Kosovo",,2
+1397,Medici Bank founded,commerce,Florence; financiers of the Renaissance.,"Florence, Italy",,
+1398,Timur sacks Delhi,conflict,Tamerlane's devastating raid.,"Delhi, India",,
+1402,Battle of Ankara,conflict,Timur captures Ottoman Sultan Bayezid.,"Ankara, Turkey",,2
+1415,Battle of Agincourt,conflict,Henry V's famous English victory.,"Agincourt, France",,2
+1431,Joan of Arc burned,conflict,Executed at Rouen.,"Rouen, France",,
+1438,Inca Empire expands,conquest,Pachacuti begins major expansion.,Cusco,Pachacuti expands from Cusco; the empire becomes the Andes,
+1453,End of Hundred Years' War,conflict,French victory at Castillon.,France,the English driven out; no single field,
+1453,Fall of Constantinople,conflict,Ottoman conquest; Byzantine Empire ends.,Constantinople,,open
+1455,Gutenberg Bible printed,invention,First major book printed with movable type.,"Mainz, Germany",,open
+1456,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1469,Birth of Machiavelli,culture,Florentine political theorist.,"Florence, Italy",,
+1478,Spanish Inquisition begins,religion,Ferdinand and Isabella authorize.,Spain,,
+1485,Battle of Bosworth Field,conflict,Tudor dynasty begins in England.,"Bosworth, England",,2
+1488,Bartolomeu Dias rounds Cape,exploration,First European to round Africa.,"Cape Town, South Africa",the Cape of Good Hope,
+1492,Columbus reaches Americas,exploration,European contact with the New World.,Caribbean,landfall in the Bahamas; the island is disputed,open
+1494,Treaty of Tordesillas,politics,Spain and Portugal divide the world.,"Tordesillas, Spain",,5
+1498,Vasco da Gama reaches India,exploration,First sea route to India.,"Kozhikode, India",Calicut,
+1502,First African slaves to Americas,commerce,Transatlantic slave trade begins.,Caribbean,Hispaniola; the trade is an ocean and four centuries,
+1503,Mona Lisa painted,culture,Leonardo begins the portrait.,"Florence, Italy",,
+1508,Sistine Chapel ceiling,culture,Michelangelo begins the work.,"Rome, Italy",,
+1513,Balboa reaches Pacific,exploration,First European on the Pacific from the New World.,"Panama City, Panama",the isthmus,
+1517,Luther's 95 Theses,religion,Protestant Reformation begins.,"Wittenberg, Germany",,open
+1517,Reformation begins,religion,Luther posts the 95 Theses.,"Wittenberg, Germany",,5
+1519,Cortes conquers Aztecs,conquest,Fall of Tenochtitlan to follow.,Tenochtitlan,,
+1519,Magellan begins circumnavigation,exploration,Spanish expedition departs.,"Seville, Spain",the departure; he did not return,
+1521,Diet of Worms,religion,Luther refuses to recant.,"Worms, Germany",,
+1521,Fall of Tenochtitlan,conquest,Aztec Empire ends.,Tenochtitlan,,5
+1531,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1532,Pizarro conquers Inca,conquest,Atahualpa captured at Cajamarca.,"Cajamarca, Peru",Atahualpa captured here,
+1534,Act of Supremacy,religion,Henry VIII heads Church of England.,"London, England",,
+1543,Copernicus De Revolutionibus,science,Heliocentric model published.,"Nuremberg, Germany",printed at Nuremberg; written in Frombork,
+1543,Vesalius On the Fabric,science,Modern anatomy founded.,"Basel, Switzerland",printed at Basel,
+1545,Council of Trent begins,religion,Counter-Reformation.,"Trento, Italy",,
+1556,Akbar becomes Mughal Emperor,politics,Great expansion of Mughal India.,"Delhi, India",,
+1564,Birth of Galileo,science,Italian astronomer and physicist.,"Pisa, Italy",,
+1564,Birth of Shakespeare,culture,Stratford-upon-Avon.,"Stratford-upon-Avon, England",,
+1572,St Bartholomew's Day massacre,conflict,French Protestants killed.,"Paris, France",,
+1582,Gregorian calendar,science,Pope Gregory XIII reforms the calendar.,"Rome, Italy",,
+1588,Spanish Armada defeated,conflict,English victory over Philip II's fleet.,England,,2
+1592,Imjin War,conflict,Japanese invasions of Korea.,Korea,,
+1598,Edict of Nantes,law,Religious toleration for Huguenots.,"Nantes, France",,
+1600,British East India Company,commerce,Royal charter granted.,"London, England",the charter,
+1602,Dutch East India Company,commerce,First multinational corporation.,"Amsterdam, Netherlands",,
+1605,Don Quixote published,culture,Cervantes; modern novel begins.,"Madrid, Spain",,
+1605,Gunpowder Plot,conflict,Failed attempt to blow up Parliament.,"London, England",,
+1607,Jamestown founded,colonization,First permanent English colony in Americas.,"Jamestown, United States",,
+1607,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1609,Galileo's telescope,science,Astronomical observations begin.,"Padua, Italy",,
+1610,Galileo discovers Jupiter's moons,science,Four Galilean moons found.,"Padua, Italy",,
+1611,King James Bible,religion,Authorized English translation.,"London, England",,
+1618,Thirty Years' War begins,conflict,Defenestration of Prague.,"Prague, Czechia",the Defenestration of Prague; the war is Central Europe entire,
+1620,Bacon's Novum Organum,science,Scientific method codified.,"London, England",,
+1620,Mayflower lands at Plymouth,colonization,Pilgrims arrive in North America.,"Plymouth, United States",,
+1632,Galileo Dialogue published,science,Two World Systems; tried by Inquisition.,"Florence, Italy",,
+1632,Taj Mahal begun,monument,Shah Jahan's tomb for Mumtaz.,"Agra, India",,
+1633,Galileo trial,religion,Forced to recant heliocentrism.,"Rome, Italy",,
+1637,Descartes Discourse on Method,science,Cogito ergo sum.,"Leiden, Netherlands",published at Leiden,
+1644,Ming Dynasty falls,politics,Qing Dynasty begins in China.,"Beijing, China",,
+1648,Treaty of Westphalia,politics,Ends Thirty Years' War; modern state system.,"Munster, Germany",signed at Munster and Osnabruck,5
+1649,Charles I executed,politics,English Commonwealth begins.,"London, England",Whitehall,
+1660,Restoration of Charles II,politics,Stuart monarchy restored.,"London, England",,
+1660,Royal Society chartered,science,England's scientific academy.,"London, England",,
+1665,Great Plague of London,disaster,Last major plague outbreak in England.,"London, England",,
+1666,Great Fire of London,disaster,Most of medieval London destroyed.,"London, England",,
+1666,Newton's annus mirabilis,science,"Calculus, optics, gravitation.",Woolsthorpe,at home during the plague,
+1675,Royal Observatory Greenwich,science,Founded for navigation.,"London, England",Greenwich,
+1682,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1683,Siege of Vienna,conflict,Ottoman advance halted.,"Vienna, Austria",,2
+1687,Newton's Principia,science,Mathematical laws of motion and gravity.,"London, England",,open
+1689,English Bill of Rights,law,Constitutional limits on monarchy.,"London, England",,
+1690,Locke's Two Treatises,politics,Natural rights and government by consent.,"London, England",published here,
+1700,Great Northern War begins,conflict,Russia rises under Peter the Great.,"Copenhagen, Denmark",the allied attack on Holstein-Gottorp opens it; the theatre is the Baltic,
+1703,Founding of St Petersburg,civilization,Peter the Great's new capital.,"Saint Petersburg, Russia",,
+1707,Act of Union (Britain),politics,Scotland and England unite.,"London, England",,
+1709,Iron smelted with coke,invention,Abraham Darby; Industrial Revolution input.,"Coalbrookdale, England",,
+1712,Newcomen Steam Engine,invention,First practical atmospheric steam engine.,"Dudley, England",,
+1714,Hanoverian succession,politics,George I becomes British king.,"London, England",,
+1721,Bach Brandenburg Concertos,culture,High Baroque masterpiece.,"Kothen, Germany",,
+1725,Bach Well-Tempered Clavier I,culture,Foundation of tonal music.,"Kothen, Germany",,
+1735,Linnaeus Systema Naturae,science,Modern taxonomy founded.,"Leiden, Netherlands",first edition printed at Leiden,
+1751,Encyclopedie begins,culture,Diderot and d'Alembert's great work.,"Paris, France",,
+1755,Lisbon earthquake,disaster,Enlightenment crisis of theodicy.,"Lisbon, Portugal",,2
+1756,Seven Years' War,conflict,First true world war.,Europe,"the first global war — also India, North America, the Caribbean",
+1759,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1760,Industrial Revolution begins,civilization,Britain begins mechanization.,England,no moment and no site; the row says Britain begins,open
+1762,Rousseau Social Contract,politics,Sovereignty of the people.,"Amsterdam, Netherlands","published here, not in France",
+1764,Spinning Jenny,invention,Hargreaves transforms textiles.,"Blackburn, England",,
+1769,Watt's Steam Engine patent,invention,Modern steam engine; Industrial Revolution.,"Birmingham, England",the patent; Watt was at Glasgow,
+1773,Boston Tea Party,politics,American protest against British tax.,"Boston, United States",,
+1775,American Revolution begins,conflict,Battles of Lexington and Concord.,"Lexington, United States",the first shot; the revolution is thirteen colonies,
+1776,US Declaration of Independence,politics,Thirteen colonies declare independence.,"Philadelphia, United States",,open
+1776,Wealth of Nations,economics,Adam Smith founds modern economics.,"London, England",published here; written in Kirkcaldy,
+1781,Battle of Yorktown,conflict,British surrender; American victory.,"Yorktown, United States",,
+1783,Montgolfier balloon flight,invention,First human flight.,"Paris, France",,
+1783,Treaty of Paris,politics,US independence recognized.,"Paris, France",,
+1787,US Constitution drafted,law,Philadelphia Convention.,"Philadelphia, United States",,
+1789,French Revolution begins,politics,Storming of the Bastille.,"Paris, France",the Bastille,open
+1789,Washington inaugurated,politics,First US President.,"New York City, United States","Federal Hall, not Washington",
+1791,Haitian Revolution begins,conflict,Largest successful slave revolt.,Haiti,,
+1791,US Bill of Rights ratified,law,First ten amendments.,United States,ratified state by state,
+1793,Reign of Terror,politics,Robespierre dominates France.,"Paris, France",,
+1796,Jenner smallpox vaccine,science,First vaccine in history.,"Berkeley, England","Berkeley, Gloucestershire",
+1798,Napoleon's Egyptian campaign,conquest,French invasion of Egypt.,Egypt,,
+1799,Rosetta Stone discovered,science,Key to Egyptian hieroglyphs.,"Rashid, Egypt",Rosetta,
+1803,Louisiana Purchase,politics,US doubles in size.,"Paris, France",the treaty signed in Paris; the land is a third of a continent,
+1804,Napoleon crowned Emperor,politics,Crowns himself in Notre-Dame.,"Paris, France",Notre-Dame,
+1807,Britain abolishes slave trade,law,Slave Trade Act.,"London, England",the Act; the trade was an ocean,
+1807,Fulton's steamboat,invention,First commercial steamboat.,"New York City, United States",the Hudson,
+1812,Napoleon invades Russia,conflict,Disastrous retreat from Moscow.,Russia,,
+1814,Stephenson's locomotive,invention,First practical steam locomotive.,"Killingworth, England",,
+1815,Battle of Waterloo,conflict,Napoleon defeated; Concert of Europe begins.,"Waterloo, Belgium",,2
+1820,Missouri Compromise,law,US slavery balance maintained.,"Washington, United States",,
+1821,Death of Napoleon,politics,Exiled at Saint Helena.,Saint Helena,,
+1821,Faraday's electric motor,invention,First electromagnetic rotary device.,"London, England",the Royal Institution,
+1823,Monroe Doctrine,politics,Americas closed to European colonization.,"Washington, United States",a message to Congress,
+1825,Erie Canal opens,engineering,NYC to Great Lakes.,,"584 km from the Hudson to Lake Erie — a line, not a point",
+1825,First passenger railway,invention,Stockton & Darlington Railway opens.,"Darlington, England",Stockton and Darlington,
+1830,Indian Removal Act,politics,US forced relocation of native nations.,"Washington, United States",the Act; the removal is a continent,
+1831,Faraday electromagnetic induction,science,Foundation of electric generators.,"London, England",the Royal Institution,
+1833,British abolish slavery,law,Slavery Abolition Act.,"London, England",,
+1834,Mechanical refrigeration,invention,Jacob Perkins patents vapor compression -- the invention of ice.,"London, England",Perkins' patent,
+1835,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1837,Victoria becomes Queen,politics,Beginning of the Victorian era.,"London, England",,
+1838,Trail of Tears,disaster,Forced Cherokee relocation.,,"a forced march of 1,600 km from Georgia to Oklahoma — a route, not a point",
+1839,Daguerreotype announced,invention,First practical photographic process.,"Paris, France",,
+1839,First Opium War,conflict,Britain forces opium trade on China.,China,,
+1842,Treaty of Nanking,politics,Hong Kong ceded to Britain.,"Nanjing, China",,
+1844,Telegraph: What hath God wrought,invention,Morse's first long message.,"Washington, United States",sent to Baltimore,
+1845,Irish Potato Famine,disaster,"Million dead, million emigrate.",Ireland,,
+1848,California Gold Rush,civilization,Forty-niners head west.,"Sacramento, United States",Sutter's Mill; the rush is the whole state,
+1848,Communist Manifesto published,politics,Marx and Engels.,"London, England",published here in German,
+1848,Revolutions of 1848,politics,Liberal uprisings across Europe.,Europe,,
+1848,Seneca Falls Convention,politics,First women's rights convention.,"Seneca Falls, United States",,
+1851,Great Exhibition London,culture,Crystal Palace; first world's fair.,"London, England","the Crystal Palace, Hyde Park",
+1853,Perry opens Japan,politics,US Navy ends Japanese isolation.,"Yokohama, Japan",Perry's landing at Kanagawa,
+1854,Crimean War,conflict,"Russia vs Britain, France, Ottomans.",Crimea,,
+1859,Darwin's Origin of Species,science,Theory of evolution by natural selection.,"London, England",published here; the voyage was the world,open
+1859,First commercial oil well,invention,Drake well in Pennsylvania.,"Titusville, United States",,
+1860,Italian unification advances,politics,Garibaldi's Sicilian expedition.,Sicily,Garibaldi's expedition,
+1861,American Civil War begins,conflict,Fort Sumter attacked.,"Charleston, United States",Fort Sumter; the war is half a continent,2
+1863,Emancipation Proclamation,law,Lincoln frees Confederate slaves.,"Washington, United States",,
+1864,Geneva Convention,law,Rules of war and Red Cross founded.,"Geneva, Switzerland",,
+1865,Lincoln assassinated,politics,End of US Civil War; Reconstruction begins.,"Washington, United States",Ford's Theatre,
+1866,Mendel's laws of inheritance,science,Foundation of genetics.,"Brno, Czechia",,
+1867,Marx's Capital Volume I,economics,Critique of political economy.,"Hamburg, Germany",published at Hamburg; written in London,
+1869,Suez Canal opens,engineering,Connects Mediterranean and Red Sea.,"Suez, Egypt",,
+1869,Transcontinental Railroad,engineering,US east and west coasts connected.,"Promontory, United States",the golden spike at Promontory Summit,
+1871,German Empire founded,politics,Bismarck unifies Germany.,"Versailles, France","proclaimed in the Hall of Mirrors, in France",
+1873,Maxwell electromagnetism,science,Unified theory of light and electricity.,"London, England","the Treatise, published here",
+1876,Battle of Little Bighorn,conflict,Custer's last stand.,"Little Bighorn, United States",,
+1876,Bell patents telephone,invention,Voice transmission over wires.,"Boston, United States",,
+1877,Edison phonograph,invention,First sound recording device.,"Menlo Park, United States","Menlo Park, New Jersey",
+1879,Edison's incandescent bulb,invention,Practical electric lighting.,"Menlo Park, United States",,
+1882,Edison electric grid,invention,"Pearl Street Station, NYC.","New York City, United States",Pearl Street,
+1884,Berlin Conference,politics,European partition of Africa.,"Berlin, Germany",,
+1885,Benz Patent Motorwagen,invention,First automobile.,"Mannheim, Germany",,
+1886,Coca-Cola invented,commerce,"Atlanta, Georgia.","Atlanta, United States",,
+1886,Statue of Liberty dedicated,monument,Gift from France to the US.,"New York City, United States",,
+1888,Hertz proves radio waves,science,Experimental confirmation of Maxwell.,"Karlsruhe, Germany",,
+1889,Eiffel Tower opens,monument,Paris World's Fair centerpiece.,"Paris, France",,
+1893,Women's suffrage in NZ,politics,First nation to grant women the vote.,"Wellington, New Zealand",,
+1895,Lumiere brothers cinema,invention,"First public film screening, Paris.","Paris, France",,
+1895,Roentgen discovers X-rays,science,New form of radiation.,"Wurzburg, Germany",,
+1896,Athens Olympics,culture,First modern Olympic Games.,"Athens, Greece",,
+1898,Discovery of radium,science,Marie and Pierre Curie.,"Paris, France",,
+1898,Spanish-American War,conflict,US emerges as global power.,Caribbean,"Cuba, Puerto Rico and the Philippines at once",
+1900,Boxer Rebellion,conflict,Anti-foreign uprising in China.,"Beijing, China",,
+1900,Planck quantum hypothesis,science,Birth of quantum theory.,"Berlin, Germany",,
+1901,Marconi transatlantic radio,invention,First wireless transmission across Atlantic.,"St. John's, Canada",received at Signal Hill from Cornwall,
+1902,End of Boer War,conflict,Britain wins in South Africa.,South Africa,the peace signed at Vereeniging; the war was the veld,
+1903,Ford Motor Company,commerce,"Detroit, Michigan.","Detroit, United States",,
+1903,Wright Brothers first flight,invention,Kitty Hawk powered flight.,"Kitty Hawk, United States",,
+1904,Russo-Japanese War,conflict,Japan defeats a European power.,East Asia,Manchuria and the Tsushima Strait,
+1905,Einstein Annus Mirabilis,science,"Special relativity, photoelectric, Brownian motion, E=mcÂ².","Bern, Switzerland",written at the patent office,
+1908,Ford Model T,invention,Affordable automobile for the masses.,"Detroit, United States",,
+1909,Peary at the North Pole,exploration,Or so he claimed.,,the claim is disputed and the position was never fixed,
+1910,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1911,Amundsen at South Pole,exploration,First confirmed to reach.,Antarctica,"90 degrees south — a pole, not a seat",
+1911,Chinese Revolution,politics,End of imperial China.,"Wuhan, China",the Wuchang uprising,
+1912,Titanic sinks,disaster,1500 dead in North Atlantic.,,"41.7N 49.9W, mid-Atlantic — a real position, but this map has no seat at sea",
+1913,Bohr atomic model,science,Quantized electron orbits.,"Copenhagen, Denmark",,
+1914,Panama Canal opens,engineering,Atlantic-Pacific shortcut.,"Panama City, Panama",,
+1914,World War I begins,conflict,Assassination of Archduke Franz Ferdinand.,"Sarajevo, Bosnia and Herzegovina",the assassination; the war is a continent and beyond,5
+1915,Armenian Genocide,disaster,Ottoman massacre of Armenians.,Anatolia,,
+1915,Einstein general relativity,science,New theory of gravity.,"Berlin, Germany",,
+1916,Battle of the Somme,conflict,One million casualties.,"Somme, France",,
+1916,Easter Rising,conflict,Irish independence struggle.,"Dublin, Ireland",,
+1917,Balfour Declaration,politics,Britain supports Jewish homeland.,"London, England",a letter written here about a place elsewhere,
+1917,Russian Revolution,politics,Bolsheviks seize power.,"Saint Petersburg, Russia",Petrograd,5
+1917,US enters WWI,conflict,Wilson declares war.,"Washington, United States",a declaration made here about a war fought in France,
+1918,Spanish Flu pandemic,disaster,~50 million dead worldwide.,,worldwide; the name is a censorship artefact and the origin is disputed,
+1918,WWI ends,conflict,Armistice on November 11.,"Compiegne, France",the armistice signed in a railway carriage,
+1919,Treaty of Versailles,politics,Punitive peace with Germany.,"Versailles, France",,5
+1920,19th Amendment ratified,law,US women win the vote.,United States,ratified state by state,
+1920,League of Nations founded,politics,Failed predecessor to UN.,"Geneva, Switzerland",,
+1922,Mussolini March on Rome,politics,Fascist takeover of Italy.,"Rome, Italy",,
+1922,Soviet Union founded,politics,USSR formally established.,"Moscow, Russia",,
+1922,Tutankhamun's tomb discovered,science,Howard Carter in the Valley of the Kings.,"Luxor, Egypt",the Valley of the Kings,
+1923,Republic of Turkey founded,politics,Ataturk modernizes.,"Ankara, Turkey",,
+1924,Death of Lenin,politics,Stalin's rise begins.,"Moscow, Russia","at Gorki, outside Moscow",
+1925,Scopes Monkey Trial,culture,Evolution on trial in Tennessee.,"Dayton, United States","Dayton, Tennessee — NOT Dayton, Ohio",
+1927,First talking film,culture,The Jazz Singer.,"New York City, United States",the premiere,
+1927,Lindbergh transatlantic flight,invention,"Spirit of St Louis, NYC to Paris.","Paris, France",the arrival; the flight is an ocean,
+1928,Pact of Paris,politics,Kellogg-Briand renounces war.,"Paris, France",Kellogg-Briand,
+1928,Penicillin discovered,science,Alexander Fleming.,"London, England","St Mary's, Paddington",
+1929,Wall Street Crash,economics,Great Depression begins.,"New York City, United States",,
+1931,Empire State Building,monument,Tallest building in the world.,"New York City, United States",,
+1933,FDR New Deal,politics,US response to Great Depression.,"Washington, United States",,
+1933,Hitler becomes Chancellor,politics,Nazi Party takes power.,"Berlin, Germany",,
+1935,Nuremberg Laws,law,Anti-Jewish legislation in Germany.,"Nuremberg, Germany",,
+1936,Spanish Civil War begins,conflict,Republic vs Nationalists.,Spain,,
+1937,Hindenburg disaster,disaster,Airship era ends.,"Lakehurst, United States",,
+1937,Japanese invasion of China,conflict,Nanjing Massacre.,China,,
+1938,Kristallnacht,conflict,Night of Broken Glass against German Jews.,Germany,,
+1938,Munich Agreement,politics,Appeasement of Hitler.,"Munich, Germany",,
+1939,Hitler-Stalin Pact,politics,Non-aggression treaty.,"Moscow, Russia",signed in Moscow,
+1939,World War II begins,conflict,Germany invades Poland.,"Warsaw, Poland",the invasion of Poland — CONTESTED: from Beijing the war begins in 1937,5
+1940,Battle of Britain,conflict,RAF defends against the Luftwaffe.,England,,
+1940,Fall of France,conflict,Nazi Germany conquers in six weeks.,France,,
+1941,Operation Barbarossa,conflict,Germany invades Soviet Union.,Eastern Europe,,
+1941,Pearl Harbor attack,conflict,US enters WWII.,"Honolulu, United States",,2
+1942,Battle of Midway,conflict,Turning point in the Pacific.,Midway Atoll,,
+1942,Battle of Stalingrad,conflict,Turning point on the Eastern Front.,"Volgograd, Russia",,2
+1942,Wannsee Conference,conflict,Final Solution formalized.,"Berlin, Germany",,
+1944,D-Day Normandy,conflict,Allied invasion of Europe.,Normandy,,
+1945,Atomic bombs on Japan,conflict,Hiroshima and Nagasaki; nuclear age begins.,"Hiroshima, Japan",,open
+1945,Death of Hitler,politics,Suicide in Berlin bunker.,"Berlin, Germany",,
+1945,United Nations founded,politics,UN Charter signed in San Francisco.,"San Francisco, United States",the Charter signed here,
+1945,VE Day,conflict,Germany surrenders.,Europe,"a surrender signed at Reims, a day marked across a continent",
+1945,Yalta Conference,politics,Allies divide postwar world.,"Yalta, Ukraine",,
+1946,Iron Curtain speech,politics,"Churchill at Fulton, Missouri.","Fulton, United States",,
+1947,Indian Independence,politics,Partition of British India.,"Delhi, India",partition is two nations; this is the moment,
+1947,Marshall Plan,economics,US aid rebuilds Europe.,"Washington, United States","announced at Harvard, enacted in Washington",
+1947,Transistor invented,invention,Bell Labs; modern electronics.,"Murray Hill, United States",Bell Labs,
+1948,Berlin Airlift,conflict,Cold War crisis.,"Berlin, Germany",,
+1948,State of Israel founded,politics,Modern Israel declares independence.,"Tel Aviv, Israel",declared at Tel Aviv,
+1949,Mao founds PRC,politics,People's Republic of China.,"Beijing, China",Tiananmen,
+1949,NATO founded,politics,Western military alliance.,"Washington, United States",the Treaty signed here,
+1950,Korean War begins,conflict,North invades South.,Korea,,
+1953,DNA structure discovered,science,Watson and Crick double helix.,"Cambridge, England",the Cavendish,open
+1953,Stalin dies,politics,Khrushchev rises.,"Moscow, Russia",,
+1954,Brown v. Board of Education,law,US school segregation unconstitutional.,"Washington, United States",the Supreme Court,
+1955,Rosa Parks,politics,Montgomery bus boycott begins.,"Montgomery, United States",,
+1956,Hungarian Revolution,conflict,Crushed by Soviet tanks.,"Budapest, Hungary",,
+1956,Suez Crisis,conflict,End of European imperialism.,"Suez, Egypt",,
+1957,Sputnik launched,invention,First artificial satellite; Space Age begins.,"Baikonur, Kazakhstan",,
+1958,Integrated circuit,invention,Jack Kilby at Texas Instruments.,"Dallas, United States",Texas Instruments,
+1958,NASA founded,science,US response to Sputnik.,"Washington, United States",,
+1959,Cuban Revolution,politics,Castro takes power.,"Havana, Cuba",,
+1960,Birth control pill approved,science,FDA approves Enovid.,"Washington, United States",the FDA,
+1961,Berlin Wall built,politics,Division of Germany formalized.,"Berlin, Germany",,
+1961,Gagarin in space,exploration,First human in orbit.,"Baikonur, Kazakhstan",the launch; the orbit is the earth,
+1962,Cuban Missile Crisis,conflict,World on brink of nuclear war.,Cuba,,
+1963,I Have a Dream speech,politics,MLK at the March on Washington.,"Washington, United States",the Lincoln Memorial,
+1963,Kennedy assassinated,politics,"Dallas, Texas.","Dallas, United States",,
+1964,Civil Rights Act,law,US bans racial discrimination.,"Washington, United States",,
+1965,US troops to Vietnam,conflict,Major escalation begins.,Vietnam,,
+1965,Voting Rights Act,law,US protects minority voting.,"Washington, United States",,
+1967,First heart transplant,science,Christiaan Barnard in South Africa.,"Cape Town, South Africa",Groote Schuur,
+1967,Six-Day War,conflict,Israel vs Arab neighbors.,Israel,,
+1968,Apollo 8 orbits Moon,exploration,Earthrise photograph.,"Cape Canaveral, United States",the launch; the event is at the Moon,
+1968,MLK assassinated,politics,"Memphis, Tennessee.","Memphis, United States","Memphis, Tennessee",
+1968,Prague Spring,politics,Crushed by Warsaw Pact invasion.,"Prague, Czechia",,
+1969,Apollo 11 moon landing,invention,Armstrong walks on the moon.,,the event is on the Moon; the launch was at Cape Canaveral,
+1970,First Earth Day,culture,Environmental movement crystallizes.,United States,,
+1971,Microprocessor invented,invention,Intel 4004.,"Santa Clara, United States",Intel,
+1972,Nixon visits China,politics,US-China rapprochement.,"Beijing, China",,
+1972,Watergate break-in,politics,Scandal that brings down Nixon.,"Washington, United States",,
+1973,OPEC oil embargo,economics,Energy crisis hits the West.,Western Asia,,
+1973,Roe v. Wade,law,US Supreme Court on abortion.,"Washington, United States",the Supreme Court,
+1974,Nixon resigns,politics,First US president to resign.,"Washington, United States",,
+1975,Fall of Saigon,conflict,Vietnam War ends.,"Ho Chi Minh City, Vietnam",,2
+1975,Microsoft founded,commerce,Gates and Allen.,"Albuquerque, United States","founded at Albuquerque, not Redmond",
+1976,Apple founded,commerce,Jobs and Wozniak.,"Cupertino, United States",Los Altos garage; Cupertino is the seat,
+1977,First Star Wars film,culture,Blockbuster era begins.,"Los Angeles, United States",the premiere,
+1978,First test-tube baby,science,Louise Brown via IVF.,"Oldham, England",,
+1979,Iranian Revolution,politics,Khomeini overthrows Shah.,"Tehran, Iran",,
+1979,Soviet invasion of Afghanistan,conflict,Decade-long quagmire begins.,Afghanistan,,
+1979,Three Mile Island accident,disaster,US nuclear scare.,"Harrisburg, United States",,
+1980,CNN launched,culture,First 24-hour news network.,"Atlanta, United States",,
+1981,AIDS first identified,disaster,Beginning of the epidemic.,,"identified in Los Angeles and New York at once; the epidemic began elsewhere, earlier",
+1981,IBM PC released,invention,Personal computing standardized.,"Boca Raton, United States",,
+1981,Reagan assassination attempt,politics,Hinckley shoots the President.,"Washington, United States",,
+1982,Falklands War,conflict,UK vs Argentina.,Falkland Islands,,
+1984,Apple Macintosh,invention,GUI for the masses.,"Cupertino, United States",,
+1984,Bhopal disaster,disaster,Union Carbide gas leak in India.,"Bhopal, India",,
+1985,Gorbachev becomes Soviet leader,politics,Glasnost and perestroika begin.,"Moscow, Russia",,
+1986,Challenger explosion,disaster,Space Shuttle disaster.,"Cape Canaveral, United States",,
+1986,Chernobyl disaster,disaster,Worst nuclear accident.,"Chernobyl, Ukraine",,
+1986,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
+1987,Tear down this wall speech,politics,Reagan at Brandenburg Gate.,"Berlin, Germany",the Brandenburg Gate,
+1988,Iran-Iraq War ends,conflict,Eight-year war concludes.,"Baghdad, Iraq",a ceasefire accepted; the war was a border eight years long,
+1989,Fall of Berlin Wall,politics,End of the Cold War era.,"Berlin, Germany",,2
+1989,Tiananmen Square protests,politics,Chinese government crackdown.,"Beijing, China",,
+1990,Gulf War,conflict,Iraq invades Kuwait; US-led coalition responds.,Kuwait,,
+1990,Hubble telescope launched,science,Space-based observatory.,"Cape Canaveral, United States",the launch; the telescope is in orbit,
+1990,Mandela released,politics,After 27 years in prison.,"Cape Town, South Africa","Victor Verster, near Paarl",
+1991,Soviet Union dissolved,politics,15 successor states.,"Moscow, Russia",,
+1991,World Wide Web public,invention,Tim Berners-Lee releases WWW.,"Geneva, Switzerland",CERN,open
+1992,Maastricht Treaty,politics,European Union founded.,"Maastricht, Netherlands",,
+1993,World Trade Center bombing,conflict,First attack on the towers.,"New York City, United States",,
+1994,Mandela elected President,politics,First democratic election in South Africa.,South Africa,a national election,
+1994,Rwandan Genocide,disaster,"800,000 killed in 100 days.",Rwanda,,
+1995,Dayton Accords,politics,End of Bosnian War.,"Dayton, United States","negotiated at Dayton, signed in Paris",
+1995,Oklahoma City bombing,conflict,McVeigh's domestic terror attack.,"Oklahoma City, United States",,
+1996,Dolly the sheep cloned,science,First mammal cloned from adult cell.,"Edinburgh, Scotland",the Roslin Institute,
+1997,Hong Kong handover,politics,British colony returns to China.,Hong Kong,,
+1998,Good Friday Agreement,politics,Peace in Northern Ireland.,"Belfast, United Kingdom",,
+1998,Google founded,commerce,Page and Brin at Stanford.,"Menlo Park, United States",a Menlo Park garage,
+1999,Columbine school shooting,conflict,Modern era of US school shootings.,"Littleton, United States",,
+1999,Euro currency introduced,economics,European single currency.,Europe,,
+2000,Y2K transition,culture,Feared computer disaster averted.,,"a date, everywhere at once — the one event with no geography at all",
+2001,9/11 attacks,conflict,"World Trade Center, Pentagon.","New York City, United States",,2
+2001,Wikipedia launched,culture,Free online encyclopedia.,"San Diego, United States",,
+2002,Euro physical currency,economics,Euro notes and coins circulate.,Europe,,
+2003,Human Genome sequenced,science,Complete reference genome.,,sequenced by a consortium across six countries at once,
+2003,Iraq War begins,conflict,US-led invasion to topple Saddam.,Iraq,,
+2003,Space Shuttle Columbia,disaster,Lost during re-entry.,,"broke up over Texas on re-entry — a path across two states, not a point",
+2004,Facebook launched,commerce,Social media transforms communication.,"Cambridge, United States",Harvard,
+2004,Indian Ocean tsunami,disaster,"230,000 dead across 14 countries.",Southeast Asia,the epicentre is off Sumatra; the disaster is fourteen countries,
+2005,Hurricane Katrina,disaster,New Orleans devastated.,"New Orleans, United States",,
+2005,YouTube launched,culture,Video sharing transforms media.,"San Mateo, United States",,
+2006,Twitter launched,culture,Microblogging emerges.,"San Francisco, United States",,
+2007,iPhone introduced,invention,Mobile computing era begins.,"San Francisco, United States",Macworld,
+2007,iPhone introduced (initial),invention,Smartphone era begins.,"San Francisco, United States",a duplicate row of the one above,
+2008,Global Financial Crisis,economics,Lehman collapse.,"New York City, United States",Lehman; the crisis was global,
+2008,Obama elected,politics,First African-American US president.,United States,a national election,
+2009,Bitcoin genesis block,invention,First cryptocurrency launched.,,no place; the network has no location and its author no name,
+2010,Arab Spring begins,politics,Tunisian Revolution sparks regional uprisings.,"Tunis, Tunisia",Sidi Bouzid; the spring is a region,
+2010,Deepwater Horizon spill,disaster,Largest marine oil spill in history.,,a wellhead in the Gulf of Mexico — at sea again,
+2011,Death of bin Laden,conflict,US Navy SEAL raid in Pakistan.,"Abbottabad, Pakistan",,
+2011,Fukushima disaster,disaster,Nuclear meltdown after tsunami.,"Fukushima, Japan",,
+2011,Syrian Civil War begins,conflict,Long and devastating conflict.,Syria,,
+2012,Higgs boson discovered,science,CERN announces discovery.,"Geneva, Switzerland",CERN,
+2013,Snowden revelations,politics,NSA surveillance exposed.,Hong Kong,where the documents were handed over,
+2014,Ebola outbreak West Africa,disaster,Largest Ebola epidemic in history.,West Africa,,
+2014,Russia annexes Crimea,conflict,First land grab in Europe since WWII.,Crimea,,
+2015,Paris Climate Agreement,politics,Global commitment to emissions.,"Paris, France",,
+2015,Same-sex marriage legalized US,law,Obergefell v. Hodges.,"Washington, United States","Obergefell, the Supreme Court",
+2016,Brexit referendum,politics,UK votes to leave EU.,United Kingdom,a national referendum,
+2016,Trump elected,politics,Disrupts US political establishment.,United States,a national election,
+2017,Total solar eclipse US,science,Path of totality across America.,,"a path of totality 4,000 km long — a line, not a point",
+2018,CRISPR-edited babies,science,He Jiankui announces genetically modified twins.,"Shenzhen, China",,
+2019,Hong Kong protests,politics,Massive demonstrations for democracy.,Hong Kong,,
+2020,COVID-19 pandemic,disaster,Global lockdowns.,,"first identified at Wuhan; the pandemic is the world, and the origin is contested",
+2020,George Floyd protests,politics,Global Black Lives Matter mobilization.,"Minneapolis, United States",where it began; the protests were global,
+2021,January 6 Capitol attack,politics,US Capitol breached.,"Washington, United States",,
+2021,Taliban retake Afghanistan,conflict,US withdrawal; 20-year war ends.,"Kabul, Afghanistan",,
+2022,ChatGPT released,invention,Large-language-model era reaches public.,"San Francisco, United States",,
+2022,Queen Elizabeth II dies,politics,After 70-year reign.,"Balmoral, United Kingdom",,
+2022,Russia invades Ukraine,conflict,Largest European war since WWII.,Ukraine,,
+2023,GPT-4 released,invention,Multimodal AI reaches mainstream.,"San Francisco, United States",,
+2024,AI Nobel Prizes,science,Physics and Chemistry both for AI work.,"Stockholm, Sweden",,
+2024,US presidential election,politics,Trump returns to office.,United States,a national election,
+2061,Halley's Comet returns,comet,Perihelion of Halley’s Comet — seen and recorded across history.,,,
