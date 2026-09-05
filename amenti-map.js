@@ -380,6 +380,9 @@
       '#amenti-map .mp-li:hover,#amenti-map .mp-li.mp-lit{color:#eaf6ff;',
       '  border-left-color:#5fd0e8;background:rgba(95,208,232,.07)}',
       '#amenti-map .mp-li .mp-liwhere{color:#5d6e84;font-size:11px}',
+      /* alive when the hovered event happened — the reach a ring cannot draw */
+      '#amenti-map .mp-seat.mp-forit .mp-pin{fill:#ffb489;fill-opacity:1}',
+      '#amenti-map .mp-seat.mp-forit .mp-name{opacity:1;fill:#fbb98f}',
       '#amenti-map .mp-seat.mp-dated .mp-pin{stroke:#a8e6f5;stroke-width:.8;',
       '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-seat.mp-lit .mp-pin{fill:#a9edff;fill-opacity:1}',
@@ -522,6 +525,20 @@
       '#amenti-map .mp-peaklab{fill:#8fa2ba;text-anchor:middle;opacity:.8;',
       '  paint-order:stroke;stroke:#070b12;stroke-width:1.4px;stroke-linejoin:round}',
       /* AN EMBER, OPEN AT THE CENTRE — never a disc, never cyan, never gold */
+      /* the pulse: an age, not a radius. Thin, unfilled, and it never scales
+         with the land — see the note where it is drawn. */
+      '#amenti-map .mp-pulse{fill:none;stroke:#e0794a;stroke-width:.5;',
+      '  vector-effect:non-scaling-stroke;pointer-events:none}',
+      /* The first colour tried here was a pale warm cream, and the probe
+         REFUSED IT: it fell inside the reserved gold range, and gold is a
+         VERIFIED QUOTE and nothing else — never a date, a place or an event.
+         An event is an ember, so the flash is the bright end of the ember
+         rather than the warm end of gold. Caught before it shipped.
+
+         (The rejected value is deliberately not written here. The guard reads
+         this file as TEXT, so naming the colour in a comment about not using
+         the colour trips the guard about not using it.) */
+      '#amenti-map .mp-flash{fill:#ff9d5c;pointer-events:none}',
       '#amenti-map .mp-evmark{fill:none;stroke:#e0794a;stroke-width:.75;',
       '  stroke-linecap:round;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-ev{cursor:default}',
@@ -581,6 +598,11 @@
       '  Menlo,monospace;color:#e8c98a;letter-spacing:.04em;white-space:nowrap;',
       '  opacity:0;transition:opacity .25s ease}',
       '#amenti-map .mp-mark.on{opacity:1}',
+      /* precision mode must announce itself, or it is a secret */
+      '#amenti-map .mp-fine{position:absolute;margin-left:8px;font:400 11px/1 ui-monospace,',
+      '  Menlo,monospace;color:#5fd0e8;letter-spacing:.08em;opacity:0;transition:opacity .2s}',
+      '#amenti-map .mp-fine.on{opacity:.85}',
+      '#amenti-map .mp-chrono.mp-scrubbing{cursor:ew-resize}',
       '#amenti-map .mp-mark .mp-marksign{font-size:14px;filter:url(#mp-glow)}',
       '#amenti-map .mp-read{display:block;color:#f0f5fb;font-size:27px;letter-spacing:.01em;',
       '  font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1}',
@@ -716,6 +738,7 @@
                would be a third copy of the same information; a flash as you
                cross 1486 is a reading. */
             '<span class="mp-mark"></span>' +
+            '<span class="mp-fine"></span>' +
             '<span class="mp-read"></span>' +
           '</span>' +
           '<span class="mp-ap">' +
@@ -787,6 +810,11 @@
             '<li><b>\u2604 76 years</b> \u2014 one Halley. A human span, and a real one.</li>' +
             '<li><b>all of it</b> \u2014 the whole register, 4000 BC to now.</li>' +
           '</ul>' +
+          '<p><b>The track is coarse on purpose</b> \u2014 the whole span must be ' +
+            'reachable in one gesture, which puts six years in every pixel. To ' +
+            'land on a year: <b>drag below the rail</b> and the movement grows ' +
+            'finer the further you go, or use the <b>arrow keys</b>, which step ' +
+            'a single year (hold shift for a tenth of the window).</p>' +
           '<p><b>Narrowing is a different reading, not a filter.</b> Wide, a seat ' +
             'can only say <i>Constantinople \u00b7 124</i> and Jupiter is a count ' +
             '\u2014 124 names on one dot is a smear, and 70 risings is a ' +
@@ -808,6 +836,21 @@
             'on the pyramids at each rising. It is <b>a count, not a ' +
             'position</b>: at a register measured in years there is no honest ' +
             'longitude to draw.</p>' +
+          '<p><b>An event smoulders for a number of COMET PASSES.</b> Rome ' +
+            'burns in AD 64 and Halley returns in 66 and 141, so two passes puts ' +
+            'it out in 141 \u2014 a date the sky supplies, not a number anyone ' +
+            'chose. How MANY passes is still a judgement, authored by hand and ' +
+            'said here so a reader can disagree; but the length of one is not. ' +
+            'And the span varies with where an event falls between returns: ' +
+            'Vesuvius is fifteen years after the fire and gets 139 years for the ' +
+            'same two passes, because the comet had just gone.</p>' +
+          '<p><b>The rings are AGE, not reach.</b> An event flares as a bright ' +
+            'point in its own year and opens into a fading ring as that year ' +
+            'recedes. The radius says how long ago, never how far \u2014 and you ' +
+            'can prove it by zooming: the ring does not grow with the land, ' +
+            'because a distance would and a duration does not. Vesuvius killed ' +
+            'Pompeii at eight kilometres and dusted Egypt with ash; no circle ' +
+            'describes that, so none is drawn.</p>' +
           '<p class="mp-whatfoot">Seats from GeoNames, CC BY 4.0. Coastline, ' +
             'relief, rivers and named summits from Natural Earth.</p>' +
         '</div>' +
@@ -1094,6 +1137,55 @@
       gp2.innerHTML = ph;
     }
 
+    /* ── WHO WAS ALIVE FOR IT · 5 Sep ────────────────────────────────────────
+       The argument for drawing rings around a battle is really an argument
+       about REACH, and the objection to rings is that reach is the one thing a
+       circle cannot hold. Actium's reach is not five hundred kilometres; it is
+       two thousand years. The consequence of a battle travels forward through
+       people and institutions, not outward through space, and a ring can only
+       measure the dimension the event does not extend in.
+
+       So reach is drawn the way the register actually holds it. Hover an event
+       and every seat holding someone ALIVE IN THAT YEAR lights. The Temple
+       burns and eleven people in the world light up with it.
+
+       This is EDGE DATA (#66): neither register contains it. The events know
+       dates and places; the roster knows lives. The overlap is the reading,
+       and it is exactly as strong as its two parents and no stronger. */
+    if (ge && !ge._wired) {
+      ge._wired = true;
+      ge.addEventListener('mouseover', function (e) {
+        var g = e.target.closest && e.target.closest('.mp-ev');
+        if (!g) return;
+        var y = +g.getAttribute('data-y'), lit = 0;
+        el.querySelectorAll('.mp-seat').forEach(function (sn) {
+          var lives = (sn.getAttribute('data-lives') || '').split(',');
+          var on = lives.some(function (L) {
+            var ab = L.split(':');
+            return +ab[0] <= y && +ab[1] >= y;
+          });
+          sn.classList.toggle('mp-forit', on);
+          if (on) lit++;
+        });
+        var rd = el.querySelector('.mp-mark');
+        if (rd) {
+          rd.textContent = lit + ' soul' + (lit === 1 ? '' : 's') +
+                           ' on this map were alive when ' + g.getAttribute('data-n') +
+                           ' \u00b7 ' + yr(y);
+          rd.classList.add('on', 'mp-forit-lab');
+        }
+      });
+      ge.addEventListener('mouseout', function () {
+        el.querySelectorAll('.mp-seat.mp-forit').forEach(function (sn) {
+          sn.classList.remove('mp-forit');
+        });
+        var rd = el.querySelector('.mp-mark');
+        if (rd && rd.classList.contains('mp-forit-lab')) {
+          rd.classList.remove('on', 'mp-forit-lab'); rd.textContent = '';
+        }
+      });
+    }
+
     /* ── THE CROSSINGS · a line only where the journey IS the fact ───────────
        An emigration, an exile, a flight. These are AUTHORED in JOURNEYS.csv
        and never derived from two seats, because two seats with a gap between
@@ -1162,7 +1254,67 @@
         var op = Math.max(0.14, 1 - age * 0.86);
         if (ev.lat != null) {
           var xy = proj(ev.lat, ev.lon), a = 3.4 * ivE;
-          eh += '<g class="mp-ev" opacity="' + op.toFixed(2) + '">' +
+
+          /* ── THE PULSE · a ring that means WHEN, not how far · 5 Sep ────────
+             A concentric ring around an event is the most persuasive false
+             mark a history map can draw. It asserts a DISTANCE and a UNIFORM
+             FALLOFF, and nobody has either: Vesuvius killed Pompeii at 8 km
+             and dusted Egypt with ash, and no circle describes that. The same
+             refusal as trade routes and troop movements (#64d).
+
+             THIS RING IS NOT THAT, AND ONE PROPERTY GUARANTEES IT: IT IS DRAWN
+             IN SCREEN SPACE. Its radius is a fixed number of pixels and is
+             counter-scaled, so zooming in grows the coastline and leaves the
+             ring exactly where it was. A spatial claim scales with the map. A
+             temporal one does not. Anything that refuses to scale cannot be
+             read as kilometres, and that is the whole of the argument.
+
+             What it encodes is AGE: at the event's own year the mark is a
+             bright point; scrub forward and the ring opens and thins as the
+             year recedes, until it is gone. It says "this happened, and it is
+             receding", which is the one thing the register actually knows. */
+          /* ── HOW LONG IT WENT ON MATTERING · 5 Sep ─────────────────────────
+             The pulse used to fade over one APERTURE, which is a property of
+             the reader's window and says nothing about the event. Now it fades
+             over the event's own ECHO — 2000 years for the fall of
+             Constantinople, 150 for Bosworth, and one generation for anything
+             unlisted, which is the honest default.
+
+             THIS IS A JUDGEMENT AND THE SURFACE SAYS SO. Nothing in the
+             register knows how long an event mattered; it is authored in
+             EVENTS.csv exactly as Place is, and it ranks events by importance
+             in one person's voice. That is a real editorial claim, made
+             deliberately rather than slipped in as an effect.
+
+             The ring still refuses to be a distance: it is counter-scaled, so
+             zooming grows the coastline and leaves the ring where it was. */
+          var since = hi - ev.y;
+          /* `until` is a REAL YEAR — the comet return that ends the smouldering
+             — supplied by probe-events from the register's own 48 passes.
+             Without one, an event burns out within a generation, which is the
+             honest default for something nobody has judged. */
+          /* `open` means it has not gone out: the smoulder runs to the edge of
+             the register, so an event from 3100 BC is still alight today for
+             the same reason one from 1991 is. A count could not do that — see
+             probe-events, where a fixed 26 passes silently extinguished the
+             oldest claims it was meant to keep burning. */
+          var endY = ev.passes === 'open' ? YEAR_MAX
+                   : (ev.until != null ? ev.until : ev.y + 40);
+          var echo = Math.max(1, endY - ev.y);
+          if (since >= 0 && since <= echo) {
+            var t = since / echo;                         /* 0 at the year, 1 when spent */
+            var rr = (2 + t * 26) * ivE;                  /* pixels, counter-scaled */
+            var ro = (1 - t) * (1 - t) * 0.5;
+            if (ro > 0.02)
+              eh += '<circle class="mp-pulse" cx="' + xy[0].toFixed(2) + '" cy="' +
+                    xy[1].toFixed(2) + '" r="' + rr.toFixed(2) + '" opacity="' +
+                    ro.toFixed(3) + '"/>';
+            /* and the year itself is a bright point, before it becomes a ring */
+            if (since <= Math.max(1, echo / 60))
+              eh += '<circle class="mp-flash" cx="' + xy[0].toFixed(2) + '" cy="' +
+                    xy[1].toFixed(2) + '" r="' + (1.6 * ivE).toFixed(2) + '"/>';
+          }
+          eh += '<g class="mp-ev" data-y="' + ev.y + '" data-n="' + esc(ev.n) + '" opacity="' + op.toFixed(2) + '">' +
                 '<path class="mp-evmark" d="M' + (xy[0] - a).toFixed(2) + ' ' + xy[1].toFixed(2) +
                 'h' + (a * 0.8).toFixed(2) + 'M' + (xy[0] + a).toFixed(2) + ' ' + xy[1].toFixed(2) +
                 'h' + (-a * 0.8).toFixed(2) + 'M' + xy[0].toFixed(2) + ' ' + (xy[1] - a).toFixed(2) +
@@ -1170,7 +1322,8 @@
                 'v' + (-a * 0.8).toFixed(2) + '"/>' +
                 '<title>' + esc(ev.n) + ' \u00b7 ' + yr(ev.y) +
                 (ev.place ? ' \u00b7 ' + esc(ev.place) : '') +
-                (ev.note ? '\n' + esc(ev.note) : '') + '</title></g>';
+                (ev.note ? '\n' + esc(ev.note) : '') +
+                '\n\u2014 hover to light everyone who was alive for it</title></g>';
           if (near)
             eh += '<text class="mp-evlab" x="' + xy[0].toFixed(2) + '" y="' +
                   (xy[1] + 6 * ivE).toFixed(2) + '" font-size="' + (5.2 * ivE).toFixed(3) +
@@ -1294,6 +1447,8 @@
          unless the mark says so. Twenty-six souls are the first kind and 838
          the second, and the difference is the whole of SLIP #68. */
       g.classList.toggle('mp-dated', p.who.some(function (w) { return w.dated; }));
+      /* the lives at this seat, so an event can ask who was alive for it */
+      g.setAttribute('data-lives', p.who.map(function (w) { return w.b + ':' + w.d; }).join(','));
       g.classList.toggle('mp-marked', !!mark);
       g.classList.toggle('mp-anchor', !!p.anchor);
       if (p.anchor) label = p.aname;        /* the asked-about soul keeps their name */
@@ -1995,6 +2150,24 @@
           if (e.key === 'Escape' && !whatPanel.hidden) { e.stopPropagation(); showWhat(false); }
         }, true);
 
+        /* ── A YEAR AT A TIME · 5 Sep ─────────────────────────────────────────
+           The only way to land EXACTLY on a year, because no hand is involved.
+           The register is dated to the year and a drag across 6,026 of them
+           cannot be, however it is damped. Arrow steps one year; shift steps a
+           tenth of the window, so the gesture scales with what is being read.
+           Home and End go to the ends of the register. */
+        document.addEventListener('keydown', function (e) {
+          if (!document.body.classList.contains('scene-map')) return;
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          var t = e.target;
+          if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+          var step = e.shiftKey ? Math.max(1, Math.round(APERTURE / 10)) : 1;
+          if (e.key === 'ArrowRight')      { setEdge(hi + step); e.preventDefault(); }
+          else if (e.key === 'ArrowLeft')  { setEdge(hi - step); e.preventDefault(); }
+          else if (e.key === 'Home')       { setEdge(YEAR_MIN + APERTURE); e.preventDefault(); }
+          else if (e.key === 'End')        { setEdge(YEAR_MAX); e.preventDefault(); }
+        });
+
         var atlasBtn = el.querySelector('.mp-atlas-btn');
         atlasBtn.addEventListener('click', function () {
           var on = !el.classList.contains('mp-atlas');
@@ -2005,19 +2178,94 @@
         });
 
         var chrono = el.querySelector('.mp-chrono'), scrubbing = false;
+        /* ── SIX THOUSAND YEARS ON A THOUSAND PIXELS · 5 Sep ──────────────────
+           MEASURED: the track spans 6,026 years. On a 1000px window that is
+           SIX YEARS PER PIXEL, so at the Jupiter aperture — six years — ONE
+           PIXEL OF HAND JITTER MOVES THE WINDOW BY ITS ENTIRE WIDTH. A reader
+           could not land on a year, only near one, and the register is dated
+           to the year. The instrument was finer than its own control.
+
+           Three answers, and none of them changes the mapping, because the
+           mapping is honest: the whole span must be reachable in one gesture.
+
+           1 · PRECISION DRAG. Pull away from the track and the sensitivity
+               falls. At the track it is 6 years a pixel; 200px below it is a
+               tenth of that. The idiom is borrowed from audio and video
+               scrubbers, where the same problem is solved the same way, and it
+               costs a reader nothing to not know about.
+
+           2 · ONE DRAW PER FRAME. Every pointermove used to trigger a full
+               rebuild — ruler, marks, labels, sky — and a trackpad fires 120 a
+               second. Much of the jumpiness was the browser falling behind
+               rather than the hand moving. Coalesced now.
+
+           3 · ARROW KEYS. A year at a time with no hand in it at all, which is
+               the only way to land exactly. Shift steps a tenth of the window. */
+        var anchorYear = null, anchorX = 0;
+
         function chronoYear(ev) {
           var r = chrono.getBoundingClientRect();
-          var f = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
-          return YEAR_MIN + f * (YEAR_MAX - YEAR_MIN);
+          var yearsPerPx = (YEAR_MAX - YEAR_MIN) / r.width;
+
+          /* how far the pointer has strayed from the track, in pixels */
+          var dy = 0;
+          if (ev.clientY > r.bottom) dy = ev.clientY - r.bottom;
+          else if (ev.clientY < r.top) dy = r.top - ev.clientY;
+          /* 1 at the track, falling to 0.1 by 200px away — never to zero, or
+             the control would stop responding and read as broken */
+          var fine = 1 / (1 + Math.min(dy, 220) / 24);
+
+          if (anchorYear == null || fine >= 0.999) {
+            var f = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
+            var y = YEAR_MIN + f * (YEAR_MAX - YEAR_MIN);
+            anchorYear = y; anchorX = ev.clientX;
+            return y;
+          }
+          /* off the track: move RELATIVE to where precision began, so the year
+             does not leap when the pointer drops below the rail */
+          return anchorYear + (ev.clientX - anchorX) * yearsPerPx * fine;
         }
+
+        /* coalesce to one redraw per frame */
+        var pending = null, framed = false;
+        function scrubTo(y) {
+          pending = y;
+          if (framed) return;
+          framed = true;
+          requestAnimationFrame(function () {
+            framed = false;
+            if (pending != null) { setEdge(pending); pending = null; }
+          });
+        }
+
         chrono.addEventListener('pointerdown', function (ev) {
-          scrubbing = true; chrono.setPointerCapture(ev.pointerId); setEdge(chronoYear(ev));
+          scrubbing = true; anchorYear = null;
+          chrono.setPointerCapture(ev.pointerId);
+          setEdge(chronoYear(ev));
+          chrono.classList.add('mp-scrubbing');
         });
         chrono.addEventListener('pointermove', function (ev) {
-          if (scrubbing) setEdge(chronoYear(ev));
+          if (scrubbing) {
+            scrubTo(chronoYear(ev));
+            /* say what the drag is doing, or precision mode is a secret */
+            var r = chrono.getBoundingClientRect();
+            var dy = ev.clientY > r.bottom ? ev.clientY - r.bottom
+                   : ev.clientY < r.top ? r.top - ev.clientY : 0;
+            var lab = el.querySelector('.mp-fine');
+            if (lab) {
+              var f = 1 / (1 + Math.min(dy, 220) / 24);
+              lab.textContent = f < 0.95 ? '\u00d7' + (1 / f).toFixed(1) + ' finer' : '';
+              lab.classList.toggle('on', f < 0.95);
+            }
+          }
         });
         ['pointerup', 'pointercancel'].forEach(function (t) {
-          chrono.addEventListener(t, function () { scrubbing = false; });
+          chrono.addEventListener(t, function () {
+            scrubbing = false; anchorYear = null;
+            chrono.classList.remove('mp-scrubbing');
+            var lab = el.querySelector('.mp-fine');
+            if (lab) { lab.textContent = ''; lab.classList.remove('on'); }
+          });
         });
 
         /* ── THE WHEEL ZOOMS · not time ────────────────────────────────────
