@@ -280,6 +280,29 @@
       '  stroke-width:.35;cursor:pointer;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-land{vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-grat{vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-what-btn{font:400 11.5px/1 ui-monospace,Menlo,monospace;',
+      '  color:#7d8ea6;background:transparent;border:1px solid #23303f;border-radius:3px;',
+      '  padding:5px 10px;cursor:pointer;letter-spacing:.06em}',
+      '#amenti-map .mp-what-btn:hover{color:#c3d3e6;border-color:#33637a}',
+      '#amenti-map .mp-what-btn[aria-expanded="true"]{color:#0a1018;background:#8fa8c4;',
+      '  border-color:#8fa8c4}',
+      '#amenti-map .mp-what{position:absolute;inset:64px 26px 142px 26px;z-index:8;',
+      '  background:rgba(6,8,14,.97);border:1px solid #23303f;border-radius:5px;',
+      '  padding:26px 30px;display:grid;grid-template-columns:repeat(3,1fr);gap:0 34px;',
+      '  overflow-y:auto}',
+      '#amenti-map .mp-what[hidden]{display:none}',
+      '#amenti-map .mp-what h3{margin:0 0 10px;font:400 11px/1 ui-monospace,Menlo,monospace;',
+      '  letter-spacing:.16em;color:#5fd0e8;padding-bottom:8px;border-bottom:1px solid #1e2836}',
+      '#amenti-map .mp-what p{margin:0 0 11px;font:400 13px/1.6 ui-monospace,Menlo,monospace;',
+      '  color:#9fb1c7;max-width:46ch}',
+      '#amenti-map .mp-what b{color:#dbe4f0;font-weight:400}',
+      '#amenti-map .mp-what i{color:#9fb1c7}',
+      '#amenti-map .mp-what ul{margin:0 0 11px;padding-left:16px}',
+      '#amenti-map .mp-what li{font:400 13px/1.55 ui-monospace,Menlo,monospace;',
+      '  color:#9fb1c7;margin-bottom:5px}',
+      '#amenti-map .mp-whatfoot{color:#5d6e84 !important;font-size:11.5px !important;',
+      '  border-top:1px solid #1e2836;padding-top:10px;margin-top:14px}',
+      '@media (max-width:1100px){#amenti-map .mp-what{grid-template-columns:1fr}}',
       '#amenti-map .mp-zoomctl{position:absolute;right:26px;bottom:150px;z-index:6;',
       '  display:flex;flex-direction:column;gap:1px;background:#23303f;',
       '  border:1px solid #23303f;border-radius:4px;overflow:hidden}',
@@ -524,6 +547,18 @@
                and the worse instrument, so it is a CHOICE rather than the
                state a reader is dropped into. */
             '<button type="button" class="mp-atlas-btn" aria-pressed="false">atlas</button>' +
+            /* ── THE SURFACE EXPLAINS ITSELF · 4 Sep ──────────────────────────
+               Every mark here is deliberate and none of it was stated. A
+               reader watching a seat stop saying "Constantinople · 124" and
+               start naming people had no way to learn that narrowing is a
+               DIFFERENT READING rather than a filter; the legend covers four
+               marks and the doctrine behind them was invisible.
+
+               One panel, not a tooltip per control. A tooltip can say "42
+               years"; only a panel can say why the ladder is planetary at
+               all. */
+            '<button type="button" class="mp-what-btn" aria-expanded="false">' +
+              'what you are looking at</button>' +
           '</div>' +
           '<div class="mp-key">' +
             '<span><i class="k-pin"></i>a seat \u2014 here</span>' +
@@ -600,6 +635,58 @@
                 '<div class="mp-zoom">drag the years below to travel \u00b7 scroll or use \u2212 / + to zoom \u00b7 drag to move \u00b7 double-click to fit</div>' +
       '</div>' +
       '<div class="mp-hit"></div><div class="mp-zoomlab"></div>' +
+      '<div class="mp-what" hidden>' +
+        '<div class="mp-whatcol">' +
+          '<h3>the marks</h3>' +
+          '<p><b>a seat</b> — a dot. The record supports a point: a city, a ' +
+            'named place. One seat can hold many souls; Constantinople holds 124.</p>' +
+          '<p><b>a territory</b> — a soft area, never a dot. The record says ' +
+            'only <i>somewhere in here</i>. The commonest value in the roster is ' +
+            '\u201cSouthern Europe\u201d, a continent, held by 334 souls \u2014 ' +
+            'drawn as a pin it would be the biggest lie on the page, and the ' +
+            'one told most often.</p>' +
+          '<p><b>nothing</b> — some souls are not drawn, and the footer counts ' +
+            'them. A place that cannot be found is reported, never guessed.</p>' +
+        '</div>' +
+        '<div class="mp-whatcol">' +
+          '<h3>the aperture</h3>' +
+          '<p>The window is how much time you are holding. The five settings are ' +
+            'not round numbers \u2014 they are periods measured out of the sky ' +
+            'register itself:</p>' +
+          '<ul>' +
+            '<li><b>\u2643 6 years</b> \u2014 Jupiter rises due east over Giza. ' +
+              '830 of them, 5 to 7 years apart.</li>' +
+            '<li><b>\u2643\u2644 20 years</b> \u2014 one great conjunction. 248, ' +
+              '18 to 21 apart.</li>' +
+            '<li><b>\u2645 42 years</b> \u2014 one turn of Uranus.</li>' +
+            '<li><b>\u2604 76 years</b> \u2014 one Halley. A human span, and a real one.</li>' +
+            '<li><b>all of it</b> \u2014 the whole register, 4000 BC to now.</li>' +
+          '</ul>' +
+          '<p><b>Narrowing is a different reading, not a filter.</b> Wide, a seat ' +
+            'can only say <i>Constantinople \u00b7 124</i> and Jupiter is a count ' +
+            '\u2014 124 names on one dot is a smear, and 70 risings is a ' +
+            'metronome. Close in and the same seat names its souls, and every ' +
+            'rising gets its own sign and year.</p>' +
+        '</div>' +
+        '<div class="mp-whatcol">' +
+          '<h3>the sky</h3>' +
+          '<p>The band along the top is <b>not the earth</b>. It is where a sky ' +
+            'event with no place can sit without claiming one.</p>' +
+          '<p>The amber diamond <b>is</b> on the earth, at Giza \u2014 but it ' +
+            'marks the <b>observer, not the event</b>. The risings and ' +
+            'conjunctions were computed there, so that is the one honest ' +
+            'coordinate for them.</p>' +
+          '<p>Halley sits in the band instead, because a comet is seen from the ' +
+            'whole earth and pinning it anywhere would invent a precision ' +
+            'nobody has.</p>' +
+          '<p>Jupiter\u2019s dashed line runs along Giza\u2019s latitude and closes ' +
+            'on the pyramids at each rising. It is <b>a count, not a ' +
+            'position</b>: at a register measured in years there is no honest ' +
+            'longitude to draw.</p>' +
+          '<p class="mp-whatfoot">Seats from GeoNames, CC BY 4.0. Coastline, ' +
+            'relief, rivers and named summits from Natural Earth.</p>' +
+        '</div>' +
+      '</div>' +
       /* ── ZOOM THAT DOES NOT DEPEND ON A WHEEL · 4 Sep ──────────────────────
          The wheel was reported dead twice and fixed twice on theory. A gesture
          that cannot be seen cannot be checked by a reader, and a surface whose
@@ -1217,8 +1304,16 @@
                  ' gathering(s) of ' + lastSky + ' computed at giza' : '') +
       (lastHalley ? ' \u00b7 ' + lastHalley + ' halley return(s), seen from everywhere' : '') +
       ' \u00b7 ' +
-      (t.silent + t.unplaced) + ' of ' + t.souls + ' carry no place this map can honestly draw ' +
-      '(' + t.silent + ' myth or unrecorded, ' + t.unplaced + ' named but unresolved) \u2014 they are not on it. ' +
+      /* TWO FACTS, NOT ONE BLURRED NUMBER. 204 of these will never be drawn:
+         188 were never recorded and 9 are not on this earth — Asgard, Eden,
+         the primordial sea. The other 228 name a real place nothing could
+         resolve, mostly ancient seats no modern gazetteer holds, and those
+         are a BACKLOG rather than a silence. Reported as one figure of 432,
+         the difference between "there is nothing to know" and "we have not
+         looked it up yet" disappears. */
+      t.silent + ' have no place on earth (' + (t.silent - 9) + ' unrecorded, 9 mythic) \u00b7 ' +
+      t.unplaced + ' name a place nothing could resolve \u2014 those can be found. ' +
+      'Neither is drawn. ' +
       'Seats from GeoNames (CC BY 4.0); ' +
       (el.classList.contains('mp-atlas')
         ? 'coastline, relief, rivers and peaks from Natural Earth.'
@@ -1502,6 +1597,21 @@
           litKey = key;
           if (litKey) lightSeat(litKey, true);
         });
+
+        var whatBtn = el.querySelector('.mp-what-btn'), whatPanel = el.querySelector('.mp-what');
+        function showWhat(on) {
+          whatPanel.hidden = !on;
+          whatBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+        }
+        whatBtn.addEventListener('click', function (ev) {
+          ev.stopPropagation();
+          showWhat(whatPanel.hidden);
+        });
+        /* Escape closes the panel before it closes the map — a reader pressing
+           it means the thing most recently opened. */
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !whatPanel.hidden) { e.stopPropagation(); showWhat(false); }
+        }, true);
 
         var atlasBtn = el.querySelector('.mp-atlas-btn');
         atlasBtn.addEventListener('click', function () {
