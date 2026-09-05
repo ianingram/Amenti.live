@@ -1,0 +1,128 @@
+key,from,to,place,what,note
+# ============================================================================
+# SEATS.csv · WHERE A SOUL WAS, AND WHEN
+# ----------------------------------------------------------------------------
+# One row is one DATED POSITION. A soul may have several; most will have one or
+# none, and none is honest.
+#
+# ── WHY THIS IS NOT A COLUMN IN names.csv ────────────────────────────────────
+# Because a life is not a point. names.csv holds one Location per soul, and
+# measured on 5 Sep that column is THE BIRTHPLACE — nineteen of twenty
+# unambiguous figures. Newton in Lincolnshire, Einstein at Ulm, Marx at Trier,
+# Curie in Warsaw. Not one of them worked there. The map said "principal place
+# of activity" and drew where people were born (SLIP #68).
+#
+# A single Seat column would fix the label and still say nothing true about a
+# life: Einstein at Berlin is better than Einstein at Ulm and is still one
+# point standing for seventy-six years across four countries.
+#
+# ── AND WHY IT IS NOT A PATH ─────────────────────────────────────────────────
+# THESE ARE POSITIONS, NOT A ROUTE. A line drawn between two seats asserts a
+# journey — a direction, a date, a way taken — that the record does not hold.
+# That is the refusal standing since SLIP #64d against troop movements and
+# trade routes, and it applies to a person exactly as it applies to an army.
+# The map may show a soul AT a place in a year, and may never draw the line
+# between.
+#
+# ── THE COLUMNS ──────────────────────────────────────────────────────────────
+#   key    the soul's roster key, from ROSTER-INDEX.json
+#   from   the year the position begins. A BEST DATE, not a certainty.
+#   to     the year it ends. Blank means "until death".
+#   place  same vocabulary as Location: "City, Country" is a pin, a bare
+#          region is a wash. Verified by the probe, never invented.
+#   what   why they were there in one or two words — born · studied · worked ·
+#          ruled · exiled · died. It is the reason a reader can judge the claim.
+#   note   anything contested, and everything the dates paper over.
+#
+# ── THE ONE RULE ─────────────────────────────────────────────────────────────
+# A POSITION WITH NO DATE IS NOT A POSITION. If the year cannot be given even
+# roughly, the row does not belong here — it belongs in Location, which is
+# where undated places already live.
+#
+# Authored by hand. probes/probe-seats.mjs verifies every place resolves and
+# every span sits inside the soul's own life. It cannot invent one.
+# ============================================================================
+isaac-newton,1643,1661,"Woolsthorpe, England",born,"the manor; Lincolnshire in the roster"
+isaac-newton,1661,1696,"Cambridge, England",worked,"Trinity; the Principia years. Woolsthorpe 1665-67 during the plague — the annus mirabilis — is a real absence this row flattens"
+isaac-newton,1696,1727,"London, England",worked,"the Mint, then the Royal Society"
+albert-einstein,1879,1896,"Ulm, Germany",born,"the family left for Munich within a year; this row is thinner than it looks"
+albert-einstein,1902,1914,"Bern, Switzerland",worked,"the patent office; the 1905 papers"
+albert-einstein,1914,1933,"Berlin, Germany",worked,"the Prussian Academy; general relativity"
+albert-einstein,1933,1955,"Princeton, United States",worked,"the Institute for Advanced Study"
+karl-marx,1818,1843,"Trier, Germany",born,
+karl-marx,1843,1845,"Paris, France",worked,exiled
+karl-marx,1845,1849,"Brussels, Belgium",worked,"the Manifesto"
+karl-marx,1849,1883,"London, England",worked,"the British Museum; Capital"
+marie-curie,1867,1891,"Warsaw, Poland",born,"barred from university there"
+marie-curie,1891,1934,"Paris, France",worked,"the Sorbonne; the radium years"
+charles-darwin,1809,1825,"Shrewsbury, England",born,
+charles-darwin,1831,1832,"Plymouth, England",sailed,"the Beagle leaves 27 December 1831"
+charles-darwin,1832,1832,"Praia, Cape Verde",voyaged,"St Jago, the first landfall — his first geology"
+charles-darwin,1832,1833,"Rio de Janeiro, Brazil",voyaged,
+charles-darwin,1833,1834,"Ushuaia, Argentina",voyaged,"Tierra del Fuego"
+charles-darwin,1834,1835,"Valparaiso, Chile",voyaged,"and the Andes; he felt the Concepcion earthquake"
+charles-darwin,1835,1835,"Puerto Baquerizo Moreno, Ecuador",voyaged,"the Galapagos, September to October 1835"
+charles-darwin,1836,1836,"Sydney, Australia",voyaged,
+charles-darwin,1836,1837,"Falmouth, England",returned,"2 October 1836, after four years and nine months"
+charles-darwin,1842,1882,"Downe, England",worked,"Down House; the Origin"
+charles-dickens,1812,1822,"Portsmouth, England",born,"left as a small boy"
+charles-dickens,1822,1870,"London, England",worked,"the city is the subject as much as the address"
+wolfgang-amadeus-mozart,1756,1781,"Salzburg, Austria",born,"and served the archbishop"
+wolfgang-amadeus-mozart,1781,1791,"Vienna, Austria",worked,
+ludwig-van-beethoven,1770,1792,"Bonn, Germany",born,
+ludwig-van-beethoven,1792,1827,"Vienna, Austria",worked,
+sigmund-freud,1856,1860,"Pribor, Czechia",born,Freiberg
+sigmund-freud,1860,1938,"Vienna, Austria",worked,
+sigmund-freud,1938,1939,"London, England",exiled,"fled the Anschluss; died the next year"
+nikola-tesla,1856,1880,"Smiljan, Croatia",born,
+nikola-tesla,1884,1943,"New York City, United States",worked,
+galileo-galilei,1564,1592,"Pisa, Italy",born,and taught
+galileo-galilei,1592,1610,"Padua, Italy",worked,"the telescope; the moons of Jupiter"
+galileo-galilei,1610,1642,"Florence, Italy",worked,"court mathematician; the trial and the house arrest at Arcetri"
+leonardo-da-vinci,1452,1466,"Vinci, Italy",born,
+leonardo-da-vinci,1466,1482,"Florence, Italy",worked,Verrocchio's workshop
+leonardo-da-vinci,1482,1499,"Milan, Italy",worked,the Sforza court
+leonardo-da-vinci,1516,1519,"Amboise, France",worked,"the last three years, at the invitation of Francis I"
+adam-smith,1723,1737,"Kirkcaldy, Scotland",born,and later wrote there
+adam-smith,1751,1764,"Glasgow, Scotland",worked,the chair of moral philosophy
+adam-smith,1767,1776,"Kirkcaldy, Scotland",worked,"The Wealth of Nations was written here, published in London"
+johann-sebastian-bach,1685,1703,"Eisenach, Germany",born,
+johann-sebastian-bach,1708,1717,"Weimar, Germany",worked,
+johann-sebastian-bach,1717,1723,"Kothen, Germany",worked,the Brandenburgs
+johann-sebastian-bach,1723,1750,"Leipzig, Germany",worked,St Thomas
+vincent-van-gogh,1853,1869,"Zundert, Netherlands",born,
+vincent-van-gogh,1886,1888,"Paris, France",worked,
+vincent-van-gogh,1888,1889,"Arles, France",worked,"the year of most of the paintings anyone knows"
+vincent-van-gogh,1890,1890,"Auvers-sur-Oise, France",died,
+napoleon-bonaparte,1769,1779,"Ajaccio, France",born,Corsica
+napoleon-bonaparte,1799,1814,"Paris, France",ruled,
+napoleon-bonaparte,1815,1821,"Saint Helena",exiled,and died there
+thomas-aquinas,1225,1239,"Roccasecca, Italy",born,
+thomas-aquinas,1245,1259,"Paris, France",studied,under Albertus Magnus
+thomas-aquinas,1265,1274,"Naples, Italy",worked,the Summa
+christopher-columbus,1451,1476,"Genoa, Italy",born,
+christopher-columbus,1485,1491,"Cordoba, Spain",worked,"petitioning the crown — Andalusia, NOT Argentina"
+christopher-columbus,1492,1493,"Palos de la Frontera, Spain",sailed,"the departure and the return"
+constantine-the-great,272,306,"Nis, Serbia",born,Naissus
+constantine-the-great,324,337,"Constantinople",ruled,"the city he founded and named"
+justinian-i,482,527,"Tauresium",born,near modern Skopje
+justinian-i,527,565,"Constantinople",ruled,
+hadrian,76,117,"Santiponce, Spain",born,"Italica, near Seville"
+hadrian,117,138,"Rome, Italy",ruled,"and travelled the empire constantly — this row flattens that"
+catherine-the-great,1729,1744,"Szczecin, Poland",born,"Stettin, then Prussia"
+catherine-the-great,1762,1796,"Saint Petersburg, Russia",ruled,
+alexander-fleming,1881,1901,"Darvel, Scotland",born,
+alexander-fleming,1906,1955,"London, England",worked,"St Mary's, Paddington; the penicillin dish"
+john-locke,1632,1652,"Wrington, England",born,
+john-locke,1667,1683,"London, England",worked,
+john-locke,1683,1689,"Amsterdam, Netherlands",exiled,"where the Two Treatises took shape"
+michelangelo,1475,1488,"Caprese Michelangelo, Italy",born,
+michelangelo,1488,1505,"Florence, Italy",worked,the David
+michelangelo,1505,1564,"Rome, Italy",worked,"the Sistine ceiling; St Peter's"
+william-shakespeare,1564,1585,"Stratford-upon-Avon, England",born,
+william-shakespeare,1590,1613,"London, England",worked,the playhouses
+william-shakespeare,1613,1616,"Stratford-upon-Avon, England",worked,retired
+ayn-rand,1905,1926,"Saint Petersburg, Russia",born,"Petrograd, then Leningrad; she left at 21 and never returned"
+ayn-rand,1926,1926,"Chicago, United States",arrived,"with relatives, on a six-month visa she did not honour"
+ayn-rand,1926,1951,"Los Angeles, United States",worked,"the studios; The Fountainhead"
+ayn-rand,1951,1982,"New York City, United States",worked,"Atlas Shrugged and after"
