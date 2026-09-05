@@ -1,0 +1,44 @@
+key,year,from,to,what,note
+# ============================================================================
+# JOURNEYS.csv · A CROSSING THAT WAS ITSELF AN EVENT
+# ----------------------------------------------------------------------------
+# One row is one journey a soul made, where THE JOURNEY IS THE FACT — an
+# emigration, an exile, a voyage of discovery, a flight. Not every move.
+#
+# ── WHY THIS IS NOT DERIVED FROM SEATS.csv ───────────────────────────────────
+# Because two seats with a gap between them are not a journey. Newton at
+# Woolsthorpe and then at Cambridge does not mean he walked a line between them
+# on a particular day; it means the record places him in two places at two
+# times. Joining them with a line would INVENT the passage — the same
+# invention refused for troop movements and trade routes (SLIP #64d).
+#
+# An emigration is different. Rand leaving Petrograd in 1926 and arriving in
+# America IS the recorded fact: the crossing is the event, dated at both ends,
+# and drawing it asserts nothing the record does not already say.
+#
+#   A LINE MUST BE AUTHORED AS A JOURNEY, NEVER DERIVED FROM TWO SEATS.
+#
+# ── AND IT IS A CONNECTOR, NOT A ROUTE ───────────────────────────────────────
+# Rand sailed by way of Riga, Berlin, Paris and Le Havre. A straight line from
+# Petrograd to New York would be RIGHT ABOUT THE FACT AND WRONG ABOUT THE
+# ROUTE. So the surface must draw these as an arc, dashed, plainly not a traced
+# path — a mark that says FROM HERE TO HERE and never THIS WAY. Where the
+# waypoints are known and matter, they belong in SEATS.csv as dated positions,
+# which is how Darwin's Beagle years are held.
+#
+# ── THE COLUMNS ──────────────────────────────────────────────────────────────
+#   key    the soul's roster key
+#   year   when the crossing happened. A journey with no year is not a journey.
+#   from   where it began · same place vocabulary as SEATS.csv
+#   to     where it ended
+#   what   emigrated · exiled · voyaged · fled · returned · deported
+#   note   the route, if known, and anything the two endpoints hide
+# ============================================================================
+ayn-rand,1926,"Saint Petersburg, Russia","New York City, United States",emigrated,"by way of Riga, Berlin, Paris and Le Havre; she landed in February and never returned to Russia"
+albert-einstein,1933,"Berlin, Germany","New York City, United States",fled,"he was at sea when the Nazis raided his flat; he never set foot in Germany again"
+sigmund-freud,1938,"Vienna, Austria","London, England",fled,"after the Anschluss, and only on payment of a ransom; he died fifteen months later"
+karl-marx,1849,"Paris, France","London, England",exiled,"expelled from France; London held him for the remaining thirty-four years"
+napoleon-bonaparte,1815,"Plymouth, England","Saint Helena",deported,"aboard the Northumberland, ten weeks at sea to an island 1,900 km from any coast"
+nikola-tesla,1884,"Paris, France","New York City, United States",emigrated,"he arrived with four cents and a letter to Edison"
+christopher-columbus,1492,"Palos de la Frontera, Spain","Caribbean",voyaged,"thirty-six days from the Canaries; the landfall island is still argued"
+leonardo-da-vinci,1516,"Rome, Italy","Amboise, France",worked,"at the invitation of Francis I, over the Alps at sixty-four, carrying the Mona Lisa"
