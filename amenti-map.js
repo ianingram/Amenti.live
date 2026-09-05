@@ -425,8 +425,21 @@
       /* over Giza the signs sit smaller than in the band — they are a reading
          at a place, not the register's own heading */
       '#amenti-map .mp-over{font-size:7px;fill:#f0d9a4}',
-      '#amenti-map .mp-return{stroke:#d8a24a;stroke-width:.3;stroke-dasharray:1 4;',
-      '  opacity:.28;vector-effect:non-scaling-stroke}',
+      /* ── DRAWN, BUT NOT VISIBLE · 5 Sep ────────────────────────────────────
+         This was stroke-width .3 at opacity .28 with 1px dashes in 4px gaps —
+         an amber hairline at a quarter opacity across a dark map. It rendered
+         correctly and could not be seen, so it was reported as MISSING FROM
+         THE APPLICATION. Its own label was legible above it, which made the
+         absence read as a fault rather than a faintness.
+
+         A line that carries a claim must be visible enough to be doubted.
+         Raised until it is: still quiet, still clearly a count rather than a
+         path, and now actually on the screen. */
+      '#amenti-map .mp-return{stroke:#d8a24a;stroke-width:.55;stroke-dasharray:3 5;',
+      '  opacity:.55;vector-effect:non-scaling-stroke}',
+      /* the two ends of the count: where it began and where it closes */
+      '#amenti-map .mp-retmark{fill:none;stroke:#e8c98a;stroke-width:.6;opacity:.7;',
+      '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-jup{fill:#e8c98a;font-size:8px;text-anchor:middle;',
       '  filter:url(#mp-glow);pointer-events:none;transition:opacity .3s ease}',
       '#amenti-map .mp-tether{fill:none;stroke:#d8a24a;stroke-width:.3;',
@@ -1434,7 +1447,10 @@
         var jp = proj(GIZA[0], lonNow);
 
         hg += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(2) +
-              '" x2="1000" y2="' + gzr[1].toFixed(2) + '"/>';
+              '" x2="1000" y2="' + gzr[1].toFixed(2) + '"/>' +
+              /* the mark it is counting toward: Giza, on its own latitude */
+              '<path class="mp-retmark" d="M' + gzr[0].toFixed(2) + ' ' +
+              (gzr[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
         /* the mark thickens as it closes on Giza — the return is the event */
         var near = 1 - Math.min(1, Math.abs(0.5 - frac) * 2);
         hg += '<text class="mp-jup" x="' + jp[0].toFixed(2) + '" y="' + (gzr[1] + 2.6 / K).toFixed(2) +
