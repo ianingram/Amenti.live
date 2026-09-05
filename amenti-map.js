@@ -111,7 +111,7 @@
   var hi = YEAR_MAX, lo = hi - APERTURE;
 
   var geo = null, world = null, sky = null, comets = null, mounted = null;
-  var rivers = null, peaks = null, events = null;
+  var rivers = null, peaks = null, events = null, lakes = null, regions = null, coast = null;
 
   /* ── GIZA · THE ONE HONEST COORDINATE FOR A SKY EVENT ─────────────────────
      SKY.csv is 1,342 due-east risings COMPUTED AT GIZA. A rising does not
@@ -218,6 +218,24 @@
          in Texas and Carthage in Ohio. */
       get(RAW + 'EVENTS.json', true).then(function (d) { events = d.events || []; },
                                           function ()  { events = null; }),
+      /* ── THE GROUND · 4 Sep ───────────────────────────────────────────────
+         Inland water, the geography that explains settlement, and a coastline
+         four times finer than the one baked into WORLD.json. All Natural
+         Earth, all public domain, all optional.
+
+         AQUIFERS WERE CONSIDERED AND REFUSED. A groundwater map is a MODERN
+         subsurface survey, and a water table moves in decades — the Nubian
+         Sandstone has been drawn down enormously since 1960. Relief and
+         coastlines drift slowly enough that showing today's is a mild
+         anachronism; today's groundwater on a map running to 4000 BC would be
+         a strong one, and invisible to a reader. A desert's extent is stable
+         across this span. That is why deserts are here and aquifers are not. */
+      get(RAW + 'LAKES.json',   true).then(function (d) { lakes   = d.lakes   || []; },
+                                           function ()  { lakes   = null; }),
+      get(RAW + 'REGIONS.json', true).then(function (d) { regions = d.regions || []; },
+                                           function ()  { regions = null; }),
+      get(RAW + 'COAST.json',   true).then(function (d) { coast   = d.coast   || []; },
+                                           function ()  { coast   = null; }),
       get(RAW + 'SKY.csv', false).then(function (t) { sky = parseSky(t); },
                                        function ()  { sky = null; }),
       /* Halley lives in EVENTS.csv, not SKY.csv — 48 returns, -1404 to 2061,
@@ -476,6 +494,24 @@
       /* a territory event is an OUTLINE — a war is not a wash */
       '#amenti-map .mp-evarea{fill:none;stroke:#e0794a;stroke-width:.6;',
       '  stroke-dasharray:3 3;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-lake{fill:#0d2c44;stroke:#3f6f8f;stroke-width:.4;',
+      '  vector-effect:non-scaling-stroke;opacity:.9}',
+      '#amenti-map.mp-atlas .mp-lake{fill:#0a2438}',
+      /* made water reads as made: the same blue, but outlined rather than
+         simply filled, so a reader can see it is not the same kind of thing */
+      '#amenti-map .mp-made{fill:#123044;fill-opacity:.85;stroke:#5c7f99;',
+      '  stroke-width:.45;stroke-dasharray:2.5 2;vector-effect:non-scaling-stroke}',
+      /* named ground: an outline, dim, and never a fill */
+      '#amenti-map .mp-reg{fill:none;stroke:#3a4a5e;stroke-width:.4;opacity:.5;',
+      '  stroke-dasharray:5 4;vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-reg-Desert{stroke:#6b5a3e;opacity:.55}',
+      '#amenti-map .mp-reg-Delta{stroke:#3f6f8f;opacity:.6;stroke-dasharray:none}',
+      '#amenti-map .mp-reg-Rangemtn{stroke:#4a5468;opacity:.35}',
+      /* the finer shore; the coarse fill keeps the land and the relief clip */
+      '#amenti-map .mp-coast{fill:none;stroke:#31435c;stroke-width:.5;',
+      '  vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-land.mp-hasfine{stroke:none}',
+      '#amenti-map .mp-regions,#amenti-map .mp-lakes,#amenti-map .mp-coast,',
       '#amenti-map .mp-rivers,#amenti-map .mp-peaks{pointer-events:none}',
       '#amenti-map .mp-relief{display:none;opacity:.95}',
       '#amenti-map.mp-atlas .mp-relief{display:block}',
@@ -608,7 +644,8 @@
             '<g class="mp-graticule"></g>' +
             '<image class="mp-relief" href="" x="0" y="0" width="1000" height="500" ' +
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
-            '<path class="mp-land"></path>' +
+            '<path class="mp-land"></path><path class="mp-coast"></path>' +
+            '<g class="mp-regions"></g><g class="mp-lakes"></g>' +
             '<g class="mp-rivers"></g><g class="mp-peaks"></g><g class="mp-events"></g>' +
             '<g class="mp-washes"></g><g class="mp-pins"></g>' +
             /* ── THE SKY HAS TWO HALVES · 4 Sep ────────────────────────────
@@ -772,6 +809,24 @@
   function draw() {
     var el = mounted, svg = el.querySelector('svg');
     el.querySelector('.mp-land').setAttribute('d', world.path);
+    /* ── A FINER SHORE · 4 Sep ───────────────────────────────────────────────
+       WORLD.json is the 110m outline with its projection baked in: the Black
+       Sea is a dozen vertices and Crimea is a triangle. Fine at world scale,
+       crude at x8. COAST.json is the 50m line in LON/LAT, projected here, and
+       it is drawn OVER the fill rather than replacing it — the fill still
+       carries the land and the relief clip, and only the edge improves. */
+    var gc = el.querySelector('.mp-coast');
+    if (coast && gc && !gc._done) {
+      var cd = '';
+      coast.forEach(function (seg) {
+        for (var i = 0; i < seg.length; i += 2) {
+          var q = proj(seg[i + 1], seg[i]);
+          cd += (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
+        }
+      });
+      gc.setAttribute('d', cd); gc._done = true;
+      el.querySelector('.mp-land').classList.add('mp-hasfine');
+    }
     /* the clip carries the same path, so the two can never disagree */
     el.querySelector('.mp-clip').setAttribute('d', world.path);
     /* THE BLUEPRINT PAYS NOTHING FOR THE ATLAS. The relief is 240 KB and the
@@ -799,6 +854,78 @@
     var souls = geo.souls.filter(alive);
     var pins   = souls.filter(function (s) { return s.tier === 'city' && s.lat != null; });
     var washes = souls.filter(function (s) { return s.ext; });
+
+    /* ── NAMED GROUND · outlines, never fills ────────────────────────────────
+       39 deserts, 156 ranges, 29 deltas, the Rift Valley, the Tarim and
+       Fergana basins. This is the geography that EXPLAINS the record: a
+       desert says where people were not, a delta and a valley say where they
+       were, and the Fergana is why the Silk Road bends.
+
+       OUTLINES ONLY. A filled region would compete with a territory wash, and
+       a reader would read "somewhere in the Sahara" as a claim about a soul.
+       This is context behind the record and must never look like the record.
+       Deserts and deltas first, because those are the two that explain most,
+       and the rest arrive with the zoom. */
+    var gg = el.querySelector('.mp-regions');
+    if (regions && gg) {
+      var wantK = K < 1.5 ? { 'Desert':1, 'Delta':1 }
+                : K < 3   ? { 'Desert':1, 'Delta':1, 'Basin':1, 'Valley':1, 'Plain':1 }
+                          : null;                       /* null = all of them */
+      var rh = '';
+      regions.forEach(function (rg) {
+        if (wantK && !wantK[rg.k]) return;
+        var d2 = '';
+        for (var i = 0; i < rg.p.length; i += 2) {
+          var q = proj(rg.p[i + 1], rg.p[i]);
+          d2 += (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
+        }
+        rh += '<path class="mp-reg mp-reg-' + rg.k.replace(/[^a-z]/gi, '') + '" d="' + d2 + 'Z"/>';
+      });
+      gg.innerHTML = rh;
+    }
+
+    /* ── INLAND WATER ────────────────────────────────────────────────────────
+       The Caspian and the Black Sea are already holes in WORLD.json's land, so
+       this adds what is genuinely missing: Victoria, Superior, the Dead Sea,
+       Balkhash, Van, Urmia, Sevan. Filled, unlike a region — water is a thing,
+       not a name for an area. */
+    var gl = el.querySelector('.mp-lakes');
+    if (lakes && gl) {
+      var maxL = K < 1.5 ? 2 : K < 3 ? 4 : 8;
+      var ld = '', md = '';
+      lakes.forEach(function (lk) {
+        if (lk.r > maxL) return;
+        /* ── A RESERVOIR IS NOT A LAKE · 4 Sep ──────────────────────────────
+           56 of these rings were made by people. Lake Mead was impounded in
+           1935, Rybinsk flooded in 1941, Bratsk in 1967. Drawn across a map
+           that scrubs to 4000 BC they would put twentieth-century engineering
+           under the Bronze Age — and their angular shapes are REAL, because a
+           dam drowns a valley and takes its shape, which is exactly why they
+           must not be mistaken for natural water.
+
+           So a made lake appears only once the window has reached the year it
+           was built. Before that it is not drawn, for the same reason a soul
+           is never placed in a century nobody recorded. Where the year is
+           unknown the register says 1900 — modern, and honest about being a
+           guess at nothing finer than the century. */
+        if (lk.k === 'made') {
+          if (hi < (lk.built || 1900)) return;
+          for (var mi = 0; mi < lk.p.length; mi += 2) {
+            var mq = proj(lk.p[mi + 1], lk.p[mi]);
+            md += (mi ? 'L' : 'M') + mq[0].toFixed(1) + ' ' + mq[1].toFixed(1);
+          }
+          md += 'Z';
+          return;
+        }
+        for (var i = 0; i < lk.p.length; i += 2) {
+          var q = proj(lk.p[i + 1], lk.p[i]);
+          ld += (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
+        }
+        ld += 'Z';
+      });
+      gl.innerHTML = '<path class="mp-lake" d="' + ld + '"/>' +
+                     (md ? '<path class="mp-made" d="' + md + '"/>' : '');
+    }
 
     /* ── THE RIVERS · drawn by rank, revealed by zoom ────────────────────────
        Natural Earth ranks a river 1 (a great one) to 12 (a minor one). At
@@ -1390,8 +1517,8 @@
       'Neither is drawn. ' +
       'Seats from GeoNames (CC BY 4.0); ' +
       (el.classList.contains('mp-atlas')
-        ? 'coastline, relief, rivers and peaks from Natural Earth.'
-        : 'coastline, rivers and peaks from Natural Earth.');
+        ? 'coastline, relief, rivers, lakes, named regions and peaks from Natural Earth.'
+        : 'coastline, rivers, lakes, named regions and peaks from Natural Earth.');
   }
 
   /* One place sets the window, so the slider, the wheel and the dial cannot
