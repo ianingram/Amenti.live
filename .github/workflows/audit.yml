@@ -103,6 +103,20 @@ jobs:
         continue-on-error: true
         run: node probes/probe-join.mjs . --check
 
+      # ── DATED POSITIONS · added 5 Sep ────────────────────────────────────
+      # SEATS.csv holds where a soul was AND WHEN, because the roster's
+      # Location column is the birthplace — measured, nineteen of twenty
+      # (SLIP #68). This checks that every position sits inside the soul's own
+      # dates and that no soul stands in two places in one year.
+      #
+      # Both are JOIN faults: names.csv can be right about the dates and
+      # SEATS.csv right about the place while the pairing of them is false.
+      # Neither register would notice on its own.
+      - name: was each soul where and when it says
+        id: seats
+        continue-on-error: true
+        run: node probes/probe-seats.mjs . --check
+
       - name: commit the registers
         run: |
           git config user.name  "the full audit"
@@ -155,6 +169,12 @@ jobs:
         if: steps.join.outcome == 'failure'
         run: |
           echo "::error::THE EDGE DATA IS CLAIMING MORE THAN ITS TWO PARENTS CAN CARRY. See the 'is the edge data honest' step. Nothing inside either register need be wrong for this to fire — that is what it is for."
+          exit 1
+
+      - name: a soul in the wrong century is a real finding
+        if: steps.seats.outcome == 'failure'
+        run: |
+          echo "::error::A DATED POSITION DOES NOT FIT THE LIFE IT BELONGS TO, or a soul stands in two places at once. See the 'was each soul where and when it says' step. Both registers can be correct and the join still false — that is what this checks."
           exit 1
 
       - name: a register that cannot be rebuilt is a real finding
