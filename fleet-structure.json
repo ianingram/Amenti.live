@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-05T22:16:39.839Z",
+    "generated": "2026-09-05T22:26:39.280Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49506,
-      "sha256": "27d9bf3d18de7b94",
+      "sha256": "286e6ebd83d67c0a",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1481,7 +1481,7 @@
     {
       "file": "hall.html",
       "bytes": 18175,
-      "sha256": "933b8170916c0c46",
+      "sha256": "72e396fc1fa592a4",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1502,7 +1502,7 @@
           "line": 300
         },
         {
-          "file": "amenti-map.js?v=685c7227",
+          "file": "amenti-map.js?v=d10791f8",
           "line": 305
         },
         {
@@ -1663,7 +1663,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 46,
+    "count": 47,
     "files": [
       {
         "file": "events-gaz.mjs",
@@ -1736,6 +1736,12 @@
         "title": "IS THE EDGE DATA HONEST",
         "guards": null,
         "bytes": 8946
+      },
+      {
+        "file": "probe-journeys.mjs",
+        "title": "DID THE CROSSING HAPPEN",
+        "guards": null,
+        "bytes": 7503
       },
       {
         "file": "probe-library.mjs",
