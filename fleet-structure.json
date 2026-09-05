@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-05T06:22:18.579Z",
+    "generated": "2026-09-05T06:22:53.136Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49506,
-      "sha256": "9d622c797c7910b1",
+      "sha256": "26e3421b835fda3d",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1669,7 +1669,7 @@
         "file": "events-gaz.mjs",
         "title": "WHERE THE EVENTS HAPPENED",
         "guards": null,
-        "bytes": 8647
+        "bytes": 13500
       },
       {
         "file": "extents.mjs",
