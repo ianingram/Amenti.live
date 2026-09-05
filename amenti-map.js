@@ -252,10 +252,28 @@
 
     var css = document.createElement('style');
     css.textContent = [
+      /* ── A CLOSED SURFACE MUST NOT TOUCH THE PAGE · 5 Sep ──────────────────
+         SEEN LIVE. Hovering a name in the hall's own search list produced an
+         arrow cursor and the tooltip "North America — 25 souls, somewhere in
+         this area" — text from THIS FILE, on a page the map was not even
+         showing on. The territory washes carry pointer-events:all so a reader
+         can hover them, and nothing turned that off when the surface closed:
+         the map sat in the DOM underneath, invisible, still catching the
+         pointer through another faculty's list.
+
+         visibility:hidden is not enough on its own here, because the
+         transition leaves a window in which the element is still hit-testable,
+         and any later rule that restores visibility restores the hit-testing
+         with it. So the whole surface is INERT unless it is the active scene.
+         A closed instrument does not merely go quiet — it lets go. */
       '#amenti-map{position:fixed;inset:0;z-index:3;opacity:0;visibility:hidden;',
+      '  pointer-events:none;',
       '  transition:opacity .45s ease .15s, visibility .45s;',
       '  font:400 13.5px/1.55 ui-monospace,Menlo,Consolas,monospace;color:#b8c4d8}',
-      'body.scene-map #amenti-map{opacity:1;visibility:visible}',
+      'body.scene-map #amenti-map{opacity:1;visibility:visible;pointer-events:auto}',
+      /* the trigger lives outside the surface and stays live, or there is no
+         way back in */
+      '#amenti-faculties{pointer-events:auto}',
       /* ── THE HALL MUST GO, AND scene-bare CANNOT DO IT · SEEN LIVE 3 Sep ──
          takeScreen() clears scene-bare so the timeline is not left standing —
          but scene-bare is ALSO what hides #hall-main, so clearing it put the
