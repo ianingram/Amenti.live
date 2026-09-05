@@ -194,6 +194,25 @@ page. **The box.** A register whose run failed says `state: FAILED` and
 August session lay *between* two registers, each perfectly truthful about its
 own island. Not one was an error inside a register.
 
+**Its four shores** — extended 5 Sep, after a session in which the same seam
+was struck four times in four different forms. In every one, nothing inside the
+file was wrong and the file was still not doing its job.
+
+| shore | the disagreement | seen as |
+|---|---|---|
+| **register against register** | two files each internally right, saying incompatible things | Columbus sailing from Palos in a year `SEATS.csv` put him at Córdoba |
+| **register against its label** | the column is correct; the claim made about it is not | `Location` holds the BIRTHPLACE, and the map said *principal place of activity* — 19 of 20 measured (#68) |
+| **register against its reader** | the file is right; the thing consulting it asks a different question | `probe-seats` reported a fault `probe-geo` did not have, because it read the tables in a different order |
+| **register against its format** | valid to every tool we wrote, invalid to everyone else's | a stray `"` inside a `#` comment in `SEATS.csv` — our parser skips those lines, GitHub's does not, and the table would not render |
+
+> **THE FIRST SHORE IS THE ONLY ONE A PROBE FINDS BY ACCIDENT.**
+> The other three are invisible from inside: the label reads as documentation,
+> the reader agrees with itself, and the format is only wrong to a stranger.
+> Each was found by a person looking, not by a guard running.
+
+*The same seam read the other way is the yield, not the hazard — see* `edge data`
+*and* BRIEF-CÓRDOBA*.*
+
 **A false negative from an error object ⚑** — the unauthenticated GitHub API
 returns `{"message": "API rate limit exceeded"}`, not data. Read as a listing,
 it reports everything missing, with confidence. Has produced false negatives
