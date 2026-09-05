@@ -117,6 +117,21 @@ jobs:
         continue-on-error: true
         run: node probes/probe-seats.mjs . --check
 
+      # ── THE MOST ASSERTIVE MARK ON THE MAP · added 5 Sep ─────────────────
+      # A dot says "here"; a wash says "somewhere in here"; a LINE says a person
+      # went from one place to another, and a reader believes it without
+      # checking. So the few lines that are drawn are watched harder than the
+      # marks that are not.
+      #
+      # It also guards a fault that could not exist before today: SEATS.csv and
+      # JOURNEYS.csv can each be internally right and contradict each other,
+      # with the map drawing both. It caught exactly that on its first run —
+      # Columbus sailing from Palos in a year his positions put him at Cordoba.
+      - name: did the crossing happen
+        id: journeys
+        continue-on-error: true
+        run: node probes/probe-journeys.mjs . --check
+
       - name: commit the registers
         run: |
           git config user.name  "the full audit"
@@ -175,6 +190,12 @@ jobs:
         if: steps.seats.outcome == 'failure'
         run: |
           echo "::error::A DATED POSITION DOES NOT FIT THE LIFE IT BELONGS TO, or a soul stands in two places at once. See the 'was each soul where and when it says' step. Both registers can be correct and the join still false — that is what this checks."
+          exit 1
+
+      - name: a line nobody drew is a real finding
+        if: steps.journeys.outcome == 'failure'
+        run: |
+          echo "::error::A CROSSING FALLS OUTSIDE ITS LIFE, CONTRADICTS THE SOUL'S OWN POSITIONS, OR QUIETLY FAILED TO DRAW. See the 'did the crossing happen' step. A line must be authored as a journey, never derived from two seats."
           exit 1
 
       - name: a register that cannot be rebuilt is a real finding
