@@ -932,11 +932,11 @@
       "what": "The repository's front door. Opens with an instruction rather than a description: before trusting any document in this repo, run node tools/scan.js — it found a defect that fourteen test harnesses reported green on. Then the Sovereign Instrument's status board and the LLC's notice.",
       "authority": "canonical. Its status board is decorative, not a reading — nothing generates it and no probe checks it."
     },
-    "Amenti.live/main/TODO.md": {
+    "Amenti.live/main/SESSION-2026-08-01.md": {
       "section": "the book itself",
-      "id": "todo",
+      "id": "session-2026-08-01",
       "group": "architecture",
-      "what": "THE OPEN LIST, close of session 1 August 2026 — everything still open, in the order it will hurt. Broken-now silent failures, the recurring architecture question, prompts written and unshot, rooms with no plates, closed-by-decision, and defects recorded not fixed.",
+      "what": "A SHOP-FLOOR ACCOUNT of 1 August 2026, renamed from TODO.md on 5 Sep. Its two most valuable sections are the opposite of open work: CLOSED BY DECISION records settled arguments so they are not relitigated, and KNOWN DEFECTS records faults knowingly accepted — gold aviators on Gandhi's card, Akhenaten normalised into a conventional pharaoh, the first plate ever to fail value_span.",
       "authority": "STALE IN PLACES, and unwatched — nothing regenerates or checks it. Verified 24 Aug: its first item, Hume's three philosophy texts 404, is FIXED — all three now return 200 and the list still says otherwise. Treat every entry as a claim of 1 August requiring a fresh reading. A TODO nothing checks is a memory."
     },
     "Amenti.live/main/fleet.json": {

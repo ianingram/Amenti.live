@@ -152,10 +152,10 @@
 
     "the yard's open work": {
       "question": "What is still undone, and what has been recorded but not chased?",
-      "servedBy": ["Amenti-Technical-Briefs/main/THE-STANDING-SLIP.md",
-                   "Amenti.live/main/slip/", "Amenti.live/main/TODO.md"],
-      "answers": "Ten moves, each ending in a check the captain can perform by opening something.",
-      "note": "The slip is kept BY HAND and read at the TOP of a session. TODO.md is stale in places and nothing checks it."
+      "servedBy": ["Amenti.live/main/THE-STANDING-SLIP.md",
+                   "Amenti.live/main/slip/", "Amenti.live/main/SESSION-2026-08-01.md"],
+      "answers": "Sixty-nine moves, each ending in a check the captain can perform by opening something.",
+      "note": "The slip is kept BY HAND and read at the TOP of a session. It lives at the ROOT of Amenti.live — this entry pointed at the briefs repo until 5 Sep, where no such file exists. slip/ holds items that GRADUATED out of the slip because they grew phases. SESSION-2026-08-01.md is a shop-floor account of that day and claims nothing about today."
     },
 
     "what the repo actually contains": {
