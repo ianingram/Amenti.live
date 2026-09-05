@@ -1124,6 +1124,59 @@ roster change.
 - **Acceptance test:** grep the repo for the current count after any roster
   growth; every hit is either live-read or on this checklist and updated.
 
+### 61 · A SYSTEM, NOT A BURDEN — the roster is not a backlog of empty rooms
+The most important reframe of the 2–3 Sep work, and a PRINCIPLE, not a task.
+Written as a guard against a specific future danger: opening the roster six
+months from now, seeing ~55 rooms against 2,000+ souls, and feeling the old
+dread — “3% done, 1,950 rooms to build.” That framing is FALSE, and here is why.
+
+**THE OLD MODEL (a burden):** a soul is nothing until it has a full reading room.
+55 done, ~1,990 empty. Every soul is a debt; every name added DEEPENS the hole.
+This is why adding names felt dangerous and was stalled for months — in that
+model, growth is self-defeating.
+
+**THE CONSTELLATION MODEL (a system):** a soul is WORKING the moment it is dated.
+It holds a place in time, it catches citations (Caesar names Pompey — a real,
+resolved, citable edge with no Pompey room), it populates “alive beside them,” it
+is a node the mention graph resolves against. The roster is not 1,990 empty
+rooms — it is 2,043 functioning nodes, ~55 of which have been DEEPENED into
+libraries. A room is not the unit of existence; it is the unit of DEPTH.
+
+**WHY THIS IS A SYSTEM AND NOT A BURDEN — the properties that changed:**
+- **Growth strengthens instead of indebting.** The 978 souls added 3 Sep did not
+  create 978 debts; they created 978 resolving points, and Herodotus’s Xerxes
+  found one immediately. The act that was self-defeating in the old model is
+  self-reinforcing in this one. THE THING THAT USED TO COST YOU NOW PAYS YOU.
+- **There is no “behind.”** A burden has a deadline it is failing; a system has a
+  current state that always works and only improves. 55 rooms is not behind
+  schedule — it is the current depth, and it only goes up.
+- **It tells you what to do next.** Not “1,990 rooms” (dread) but “the next
+  highest-leverage one”: the graph’s most-cited (Pompey, 285×), the room-to-room
+  bridges (Tacitus→Livy), the acquisition queue’s ready sources (123 Gutenberg
+  authors). The constellation prioritises its own deepening.
+- **Depth is a GRADIENT, not all-or-nothing.** A soul can be a bare node, or
+  graph-enriched (“named 285× by Caesar; contemporary of Cicero, Cato” — all
+  citable, no room), or partially sourced, or a full room. Every level is a
+  legitimate state, not a failure to reach the next.
+- **It survives absence.** Ignored for a year it does not rot into a bigger
+  burden; it waits, complete at its current depth. Burdens grow when ignored;
+  systems wait.
+
+- **The rule going forward:** add souls freely — growth is good, it strengthens
+  the constellation. Build rooms by LEVERAGE (what the graph shows pays), not by
+  soul-ID order or guilt. Never measure the project as rooms/souls; that ratio
+  describes a burden that does not exist. Measure it as: the constellation is
+  complete and working; the rooms are an ever-growing set of deep libraries
+  within it.
+- **The next move this opens (a build, optional):** make graph-enrichment a
+  VISIBLE layer — a roomless soul, when opened, shows what the constellation
+  knows (who named them, who they lived beside, what they are cited in) instead
+  of “no room yet.” That turns every one of the ~1,990 from “empty” into “as
+  deep as the graph can currently make them,” and fully retires the old model.
+- **Acceptance test:** none — a governing principle. It holds when the roster is
+  never again described as a backlog, when growth is undertaken without dread,
+  and when room-building follows the graph’s leverage signals.
+
 ### 33 · My prefixed filename is in `probes/` again### 33 · My prefixed filename is in `probes/` again
 `probes/Amenti.live__probes__probe-hall-wall.mjs` — a delivery-naming scheme the
 assistant invented, abandoned, and reintroduced. It is junk beside the real file
@@ -1310,6 +1363,384 @@ around the two unfinished halves of #13. The hall went from silent on every
 question to opening rooms and quoting Livy with its edition in one night; nine
 of the eleven new moves were found by the captain asking a question the
 assistant could not answer, or by attacking a probe until it admitted a fault.*
+
+### 62 · YML WORKFLOW MONITORING — the automation has no intent register
+Raised 4 Sep, after a hand audit of the automation got it wrong in the most
+ordinary way. Five workflow files were read, the correction was found in all
+five, and the session reported **"five of five carry the correction."** There
+are at least eight. **Three of them carried a bare `git push`** —
+`atlantica-dispatch`, `librarian`, and `cite-a-room`, which rebases twice and
+still pushes bare. Nobody had a list, so nobody could audit what nothing mapped.
+This is BRIEF-NOTHING-MAPS-THE-SURFACES in a third place.
+
+**WHAT WAS BUILT (done, on main):**
+- `probes/probe-workflows.mjs` — reads `.github/workflows` **as a directory**,
+  so it sees every file including the ones nobody thought to name. Writes
+  `WORKFLOWS.json`. Guards three faults: a bare push; **a rebase with no
+  retry** (the half-correction, and the more dangerous shape because it
+  survives the ordinary case and only dies under load — `stamp.yml` had
+  exactly this); and two workflows on one cron rung, a rule that until now
+  lived only in a COMMENT inside `hall.yml`, and a comment cannot check
+  anything.
+- `.github/workflows/audit.yml` — runs probe-workflows, probe-map and
+  probe-geo at **:32 past every sixth hour**, a rung the register confirms is
+  free. Commits first, gates last, one gate per probe: an alarm that aborts
+  before the commit throws away its own evidence.
+- All eight known workflows now rebase and retry. The probe reports clean
+  against main.
+
+**WHAT IS NOT DONE, AND IS THE ACTUAL MOVE:**
+
+`watch.html` was built the same night and **must not go through the Glass
+Gate as it stands.** It reads `WORKFLOWS.json`, `GEO.json` and
+`ROSTER-INDEX.json` and states what it finds. It shows the empty glass rather
+than a cached number, which is the one requirement of `probe18` it meets. It
+fails the rest, and the reason is the whole point of the gate:
+
+> **The Glass Gate** — the three-source architecture. Structure *generated*,
+> semantics *authored*, live state *probed*, merged with a drift report.
+
+`watch.html` has ONE source. It is probed state with no authored layer, and
+therefore **no drift report** — which is the only thing that makes a monitor
+worth reading. `fleet-status.html` is the template and already does it right:
+`fleet.json` is intent, `fleet-dispatch.json` is reality, and the verdict is
+the difference. That is what lets it say *paused and quiet is calm, LIVE and
+never fired is a fault* — a distinction `watch.html` structurally cannot make.
+
+**THE BLINDNESS THIS LEAVES.** If `librarian.yml` were deleted tomorrow,
+`watch.html` would show seven workflows, all green, and nothing would say one
+had gone. That is precisely what `probe18` was written about:
+*it was not lying — it was still showing the last thing it saw, forever.*
+
+**THE MOVE:**
+- Author `workflows-intent.json` — which workflows are MEANT to exist, which
+  are meant to commit, which rung each holds, and which are paused or planned
+  by intent. Authored, not generated: nothing in it may be derivable by a
+  grep, or `probe18`'s first test fails it.
+- Lay `WORKFLOWS.json` (probed) against it and state the drift: a workflow
+  that vanished, one that gained a commit step it was not meant to have, one
+  that took a rung.
+- Then, and only then, `watch.html` goes through the gate — or better, becomes
+  a section of `fleet-status.html`, which already holds the captain's-window
+  job. **Two monitoring surfaces will drift, and then there are two answers
+  about the ship's health with nothing to say which is real** — the fault
+  `amenti-hall.js` names in its own opening lines: *two roster loaders, two
+  engines, a name changed on a wrong inference.*
+
+**WHY IT MATTERS BEYOND THE WORKFLOWS.** Twenty-two panes, a dozen workflows,
+224 documents, 2,043 souls. The ship passed what a person can hold in their
+head some time ago, and the 4 Sep audit is what that looks like from the
+inside: a careful reading, honestly reported, and wrong. Every register exists
+because of a moment like it.
+
+- **Acceptance test:** `workflows-intent.json` exists and is authored;
+  `probe-workflows.mjs --check` fails when a workflow named in the intent is
+  absent from disk; and deleting a workflow file turns the monitor RED rather
+  than showing one fewer row in green.
+
+### 63 · THE INTERVIEW — a figure on set, in a chair, being asked
+Raised 4 Sep. **An idea, not a build.** Recorded so the next session does not
+rediscover it by accident, and so the decision is made deliberately rather than
+drifted into. Nothing here is committed to.
+
+**THE IDEA.** A figure, rendered in 4K, sitting back in frame — a torso shot on
+their own set — and interviewed. Not a monologue. An interview.
+
+**WHY THE ROSTER ALREADY POINTS AT IT.** `names.csv` carries columns that no
+database needs and a production does. They are a shot list:
+
+```
+  Appearance   408  20%   casting
+  Dress         28   1%   "Nothing. Chains at the wrists."
+  Set            8   0%   "the rock and the chain"
+  Signature     30   1%   "The fire still in the hand that is chained."
+  Cliche        33   2%   "Enduring, not suffering — the point of the myth
+                           is that he does not break."
+  AppearanceBasis 33  2%  "tradition"  ← provenance, on a FACE
+```
+
+`Cliche` is a direction about how not to play the part. `Set` is a location.
+`AppearanceBasis` is the same discipline as a sourced date, applied to a
+likeness. The fill rates are a cost curve, not neglect: 1,011 voiced, 408
+described, 34 dressed, 8 with a set. **That is the depth gradient of #61 in a
+fifth form**, and none of those tiers is a failure to be the next one.
+
+**WHY THE FRAMING IS AN HONESTY DECISION, NOT A BUDGET ONE.** A torso shot,
+sitting back, gives exactly the fidelity the record supports and no more. Dress,
+posture, the set behind them, the gesture — all of which the roster actually
+carries. What it withholds is the close-up of a face, which is the one thing
+almost no record supports and the thing a viewer would trust most. **The framing
+does the work `AppearanceBasis: tradition` does in the column, but for the eye.**
+A 4K face is the most persuasive artefact this project could produce — more than
+a quote, more than a pin — and persuasion beyond the record is the one thing the
+whole ship is built to refuse.
+
+**WHY AN INTERVIEW AND NOT A SPEECH.** A figure delivering an oration has to be
+right. A figure being ASKED can decline. *"That is not something I wrote about."
+*"You are asking what I felt, and the text does not say."* Refusal is native to
+an interview and impossible in a monologue — so the honesty rules stop being
+constraints on the form and become part of the performance. `amenti-hall.js`
+rule 9 already says the figures can be asked directly; this is the room that
+sentence points to. **A question the record cannot support is not a failure of
+the format. It is the format working.**
+
+It is also the cuttable form: one set, one costume, one lighting setup, many
+exchanges. Against eight existing sets, that is the difference between eight
+scenes and eight SUBJECTS.
+
+**THE TWO EXPERIMENTS ARE NOT ONE, AND THE ORDER MATTERS.**
+- **The craft test** — one figure, one set, torso shot: does a rendered figure
+  at that framing read as dignified or as a waxwork? Answers itself in a single
+  render. Prometheus is the obvious subject: the only soul with set, dress,
+  signature, glyph and a cliche note all filled.
+- **The honesty test** — one figure with a real room and a real corpus,
+  interviewed in TEXT, watching for one moment only: what happens when it is
+  asked something the corpus cannot support. Not whether it sounds good.
+  **Whether it declines well.** If it declines badly, no production value saves
+  it. Cheaper, faster, and it decides whether the first is worth filming.
+
+**RUN THE HONESTY TEST FIRST.**
+
+**THE OPEN QUESTION, TO DECIDE BEFORE ANYTHING IS BUILT.** Who asks? If the
+INTERVIEWER is the hall, a question past the record has a natural home — the
+hall already knows how to state what it opened and what it did not. If the
+interviewer is the VISITOR, the figure holds that line alone, live, and that is
+a far harder guard to keep.
+
+**AND A GUARD ON DAY ONE, NOT LATER.** The Odysseus fault (#62, and the SIGNET
+brief) lived from the hall's first day and surfaced only because a visitor
+happened to ask about a soul with no room. **A figure that invents a source will
+be harder to catch by chance and far worse when someone does.** Whatever is
+built here gets its probe in the same session.
+
+- **Acceptance test:** none — this is an idea held for discussion. It becomes a
+  move when the honesty test has been run once and its result written down here.
+
+### 63a · AMENDMENT — THE HOST ROTATES TOO
+Added 4 Sep, the same night, and it supersedes the open question #63 ends on.
+
+**THE SHARPENING.** Not a figure interviewed by a presenter. A figure
+interviewed by ANOTHER FIGURE, and the host rotates from the same roster.
+
+**WHY THIS IS A STRUCTURE AND NOT A FLOURISH.** #63 left one question open —
+*who asks?* — and framed it as a choice between the hall and the visitor, both
+of which leave the guard to be enforced. A rotating host makes the guard
+STRUCTURAL:
+
+- **The question is as bounded as the answer.** A host may only ask what their
+  own record supports them asking. Two corpora, two limits, and neither can
+  wander on the other's behalf.
+- **The pairing is a claim that can be checked.** The mention graph already
+  holds 111 edges across 7 authors — who named whom, in what work. A host who
+  cites their guest is standing on a resolved citation, not a producer's hunch.
+  **Josephus interviewing Vespasian is a citation made visible.** The graph
+  stops being infrastructure and becomes the casting director.
+- **Anachronism gets an honest home.** A host from a later century interviewing
+  an earlier one is exactly the position a historian occupies. The timeline
+  knows both sets of dates, so the gap is a FACT ON SCREEN rather than a thing
+  to paper over. Herodotus asking about Troy is not a fault; it is the
+  distance, stated.
+- **The arithmetic changes.** One figure needs a set, a costume and a voice
+  before anything can be shot. A pair needs two — and every pairing after that
+  reuses both. **The 34 dressed souls stop being 34 subjects and become a
+  lattice.**
+
+**THE QUESTION THIS RAISES, AND IT IS THE HARDER ONE.** May the host know
+things the guest's own record does not contain? That is #55 — scaffolding
+against structure, the ratchet — arriving in a fifth place. But here it is
+SPOKEN ALOUD BY SOMEONE WITH A FACE, which is more persuasive than prose and
+therefore more dangerous. A misattributed sentence in a paragraph is an error.
+The same sentence from a figure in a chair is testimony.
+
+Decide it on paper, before a set exists. It is cheap now and expensive after
+eight of them are built.
+
+**WHAT DOES NOT CHANGE.** The order in #63 stands: **run the honesty test
+first, in text, on one pair.** Watch for one moment only — what happens when
+the guest is asked something their corpus cannot support, and whether the host
+accepts the refusal or pushes. A host that pushes past a decline is worse than
+no host at all, because it manufactures the appearance of a source.
+
+- **Acceptance test:** unchanged from #63 — none. This is an idea held for
+  discussion. It becomes a move, and probably its own slipway with phases, when
+  the honesty test has been run once on a real pair and its result is written
+  down here.
+
+### 64 · THE MAP SURFACE — zoom, battlefields, migrations, and the line that holds
+Raised 4 Sep, the night the map was built. Recorded as a set of moves in
+priority order, with one refusal stated up front so it is not relitigated by a
+session that has forgotten why.
+
+**THE DOCTRINE ALREADY GENERALISES.** The map's two tiers were settled for
+place: a pin is *here*, a wash is *somewhere in here*, and they must never be
+mistaken for one another. **A MOVEMENT HAS THE SAME TWO TIERS.** A documented
+route with dated waypoints is a LINE. Everything else is a CORRIDOR — the wash
+of a migration. That single idea decides most of what follows, and nothing
+below needs a new principle.
+
+---
+
+**64a · ZOOM — do this one first.**
+Nothing is in the way. The projection is one function and the SVG carries a
+viewBox; region zoom is a transform plus a re-cull of labels. No data pass, no
+honesty question, pure craft.
+
+It matters more than it sounds: **at world scale a battlefield and a corridor
+are both invisible**, so every other move here is unreadable without it. It
+also retires the wash-label pile-up in the Mediterranean by letting a reader go
+IN, rather than by inventing a cleverer cull — 294 labels are dropped at the
+modern end today, and no culling rule fixes that at world scale.
+
+- **Acceptance test:** a reader can reach the Aegean and read every seat in it
+  without a label collision, and the drop count under the map falls to zero at
+  that scale.
+
+---
+
+**64b · BATTLEFIELDS — one data pass away.**
+`EVENTS.csv` already holds 536 events including **103 `conflict`, 13
+`conquest`, 30 `disaster`** — the "something happened here" rows. What it has
+no column for is WHERE. Same blocker the roster had before `Geo-Tier`.
+
+The machinery is already built. Add a `Place` column, run it through
+`probes/geo-tier.mjs` — the same classifier the souls use — and Actium is a pin
+while "the Rhine frontier" is a wash, by the rule that already exists.
+
+**AN EVENT IS A THIRD FACULTY AND MUST RENDER AS ONE.** A soul pin and a battle
+mark on one surface, drawn alike, would assert that a philosopher and a sack of
+a city are the same kind of fact. And an event is an INSTANT, not a lifespan —
+it must not persist across the window the way a soul does. A fire is not a
+tenure.
+
+- **Acceptance test:** `Place` is filled for the conflict and disaster rows and
+  audited the way `Location` was; no event renders as a soul; and an event with
+  no honest place falls through and is counted, not guessed.
+
+---
+
+**64c · MIGRATIONS — buildable, and the most interesting of the four.**
+A migration is genuinely a corridor with soft ends and contested dates, so the
+honest drawing IS the honest thing: a broad wash that thickens as the window
+crosses it, and **never an arrow with a head.** The Sea Peoples, the Bantu
+expansion, the Norse — every one is argued over, and **a map that shows the
+argument as WIDTH is better history than one that shows a confident line.**
+
+This is the clearest case in the whole project where the honest rendering is
+also the more beautiful one. Take it as the argument for the doctrine, not a
+concession to it.
+
+- **Acceptance test:** no migration renders with a point, an endpoint or an
+  arrowhead; each carries its source; and the width of the corridor is stated
+  as uncertainty in the legend rather than left to be read as extent.
+
+---
+
+**64d · TROOP MOVEMENTS — THE REFUSAL, and it stands.**
+A campaign path is a claim about POSITION ON DATES. We have that for nobody.
+An arrow sweeping from Macedon to the Indus is motion interpolated between two
+endpoints and rendered as though it were known — and unlike the others **there
+is no honest tier available**: a corridor for an army is not a softer claim, it
+is a wrong one drawn gently.
+
+It would also be the most PERSUASIVE thing on the page, which is exactly why it
+is the most dangerous. Same reason the sub-planetary point is not drawn and
+Jupiter's return line is labelled *a count, not a position*.
+
+**THE ONLY EXCEPTION:** the handful of campaigns documented waypoint by
+waypoint in a primary source. Those are a HAND-AUTHORED REGISTER with citations
+per waypoint — never a generated effect, and never a general capability the
+surface offers for any figure with two known places.
+
+- **Acceptance test:** none. This is a standing refusal. If a future session
+  wants it, it must first produce the dated waypoints and their sources.
+
+---
+
+**64e · GAMES — downstream, but the board already exists.**
+Worth noting rather than planning: the map is already a game board. A scrubbing
+clock, 864 placed figures, a sky that moves on real periods, and a constellation
+of who named whom. What it lacks is a QUESTION to play against. Nothing here
+should be built for a game before it is honest for a reader.
+
+---
+
+**WHY THE ORDER IS THE ORDER.** Zoom is free and unblocks everything.
+Battlefields need one authored column and reuse machinery that exists.
+Migrations need sources and a new rendering. Troop movements need a claim we
+cannot make. Do not take them in the order of how exciting they sound — that
+order is exactly reversed.
+
+- **Acceptance test for the entry as a whole:** 64a lands, and 64d is still
+  refused.
+
+### 65 · THE GLOBE — geometry instead of a projection
+Raised 4 Sep, after the map got zoom and relief the same night. **A bigger move
+than anything else in #64**, recorded before it is started rather than after.
+
+**THE SENTENCE THAT SETTLED IT.** *A globe is a globe. It is a projection
+itself. No need to build a projection when geometry is the projection.*
+
+Every flat map is a compromise about how to lie. Equirectangular — what the map
+draws today — stretches horizontal distance about DOUBLE at 60°N, so the chart
+already misleads about the one thing a reader most wants from it: how far
+anything is from anything. Rome to Alexandria against Rome to London reads
+wrong right now. A sphere does not have that argument, because it is not an
+argument. It is the shape.
+
+**WHAT THIS RETIRES.** Two ideas were considered and are now closed:
+
+- **TILT ON THE FLAT CHART — refused, and not on honesty grounds.** RELIEF.jpg
+  is a PICTURE of terrain with the shading baked flat. Tilting it skews a
+  photograph lying on a plane: no gorge deepens, no ridge rises, and everything
+  near the horizon compresses until pins are unreadable and distances stop
+  being comparable. It does not deliver the thing it looks like it delivers.
+- **"CURVED AS YOU ZOOM IN" — the physics runs the other way.** Over a 500 km
+  span the earth's bulge is a fraction of a percent. A patch does not become
+  curved as you go in; it becomes FLATTER, correctly. Curvature is a
+  ZOOMED-OUT phenomenon, which is exactly where the flat chart's distortion
+  lives too. Both problems are the same problem and the globe answers both.
+
+**WHY IT IS CHEAPER THAN IT SOUNDS.**
+- **The relief is already the right file.** An equirectangular image is exactly
+  the layout a sphere texture expects: `u = (lon+180)/360`, `v = (90-lat)/180`.
+  RELIEF.jpg maps onto a sphere with NO resampling. The afternoon's work stands.
+- **The pins get simpler, not harder.** Lat/lon to a point on a sphere is three
+  lines of trigonometry. No projection maths, no distortion caveat, and a pin
+  on the far side is BEHIND THE EARTH rather than needing a rule to hide it.
+- **Trade routes become drawable.** A route is a great circle. On a flat chart
+  a great circle looks like an arbitrary curve, which is why the
+  Mediterranean-to-India question is unanswerable on the current surface. On a
+  sphere it is a straight line across the surface and needs no defending.
+- **There is precedent aboard.** amenti-timeline.js already renders a
+  three-tier sky; the ship has done spatial rendering before.
+
+**THE HONEST COST.** It is a different renderer. Everything built on 4 Sep
+against an SVG scene would need rebuilding against a 3D one: the label
+collision cull, the persisting seat nodes and their fades, the anchor mark, the
+aperture scrub, the sky band, Jupiter's return line. None of it is wasted —
+the RULES all transfer — but the drawing does not.
+
+**THE SHAPE TO BUILD TOWARD.**
+- **THE BLUEPRINT STAYS FLAT AND STAYS THE DEFAULT.** It is the better
+  INSTRUMENT: flat land, a hard coast, names that read at once because nothing
+  competes with them. A reader looking for where a soul stood is not reading
+  terrain.
+- **THE ATLAS BECOMES THE GLOBE.** It is the better PICTURE, and the point of
+  it is seeing the earth rather than reading a list. The toggle that exists
+  today already frames this correctly: the atlas is a choice, not the state a
+  reader is dropped into.
+
+**THE ONE PREREQUISITE, AND IT IS WORTH DOING ALONE.** `WORLD.json` currently
+stores a PRE-PROJECTED path string — the equirectangular maths is baked into
+the file. It should hold lon/lat rings and be projected at draw time. That is
+an afternoon, it makes the flat map carry any projection, and NOTHING ELSE HERE
+CAN START UNTIL IT IS DONE.
+
+- **Acceptance test:** WORLD.json holds lon/lat, not screen coordinates, and
+  the flat blueprint renders from it unchanged. Then: a sphere, correctly
+  textured, with 864 pins on it, and a great circle from Rome to Alexandria
+  that a reader can measure against one from Rome to London and see that the
+  first is shorter — which the map today gets wrong.
 
 *Updated 31 Aug 2026: moves 12-22 added, #4 closed by supersession, #5 blocked,
 the critical path reordered. Eight of those moves had been sitting in a log and a
