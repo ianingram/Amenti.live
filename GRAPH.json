@@ -1,7 +1,7 @@
 {
- "built": "2026-09-03",
+ "built": "2026-09-05",
  "authors": 7,
- "nodes": 79,
+ "nodes": 80,
  "edges": 111,
  "graph": {
   "nodes": [
@@ -60,18 +60,17 @@
     "d": -54
    },
    {
-    "key": "brutus",
-    "named": "Brutus",
-    "room": true,
+    "key": "marcus-junius-brutus",
+    "named": "Marcus Junius Brutus",
+    "room": false,
     "namedBy": [
      "julius-caesar",
      "flavius-josephus",
-     "livy",
      "plutarch"
     ],
-    "inDegree": 4,
-    "b": -545,
-    "d": -509
+    "inDegree": 3,
+    "b": -85,
+    "d": -42
    },
    {
     "key": "titus-labienus",
@@ -444,6 +443,17 @@
     "inDegree": 2,
     "b": -771,
     "d": -753
+   },
+   {
+    "key": "lucius-junius-brutus",
+    "named": "Lucius Junius Brutus",
+    "room": false,
+    "namedBy": [
+     "livy"
+    ],
+    "inDegree": 1,
+    "b": -545,
+    "d": -509
    },
    {
     "key": "numa-pompilius",
@@ -953,15 +963,15 @@
    },
    {
     "from": "julius-caesar",
-    "to": "brutus",
-    "named": "Brutus",
+    "to": "marcus-junius-brutus",
+    "named": "Marcus Junius Brutus",
     "kind": "contemporary",
     "count": 13,
     "source": "Caesar, Commentaries (Gallic & Civil Wars)",
     "fromB": -100,
     "fromD": -44,
-    "toB": -545,
-    "toD": -509
+    "toB": -85,
+    "toD": -42
    },
    {
     "from": "julius-caesar",
@@ -1241,15 +1251,15 @@
    },
    {
     "from": "flavius-josephus",
-    "to": "brutus",
-    "named": "Brutus",
+    "to": "marcus-junius-brutus",
+    "named": "Marcus Junius Brutus",
     "kind": "historical",
     "count": 1,
     "source": "Josephus, Antiquities 14-19",
     "fromB": 37,
     "fromD": 100,
-    "toB": -545,
-    "toD": -509
+    "toB": -85,
+    "toD": -42
    },
    {
     "from": "flavius-josephus",
@@ -1337,8 +1347,8 @@
    },
    {
     "from": "livy",
-    "to": "brutus",
-    "named": "Brutus",
+    "to": "lucius-junius-brutus",
+    "named": "Lucius Junius Brutus",
     "kind": "historical",
     "count": 1,
     "source": "Livy, Ab Urbe Condita (selections)",
@@ -1445,15 +1455,15 @@
    },
    {
     "from": "plutarch",
-    "to": "brutus",
-    "named": "Brutus",
+    "to": "marcus-junius-brutus",
+    "named": "Marcus Junius Brutus",
     "kind": "historical",
     "count": 1,
     "source": "Plutarch, Lives (Theseus, Romulus, Solon, Pericles, Alcibiades, Coriolanus, Alexander, Marcus Brutus)",
     "fromB": 46,
     "fromD": 120,
-    "toB": -545,
-    "toD": -509
+    "toB": -85,
+    "toD": -42
    },
    {
     "from": "plutarch",
@@ -2240,16 +2250,6 @@
  "analysis": {
   "most_named": [
    {
-    "named": "Brutus",
-    "times": 4,
-    "by": [
-     "julius-caesar",
-     "flavius-josephus",
-     "livy",
-     "plutarch"
-    ]
-   },
-   {
     "named": "Hercules",
     "times": 4,
     "by": [
@@ -2267,6 +2267,15 @@
      "livy",
      "plutarch",
      "tacitus"
+    ]
+   },
+   {
+    "named": "Marcus Junius Brutus",
+    "times": 3,
+    "by": [
+     "julius-caesar",
+     "flavius-josephus",
+     "plutarch"
     ]
    },
    {
@@ -2370,15 +2379,6 @@
   ],
   "cross_corroborated": [
    {
-    "named": "Brutus",
-    "historians": [
-     "julius-caesar",
-     "flavius-josephus",
-     "livy",
-     "plutarch"
-    ]
-   },
-   {
     "named": "Hercules",
     "historians": [
      "julius-caesar",
@@ -2394,6 +2394,14 @@
      "livy",
      "plutarch",
      "tacitus"
+    ]
+   },
+   {
+    "named": "Marcus Junius Brutus",
+    "historians": [
+     "julius-caesar",
+     "flavius-josephus",
+     "plutarch"
     ]
    },
    {
@@ -2583,26 +2591,6 @@
   ],
   "room_to_room_bridges": [
    {
-    "from": "julius-caesar",
-    "to": "brutus",
-    "named": "Brutus"
-   },
-   {
-    "from": "flavius-josephus",
-    "to": "brutus",
-    "named": "Brutus"
-   },
-   {
-    "from": "livy",
-    "to": "brutus",
-    "named": "Brutus"
-   },
-   {
-    "from": "plutarch",
-    "to": "brutus",
-    "named": "Brutus"
-   },
-   {
     "from": "plutarch",
     "to": "thucydides",
     "named": "Thucydides"
@@ -2614,16 +2602,6 @@
    }
   ],
   "possible_collisions": [
-   {
-    "named": "Brutus",
-    "historians": [
-     "julius-caesar",
-     "flavius-josephus",
-     "livy",
-     "plutarch"
-    ],
-    "note": "named by 3+ sources across possibly different eras — verify it is one person"
-   },
    {
     "named": "Hercules",
     "historians": [
@@ -2641,6 +2619,15 @@
      "livy",
      "plutarch",
      "tacitus"
+    ],
+    "note": "named by 3+ sources across possibly different eras — verify it is one person"
+   },
+   {
+    "named": "Marcus Junius Brutus",
+    "historians": [
+     "julius-caesar",
+     "flavius-josephus",
+     "plutarch"
     ],
     "note": "named by 3+ sources across possibly different eras — verify it is one person"
    },
