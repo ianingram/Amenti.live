@@ -1,317 +1,317 @@
 year,name,category,description,Place,note
--1334,Tutankhamun reigns,politics,Boy pharaoh restores Egyptian religion.,,
--509,Roman Republic Founded,politics,Last king expelled; Republic begins.,,
--508,Athenian democracy,politics,"Cleisthenes reforms, first democracy.",,
--323,Death of Alexander,politics,Empire fragments into Diadochi.,,
--221,Qin unifies China,politics,First Emperor Shi Huangdi.,,
--202,Han Dynasty begins,politics,Liu Bang founds Han China.,,
--100,Birth of Julius Caesar,politics,Roman general and statesman.,,
--44,Assassination of Caesar,politics,Ides of March; Roman Republic ends.,,
--27,Roman Empire begins,politics,Augustus becomes first Emperor.,,
-220,Han Dynasty ends,politics,Three Kingdoms period begins in China.,,
-284,Diocletian reforms Rome,politics,Tetrarchy and economic reforms.,,
-395,Roman Empire splits,politics,East and West divided permanently.,,
-476,Fall of Western Rome,politics,Last Western Emperor deposed.,,
-527,Justinian becomes Emperor,politics,Begins reconquest of the West.,,
-661,Umayyad Caliphate begins,politics,Capital moves to Damascus.,,
-750,Abbasid Caliphate,politics,Capital moves to Baghdad.,,
-800,Charlemagne crowned Emperor,politics,Holy Roman Empire begins.,,
-843,Treaty of Verdun,politics,Carolingian Empire divided.,,
-907,Tang Dynasty falls,politics,Five Dynasties period in China.,,
-962,Holy Roman Empire founded,politics,Otto I crowned by the Pope.,,
-1192,Kamakura Shogunate,politics,First samurai government in Japan.,,
-1227,Death of Genghis Khan,politics,Mongol Empire at its peak.,,
-1271,Yuan Dynasty founded,politics,Kublai Khan rules China.,,
-1368,Ming Dynasty founded,politics,Hongwu Emperor expels the Mongols.,,
-1381,Peasants' Revolt,politics,Wat Tyler's rebellion in England.,,
-1494,Treaty of Tordesillas,politics,Spain and Portugal divide the world.,,
-1556,Akbar becomes Mughal Emperor,politics,Great expansion of Mughal India.,,
-1644,Ming Dynasty falls,politics,Qing Dynasty begins in China.,,
-1648,Treaty of Westphalia,politics,Ends Thirty Years' War; modern state system.,,
-1649,Charles I executed,politics,English Commonwealth begins.,,
-1660,Restoration of Charles II,politics,Stuart monarchy restored.,,
-1690,Locke's Two Treatises,politics,Natural rights and government by consent.,,
-1707,Act of Union (Britain),politics,Scotland and England unite.,,
-1714,Hanoverian succession,politics,George I becomes British king.,,
-1762,Rousseau Social Contract,politics,Sovereignty of the people.,,
-1773,Boston Tea Party,politics,American protest against British tax.,,
-1776,US Declaration of Independence,politics,Thirteen colonies declare independence.,,
-1783,Treaty of Paris,politics,US independence recognized.,,
-1789,French Revolution begins,politics,Storming of the Bastille.,,
-1789,Washington inaugurated,politics,First US President.,,
-1793,Reign of Terror,politics,Robespierre dominates France.,,
-1803,Louisiana Purchase,politics,US doubles in size.,,
-1804,Napoleon crowned Emperor,politics,Crowns himself in Notre-Dame.,,
-1821,Death of Napoleon,politics,Exiled at Saint Helena.,,
-1823,Monroe Doctrine,politics,Americas closed to European colonization.,,
-1830,Indian Removal Act,politics,US forced relocation of native nations.,,
-1837,Victoria becomes Queen,politics,Beginning of the Victorian era.,,
-1842,Treaty of Nanking,politics,Hong Kong ceded to Britain.,,
-1848,Communist Manifesto published,politics,Marx and Engels.,,
-1848,Revolutions of 1848,politics,Liberal uprisings across Europe.,,
-1848,Seneca Falls Convention,politics,First women's rights convention.,,
-1853,Perry opens Japan,politics,US Navy ends Japanese isolation.,,
-1860,Italian unification advances,politics,Garibaldi's Sicilian expedition.,,
-1865,Lincoln assassinated,politics,End of US Civil War; Reconstruction begins.,,
-1871,German Empire founded,politics,Bismarck unifies Germany.,,
-1884,Berlin Conference,politics,European partition of Africa.,,
-1893,Women's suffrage in NZ,politics,First nation to grant women the vote.,,
-1911,Chinese Revolution,politics,End of imperial China.,,
-1917,Balfour Declaration,politics,Britain supports Jewish homeland.,,
-1917,Russian Revolution,politics,Bolsheviks seize power.,,
-1919,Treaty of Versailles,politics,Punitive peace with Germany.,,
-1920,League of Nations founded,politics,Failed predecessor to UN.,,
-1922,Mussolini March on Rome,politics,Fascist takeover of Italy.,,
-1922,Soviet Union founded,politics,USSR formally established.,,
-1923,Republic of Turkey founded,politics,Ataturk modernizes.,,
-1924,Death of Lenin,politics,Stalin's rise begins.,,
-1928,Pact of Paris,politics,Kellogg-Briand renounces war.,,
-1933,FDR New Deal,politics,US response to Great Depression.,,
-1933,Hitler becomes Chancellor,politics,Nazi Party takes power.,,
-1938,Munich Agreement,politics,Appeasement of Hitler.,,
-1939,Hitler-Stalin Pact,politics,Non-aggression treaty.,,
-1945,Death of Hitler,politics,Suicide in Berlin bunker.,,
-1945,United Nations founded,politics,UN Charter signed in San Francisco.,,
-1945,Yalta Conference,politics,Allies divide postwar world.,,
-1946,Iron Curtain speech,politics,"Churchill at Fulton, Missouri.",,
-1947,Indian Independence,politics,Partition of British India.,,
-1948,State of Israel founded,politics,Modern Israel declares independence.,,
-1949,Mao founds PRC,politics,People's Republic of China.,,
-1949,NATO founded,politics,Western military alliance.,,
-1953,Stalin dies,politics,Khrushchev rises.,,
-1955,Rosa Parks,politics,Montgomery bus boycott begins.,,
-1959,Cuban Revolution,politics,Castro takes power.,,
-1961,Berlin Wall built,politics,Division of Germany formalized.,,
-1963,I Have a Dream speech,politics,MLK at the March on Washington.,,
-1963,Kennedy assassinated,politics,"Dallas, Texas.",,
-1968,MLK assassinated,politics,"Memphis, Tennessee.",,
-1968,Prague Spring,politics,Crushed by Warsaw Pact invasion.,,
-1972,Nixon visits China,politics,US-China rapprochement.,,
-1972,Watergate break-in,politics,Scandal that brings down Nixon.,,
-1974,Nixon resigns,politics,First US president to resign.,,
-1979,Iranian Revolution,politics,Khomeini overthrows Shah.,,
-1981,Reagan assassination attempt,politics,Hinckley shoots the President.,,
-1985,Gorbachev becomes Soviet leader,politics,Glasnost and perestroika begin.,,
-1987,Tear down this wall speech,politics,Reagan at Brandenburg Gate.,,
-1989,Fall of Berlin Wall,politics,End of the Cold War era.,,
-1989,Tiananmen Square protests,politics,Chinese government crackdown.,,
-1990,Mandela released,politics,After 27 years in prison.,,
-1991,Soviet Union dissolved,politics,15 successor states.,,
-1992,Maastricht Treaty,politics,European Union founded.,,
-1994,Mandela elected President,politics,First democratic election in South Africa.,,
-1995,Dayton Accords,politics,End of Bosnian War.,,
-1997,Hong Kong handover,politics,British colony returns to China.,,
-1998,Good Friday Agreement,politics,Peace in Northern Ireland.,,
-2008,Obama elected,politics,First African-American US president.,,
-2010,Arab Spring begins,politics,Tunisian Revolution sparks regional uprisings.,,
-2013,Snowden revelations,politics,NSA surveillance exposed.,,
-2015,Paris Climate Agreement,politics,Global commitment to emissions.,,
-2016,Brexit referendum,politics,UK votes to leave EU.,,
-2016,Trump elected,politics,Disrupts US political establishment.,,
-2019,Hong Kong protests,politics,Massive demonstrations for democracy.,,
-2020,George Floyd protests,politics,Global Black Lives Matter mobilization.,,
-2021,January 6 Capitol attack,politics,US Capitol breached.,,
-2022,Queen Elizabeth II dies,politics,After 70-year reign.,,
-2024,US presidential election,politics,Trump returns to office.,,
--1500,Vedas composed,religion,"Earliest Hindu scriptures, ancient India.",,
--960,Solomon's Temple built,religion,First Temple in Jerusalem.,,
--625,Lao Tzu born (traditional),religion,"Founder of Taoism, China.",,
--563,Birth of the Buddha,religion,Siddhartha Gautama born in Lumbini.,,
--551,Confucius born,religion,Chinese philosopher and teacher.,,
--4,Birth of Jesus (traditional),religion,Bethlehem.,,
-33,Crucifixion of Jesus,religion,Traditional date.,,
-312,Conversion of Constantine,religion,Battle of Milvian Bridge.,,
-313,Edict of Milan,religion,Christianity legalized in Roman Empire.,,
-325,Council of Nicaea,religion,First ecumenical council.,,
-380,Christianity official Roman religion,religion,Edict of Thessalonica.,,
-570,Birth of Muhammad,religion,In Mecca.,,
-610,Muhammad's first revelation,religion,In the cave of Hira.,,
-622,Hijra to Medina,religion,Year 1 of the Islamic calendar.,,
-632,Death of Muhammad,religion,Rashidun Caliphate begins.,,
-988,Conversion of Kievan Rus,religion,Vladimir adopts Orthodox Christianity.,,
-1054,Great Schism,religion,Catholic and Orthodox churches split.,,
-1095,First Crusade declared,religion,Pope Urban II at Clermont.,,
-1209,Albigensian Crusade,religion,Against Cathars in southern France.,,
-1273,Aquinas Summa Theologica,religion,Defining work of scholastic theology.,,
-1307,Templars suppressed,religion,Philip IV arrests the order in France.,,
-1309,Avignon Papacy begins,religion,Popes move to France.,,
-1378,Western Schism,religion,Rival popes in Rome and Avignon.,,
-1478,Spanish Inquisition begins,religion,Ferdinand and Isabella authorize.,,
-1517,Luther's 95 Theses,religion,Protestant Reformation begins.,,
-1517,Reformation begins,religion,Luther posts the 95 Theses.,,
-1521,Diet of Worms,religion,Luther refuses to recant.,,
-1534,Act of Supremacy,religion,Henry VIII heads Church of England.,,
-1545,Council of Trent begins,religion,Counter-Reformation.,,
-1611,King James Bible,religion,Authorized English translation.,,
-1633,Galileo trial,religion,Forced to recant heliocentrism.,,
--1750,Code of Hammurabi,law,First written legal code in Babylon.,,
-1086,Domesday Book,law,William I survey of England.,,
-1215,Magna Carta,law,King John signs at Runnymede.,,
-1598,Edict of Nantes,law,Religious toleration for Huguenots.,,
-1689,English Bill of Rights,law,Constitutional limits on monarchy.,,
-1787,US Constitution drafted,law,Philadelphia Convention.,,
-1791,US Bill of Rights ratified,law,First ten amendments.,,
-1807,Britain abolishes slave trade,law,Slave Trade Act.,,
-1820,Missouri Compromise,law,US slavery balance maintained.,,
-1833,British abolish slavery,law,Slavery Abolition Act.,,
-1863,Emancipation Proclamation,law,Lincoln frees Confederate slaves.,,
-1864,Geneva Convention,law,Rules of war and Red Cross founded.,,
-1920,19th Amendment ratified,law,US women win the vote.,,
-1935,Nuremberg Laws,law,Anti-Jewish legislation in Germany.,,
-1954,Brown v. Board of Education,law,US school segregation unconstitutional.,,
-1964,Civil Rights Act,law,US bans racial discrimination.,,
-1965,Voting Rights Act,law,US protects minority voting.,,
-1973,Roe v. Wade,law,US Supreme Court on abortion.,,
-2015,Same-sex marriage legalized US,law,Obergefell v. Hodges.,,
--540,Pythagoras flourishes,science,Greek mathematician and mystic.,,
--300,Euclid's Elements,science,"Foundational geometry text, Alexandria.",,
-820,Algebra invented,science,Al-Khwarizmi in Baghdad.,,
-1543,Copernicus De Revolutionibus,science,Heliocentric model published.,,
-1543,Vesalius On the Fabric,science,Modern anatomy founded.,,
-1564,Birth of Galileo,science,Italian astronomer and physicist.,,
-1582,Gregorian calendar,science,Pope Gregory XIII reforms the calendar.,,
-1609,Galileo's telescope,science,Astronomical observations begin.,,
-1610,Galileo discovers Jupiter's moons,science,Four Galilean moons found.,,
-1620,Bacon's Novum Organum,science,Scientific method codified.,,
-1632,Galileo Dialogue published,science,Two World Systems; tried by Inquisition.,,
-1637,Descartes Discourse on Method,science,Cogito ergo sum.,,
-1660,Royal Society chartered,science,England's scientific academy.,,
-1666,Newton's annus mirabilis,science,"Calculus, optics, gravitation.",,
-1675,Royal Observatory Greenwich,science,Founded for navigation.,,
-1687,Newton's Principia,science,Mathematical laws of motion and gravity.,,
-1735,Linnaeus Systema Naturae,science,Modern taxonomy founded.,,
-1796,Jenner smallpox vaccine,science,First vaccine in history.,,
-1799,Rosetta Stone discovered,science,Key to Egyptian hieroglyphs.,,
-1831,Faraday electromagnetic induction,science,Foundation of electric generators.,,
-1859,Darwin's Origin of Species,science,Theory of evolution by natural selection.,,
-1866,Mendel's laws of inheritance,science,Foundation of genetics.,,
-1873,Maxwell electromagnetism,science,Unified theory of light and electricity.,,
-1888,Hertz proves radio waves,science,Experimental confirmation of Maxwell.,,
-1895,Roentgen discovers X-rays,science,New form of radiation.,,
-1898,Discovery of radium,science,Marie and Pierre Curie.,,
-1900,Planck quantum hypothesis,science,Birth of quantum theory.,,
-1905,Einstein Annus Mirabilis,science,"Special relativity, photoelectric, Brownian motion, E=mcÂ².",,
-1913,Bohr atomic model,science,Quantized electron orbits.,,
-1915,Einstein general relativity,science,New theory of gravity.,,
-1922,Tutankhamun's tomb discovered,science,Howard Carter in the Valley of the Kings.,,
-1928,Penicillin discovered,science,Alexander Fleming.,,
-1953,DNA structure discovered,science,Watson and Crick double helix.,,
-1958,NASA founded,science,US response to Sputnik.,,
-1960,Birth control pill approved,science,FDA approves Enovid.,,
-1967,First heart transplant,science,Christiaan Barnard in South Africa.,,
-1978,First test-tube baby,science,Louise Brown via IVF.,,
-1990,Hubble telescope launched,science,Space-based observatory.,,
-1996,Dolly the sheep cloned,science,First mammal cloned from adult cell.,,
-2003,Human Genome sequenced,science,Complete reference genome.,,
-2012,Higgs boson discovered,science,CERN announces discovery.,,
-2017,Total solar eclipse US,science,Path of totality across America.,,
-2018,CRISPR-edited babies,science,He Jiankui announces genetically modified twins.,,
-2024,AI Nobel Prizes,science,Physics and Chemistry both for AI work.,,
--4500,Wheel invented,invention,First evidence of the wheel in Mesopotamia.,,
--3500,Cuneiform script,invention,"Earliest writing system, Sumer.",,
--3200,Egyptian hieroglyphs,invention,Earliest known hieroglyphic writing.,,
--1100,Phoenician alphabet,invention,First widely-used alphabet.,,
-105,Paper invented in China,invention,Cai Lun develops papermaking.,,
-868,Diamond Sutra printed,invention,"Earliest dated printed book, China.",,
-1455,Gutenberg Bible printed,invention,First major book printed with movable type.,,
-1709,Iron smelted with coke,invention,Abraham Darby; Industrial Revolution input.,,
-1712,Newcomen Steam Engine,invention,First practical atmospheric steam engine.,,
-1764,Spinning Jenny,invention,Hargreaves transforms textiles.,,
-1769,Watt's Steam Engine patent,invention,Modern steam engine; Industrial Revolution.,,
-1783,Montgolfier balloon flight,invention,First human flight.,,
-1807,Fulton's steamboat,invention,First commercial steamboat.,,
-1814,Stephenson's locomotive,invention,First practical steam locomotive.,,
-1821,Faraday's electric motor,invention,First electromagnetic rotary device.,,
-1825,First passenger railway,invention,Stockton & Darlington Railway opens.,,
-1834,Mechanical refrigeration,invention,Jacob Perkins patents vapor compression -- the invention of ice.,,
-1839,Daguerreotype announced,invention,First practical photographic process.,,
-1844,Telegraph: What hath God wrought,invention,Morse's first long message.,,
-1859,First commercial oil well,invention,Drake well in Pennsylvania.,,
-1876,Bell patents telephone,invention,Voice transmission over wires.,,
-1877,Edison phonograph,invention,First sound recording device.,,
-1879,Edison's incandescent bulb,invention,Practical electric lighting.,,
-1882,Edison electric grid,invention,"Pearl Street Station, NYC.",,
-1885,Benz Patent Motorwagen,invention,First automobile.,,
-1895,Lumiere brothers cinema,invention,"First public film screening, Paris.",,
-1901,Marconi transatlantic radio,invention,First wireless transmission across Atlantic.,,
-1903,Wright Brothers first flight,invention,Kitty Hawk powered flight.,,
-1908,Ford Model T,invention,Affordable automobile for the masses.,,
-1927,Lindbergh transatlantic flight,invention,"Spirit of St Louis, NYC to Paris.",,
-1947,Transistor invented,invention,Bell Labs; modern electronics.,,
-1957,Sputnik launched,invention,First artificial satellite; Space Age begins.,,
-1958,Integrated circuit,invention,Jack Kilby at Texas Instruments.,,
-1969,Apollo 11 moon landing,invention,Armstrong walks on the moon.,,
-1971,Microprocessor invented,invention,Intel 4004.,,
-1981,IBM PC released,invention,Personal computing standardized.,,
-1984,Apple Macintosh,invention,GUI for the masses.,,
-1991,World Wide Web public,invention,Tim Berners-Lee releases WWW.,,
-2007,iPhone introduced,invention,Mobile computing era begins.,,
-2007,iPhone introduced (initial),invention,Smartphone era begins.,,
-2009,Bitcoin genesis block,invention,First cryptocurrency launched.,,
-2022,ChatGPT released,invention,Large-language-model era reaches public.,,
-2023,GPT-4 released,invention,Multimodal AI reaches mainstream.,,
--2100,Epic of Gilgamesh recorded,culture,Oldest preserved literary work.,,
--800,Homer's epics composed,culture,Iliad and Odyssey take shape.,,
--776,First Olympic Games,culture,"Olympia, Greece.",,
--399,Trial and death of Socrates,culture,Athenian philosopher executed.,,
--387,Plato founds the Academy,culture,First institution of higher learning.,,
--335,Aristotle founds Lyceum,culture,Athens; tutor of Alexander.,,
--250,Library of Alexandria flourishes,culture,Greatest library of antiquity.,,
-600,Gregorian chant codified,culture,Pope Gregory the Great.,,
-1126,Averroes born,culture,Andalusian polymath.,,
-1220,University of Paris chartered,culture,Formal recognition.,,
-1469,Birth of Machiavelli,culture,Florentine political theorist.,,
-1503,Mona Lisa painted,culture,Leonardo begins the portrait.,,
-1508,Sistine Chapel ceiling,culture,Michelangelo begins the work.,,
-1564,Birth of Shakespeare,culture,Stratford-upon-Avon.,,
-1605,Don Quixote published,culture,Cervantes; modern novel begins.,,
-1721,Bach Brandenburg Concertos,culture,High Baroque masterpiece.,,
-1725,Bach Well-Tempered Clavier I,culture,Foundation of tonal music.,,
-1751,Encyclopedie begins,culture,Diderot and d'Alembert's great work.,,
-1851,Great Exhibition London,culture,Crystal Palace; first world's fair.,,
-1896,Athens Olympics,culture,First modern Olympic Games.,,
-1925,Scopes Monkey Trial,culture,Evolution on trial in Tennessee.,,
-1927,First talking film,culture,The Jazz Singer.,,
-1970,First Earth Day,culture,Environmental movement crystallizes.,,
-1977,First Star Wars film,culture,Blockbuster era begins.,,
-1980,CNN launched,culture,First 24-hour news network.,,
-2000,Y2K transition,culture,Feared computer disaster averted.,,
-2001,Wikipedia launched,culture,Free online encyclopedia.,,
-2005,YouTube launched,culture,Video sharing transforms media.,,
-2006,Twitter launched,culture,Microblogging emerges.,,
-1397,Medici Bank founded,commerce,Florence; financiers of the Renaissance.,,
-1502,First African slaves to Americas,commerce,Transatlantic slave trade begins.,,
-1600,British East India Company,commerce,Royal charter granted.,,
-1602,Dutch East India Company,commerce,First multinational corporation.,,
-1886,Coca-Cola invented,commerce,"Atlanta, Georgia.",,
-1903,Ford Motor Company,commerce,"Detroit, Michigan.",,
-1975,Microsoft founded,commerce,Gates and Allen.,,
-1976,Apple founded,commerce,Jobs and Wozniak.,,
-1998,Google founded,commerce,Page and Brin at Stanford.,,
-2004,Facebook launched,commerce,Social media transforms communication.,,
-1776,Wealth of Nations,economics,Adam Smith founds modern economics.,,
-1867,Marx's Capital Volume I,economics,Critique of political economy.,,
-1929,Wall Street Crash,economics,Great Depression begins.,,
-1947,Marshall Plan,economics,US aid rebuilds Europe.,,
-1973,OPEC oil embargo,economics,Energy crisis hits the West.,,
-1999,Euro currency introduced,economics,European single currency.,,
-2002,Euro physical currency,economics,Euro notes and coins circulate.,,
-2008,Global Financial Crisis,economics,Lehman collapse.,,
-1271,Marco Polo journeys east,exploration,Begins journey to China.,,
-1295,Marco Polo returns,exploration,Account of travels published.,,
-1488,Bartolomeu Dias rounds Cape,exploration,First European to round Africa.,,
-1492,Columbus reaches Americas,exploration,European contact with the New World.,,
-1498,Vasco da Gama reaches India,exploration,First sea route to India.,,
-1513,Balboa reaches Pacific,exploration,First European on the Pacific from the New World.,,
-1519,Magellan begins circumnavigation,exploration,Spanish expedition departs.,,
-1909,Peary at the North Pole,exploration,Or so he claimed.,,
-1911,Amundsen at South Pole,exploration,First confirmed to reach.,,
-1961,Gagarin in space,exploration,First human in orbit.,,
-1968,Apollo 8 orbits Moon,exploration,Earthrise photograph.,,
-1825,Erie Canal opens,engineering,NYC to Great Lakes.,,
-1869,Suez Canal opens,engineering,Connects Mediterranean and Red Sea.,,
-1869,Transcontinental Railroad,engineering,US east and west coasts connected.,,
-1914,Panama Canal opens,engineering,Atlantic-Pacific shortcut.,,
+-1334,Tutankhamun reigns,politics,Boy pharaoh restores Egyptian religion.,"Thebes, Egypt","a reign, not a moment; the seat is Thebes"
+-509,Roman Republic Founded,politics,Last king expelled; Republic begins.,"Rome, Italy",
+-508,Athenian democracy,politics,"Cleisthenes reforms, first democracy.","Athens, Greece",Cleisthenes' reforms
+-323,Death of Alexander,politics,Empire fragments into Diadochi.,Babylon,
+-221,Qin unifies China,politics,First Emperor Shi Huangdi.,"Xianyang, China","the Qin capital, near modern Xi'an"
+-202,Han Dynasty begins,politics,Liu Bang founds Han China.,"Xi'an, China","Chang'an, the Han capital"
+-100,Birth of Julius Caesar,politics,Roman general and statesman.,"Rome, Italy",
+-44,Assassination of Caesar,politics,Ides of March; Roman Republic ends.,"Rome, Italy",the Curia of Pompey
+-27,Roman Empire begins,politics,Augustus becomes first Emperor.,"Rome, Italy",
+220,Han Dynasty ends,politics,Three Kingdoms period begins in China.,"Luoyang, China",
+284,Diocletian reforms Rome,politics,Tetrarchy and economic reforms.,Roman Empire,a reform of the whole administration
+395,Roman Empire splits,politics,East and West divided permanently.,Roman Empire,"a division, not a place"
+476,Fall of Western Rome,politics,Last Western Emperor deposed.,"Ravenna, Italy","Romulus Augustulus deposed at Ravenna, not Rome"
+527,Justinian becomes Emperor,politics,Begins reconquest of the West.,Constantinople,
+661,Umayyad Caliphate begins,politics,Capital moves to Damascus.,"Damascus, Syria",
+750,Abbasid Caliphate,politics,Capital moves to Baghdad.,"Baghdad, Iraq",the capital moves here
+800,Charlemagne crowned Emperor,politics,Holy Roman Empire begins.,"Rome, Italy",crowned at St Peter's
+843,Treaty of Verdun,politics,Carolingian Empire divided.,"Verdun, France",
+907,Tang Dynasty falls,politics,Five Dynasties period in China.,Chang'an,
+962,Holy Roman Empire founded,politics,Otto I crowned by the Pope.,"Rome, Italy",Otto I crowned by the Pope
+1192,Kamakura Shogunate,politics,First samurai government in Japan.,"Kamakura, Japan",
+1227,Death of Genghis Khan,politics,Mongol Empire at its peak.,Mongolia,died on campaign; the site is not known
+1271,Yuan Dynasty founded,politics,Kublai Khan rules China.,"Beijing, China",Khanbaliq
+1368,Ming Dynasty founded,politics,Hongwu Emperor expels the Mongols.,"Nanjing, China",the first Ming capital
+1381,Peasants' Revolt,politics,Wat Tyler's rebellion in England.,"London, England",Wat Tyler at Smithfield
+1494,Treaty of Tordesillas,politics,Spain and Portugal divide the world.,"Tordesillas, Spain",
+1556,Akbar becomes Mughal Emperor,politics,Great expansion of Mughal India.,"Delhi, India",
+1644,Ming Dynasty falls,politics,Qing Dynasty begins in China.,"Beijing, China",
+1648,Treaty of Westphalia,politics,Ends Thirty Years' War; modern state system.,"Munster, Germany",signed at Munster and Osnabruck
+1649,Charles I executed,politics,English Commonwealth begins.,"London, England",Whitehall
+1660,Restoration of Charles II,politics,Stuart monarchy restored.,"London, England",
+1690,Locke's Two Treatises,politics,Natural rights and government by consent.,"London, England",published here
+1707,Act of Union (Britain),politics,Scotland and England unite.,"London, England",
+1714,Hanoverian succession,politics,George I becomes British king.,"London, England",
+1762,Rousseau Social Contract,politics,Sovereignty of the people.,"Amsterdam, Netherlands","published here, not in France"
+1773,Boston Tea Party,politics,American protest against British tax.,"Boston, United States",
+1776,US Declaration of Independence,politics,Thirteen colonies declare independence.,"Philadelphia, United States",
+1783,Treaty of Paris,politics,US independence recognized.,"Paris, France",
+1789,French Revolution begins,politics,Storming of the Bastille.,"Paris, France",the Bastille
+1789,Washington inaugurated,politics,First US President.,"New York City, United States","Federal Hall, not Washington"
+1793,Reign of Terror,politics,Robespierre dominates France.,"Paris, France",
+1803,Louisiana Purchase,politics,US doubles in size.,"Paris, France",the treaty signed in Paris; the land is a third of a continent
+1804,Napoleon crowned Emperor,politics,Crowns himself in Notre-Dame.,"Paris, France",Notre-Dame
+1821,Death of Napoleon,politics,Exiled at Saint Helena.,Saint Helena,
+1823,Monroe Doctrine,politics,Americas closed to European colonization.,"Washington, United States",a message to Congress
+1830,Indian Removal Act,politics,US forced relocation of native nations.,"Washington, United States",the Act; the removal is a continent
+1837,Victoria becomes Queen,politics,Beginning of the Victorian era.,"London, England",
+1842,Treaty of Nanking,politics,Hong Kong ceded to Britain.,"Nanjing, China",
+1848,Communist Manifesto published,politics,Marx and Engels.,"London, England",published here in German
+1848,Revolutions of 1848,politics,Liberal uprisings across Europe.,Europe,
+1848,Seneca Falls Convention,politics,First women's rights convention.,"Seneca Falls, United States",
+1853,Perry opens Japan,politics,US Navy ends Japanese isolation.,"Yokohama, Japan",Perry's landing at Kanagawa
+1860,Italian unification advances,politics,Garibaldi's Sicilian expedition.,Sicily,Garibaldi's expedition
+1865,Lincoln assassinated,politics,End of US Civil War; Reconstruction begins.,"Washington, United States",Ford's Theatre
+1871,German Empire founded,politics,Bismarck unifies Germany.,"Versailles, France","proclaimed in the Hall of Mirrors, in France"
+1884,Berlin Conference,politics,European partition of Africa.,"Berlin, Germany",
+1893,Women's suffrage in NZ,politics,First nation to grant women the vote.,"Wellington, New Zealand",
+1911,Chinese Revolution,politics,End of imperial China.,"Wuhan, China",the Wuchang uprising
+1917,Balfour Declaration,politics,Britain supports Jewish homeland.,"London, England",a letter written here about a place elsewhere
+1917,Russian Revolution,politics,Bolsheviks seize power.,"Saint Petersburg, Russia",Petrograd
+1919,Treaty of Versailles,politics,Punitive peace with Germany.,"Versailles, France",
+1920,League of Nations founded,politics,Failed predecessor to UN.,"Geneva, Switzerland",
+1922,Mussolini March on Rome,politics,Fascist takeover of Italy.,"Rome, Italy",
+1922,Soviet Union founded,politics,USSR formally established.,"Moscow, Russia",
+1923,Republic of Turkey founded,politics,Ataturk modernizes.,"Ankara, Turkey",
+1924,Death of Lenin,politics,Stalin's rise begins.,"Moscow, Russia","at Gorki, outside Moscow"
+1928,Pact of Paris,politics,Kellogg-Briand renounces war.,"Paris, France",Kellogg-Briand
+1933,FDR New Deal,politics,US response to Great Depression.,"Washington, United States",
+1933,Hitler becomes Chancellor,politics,Nazi Party takes power.,"Berlin, Germany",
+1938,Munich Agreement,politics,Appeasement of Hitler.,"Munich, Germany",
+1939,Hitler-Stalin Pact,politics,Non-aggression treaty.,"Moscow, Russia",signed in Moscow
+1945,Death of Hitler,politics,Suicide in Berlin bunker.,"Berlin, Germany",
+1945,United Nations founded,politics,UN Charter signed in San Francisco.,"San Francisco, United States",the Charter signed here
+1945,Yalta Conference,politics,Allies divide postwar world.,"Yalta, Ukraine",
+1946,Iron Curtain speech,politics,"Churchill at Fulton, Missouri.","Fulton, United States",
+1947,Indian Independence,politics,Partition of British India.,"Delhi, India",partition is two nations; this is the moment
+1948,State of Israel founded,politics,Modern Israel declares independence.,"Tel Aviv, Israel",declared at Tel Aviv
+1949,Mao founds PRC,politics,People's Republic of China.,"Beijing, China",Tiananmen
+1949,NATO founded,politics,Western military alliance.,"Washington, United States",the Treaty signed here
+1953,Stalin dies,politics,Khrushchev rises.,"Moscow, Russia",
+1955,Rosa Parks,politics,Montgomery bus boycott begins.,"Montgomery, United States",
+1959,Cuban Revolution,politics,Castro takes power.,"Havana, Cuba",
+1961,Berlin Wall built,politics,Division of Germany formalized.,"Berlin, Germany",
+1963,I Have a Dream speech,politics,MLK at the March on Washington.,"Washington, United States",the Lincoln Memorial
+1963,Kennedy assassinated,politics,"Dallas, Texas.","Dallas, United States",
+1968,MLK assassinated,politics,"Memphis, Tennessee.","Memphis, United States","Memphis, Tennessee"
+1968,Prague Spring,politics,Crushed by Warsaw Pact invasion.,"Prague, Czechia",
+1972,Nixon visits China,politics,US-China rapprochement.,"Beijing, China",
+1972,Watergate break-in,politics,Scandal that brings down Nixon.,"Washington, United States",
+1974,Nixon resigns,politics,First US president to resign.,"Washington, United States",
+1979,Iranian Revolution,politics,Khomeini overthrows Shah.,"Tehran, Iran",
+1981,Reagan assassination attempt,politics,Hinckley shoots the President.,"Washington, United States",
+1985,Gorbachev becomes Soviet leader,politics,Glasnost and perestroika begin.,"Moscow, Russia",
+1987,Tear down this wall speech,politics,Reagan at Brandenburg Gate.,"Berlin, Germany",the Brandenburg Gate
+1989,Fall of Berlin Wall,politics,End of the Cold War era.,"Berlin, Germany",
+1989,Tiananmen Square protests,politics,Chinese government crackdown.,"Beijing, China",
+1990,Mandela released,politics,After 27 years in prison.,"Cape Town, South Africa","Victor Verster, near Paarl"
+1991,Soviet Union dissolved,politics,15 successor states.,"Moscow, Russia",
+1992,Maastricht Treaty,politics,European Union founded.,"Maastricht, Netherlands",
+1994,Mandela elected President,politics,First democratic election in South Africa.,South Africa,a national election
+1995,Dayton Accords,politics,End of Bosnian War.,"Dayton, United States","negotiated at Dayton, signed in Paris"
+1997,Hong Kong handover,politics,British colony returns to China.,Hong Kong,
+1998,Good Friday Agreement,politics,Peace in Northern Ireland.,"Belfast, United Kingdom",
+2008,Obama elected,politics,First African-American US president.,United States,a national election
+2010,Arab Spring begins,politics,Tunisian Revolution sparks regional uprisings.,"Tunis, Tunisia",Sidi Bouzid; the spring is a region
+2013,Snowden revelations,politics,NSA surveillance exposed.,Hong Kong,where the documents were handed over
+2015,Paris Climate Agreement,politics,Global commitment to emissions.,"Paris, France",
+2016,Brexit referendum,politics,UK votes to leave EU.,United Kingdom,a national referendum
+2016,Trump elected,politics,Disrupts US political establishment.,United States,a national election
+2019,Hong Kong protests,politics,Massive demonstrations for democracy.,Hong Kong,
+2020,George Floyd protests,politics,Global Black Lives Matter mobilization.,"Minneapolis, United States",where it began; the protests were global
+2021,January 6 Capitol attack,politics,US Capitol breached.,"Washington, United States",
+2022,Queen Elizabeth II dies,politics,After 70-year reign.,"Balmoral, United Kingdom",
+2024,US presidential election,politics,Trump returns to office.,United States,a national election
+-1500,Vedas composed,religion,"Earliest Hindu scriptures, ancient India.",South Asia,composed over centuries; no site
+-960,Solomon's Temple built,religion,First Temple in Jerusalem.,"Jerusalem, Israel",
+-625,Lao Tzu born (traditional),religion,"Founder of Taoism, China.",China,traditional and disputed; even the person is argued
+-563,Birth of the Buddha,religion,Siddhartha Gautama born in Lumbini.,Lumbini,
+-551,Confucius born,religion,Chinese philosopher and teacher.,"Qufu, China",the state of Lu
+-4,Birth of Jesus (traditional),religion,Bethlehem.,"Bethlehem, Israel",traditional
+33,Crucifixion of Jesus,religion,Traditional date.,"Jerusalem, Israel",traditional date
+312,Conversion of Constantine,religion,Battle of Milvian Bridge.,"Rome, Italy","the Milvian Bridge, north of the city"
+313,Edict of Milan,religion,Christianity legalized in Roman Empire.,"Milan, Italy",
+325,Council of Nicaea,religion,First ecumenical council.,"Iznik, Turkey",Nicaea
+380,Christianity official Roman religion,religion,Edict of Thessalonica.,"Thessaloniki, Greece",the Edict of Thessalonica
+570,Birth of Muhammad,religion,In Mecca.,"Mecca, Saudi Arabia",
+610,Muhammad's first revelation,religion,In the cave of Hira.,"Mecca, Saudi Arabia","the cave of Hira, above Mecca"
+622,Hijra to Medina,religion,Year 1 of the Islamic calendar.,"Medina, Saudi Arabia",
+632,Death of Muhammad,religion,Rashidun Caliphate begins.,"Medina, Saudi Arabia",
+988,Conversion of Kievan Rus,religion,Vladimir adopts Orthodox Christianity.,"Kyiv, Ukraine",
+1054,Great Schism,religion,Catholic and Orthodox churches split.,Constantinople,the bull delivered at Hagia Sophia
+1095,First Crusade declared,religion,Pope Urban II at Clermont.,"Clermont-Ferrand, France",Urban II at Clermont
+1209,Albigensian Crusade,religion,Against Cathars in southern France.,Southern Europe,"the Languedoc, over twenty years"
+1273,Aquinas Summa Theologica,religion,Defining work of scholastic theology.,"Paris, France",written at Paris and Naples
+1307,Templars suppressed,religion,Philip IV arrests the order in France.,"Paris, France",
+1309,Avignon Papacy begins,religion,Popes move to France.,"Avignon, France",
+1378,Western Schism,religion,Rival popes in Rome and Avignon.,Western Europe,rival popes at Rome and Avignon at once
+1478,Spanish Inquisition begins,religion,Ferdinand and Isabella authorize.,Spain,
+1517,Luther's 95 Theses,religion,Protestant Reformation begins.,"Wittenberg, Germany",
+1517,Reformation begins,religion,Luther posts the 95 Theses.,"Wittenberg, Germany",
+1521,Diet of Worms,religion,Luther refuses to recant.,"Worms, Germany",
+1534,Act of Supremacy,religion,Henry VIII heads Church of England.,"London, England",
+1545,Council of Trent begins,religion,Counter-Reformation.,"Trento, Italy",
+1611,King James Bible,religion,Authorized English translation.,"London, England",
+1633,Galileo trial,religion,Forced to recant heliocentrism.,"Rome, Italy",
+-1750,Code of Hammurabi,law,First written legal code in Babylon.,Babylon,
+1086,Domesday Book,law,William I survey of England.,England,a survey of the whole kingdom
+1215,Magna Carta,law,King John signs at Runnymede.,"Runnymede, England",
+1598,Edict of Nantes,law,Religious toleration for Huguenots.,"Nantes, France",
+1689,English Bill of Rights,law,Constitutional limits on monarchy.,"London, England",
+1787,US Constitution drafted,law,Philadelphia Convention.,"Philadelphia, United States",
+1791,US Bill of Rights ratified,law,First ten amendments.,United States,ratified state by state
+1807,Britain abolishes slave trade,law,Slave Trade Act.,"London, England",the Act; the trade was an ocean
+1820,Missouri Compromise,law,US slavery balance maintained.,"Washington, United States",
+1833,British abolish slavery,law,Slavery Abolition Act.,"London, England",
+1863,Emancipation Proclamation,law,Lincoln frees Confederate slaves.,"Washington, United States",
+1864,Geneva Convention,law,Rules of war and Red Cross founded.,"Geneva, Switzerland",
+1920,19th Amendment ratified,law,US women win the vote.,United States,ratified state by state
+1935,Nuremberg Laws,law,Anti-Jewish legislation in Germany.,"Nuremberg, Germany",
+1954,Brown v. Board of Education,law,US school segregation unconstitutional.,"Washington, United States",the Supreme Court
+1964,Civil Rights Act,law,US bans racial discrimination.,"Washington, United States",
+1965,Voting Rights Act,law,US protects minority voting.,"Washington, United States",
+1973,Roe v. Wade,law,US Supreme Court on abortion.,"Washington, United States",the Supreme Court
+2015,Same-sex marriage legalized US,law,Obergefell v. Hodges.,"Washington, United States","Obergefell, the Supreme Court"
+-540,Pythagoras flourishes,science,Greek mathematician and mystic.,"Crotone, Italy",his school in Magna Graecia
+-300,Euclid's Elements,science,"Foundational geometry text, Alexandria.","Alexandria, Egypt",
+820,Algebra invented,science,Al-Khwarizmi in Baghdad.,"Baghdad, Iraq",al-Khwarizmi at the House of Wisdom
+1543,Copernicus De Revolutionibus,science,Heliocentric model published.,"Nuremberg, Germany",printed at Nuremberg; written in Frombork
+1543,Vesalius On the Fabric,science,Modern anatomy founded.,"Basel, Switzerland",printed at Basel
+1564,Birth of Galileo,science,Italian astronomer and physicist.,"Pisa, Italy",
+1582,Gregorian calendar,science,Pope Gregory XIII reforms the calendar.,"Rome, Italy",
+1609,Galileo's telescope,science,Astronomical observations begin.,"Padua, Italy",
+1610,Galileo discovers Jupiter's moons,science,Four Galilean moons found.,"Padua, Italy",
+1620,Bacon's Novum Organum,science,Scientific method codified.,"London, England",
+1632,Galileo Dialogue published,science,Two World Systems; tried by Inquisition.,"Florence, Italy",
+1637,Descartes Discourse on Method,science,Cogito ergo sum.,"Leiden, Netherlands",published at Leiden
+1660,Royal Society chartered,science,England's scientific academy.,"London, England",
+1666,Newton's annus mirabilis,science,"Calculus, optics, gravitation.",Woolsthorpe,at home during the plague
+1675,Royal Observatory Greenwich,science,Founded for navigation.,"London, England",Greenwich
+1687,Newton's Principia,science,Mathematical laws of motion and gravity.,"London, England",
+1735,Linnaeus Systema Naturae,science,Modern taxonomy founded.,"Leiden, Netherlands",first edition printed at Leiden
+1796,Jenner smallpox vaccine,science,First vaccine in history.,"Berkeley, England","Berkeley, Gloucestershire"
+1799,Rosetta Stone discovered,science,Key to Egyptian hieroglyphs.,"Rashid, Egypt",Rosetta
+1831,Faraday electromagnetic induction,science,Foundation of electric generators.,"London, England",the Royal Institution
+1859,Darwin's Origin of Species,science,Theory of evolution by natural selection.,"London, England",published here; the voyage was the world
+1866,Mendel's laws of inheritance,science,Foundation of genetics.,"Brno, Czechia",
+1873,Maxwell electromagnetism,science,Unified theory of light and electricity.,"London, England","the Treatise, published here"
+1888,Hertz proves radio waves,science,Experimental confirmation of Maxwell.,"Karlsruhe, Germany",
+1895,Roentgen discovers X-rays,science,New form of radiation.,"Wurzburg, Germany",
+1898,Discovery of radium,science,Marie and Pierre Curie.,"Paris, France",
+1900,Planck quantum hypothesis,science,Birth of quantum theory.,"Berlin, Germany",
+1905,Einstein Annus Mirabilis,science,"Special relativity, photoelectric, Brownian motion, E=mcÂ².","Bern, Switzerland",written at the patent office
+1913,Bohr atomic model,science,Quantized electron orbits.,"Copenhagen, Denmark",
+1915,Einstein general relativity,science,New theory of gravity.,"Berlin, Germany",
+1922,Tutankhamun's tomb discovered,science,Howard Carter in the Valley of the Kings.,"Luxor, Egypt",the Valley of the Kings
+1928,Penicillin discovered,science,Alexander Fleming.,"London, England","St Mary's, Paddington"
+1953,DNA structure discovered,science,Watson and Crick double helix.,"Cambridge, England",the Cavendish
+1958,NASA founded,science,US response to Sputnik.,"Washington, United States",
+1960,Birth control pill approved,science,FDA approves Enovid.,"Washington, United States",the FDA
+1967,First heart transplant,science,Christiaan Barnard in South Africa.,"Cape Town, South Africa",Groote Schuur
+1978,First test-tube baby,science,Louise Brown via IVF.,"Oldham, England",
+1990,Hubble telescope launched,science,Space-based observatory.,"Cape Canaveral, United States",the launch; the telescope is in orbit
+1996,Dolly the sheep cloned,science,First mammal cloned from adult cell.,"Edinburgh, Scotland",the Roslin Institute
+2003,Human Genome sequenced,science,Complete reference genome.,,sequenced by a consortium across six countries at once
+2012,Higgs boson discovered,science,CERN announces discovery.,"Geneva, Switzerland",CERN
+2017,Total solar eclipse US,science,Path of totality across America.,,"a path of totality 4,000 km long — a line, not a point"
+2018,CRISPR-edited babies,science,He Jiankui announces genetically modified twins.,"Shenzhen, China",
+2024,AI Nobel Prizes,science,Physics and Chemistry both for AI work.,"Stockholm, Sweden",
+-4500,Wheel invented,invention,First evidence of the wheel in Mesopotamia.,Mesopotamia,earliest evidence; not an event and not a person
+-3500,Cuneiform script,invention,"Earliest writing system, Sumer.",Mesopotamia,developed over centuries
+-3200,Egyptian hieroglyphs,invention,Earliest known hieroglyphic writing.,Egypt,developed over centuries
+-1100,Phoenician alphabet,invention,First widely-used alphabet.,Levant,developed over centuries
+105,Paper invented in China,invention,Cai Lun develops papermaking.,China,"Cai Lun is the traditional attribution, not the origin"
+868,Diamond Sutra printed,invention,"Earliest dated printed book, China.","Dunhuang, China",found at Dunhuang; printed in China
+1455,Gutenberg Bible printed,invention,First major book printed with movable type.,"Mainz, Germany",
+1709,Iron smelted with coke,invention,Abraham Darby; Industrial Revolution input.,"Coalbrookdale, England",
+1712,Newcomen Steam Engine,invention,First practical atmospheric steam engine.,"Dudley, England",
+1764,Spinning Jenny,invention,Hargreaves transforms textiles.,"Blackburn, England",
+1769,Watt's Steam Engine patent,invention,Modern steam engine; Industrial Revolution.,"Birmingham, England",the patent; Watt was at Glasgow
+1783,Montgolfier balloon flight,invention,First human flight.,"Paris, France",
+1807,Fulton's steamboat,invention,First commercial steamboat.,"New York City, United States",the Hudson
+1814,Stephenson's locomotive,invention,First practical steam locomotive.,"Killingworth, England",
+1821,Faraday's electric motor,invention,First electromagnetic rotary device.,"London, England",the Royal Institution
+1825,First passenger railway,invention,Stockton & Darlington Railway opens.,"Darlington, England",Stockton and Darlington
+1834,Mechanical refrigeration,invention,Jacob Perkins patents vapor compression -- the invention of ice.,"London, England",Perkins' patent
+1839,Daguerreotype announced,invention,First practical photographic process.,"Paris, France",
+1844,Telegraph: What hath God wrought,invention,Morse's first long message.,"Washington, United States",sent to Baltimore
+1859,First commercial oil well,invention,Drake well in Pennsylvania.,"Titusville, United States",
+1876,Bell patents telephone,invention,Voice transmission over wires.,"Boston, United States",
+1877,Edison phonograph,invention,First sound recording device.,"Menlo Park, United States","Menlo Park, New Jersey"
+1879,Edison's incandescent bulb,invention,Practical electric lighting.,"Menlo Park, United States",
+1882,Edison electric grid,invention,"Pearl Street Station, NYC.","New York City, United States",Pearl Street
+1885,Benz Patent Motorwagen,invention,First automobile.,"Mannheim, Germany",
+1895,Lumiere brothers cinema,invention,"First public film screening, Paris.","Paris, France",
+1901,Marconi transatlantic radio,invention,First wireless transmission across Atlantic.,"St. John's, Canada",received at Signal Hill from Cornwall
+1903,Wright Brothers first flight,invention,Kitty Hawk powered flight.,"Kitty Hawk, United States",
+1908,Ford Model T,invention,Affordable automobile for the masses.,"Detroit, United States",
+1927,Lindbergh transatlantic flight,invention,"Spirit of St Louis, NYC to Paris.","Paris, France",the arrival; the flight is an ocean
+1947,Transistor invented,invention,Bell Labs; modern electronics.,"Murray Hill, United States",Bell Labs
+1957,Sputnik launched,invention,First artificial satellite; Space Age begins.,"Baikonur, Kazakhstan",
+1958,Integrated circuit,invention,Jack Kilby at Texas Instruments.,"Dallas, United States",Texas Instruments
+1969,Apollo 11 moon landing,invention,Armstrong walks on the moon.,,the event is on the Moon; the launch was at Cape Canaveral
+1971,Microprocessor invented,invention,Intel 4004.,"Santa Clara, United States",Intel
+1981,IBM PC released,invention,Personal computing standardized.,"Boca Raton, United States",
+1984,Apple Macintosh,invention,GUI for the masses.,"Cupertino, United States",
+1991,World Wide Web public,invention,Tim Berners-Lee releases WWW.,"Geneva, Switzerland",CERN
+2007,iPhone introduced,invention,Mobile computing era begins.,"San Francisco, United States",Macworld
+2007,iPhone introduced (initial),invention,Smartphone era begins.,"San Francisco, United States",a duplicate row of the one above
+2009,Bitcoin genesis block,invention,First cryptocurrency launched.,,no place; the network has no location and its author no name
+2022,ChatGPT released,invention,Large-language-model era reaches public.,"San Francisco, United States",
+2023,GPT-4 released,invention,Multimodal AI reaches mainstream.,"San Francisco, United States",
+-2100,Epic of Gilgamesh recorded,culture,Oldest preserved literary work.,Mesopotamia,recorded over centuries on tablets
+-800,Homer's epics composed,culture,Iliad and Odyssey take shape.,,"oral tradition; place, date and even the poet are argued"
+-776,First Olympic Games,culture,"Olympia, Greece.","Olympia, Greece",
+-399,Trial and death of Socrates,culture,Athenian philosopher executed.,"Athens, Greece",
+-387,Plato founds the Academy,culture,First institution of higher learning.,"Athens, Greece",
+-335,Aristotle founds Lyceum,culture,Athens; tutor of Alexander.,"Athens, Greece",
+-250,Library of Alexandria flourishes,culture,Greatest library of antiquity.,"Alexandria, Egypt",
+600,Gregorian chant codified,culture,Pope Gregory the Great.,"Rome, Italy",attributed to Gregory; the codifying took centuries
+1126,Averroes born,culture,Andalusian polymath.,"Cordoba, Spain",
+1220,University of Paris chartered,culture,Formal recognition.,"Paris, France",
+1469,Birth of Machiavelli,culture,Florentine political theorist.,"Florence, Italy",
+1503,Mona Lisa painted,culture,Leonardo begins the portrait.,"Florence, Italy",
+1508,Sistine Chapel ceiling,culture,Michelangelo begins the work.,"Rome, Italy",
+1564,Birth of Shakespeare,culture,Stratford-upon-Avon.,"Stratford-upon-Avon, England",
+1605,Don Quixote published,culture,Cervantes; modern novel begins.,"Madrid, Spain",
+1721,Bach Brandenburg Concertos,culture,High Baroque masterpiece.,"Kothen, Germany",
+1725,Bach Well-Tempered Clavier I,culture,Foundation of tonal music.,"Kothen, Germany",
+1751,Encyclopedie begins,culture,Diderot and d'Alembert's great work.,"Paris, France",
+1851,Great Exhibition London,culture,Crystal Palace; first world's fair.,"London, England","the Crystal Palace, Hyde Park"
+1896,Athens Olympics,culture,First modern Olympic Games.,"Athens, Greece",
+1925,Scopes Monkey Trial,culture,Evolution on trial in Tennessee.,"Dayton, United States","Dayton, Tennessee — NOT Dayton, Ohio"
+1927,First talking film,culture,The Jazz Singer.,"New York City, United States",the premiere
+1970,First Earth Day,culture,Environmental movement crystallizes.,United States,
+1977,First Star Wars film,culture,Blockbuster era begins.,"Los Angeles, United States",the premiere
+1980,CNN launched,culture,First 24-hour news network.,"Atlanta, United States",
+2000,Y2K transition,culture,Feared computer disaster averted.,,"a date, everywhere at once — the one event with no geography at all"
+2001,Wikipedia launched,culture,Free online encyclopedia.,"San Diego, United States",
+2005,YouTube launched,culture,Video sharing transforms media.,"San Mateo, United States",
+2006,Twitter launched,culture,Microblogging emerges.,"San Francisco, United States",
+1397,Medici Bank founded,commerce,Florence; financiers of the Renaissance.,"Florence, Italy",
+1502,First African slaves to Americas,commerce,Transatlantic slave trade begins.,Caribbean,Hispaniola; the trade is an ocean and four centuries
+1600,British East India Company,commerce,Royal charter granted.,"London, England",the charter
+1602,Dutch East India Company,commerce,First multinational corporation.,"Amsterdam, Netherlands",
+1886,Coca-Cola invented,commerce,"Atlanta, Georgia.","Atlanta, United States",
+1903,Ford Motor Company,commerce,"Detroit, Michigan.","Detroit, United States",
+1975,Microsoft founded,commerce,Gates and Allen.,"Albuquerque, United States","founded at Albuquerque, not Redmond"
+1976,Apple founded,commerce,Jobs and Wozniak.,"Cupertino, United States",Los Altos garage; Cupertino is the seat
+1998,Google founded,commerce,Page and Brin at Stanford.,"Menlo Park, United States",a Menlo Park garage
+2004,Facebook launched,commerce,Social media transforms communication.,"Cambridge, United States",Harvard
+1776,Wealth of Nations,economics,Adam Smith founds modern economics.,"London, England",published here; written in Kirkcaldy
+1867,Marx's Capital Volume I,economics,Critique of political economy.,"Hamburg, Germany",published at Hamburg; written in London
+1929,Wall Street Crash,economics,Great Depression begins.,"New York City, United States",
+1947,Marshall Plan,economics,US aid rebuilds Europe.,"Washington, United States","announced at Harvard, enacted in Washington"
+1973,OPEC oil embargo,economics,Energy crisis hits the West.,Western Asia,
+1999,Euro currency introduced,economics,European single currency.,Europe,
+2002,Euro physical currency,economics,Euro notes and coins circulate.,Europe,
+2008,Global Financial Crisis,economics,Lehman collapse.,"New York City, United States",Lehman; the crisis was global
+1271,Marco Polo journeys east,exploration,Begins journey to China.,"Venice, Italy",the departure; the journey is a continent
+1295,Marco Polo returns,exploration,Account of travels published.,"Venice, Italy",
+1488,Bartolomeu Dias rounds Cape,exploration,First European to round Africa.,"Cape Town, South Africa",the Cape of Good Hope
+1492,Columbus reaches Americas,exploration,European contact with the New World.,Caribbean,landfall in the Bahamas; the island is disputed
+1498,Vasco da Gama reaches India,exploration,First sea route to India.,"Kozhikode, India",Calicut
+1513,Balboa reaches Pacific,exploration,First European on the Pacific from the New World.,"Panama City, Panama",the isthmus
+1519,Magellan begins circumnavigation,exploration,Spanish expedition departs.,"Seville, Spain",the departure; he did not return
+1909,Peary at the North Pole,exploration,Or so he claimed.,,the claim is disputed and the position was never fixed
+1911,Amundsen at South Pole,exploration,First confirmed to reach.,Antarctica,"90 degrees south — a pole, not a seat"
+1961,Gagarin in space,exploration,First human in orbit.,"Baikonur, Kazakhstan",the launch; the orbit is the earth
+1968,Apollo 8 orbits Moon,exploration,Earthrise photograph.,"Cape Canaveral, United States",the launch; the event is at the Moon
+1825,Erie Canal opens,engineering,NYC to Great Lakes.,,"584 km from the Hudson to Lake Erie — a line, not a point"
+1869,Suez Canal opens,engineering,Connects Mediterranean and Red Sea.,"Suez, Egypt",
+1869,Transcontinental Railroad,engineering,US east and west coasts connected.,"Promontory, United States",the golden spike at Promontory Summit
+1914,Panama Canal opens,engineering,Atlantic-Pacific shortcut.,"Panama City, Panama",
 -1200,Bronze Age Collapse,disaster,Mediterranean civilizations collapse simultaneously.,,
 535,Volcanic winter of 536,disaster,Worst climate catastrophe in 2000 years.,,
 1838,Trail of Tears,disaster,Forced Cherokee relocation.,,
