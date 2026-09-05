@@ -380,6 +380,8 @@
       '#amenti-map .mp-li:hover,#amenti-map .mp-li.mp-lit{color:#eaf6ff;',
       '  border-left-color:#5fd0e8;background:rgba(95,208,232,.07)}',
       '#amenti-map .mp-li .mp-liwhere{color:#5d6e84;font-size:11px}',
+      '#amenti-map .mp-seat.mp-dated .mp-pin{stroke:#a8e6f5;stroke-width:.8;',
+      '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-seat.mp-lit .mp-pin{fill:#a9edff;fill-opacity:1}',
       '#amenti-map .mp-seat.mp-lit .mp-name{opacity:1;fill:#eaf6ff}',
       '#amenti-map .mp-zoomlab{position:absolute;right:70px;bottom:152px;',
@@ -651,6 +653,7 @@
           '</div>' +
           '<div class="mp-key">' +
             '<span><i class="k-pin"></i>a seat \u2014 where the record places them</span>' +
+            '<span><i class="k-dated"></i>ringed \u2014 a DATED position, not a birthplace</span>' +
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
             '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
             '<span><i class="k-sky"></i>the sky \u2014 seen from giza</span>' +
@@ -914,7 +917,50 @@
     }
 
     var souls = geo.souls.filter(alive);
-    var pins   = souls.filter(function (s) { return s.tier === 'city' && s.lat != null; });
+
+    /* ── A LIFE IS NOT A POINT · 5 Sep ───────────────────────────────────────
+       26 souls carry DATED POSITIONS from SEATS.csv — where they were, and
+       when. For those, the map asks the year at the leading edge and places
+       them where they actually stood: Einstein at Ulm in 1890, Bern in 1905,
+       Berlin in 1920, Princeton in 1940. Scrub, and he moves.
+
+       Everyone else falls back to Location, which is THE BIRTHPLACE, as this
+       surface now says (SLIP #68). So there are two kinds of mark on one map —
+       a dated position and a birthplace — and they are DIFFERENT CLAIMS. The
+       dated one is ringed, so a reader can tell which is which without being
+       told.
+
+       NO LINE IS DRAWN BETWEEN POSITIONS. A line asserts a journey — a route,
+       a direction, a date of travel — that the record does not hold. That is
+       the refusal standing since #64d against troop movements and trade
+       routes, and a person is no different from an army.
+
+       AND A POSITION MAY HAVE NO PLACE. Darwin 1831-36 is five years at sea on
+       the Beagle; a seat there would be an invention. Those years he is simply
+       not on the map, which is the truth about where the record puts him. */
+    function positionAt(s, year) {
+      if (!s.seats) return null;
+      for (var pi = s.seats.length - 1; pi >= 0; pi--) {
+        var q = s.seats[pi];
+        var end = q.to == null ? s.d : q.to;
+        if (year >= q.from && year <= end) return q;
+      }
+      return null;
+    }
+
+    var pins = [];
+    souls.forEach(function (s) {
+      var q = positionAt(s, hi);
+      if (q) {
+        if (q.lat == null) return;              /* at sea, or unplaced that year */
+        var m = Object.create(s);
+        m.lat = q.lat; m.lon = q.lon; m.place = q.place;
+        m.dated = true; m.what = q.what; m.pnote = q.note;
+        pins.push(m);
+        return;
+      }
+      if (s.tier === 'city' && s.lat != null) pins.push(s);
+    });
     var washes = souls.filter(function (s) { return s.ext; });
 
     /* ── NAMED GROUND · outlines, never fills ────────────────────────────────
@@ -1195,6 +1241,13 @@
       gt.setAttribute('y', (xy[1] + 2.4 / K).toFixed(1));
       /* the two tiers must not read alike — see the probe's note */
       g.classList.toggle('mp-own', !!p.personal);
+      /* ── DATED, OR MERELY BORN THERE · 5 Sep ─────────────────────────────
+         A seat holding anyone whose position is DATED is ringed. Two claims
+         sit on this map — "the record places them here in this year" and "this
+         is where they were born" — and a reader has no way to tell them apart
+         unless the mark says so. Twenty-six souls are the first kind and 838
+         the second, and the difference is the whole of SLIP #68. */
+      g.classList.toggle('mp-dated', p.who.some(function (w) { return w.dated; }));
       g.classList.toggle('mp-marked', !!mark);
       g.classList.toggle('mp-anchor', !!p.anchor);
       if (p.anchor) label = p.aname;        /* the asked-about soul keeps their name */
