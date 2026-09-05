@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-05T21:14:21.710Z",
+    "generated": "2026-09-05T21:38:27.909Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49506,
-      "sha256": "a922f7635acfbe30",
+      "sha256": "9b5828119d9a9293",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1663,13 +1663,13 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 45,
+    "count": 46,
     "files": [
       {
         "file": "events-gaz.mjs",
         "title": "WHERE THE EVENTS HAPPENED",
         "guards": null,
-        "bytes": 13500
+        "bytes": 14777
       },
       {
         "file": "extents.mjs",
@@ -1778,6 +1778,12 @@
         "title": "THE ROSTER INDEX",
         "guards": null,
         "bytes": 14651
+      },
+      {
+        "file": "probe-seats.mjs",
+        "title": "WAS THE SOUL WHERE AND WHEN IT SAYS",
+        "guards": "──────────────────────────────────────────────────────",
+        "bytes": 9131
       },
       {
         "file": "probe-serves.mjs",
