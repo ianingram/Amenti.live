@@ -53,6 +53,7 @@ Ordered by how much it hurts to leave undone.
 - **#58 — the mention graph harvest.** THE HEADLINE. Both halves aboard (historian texts + 1,501 dated souls). Prove on one text. (#47 is the same build — merged.)
 - **#56 — the reign-span schema.** Unlocks the ancient Near East (Babylon, Persia, Egypt) whose kings kept reigns, not birthdays.
 - **#72 — the soul with one real date.** The other half of #56: 96 souls carry a century in a year cell. One schema decision covers both.
+- **#73 — the key that names two men.** The index counts 6 plates and rooms that do not exist. A 3-line probe fix.
 - **#49 — the science cohort rooms.** ~30 authors dated and waiting; 4 shelved.
 
 **📐 PRINCIPLES (keep, never “done”):** #53 who/when/where colouring · #54 the reference layer · #55 the ratchet · #57 the marketing language.
@@ -2314,6 +2315,93 @@ placeholder wear the shape of a fact.
   carries a century in a year cell.
 - **Meanwhile, and it costs nothing:** `probe-anomalies` section 2b reports the
   96 every run. It reports and never fails. Read it; do not fill them in.
+
+---
+
+### 73 · A KEY THAT NAMES TWO MEN — and the index counts art that is not there
+Found 6 Sep, reading `probe-roster.mjs` against `img/KEYS.json`.
+
+`ROSTER-INDEX.json` says the ship has **54 plates and 55 rooms. It has 51 and
+52.** Six souls are recorded as owning art and a room that do not exist, and
+three of the six are wrong about which man owns it.
+
+**NOTHING IS WRONG IN EITHER REGISTER.** Both are honest. The fault is in the
+join — the fourth shore again.
+
+```
+img/KEYS.json      53 keys · 51 hasPlates · 52 hasRoom
+ROSTER-INDEX.json            54 withPlates · 55 withRoom
+                             +3             +3
+```
+
+Three keys carry `state: "AMBIGUOUS"`, each resolving to two names, each counted
+twice. **The arithmetic closes with no remainder**, which is what makes this a
+diagnosis and not a suspicion.
+
+**THE REGISTER STATES THE PROBLEM OUTRIGHT.**
+
+```
+brutus     AMBIGUOUS  -> Lucius Junius Brutus | Marcus Junius Brutus
+cleopatra  AMBIGUOUS  -> Cleopatra VII        | Cleopatra
+seneca     AMBIGUOUS  -> Seneca the Younger   | Seneca
+```
+
+**AND `probe-roster.mjs` NEVER READS `state`.** It walks `resolvesTo` and gives
+the art to every name it finds — `s.p = s.p || !!k.hasPlates` — so both Bruti,
+both Senecas and both Cleopatras come out of the index with `p=1 r=1`. One
+plate, one room, two owners each.
+
+> **A REGISTER DECLARED AMBIGUITY AND ITS READER RESOLVED IT ANYWAY.** This is
+> the `Dating` fault of the same morning in the other direction. There the probe
+> did not know a field existed. Here it reads the record and skips the field
+> that says *do not trust this record*.
+
+**A CORRECTION, RECORDED BECAUSE IT WAS MADE OUT LOUD.** It was said in session
+that `collisions: 0` was a clean count published over a real clash. That was
+wrong. `collisions` counts souls whose Full Name slugs to the same string, and
+`lucius-junius-brutus` and `marcus-junius-brutus` are different slugs. Zero is
+correct and the field is honestly named. The clash lives in the ALIAS space,
+which nothing counts at all. **A missing measurement, not a false one.**
+
+**WHY IT REACHES FURTHER THAN SIX SOULS.**
+- **#67’s leverage list** is built on *corroborated souls with no room*. Six
+  souls are recorded as having a room they do not have, so they are excluded
+  from a list they belong on — and three of them are the wrong man.
+- **#13’s room note exists for this exact hazard.** The room `brutus` is LUCIUS,
+  not the man who killed Caesar, and a hand-written note says so because without
+  it the hall opens the wrong room and its training supplies the assassination
+  under a Livy citation. **That guard is prose.** The register could enforce it;
+  instead the index asserts both men own the room.
+
+**AND IT MAKES THE `Same-As` DECISION HARDER, NOT EASIER.** The three ambiguous
+keys are two opposite faults wearing one label:
+
+```
+cleopatra   ONE WOMAN, TWICE   the key should resolve to one
+seneca      ONE MAN, TWICE     the key should resolve to one
+brutus      TWO MEN            the key should resolve to NEITHER
+```
+
+Cleopatra and Seneca are duplicate rows that a `Same-As` column fixes. **Brutus
+is not a duplicate and `Same-As` makes him worse** — collapsing two rows into
+one soul is precisely the wrong tool, and the roster still cannot say *these two
+men share a name and this key belongs to neither alone.*
+
+**AND NEITHER CLEOPATRA NOR SENECA APPEARS IN THE 30 PAIRS**, because their rows
+carry different dates and the pair test keys on exact dates. They join Akbar
+(1542/1605 vs 1556/1605, an accession year as a birth) and Urban II (1042 vs
+1035) as duplicates no date-based hunt can see. **The duplicate population is
+larger than the pair count, and the pair count is not a measure of it.**
+
+- **Unblocks:** true plate and room counts; six souls returned to #67’s leverage
+  list; and the `Same-As` shape designed against the real problem rather than
+  half of it.
+- **The move:** `probe-roster.mjs` refuses an AMBIGUOUS key — do not assign `p`
+  or `r` from one, count and print them separately. Three lines. Then `Same-As`,
+  designed knowing it must handle Brutus by NOT applying.
+- **Acceptance test:** `ROSTER-INDEX.json` reports `withPlates: 51` and
+  `withRoom: 52`, matching `KEYS.json`; no soul carries `p` or `r` from an
+  ambiguous key; and the probe prints the three keys it refused.
 
 ---
 
