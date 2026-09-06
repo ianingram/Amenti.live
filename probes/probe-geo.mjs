@@ -101,6 +101,41 @@ const HISTORICAL = {
   'san casciano in val di pesa': [ 43.6570, 11.1860],
   'giverny':         [ 49.0760,   1.5330],
   'stagira':         [ 40.5470,  23.7500],
+  /* second seat tranche, 5 Sep — namesakes and villages */
+  'nola':            [ 40.9260,  14.5280],   /* Campania — the gazetteer offers New Orleans */
+  'lincoln':         [ 53.2307,  -0.5406],   /* England — not Nebraska */
+  'milan':           [ 45.4642,   9.1900],   /* Italy; Edison's Milan, Ohio is below */
+  'milan ohio':      [ 41.2967, -82.6013],
+  'tampico':         [ 41.6300, -89.7870],   /* Illinois — not Tamaulipas */
+  'bergen':          [ 52.7580,   9.9500],   /* Bergen-Belsen, Lower Saxony — not Norway */
+  'la haye descartes':[47.0080,  0.7020],
+  'la haye-descartes':[47.0080,  0.7020],
+  'motiers':         [ 46.9210,   6.6110],
+  'hyncice':         [ 49.7690,  17.6520],
+  'helgoland':       [ 54.1820,   7.8850],
+  'ketchum':         [ 43.6810,-114.3630],
+  'jinggangshan':    [ 26.7480, 114.2890],
+  'yanan':           [ 36.5960, 109.4900],
+  'shaoshan':        [ 27.9150, 112.5270],
+  'caprera':         [ 41.2000,   9.4670],
+  'mougins':         [ 43.6000,   7.0000],
+  'villeblevin':     [ 48.2500,   3.0830],
+  'cape juby':       [ 27.9500, -12.9200],
+  'warm springs':    [ 32.8890, -84.6810],
+  'hyde park':       [ 41.7840, -73.9330],
+  'oak park':        [ 41.8850, -87.7845],
+  'west orange':     [ 40.7987, -74.2390],
+  'sighetu marmatiei':[47.9280, 23.8890],
+  'tres coracoes':   [-21.6970, -45.2530],
+  'saint peter port':[ 49.4550,  -2.5360],
+  'civitavecchia':   [ 42.0930,  11.7960],
+  'zamosc':          [ 50.7180,  23.2520],
+  'weil der stadt':  [ 48.7500,   8.8730],
+  'schorndorf':      [ 48.8050,   9.5270],
+  'chisinau':        [ 47.0105,  28.8638],
+  'petropolis':      [-22.5050, -43.1790],   /* Brazil — the gazetteer prefers Saint Petersburg */
+  'pont aven':       [ 47.8560,  -3.7460],
+  'pont-aven':       [ 47.8560,  -3.7460],
   'bletchley':       [ 51.9950,  -0.7400],
   'la fleche':       [ 47.6980,  -0.0740],
   'los alamos':      [ 35.8880,-106.3060],
