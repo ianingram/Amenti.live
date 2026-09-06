@@ -1952,28 +1952,38 @@
          So it says so. The line still is not drawn, because there is nothing
          honest to draw; the surface states the reason where the count would
          have been. */
+      /* ── THE LINE IS NOT THE COUNT · corrected 5 Sep ─────────────────────
+         The whole thing was drawn only when a rising existed BEFORE and AFTER
+         the current year, so at the default view — 2026, past the register's
+         last rising in 2022 — nothing appeared. The first fix added a note
+         explaining the absence, which was still wrong.
+
+         THE LINE IS GIZA'S LATITUDE. That is geography and it is true in
+         every year the map can show. Only the TRAVELLING SIGN is a count, and
+         only the sign needs a next arrival to travel toward. Tying the two
+         together made a permanent fact conditional on a passing one.
+
+         So: the line and the mark at Giza always. The sign when there is
+         something for it to count. */
+      var gzr = proj(GIZA[0], GIZA[1]);
+      hg += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(2) +
+            '" x2="1000" y2="' + gzr[1].toFixed(2) + '"/>' +
+            '<path class="mp-retmark" d="M' + gzr[0].toFixed(2) + ' ' +
+            (gzr[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
+
       if (prev && !next) {
-        var gzL = proj(GIZA[0], GIZA[1]);
-        hg += '<path class="mp-retmark" d="M' + gzL[0].toFixed(2) + ' ' +
-              (gzL[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
-        hg += '<text class="mp-obslabel" x="6" y="' + (gzL[1] - 4 / K).toFixed(2) +
+        hg += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4 / K).toFixed(2) +
               '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">' +
               '\u2643 last rose due east over giza in ' + yr(prev.y) +
               ' \u00b7 the register ends there</text>';
       }
       if (prev && next) {
-        var gzr = proj(GIZA[0], GIZA[1]);
         var frac = (hi - prev.y) / (next.y - prev.y);      /* 0 at a rising, 1 at the next */
         /* west to east, so it returns TO Giza rather than away from it */
         var lonNow = GIZA[1] + frac * 360;
         while (lonNow > 180) lonNow -= 360;
         var jp = proj(GIZA[0], lonNow);
 
-        hg += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(2) +
-              '" x2="1000" y2="' + gzr[1].toFixed(2) + '"/>' +
-              /* the mark it is counting toward: Giza, on its own latitude */
-              '<path class="mp-retmark" d="M' + gzr[0].toFixed(2) + ' ' +
-              (gzr[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
         /* the mark thickens as it closes on Giza — the return is the event */
         /* ── THE ARRIVAL IS THE EVENT · 5 Sep ────────────────────────────────
            The sign only brightened as it closed, and a brightening is easy to
