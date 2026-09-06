@@ -94,6 +94,18 @@ const HISTORICAL = {
   'cambridge':   [ 52.2000,   0.1167],   /* England — the events table means Massachusetts */
   'shrewsbury':  [ 52.7101,  -2.7521],
   'falmouth':    [ 50.1544,  -5.0711],
+  /* villages a life passed through, added 5 Sep with the first seat tranche */
+  'ferney voltaire': [ 46.2560,   6.1080],
+  'ferney-voltaire': [ 46.2560,   6.1080],
+  'baddeck':         [ 46.0990, -60.7530],
+  'san casciano in val di pesa': [ 43.6570, 11.1860],
+  'giverny':         [ 49.0760,   1.5330],
+  'stagira':         [ 40.5470,  23.7500],
+  'bletchley':       [ 51.9950,  -0.7400],
+  'la fleche':       [ 47.6980,  -0.0740],
+  'los alamos':      [ 35.8880,-106.3060],
+  'ithaca':          [ 42.4440, -76.5010],
+  'santa ana':       [ 33.7455,-117.8677],
   'palos de la frontera': [ 37.2280, -6.8930],   /* whence Columbus sailed, 1492 */   /* Cornwall — an alternate-name collision sends this to Portland, Maine */
   'puerto baquerizo moreno': [ -0.9017, -89.6100],   /* San Cristobal, Galapagos */
   'praia':       [ 14.9315, -23.5125],   /* Cape Verde — St Jago */
