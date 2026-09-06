@@ -28,7 +28,7 @@
 
   /* ── 1 · is the map even here ─────────────────────────────────────────── */
   const el = $('#amenti-map');
-  if (!el) { console.error('NO #amenti-map — the script did not mount at all.'); return; }
+  if (!el) return '\n  X  NO #amenti-map on this page — the script did not mount at all.\n';
   ok('the map surface is mounted');
 
   const open = document.body.classList.contains('scene-map');
@@ -160,18 +160,33 @@
     });
   }
 
-  /* ── report ───────────────────────────────────────────────────────────── */
+  /* ── report ───────────────────────────────────────────────────────────
+     RETURNED AS A STRING, not written with console.log.
+
+     The first version styled its output with %c and Safari filed those under
+     a console category the default filter hides. The probe ran perfectly and
+     printed nothing a reader could see — which is precisely the failure it
+     was written to catch, committed by the probe itself.
+
+     A returned string is the expression result. It appears where the cursor
+     is, in every browser, and no filter can suppress it. */
   const bads = out.filter(x => x[0] === 'bad');
-  console.log('%c\n  HALL PROBE · ' + new Date().toISOString().slice(0, 16).replace('T', ' ') +
-              '\n  ' + location.pathname + '\n',
-              'font-weight:bold;font-size:13px');
-  out.forEach(([k, m]) => {
-    const c = k === 'bad' ? 'color:#e05555;font-weight:bold'
-            : k === 'note' ? 'color:#8fa2ba' : 'color:#4caf7d';
-    console.log('%c' + (k === 'bad' ? '  ✗ ' : k === 'note' ? '  · ' : '  ✓ ') + m, c);
-  });
-  console.log('%c\n  ' + (bads.length ? bads.length + ' FINDING(S)'
-    : 'no findings — the page shows what the files say it should') + '\n',
-    'font-weight:bold;font-size:13px;color:' + (bads.length ? '#e05555' : '#4caf7d'));
-  return { findings: bads.length, detail: out };
+  const line = ([k, m]) => (k === 'bad' ? '  X  ' : k === 'note' ? '  .  ' : '  ok ') +
+                           String(m).replace(/\n/g, '\n     ');
+  return [
+    '',
+    '================================================================',
+    '  HALL PROBE  ' + new Date().toISOString().slice(0, 16).replace('T', ' '),
+    '  ' + location.pathname + (open ? '   map OPEN' : '   map CLOSED'),
+    '================================================================',
+    '',
+    out.map(line).join('\n'),
+    '',
+    '----------------------------------------------------------------',
+    bads.length
+      ? '  ' + bads.length + ' FINDING(S) \u2014 the lines marked X above'
+      : '  no findings \u2014 the page shows what the files say it should',
+    '================================================================',
+    ''
+  ].join('\n');
 })();
