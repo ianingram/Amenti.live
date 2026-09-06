@@ -569,6 +569,16 @@
       '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-land.mp-hasfine{stroke:none}',
       '#amenti-map .mp-regions,#amenti-map .mp-lakes,#amenti-map .mp-coast,',
+      /* built, and standing: a small open square, quiet, under everything */
+      '#amenti-map .mp-site rect{fill:none;stroke:#7d8ea6;stroke-width:.55;opacity:.6;',
+      '  vector-effect:non-scaling-stroke}',
+      '#amenti-map .mp-site:hover rect{stroke:#cfe0f2;opacity:1}',
+      /* a ruin in this window: the same mark, broken open */
+      '#amenti-map .mp-site.mp-ruined rect{stroke-dasharray:2 2;opacity:.32}',
+      '#amenti-map .mp-sitelab{fill:#8fa2ba;text-anchor:middle;opacity:.65;',
+      '  pointer-events:none;paint-order:stroke;stroke:#070b12;stroke-width:1.4px;',
+      '  stroke-linejoin:round}',
+      '#amenti-map .mp-sites{pointer-events:auto}',
       '#amenti-map .mp-jrn{fill:none;stroke:#d9a3e8;stroke-width:.7;',
       '  stroke-dasharray:4 4;vector-effect:non-scaling-stroke;stroke-linecap:round}',
       '#amenti-map .mp-jrn:hover{stroke:#f0c8ff;stroke-width:1.1}',
@@ -683,6 +693,7 @@
             '<span><i class="k-pin"></i>a seat \u2014 where the record places them</span>' +
             '<span><i class="k-dated"></i>ringed \u2014 a DATED position, not a birthplace</span>' +
             '<span><i class="k-jrn"></i>a crossing \u2014 from here to here, not the route</span>' +
+            '<span><i class="k-site"></i>a built thing, while it stood</span>' +
             '<span><i class="k-wash"></i>a territory \u2014 somewhere in here</span>' +
             '<span><i class="k-none"></i>no honest place \u2014 not drawn</span>' +
             '<span><i class="k-sky"></i>the sky \u2014 seen from giza</span>' +
@@ -712,7 +723,7 @@
             '<image class="mp-relief" href="" x="0" y="0" width="1000" height="500" ' +
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
             '<path class="mp-land"></path><path class="mp-coast"></path>' +
-            '<g class="mp-regions"></g><g class="mp-lakes"></g><g class="mp-journeys"></g>' +
+            '<g class="mp-regions"></g><g class="mp-lakes"></g><g class="mp-sites"></g><g class="mp-journeys"></g>' +
             '<g class="mp-rivers"></g><g class="mp-peaks"></g><g class="mp-events"></g>' +
             '<g class="mp-washes"></g><g class="mp-pins"></g>' +
             /* ── THE SKY HAS TWO HALVES · 4 Sep ────────────────────────────
@@ -1193,6 +1204,46 @@
           rd.classList.remove('on', 'mp-forit-lab'); rd.textContent = '';
         }
       });
+    }
+
+    /* ── WHAT WAS BUILT · the only layer that does not move · 5 Sep ──────────
+       A site stands. It does not flare, recede or smoulder, because it is not
+       an event — Karnak stood for two thousand years and the events machinery
+       would have burned it out in a decade.
+
+       It is drawn while the window covers its span, and a site with no end
+       date is standing still. So Persepolis burns in 330 BC and leaves the
+       map while Giza never does, and the built world ACCUMULATES: 4 marks at
+       2500 BC, 12 at AD 1, a dip to 10 by AD 500 as Delphi and Olympia and
+       Ephesus close, 22 today.
+
+       QUIET, AND BENEATH EVERYTHING. Against souls and events that arrive and
+       go on every step of the slider, this is the one layer that only ever
+       adds — so at a close modern aperture Giza and Angkor and the Empire
+       State are all on one screen. True, and busy. A small open square, dim,
+       unlabelled until a reader goes in: this is the ground people stood on,
+       not the record of them. */
+    var gs = el.querySelector('.mp-sites');
+    if (gs && geo.sites) {
+      var sh = '', ivS = 1 / K, nameThem = K >= 2.5;
+      geo.sites.forEach(function (st) {
+        if (st.lat == null) return;
+        if (st.b > hi) return;                       /* not built yet */
+        if (st.e != null && st.e < lo) return;       /* gone before this window */
+        var standing = (st.e == null || st.e > hi);
+        var xy = proj(st.lat, st.lon), a = 2.2 * ivS;
+        sh += '<g class="mp-site' + (standing ? '' : ' mp-ruined') + '">' +
+              '<rect x="' + (xy[0] - a).toFixed(2) + '" y="' + (xy[1] - a).toFixed(2) +
+              '" width="' + (a * 2).toFixed(2) + '" height="' + (a * 2).toFixed(2) + '"/>' +
+              '<title>' + esc(st.n) + ' \u00b7 ' + yr(st.b) +
+              (st.e != null ? ' to ' + yr(st.e) : ' \u2014 still standing') +
+              (st.note ? '\n' + esc(st.note) : '') + '</title></g>';
+        if (nameThem)
+          sh += '<text class="mp-sitelab" x="' + xy[0].toFixed(2) + '" y="' +
+                (xy[1] - 4 * ivS).toFixed(2) + '" font-size="' + (5 * ivS).toFixed(3) +
+                '">' + esc(st.n) + '</text>';
+      });
+      gs.innerHTML = sh;
     }
 
     /* ── THE CROSSINGS · a line only where the journey IS the fact ───────────
