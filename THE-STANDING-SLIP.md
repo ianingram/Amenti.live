@@ -52,6 +52,7 @@ Ordered by how much it hurts to leave undone.
 **⭐ DO NEXT (the queue):**
 - **#58 — the mention graph harvest.** THE HEADLINE. Both halves aboard (historian texts + 1,501 dated souls). Prove on one text. (#47 is the same build — merged.)
 - **#56 — the reign-span schema.** Unlocks the ancient Near East (Babylon, Persia, Egypt) whose kings kept reigns, not birthdays.
+- **#72 — the soul with one real date.** The other half of #56: 96 souls carry a century in a year cell. One schema decision covers both.
 - **#49 — the science cohort rooms.** ~30 authors dated and waiting; 4 shelved.
 
 **📐 PRINCIPLES (keep, never “done”):** #53 who/when/where colouring · #54 the reference layer · #55 the ratchet · #57 the marketing language.
@@ -2249,6 +2250,72 @@ made load-bearing. The principle is sound and the machinery half exists.
 
 - **Acceptance test:** `passes` is derived from a corpus rather than authored,
   and the derivation shows its working the way the hall's does.
+
+### 72 · A SOUL WITH ONE REAL DATE — the second half of #56, and nobody had counted it
+Found 6 Sep by `probe-anomalies`, in a section added the same hour. #56 named
+the reign gap: the ancient Near East kept regnal years and the schema demands a
+lifespan. **This is the same schema demanding two dates from a record that holds
+one — and it is not the ancient Near East. It is the popes.**
+
+**THE SHAPE.** A birth cell holding an exact century, against a real death:
+
+```
+Evaristus         AD 100–105      Innocent I        AD 400–417
+Lando             AD 900–914      Adrian I          AD 700–795
+Benedict IV       AD 900–903      Honorius II       AD 1100–1130
+```
+
+`AD 400` is not a birth. It is *fifth century* typed into a cell that only
+accepts a year, and every span measured from it is manufactured. Adrian I did
+not live 95 years; the register does not know when he was born.
+
+**96 SOULS, 9 WITH BOTH ENDS STAMPED.** And they arrive in cohorts, which is
+what makes it structural rather than 96 typos:
+
+```
+~33 popes                 birth stamped, death real
+~9  Roman usurpers        Ingenuus, Uranius, Pacatian, Silbannacus, Sabinian
+7   Macedonian kings      Philip I, Archelaus I, Argaeus II, Crateuas, Philip IV
+    Han and Japanese emperors, pharaohs, Ptahhotep, Deng Xi, Gildas, Aneirin
+8   FALSE POSITIVES       Bruno d.1600, Daimler d.1900, Wilde d.1900, Fillmore
+                          b.1800, Goodyear b.1800, Schulz d.2000, Landry d.2000,
+                          Lamarr d.2000 — people who really died in a round year
+```
+
+Each cohort entered from a source that recorded a death because it was public
+and no birth because nobody wrote one down.
+
+**WHAT IT BREAKS, AND WHY IT WENT UNSEEN.**
+- `ROSTER-INDEX.json` reports **`oneDateOnly: 0`**. True of the cells, false of
+  the record. The count is honest about a fact that is not the one it names.
+- `probe-seats` checks that a position sits inside the life. Ninety-six lives
+  are partly invented, so the check either passes wrongly or refuses a correct
+  seat, and cannot say which.
+- Every span, every century-window count and every edge-data reading over these
+  souls is arithmetic on a placeholder.
+- **It cost a false duplicate.** Argaeus II and Crateuas of Macedon both read
+  501 BC–401 BC and were reported as one soul. They are two men who share a
+  century, not a life. A bulk merge would have destroyed one of them.
+
+**AND IT IS NOT A DATA CLEAN-UP.** Filling in the missing births requires
+sources that do not exist. The honest fix is the same one #56 is waiting on: a
+schema that can hold **what the record actually contains** — a death with no
+birth, a floruit, a century — instead of forcing two years and letting a
+placeholder wear the shape of a fact.
+
+> **A CELL THAT MUST BE FILLED WILL BE FILLED. The question is whether the
+> register can say it was filled by the schema rather than by the record.**
+
+- **Unblocks:** taken with #56, the whole class of souls the roster currently
+  admits by fabrication — reigns, floruits, deaths-without-births. Together they
+  are one decision, not two.
+- **Acceptance test:** the schema accepts a death with no birth; the timeline
+  draws it as what it is; `oneDateOnly` reports a real number; and no soul
+  carries a century in a year cell.
+- **Meanwhile, and it costs nothing:** `probe-anomalies` section 2b reports the
+  96 every run. It reports and never fails. Read it; do not fill them in.
+
+---
 
 *Updated 31 Aug 2026: moves 12-22 added, #4 closed by supersession, #5 blocked,
 the critical path reordered. Eight of those moves had been sitting in a log and a
