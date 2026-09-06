@@ -22,6 +22,36 @@
 =========================================================================== -->
 <html lang="en">
 <head>
+<!-- ── THE BLACK BOX · added 5 Sep ─────────────────────────────────────────
+     FIRST SCRIPT ON THE PAGE, deliberately, because it can only catch what
+     happens after it. A probe pasted into the console cannot see an error
+     thrown at load — the error is already gone by the time the paste runs,
+     and the only trace is a red dot in a toolbar that means "look somewhere
+     else". That is a bad instrument: it reports that something is wrong and
+     makes a person go hunting.
+
+     This records instead. Anything that throws, and any failed fetch, lands
+     in window.__amentiErrors, and probes/hall-probe.js reads it back. One
+     paste then answers the whole question.
+
+     It changes nothing and swallows nothing: every handler re-throws to the
+     console exactly as before. ── -->
+<script>
+(function () {
+  var E = window.__amentiErrors = [];
+  window.addEventListener('error', function (e) {
+    E.push({ at: new Date().toISOString(),
+             kind: e.filename ? 'error' : 'resource',
+             msg: e.message || 'failed to load',
+             where: (e.filename || (e.target && (e.target.src || e.target.href)) || '?') +
+                    (e.lineno ? ':' + e.lineno : '') });
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    E.push({ at: new Date().toISOString(), kind: 'promise',
+             msg: String(e.reason && e.reason.message || e.reason).slice(0, 200), where: '\u2014' });
+  });
+})();
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ask Amenti · The Hall</title>
