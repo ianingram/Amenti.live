@@ -44,28 +44,24 @@ const norm = s => String(s || '').toLowerCase().normalize('NFD')
 /* ── WHAT THE REGISTER ALREADY SAYS, AND THIS PROBE DID NOT ASK ────────────
    names.csv carries a `Dating` column. 384 souls hold the value `reign`, and
    for those the b/d cells are a REGNAL SPAN, not a life — flagged on purpose
-   (SLIP #56, the interim while the schema is decided).
+   (SLIP #56, the interim while the schema is decided). ROSTER-INDEX.json
+   carries it through as a boolean `reign` on the soul record.
 
    Sections 1 and 2 below were written without knowing that. Section 2 reported
    102 short lives as "a REIGN entered as a life?" and 101 of them were reigns
    the roster had already declared. Section 1 read two co-emperors sharing a
    reign window as one duplicated soul. Neither was a fault in the register.
-   Both were this probe reaching past a column it was never told about.
+   Both were this probe reaching past a field it was never told about.
 
-   The field must reach ROSTER-INDEX.json for either check to run. If it has
-   not, THIS PROBE SAYS SO rather than quietly passing — an unread check that
-   looks clean is worse than a red one. */
-const DATING_FIELDS = ['dating', 'dt', 'datingKind', 'span'];
-const datingOf = s => {
-  for (const f of DATING_FIELDS) if (s[f] != null) return String(s[f]).toLowerCase();
-  return null;
-};
-const DATING_READ = ri.souls.some(s => datingOf(s) !== null);
-const isReign = s => datingOf(s) === 'reign';
-const UNREAD = '   \u26a0 THE `Dating` COLUMN IS NOT IN ROSTER-INDEX.json \u2014 this test did ' +
-               'not run.\n     names.csv holds it for 384 souls. Carry it into the index ' +
-               'and re-run;\n     until then the hits below include reigns the roster ' +
-               'already declares.';
+   If the field ever stops reaching the index, THIS PROBE SAYS SO rather than
+   quietly passing — an unread check that looks clean is worse than a red one. */
+const isReign = s => s.reign === 1 || s.reign === true ||
+                     String(s.dating || '').toLowerCase() === 'reign';
+const DATING_READ = ri.souls.some(isReign);
+const UNREAD = '   \u26a0 NO SOUL IN ROSTER-INDEX.json CARRIES `reign` \u2014 this test did ' +
+               'not run.\n     names.csv holds Dating=reign for 384 souls; probe-roster.mjs ' +
+               'should carry it\n     through. Until it does, the hits below include reigns ' +
+               'the roster already declares.';
 
 /* A YEAR THAT IS A CENTURY WEARING A DATE.  `-501` is not a birth, it is
    "5th century BC" typed into a cell that only accepts a year, and subtracting
@@ -205,12 +201,31 @@ head('COORDINATES WORTH A SECOND LOOK');
   if (!f) none();
 }
 
-/* ── 6 · A SOUL SEATED WHERE THE PLACE DID NOT EXIST ───────────────────── */
+/* ── 6 · A SOUL SEATED WHERE THE PLACE DID NOT EXIST ─────────────────────
+   THE TRAP THIS CHECK FELL INTO, 6 Sep. It read every `founded|built|completed`
+   event and took its PLACE as the thing founded. The League of Nations was
+   founded AT Geneva; Geneva was not founded in 1920. So Rousseau, dead in 1778,
+   was reported as standing in a city that did not yet exist — and Peter the
+   Great in Moscow, Dante in Florence, Louis XVI at Versailles, on the founding
+   dates of the Soviet Union, the Medici Bank and the German Empire.
+
+   Nothing was wrong in EVENTS.csv. The subject and the place are different
+   columns and this reader collapsed them. GLOSSARY, the water between.
+
+   AN EVENT NOW DATES A PLACE ONLY WHEN THE EVENT IS ABOUT THAT PLACE — its
+   name must contain the place name. `Constantinople founded @ Constantinople`
+   qualifies; `NATO founded @ Washington` does not. Sites still date their own
+   ground, which is what they are. */
 head('ANACHRONISMS \u2014 A SOUL AT A PLACE YOUNGER THAN THEY ARE');
 {
   const founded = {};
+  let refused = 0;
   (ev && ev.events || []).filter(e => /founded|founding|built|completed/i.test(e.n) && e.place)
-    .forEach(e => { const k = norm(e.place); if (founded[k] == null || e.y < founded[k]) founded[k] = e.y; });
+    .forEach(e => {
+      const k = norm(e.place);
+      if (!k || !norm(e.n).includes(k)) { refused++; return; }   /* the place is the venue, not the subject */
+      if (founded[k] == null || e.y < founded[k]) founded[k] = e.y;
+    });
   (geo.sites || []).forEach(s => { const k = norm(s.place); if (founded[k] == null || s.b < founded[k]) founded[k] = s.b; });
   let f = 0;
   geo.souls.filter(s => s.place && typeof s.d === 'number').forEach(s => {
@@ -218,6 +233,7 @@ head('ANACHRONISMS \u2014 A SOUL AT A PLACE YOUNGER THAN THEY ARE');
     if (y != null && s.d < y) { f++; hit(s.n + ' died ' + yr(s.d) + ' at ' + s.place + ', which the register dates from ' + yr(y)); }
   });
   if (!f) none();
+  if (refused) console.log('   \u2014 ' + refused + ' founding event(s) ignored: the place was the venue, not the subject.');
 }
 
 /* ── 7 · WHAT THE MAP CANNOT SHOW BECAUSE NOBODY IS THERE ──────────────── */
