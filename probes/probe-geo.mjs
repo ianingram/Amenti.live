@@ -101,6 +101,18 @@ const HISTORICAL = {
   'san casciano in val di pesa': [ 43.6570, 11.1860],
   'giverny':         [ 49.0760,   1.5330],
   'stagira':         [ 40.5470,  23.7500],
+  /* the built world, 5 Sep — ruins are not populated places */
+  'newgrange':       [ 53.6947,  -6.4755],
+  'ur':              [ 30.9626,  46.1031],
+  'mykines':         [ 37.7307,  22.7564],
+  'abu simbel':      [ 22.3372,  31.6258],
+  'delphi':          [ 38.4824,  22.5010],
+  'persepolis':      [ 29.9354,  52.8916],
+  'petra':           [ 30.3285,  35.4444],
+  'teotihuacan':     [ 19.6925, -98.8438],
+  'borobudur':       [ -7.6079, 110.2038],
+  'chichen itza':    [ 20.6843, -88.5678],
+  'selcuk':          [ 37.9510,  27.3680],
   'rohrau':          [ 48.0500,  16.8830],
   'biran':           [ 20.7700, -75.9500],
   'linlithgow':      [ 55.9770,  -3.6000],
@@ -471,6 +483,49 @@ function placeOnce(place, region) {
   return alt ? { lat: alt[0], lon: alt[1], place: g.place } : null;
 }
 
+/* ── WHAT WAS BUILT · 5 Sep ────────────────────────────────────────────────
+   SITES.csv holds a thing that STANDS, as against an event that happened. It
+   is resolved here for the same reason everything else is: the guards live in
+   this file. Optional — without it the map is what it was.
+
+   A site draws only while the window covers its span, and a blank `ended`
+   means it is standing still. Measured across the current list: 4 sites at
+   2500 BC, 12 at AD 1, a dip to 10 by AD 500 as the classical world closes,
+   22 today. The built world ACCUMULATES, which is the honest reading and the
+   opposite of what a cull rule would produce. */
+function readSites(root) {
+  const f = path.join(root, 'SITES.csv');
+  if (!fs.existsSync(f)) return null;
+  const L = fs.readFileSync(f, 'utf8').split(/\r?\n/)
+    .filter(l => l.trim() && !l.trim().startsWith('#'));
+  const h = cut(L[0]).map(x => x.trim().toLowerCase());
+  const c = n => h.indexOf(n);
+  const out = [];
+  for (const line of L.slice(1)) {
+    const r = cut(line);
+    const name = (r[c('name')] || '').trim();
+    const built = parseInt(r[c('built')], 10);
+    if (!name || isNaN(built)) continue;
+    const place = (r[c('place')] || '').trim();
+    const o = { n: name, b: built, k: (r[c('kind')] || '').trim(),
+                note: (r[c('note')] || '').trim(), place: place };
+    /* THE GROUND, which several buildings may share and which does not end */
+    const ground = (r[c('site')] || '').trim();
+    if (ground) o.site = ground;
+    /* and the people: roster keys, blank where nobody knows */
+    const by = (r[c('by')] || '').trim(), eb = (r[c('ended_by')] || '').trim();
+    if (by) o.by = by;
+    if (eb) o.endedBy = eb;
+    const e = parseInt(r[c('ended')], 10);
+    if (!isNaN(e)) o.e = e;            /* absent means it still stands */
+    const hit = placeOnce(place, null);
+    if (hit) { o.lat = hit.lat; o.lon = hit.lon; }
+    else o.unplaced = true;
+    out.push(o);
+  }
+  return out.sort((a, b) => a.b - b.b);
+}
+
 /* ── read the roster ─────────────────────────────────────────────────────── */
 if (!fs.existsSync(ROSTER)) die('no names.csv at ' + path.resolve(ROSTER));
 const lines = fs.readFileSync(ROSTER,'utf8').split(/\r?\n/).filter(l => l.trim());
@@ -653,6 +708,11 @@ console.log('silent        ' + silent + '   (myth or no record — no mark, hone
 console.log('UNPLACED      ' + unplaced + '   (a name nothing could resolve — reported, never guessed)');
 console.log('dated seats   ' + souls.filter(s => s.seats).length +
             '   (souls with a position AND a year \u2014 the rest fall back to Location, which is the birthplace)');
+const SITES = readSites(ROOT) || [];
+console.log('sites         ' + SITES.length + '   (built things, drawn while they stood \u2014 ' +
+            SITES.filter(x=>!x.e).length + ' of them still standing)');
+if (SITES.some(x=>x.unplaced))
+  console.log('  \u2717 unplaced sites: ' + SITES.filter(x=>x.unplaced).map(x=>x.n+' ('+x.place+')').join('; '));
 console.log('crossings     ' + souls.reduce((n,s)=>n+(s.journeys?s.journeys.length:0),0) +
             '   (a journey that was itself an event \u2014 authored, never derived from two seats)');
 console.log('offices       ' + souls.filter(s=>s.o).length + '   (a mark for what they were)' +
@@ -682,6 +742,7 @@ const payload = {
   _law:'A tier is not decoration. city=dot, country/region=extent, mythic/none/unplaced=NO MARK. Never render an extent as a dot.',
   generated:new Date().toISOString(), generator:'probes/probe-geo.mjs',
   gazetteer:{ file:'cities15000.txt', sha256:gazSha, matchesAudited:!gazDrift },
+  sites: SITES,
   attribution:'City coordinates © GeoNames, CC BY 4.0. Coastline: Natural Earth (public domain).',
   totals:{ souls:souls.length, pins:pin, washes:wash, silent:silent, unplaced:unplaced,
            datedSeats:souls.filter(s=>s.seats).length,
