@@ -43,7 +43,16 @@
     E.push({ at: new Date().toISOString(),
              kind: e.filename ? 'error' : 'resource',
              msg: e.message || 'failed to load',
-             where: (e.filename || (e.target && (e.target.src || e.target.href)) || '?') +
+             /* an SVG <image> href is an SVGAnimatedString, not a string, and
+                stringifying it printed "[object SVGAnimatedString]" — a report
+                that names nothing. Take .baseVal where it exists. */
+             where: (function (t) {
+               if (e.filename) return e.filename;
+               if (!t) return '?';
+               var u = t.src || t.href || t.currentSrc;
+               if (u && u.baseVal != null) u = u.baseVal;
+               return String(u || t.tagName || '?');
+             })(e.target) +
                     (e.lineno ? ':' + e.lineno : '') });
   }, true);
   window.addEventListener('unhandledrejection', function (e) {

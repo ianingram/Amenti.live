@@ -1940,6 +1940,27 @@
         if (rises[ri].y <= hi) prev = rises[ri];
         if (rises[ri].y > hi) { next = rises[ri]; break; }
       }
+      /* ── PAST THE END OF THE SKY · 5 Sep ─────────────────────────────────
+         The register's last Jupiter rising is AD 2022 and the map opens at
+         2026, so there is no NEXT and the line was not drawn. The guard is
+         right to refuse — extrapolating a rising the register does not hold
+         would be inventing sky — but it refused INVISIBLY, and a reader at the
+         default view saw nothing and concluded the feature was missing. That
+         is the third time today a correct refusal has read as a broken
+         feature.
+
+         So it says so. The line still is not drawn, because there is nothing
+         honest to draw; the surface states the reason where the count would
+         have been. */
+      if (prev && !next) {
+        var gzL = proj(GIZA[0], GIZA[1]);
+        hg += '<path class="mp-retmark" d="M' + gzL[0].toFixed(2) + ' ' +
+              (gzL[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
+        hg += '<text class="mp-obslabel" x="6" y="' + (gzL[1] - 4 / K).toFixed(2) +
+              '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">' +
+              '\u2643 last rose due east over giza in ' + yr(prev.y) +
+              ' \u00b7 the register ends there</text>';
+      }
       if (prev && next) {
         var gzr = proj(GIZA[0], GIZA[1]);
         var frac = (hi - prev.y) / (next.y - prev.y);      /* 0 at a rising, 1 at the next */
