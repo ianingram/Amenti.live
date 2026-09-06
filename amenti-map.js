@@ -297,7 +297,7 @@
       /* right padding CLEARS THE FACULTY RAIL. Seen live: the legend ran under
          the globe and "no honest place — not drawn" was cut mid-word, which
          is the one line on this surface that declares what the map omits. */
-      '  padding:26px 84px 22px 268px;gap:0}',
+      '  padding:26px 258px 22px 268px;gap:0}',
       /* min-height:0 or the SVG refuses to shrink and shoves the slider and the
          attribution off the bottom of the viewport — seen live, both gone. */
       '#amenti-map svg{flex:1 1 auto;min-height:0;width:100%;overflow:visible}',
@@ -363,6 +363,37 @@
          read as a label ON the map rather than a list BESIDE it. A panel and
          a rule fix it: the column is now plainly a different surface, and the
          eye stops trying to place it geographically. */
+      /* ── SOULS LEFT, BUILT THINGS RIGHT · 5 Sep ───────────────────────────
+         Two columns, and they never compete for the same space. The left
+         names who was alive in this window; the right names what was standing
+         in it. That division is the whole distinction between the two
+         registers, made visible without a word of explanation: one column
+         churns as you scrub and the other accumulates. */
+      '#amenti-map .mp-blist{position:absolute;right:0;top:64px;bottom:142px;width:236px;',
+      '  z-index:6;display:flex;flex-direction:column;pointer-events:auto;',
+      '  padding:14px 26px 14px 14px;background:linear-gradient(270deg,',
+      '  rgba(6,8,14,.94) 0%,rgba(6,8,14,.92) 72%,rgba(6,8,14,0) 100%);',
+      '  border-left:1px solid rgba(43,58,80,.5);text-align:right}',
+      '#amenti-map .mp-bi{font:400 12.5px/1.5 ui-monospace,Menlo,monospace;color:#a9b8cc;',
+      '  cursor:default;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+      '#amenti-map .mp-bi:hover,#amenti-map .mp-bi.mp-lit{color:#e8f2ff}',
+      '#amenti-map .mp-bi .mp-bwhen{color:#5d6e84;font-size:11px}',
+      /* the people who raised it and ended it; the dagger means not in this window */
+      '#amenti-map .mp-bby{display:block;font-size:10.5px;line-height:1.35;color:#6f8098;',
+      '  padding-bottom:3px}',
+      '#amenti-map .mp-bi:hover .mp-bby{color:#9db0c8}',
+      /* raised it: the site's own light. Ended it: RED, used nowhere else. */
+      '#amenti-map .mp-li.mp-builder{color:#cfe0f2}',
+      '#amenti-map .mp-li.mp-destroyer{color:#ff5a5a}',
+      '#amenti-map .mp-seat.mp-builder .mp-pin{fill:#cfe0f2}',
+      '#amenti-map .mp-seat.mp-builder .mp-name{opacity:1;fill:#cfe0f2}',
+      '#amenti-map .mp-seat.mp-destroyer .mp-pin{fill:#ff5a5a}',
+      '#amenti-map .mp-seat.mp-destroyer .mp-name{opacity:1;fill:#ff8a8a}',
+      '#amenti-map .mp-bmade{color:#8fa2ba}',
+      '#amenti-map .mp-bkill{color:#c05a5a}',
+      '#amenti-map .mp-bi:hover .mp-bkill{color:#ff5a5a}',
+      '#amenti-map .mp-bi.mp-bgone{color:#6f8098}',
+      '#amenti-map .mp-bi.mp-bgone .mp-bwhen{color:#4d5c70}',
       '#amenti-map .mp-list{position:absolute;left:0;top:64px;bottom:142px;width:246px;',
       '  z-index:6;display:flex;flex-direction:column;pointer-events:auto;',
       '  padding:14px 14px 14px 26px;background:linear-gradient(90deg,',
@@ -572,7 +603,8 @@
       /* built, and standing: a small open square, quiet, under everything */
       '#amenti-map .mp-site rect{fill:none;stroke:#7d8ea6;stroke-width:.55;opacity:.6;',
       '  vector-effect:non-scaling-stroke}',
-      '#amenti-map .mp-site:hover rect{stroke:#cfe0f2;opacity:1}',
+      '#amenti-map .mp-site:hover rect,#amenti-map .mp-site.mp-lit rect{',
+      '  stroke:#cfe0f2;opacity:1;stroke-width:1.1}',
       /* a ruin in this window: the same mark, broken open */
       '#amenti-map .mp-site.mp-ruined rect{stroke-dasharray:2 2;opacity:.32}',
       '#amenti-map .mp-sitelab{fill:#8fa2ba;text-anchor:middle;opacity:.65;',
@@ -894,7 +926,8 @@
          other: hover a name and its seat lights; hover a seat and its name
          lights. The map answers WHERE, the list answers WHO, and neither has
          to compromise for the other. */
-      '<div class="mp-list"><div class="mp-listhead"></div><div class="mp-listbody"></div></div>';
+      '<div class="mp-list"><div class="mp-listhead"></div><div class="mp-listbody"></div></div>' +
+      '<div class="mp-blist"><div class="mp-listhead"></div><div class="mp-listbody"></div></div>';
     document.body.appendChild(el);
     mounted = el;
     return el;
@@ -1223,7 +1256,46 @@
        State are all on one screen. True, and busy. A small open square, dim,
        unlabelled until a reader goes in: this is the ground people stood on,
        not the record of them. */
+    var geoName = {}; geo.souls.forEach(function (x) { geoName[x.k] = x.n; });
     var gs = el.querySelector('.mp-sites');
+    if (bb && !bb._wired) {
+      bb._wired = true;
+      var lightSite = function (name, on) {
+        el.querySelectorAll('.mp-site').forEach(function (n) {
+          if (n.getAttribute('data-name') === name) n.classList.toggle('mp-lit', on);
+        });
+      };
+      /* ── WHO RAISED IT AND WHO ENDED IT ARE NOT THE SAME CLAIM · 5 Sep ──
+         Lit identically they read as one relation, and they are opposites.
+         The builder lights in the site's own slate-white; the destroyer in
+         RED, which is used nowhere else on this surface — not for a soul, not
+         for an event, not for the sky. A colour that means one thing is worth
+         more than a colour that means several. */
+      var lightWho = function (key, on, role) {
+        if (!key) return;
+        var cls = role === 'ended' ? 'mp-destroyer' : 'mp-builder';
+        el.querySelectorAll('.mp-li').forEach(function (n) {
+          var nm = n.childNodes[0] && n.childNodes[0].nodeValue;
+          if (nm && nm.trim() === (geoName[key] || '\u0000')) n.classList.toggle(cls, on);
+        });
+        el.querySelectorAll('.mp-seat').forEach(function (sn) {
+          var who = (sn.getAttribute('data-who') || '').split(',');
+          if (who.indexOf(key) > -1) sn.classList.toggle(cls, on);
+        });
+      };
+      bb.addEventListener('mouseover', function (e) {
+        var r = e.target.closest && e.target.closest('.mp-bi');
+        if (r) { lightSite(r.getAttribute('data-site'), true);
+                 lightWho(r.getAttribute('data-built'), true, 'built');
+                 lightWho(r.getAttribute('data-ended'), true, 'ended'); }
+      });
+      bb.addEventListener('mouseout', function (e) {
+        var r = e.target.closest && e.target.closest('.mp-bi');
+        if (r) { lightSite(r.getAttribute('data-site'), false);
+                 lightWho(r.getAttribute('data-built'), false, 'built');
+                 lightWho(r.getAttribute('data-ended'), false, 'ended'); }
+      });
+    }
     if (gs && geo.sites) {
       var sh = '', ivS = 1 / K, nameThem = K >= 2.5;
       geo.sites.forEach(function (st) {
@@ -1232,11 +1304,15 @@
         if (st.e != null && st.e < lo) return;       /* gone before this window */
         var standing = (st.e == null || st.e > hi);
         var xy = proj(st.lat, st.lon), a = 2.2 * ivS;
-        sh += '<g class="mp-site' + (standing ? '' : ' mp-ruined') + '">' +
+        sh += '<g class="mp-site' + (standing ? '' : ' mp-ruined') +
+              '" data-name="' + esc(st.n) + '">' +
               '<rect x="' + (xy[0] - a).toFixed(2) + '" y="' + (xy[1] - a).toFixed(2) +
               '" width="' + (a * 2).toFixed(2) + '" height="' + (a * 2).toFixed(2) + '"/>' +
               '<title>' + esc(st.n) + ' \u00b7 ' + yr(st.b) +
               (st.e != null ? ' to ' + yr(st.e) : ' \u2014 still standing') +
+              (st.site && st.site !== st.n ? '\non the ground called ' + esc(st.site) : '') +
+              (st.by && geoName[st.by] ? '\nbuilt by ' + esc(geoName[st.by]) : '') +
+              (st.endedBy && geoName[st.endedBy] ? '\nended by ' + esc(geoName[st.endedBy]) : '') +
               (st.note ? '\n' + esc(st.note) : '') + '</title></g>';
         if (nameThem)
           sh += '<text class="mp-sitelab" x="' + xy[0].toFixed(2) + '" y="' +
@@ -1538,6 +1614,7 @@
       g.classList.toggle('mp-dated', p.who.some(function (w) { return w.dated; }));
       /* the lives at this seat, so an event can ask who was alive for it */
       g.setAttribute('data-lives', p.who.map(function (w) { return w.b + ':' + w.d; }).join(','));
+      g.setAttribute('data-who', p.who.map(function (w) { return w.k; }).join(','));
       g.classList.toggle('mp-marked', !!mark);
       g.classList.toggle('mp-anchor', !!p.anchor);
       if (p.anchor) label = p.aname;        /* the asked-about soul keeps their name */
@@ -1635,6 +1712,57 @@
       lb.innerHTML = lhtml || '<div class="mp-li" style="color:#5d6e84">no seat in this window</div>';
       lh.textContent = pins.length + ' here \u00b7 ' + washes.length + ' somewhere';
     }
+
+    /* ── WHAT WAS STANDING · the right-hand column ────────────────────────────
+       The built things get their own list, because they are not souls and the
+       left column is a roll of the living. A site that fell inside this window
+       is dimmed rather than dropped — it was standing for part of it, and the
+       reader should see the loss happen rather than find a gap. */
+    var bb = el.querySelector('.mp-blist .mp-listbody'),
+        bh = el.querySelector('.mp-blist .mp-listhead');
+    if (bb) {
+      var std = [], fell = [];
+      (geo.sites || []).forEach(function (st) {
+        if (st.b > hi) return;
+        if (st.e != null && st.e < lo) return;
+        (st.e == null || st.e > hi ? std : fell).push(st);
+      });
+      /* ── A BUILDING KEEPS ITS PEOPLE · 5 Sep ────────────────────────────
+         `by` and `ended_by` are ROSTER KEYS, so a building is joined to the
+         souls who raised and ended it. The right column names them and the
+         hover lights them in the left column and on the map.
+
+         AND THE BUILDER IS USUALLY DEAD. Solomon's temple stood for 374 years
+         after Solomon; hovering it in 700 BC lights nobody, because he is not
+         in the window. That is not a gap to paper over — it IS the difference
+         between a soul and a building, and the reason they needed separate
+         registers. The row says so rather than failing quietly. */
+      var soulName = {}, soulLives = {};
+      geo.souls.forEach(function (x) { soulName[x.k] = x.n; soulLives[x.k] = [x.b, x.d]; });
+      var bhtml = '';
+      std.concat(fell).forEach(function (st) {
+        var gone = !(st.e == null || st.e > hi);
+        var who = [];
+        if (st.by && soulName[st.by]) who.push({ k: st.by, verb: 'built by' });
+        if (st.endedBy && soulName[st.endedBy]) who.push({ k: st.endedBy, verb: 'ended by' });
+        bhtml += '<div class="mp-bi' + (gone ? ' mp-bgone' : '') + '" data-site="' +
+                 esc(st.n) + '"' +
+                 (st.by && soulName[st.by] ? ' data-built="' + esc(st.by) + '"' : '') +
+                 (st.endedBy && soulName[st.endedBy] ? ' data-ended="' + esc(st.endedBy) + '"' : '') +
+                 '>' + esc(st.n) +
+                 ' <span class="mp-bwhen">' + (gone ? 'fell ' + yr(st.e) : yr(st.b)) + '</span>' +
+                 (who.length ? '<span class="mp-bby">' + who.map(function (w) {
+                   var L = soulLives[w.k], here = L && L[0] <= hi && L[1] >= lo;
+                   var cls = w.verb === 'ended by' ? 'mp-bkill' : 'mp-bmade';
+                   return '<span class="' + cls + '">' + w.verb + ' ' +
+                          esc(soulName[w.k]) + (here ? '' : ' \u2020') + '</span>';
+                 }).join('<br>') + '</span>' : '') +
+                 '</div>';
+      });
+      bb.innerHTML = bhtml || '<div class="mp-bi" style="color:#5d6e84">nothing built yet</div>';
+      bh.textContent = std.length + ' standing' + (fell.length ? ' \u00b7 ' + fell.length + ' fell' : '');
+    }
+
     applyView();
 
     /* ── THE SKY BAND · a THIRD kind of mark ─────────────────────────────────
