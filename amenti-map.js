@@ -752,7 +752,13 @@
           '<g class="mp-view">' +
             '<rect class="mp-sea" x="0" y="0" width="1000" height="500"/>' +
             '<g class="mp-graticule"></g>' +
-            '<image class="mp-relief" href="" x="0" y="0" width="1000" height="500" ' +
+            /* NO href AT ALL until the atlas is pressed · 5 Sep. It was href=""
+               so the element could exist before the relief was wanted, and an
+               empty href makes a browser try to load THE PAGE ITSELF as an
+               image. Harmless — the atlas still worked — but it threw on every
+               single load, and a permanent harmless error is worse than none:
+               it is the line a real failure hides behind. */
+            '<image class="mp-relief" x="0" y="0" width="1000" height="500" ' +
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
             '<path class="mp-land"></path><path class="mp-coast"></path>' +
             '<g class="mp-regions"></g><g class="mp-lakes"></g><g class="mp-sites"></g><g class="mp-journeys"></g>' +
