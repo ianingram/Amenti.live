@@ -1,0 +1,64 @@
+# ============================================================================
+# .github/workflows/anomalies.yml · THE HUNT, ON A RUNG
+# ----------------------------------------------------------------------------
+# probe-anomalies REPORTS AND NEVER FAILS. It exits 0 whatever it finds, so
+# this workflow cannot block a build, cannot fail a merge, and cannot go red
+# because the register got interesting. The one exception is its own refusal:
+# if GEO.json or ROSTER-INDEX.json is missing it exits 2, and that SHOULD be
+# red, because a hunt that cannot read is not a hunt that found nothing.
+#
+# WHY THIS EXISTS. The captain has no Node. Every acceptance test that reads
+# "run the probe" was a test only an assistant session could perform — which is
+# SLIP #16's fault exactly: probe3 was written inside a session, against paths
+# that existed only in that session, and has never run. An instrument the ship
+# cannot fire is not an instrument.
+#
+# HOW TO FIRE IT. Actions tab → "anomalies" → Run workflow. The findings are
+# written to the run's SUMMARY page, so they are read by opening something,
+# not by downloading a log.
+#
+# IT DOES NOT PUSH. Nothing here writes to the repo, so it cannot lose the race
+# that hall.yml and patrol.yml both had to learn to rebase out of.
+# ============================================================================
+name: anomalies
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hunt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run the hunt
+        id: hunt
+        run: |
+          set -o pipefail
+          node probes/probe-anomalies.mjs . | tee anomalies.txt
+
+      - name: Write the findings to the run summary
+        if: always()
+        run: |
+          {
+            echo '## probe-anomalies'
+            echo
+            echo '```'
+            cat anomalies.txt 2>/dev/null || echo '(the probe produced no output — see the step above)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the reading
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: anomalies
+          path: anomalies.txt
+          if-no-files-found: warn
