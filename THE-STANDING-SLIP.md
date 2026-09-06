@@ -2138,6 +2138,118 @@ surface that geocoded for itself would have none of them and would look the same
   century visibly moves people rather than lighting and dimming them; and every
   line on the map traces to a row somebody wrote.
 
+### 71 · THE SMOULDER — an event is not a date, and its reach is not a radius
+Built 5 Sep, out of an argument for concentric rings. What came out is better
+than what was asked for, and the argument is the reason.
+
+**THE ASK.** Rings radiating from centres of influence — Rome, Persia, China —
+and from events: *"Vesuvius should radiate out for a certain length of time and
+then slowly fade into a bright point."*
+
+**THE REFUSAL, AND IT WAS THE RIGHT ONE.** A concentric ring asserts a DISTANCE
+and a UNIFORM FALLOFF, and nobody has either. Rome's sphere is a shape around
+the Mediterranean, far wider east-west than north-south, following coasts and
+roads; drawn as rings the map would say *Roman influence reached 800 km in every
+direction*, false in every direction. Vesuvius killed Pompeii at eight
+kilometres and dusted Egypt with ash. Same refusal as troop movements and trade
+routes (#64d).
+
+**AND THEN THE CAPTAIN SETTLED IT IN ONE LINE:**
+
+> *"the reach... extends all the way to the present day"*
+
+Which is exactly why a ring cannot hold it. **Actium's reach is two thousand
+years, not five hundred kilometres.** Consequence runs forward through people
+and institutions, not outward through space, and a circle can only measure the
+one dimension an event does not extend in.
+
+---
+
+**WHAT WAS BUILT INSTEAD, and every piece of it came out of that objection.**
+
+**1 · THE PULSE, AND THE PROPERTY THAT MAKES IT HONEST.** An event still rings —
+but the ring is drawn in SCREEN SPACE and counter-scaled. Zoom in and the
+coastline grows while the ring stays exactly where it was.
+
+> **A SPATIAL CLAIM SCALES WITH THE MAP. A TEMPORAL ONE DOES NOT.**
+> Anything that refuses to scale cannot be read as kilometres, and that is the
+> whole of the argument. The radius encodes AGE.
+
+**2 · SMOULDERING, COUNTED IN COMET PASSES.** The first version faded an event
+over a number of years I typed — 2000, 400, 150, 40. Counted in HALLEY RETURNS
+instead, the unit is measured the way the apertures are, and the end date is a
+real return from the register's own 48.
+
+```
+Great Fire of Rome    AD  64   2 passes → out in  141   (77 years)
+Eruption of Vesuvius  AD  79   2 passes → out in  218   (139 years)
+```
+
+**A property nobody designed:** the span varies with where the event falls
+between returns. Rome burns with the comet almost due; Vesuvius is fifteen years
+later and gets nearly twice as long for the same two passes. **The sky counts,
+not a judgement about which mattered more.** And the rule is VISIBLE — a reader
+watches the smoulder stop when the comet passes.
+
+**3 · `open` IS NOT A NUMBER, AND THIS ONE WAS A REAL BUG.** The top band was
+first written as 26 passes, meaning *the world is still standing in it*. Tested:
+
+```
+Egyptian Unification  -3100  → out in  374   ALREADY EXTINGUISHED
+Code of Hammurabi     -1750  → out in  374   ALREADY EXTINGUISHED
+Crucifixion of Jesus     33  → out in 1986   ALREADY EXTINGUISHED
+World Wide Web         1991  → out in 2061   burning fine
+```
+
+**Four of the twenty events meant to still be alight had gone out, and the
+three-year-old one was fine.** A fixed count of passes is a DURATION, and *still
+standing in it* is not a duration — it is an unbounded claim. Given a bounded
+number it silently expired, and it expired first on the oldest and most
+important entries.
+
+> **A BOUNDED NUMBER CANNOT CARRY AN UNBOUNDED CLAIM.**
+> `open` runs to the edge of the register and says what it means.
+
+**And it caught me laundering.** I chose 26 because it landed near the end of
+the register, then described it as *"arrived at rather than asserted"*. It was
+asserted. The captain stopped on the phrase, which is how the bug was found.
+
+**4 · THE WHITE-HOT DECADE.** *"the actual date itself and the ten year period
+surrounding it should be white hot."* An event now burns white in its own
+decade, cooling through amber to ember, so the mark reads as a temperature
+falling rather than a dot going out.
+
+**Ten REAL years — it scales with nothing.** Not the aperture, not the echo.
+How hot a thing burned and how long it smouldered are DIFFERENT CLAIMS, and
+tying them would mean an event that mattered for centuries also looked hotter in
+its own moment — a second assertion smuggled in behind the first. Constantinople
+and Bosworth burn identically white; they differ only in how long the ember
+lasts.
+
+**5 · REACH, DRAWN THE WAY THE REGISTER HOLDS IT.** Hover an event and every
+seat holding someone ALIVE IN THAT YEAR lights. The Great Fire lights nine
+placed souls; the fall of Constantinople eleven. This is edge data (#66) — the
+events know dates and places, the roster knows lives, and the overlap is the
+reading.
+
+---
+
+**WHAT IS STILL A JUDGEMENT, SAID PLAINLY.** The LENGTH of a pass is measured.
+**How many passes is not.** I typed 5 for Actium and 2 for Bosworth in about
+twenty minutes, and it will look authoritative because it is rendered rather
+than written. That is a historiographical claim in one voice, made deliberately
+rather than slipped in as an effect, and the panel says so.
+
+**THE HONEST END STATE, and it is not tonight's work.** `passes` should be
+MEASURED, not typed: *how long did the sources keep writing about it*. The
+mention graph already tracks authors naming figures; extended to events, it
+would replace a judgement with a count. **Seven authors is far too thin to carry
+it** — a large build resting on a sample that cannot hold it is #66's warning
+made load-bearing. The principle is sound and the machinery half exists.
+
+- **Acceptance test:** `passes` is derived from a corpus rather than authored,
+  and the derivation shows its working the way the hall's does.
+
 *Updated 31 Aug 2026: moves 12-22 added, #4 closed by supersession, #5 blocked,
 the critical path reordered. Eight of those moves had been sitting in a log and a
 handoff since 30 Aug without reaching this file, and one design decision existed
