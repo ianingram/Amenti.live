@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-06T02:10:48.425Z",
+    "generated": "2026-09-06T02:17:08.887Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1355,7 +1355,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49508,
-      "sha256": "133bf0033ad53269",
+      "sha256": "46f8aafb1e4488fe",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1688,7 +1688,7 @@
         "file": "hall-probe.js",
         "title": "HOW TO RUN IT",
         "guards": null,
-        "bytes": 8653
+        "bytes": 9254
       },
       {
         "file": "probe-citations.mjs",
