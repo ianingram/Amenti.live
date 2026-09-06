@@ -41,6 +41,39 @@ const yr = y => y < 0 ? Math.abs(y) + ' BC' : 'AD ' + y;
 const norm = s => String(s || '').toLowerCase().normalize('NFD')
   .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 
+/* ── WHAT THE REGISTER ALREADY SAYS, AND THIS PROBE DID NOT ASK ────────────
+   names.csv carries a `Dating` column. 384 souls hold the value `reign`, and
+   for those the b/d cells are a REGNAL SPAN, not a life — flagged on purpose
+   (SLIP #56, the interim while the schema is decided).
+
+   Sections 1 and 2 below were written without knowing that. Section 2 reported
+   102 short lives as "a REIGN entered as a life?" and 101 of them were reigns
+   the roster had already declared. Section 1 read two co-emperors sharing a
+   reign window as one duplicated soul. Neither was a fault in the register.
+   Both were this probe reaching past a column it was never told about.
+
+   The field must reach ROSTER-INDEX.json for either check to run. If it has
+   not, THIS PROBE SAYS SO rather than quietly passing — an unread check that
+   looks clean is worse than a red one. */
+const DATING_FIELDS = ['dating', 'dt', 'datingKind', 'span'];
+const datingOf = s => {
+  for (const f of DATING_FIELDS) if (s[f] != null) return String(s[f]).toLowerCase();
+  return null;
+};
+const DATING_READ = ri.souls.some(s => datingOf(s) !== null);
+const isReign = s => datingOf(s) === 'reign';
+const UNREAD = '   \u26a0 THE `Dating` COLUMN IS NOT IN ROSTER-INDEX.json \u2014 this test did ' +
+               'not run.\n     names.csv holds it for 384 souls. Carry it into the index ' +
+               'and re-run;\n     until then the hits below include reigns the roster ' +
+               'already declares.';
+
+/* A YEAR THAT IS A CENTURY WEARING A DATE.  `-501` is not a birth, it is
+   "5th century BC" typed into a cell that only accepts a year, and subtracting
+   one such cell from another manufactures a lifespan nobody wrote.
+   Deliberately narrow: BC round hundreds are left alone because the mythic
+   block legitimately uses them (-10000 to -3000). */
+const isCenturyStamp = y => typeof y === 'number' && (y > 0 ? y % 100 === 0 : Math.abs(y) % 100 === 1);
+
 console.log('\u2550'.repeat(66));
 console.log('  ANOMALIES \u00b7 a hunt, not a check \u00b7 ' + new Date().toISOString().slice(0, 16).replace('T', ' '));
 console.log('\u2550'.repeat(66));
@@ -57,33 +90,75 @@ head('THE SAME PERSON, ENTERED TWICE?');
     const k = s.b + ':' + s.d;
     (seen[k] = seen[k] || []).push(s);
   });
-  let found = 0;
+  let found = 0, mutedReign = 0, mutedStamp = 0;
   Object.values(seen).filter(g => g.length > 1).forEach(g => {
     /* same dates AND a shared word in the name is the strong signal */
     const words = g.map(s => new Set(norm(s.n).split(' ').filter(w => w.length > 3)));
     for (let i = 0; i < g.length; i++)
-      for (let j = i + 1; j < g.length; j++)
-        if ([...words[i]].some(w => words[j].has(w))) {
-          found++;
-          hit(g[i].n + '  /  ' + g[j].n + '   both ' + yr(g[i].b) + '\u2013' + yr(g[i].d));
-        }
+      for (let j = i + 1; j < g.length; j++) {
+        if (![...words[i]].some(w => words[j].has(w))) continue;
+
+        /* TWO KINGS ARE NOT ONE KING. If both rows are declared reigns, the
+           shared window is a shared THRONE, not a shared person — Isaac II and
+           Alexios IV were co-emperors, father and son. A merge here destroys a
+           soul to fix a fault that does not exist. */
+        if (DATING_READ && isReign(g[i]) && isReign(g[j])) { mutedReign++; continue; }
+
+        /* Both ends a century stamp: the two rows agree on nothing but the
+           century somebody typed when the year was unknown. */
+        if (isCenturyStamp(g[i].b) && isCenturyStamp(g[i].d)) { mutedStamp++; continue; }
+
+        found++;
+        hit(g[i].n + '  /  ' + g[j].n + '   both ' + yr(g[i].b) + '\u2013' + yr(g[i].d));
+      }
   });
   if (!found) none();
+  if (!DATING_READ) console.log(UNREAD);
+  else if (mutedReign) console.log('   \u2014 ' + mutedReign + ' pair(s) suppressed: both sides declared reigns, sharing a throne not a life.');
+  if (mutedStamp) console.log('   \u2014 ' + mutedStamp + ' pair(s) suppressed: both dates are century stamps. See the next section.');
 }
 
 /* ── 2 · A LIFE THAT IS NOT A LIFE ─────────────────────────────────────── */
 head('LIFESPANS THAT DO NOT LOOK LIKE LIVES');
 {
-  let f = 0;
+  let f = 0, declared = 0;
   ri.souls.forEach(s => {
     if (typeof s.b !== 'number' || typeof s.d !== 'number') return;
     const span = s.d - s.b;
     if (span < 0) { f++; hit(s.n + ' dies before birth: ' + yr(s.b) + '\u2013' + yr(s.d)); }
     else if (span === 0) { f++; hit(s.n + ' lived zero years: ' + yr(s.b)); }
-    else if (span > 0 && span < 5) { f++; hit(s.n + ' lived ' + span + ' years \u2014 ' + yr(s.b) + '\u2013' + yr(s.d) + '  (a REIGN entered as a life?)'); }
+    else if (span > 0 && span < 5) {
+      /* Only worth reporting where the roster has NOT already said `reign`. */
+      if (DATING_READ && isReign(s)) { declared++; return; }
+      f++; hit(s.n + ' lived ' + span + ' years \u2014 ' + yr(s.b) + '\u2013' + yr(s.d) + '  (a REIGN entered as a life?)');
+    }
     else if (span > 120 && span < 400) { f++; hit(s.n + ' lived ' + span + ' years'); }
   });
   if (!f) none();
+  if (!DATING_READ) console.log(UNREAD);
+  else if (declared) console.log('   \u2014 ' + declared + ' short span(s) not reported: the roster declares them reigns.');
+}
+
+/* ── 2b · A CENTURY TYPED INTO A YEAR ──────────────────────────────────────
+   Nobody was born in exactly AD 400. The cell means "5th century" and the
+   register cannot say so, so it says a year and every span measured from it is
+   an artifact. Argaeus II and Crateuas of Macedon read -501 to -401 apiece,
+   which is not a reign and not a life; it is the same century written twice.
+
+   REPORTED, NEVER FAILED. Some of these will be real. */
+head('YEARS THAT LOOK LIKE CENTURIES');
+{
+  let f = 0, both = 0;
+  ri.souls.forEach(s => {
+    const b = isCenturyStamp(s.b), d = isCenturyStamp(s.d);
+    if (!b && !d) return;
+    f++;
+    if (b && d) { both++; hit(s.n + '  BOTH ends stamped: ' + yr(s.b) + '\u2013' + yr(s.d)); }
+    else hit(s.n + '  ' + (b ? 'birth' : 'death') + ' stamped: ' + yr(s.b) + '\u2013' + yr(s.d));
+  });
+  if (!f) none();
+  else console.log('   \u2014 ' + f + ' soul(s), ' + both + ' with both ends. A stamped end cannot ' +
+                   'carry a lifespan,\n     and a dated position cannot be checked against one.');
 }
 
 /* ── 3 · THE SLUGGER AND THE ACCENT ────────────────────────────────────── */
