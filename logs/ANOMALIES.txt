@@ -1,0 +1,216 @@
+══════════════════════════════════════════════════════════════════
+  ANOMALIES · a hunt, not a check · 2026-09-06 03:10
+══════════════════════════════════════════════════════════════════
+
+── THE SAME PERSON, ENTERED TWICE? ───────────────────────────────
+   Horus  /  Horus the Elder   both 10000 BC–3000 BC
+   Gautama Buddha  /  Buddha   both 563 BC–483 BC
+   Paul the Apostle  /  Saint Paul   both AD 5–AD 67
+   Augustus Caesar  /  Augustus   both 63 BC–AD 14
+   Umar ibn al-Khattab  /  Umar   both AD 584–AD 644
+   Ashoka the Great  /  Ashoka   both 304 BC–232 BC
+   Augustine of Hippo  /  Saint Augustine   both AD 354–AD 430
+   Hernando Cortes  /  Hernan Cortes   both AD 1485–AD 1547
+   Queen Victoria  /  Victoria   both AD 1819–AD 1901
+   Maria Theresa  /  Maria Theresa of Austria   both AD 1717–AD 1780
+   Francis of Assisi  /  Saint Francis of Assisi   both AD 1181–AD 1226
+   Catherine the Great  /  Catherine II of Russia   both AD 1729–AD 1796
+   Omar Khayyam  /  Omar Khayyám   both AD 1048–AD 1131
+   Thomas Aquinas  /  Saint Thomas Aquinas   both AD 1225–AD 1274
+   Erwin Schrodinger  /  Erwin Schrödinger   both AD 1887–AD 1961
+   Franklin D. Roosevelt  /  Franklin Delano Roosevelt   both AD 1882–AD 1945
+   Saint Peter  /  Simon Peter   both AD 1–AD 64
+   Saint Benedict  /  Benedict of Nursia   both AD 480–AD 547
+   Saint Ignatius of Loyola  /  Ignatius of Loyola   both AD 1491–AD 1556
+   Saint Joan of Arc  /  Joan of Arc   both AD 1412–AD 1431
+   Pope Alexander VI  /  Alexander VI   both AD 1431–AD 1503
+   Pope Clement VII  /  Clement VII   both AD 1478–AD 1534
+   Pope Gregory I  /  Gregory I   both AD 540–AD 604
+   Pope Paul VI  /  Paul VI   both AD 1897–AD 1978
+   Pope John XXIII  /  John   both AD 1881–AD 1963
+   Pope Benedict XVI  /  Benedict XVI   both AD 1927–AD 2022
+   Mary I of England  /  Mary I   both AD 1516–AD 1558
+   Edith Piaf  /  Édith Piaf   both AD 1915–AD 1963
+   Teresa of Avila  /  Teresa of Ávila   both AD 1515–AD 1582
+   Flavius Josephus  /  Josephus   both AD 37–AD 100
+   Argaeus II of Macedon  /  Crateuas of Macedon   both 501 BC–401 BC
+   Bahadur Shah I  /  Azam Shah   both AD 1707–AD 1712
+   Alexios IV Angelos  /  Isaac II Angelos   both AD 1203–AD 1204
+
+── LIFESPANS THAT DO NOT LOOK LIKE LIVES ─────────────────────────
+   Enoch lived 365 years
+   Belus lived 200 years
+   Cuchulainn lived 150 years
+   Fionn mac Cumhaill lived 180 years
+   Jack the Ripper lived zero years: AD 1888
+   Benedict IV lived 3 years — AD 900–AD 903  (a REIGN entered as a life?)
+   Qin Er Shi lived 3 years — 209 BC–206 BC  (a REIGN entered as a life?)
+   Liu Gong lived 4 years — 187 BC–183 BC  (a REIGN entered as a life?)
+   Emperor Houshao of Han lived 4 years — 183 BC–179 BC  (a REIGN entered as a life?)
+   Emperor Gengshi of Han lived 2 years — AD 23–AD 25  (a REIGN entered as a life?)
+   Ruzi Ying lived 1 years — AD 24–AD 25  (a REIGN entered as a life?)
+   Liu Penzi lived 2 years — AD 25–AD 27  (a REIGN entered as a life?)
+   Li Xian lived 1 years — AD 27–AD 28  (a REIGN entered as a life?)
+   Emperor Chong of Han lived 1 years — AD 144–AD 145  (a REIGN entered as a life?)
+   Emperor Zhi of Han lived 1 years — AD 145–AD 146  (a REIGN entered as a life?)
+   Liu Bei lived 2 years — AD 221–AD 223  (a REIGN entered as a life?)
+   Emperor Huai of Jin lived 4 years — AD 307–AD 311  (a REIGN entered as a life?)
+   Emperor Min of Jin lived 3 years — AD 313–AD 316  (a REIGN entered as a life?)
+   Emperor Ming of Jin lived 2 years — AD 323–AD 325  (a REIGN entered as a life?)
+   Emperor Kang of Jin lived 2 years — AD 342–AD 344  (a REIGN entered as a life?)
+   Fu Jian (351) lived 4 years — AD 351–AD 355  (a REIGN entered as a life?)
+   Emperor Ai of Jin lived 4 years — AD 361–AD 365  (a REIGN entered as a life?)
+   Emperor Gong of Jin lived 1 years — AD 419–AD 420  (a REIGN entered as a life?)
+   Emperor Ankō lived 2 years — AD 454–AD 456  (a REIGN entered as a life?)
+   Seinei lived 4 years — AD 480–AD 484  (a REIGN entered as a life?)
+   Emperor Kenzō lived 2 years — AD 485–AD 487  (a REIGN entered as a life?)
+   Ankan lived 4 years — AD 531–AD 535  (a REIGN entered as a life?)
+   Senka lived 3 years — AD 536–AD 539  (a REIGN entered as a life?)
+   Yōmei lived 2 years — AD 585–AD 587  (a REIGN entered as a life?)
+   Emperor Heizei lived 3 years — AD 806–AD 809  (a REIGN entered as a life?)
+   Kōkō lived 3 years — AD 884–AD 887  (a REIGN entered as a life?)
+   Sogdianus lived 1 years — 423 BC–422 BC  (a REIGN entered as a life?)
+   Arses lived 2 years — 337 BC–335 BC  (a REIGN entered as a life?)
+   Neferkara I lived 2 years — 2749 BC–2747 BC  (a REIGN entered as a life?)
+   Smenkhkare lived 1 years — 1336 BC–1335 BC  (a REIGN entered as a life?)
+   Ay lived 4 years — 1323 BC–1319 BC  (a REIGN entered as a life?)
+   Ramesses I lived 2 years — 1290 BC–1288 BC  (a REIGN entered as a life?)
+   Amenmesse lived 4 years — 1201 BC–1197 BC  (a REIGN entered as a life?)
+   Setnakhte lived 4 years — 1189 BC–1185 BC  (a REIGN entered as a life?)
+   Senfa Ared IV lived 1 years — AD 1294–AD 1295  (a REIGN entered as a life?)
+   Hezba Asgad lived 1 years — AD 1295–AD 1296  (a REIGN entered as a life?)
+   Qedma Asgad lived 1 years — AD 1296–AD 1297  (a REIGN entered as a life?)
+   Jin Asgad lived 1 years — AD 1297–AD 1298  (a REIGN entered as a life?)
+   Saba Asgad lived 1 years — AD 1298–AD 1299  (a REIGN entered as a life?)
+   Tewodros I lived 1 years — AD 1413–AD 1414  (a REIGN entered as a life?)
+   Andreyas lived 1 years — AD 1429–AD 1430  (a REIGN entered as a life?)
+   Takla Maryam lived 3 years — AD 1430–AD 1433  (a REIGN entered as a life?)
+   Amda Iyasus lived 1 years — AD 1433–AD 1434  (a REIGN entered as a life?)
+   Maghan lived 4 years — AD 1332–AD 1336  (a REIGN entered as a life?)
+   As-Saffah lived 4 years — AD 750–AD 754  (a REIGN entered as a life?)
+   Al-Hadi lived 1 years — AD 785–AD 786  (a REIGN entered as a life?)
+   Al-Amin lived 4 years — AD 809–AD 813  (a REIGN entered as a life?)
+   Al-Muntasir lived 1 years — AD 861–AD 862  (a REIGN entered as a life?)
+   Al-Musta'in lived 3 years — AD 862–AD 865  (a REIGN entered as a life?)
+   Al-Mu'tazz lived 3 years — AD 866–AD 869  (a REIGN entered as a life?)
+   Al-Muhtadi lived 1 years — AD 869–AD 870  (a REIGN entered as a life?)
+   Al-Qahir lived 2 years — AD 932–AD 934  (a REIGN entered as a life?)
+   Al-Muttaqi lived 4 years — AD 940–AD 944  (a REIGN entered as a life?)
+   Al-Mustakfi lived 2 years — AD 944–AD 946  (a REIGN entered as a life?)
+   Al-Rashid lived 1 years — AD 1135–AD 1136  (a REIGN entered as a life?)
+   Muhammad IV lived 1 years — AD 1434–AD 1435  (a REIGN entered as a life?)
+   Abdülmecid II lived 2 years — AD 1922–AD 1924  (a REIGN entered as a life?)
+   Humayun lived 1 years — AD 1555–AD 1556  (a REIGN entered as a life?)
+   Jahandar Shah lived 1 years — AD 1712–AD 1713  (a REIGN entered as a life?)
+   Shah Jahan III lived 1 years — AD 1759–AD 1760  (a REIGN entered as a life?)
+   Pulcheria lived 3 years — AD 450–AD 453  (a REIGN entered as a life?)
+   Zeno lived 1 years — AD 474–AD 475  (a REIGN entered as a life?)
+   Ariadne lived 1 years — AD 474–AD 475  (a REIGN entered as a life?)
+   Basiliscus lived 1 years — AD 475–AD 476  (a REIGN entered as a life?)
+   Zenonis lived 1 years — AD 475–AD 476  (a REIGN entered as a life?)
+   Ino Anastasia lived 4 years — AD 578–AD 582  (a REIGN entered as a life?)
+   Gregoria lived 1 years — AD 641–AD 642  (a REIGN entered as a life?)
+   Leontius lived 3 years — AD 695–AD 698  (a REIGN entered as a life?)
+   Philippikos Bardanes lived 2 years — AD 711–AD 713  (a REIGN entered as a life?)
+   Anastasios II lived 2 years — AD 713–AD 715  (a REIGN entered as a life?)
+   Theodosios III lived 2 years — AD 715–AD 717  (a REIGN entered as a life?)
+   Michael I Rangabe lived 2 years — AD 811–AD 813  (a REIGN entered as a life?)
+   Staurakios lived 2 years — AD 811–AD 813  (a REIGN entered as a life?)
+   Alexander lived 1 years — AD 912–AD 913  (a REIGN entered as a life?)
+   Romanos II lived 4 years — AD 959–AD 963  (a REIGN entered as a life?)
+   Konstantinos VIII lived 3 years — AD 1025–AD 1028  (a REIGN entered as a life?)
+   Michael V Kalaphates lived 1 years — AD 1041–AD 1042  (a REIGN entered as a life?)
+   Michael VI Bringas lived 1 years — AD 1056–AD 1057  (a REIGN entered as a life?)
+   Isaac I Komnenos lived 2 years — AD 1057–AD 1059  (a REIGN entered as a life?)
+   Romanos IV Diogenes lived 3 years — AD 1068–AD 1071  (a REIGN entered as a life?)
+   Andronikos Doukas lived 2 years — AD 1068–AD 1070  (a REIGN entered as a life?)
+   Nikephoros III Botaneiates lived 3 years — AD 1078–AD 1081  (a REIGN entered as a life?)
+   Alexios II Komnenos lived 3 years — AD 1180–AD 1183  (a REIGN entered as a life?)
+   Andronikos I Komnenos lived 2 years — AD 1183–AD 1185  (a REIGN entered as a life?)
+   Alexios IV Angelos lived 1 years — AD 1203–AD 1204  (a REIGN entered as a life?)
+   Isaac II Angelos lived 1 years — AD 1203–AD 1204  (a REIGN entered as a life?)
+   Konstantinos Laskaris lived 1 years — AD 1204–AD 1205  (a REIGN entered as a life?)
+   Nicholas Laskaris lived 2 years — AD 1208–AD 1210  (a REIGN entered as a life?)
+   John IV Laskaris lived 3 years — AD 1259–AD 1262  (a REIGN entered as a life?)
+   Andronikos IV Palaiologos lived 3 years — AD 1376–AD 1379  (a REIGN entered as a life?)
+   Andronikos V Palaiologos lived 4 years — AD 1403–AD 1407  (a REIGN entered as a life?)
+   Anna of Moscow lived 1 years — AD 1416–AD 1417  (a REIGN entered as a life?)
+   Konstantinos XI Palaiologos lived 4 years — AD 1449–AD 1453  (a REIGN entered as a life?)
+   Mehmed II lived 2 years — AD 1444–AD 1446  (a REIGN entered as a life?)
+   Mustafa I lived 1 years — AD 1617–AD 1618  (a REIGN entered as a life?)
+   Osman II lived 4 years — AD 1618–AD 1622  (a REIGN entered as a life?)
+   Suleiman II lived 4 years — AD 1687–AD 1691  (a REIGN entered as a life?)
+   Ahmed II lived 4 years — AD 1691–AD 1695  (a REIGN entered as a life?)
+   Osman III lived 3 years — AD 1754–AD 1757  (a REIGN entered as a life?)
+   Mustafa IV lived 1 years — AD 1807–AD 1808  (a REIGN entered as a life?)
+   Mehmed VI lived 4 years — AD 1918–AD 1922  (a REIGN entered as a life?)
+   Mehmed Abdülaziz Efendi lived 4 years — AD 1973–AD 1977  (a REIGN entered as a life?)
+
+── KEYS NOBODY COULD GUESS ───────────────────────────────────────
+   (nothing)
+
+── BUILDINGS AND THEIR PEOPLE — DO THE DATES AGREE? ──────────────
+   Karnak built 2000 BC but Ramesses II lived 1303 BC–1213 BC
+   Luxor Temple built 1400 BC but Ramesses II lived 1303 BC–1213 BC
+   Colosseum built AD 80 but Vespasian lived AD 9–AD 79
+
+── COORDINATES WORTH A SECOND LOOK ───────────────────────────────
+   one coordinate, 2 place names: La Haye / The Hague  @ 52.0767,4.2986
+   one coordinate, 2 place names: Istanbul / Constantinople  @ 41.0138,28.9497
+   one coordinate, 2 place names: Leningrad / St. Petersburg  @ 59.9386,30.3141
+   one coordinate, 2 place names: Hanseong / Seoul  @ 37.5660,126.9784
+   one coordinate, 2 place names: Allegheny / Pittsburgh  @ 40.4406,-79.9959
+   one coordinate, 2 place names: Bombay / Mumbai  @ 19.0728,72.8826
+
+── ANACHRONISMS — A SOUL AT A PLACE YOUNGER THAN THEY ARE ────────
+   Minerva died 3000 BC at Rome, which the register dates from 753 BC
+   Mars died 3000 BC at Rome, which the register dates from 753 BC
+   Diana Daughter of Jupiter died 3000 BC at Rome, which the register dates from 753 BC
+   Jupiter died 4000 BC at Rome, which the register dates from 753 BC
+   Susanoo died 3000 BC at Japan, which the register dates from 660 BC
+   Jean-Jacques Rousseau died AD 1778 at Geneva, which the register dates from AD 1920
+   Peter the Great died AD 1725 at Moscow, which the register dates from AD 1922
+   Louis XVI of France died AD 1793 at Versailles, which the register dates from AD 1871
+   Alexander Pushkin died AD 1837 at Moscow, which the register dates from AD 1922
+   Dante Alighieri died AD 1321 at Florence, which the register dates from AD 1397
+   Fyodor Dostoevsky died AD 1881 at Moscow, which the register dates from AD 1922
+   Henry Dunant died AD 1910 at Geneva, which the register dates from AD 1920
+   Isadora Duncan died AD 1927 at San Francisco, which the register dates from AD 1945
+
+── CENTURIES WITH ALMOST NOBODY IN THEM ──────────────────────────
+   2900 BC–2800 BC: 8 alive, only 2 on the map
+   2800 BC–2700 BC: 8 alive, only 2 on the map
+   2700 BC–2600 BC: 7 alive, only 2 on the map
+   2600 BC–2500 BC: 7 alive, only 1 on the map
+   2500 BC–2400 BC: 12 alive, only 1 on the map
+   2400 BC–2300 BC: 7 alive, only 0 on the map
+   2300 BC–2200 BC: 7 alive, only 0 on the map
+   2200 BC–2100 BC: 3 alive, only 0 on the map
+   2100 BC–2000 BC: 7 alive, only 2 on the map
+   2000 BC–1900 BC: 8 alive, only 2 on the map
+   1900 BC–1800 BC: 10 alive, only 3 on the map
+   1800 BC–1700 BC: 9 alive, only 3 on the map
+   1700 BC–1600 BC: 4 alive, only 1 on the map
+   1600 BC–1500 BC: 7 alive, only 2 on the map
+   1500 BC–1400 BC: 10 alive, only 3 on the map
+   1100 BC–1000 BC: 4 alive, only 0 on the map
+   1000 BC–900 BC: 4 alive, only 0 on the map
+   900 BC–800 BC: 6 alive, only 1 on the map
+   700 BC–600 BC: 18 alive, only 3 on the map
+   300 BC–200 BC: 36 alive, only 3 on the map
+   200 BC–100 BC: 28 alive, only 1 on the map
+   — a window like this cannot carry an edge-data reading (#66).
+
+── WHERE THE ROSTER IS THIN ──────────────────────────────────────
+   before 500 BC         144 souls ·  11 rooms · 7.6%
+   500 BC – AD 500       417 souls ·  17 rooms · 4.1%
+   AD 500–1400           368 souls ·   4 rooms · 1.1%
+   1400–1800             288 souls ·  12 rooms · 4.2%
+   since 1800            777 souls ·   9 rooms · 1.2%
+   titles used exactly once: 42 — Lawmaker, Surgeon, Neurologist, Martyr, Monarch, Seer, High Priest, Prince …
+   — a title used once is usually a variant of one used often.
+
+══════════════════════════════════════════════════════════════════
+  183 THING(S) WORTH A LOOK — none of them a failure, all of them unasked for
+══════════════════════════════════════════════════════════════════
+
