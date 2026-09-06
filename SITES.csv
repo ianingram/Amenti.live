@@ -1,0 +1,82 @@
+site,name,built,ended,place,by,ended_by,kind,note
+# ============================================================================
+# SITES.csv · THE GROUND, AND WHAT HAS STOOD ON IT
+# ----------------------------------------------------------------------------
+# ── THE CORRECTION THAT MADE THIS FILE · 5 Sep ───────────────────────────────
+# The first version of this register had one row per building and called it a
+# site. The captain:
+#
+#   "a site, a building is like a person: it has a birth date and a
+#    destruction date, and the names of those who built it and those who
+#    destroyed it. THE SITE STAYS THE SAME BUT THE BUILDERS AND THE
+#    BUILDINGS CHANGE."
+#
+# Which is right, and the first version could not hold it. Jerusalem's temple
+# mount is ONE GROUND and at least THREE BUILDINGS — Solomon's Temple, the
+# Second Temple, the Dome of the Rock. I had the first two as unrelated sites
+# sharing a coordinate and the third as a fourth thing entirely. Tenochtitlan
+# is the same: the Templo Mayor pulled down and the cathedral built from its
+# own stones, on the same ground. Cordoba is the same, and stranger — the
+# cathedral was built INSIDE the mosque, which still stands around it.
+#
+#   `site`  the GROUND. Several rows may share it. It does not end.
+#   `name`  what stood there. It has a birth and a death like anything else.
+#
+# ── AND A BUILDING HAS PEOPLE ────────────────────────────────────────────────
+# `by` and `ended_by` are ROSTER KEYS. Solomon built one temple and
+# Nebuchadnezzar destroyed it; Titus destroyed the next. Justinian raised
+# Hagia Sophia and Mehmed made it a mosque. Those are souls already aboard,
+# and this is the join that lets a building be asked about like a person.
+#
+# A blank is honest and common: nobody knows who built Stonehenge.
+#
+#   built   the year it stood, near enough. Coarse on purpose for ancient work.
+#   ended   destroyed, abandoned, or ruined past use. BLANK MEANS IT STANDS.
+#
+# ── WHAT THE SPAN DOES, MEASURED ─────────────────────────────────────────────
+# It does NOT declutter. 4 standing at 2500 BC, 12 at AD 1, a dip to 10 by AD
+# 500 as Delphi and Olympia and Ephesus close, 22 today. THE BUILT WORLD
+# ACCUMULATES, and against souls and events that arrive and go on every step
+# of the slider this is the one layer that only ever adds.
+# ============================================================================
+Gobekli Tepe,Gobekli Tepe,-9500,-8000,"Gobekli Tepe, Turkey",,,temple,'older than pottery and the wheel; deliberately buried by its own builders'
+Newgrange,Newgrange,-3200,,"Newgrange, Ireland",,,tomb,'older than Giza; the roof box still catches the solstice'
+Stonehenge,Stonehenge,-3000,,"Stonehenge, England",,,temple,'built over 1500 years; nobody knows by whom'
+Saqqara,Step Pyramid of Djoser,-2670,,"Saqqara, Egypt",,,tomb,'the first monumental stone building; Imhotep and Djoser are not on the roster'
+Giza,Great Pyramid,-2560,,"Giza, Egypt",,,tomb,'the only one of the seven wonders still standing; Khufu is not on the roster'
+Ur,Ziggurat of Ur,-2100,-500,"Ur",,,temple,
+Karnak,Karnak,-2000,-30,"Luxor, Egypt",ramesses-ii,,temple,'built and rebuilt over two thousand years; Ramesses is one hand among many'
+Knossos,Palace of Knossos,-1900,-1350,"Heraklion, Greece",,,palace,
+Mycenae,Mycenae,-1600,-1100,"Mykines, Greece",,,palace,
+Luxor,Luxor Temple,-1400,-30,"Luxor, Egypt",ramesses-ii,,temple,
+Abu Simbel,Abu Simbel,-1264,,"Abu Simbel, Egypt",ramesses-ii,,temple,'moved bodily uphill in 1968, above the new lake'
+Temple Mount,Temple of Solomon,-960,-586,"Jerusalem, Israel",solomon,nebuchadnezzar-ii,temple,'the first building on this ground'
+Temple Mount,Second Temple,-516,70,"Jerusalem, Israel",,titus,temple,'the western retaining wall of its platform still stands'
+Temple Mount,Dome of the Rock,691,,"Jerusalem, Israel",,,temple,'the third building on the same ground, and it stands'
+Delphi,Temple of Apollo,-800,390,"Delphi, Greece",,theodosius-i,temple,'closed by decree, with every other oracle'
+Olympia,Sanctuary of Zeus,-776,393,"Olympia, Greece",,theodosius-i,temple,'the games ended by the same decree'
+Ephesus,Temple of Artemis,-550,268,"Selcuk, Turkey",,,temple,'burned by an arsonist, rebuilt, and finally sacked by the Goths'
+Persepolis,Persepolis,-515,-330,"Persepolis, Iran",,alexander-the-great,palace,'burned, and it is still argued whether on purpose'
+Acropolis,Parthenon,-447,,"Athens, Greece",pericles,,temple,'temple, church, mosque, powder magazine, ruin'
+Alexandria,Great Library,-285,270,"Alexandria, Egypt",,,library,'no single burning; it declined over centuries'
+Petra,Petra,-300,551,"Petra, Jordan",,,city,'abandoned after the earthquake'
+Rome,Colosseum,80,,"Rome, Italy",vespasian,,arena,'begun by Vespasian, opened by Titus'
+Rome,Pantheon,126,,"Rome, Italy",hadrian,,temple,'the largest unreinforced concrete dome ever built, still'
+Teotihuacan,Teotihuacan,100,650,"Teotihuacan, Mexico",,,city,'already ancient ruins when the Aztecs named it'
+Constantinople,Hagia Sophia,537,,"Constantinople",justinian-i,,temple,'church, then mosque in 1453, then museum, then mosque again — the building never ended, its meaning changed four times'
+Mecca,Kaaba,600,,"Mecca, Saudi Arabia",,,temple,'rebuilt many times on the same ground'
+Chichen Itza,Chichen Itza,600,1250,"Chichen Itza, Mexico",,,city,
+Cordoba,Great Mosque,785,,"Cordoba, Spain",,,temple,'a cathedral built INSIDE it in 1523; the mosque still stands around it'
+Borobudur,Borobudur,825,,"Borobudur, Indonesia",,,temple,'abandoned to the jungle for centuries, then found'
+Angkor,Angkor Wat,1150,,"Angkor, Cambodia",,,temple,'Hindu, then Buddhist; never fully abandoned'
+Paris,Notre-Dame,1163,,"Paris, France",,,temple,'burned in 2019 and rebuilt'
+Chartres,Chartres Cathedral,1194,,"Chartres, France",,,temple,
+Tenochtitlan,Templo Mayor,1325,1521,"Tenochtitlan",,hernando-cortes,temple,'pulled down; the cathedral was built from its stones'
+Tenochtitlan,Mexico City Cathedral,1573,,"Tenochtitlan",,,temple,'the second building on the same ground, from the first one'
+Machu Picchu,Machu Picchu,1450,1572,"Machu Picchu, Peru",,,city,'abandoned within a century; the Spanish never found it'
+Rome,Saint Peters Basilica,1626,,"Rome, Italy",,,temple,'120 years to build'
+Agra,Taj Mahal,1653,,"Agra, India",shah-jahan,,tomb,'and he watched it from a cell for eight years'
+New York,Statue of Liberty,1886,,"New York City, United States",,,monument,
+Paris,Eiffel Tower,1889,,"Paris, France",,,monument,'meant to stand twenty years'
+Barcelona,Sagrada Familia,1882,,"Barcelona, Spain",antoni-gaudi,,temple,'still unfinished after 140 years'
+New York,Empire State Building,1931,,"New York City, United States",,,monument,
