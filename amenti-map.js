@@ -423,36 +423,15 @@
       '#amenti-map .mp-pin:hover{fill:#a9edff;fill-opacity:1}',
       /* THE NAMES. Hidden by default and revealed only when the cull says the
          label fits — so a name never lands on top of another name. */
-      /* ── AN OUTLINE IS SCREEN FURNITURE · 7 Sep ──────────────────────────
-         Every text class here carries paint-order:stroke — a dark outline so a
-         name reads where it crosses a river, a wash, or another name. A STROKE
-         IS IN USER UNITS, so it grows with the transform; font-size, since the
-         counter-scale was repaired, does not. The pair had held for three days
-         only because BOTH were wrong together.
-
-         SEEN ON SCREEN at x10: 5.6px type inside a 16px outline. Every seat name
-         on the map became a black lozenge with one letter surviving at an edge.
-         An outline that swallows its own letter is not legibility support, it is
-         obliteration — and no probe caught it, because the probe measured
-         font-size and never stroke-width.
-
-         vector-effect:non-scaling-stroke pins a stroke to a constant SCREEN
-         width whatever the transform does. It is the same token .mp-pin,
-         .mp-coast, .mp-river, .mp-peak, .mp-pulse and .mp-return already use,
-         and it is the right one here for the same reason: an outline is not a
-         claim about the world, it is furniture for the reader's eye. No
-         arithmetic, nothing to keep in step, and nothing to get backwards. */
       '#amenti-map .mp-name{fill:#c3d3e6;font-size:5.6px;letter-spacing:.02em;',
       '  text-anchor:middle;pointer-events:none;opacity:0;',
       '  paint-order:stroke;stroke:#070b12;stroke-width:1.6px;stroke-linejoin:round;',
-      '  vector-effect:non-scaling-stroke;',
       '  transition:opacity .35s ease}',
       '#amenti-map .mp-named .mp-name{opacity:.92}',
       /* AN OFFICE MARK: dim, plain, repeated. It says "one of many". */
       '#amenti-map .mp-glyph{fill:#93b9d4;font-size:6.4px;text-anchor:middle;',
       '  pointer-events:none;opacity:0;paint-order:stroke;stroke:#070b12;',
-      '  stroke-width:1.8px;stroke-linejoin:round;vector-effect:non-scaling-stroke;',
-      '  transition:opacity .35s ease}',
+      '  stroke-width:1.8px;stroke-linejoin:round;transition:opacity .35s ease}',
       '#amenti-map .mp-marked .mp-glyph{opacity:.8}',
       /* A PERSONAL MARK: brighter, and RINGED so it cannot be mistaken for an
          office at a glance. Two tiers of a claim, two readings — the same rule
@@ -516,7 +495,7 @@
       '#amenti-map .mp-gath{fill:#d8a24a;fill-opacity:.35;stroke:none}',
       '#amenti-map .mp-obslabel{fill:#c99a4e;font-size:5px;letter-spacing:.1em;',
       '  text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:#070b12;',
-      '  stroke-width:1.6px;stroke-linejoin:round;vector-effect:non-scaling-stroke}',
+      '  stroke-width:1.6px;stroke-linejoin:round}',
       '#amenti-map .mp-sky{transition:opacity .4s ease}',
       /* arriving and leaving — the whole reason to scrub time */
       '#amenti-map .mp-seat{transition:opacity .4s ease}',
@@ -575,8 +554,7 @@
       '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-peak.mp-dep{stroke:#6b7c91;opacity:.55}',
       '#amenti-map .mp-peaklab{fill:#8fa2ba;text-anchor:middle;opacity:.8;',
-      '  paint-order:stroke;stroke:#070b12;stroke-width:1.4px;stroke-linejoin:round;',
-      '  vector-effect:non-scaling-stroke}',
+      '  paint-order:stroke;stroke:#070b12;stroke-width:1.4px;stroke-linejoin:round}',
       /* AN EMBER, OPEN AT THE CENTRE — never a disc, never cyan, never gold */
       /* the pulse: an age, not a radius. Thin, unfilled, and it never scales
          with the land — see the note where it is drawn. */
@@ -600,8 +578,7 @@
       '#amenti-map .mp-ev{cursor:default}',
       '#amenti-map .mp-ev:hover .mp-evmark{stroke:#ffb08a;stroke-width:1.1}',
       '#amenti-map .mp-evlab{fill:#e0925a;text-anchor:middle;pointer-events:none;',
-      '  paint-order:stroke;stroke:#070b12;stroke-width:1.5px;stroke-linejoin:round;',
-      '  vector-effect:non-scaling-stroke}',
+      '  paint-order:stroke;stroke:#070b12;stroke-width:1.5px;stroke-linejoin:round}',
       /* a territory event is an OUTLINE — a war is not a wash */
       '#amenti-map .mp-evarea{fill:none;stroke:#e0794a;stroke-width:.6;',
       '  stroke-dasharray:3 3;vector-effect:non-scaling-stroke}',
@@ -632,7 +609,7 @@
       '#amenti-map .mp-site.mp-ruined rect{stroke-dasharray:2 2;opacity:.32}',
       '#amenti-map .mp-sitelab{fill:#8fa2ba;text-anchor:middle;opacity:.65;',
       '  pointer-events:none;paint-order:stroke;stroke:#070b12;stroke-width:1.4px;',
-      '  stroke-linejoin:round;vector-effect:non-scaling-stroke}',
+      '  stroke-linejoin:round}',
       '#amenti-map .mp-sites{pointer-events:auto}',
       '#amenti-map .mp-jrn{fill:none;stroke:#d9a3e8;stroke-width:.7;',
       '  stroke-dasharray:4 4;vector-effect:non-scaling-stroke;stroke-linecap:round}',
@@ -1009,18 +986,53 @@
        An INLINE STYLE outranks a stylesheet rule, so the counter-scale wins
        and the CSS keeps its default for the first paint. */
     var inv = 1 / K;
-    var set = function (sel, base) {
+    /* ── THE OUTLINE IS PART OF THE TYPE · MEASURED 7 Sep ──────────────────
+       Every class below carries paint-order:stroke — a dark outline so a name
+       reads where it crosses a river, a wash, or another name. Only the
+       font-size was ever divided by K. The stroke was not, and for three days
+       that did not show, because the font-size was not reaching the type
+       either: both were wrong together and the RATIO between them happened to
+       hold.
+
+       Correcting the font-size alone left the outline standing at its full
+       stylesheet width around type a fraction of its height. READ OFF THE
+       LIVE PAGE AT x14:
+
+           text     "Albert Einstein"
+           font      0.228571px
+           stroke    0.914286px      — FOUR TIMES the letter height
+
+       A letter inside an outline four times its height is a filled block.
+       Every seat name on the map drew as a black lozenge with one letter
+       surviving at an edge.
+
+       AND non-scaling-stroke WAS TRIED FIRST AND MADE IT WORSE, which is worth
+       recording: it pins a stroke to a constant SCREEN width, so it held the
+       outline still while the type went on shrinking — fixing the half that
+       was already behaving and widening the gap. The outline is not furniture
+       that sits at a fixed size on the glass; it belongs to the letter and
+       must move with it. One ratio, one loop, 29% at every zoom. */
+    var set = function (sel, base, halo) {
       var n = el.querySelectorAll(sel);
-      for (var i = 0; i < n.length; i++) n[i].style.fontSize = (base * inv).toFixed(3) + 'px';
+      for (var i = 0; i < n.length; i++) {
+        n[i].style.fontSize = (base * inv).toFixed(3) + 'px';
+        if (halo) n[i].style.strokeWidth = (halo * inv).toFixed(3) + 'px';
+      }
     };
-    set('.mp-name',      5.6);
-    set('.mp-glyph',     6.4);
+    set('.mp-name',      5.6, 1.6);
+    set('.mp-glyph',     6.4, 1.8);
     set('.mp-over',      7.0);
     set('.mp-washlabel', 7.5);
+    /* these four size themselves inline as they are drawn, but their outlines
+       are stylesheet constants and were left behind by the same oversight */
+    set('.mp-peaklab',   5.0, 1.4);
+    set('.mp-sitelab',   5.0, 1.4);
+    set('.mp-evlab',     5.2, 1.5);
+    set('.mp-obslabel',  5.0, 1.6);
     /* the two that the stylesheet deliberately sizes LARGER, applied after the
        general pass so the scarcer claim keeps reading as the scarcer claim */
-    set('.mp-own .mp-glyph',    7.0);
-    set('.mp-anchor .mp-name',  6.4);
+    set('.mp-own .mp-glyph',    7.0, 1.8);
+    set('.mp-anchor .mp-name',  6.4, 1.6);
     var z = el.querySelector('.mp-zoomlab');
     if (z) z.textContent = K > 1.02 ? '\u00d7' + K.toFixed(1) + ' \u00b7 double-click to fit' : '';
   }
