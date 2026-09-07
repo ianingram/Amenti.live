@@ -76,9 +76,25 @@
     img.setAttribute('x', '0'); img.setAttribute('y', '0');
     img.setAttribute('width', '1000'); img.setAttribute('height', '500');
     img.setAttribute('preserveAspectRatio', 'none');
+    /* ── BRACES, AND A REFERENCE THAT CANNOT BE NULL ─────────────────────
+       This was a braceless if/else and Safari reported a syntax error on the
+       `else`. The file parsed in every other reader, so the diagnosis is
+       uncertain — but an unbraced pair saves nothing and an insertion point
+       computed from `view.firstChild.nextSibling` can be null on a subtree
+       this file does not own. Both are removed rather than argued with. */
     var grat = view.querySelector('.mp-graticule');
-    if (grat && grat.nextSibling) view.insertBefore(img, grat.nextSibling);
-    else view.insertBefore(img, view.firstChild.nextSibling);
+    var before = null;
+    if (grat) {
+      before = grat.nextSibling;
+    }
+    if (!before) {
+      before = view.querySelector('.mp-land') || view.querySelector('.mp-coast');
+    }
+    if (before) {
+      view.insertBefore(img, before);
+    } else {
+      view.appendChild(img);
+    }
     return true;
   }
 
@@ -143,9 +159,11 @@
     }
     setTimeout(function () { arrive((n || 0) + 1); }, 250);
   }
-  if (document.readyState === 'loading')
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () { arrive(0); });
-  else arrive(0);
+  } else {
+    arrive(0);
+  }
 
   /* the map rebuilds nothing this file owns, but it does redraw \u2014 and a
      redraw must not lose the floor */
