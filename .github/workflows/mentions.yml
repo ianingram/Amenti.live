@@ -1,0 +1,101 @@
+# ============================================================================
+# .github/workflows/mentions.yml · THE PLACE MENTIONS, ON A RUNG
+# ----------------------------------------------------------------------------
+# Matches the 1,746 places in ATTICA.csv against every text in library/ and
+# reports which ones the corpus actually names.
+#
+# WHY IT RUNS HERE AND NOT ON A DESK. The corpus is hundreds of files across
+# dozens of reading rooms. Moving it to run a script over it is the wrong way
+# round — the runner checks the repo out anyway, so library/ is simply there.
+# No download, no upload, no local Python.
+#
+# It writes ATTICA-MENTIONS.csv. Two ways to take it:
+#   · the run SUMMARY carries the report, read in the browser
+#   · the artifact carries the csv, and the commit step (off by default) can
+#     put it back in the repo
+#
+# IT DOES NOT COMMIT UNLESS ASKED. Reading the corpus is safe; writing to main
+# from a runner is a different decision, and it is the captain's — slip #10.
+# Run it with commit=true when the reading is worth keeping.
+# ============================================================================
+name: mentions
+
+on:
+  workflow_dispatch:
+    inputs:
+      corpus:
+        description: 'folder to read'
+        default: 'library'
+        required: false
+      commit:
+        description: 'commit ATTICA-MENTIONS.csv back to main?'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check the inputs are here
+        run: |
+          for f in ATTICA.csv ATTICA-NAMES.csv tools/harvest-mentions.py; do
+            if [ ! -f "$f" ]; then echo "MISSING: $f"; exit 2; fi
+          done
+          echo "corpus: $(find '${{ inputs.corpus }}' -type f \( -name '*.md' -o -name '*.txt' \) | wc -l) text files"
+
+      - name: Run the harvest
+        run: |
+          set -o pipefail
+          python3 tools/harvest-mentions.py '${{ inputs.corpus }}' | tee mentions.log
+
+      - name: Write the reading to the run summary
+        if: always()
+        run: |
+          {
+            echo '## place mentions'
+            echo
+            echo '```'
+            # the per-file read lines are noise in a summary; keep the report
+            grep -v '^  read ' mentions.log 2>/dev/null | tail -60 || echo '(no output)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the reading
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: attica-mentions
+          path: |
+            ATTICA-MENTIONS.csv
+            mentions.log
+          if-no-files-found: warn
+
+      - name: Commit it back
+        if: inputs.commit == true
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ATTICA-MENTIONS.csv
+          if git diff --cached --quiet; then
+            echo 'nothing changed'
+            exit 0
+          fi
+          git commit -m 'mentions: harvest place names from the library'
+          # THE RACE hall.yml AND patrol.yml BOTH HAD TO LEARN. A run that
+          # started before another commit landed will be rejected on push;
+          # rebase and try again rather than forcing over someone's work.
+          for i in 1 2 3; do
+            git pull --rebase --autostash && git push && exit 0
+            sleep 5
+          done
+          echo 'could not push after three tries'
+          exit 1
