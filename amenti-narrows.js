@@ -58,6 +58,7 @@
   }
 
   var rows = null, layer = null, open = false, drift = null, loadErr = null;
+  var terrain = {};   /* key -> what the ground measured. Optional; see below. */
 
   /* ── READING THE REGISTER ───────────────────────────────────────────────
      Its preamble is padded to ten fields so GitHub will preview it, which
@@ -108,6 +109,9 @@
       '  letter-spacing:.04em}',
       '#amenti-map .nr-forbidlab{fill:#8ea08c}',
       '#amenti-map .nr-hit{pointer-events:all;fill:transparent;cursor:help}',
+      /* the ground did not corroborate this one: still drawn, plainly weaker */
+      '#amenti-map .nr-unconfirmed{opacity:.42}',
+      '#amenti-map .nr-unconfirmed .nr-gate{stroke-dasharray:2 2}',
       '#amenti-map .nr-drift{fill:#e0794a;font:400 6px ui-monospace,Menlo,monospace}'
     ].join('\n');
     document.head.appendChild(s);
@@ -177,6 +181,8 @@
              '<title>' + esc(r.name) + ' \u2014 ' + esc(r.kind) +
              '\n' + esc(r.why) +
              (r.drained ? '\ndrained ' + r.drained + ' \u2014 not drawn after that year' : '') +
+             (terrain[r.key] ? '\n\n\u2014 the ground, Copernicus 30 m:\n   ' +
+                               esc(terrain[r.key].reads) : '') +
              '</title></rect>' +
              '<text class="nr-lab nr-forbidlab" x="' + (x + w / 2).toFixed(1) + '" y="' +
              (y + ht / 2).toFixed(1) + '" font-size="' + (6.4 * iv).toFixed(3) +
@@ -195,8 +201,22 @@
         mx = (p[0] + q[0]) / 2; my = (p[1] + q[1]) / 2;
         ang = Math.atan2(q[1] - p[1], q[0] - p[0]) * 180 / Math.PI + 90;
       }
+      /* ── THE GATE FACES THE WAY THE GROUND NARROWS ────────────────────────
+         A bearing typed by hand is a guess about terrain. A bearing measured
+         off 30 m radar is the terrain. Where the harvest found a crossing, its
+         axis wins — the brackets close across the gap rather than across
+         whatever direction the two authored endpoints happened to lie on. */
+      var t = terrain[r.key];
+      var measured = t && t.crossing_bearing !== '' && t.crossing_m !== '';
+      var unconfirmed = t && /open ground|WIDER THAN|no crossing/.test(t.reads || '');
+      if (measured && !unconfirmed) ang = (+t.crossing_bearing) + 90;
+      /* AN UNCONFIRMED GATE IS DRAWN FAINTLY AND SAYS SO. The register still
+         claims the place; the ground did not corroborate it. Neither half of
+         that may be hidden — dropping the mark would bury an authored claim,
+         and drawing it solid would borrow a confidence the terrain refused. */
       var s = 4.2 * iv, g = 1.5 * iv;
-      h += '<g transform="translate(' + mx.toFixed(2) + ' ' + my.toFixed(2) +
+      h += '<g class="' + (unconfirmed ? 'nr-unconfirmed' : '') +
+           '" transform="translate(' + mx.toFixed(2) + ' ' + my.toFixed(2) +
            ') rotate(' + ang.toFixed(1) + ')">' +
            '<path class="nr-gate" d="M' + (-s).toFixed(2) + ' ' + (-s).toFixed(2) +
              'L' + (-g).toFixed(2) + ' 0L' + (-s).toFixed(2) + ' ' + s.toFixed(2) + '"/>' +
@@ -205,6 +225,11 @@
            '<rect class="nr-hit" x="' + (-s * 1.4).toFixed(2) + '" y="' + (-s * 1.4).toFixed(2) +
              '" width="' + (s * 2.8).toFixed(2) + '" height="' + (s * 2.8).toFixed(2) + '">' +
            '<title>' + esc(r.name) + ' \u2014 ' + esc(r.kind) + '\n' + esc(r.why) +
+           (t ? '\n\n\u2014 the ground, Copernicus 30 m:\n' +
+                (t.crossing_m ? '   crossing ' + (+t.crossing_m / 1000).toFixed(1) +
+                                ' km on ' + t.crossing_bearing + '\u00b0\n' : '') +
+                '   floor ' + t.floor_m + ' m \u00b7 relief ' + t.relief_m + ' m\n' +
+                '   ' + esc(t.reads) : '') +
            '</title></rect></g>' +
            '<text class="nr-lab" x="' + mx.toFixed(2) + '" y="' + (my - 6.5 * iv).toFixed(2) +
            '" font-size="' + (5.6 * iv).toFixed(3) +
@@ -294,6 +319,32 @@
     }
     setTimeout(function () { arrive((n || 0) + 1); }, 250);
   }
+
+  /* ── THE GROUND, IF IT HAS BEEN MEASURED ────────────────────────────────
+     NARROWS-terrain.csv is what harvest-narrows-terrain.py read off the
+     Copernicus 30 m surface model: the width of the constriction, the bearing
+     it runs on, and a plain-words verdict.
+
+     IT IS OPTIONAL AND IT IS EVIDENCE, NOT TRUTH. Without it every gate still
+     draws, facing the axis the register authored. With it, a gate faces the way
+     the ground ACTUALLY narrows and its tooltip says what the terrain found —
+     including where the terrain found nothing, which is the reading that
+     matters most: an authored coordinate the earth does not agree with. */
+  fetch(RAW + 'NARROWS-terrain.csv?_=' + Date.now())
+    .then(function (r) { return r.ok ? r.text() : null; })
+    .then(function (t) {
+      if (!t) return;
+      var lines = t.replace(/\r\n/g, '\n').split('\n');
+      var cols = split(lines[0]);
+      lines.slice(1).forEach(function (l) {
+        if (!l.trim()) return;
+        var c = split(l), o = {};
+        cols.forEach(function (k, i) { o[k] = c[i] == null ? '' : c[i]; });
+        if (o.key) terrain[o.key] = o;
+      });
+      if (open) draw();
+    })
+    .catch(function () { /* Rule 3: no measurements is not a fault */ });
 
   fetch(RAW + 'NARROWS.csv?_=' + Date.now())
     .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
