@@ -123,9 +123,25 @@
     var px = parseFloat(getComputedStyle(node).fontSize);
     if (!(px > 0)) { blind(sel, 'computed font-size unreadable'); return; }
     var want = base / K, ratio = px / want;
-    ratios.push({ sel: sel.replace('.mp-', ''), r: ratio, px: px, want: want });
+    /* ── THE HALO IS PART OF THE TYPE · added 7 Sep ────────────────────────
+       Every label class here carries paint-order:stroke — a dark outline that
+       lifts a name off the map. Nothing has ever measured it, and on 6 Sep the
+       type was corrected while the outline was not: at x10.85 a 0.29px
+       letterform sat inside a 1.6px outline and every seat name became a black
+       lozenge. The probe passed that run cleanly, because it measured
+       font-size and nothing else. Rule 4 — it returned nothing on the one
+       thing that broke.
+
+       WHAT MATTERS IS THE RATIO, NOT EITHER NUMBER. A halo is legible at
+       roughly a quarter of the letter height and becomes a filled block past
+       about half. So this reports halo/type and lets that number speak. */
+    var sw = parseFloat(getComputedStyle(node).strokeWidth) || 0;
+    var haloRatio = sw > 0 ? sw / px : 0;
+    ratios.push({ sel: sel.replace('.mp-', ''), r: ratio, px: px, want: want, halo: haloRatio });
     say('  ' + sel.replace('.mp-', '').padEnd(12) +
-        'want ' + n2(want) + ' units   got ' + n2(px) + 'px   ratio ' + n2(ratio));
+        'want ' + n2(want) + ' units   got ' + n2(px) + 'px   ratio ' + n2(ratio) +
+        (sw > 0 ? '   halo ' + n2(sw) + 'px = ' + Math.round(haloRatio * 100) + '% of the type'
+                : '   no halo'));
   });
   if (ratios.length < 2)
     blind('the counter-scale', 'fewer than two classes drawn \u2014 nothing to compare');
@@ -149,6 +165,33 @@
       });
     }
   }
+  /* the verdict on the halo, stated in its own terms */
+  var halos = ratios.filter(function (o) { return o.halo > 0; });
+  if (!halos.length) blind('the halo', 'no class drawn with paint-order:stroke');
+  else {
+    var swallowed = halos.filter(function (o) { return o.halo > 0.5; });
+    var heavy     = halos.filter(function (o) { return o.halo > 0.3 && o.halo <= 0.5; });
+    say('');
+    if (swallowed.length) {
+      say('  \u2591 THE HALO HAS SWALLOWED THE TYPE on ' + swallowed.length + ' class(es):');
+      swallowed.forEach(function (o) {
+        say('      ' + o.sel.padEnd(12) + Math.round(o.halo * 100) + '% \u2014 the outline is ' +
+            (o.halo >= 1 ? 'wider than' : 'over half') + ' the letter; this draws as a filled block');
+      });
+    } else if (heavy.length) {
+      say('  \u2591 the halo is heavy but the type still reads on ' + heavy.length + ' class(es): ' +
+          heavy.map(function (o) { return o.sel + ' ' + Math.round(o.halo * 100) + '%'; }).join(', '));
+    } else {
+      say('  \u2591 halos sit between ' +
+          Math.round(Math.min.apply(null, halos.map(function (o) { return o.halo; })) * 100) + '% and ' +
+          Math.round(Math.max.apply(null, halos.map(function (o) { return o.halo; })) * 100) +
+          '% of the type \u2014 legible.');
+    }
+    say('     RUN THIS AT TWO ZOOMS. If the percentage MOVES with K the halo is not ' +
+        'scaling\n     with the type; if it holds, the pair is sound and any fault is ' +
+        'elsewhere.');
+  }
+
   if (K <= 1.1)
     say('  \u2014 at K=1 base and base/K are the same number, so a fault that only ' +
         'appears\n     with zoom cannot be seen here. Run again at \u00d73 or more. ' +
@@ -212,8 +255,17 @@
     }
     /* and the estimate against the truth, which is the whole trap */
     var est = 0, real = 0;
-    rects.forEach(function (o) { est += o.t.length * 1.45 * 2; real += o.b.width; });
+    /* ACCUSED 7 Sep. This omitted the `/ K` the cull actually applies, so at
+       x10.85 it reported the estimate as x8.45 the drawn width and very nearly
+       had the map's own correct arithmetic torn out. The map divides by K
+       because the type is drawn at base/K; the comparison must too. What is
+       left after that is the real finding: a constant 19% narrow at BOTH
+       zooms, which is what a wrong CONSTANT looks like where a wrong K would
+       have differed between them. */
+    rects.forEach(function (o) { est += o.t.length * 1.45 / K * 2; real += o.b.width; });
     if (real) say('  estimated width vs measured width   \u00d7' + n2(est / real) +
+      '   (\u00d71.00 is exact; the constant that would make it so is ' +
+      n2(1.45 * real / est) + ')' +
                   (Math.abs(est / real - 1) > 0.25
                     ? '   \u2190 THE CULL IS MEASURING A DIFFERENT LABEL THAN THE SCREEN DRAWS'
                     : ''));
