@@ -54,6 +54,8 @@ Ordered by how much it hurts to leave undone.
 - **#56 — the reign-span schema.** Unlocks the ancient Near East (Babylon, Persia, Egypt) whose kings kept reigns, not birthdays.
 - **#72 — the soul with one real date.** The other half of #56: 96 souls carry a century in a year cell. One schema decision covers both.
 - **#73 — the key that names two men.** The index counts 6 plates and rooms that do not exist. A 3-line probe fix.
+- **#74 — the ground that forces a choice.** Passes and bogs: the geography that decides where history happens, and the register had none of it.
+- **#75 — the registers are the product.** Every instrument already reads a file rather than another instrument. Nobody can legally use any of it.
 - **#49 — the science cohort rooms.** ~30 authors dated and waiting; 4 shelved.
 
 **📐 PRINCIPLES (keep, never “done”):** #53 who/when/where colouring · #54 the reference layer · #55 the ratchet · #57 the marketing language.
@@ -2402,6 +2404,167 @@ larger than the pair count, and the pair count is not a measure of it.**
 - **Acceptance test:** `ROSTER-INDEX.json` reports `withPlates: 51` and
   `withRoom: 52`, matching `KEYS.json`; no soul carries `p` or `r` from an
   ambiguous key; and the probe prints the three keys it refused.
+
+---
+
+### 74 · THE GROUND THAT FORCES A CHOICE — a register the map has never had
+Raised 7 Sep, out of asking what a magnifier over Thermopylae would actually
+show. The answer was: a coastline and an ember mark. **The pass is not on the
+map, because nothing in any register knows it exists.**
+
+**THE MAP DRAWS CONTINENTS AND KNOWS NOTHING OF DEFILES.** `REGIONS.json` holds
+39 deserts, 156 ranges, 29 deltas, the Rift Valley, the Tarim and Fergana
+basins. That is continental ground. The geography that actually decides where
+history happens is NARROW, and none of it was held.
+
+```
+FUNNEL   pass · strait · ford · isthmus · defile
+         everyone came through HERE
+FORBID   bog · marsh · fen · sand sea · dense forest · ice
+         nobody came through at all
+```
+
+They are opposites and they are the same information. Thermopylae is a pass; it
+is THE pass because of what lies either side.
+
+**THE FORBIDDING HALF WAS ENTIRELY ABSENT AND IS THE STRONGER HALF.** An army
+crosses a desert with preparation and does not cross a bog at all, and a bog
+does not announce itself the way a mountain does: the Pripet Marshes split the
+Eastern Front in two in both world wars; the Fens held against the Normans; the
+Dutch flooded their own fields as a wall; Teutoburg was forest and bog together
+and it ended Rome in Germany. **The register drew the ground armies crossed and
+omitted the ground that stopped them.**
+
+**UP AND DOWN IS ALSO MISSING.** `PEAKS.json` holds 76 summits as POINTS, and a
+point has an elevation and no slope. An army does not care where the summit is;
+it cares which way the ground tilts and how hard.
+
+**AND A WETLAND NEEDS A `drained` YEAR.** The Fens were drained in the 1600s,
+the Pontine Marshes in the 1930s. Drawn across a map that scrubs to 4000 BC they
+put modern farmland under a Norman battle — the made-lakes rule turned round: a
+reservoir is not drawn BEFORE it was impounded, a fen is not drawn AFTER it was
+drained.
+
+> **A PASS SAYS EVERYONE CAME THROUGH HERE. A BOG SAYS NOBODY DID. THE MAP
+> DREW NEITHER, AND THEY ARE THE SAME CLAIM.**
+
+**AND THE LINE AGAINST #64d, DRAWN EXPLICITLY.** That refusal covers a claim
+about a PARTICULAR passage — this army, this road, this date — which no register
+holds. It does not cover geography. That an army walking from France to Russia
+crosses the North European Plain is true of every army that ever made the trip.
+**Terrain that explains movement is not a movement.**
+
+**WHAT WAS BUILT, AND WHAT THE GROUND THEN SAID.** `NARROWS.csv`, 33 places,
+authored. `probe-narrows.mjs` said plainly it could not check whether
+Thermopylae is where the file puts it — cities15000 holds cities, not passes.
+**Copernicus GLO-30 could**, free and no key, a 12 km window in 1.4 seconds:
+
+```
+38.856N     0.0 m    sea
+38.796N    17.4 m    ← the coordinate
+38.776N   976.2 m    Kallidromo
+```
+
+The pass is in the data. And the crossing measures 3,784 m, not the 400 m the
+transect implies, because north of the cliff the ground now stays flat for six
+kilometres before it reaches water.
+
+> **THERMOPYLAE IS NO LONGER A PASS, AND THE NARROWNESS WAS MADE OF SEA.**
+
+Eight gates now face the axis the terrain measured; fifteen draw faint and
+dashed because it did not corroborate them. **Neither half may be hidden** —
+dropping the mark would bury an authored claim, drawing it solid would borrow a
+confidence the terrain refused.
+
+- **Unblocks:** ground that explains an event rather than a bare coastline; and
+  the staging question, which cannot be opened honestly on the terrain the map
+  had.
+- **Still open:** three coordinates the harvest flagged — the Hellespont and
+  Bosphorus are ashore, the Pontine box is over the Apennines. A lookup, not a
+  computation.
+- **Acceptance test:** a reader hovering Thermopylae is told why the ground made
+  the battle, and the Fens do not draw after 1650.
+
+---
+
+### 75 · THE REGISTERS ARE THE PRODUCT, AND NOBODY CAN LEGALLY USE THEM
+Raised 7 Sep, out of a mentions harvest that cost an evening only because two
+registers already existed in a readable shape.
+
+**THE PIPELINE IS NOT A THING TO BUILD. IT IS ALREADY HOW THE SHIP WORKS AND IT
+IS UNDECLARED.** Every instrument on this map consumes a register rather than
+reaching into another instrument: the map reads `GEO.json`, the narrows read
+`NARROWS.csv`, the glass reads what the map drew, `probe-anomalies` reads
+`ROSTER-INDEX.json`. Three modules joined the faculty rail on 6–7 September
+without one line of `amenti-map.js` changing, because the seam between them is
+a FILE and not a function call.
+
+That is why the Attica mentions harvest took an evening rather than a project.
+`ATTICA.csv` and `library/` both already existed as readable flat files. Had
+either been locked inside a page or a database it would have been a month.
+
+> **A REGISTER IS AN INTERFACE. The next join is cheap only if the last one was
+> written down.**
+
+**WHAT IS ALREADY RIGHT, AND IT IS THE HARD PART.** Flat CSV and JSON, in a
+public repo, fetchable by raw URL, each file naming its own source in its own
+header. `ATTICA.csv` carries a Pleiades URI PER ROW, so any of its 1,746 entries
+can be checked rather than believed. `NARROWS.csv` states that its coordinates
+are authored and unverified. `NARROWS-terrain.csv` says which instrument
+measured what, and prints `WIDER THAN THE 12 km WINDOW` rather than passing a
+box width off as a crossing.
+
+**Most published historical data hides its uncertainty. This records it** — the
+pin and the wash, the count of what is not drawn, the forms too ambiguous to
+search. That is a scarce property and it was arrived at by accident of how the
+ship is built rather than by intending to publish.
+
+**AND FOUR THINGS ARE MISSING, ONE OF THEM DISQUALIFYING.**
+
+**1 · NO LICENCE ON THE DATA, AND AN OBLIGATION FLOWING THROUGH.** There is no
+data licence in the repo, so strictly nobody may reuse any of it. Worse, the
+duty runs the other way too: Pleiades is CC BY 3.0, GeoNames CC BY 4.0, Natural
+Earth and GEBCO and ETOPO public domain, Copernicus free-and-open. **A DERIVED
+WORK MUST CARRY THE ATTRIBUTION FORWARD.** It is carried in file headers today,
+which is custom rather than licence. A `DATA-LICENSE.md` makes it enforceable in
+both directions.
+
+**2 · NO MANIFEST.** One file listing every register — what it is, what it was
+derived from, under what terms, when it was generated, by which tool. That
+knowledge exists today only scattered through headers, assemblable by a human
+who reads all of them. A machine cannot.
+
+**3 · NO STABLE VERSION.** A researcher citing `ATTICA.csv` must cite *a*
+version. Git tags give that free — a raw URL pinned to a tag rather than to
+`main`, so a citation resolves to what was actually read.
+
+**4 · PROVENANCE PER ROW, WHICH IS THE ONE TO DECIDE NOW.** `ATTICA.csv` has it.
+`NAMES.csv` largely does not, and `SEATS.csv` records a note but not a source.
+**This is nearly free to add while a register is being written and nearly
+impossible to reconstruct afterwards.** It is what lets a later reader — human
+or model — know what a row can bear.
+
+**THE TENSION, STATED SO IT IS NOT DISCOVERED LATER.** Publishing well means
+stability: versions, schemas, deprecation. Building means changing your mind —
+`SEATS.csv` gained columns twice this week and `names.csv` has three schema
+questions open (#56, #72, the `Same-As` shape). A register with outside users
+cannot move that freely. So this is A SECOND PRODUCT and wants deciding rather
+than drifting into.
+
+**AND IT IS NOT A RESOURCE YET.** 1,746 places around one city is a
+demonstration. It becomes a resource at many cities, or when the mention graph
+covers the whole roster rather than one region — which is #58, already the
+headline move. The two are the same work seen from two ends.
+
+- **Unblocks:** any later reuse at all, by anyone including the ship itself; and
+  the discipline that makes the next join as cheap as the last one.
+- **The move, in order of cost:** `DATA-LICENSE.md` first, because without it
+  nothing else matters and it is an afternoon. Then `REGISTERS.md` as the
+  manifest. Then a tag. Provenance columns arrive with whatever register is
+  being written next, never retrofitted in a sweep.
+- **Acceptance test:** a stranger can fetch a register, know what it is, know
+  what they may do with it, know what it was derived from, and check any single
+  row against its source — without reading this slip or asking anyone.
 
 ---
 
