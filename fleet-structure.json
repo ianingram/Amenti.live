@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-07T03:20:19.905Z",
+    "generated": "2026-09-07T03:46:30.853Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -688,6 +688,19 @@
       "tables": []
     },
     {
+      "file": "amenti-glass.js",
+      "bytes": 15143,
+      "sha256": "6c80c4f85fc52bd9",
+      "type": "js",
+      "declares": [
+        "AmentiGlass"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-hall-box.js",
       "bytes": 39127,
       "sha256": "7ba1acc556fab114",
@@ -1355,7 +1368,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49508,
-      "sha256": "f563fd4bcdf67b95",
+      "sha256": "df57cf8d599cd1ba",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1481,7 +1494,7 @@
     {
       "file": "hall.html",
       "bytes": 20616,
-      "sha256": "1a3746694a57c9c7",
+      "sha256": "67c740019b912c77",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1503,7 +1516,7 @@
           "line": 343
         },
         {
-          "file": "amenti-map.js?v=f6111da6",
+          "file": "amenti-map.js?v=5f5323e2",
           "line": 348
         },
         {
@@ -2051,6 +2064,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-glass.js",
+        "declares": [
+          "AmentiGlass"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-hall-box.js",
