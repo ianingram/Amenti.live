@@ -42,78 +42,9 @@
      rather than assumed: if the coastline is ever regenerated on another
      projection, these two numbers are the thing that must move with it. */
   var VB_W = 1000, VB_H = 500;
-
-  /* ── TWO PROJECTIONS, ONE SIGNATURE · 6 Sep ───────────────────────────────
-     proj(lat, lon) still returns [x, y] in viewBox units. It gains one power:
-     ON THE GLOBE IT MAY REFUSE. A point on the far side of the sphere returns
-     null, and every drawing routine below must handle that — a polyline breaks
-     rather than leaping through the Earth, a mark is skipped, a territory whose
-     corners are not all visible is not drawn at all.
-
-     A HALF-DRAWN WASH IS WORSE THAN AN ABSENT ONE. It would understate its own
-     extent, and an extent that lies small is the same fault as drawing one as a
-     dot, pointed the other way.
-
-     Measured before building: at the opening rotation the globe shows 756 of
-     871 pins and 605 of 747 territories. Over the Pacific it shows 287 and 47.
-     The globe is honest about a Europe-heavy roster; it is useless facing the
-     other way, which is why it opens where it opens. */
-  var MODE = 'flat';                       /* 'flat' | 'globe' */
-  var LON0 = 20, LAT0 = 25;                /* the globe's rotation */
-  var G_R = 240, G_CX = 500, G_CY = 250;   /* and its disc */
-  var D2R = Math.PI / 180;
-
   var proj = function (lat, lon) {
-    if (MODE !== 'globe')
-      return [ (lon + 180) / 360 * VB_W, (90 - lat) / 180 * VB_H ];
-    var p = lat * D2R, l = (lon - LON0) * D2R, p0 = LAT0 * D2R;
-    var cosc = Math.sin(p0) * Math.sin(p) + Math.cos(p0) * Math.cos(p) * Math.cos(l);
-    if (cosc <= 0) return null;                                  /* the far side */
-    return [ G_CX + G_R * Math.cos(p) * Math.sin(l),
-             G_CY - G_R * (Math.cos(p0) * Math.sin(p) -
-                           Math.sin(p0) * Math.cos(p) * Math.cos(l)) ];
+    return [ (lon + 180) / 360 * VB_W, (90 - lat) / 180 * VB_H ];
   };
-
-  /* A polyline from an interleaved [lon, lat, lon, lat, …] array. Breaks the
-     pen wherever the projection refuses, so nothing is joined across the limb. */
-  function lineOf(arr, close) {
-    var d = '', pen = false;
-    for (var i = 0; i < arr.length; i += 2) {
-      var q = proj(arr[i + 1], arr[i]);
-      if (!q) { pen = false; continue; }
-      d += (pen ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
-      pen = true;
-    }
-    return d && close ? d + 'Z' : d;
-  }
-
-  /* A LAT/LON BOX IS NOT A RECTANGLE ON A SPHERE. Flat, it is <rect> and always
-     was. On the globe its edges curve, so they are sampled — and if any sampled
-     point is hidden the shape is refused whole. Returns null when refused, or a
-     {d, cx, cy} for the path and where its label belongs. */
-  function boxPath(latA, lonA, latB, lonB) {
-    var N, pts = [], i, q;
-    if (MODE !== 'globe') {
-      var a = proj(latB, lonA), b = proj(latA, lonB);
-      return { d: 'M' + a[0].toFixed(1) + ' ' + a[1].toFixed(1) +
-                  'H' + b[0].toFixed(1) + 'V' + b[1].toFixed(1) +
-                  'H' + a[0].toFixed(1) + 'Z',
-               cx: (a[0] + b[0]) / 2, cy: (a[1] + b[1]) / 2 };
-    }
-    N = 10;
-    for (i = 0; i <= N; i++) pts.push([latA, lonA + (lonB - lonA) * i / N]);
-    for (i = 0; i <= N; i++) pts.push([latA + (latB - latA) * i / N, lonB]);
-    for (i = N; i >= 0; i--) pts.push([latB, lonA + (lonB - lonA) * i / N]);
-    for (i = N; i >= 0; i--) pts.push([latA + (latB - latA) * i / N, lonA]);
-    var d = '', sx = 0, sy = 0;
-    for (i = 0; i < pts.length; i++) {
-      q = proj(pts[i][0], pts[i][1]);
-      if (!q) return null;                                  /* partly behind */
-      d += (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
-      sx += q[0]; sy += q[1];
-    }
-    return { d: d + 'Z', cx: sx / pts.length, cy: sy / pts.length };
-  }
 
   /* The window opens on ALL of it. Unlike the timeline — where 200 years is a
      promise about comparability — a map has no natural span, and starting
@@ -423,10 +354,6 @@
       '  background:rgba(10,14,22,.9);color:#8fa2ba;cursor:pointer;',
       '  font:400 15px/1 ui-monospace,Menlo,monospace}',
       '#amenti-map .mp-zoomctl button[data-z="fit"]{font-size:10.5px;letter-spacing:.08em}',
-      '#amenti-map .mp-zoomctl button[data-z="proj"]{font-size:9.5px;letter-spacing:.06em;height:26px}',
-      '#amenti-map .mp-globe{fill:#0e1420;stroke:#2e4258;stroke-width:1.1;',
-        'vector-effect:non-scaling-stroke}',
-      '#amenti-map.mp-isglobe .mp-relief{display:none}',
       '#amenti-map .mp-zoomctl button:hover{color:#a9edff;background:rgba(12,24,34,.95)}',
       '#amenti-map .mp-zoomctl button:focus-visible{outline:2px solid #5fd0e8;outline-offset:-2px}',
       /* the list */
@@ -824,7 +751,6 @@
             '</defs>' +
           '<g class="mp-view">' +
             '<rect class="mp-sea" x="0" y="0" width="1000" height="500"/>' +
-            '<circle class="mp-globe" cx="500" cy="250" r="240" style="display:none"/>' +
             '<g class="mp-graticule"></g>' +
             /* NO href AT ALL until the atlas is pressed · 5 Sep. It was href=""
                so the element could exist before the relief was wanted, and an
@@ -997,15 +923,6 @@
         '<button type="button" data-z="out" aria-label="zoom out">\u2212</button>' +
         '<button type="button" data-z="in" aria-label="zoom in">+</button>' +
         '<button type="button" data-z="fit" aria-label="fit the world">fit</button>' +
-        /* ── THE PROJECTION IS A CHOICE, AND IT IS STATED · 6 Sep ────────────
-           Not a decoration. The commonest Location in the roster is "Southern
-           Europe" — a continent, 334 souls — and every flat projection of a
-           Europe-heavy roster distorts the same region it over-represents,
-           telling one lie twice. The globe does not. It costs the far side:
-           measured, 756 of 871 pins at the opening rotation, 287 over the
-           Pacific. Both readings are honest and neither is complete, so the
-           reader chooses and the surface says which is on. */
-        '<button type="button" data-z="proj" aria-label="flat map or globe">globe</button>' +
       '</div>' +
       /* ── THE LIST · 4 Sep ─────────────────────────────────────────────────
          Seat names on the map are 5.6px because four hundred of them must not
@@ -1057,26 +974,12 @@
     set('.mp-over',      7.0);
     set('.mp-washlabel', 7.5);
     var z = el.querySelector('.mp-zoomlab');
-    if (z) z.textContent = (MODE === 'globe' ? 'globe \u00b7 drag to turn' : '') +
-                           (MODE === 'globe' && K > 1.02 ? ' \u00b7 ' : '') +
-                           (K > 1.02 ? '\u00d7' + K.toFixed(1) + ' \u00b7 double-click to fit' : '');
+    if (z) z.textContent = K > 1.02 ? '\u00d7' + K.toFixed(1) + ' \u00b7 double-click to fit' : '';
   }
 
   function draw() {
     var el = mounted, svg = el.querySelector('svg');
-    /* ── WORLD.json IS BAKED, AND CANNOT BE ROTATED · #65 ─────────────────────
-       Its path is SCREEN COORDINATES on the equirectangular grid, which is also
-       what lets the relief register pixel for pixel with no reprojection. On
-       the sphere it is meaningless, so the fill and the atlas step aside and
-       COAST.json — which is lon/lat and reprojects honestly — carries the shore
-       alone. The element stays on the page with an empty path rather than being
-       removed: hall-probe counts layers, and a layer that vanishes reads as a
-       fault when it is a choice. Un-bake WORLD.json (#65) and the fill returns. */
-    var globe = MODE === 'globe';
-    el.classList.toggle('mp-isglobe', globe);
-    el.querySelector('.mp-sea').setAttribute('opacity', globe ? 0 : 1);
-    el.querySelector('.mp-globe').style.display = globe ? '' : 'none';
-    el.querySelector('.mp-land').setAttribute('d', globe ? '' : world.path);
+    el.querySelector('.mp-land').setAttribute('d', world.path);
     /* ── A FINER SHORE · 4 Sep ───────────────────────────────────────────────
        WORLD.json is the 110m outline with its projection baked in: the Black
        Sea is a dozen vertices and Crimea is a triangle. Fine at world scale,
@@ -1084,10 +987,15 @@
        it is drawn OVER the fill rather than replacing it — the fill still
        carries the land and the relief clip, and only the edge improves. */
     var gc = el.querySelector('.mp-coast');
-    if (coast && gc && (!gc._done || globe)) {
+    if (coast && gc && !gc._done) {
       var cd = '';
-      coast.forEach(function (seg) { cd += lineOf(seg, false); });
-      gc.setAttribute('d', cd); gc._done = MODE !== 'globe';   /* the globe redraws on every turn */
+      coast.forEach(function (seg) {
+        for (var i = 0; i < seg.length; i += 2) {
+          var q = proj(seg[i + 1], seg[i]);
+          cd += (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
+        }
+      });
+      gc.setAttribute('d', cd); gc._done = true;
       el.querySelector('.mp-land').classList.add('mp-hasfine');
     }
     /* the clip carries the same path, so the two can never disagree */
@@ -1180,9 +1088,12 @@
       var rh = '';
       regions.forEach(function (rg) {
         if (wantK && !wantK[rg.k]) return;
-        var d2 = lineOf(rg.p, true);
-        if (!d2) return;
-        rh += '<path class="mp-reg mp-reg-' + rg.k.replace(/[^a-z]/gi, '') + '" d="' + d2 + '"/>';
+        var d2 = '';
+        for (var i = 0; i < rg.p.length; i += 2) {
+          var q = proj(rg.p[i + 1], rg.p[i]);
+          d2 += (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
+        }
+        rh += '<path class="mp-reg mp-reg-' + rg.k.replace(/[^a-z]/gi, '') + '" d="' + d2 + 'Z"/>';
       });
       gg.innerHTML = rh;
     }
@@ -1213,10 +1124,18 @@
            guess at nothing finer than the century. */
         if (lk.k === 'made') {
           if (hi < (lk.built || 1900)) return;
-          md += lineOf(lk.p, true);
+          for (var mi = 0; mi < lk.p.length; mi += 2) {
+            var mq = proj(lk.p[mi + 1], lk.p[mi]);
+            md += (mi ? 'L' : 'M') + mq[0].toFixed(1) + ' ' + mq[1].toFixed(1);
+          }
+          md += 'Z';
           return;
         }
-        ld += lineOf(lk.p, true);
+        for (var i = 0; i < lk.p.length; i += 2) {
+          var q = proj(lk.p[i + 1], lk.p[i]);
+          ld += (i ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1);
+        }
+        ld += 'Z';
       });
       gl.innerHTML = '<path class="mp-lake" d="' + ld + '"/>' +
                      (md ? '<path class="mp-made" d="' + md + '"/>' : '');
@@ -1238,7 +1157,12 @@
       for (var ri = 0; ri < rivers.length; ri++) {
         var rv = rivers[ri];
         if (rv.r > maxRank) break;                 /* sorted by rank */
-        d += lineOf(rv.p, false);
+        var pp = rv.p, seg = '';
+        for (var pi = 0; pi < pp.length; pi += 2) {
+          var xy2 = proj(pp[pi + 1], pp[pi]);
+          seg += (pi ? 'L' : 'M') + xy2[0].toFixed(1) + ' ' + xy2[1].toFixed(1);
+        }
+        d += seg;
       }
       gr.innerHTML = '<path class="mp-river" d="' + d + '"/>';
     }
@@ -1258,8 +1182,7 @@
       peaks.forEach(function (pk) {
         if (pk.e < floor && pk.k === 'mountain') return;
         if (pk.k !== 'mountain' && K < 3) return;
-        var xy3 = proj(pk.y, pk.x); if (!xy3) return;
-        var up = pk.k !== 'depression';
+        var xy3 = proj(pk.y, pk.x), up = pk.k !== 'depression';
         var a = 2.6 * iv3;
         ph += '<path class="mp-peak' + (up ? '' : ' mp-dep') + '" d="M' +
               (xy3[0] - a).toFixed(2) + ' ' + (xy3[1] + (up ? a : -a)).toFixed(2) +
@@ -1386,8 +1309,7 @@
         if (st.b > hi) return;                       /* not built yet */
         if (st.e != null && st.e < lo) return;       /* gone before this window */
         var standing = (st.e == null || st.e > hi);
-        var xy = proj(st.lat, st.lon); if (!xy) return;
-        var a = 2.2 * ivS;
+        var xy = proj(st.lat, st.lon), a = 2.2 * ivS;
         sh += '<g class="mp-site' + (standing ? '' : ' mp-ruined') +
               '" data-name="' + esc(st.n) + '">' +
               '<rect x="' + (xy[0] - a).toFixed(2) + '" y="' + (xy[1] - a).toFixed(2) +
@@ -1431,9 +1353,6 @@
           var age = APERTURE ? (hi - j.y) / APERTURE : 0;
           var op = Math.max(0.12, 1 - age * 0.88);
           var A = proj(j.a[0], j.a[1]), B = proj(j.b[0], j.b[1]);
-          /* A CROSSING IS ONE FACT AND IS DRAWN WHOLE OR NOT AT ALL. Half an
-             arc vanishing at the limb reads as a journey that stopped there. */
-          if (!A || !B) return;
           /* bow it away from the straight line, so it cannot be read as one */
           var mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
           var dx = B[0] - A[0], dy = B[1] - A[1];
@@ -1476,8 +1395,7 @@
         var age = APERTURE ? (hi - ev.y) / APERTURE : 0;
         var op = Math.max(0.14, 1 - age * 0.86);
         if (ev.lat != null) {
-          var xy = proj(ev.lat, ev.lon); if (!xy) return;
-          var a = 3.4 * ivE;
+          var xy = proj(ev.lat, ev.lon), a = 3.4 * ivE;
 
           /* ── THE PULSE · a ring that means WHEN, not how far · 5 Sep ────────
              A concentric ring around an event is the most persuasive false
@@ -1582,11 +1500,12 @@
                   (xy[1] + 6 * ivE).toFixed(2) + '" font-size="' + (5.2 * ivE).toFixed(3) +
                   '" opacity="' + op.toFixed(2) + '">' + esc(ev.n) + '</text>';
         } else if (ev.ext) {
-          var bx = boxPath(ev.ext[0], ev.ext[1], ev.ext[2], ev.ext[3]);
-          if (!bx) return;
-          eh += '<path class="mp-evarea" d="' + bx.d + '" opacity="' + (op * 0.8).toFixed(2) +
+          var q = proj(ev.ext[2], ev.ext[1]), r2 = proj(ev.ext[0], ev.ext[3]);
+          eh += '<rect class="mp-evarea" x="' + q[0].toFixed(1) + '" y="' + q[1].toFixed(1) +
+                '" width="' + Math.max(2, r2[0] - q[0]).toFixed(1) + '" height="' +
+                Math.max(2, r2[1] - q[1]).toFixed(1) + '" rx="4" opacity="' + (op * 0.8).toFixed(2) +
                 '"><title>' + esc(ev.n) + ' \u00b7 ' + yr(ev.y) + ' \u00b7 somewhere in ' +
-                esc(ev.place || '') + (ev.note ? '\n' + esc(ev.note) : '') + '</title></path>';
+                esc(ev.place || '') + (ev.note ? '\n' + esc(ev.note) : '') + '</title></rect>';
         }
       });
       ge.innerHTML = eh;
@@ -1604,14 +1523,15 @@
       var k = s.ext.join(',');
       (byExt[k] || (byExt[k] = { ext: s.ext, place: s.place, n: 0 })).n++;
     });
-    var wh = '', washHidden = 0;
+    var wh = '';
     Object.keys(byExt).forEach(function (k) {
-      var w = byExt[k], bx = boxPath(w.ext[0], w.ext[1], w.ext[2], w.ext[3]);
-      if (!bx) { washHidden++; return; }
-      wh += '<path class="mp-wash" d="' + bx.d + '">' +
+      var w = byExt[k], a = proj(w.ext[2], w.ext[1]), b = proj(w.ext[0], w.ext[3]);
+      var x = a[0], y = a[1], ww = Math.max(2, b[0] - a[0]), hh = Math.max(2, b[1] - a[1]);
+      wh += '<rect class="mp-wash" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) +
+            '" width="' + ww.toFixed(1) + '" height="' + hh.toFixed(1) + '" rx="5">' +
             '<title>' + esc(w.place) + ' \u2014 ' + w.n + ' soul' + (w.n === 1 ? '' : 's') +
-            ', somewhere in this area</title></path>' +
-            '<text class="mp-washlabel" x="' + bx.cx.toFixed(1) + '" y="' + bx.cy.toFixed(1) +
+            ', somewhere in this area</title></rect>' +
+            '<text class="mp-washlabel" x="' + (x + ww / 2).toFixed(1) + '" y="' + (y + hh / 2).toFixed(1) +
             '">' + esc(w.place) + ' \u00b7 ' + w.n + '</text>';
     });
     el.querySelector('.mp-washes').innerHTML = wh;
@@ -1643,20 +1563,13 @@
     });
 
     var gp = el.querySelector('.mp-pins');
-    var live = {}, seatHidden = 0;
+    var live = {};
     lastSeats = Object.keys(bySeat).length;
 
     Object.keys(bySeat).forEach(function (k) {
       var p = bySeat[k], xy = proj(p.lat, p.lon);
-      /* ROUND THE BACK IS NOT ABSENT, BUT IT MUST NOT BE DRAWN. The nodes here
-         persist between frames so a name can arrive and leave rather than
-         flicker; a seat the globe has turned away from keeps its node and is
-         hidden, so when it comes round again it returns rather than re-enters. */
-      var gh = gp.querySelector('[data-seat="' + CSS.escape(k) + '"]');
-      if (!xy) { if (gh) gh.setAttribute('display', 'none'); live[k] = 1; seatHidden++; return; }
       var r = Math.min(4.2, 1.15 + Math.log(p.who.length + 1) * 0.72) / K;
-      var g = gh;
-      if (g) g.removeAttribute('display');
+      var g = gp.querySelector('[data-seat="' + CSS.escape(k) + '"]');
       if (!g) {
         g = document.createElementNS(SVG, 'g');
         g.setAttribute('data-seat', k);
@@ -1803,13 +1716,7 @@
         });
       });
       lb.innerHTML = lhtml || '<div class="mp-li" style="color:#5d6e84">no seat in this window</div>';
-      /* THE FAR SIDE IS NOT NOTHING, AND THE COUNT IS STATED. The same law the
-         unplaced souls are held to: a surface that quietly draws less than it
-         knows is lying by omission. */
-      lh.textContent = pins.length + ' here \u00b7 ' + washes.length + ' somewhere' +
-                       (MODE === 'globe' && (seatHidden || washHidden)
-                         ? ' \u00b7 ' + (seatHidden + washHidden) + ' round the back'
-                         : '');
+      lh.textContent = pins.length + ' here \u00b7 ' + washes.length + ' somewhere';
     }
 
     /* ── WHAT WAS STANDING · the right-hand column ────────────────────────────
@@ -1948,7 +1855,7 @@
         if (e.kind === 'due-east') return;
         if (e.y <= hi && (!recent || e.y > recent.y)) recent = e;
       });
-      if (recent && proj(GIZA[0], GIZA[1])) {
+      if (recent) {
         var gzc = proj(GIZA[0], GIZA[1]), iv = 1 / K;
         var bodies = recent.kind === 'gathering'
           ? ['\u2643', '\u2644', '\u2645', '\u2646']
@@ -1991,7 +1898,7 @@
         }
       }
 
-      if (inWin.length && proj(GIZA[0], GIZA[1])) {
+      if (inWin.length) {
         var gz = proj(GIZA[0], GIZA[1]), iv2 = 1 / K, d = 3.2 * iv2;
         /* THE TETHER SPANS BOTH HALVES, so it can only be drawn when the two
            share a coordinate space — that is, unzoomed. Zoomed in, Giza is
@@ -2064,38 +1971,24 @@
 
          So: the line and the mark at Giza always. The sign when there is
          something for it to count. */
-      /* ── A PARALLEL IS A LINE ONLY ON A FLAT MAP · 6 Sep ──────────────────
-         Giza's latitude is true in every year and must be true in every
-         projection. Flat it is x1=0 to x2=1000. On the sphere it is an arc that
-         goes round the back, so it is sampled and broken at the limb — a
-         straight line there would be a chord THROUGH the Earth, which is a
-         claim about distance the map has refused everywhere else. */
       var gzr = proj(GIZA[0], GIZA[1]);
-      if (MODE === 'globe') {
-        var par = [];
-        for (var pl = -180; pl <= 180; pl += 2) { par.push(pl); par.push(GIZA[0]); }
-        var pd2 = lineOf(par, false);
-        if (pd2) hg += '<path class="mp-return" d="' + pd2 + '"/>';
-      } else {
-        hg += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(2) +
-              '" x2="1000" y2="' + gzr[1].toFixed(2) + '"/>';
-      }
-      if (gzr)
-        hg += '<path class="mp-retmark" d="M' + gzr[0].toFixed(2) + ' ' +
-              (gzr[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
+      hg += '<line class="mp-return" x1="0" y1="' + gzr[1].toFixed(2) +
+            '" x2="1000" y2="' + gzr[1].toFixed(2) + '"/>' +
+            '<path class="mp-retmark" d="M' + gzr[0].toFixed(2) + ' ' +
+            (gzr[1] - 4 / K).toFixed(2) + 'v' + (8 / K).toFixed(2) + '"/>';
 
-      if (prev && !next && gzr) {
+      if (prev && !next) {
         hg += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4 / K).toFixed(2) +
               '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">' +
               '\u2643 last rose due east over giza in ' + yr(prev.y) +
               ' \u00b7 the register ends there</text>';
       }
-      if (prev && next && gzr) {
+      if (prev && next) {
         var frac = (hi - prev.y) / (next.y - prev.y);      /* 0 at a rising, 1 at the next */
         /* west to east, so it returns TO Giza rather than away from it */
         var lonNow = GIZA[1] + frac * 360;
         while (lonNow > 180) lonNow -= 360;
-        var jp = proj(GIZA[0], lonNow) || gzr;   /* the travelling sign hides too */
+        var jp = proj(GIZA[0], lonNow);
 
         /* the mark thickens as it closes on Giza — the return is the event */
         /* ── THE ARRIVAL IS THE EVENT · 5 Sep ────────────────────────────────
@@ -2277,9 +2170,6 @@
   /* The world may not be dragged off its own frame. A map showing empty
      space where the earth should be is a reader lost with no way back. */
   function clampView() {
-    /* The globe zooms about its own centre and never pans, so the flat box's
-       edges mean nothing to it. */
-    if (MODE === 'globe') { TX = G_CX - G_CX * K; TY = G_CY - G_CY * K; return; }
     var minX = VB_W - VB_W * K, minY = VB_H - VB_H * K;
     TX = Math.min(0, Math.max(minX, TX));
     TY = Math.min(0, Math.max(minY, TY));
@@ -2468,26 +2358,14 @@
           var wx = (mx - TX) / K, wy = (my - TY) / K;
           var k = Math.max(K_MIN, Math.min(K_MAX, K * f));
           if (k === K) return;
-          K = k;
-          if (MODE !== 'globe') { TX = mx - wx * K; TY = my - wy * K; }
+          K = k; TX = mx - wx * K; TY = my - wy * K;
           clampView(); draw();
         }
         el.querySelectorAll('.mp-zoomctl button').forEach(function (b) {
           b.addEventListener('click', function (ev) {
             ev.stopPropagation();
             var z = b.getAttribute('data-z');
-            if (z === 'proj') {
-              /* Switching projection resets the camera. Carrying a pan from a
-                 flat map onto a sphere would land the reader nowhere true. */
-              MODE = MODE === 'globe' ? 'flat' : 'globe';
-              K = 1; TX = 0; TY = 0; LON0 = 20; LAT0 = 25;
-              b.textContent = MODE === 'globe' ? 'flat' : 'globe';
-              var fine = el.querySelector('.mp-coast');
-              if (fine) fine._done = false;              /* the shore is reprojected */
-              el.classList.remove('mp-atlas');           /* the relief is baked too */
-              clampView(); draw();
-            }
-            else if (z === 'fit') { K = 1; TX = 0; TY = 0; if (MODE === 'globe') { LON0 = 20; LAT0 = 25; } clampView(); draw(); }
+            if (z === 'fit') { K = 1; TX = 0; TY = 0; draw(); }
             else zoomBy(z === 'in' ? 1.5 : 1 / 1.5);
           });
         });
@@ -2672,8 +2550,7 @@
           var wx = (mx - TX) / K, wy = (my - TY) / K;      /* point under cursor */
           var k = Math.max(K_MIN, Math.min(K_MAX, K * (e.deltaY > 0 ? 0.88 : 1.14)));
           if (k === K) return;
-          K = k;
-          if (MODE !== 'globe') { TX = mx - wx * K; TY = my - wy * K; }
+          K = k; TX = mx - wx * K; TY = my - wy * K;
           clampView(); draw();
         }, { passive: false });
 
@@ -2689,23 +2566,6 @@
         el.addEventListener('pointermove', function (e) {
           if (!panning) return;
           var r = svgEl.getBoundingClientRect();
-          if (MODE === 'globe') {
-            /* ── THERE IS NO PAN ON A SPHERE · 6 Sep ──────────────────────────
-               Zoom magnifies the centre and the drag ROTATES, so reaching a
-               place means bringing it to the middle — which is what a globe is
-               for. Panning a magnified sphere would let a reader park on the
-               limb, where a pin is compressed to nothing and still looks
-               precisely placed. That is the wash-drawn-as-a-dot fault turned
-               inside out. Rotation slows with K or a small hand movement whips
-               the world past whatever was being looked at. */
-            LON0 -= (e.clientX - px) / r.width * 300 / K;
-            LAT0 = Math.max(-85, Math.min(85, LAT0 + (e.clientY - py) / r.height * 150 / K));
-            while (LON0 > 180) LON0 -= 360;
-            while (LON0 < -180) LON0 += 360;
-            px = e.clientX; py = e.clientY;
-            draw();
-            return;
-          }
           TX += (e.clientX - px) / r.width * VB_W;
           TY += (e.clientY - py) / r.height * VB_H;
           px = e.clientX; py = e.clientY;
@@ -2714,11 +2574,7 @@
         ['pointerup', 'pointercancel'].forEach(function (t) {
           el.addEventListener(t, function () { panning = false; svgEl.style.cursor = ''; });
         });
-        el.addEventListener('dblclick', function () {
-          K = 1; TX = 0; TY = 0;
-          if (MODE === 'globe') { LON0 = 20; LAT0 = 25; }
-          clampView(); draw();
-        });
+        el.addEventListener('dblclick', function () { K = 1; TX = 0; TY = 0; draw(); });
 
         /* The dial is gone — see THE RAILS above. It needed a precise grab
            on a 26px circle and gave no absolute position, so a reader could
