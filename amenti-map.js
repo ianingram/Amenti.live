@@ -963,16 +963,41 @@
 
        A presentation attribute set from JS has no such doubt. It is more
        lines and it works in every browser, which is the correct trade for the
-       one property the whole zoom depends on. */
+       one property the whole zoom depends on.
+
+       ── AND IT NEVER TOOK EFFECT · found 6 Sep ─────────────────────────────
+       IT WAS AN INLINE STYLE THAT WAS NEEDED, NOT A PRESENTATION ATTRIBUTE.
+       calc() was abandoned above but the stylesheet's own `font-size` was left
+       standing, and IN SVG A STYLESHEET RULE BEATS A PRESENTATION ATTRIBUTE.
+       So this loop computed the right number, wrote it, and was overruled on
+       every frame since 4 Sep.
+
+       MEASURED, and the screen said so plainly: at x7.2 a seat name drew forty
+       pixels tall while `Mont Blanc 4807m` two centimetres away drew correctly
+       — because .mp-peaklab is the one label class the stylesheet does NOT
+       size. Every class CSS sized was giant; every class it did not was right.
+       The rule held without exception, which is what made it a diagnosis.
+
+       It also broke the label cull. `g._w` is measured as label.length * 1.45 / K
+       — the width the text OUGHT to have — while the screen drew it K times
+       wider, so the collision test and the paint disagreed by a factor of the
+       zoom. The porridge at high zoom was never a culling problem.
+
+       An INLINE STYLE outranks a stylesheet rule, so the counter-scale wins
+       and the CSS keeps its default for the first paint. */
     var inv = 1 / K;
     var set = function (sel, base) {
       var n = el.querySelectorAll(sel);
-      for (var i = 0; i < n.length; i++) n[i].setAttribute('font-size', (base * inv).toFixed(3));
+      for (var i = 0; i < n.length; i++) n[i].style.fontSize = (base * inv).toFixed(3) + 'px';
     };
     set('.mp-name',      5.6);
     set('.mp-glyph',     6.4);
     set('.mp-over',      7.0);
     set('.mp-washlabel', 7.5);
+    /* the two that the stylesheet deliberately sizes LARGER, applied after the
+       general pass so the scarcer claim keeps reading as the scarcer claim */
+    set('.mp-own .mp-glyph',    7.0);
+    set('.mp-anchor .mp-name',  6.4);
     var z = el.querySelector('.mp-zoomlab');
     if (z) z.textContent = K > 1.02 ? '\u00d7' + K.toFixed(1) + ' \u00b7 double-click to fit' : '';
   }
@@ -1623,7 +1648,6 @@
       g.setAttribute('data-who', p.who.map(function (w) { return w.k; }).join(','));
       g.classList.toggle('mp-marked', !!mark);
       g.classList.toggle('mp-anchor', !!p.anchor);
-      if (p.anchor) label = p.aname;        /* the asked-about soul keeps their name */
       var ring = g.querySelector('.mp-ring');
       ring.setAttribute('cx', xy[0].toFixed(1));
       ring.setAttribute('cy', xy[1].toFixed(1));
@@ -1631,11 +1655,45 @@
 
       /* CLOSE IN, PEOPLE HAVE NAMES. At 10 or 50 years a shared seat holds a
          handful, not a hundred, so it can say who rather than how many. */
+      /* THE ASKED-ABOUT SOUL KEEPS THEIR NAME. This assignment used to sit
+         thirty lines above its own `var label`, so hoisting made it legal and
+         the branch below overwrote it on the same pass: the anchor — the whole
+         reason a reader can find one soul among four hundred dots — silently
+         got the seat's count instead. Set last, so it wins. */
       var label;
       if (p.who.length === 1) label = p.who[0];
       else if (APERTURE <= 42 && p.who.length <= 4) label = p.who.join(', ');
       else label = p.place + ' \u00b7 ' + p.who.length;
-      var t = g.querySelector('text');
+      if (p.anchor && p.aname) label = p.aname;
+      /* ── THE NAME WENT INTO THE GLYPH · found 7 Sep by map-probe ──────────
+         This was `g.querySelector('text')`, which matches the FIRST <text> in
+         the group — and the group is built glyph first:
+
+             '<text class="mp-glyph"/><text class="mp-name"/>'
+
+         So every seat name has been written into .mp-glyph since 4 September
+         and .mp-NAME HAS NEVER HELD A CHARACTER. Three things followed, none
+         of them visible as a fault:
+
+         1 · THE CULL CONTROLS NOTHING. It sets .mp-named, and .mp-named gates
+             .mp-name, which is empty. What a reader actually sees is governed
+             by `.mp-marked .mp-glyph{opacity:.8}` — so a seat with an office
+             shows its name ALWAYS and a seat without one shows it NEVER,
+             whether or not the label fits. "N name(s) with no room" under the
+             map has been counting a decision that was never applied. The
+             porridge at high zoom was this, not a culling problem.
+         2 · THE OFFICE MARKS WERE OVERWRITTEN every frame, by the name, one
+             line after being set — the crown turning to cross across the
+             Mediterranean, drawn and then destroyed.
+         3 · THE TYPE WAS THE WRONG SIZE. Names rendered at .mp-glyph's 6.4
+             rather than .mp-name's 5.6, so the cull's own width estimate was
+             measuring a smaller label than the screen drew.
+
+         The probe caught it as a contradiction between two of its sections:
+         five seats carried .mp-named and zero kept labels had text in them.
+         Both readings were correct. A selector by ELEMENT where a class was
+         meant — the fourth shore, in one word. */
+      var t = g.querySelector('.mp-name');
       t.textContent = label;
       t.setAttribute('x', xy[0].toFixed(1));
       t.setAttribute('y', (xy[1] - (mark ? 5.4 / K : r + 2.2 / K)).toFixed(1));
@@ -1881,11 +1939,11 @@
           var span = (bodies.length - 1) * 7 * iv;
           bodies.forEach(function (sg, i) {
             hg += '<text class="mp-sign mp-over" x="' + (gzc[0] - span / 2 + i * 7 * iv).toFixed(2) +
-                  '" y="' + (gzc[1] - 8 * iv).toFixed(2) + '" font-size="' + (7 * iv).toFixed(3) +
+                  '" y="' + (gzc[1] - 8 * iv).toFixed(2) + '" style="font-size:' + (7 * iv).toFixed(3) + 'px' +
                   '">' + sg + '</text>';
           });
           hg += '<text class="mp-obslabel" x="' + gzc[0].toFixed(2) + '" y="' + (gzc[1] - 15 * iv).toFixed(2) +
-                '" font-size="' + (5 * iv).toFixed(3) + '">' + kindWord +
+                '" style="font-size:' + (5 * iv).toFixed(3) + 'px">' + kindWord +
                 ' \u00b7 ' + yr(recent.y) + '</text>';
         } else {
           var bx = 560;
@@ -1913,7 +1971,7 @@
               'L' + gz[0].toFixed(2) + ' ' + (gz[1] + d).toFixed(2) +
               'L' + (gz[0] - d).toFixed(2) + ' ' + gz[1].toFixed(2) + 'Z"/>' +
               '<text class="mp-obslabel" x="' + gz[0].toFixed(2) + '" y="' + (gz[1] + 10 * iv2).toFixed(2) +
-              '" font-size="' + (5 * iv2).toFixed(3) + '">computed at giza</text>';
+              '" style="font-size:' + (5 * iv2).toFixed(3) + 'px">computed at giza</text>';
       }
       lastSky = inWin.length; lastConj = conj.length; lastGath = gath.length;
     }
@@ -1979,7 +2037,7 @@
 
       if (prev && !next) {
         hg += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4 / K).toFixed(2) +
-              '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">' +
+              '" style="font-size:' + (5 / K).toFixed(3) + 'px" text-anchor="start">' +
               '\u2643 last rose due east over giza in ' + yr(prev.y) +
               ' \u00b7 the register ends there</text>';
       }
@@ -2005,7 +2063,7 @@
         var atGiza = frac < 0.1 || frac > 0.9;
         hg += '<text class="mp-jup' + (atGiza ? ' mp-jup-home' : '') + '" x="' +
               jp[0].toFixed(2) + '" y="' + (gzr[1] + 2.6 / K).toFixed(2) +
-              '" font-size="' + ((atGiza ? 10 : 8) / K).toFixed(3) + '" opacity="' +
+              '" style="font-size:' + ((atGiza ? 10 : 8) / K).toFixed(3) + 'px" opacity="' +
               (atGiza ? 1 : 0.5 + 0.3 * (1 - Math.min(1, Math.abs(0.5 - frac) * 2))).toFixed(2) +
               '">\u2643</text>';
         if (atGiza)
@@ -2015,7 +2073,7 @@
              ', next in ' + yr(next.y) + ' \u2014 ' + (next.y - prev.y) + ' years. ' +
              'This line is a COUNT to that return along Giza\u2019s latitude, not Jupiter\u2019s position.</title>';
         hg += '<text class="mp-obslabel" x="6" y="' + (gzr[1] - 4 / K).toFixed(2) +
-              '" font-size="' + (5 / K).toFixed(3) + '" text-anchor="start">' + (atGiza ? '\u2643 due east over giza \u2014 the return, ' + yr(hi) + ' \u00b7 a count, not a position' : '\u2643 returns due east over giza in ' +
+              '" style="font-size:' + (5 / K).toFixed(3) + 'px" text-anchor="start">' + (atGiza ? '\u2643 due east over giza \u2014 the return, ' + yr(hi) + ' \u00b7 a count, not a position' : '\u2643 returns due east over giza in ' +
              Math.max(0, next.y - hi) + 'y \u00b7 a count, not a position') + '</text>';
       }
     }
