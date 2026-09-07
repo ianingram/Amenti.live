@@ -1022,7 +1022,11 @@
     set('.mp-name',      5.6, 1.6);
     set('.mp-glyph',     6.4, 1.8);
     set('.mp-over',      7.0);
-    set('.mp-washlabel', 7.5);
+    /* left without a halo argument on 6 Sep, so its type scaled and its
+       outline did not. It has no stroke COLOUR in the stylesheet, so nothing
+       showed — but the pair must move together or the next colour change
+       becomes a lozenge nobody expects. */
+    set('.mp-washlabel', 7.5, 1.6);
     /* these four size themselves inline as they are drawn, but their outlines
        are stylesheet constants and were left behind by the same oversight */
     set('.mp-peaklab',   5.0, 1.4);
@@ -2138,6 +2142,28 @@
     gsky.innerHTML = h;
     var gskygeo = el.querySelector('.mp-skygeo');
     if (gskygeo) gskygeo.innerHTML = hg;
+
+    /* ── THE COUNTER-SCALE MUST RUN AFTER EVERYTHING IT SCALES · 7 Sep ──────
+       applyView() is called 270 lines above this, and the sky is written HERE.
+       So every mark in .mp-sky and .mp-skygeo — the signs, Jupiter travelling
+       the return line, and every `computed at giza` label — WAS CREATED AFTER
+       THE PASS THAT SIZES THEM and kept the stylesheet's constants.
+
+       MEASURED OFF THE LIVE PAGE at x14, stroke as a fraction of font:
+
+           mp-name       0.29     mp-obslabel   4.48
+           mp-glyph      0.28     mp-sign       2.00
+           mp-peaklab    0.28     mp-jup        1.75
+           mp-sitelab    0.28
+
+       The four on the left go through applyView while they exist. The three on
+       the right did not exist yet, and an outline four times the letter height
+       is a black lozenge — which is what "computed at giza" had become.
+
+       It was never four broken classes. It was one call in the wrong place,
+       and the fix is to run it again once the surface is complete. Twice per
+       draw costs a few hundred style writes and buys the sky its type back. */
+    applyView();
 
     /* ── THE YEAR'S OWN EVENT ────────────────────────────────────────────────
        Tolerance scales with the aperture: at one Jupiter a reader steps in
