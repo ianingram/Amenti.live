@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-07T05:28:18.425Z",
+    "generated": "2026-09-07T05:28:47.047Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1380,8 +1380,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 49780,
-      "sha256": "00efc6aa35d9ef06",
+      "bytes": 50033,
+      "sha256": "4f4a3ab24922a4dd",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1390,25 +1390,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1179,
+          "line": 1186,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1180,
+          "line": 1187,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1181,
+          "line": 1188,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1182,
+          "line": 1189,
           "when": "toplevel",
           "own": false
         }
@@ -1694,7 +1694,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 50,
+    "count": 51,
     "files": [
       {
         "file": "events-gaz.mjs",
@@ -1803,6 +1803,12 @@
         "title": "IS THE MAP STILL HONEST",
         "guards": null,
         "bytes": 11216
+      },
+      {
+        "file": "probe-narrows.mjs",
+        "title": null,
+        "guards": null,
+        "bytes": 12292
       },
       {
         "file": "probe-ordnance.mjs",
