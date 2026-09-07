@@ -64,8 +64,44 @@
   var VB = 1000;                       /* square: the box is 1.0002 tall */
   var K = 1, TX = 0, TY = 0, K_MIN = 1, K_MAX = 12;
 
+  /* ── THE REGISTER KNOWS PERIODS, NOT YEARS · measured 7 Sep ──────────────
+     The first version of this surface offered year buttons — 480 BC, 430 BC,
+     330 BC, AD 150 — chosen because Salamis, the plague, Alexander and
+     Pausanias are what a person remembers. THE REGISTER CANNOT DISTINGUISH
+     ANY OF THEM.
+
+     Counted out of ATTICA.csv: 399 spans begin at 550 BC, 311 at 750 BC, 40 at
+     330 BC; 411 end at AD 300, 151 at AD 640, 135 at 30 BC. Those are not
+     events. They are the Barrington Atlas PERIOD BOUNDARIES — Archaic,
+     Classical, Hellenistic, Roman, Late Antique — and Pleiades records "this
+     was attested in the Classical period", which the harvest turned into 550 BC
+     because a range needs a number.
+
+     So 480 BC filtered nothing. Salamis sits inside 550-330 with everything
+     else, and a button offering to find it was an interface promising a
+     precision the data does not hold. THAT IS THE WASH-DRAWN-AS-A-PIN FAULT
+     WEARING A DIFFERENT HAT.
+
+     The count by century is a plateau, not a set of peaks:
+
+         700 BC  324      AD 100  567
+         500 BC  711      AD 300  582
+         300 BC  692      AD 400  172
+         100 BC  692      AD 600  171
+
+     Five states. Five buttons. Each named for what the register actually
+     holds, and each carrying the years so a reader can see the grain. */
+  var PERIODS = [
+    { k: 'all',  label: 'all of it',    a: null, b: null },
+    { k: 'arch', label: 'archaic',      a: -750, b: -550, when: '750–550 BC' },
+    { k: 'clas', label: 'classical',    a: -550, b: -330, when: '550–330 BC' },
+    { k: 'hell', label: 'hellenistic',  a: -330, b:  -30, when: '330–30 BC' },
+    { k: 'rome', label: 'roman',        a:  -30, b:  300, when: '30 BC–AD 300' },
+    { k: 'late', label: 'late antique', a:  300, b:  640, when: 'AD 300–640' }
+  ];
+
   var el = null, svg = null, view = null, open = false;
-  var rows = null, loadErr = null, hi = null;   /* hi: the year, null = all of it */
+  var rows = null, loadErr = null, era = PERIODS[0];
 
   function proj(lat, lon) {
     return [(lon - LO0) / (LO1 - LO0) * VB,
@@ -135,6 +171,14 @@
       '#amenti-attica .at-pin{fill:#5fd0e8;fill-opacity:.85;stroke:#081018;',
       '  stroke-width:.35;vector-effect:non-scaling-stroke;cursor:pointer}',
       '#amenti-attica .at-pin:hover{fill:#a9edff;fill-opacity:1}',
+      /* ── UNDATED IS NOT THE SAME CLAIM AS ATTESTED HERE ──────────────────
+         705 of 1,746 places carry no span. They are drawn in every period,
+         because Pleiades not knowing when is not the place not existing — but
+         drawing them at full strength beside a place the register places IN
+         this period would make the two look alike. Dimmer, and the count is
+         stated. The same distinction as pin and wash, in a second dimension. */
+      '#amenti-attica .at-undated .at-pin{fill:#7d8ea6;fill-opacity:.45}',
+      '#amenti-attica .at-undated .at-name{opacity:.55}',
       /* A WASH. Soft, edgeless, never a point. Pleiades called it rough. */
       '#amenti-attica .at-wash{fill:#4a6c8f;fill-opacity:.14;stroke:none;',
       '  cursor:default}',
@@ -196,11 +240,11 @@
       '</div>' +
       '<div class="at-list"></div>' +
       '<div class="at-ctl">' +
-        '<button type="button" data-y="all" aria-pressed="true">all of it</button>' +
-        '<button type="button" data-y="-480">480 BC</button>' +
-        '<button type="button" data-y="-430">430 BC</button>' +
-        '<button type="button" data-y="-330">330 BC</button>' +
-        '<button type="button" data-y="150">AD 150</button>' +
+        PERIODS.map(function (p) {
+          return '<button type="button" data-p="' + p.k + '"' +
+                 (p.k === 'all' ? ' aria-pressed="true"' : '') +
+                 (p.when ? ' title="' + p.when + '"' : '') + '>' + p.label + '</button>';
+        }).join('') +
         '<button type="button" data-z="out">\u2212</button>' +
         '<button type="button" data-z="in">+</button>' +
         '<button type="button" data-z="fit">fit</button>' +
@@ -222,11 +266,20 @@
      AND A PLACE WITH NO SPAN IS ALWAYS DRAWN. 705 of these carry no date,
      which is Pleiades not knowing rather than the place not existing. Hiding
      them at every year would be inventing an absence. */
+  /* ── A PERIOD OVERLAPS A SPAN; A YEAR SAT INSIDE ONE ────────────────────
+     The test is overlap, not containment. A place attested 550 BC to AD 300
+     belongs to the Classical, Hellenistic AND Roman periods, and asking
+     whether one year falls inside it would answer a question the register was
+     never posed.
+
+     AND A PLACE WITH NO SPAN IS ALWAYS DRAWN. 705 of 1,746 carry no date,
+     which is Pleiades not knowing rather than the place not existing. Hiding
+     them in every period would invent an absence. */
   function alive(r) {
-    if (hi === null) { return true; }
+    if (era.a === null) { return true; }
     if (r.from === null && r.until === null) { return true; }
-    if (r.from !== null && hi < r.from) { return false; }
-    if (r.until !== null && hi > r.until) { return false; }
+    if (r.until !== null && r.until < era.a) { return false; }
+    if (r.from !== null && r.from > era.b) { return false; }
     return true;
   }
 
@@ -259,7 +312,7 @@
        the outline was not, and at x14 a 0.23 px letter sat inside a 0.91 px
        stroke: every name on the world map drew as a black lozenge. The pair
        is one thing and moves as one. */
-    var ph = '', placed = [], named = 0, dropped = 0;
+    var ph = '', placed = [], named = 0, dropped = 0, undated = 0;
     pins.sort(function (a, b) { return (+a.km) - (+b.km); });
     pins.forEach(function (r) {
       var p = proj(r.lat, r.lon);
@@ -269,7 +322,10 @@
             Math.abs(p[1] - placed[i][1]) < 7 * iv) { fit = false; break; }
       }
       if (fit && K >= 1.8) { placed.push([p[0], p[1], w]); named++; } else { fit = false; dropped++; }
-      ph += '<g class="at-seat' + (fit ? ' at-named' : '') + '">' +
+      var und = (r.from === null && r.until === null);
+      if (und) { undated++; }
+      ph += '<g class="at-seat' + (fit ? ' at-named' : '') +
+            (und ? ' at-undated' : '') + '">' +
             '<circle class="at-pin" cx="' + p[0].toFixed(2) + '" cy="' + p[1].toFixed(2) +
             '" r="' + (1.5 * iv).toFixed(2) + '" data-k="' + esc(r.key) + '"/>' +
             (fit ? '<text class="at-name" x="' + p[0].toFixed(2) + '" y="' +
@@ -280,12 +336,20 @@
     });
     el.querySelector('.at-pins').innerHTML = ph;
 
-    el.querySelector('.at-read').textContent = hi === null ? 'the whole register' : yr(hi);
+    el.querySelector('.at-read').textContent =
+      era.a === null ? 'the whole register' : era.label + '  \u00b7  ' + era.when;
     el.querySelector('.at-note').innerHTML =
       shown.length + ' of ' + rows.length + ' places \u00b7 ' + pins.length + ' pinned \u00b7 ' +
       wash.length + ' somewhere in an area \u00b7 ' + named + ' named' +
       (dropped ? ', ' + dropped + ' with no room \u2014 zoom in' : '') +
-      (hi === null ? ' \u00b7 <b>all of it at once, which is a smear</b> \u2014 pick a year' : '') +
+      (undated ? ' \u00b7 <b>' + undated + ' undated</b>, drawn dim in every period because ' +
+                 'Pleiades not knowing WHEN is not the place not existing' : '') +
+      (era.a === null
+        ? ' \u00b7 <b>all of it at once, which is a smear</b> \u2014 pick a period'
+        : ' \u00b7 <b>the register knows five periods, not years</b> \u2014 a place ' +
+          'attested \u201cClassical\u201d is dated 550\u2013330 BC because a range needs a ' +
+          'number, and most spans cross every period, so this filters less than ' +
+          'it looks like it should') +
       '<br>Places from Pleiades (CC BY 3.0). Land at 30 m from Copernicus, sea at ' +
       '462 m from ETOPO. <span class="at-warn">Every shoreline here is TODAY\u2019S \u2014 ' +
       'Thermopylae\u2019s has moved six kilometres since 480 BC, and Piraeus, Eleusis ' +
@@ -322,10 +386,10 @@
     el.querySelectorAll('.at-ctl button').forEach(function (b) {
       b.addEventListener('click', function (ev) {
         ev.stopPropagation();
-        var y = b.getAttribute('data-y'), z = b.getAttribute('data-z');
-        if (y !== null) {
-          hi = (y === 'all') ? null : +y;
-          el.querySelectorAll('.at-ctl button[data-y]').forEach(function (o) {
+        var pk = b.getAttribute('data-p'), z = b.getAttribute('data-z');
+        if (pk !== null) {
+          era = PERIODS.filter(function (p) { return p.k === pk; })[0] || PERIODS[0];
+          el.querySelectorAll('.at-ctl button[data-p]').forEach(function (o) {
             o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
           });
         } else if (z === 'fit') {
@@ -458,7 +522,13 @@
   window.AmentiAttica = {
     show: show, hide: hide, toggle: toggle,
     isOpen: function () { return open; },
-    year: function (y) { hi = (y == null ? null : +y); draw(); return hi; },
+    /* the periods by key: all arch clas hell rome late */
+    period: function (k) {
+      era = PERIODS.filter(function (p) { return p.k === k; })[0] || PERIODS[0];
+      draw();
+      return { key: era.k, from: era.a, until: era.b };
+    },
+    periods: function () { return PERIODS.map(function (p) { return p.k; }); },
     count: function () {
       return rows ? { places: rows.length, shown: rows.filter(alive).length,
                       pin: rows.filter(function (r) { return r.tier === 'pin'; }).length }
