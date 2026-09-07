@@ -4,24 +4,24 @@ hellespont,33,485,267,47,90,0.519,a constriction
 bosphorus,105,474,212,46,90,0.203,a constriction
 gibraltar,0,842,329,14712,330,0.595,"open ground — 14.7 km, no constriction here"
 bab-el-mandeb,0,390,114,21271,45,0.722,"open ground — 21.3 km, no constriction here"
-hormuz,0,219,0,40147,90,0.996,"WIDER THAN THE 45 km WINDOW — this is the box, not a crossing"
-malacca,0,46,7,40925,15,0.92,"WIDER THAN THE 45 km WINDOW — this is the box, not a crossing"
+hormuz,0,906,40,54083,325,0.908,"open ground — 54.1 km, no constriction here"
+malacca,0,640,48,63418,15,0.748,"WIDER THAN THE 90 km WINDOW — this is the box, not a crossing"
 oresund,0,130,59,18529,60,0.47,"open ground — 18.5 km, no constriction here"
 khyber,1157,1250,742,3150,55,0.0,a constriction
 brenner,0,1839,1058,,,0.0,no crossing found
 great-st-bernard,2509,2445,1275,984,325,0.0,a constriction
 roncevaux,1046,1140,720,1488,345,0.0,a constriction
-cilician-gates,1491,1051,660,4368,75,0.0,"WIDER THAN THE 6 km WINDOW — this is the box, not a crossing"
-shipka,1276,1026,732,8740,90,0.0,"WIDER THAN THE 12 km WINDOW — this is the box, not a crossing"
+cilician-gates,1491,2191,1216,10054,75,0.0,"WIDER THAN THE 20 km WINDOW — this is the box, not a crossing"
+shipka,1284,1131,863,14378,80,0.0,"WIDER THAN THE 24 km WINDOW — this is the box, not a crossing"
 iron-gates,41,453,358,2350,45,0.0,a constriction
-moravian-gate,269,364,128,7720,90,0.0,"WIDER THAN THE 12 km WINDOW — this is the box, not a crossing"
-smolensk-gate,253,128,80,8400,90,0.0,"WIDER THAN THE 12 km WINDOW — this is the box, not a crossing"
+moravian-gate,266,433,310,12030,285,0.0,"open ground — 12.0 km, no constriction here"
+smolensk-gate,253,137,84,20507,90,0.0,"WIDER THAN THE 40 km WINDOW — this is the box, not a crossing"
 corinth,55,1268,813,7554,0,0.074,"open ground — 7.6 km, no constriction here"
 suez,0,769,289,,,0.032,no crossing found
 panama,81,954,389,4754,40,0.014,"open ground — 4.8 km, no constriction here"
 tempe,109,923,737,1885,285,0.0,a constriction
-caudine-forks,263,690,214,4465,90,0.0,"WIDER THAN THE 6 km WINDOW — this is the box, not a crossing"
-megiddo,165,361,283,7109,75,0.0,"WIDER THAN THE 12 km WINDOW — this is the box, not a crossing"
+caudine-forks,263,1305,747,6131,25,0.0,"open ground — 6.1 km, no constriction here"
+megiddo,161,503,322,12243,75,0.0,"WIDER THAN THE 24 km WINDOW — this is the box, not a crossing"
 pripet,0,43,12,,,0.0,"flat (11 m across the middle 90%) — consistent with wetland, and not evidence of it"
 fens,-1,55,7,56,90,0.444,"flat (7 m across the middle 90%) — consistent with wetland, and not evidence of it"
 pontine,7,1538,1032,5078,325,0.051,NOT FLAT — 1032 m across the middle 90%; wetland is unlikely here
