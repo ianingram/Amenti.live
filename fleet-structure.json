@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-07T23:20:30.660Z",
+    "generated": "2026-09-07T23:22:36.299Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -398,6 +398,19 @@
           "own": false
         }
       ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-attica.js",
+      "bytes": 22892,
+      "sha256": "8d73f5dba5b8fd3c",
+      "type": "js",
+      "declares": [
+        "AmentiAttica"
+      ],
+      "loads": [],
+      "calls": [],
       "endpoints": [],
       "tables": []
     },
@@ -1394,7 +1407,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 50327,
-      "sha256": "841b57eb63203c2a",
+      "sha256": "ed5737f0544c9441",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -2036,6 +2049,14 @@
         "file": "amenti-art-photo.js",
         "declares": [
           "AmentiArtPhoto"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-attica.js",
+        "declares": [
+          "AmentiAttica"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
