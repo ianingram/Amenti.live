@@ -986,39 +986,18 @@
        An INLINE STYLE outranks a stylesheet rule, so the counter-scale wins
        and the CSS keeps its default for the first paint. */
     var inv = 1 / K;
-    /* ── THE HALO MUST SCALE WITH THE TYPE · found 7 Sep ──────────────────
-       Every label class here carries `paint-order:stroke` with a FIXED
-       stroke-width — a dark outline that lifts a name off the map. While the
-       type was wrongly K times too large, the halo looked right beside it. The
-       moment the type was corrected the halo did not shrink with it: at x10.85
-       a 0.29px letterform sat inside a 1.6px outline and EVERY SEAT NAME ON
-       THE MAP BECAME A BLACK RECTANGLE, with the odd letter escaping at an
-       edge. Seen on screen; no probe caught it, because the probe measured
-       font-size and never stroke-width.
-
-       A fix that corrects one half of a pair and leaves the other is not half
-       a fix. It is a new fault. The outline is part of the type. */
-    var set = function (sel, base, halo) {
+    var set = function (sel, base) {
       var n = el.querySelectorAll(sel);
-      for (var i = 0; i < n.length; i++) {
-        n[i].style.fontSize = (base * inv).toFixed(3) + 'px';
-        if (halo) n[i].style.strokeWidth = (halo * inv).toFixed(3) + 'px';
-      }
+      for (var i = 0; i < n.length; i++) n[i].style.fontSize = (base * inv).toFixed(3) + 'px';
     };
-    set('.mp-name',      5.6, 1.6);
-    set('.mp-glyph',     6.4, 1.8);
+    set('.mp-name',      5.6);
+    set('.mp-glyph',     6.4);
     set('.mp-over',      7.0);
     set('.mp-washlabel', 7.5);
-    /* these four size themselves inline as they are drawn, but their halos are
-       stylesheet constants and were left behind by the same oversight */
-    set('.mp-peaklab',   5.0, 1.4);
-    set('.mp-sitelab',   5.0, 1.4);
-    set('.mp-evlab',     5.2, 1.5);
-    set('.mp-obslabel',  5.0, 1.6);
     /* the two that the stylesheet deliberately sizes LARGER, applied after the
        general pass so the scarcer claim keeps reading as the scarcer claim */
-    set('.mp-own .mp-glyph',    7.0, 1.8);
-    set('.mp-anchor .mp-name',  6.4, 1.6);
+    set('.mp-own .mp-glyph',    7.0);
+    set('.mp-anchor .mp-name',  6.4);
     var z = el.querySelector('.mp-zoomlab');
     if (z) z.textContent = K > 1.02 ? '\u00d7' + K.toFixed(1) + ' \u00b7 double-click to fit' : '';
   }
@@ -1724,21 +1703,8 @@
          a 500 BC window that had ample room. This is the trap the timeline's
          axis note names: the collision test and the placement share this one
          number, so they will agree with each other whether or not it is
-         right. It is checked against the font, and the screen is the judge.
-
-         ── AND THE SCREEN HAS NOW JUDGED · 7 Sep ───────────────────────────
-         map-probe compared this estimate against getBBox — the browser's own
-         answer — and found it 19% NARROW at K=1 and 19% narrow at K=10.85. The
-         same figure at both zooms, which is what a wrong CONSTANT looks like;
-         a wrong K would have differed between them. So the `/ K` is right and
-         1.45 was not: at 5.6px this monospace runs nearer 3.58 units a
-         character, making half a label length * 1.79.
-
-         The trap the note above names is exactly what happened. The test and
-         the placement shared this number and agreed with each other for three
-         days while the screen quietly disagreed with both. It took an outside
-         measurement, which is the only thing that can break that agreement. */
-      g._w = label.length * 1.79 / K;
+         right. It is checked against the font, and the screen is the judge. */
+      g._w = label.length * 1.45 / K;
       g._x = xy[0]; g._y = xy[1] - (mark ? 5.4 / K : r + 2.2 / K);
       g._rank = p.who.length;
 
