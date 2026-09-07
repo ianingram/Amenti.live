@@ -92,13 +92,23 @@ def main():
         sys.exit(2)
     places, forms, held = load()
 
-    # one regex per place, alternating its usable forms. Word boundaries on
-    # both sides, so "Megara" does not fire inside "Megarian".
-    pats = {}
+    # ── ONE PASS OVER THE TEXT, NOT 1,567 · rewritten 7 Sep ──────────────
+    # The first version compiled a regex per place and ran every one of them
+    # against every file. Against a four-line smoke test that was instant;
+    # against the real library it was 1,567 full scans PER FILE and the run
+    # went past six minutes. RULE 1 — test with real data. A toy corpus told
+    # me nothing about the only thing that mattered.
+    #
+    # One alternation over all forms, scanned once, and the match is looked up
+    # afterwards. Same answers, one pass. Longest forms first so "Sanctuary of
+    # Aphrodite Ourania" wins over "Aphrodite" at the same position.
+    lookup = {}
     for key, fs in forms.items():
-        fs = sorted(set(fs), key=len, reverse=True)
-        pats[key] = re.compile(r'(?<!\w)(' + '|'.join(re.escape(f) for f in fs) + r')(?!\w)',
-                               re.IGNORECASE)
+        for f in fs:
+            lookup.setdefault(strip_accents(f).lower(), set()).add(key)
+    allforms = sorted(lookup.keys(), key=len, reverse=True)
+    BIG = re.compile(r'(?<!\w)(' + '|'.join(re.escape(f) for f in allforms) + r')(?!\w)',
+                     re.IGNORECASE)
 
     hits = defaultdict(lambda: {'n': 0, 'srcs': defaultdict(int), 'forms': set(),
                                 'snip': None})
@@ -108,16 +118,18 @@ def main():
         nchar += len(raw)
         flat = strip_accents(raw)
         src = os.path.relpath(path, CORPUS)
-        for key, pat in pats.items():
-            for m in pat.finditer(flat):
+        for m in BIG.finditer(flat):
+            got = m.group(1)
+            for key in lookup.get(got.lower(), ()):
                 h = hits[key]
                 h['n'] += 1
                 h['srcs'][src] += 1
-                h['forms'].add(m.group(1))
+                h['forms'].add(got)
                 if h['snip'] is None:
                     a = max(0, m.start() - SNIPPET // 2)
                     h['snip'] = ' '.join(raw[a:a + SNIPPET].split())
-        print('  read %-46s %7d chars' % (src[:46], len(raw)), flush=True)
+        if nfile % 25 == 0:
+            print('  %5d files \u00b7 %6.1f M chars' % (nfile, nchar / 1e6), flush=True)
 
     rows = []
     for key, p in places.items():
