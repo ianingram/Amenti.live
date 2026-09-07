@@ -161,9 +161,18 @@
       'body.scene-attica header,body.scene-attica footer,',
       'body.scene-attica #amenti-handover,body.scene-attica #scene-hint{',
       '  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s ease}',
+      /* ── THE BOX IS SQUARE AND THE SCREEN IS NOT ───────────────────────
+         The region is 1.0002 as tall as it is wide, so the viewBox is 1000
+         square. On a wide short window `meet` letterboxes it correctly and the
+         ground image — which carries preserveAspectRatio="none" so it fills the
+         viewBox exactly — was being stretched with it.
+         The svg keeps its aspect and the wrap centres it, so the ground is
+         never wider or taller than the ground. */
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
-      '  flex-direction:column;padding:22px 250px 18px 26px;gap:0}',
-      '#amenti-attica svg{flex:1 1 auto;min-height:0;width:100%;cursor:grab}',
+      '  flex-direction:column;padding:20px 244px 8px 26px;gap:0;',
+      '  align-items:center}',
+      '#amenti-attica svg{flex:1 1 auto;min-height:0;min-width:0;',
+      '  max-width:100%;aspect-ratio:1/1;cursor:grab}',
       '#amenti-attica svg.at-drag{cursor:grabbing}',
       '#amenti-attica .at-ground{pointer-events:none}',
       /* A PIN. Small, hard, bright \u2014 the map's own value, so a reader crossing
@@ -190,21 +199,37 @@
       '#amenti-attica .at-head{display:flex;justify-content:space-between;',
       '  align-items:baseline;gap:20px;margin-bottom:10px;flex:0 0 auto}',
       '#amenti-attica .at-title{color:#8fa2ba;font-size:13px}',
-      '#amenti-attica .at-note{color:#6f8098;font-size:11.5px;margin-top:10px;',
-      '  flex:0 0 auto;max-width:70ch;line-height:1.5}',
+      /* ── THE NOTE RAN UNDER THE BUTTONS ────────────────────────────────
+         Five lines of prose in a flex column with no height budget, sitting
+         behind the period row. It gets a bounded box that scrolls, and the
+         controls get clear air beneath it. A caveat a reader cannot read is
+         not a caveat. */
+      '#amenti-attica .at-note{color:#6f8098;font-size:11.5px;margin-top:8px;',
+      '  flex:0 0 auto;width:100%;max-width:88ch;line-height:1.45;',
+      '  max-height:62px;overflow-y:auto;padding-bottom:2px;',
+      '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent}',
       '#amenti-attica .at-warn{color:#c99a4e}',
+      /* THE SHORELINE IS THE MOST IMPORTANT SENTENCE ON THIS SURFACE and it
+         was reading third. It goes first, and it is the only thing in amber. */
+      '#amenti-attica .at-first{display:block;margin-bottom:3px}',
       '#amenti-attica .at-read{color:#f0f5fb;font-size:22px;letter-spacing:.01em;',
       '  font-variant-numeric:tabular-nums;white-space:nowrap}',
-      '#amenti-attica .at-list{position:absolute;right:0;top:60px;bottom:90px;',
-      '  width:232px;padding:12px 24px 12px 12px;overflow-y:auto;text-align:right;',
+      '#amenti-attica .at-listhead{position:absolute;right:24px;top:56px;',
+      '  z-index:7;font-size:10.5px;letter-spacing:.06em;color:#6f8098;',
+      '  text-align:right;padding-bottom:6px;border-bottom:1px solid #1e2836;',
+      '  width:220px}',
+      '#amenti-attica .at-list{position:absolute;right:0;top:82px;bottom:104px;',
+      '  width:232px;padding:8px 24px 12px 12px;overflow-y:auto;text-align:right;',
       '  background:linear-gradient(270deg,rgba(5,8,14,.94),rgba(5,8,14,0));',
       '  border-left:1px solid rgba(43,58,80,.5);scrollbar-width:thin}',
       '#amenti-attica .at-li{font-size:12px;line-height:1.5;color:#9fb1c7;',
       '  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:default}',
       '#amenti-attica .at-li:hover{color:#eaf6ff}',
       '#amenti-attica .at-li span{color:#5d6e84;font-size:10.5px}',
-      '#amenti-attica .at-ctl{position:absolute;left:26px;bottom:18px;z-index:6;',
-      '  display:flex;gap:10px;align-items:center}',
+      '#amenti-attica .at-ctl{position:absolute;left:26px;right:26px;bottom:16px;',
+      '  z-index:6;display:flex;gap:8px;align-items:center;flex-wrap:wrap;',
+      '  background:linear-gradient(0deg,rgba(5,8,14,.96) 60%,rgba(5,8,14,0));',
+      '  padding-top:10px}',
       '#amenti-attica button{background:transparent;color:#8fa2ba;font:inherit;',
       '  font-size:11.5px;border:1px solid #23303f;border-radius:3px;',
       '  padding:5px 10px;cursor:pointer;letter-spacing:.05em}',
@@ -238,7 +263,7 @@
         '</svg>' +
         '<div class="at-note"></div>' +
       '</div>' +
-      '<div class="at-list"></div>' +
+      '<div class="at-listhead"></div><div class="at-list"></div>' +
       '<div class="at-ctl">' +
         PERIODS.map(function (p) {
           return '<button type="button" data-p="' + p.k + '"' +
@@ -339,22 +364,30 @@
     el.querySelector('.at-read').textContent =
       era.a === null ? 'the whole register' : era.label + '  \u00b7  ' + era.when;
     el.querySelector('.at-note').innerHTML =
+      '<span class="at-warn at-first">Every shoreline here is TODAY\u2019S. ' +
+      'Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, Eleusis and ' +
+      'Marathon are silted harbours.</span>' +
       shown.length + ' of ' + rows.length + ' places \u00b7 ' + pins.length + ' pinned \u00b7 ' +
-      wash.length + ' somewhere in an area \u00b7 ' + named + ' named' +
-      (dropped ? ', ' + dropped + ' with no room \u2014 zoom in' : '') +
-      (undated ? ' \u00b7 <b>' + undated + ' undated</b>, drawn dim in every period because ' +
+      wash.length + ' somewhere in an area \u00b7 ' +
+      /* NOTHING NAMED IS CORRECT AND LOOKS BROKEN. At x1 with the whole
+         register on, every one of 1,567 labels collides and the cull drops
+         them all \u2014 which is the right answer and reads as a fault. It says so. */
+      (named ? named + ' named' : '<b>nothing named at this zoom</b> \u2014 every ' +
+               'label collides; zoom past \u00d71.8') +
+      (named && dropped ? ', ' + dropped + ' with no room' : '') +
+      (undated ? ' \u00b7 <b>' + undated + ' undated</b>, drawn dim in every period: ' +
                  'Pleiades not knowing WHEN is not the place not existing' : '') +
       (era.a === null
         ? ' \u00b7 <b>all of it at once, which is a smear</b> \u2014 pick a period'
-        : ' \u00b7 <b>the register knows five periods, not years</b> \u2014 a place ' +
-          'attested \u201cClassical\u201d is dated 550\u2013330 BC because a range needs a ' +
-          'number, and most spans cross every period, so this filters less than ' +
-          'it looks like it should') +
-      '<br>Places from Pleiades (CC BY 3.0). Land at 30 m from Copernicus, sea at ' +
-      '462 m from ETOPO. <span class="at-warn">Every shoreline here is TODAY\u2019S \u2014 ' +
-      'Thermopylae\u2019s has moved six kilometres since 480 BC, and Piraeus, Eleusis ' +
-      'and Marathon are silted harbours.</span>';
+        : ' \u00b7 <b>five periods, not years</b> \u2014 \u201cClassical\u201d is dated ' +
+          '550\u2013330 BC because a range needs a number, and most spans cross every ' +
+          'period, so this filters less than it looks like it should') +
+      ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
 
+    var lh = el.querySelector('.at-listhead');
+    if (lh) {
+      lh.textContent = pins.length + ' pinned \u00b7 nearest first';
+    }
     var lb = el.querySelector('.at-list');
     lb.innerHTML = pins.slice(0, 90).map(function (r) {
       return '<div class="at-li" data-k="' + esc(r.key) + '">' + esc(r.name) +
