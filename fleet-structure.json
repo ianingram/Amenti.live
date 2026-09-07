@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-07T02:05:33.628Z",
+    "generated": "2026-09-07T02:07:47.516Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1353,7 +1353,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 49508,
-      "sha256": "543d3224031aaba7",
+      "sha256": "cd60d6cd8ea519bb",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1479,7 +1479,7 @@
     {
       "file": "hall.html",
       "bytes": 20616,
-      "sha256": "a9fed58dc2fd02a1",
+      "sha256": "725d56f559a87f0f",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1501,7 +1501,7 @@
           "line": 343
         },
         {
-          "file": "amenti-map.js?v=3201ee7f",
+          "file": "amenti-map.js?v=fea9b1e1",
           "line": 348
         },
         {
@@ -1662,7 +1662,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 49,
+    "count": 50,
     "files": [
       {
         "file": "events-gaz.mjs",
@@ -1687,6 +1687,12 @@
         "title": "HOW TO RUN IT",
         "guards": null,
         "bytes": 9254
+      },
+      {
+        "file": "map-probe.js",
+        "title": null,
+        "guards": null,
+        "bytes": 20628
       },
       {
         "file": "probe-anomalies.mjs",
