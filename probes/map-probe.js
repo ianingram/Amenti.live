@@ -94,31 +94,65 @@
      every name draw K times too large at every zoom since 4 September.
 
      RULE 2: this does not say "wrong". It names WHICH MECHANISM WON. */
+  /* ── THIS TEST WAS WRONG IN EVERY RUN IT EVER MADE · accused 7 Sep ────────
+     It compared getComputedStyle().fontSize against base/K and called the
+     difference a fault. Those are DIFFERENT UNITS \u2014 a browser reports the
+     computed size in screen pixels, and base/K is stated in viewBox units \u2014 so
+     the comparison could never have come out equal on any correct map.
+
+     It printed "neither base nor base/K \u2014 a third thing is setting it" five
+     times across four sessions, and THE EVIDENCE SAT IN ITS OWN OUTPUT: five
+     unrelated classes agreeing to four decimal places \u2014 .5714 .5719 .5720
+     .5714 .5720. Five independent faults do not agree to four decimals. A
+     conversion does. It was read past four times and reported as a finding.
+
+     THE FIX IS NOT A BETTER FORMULA. It is to stop asserting. The instrument
+     now reports each class's ratio and then asks ONE question of the set: do
+     they agree? A ratio shared by every class is a conversion and says nothing
+     about any of them. A ratio that DIFFERS between classes is the fault this
+     section exists to find \u2014 because the counter-scale is applied per class,
+     so only a per-class disagreement can be one. */
   head('THE COUNTER-SCALE \u2014 does the zoom reach the type');
   var scaled = [['.mp-name', 5.6], ['.mp-glyph', 6.4], ['.mp-washlabel', 7.5],
                 ['.mp-over', 7.0], ['.mp-obslabel', 5.0], ['.mp-peaklab', 5.0],
                 ['.mp-sitelab', 5.0], ['.mp-evlab', 5.2]];
-  var bad = 0, checked = 0;
+  var ratios = [];
   scaled.forEach(function (p) {
     var sel = p[0], base = p[1], node = $(sel, el);
     if (!node) { blind(sel, 'none drawn in this window'); return; }
-    var got = parseFloat(getComputedStyle(node).fontSize);
-    if (!(got > 0)) { blind(sel, 'computed font-size unreadable'); return; }
-    checked++;
-    var want = base / K, ratio = got / want;
-    var verdict;
-    if (Math.abs(ratio - 1) < 0.12) verdict = 'ok';
-    else if (Math.abs(got - base) < base * 0.12 && K > 1.1) {
-      verdict = 'STYLESHEET WON \u2014 the counter-scale was computed and overruled';
-      bad++;
-    } else { verdict = 'neither base nor base/K \u2014 a third thing is setting it'; bad++; }
+    var px = parseFloat(getComputedStyle(node).fontSize);
+    if (!(px > 0)) { blind(sel, 'computed font-size unreadable'); return; }
+    var want = base / K, ratio = px / want;
+    ratios.push({ sel: sel.replace('.mp-', ''), r: ratio, px: px, want: want });
     say('  ' + sel.replace('.mp-', '').padEnd(12) +
-        'want ' + n2(want) + '  got ' + n2(got) + '   ' + verdict);
+        'want ' + n2(want) + ' units   got ' + n2(px) + 'px   ratio ' + n2(ratio));
   });
+  if (ratios.length < 2)
+    blind('the counter-scale', 'fewer than two classes drawn \u2014 nothing to compare');
+  else {
+    var rs = ratios.map(function (o) { return o.r; });
+    var lo2 = Math.min.apply(null, rs), hi2 = Math.max.apply(null, rs);
+    var spread = hi2 / lo2;
+    if (spread < 1.02) {
+      say('  \u2014 all ' + ratios.length + ' classes share one ratio (\u00d7' + n2(lo2) +
+          ', spread ' + n2((spread - 1) * 100) + '%).');
+      say('     A RATIO EVERY CLASS SHARES IS A UNIT CONVERSION, NOT A FAULT. The ' +
+          'counter-scale\n     is reaching all of them equally. Nothing to report here.');
+    } else {
+      say('  \u2014 THE CLASSES DISAGREE. spread \u00d7' + n2(spread) +
+          ' between ' + n2(lo2) + ' and ' + n2(hi2) + '.');
+      say('     The counter-scale is applied per class, so a per-class ' +
+          'disagreement IS the fault.\n     The outliers:');
+      ratios.slice().sort(function (a, b) { return a.r - b.r; }).forEach(function (o) {
+        if (o.r / lo2 < 1.02 || hi2 / o.r < 1.02)
+          say('       ' + o.sel.padEnd(12) + '\u00d7' + n2(o.r));
+      });
+    }
+  }
   if (K <= 1.1)
-    say('  \u2014 at K=1 base and base/K are the same number, so this test CANNOT ' +
-        'SEE a fault.\n     Zoom to \u00d73 or more and run again. (Rule 3: that is ' +
-        'blindness, not a pass.)');
+    say('  \u2014 at K=1 base and base/K are the same number, so a fault that only ' +
+        'appears\n     with zoom cannot be seen here. Run again at \u00d73 or more. ' +
+        '(Rule 3: blindness, not a pass.)');
 
   /* ══ 3 · IS A MARK STILL A MARK ═════════════════════════════════════════
      THE ONE LAW OF THE FILE is that a pin and a wash are never mistaken for
