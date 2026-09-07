@@ -423,15 +423,36 @@
       '#amenti-map .mp-pin:hover{fill:#a9edff;fill-opacity:1}',
       /* THE NAMES. Hidden by default and revealed only when the cull says the
          label fits — so a name never lands on top of another name. */
+      /* ── AN OUTLINE IS SCREEN FURNITURE · 7 Sep ──────────────────────────
+         Every text class here carries paint-order:stroke — a dark outline so a
+         name reads where it crosses a river, a wash, or another name. A STROKE
+         IS IN USER UNITS, so it grows with the transform; font-size, since the
+         counter-scale was repaired, does not. The pair had held for three days
+         only because BOTH were wrong together.
+
+         SEEN ON SCREEN at x10: 5.6px type inside a 16px outline. Every seat name
+         on the map became a black lozenge with one letter surviving at an edge.
+         An outline that swallows its own letter is not legibility support, it is
+         obliteration — and no probe caught it, because the probe measured
+         font-size and never stroke-width.
+
+         vector-effect:non-scaling-stroke pins a stroke to a constant SCREEN
+         width whatever the transform does. It is the same token .mp-pin,
+         .mp-coast, .mp-river, .mp-peak, .mp-pulse and .mp-return already use,
+         and it is the right one here for the same reason: an outline is not a
+         claim about the world, it is furniture for the reader's eye. No
+         arithmetic, nothing to keep in step, and nothing to get backwards. */
       '#amenti-map .mp-name{fill:#c3d3e6;font-size:5.6px;letter-spacing:.02em;',
       '  text-anchor:middle;pointer-events:none;opacity:0;',
       '  paint-order:stroke;stroke:#070b12;stroke-width:1.6px;stroke-linejoin:round;',
+      '  vector-effect:non-scaling-stroke;',
       '  transition:opacity .35s ease}',
       '#amenti-map .mp-named .mp-name{opacity:.92}',
       /* AN OFFICE MARK: dim, plain, repeated. It says "one of many". */
       '#amenti-map .mp-glyph{fill:#93b9d4;font-size:6.4px;text-anchor:middle;',
       '  pointer-events:none;opacity:0;paint-order:stroke;stroke:#070b12;',
-      '  stroke-width:1.8px;stroke-linejoin:round;transition:opacity .35s ease}',
+      '  stroke-width:1.8px;stroke-linejoin:round;vector-effect:non-scaling-stroke;',
+      '  transition:opacity .35s ease}',
       '#amenti-map .mp-marked .mp-glyph{opacity:.8}',
       /* A PERSONAL MARK: brighter, and RINGED so it cannot be mistaken for an
          office at a glance. Two tiers of a claim, two readings — the same rule
@@ -495,7 +516,7 @@
       '#amenti-map .mp-gath{fill:#d8a24a;fill-opacity:.35;stroke:none}',
       '#amenti-map .mp-obslabel{fill:#c99a4e;font-size:5px;letter-spacing:.1em;',
       '  text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:#070b12;',
-      '  stroke-width:1.6px;stroke-linejoin:round}',
+      '  stroke-width:1.6px;stroke-linejoin:round;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-sky{transition:opacity .4s ease}',
       /* arriving and leaving — the whole reason to scrub time */
       '#amenti-map .mp-seat{transition:opacity .4s ease}',
@@ -554,7 +575,8 @@
       '  vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-peak.mp-dep{stroke:#6b7c91;opacity:.55}',
       '#amenti-map .mp-peaklab{fill:#8fa2ba;text-anchor:middle;opacity:.8;',
-      '  paint-order:stroke;stroke:#070b12;stroke-width:1.4px;stroke-linejoin:round}',
+      '  paint-order:stroke;stroke:#070b12;stroke-width:1.4px;stroke-linejoin:round;',
+      '  vector-effect:non-scaling-stroke}',
       /* AN EMBER, OPEN AT THE CENTRE — never a disc, never cyan, never gold */
       /* the pulse: an age, not a radius. Thin, unfilled, and it never scales
          with the land — see the note where it is drawn. */
@@ -578,7 +600,8 @@
       '#amenti-map .mp-ev{cursor:default}',
       '#amenti-map .mp-ev:hover .mp-evmark{stroke:#ffb08a;stroke-width:1.1}',
       '#amenti-map .mp-evlab{fill:#e0925a;text-anchor:middle;pointer-events:none;',
-      '  paint-order:stroke;stroke:#070b12;stroke-width:1.5px;stroke-linejoin:round}',
+      '  paint-order:stroke;stroke:#070b12;stroke-width:1.5px;stroke-linejoin:round;',
+      '  vector-effect:non-scaling-stroke}',
       /* a territory event is an OUTLINE — a war is not a wash */
       '#amenti-map .mp-evarea{fill:none;stroke:#e0794a;stroke-width:.6;',
       '  stroke-dasharray:3 3;vector-effect:non-scaling-stroke}',
@@ -609,7 +632,7 @@
       '#amenti-map .mp-site.mp-ruined rect{stroke-dasharray:2 2;opacity:.32}',
       '#amenti-map .mp-sitelab{fill:#8fa2ba;text-anchor:middle;opacity:.65;',
       '  pointer-events:none;paint-order:stroke;stroke:#070b12;stroke-width:1.4px;',
-      '  stroke-linejoin:round}',
+      '  stroke-linejoin:round;vector-effect:non-scaling-stroke}',
       '#amenti-map .mp-sites{pointer-events:auto}',
       '#amenti-map .mp-jrn{fill:none;stroke:#d9a3e8;stroke-width:.7;',
       '  stroke-dasharray:4 4;vector-effect:non-scaling-stroke;stroke-linecap:round}',
