@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-07T05:28:47.047Z",
+    "generated": "2026-09-07T05:33:14.997Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1381,7 +1381,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 50033,
-      "sha256": "4f4a3ab24922a4dd",
+      "sha256": "4ade3876c6c517f9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1506,8 +1506,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 20662,
-      "sha256": "95d78fc2b92d2b99",
+      "bytes": 20710,
+      "sha256": "1c7fc74d12d44d4e",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1529,7 +1529,7 @@
           "line": 343
         },
         {
-          "file": "amenti-map.js?v=5f5323e2",
+          "file": "amenti-map.js?v=5a891111",
           "line": 348
         },
         {
@@ -1537,8 +1537,12 @@
           "line": 349
         },
         {
-          "file": "amenti-qr.js?v=c016424e",
+          "file": "amenti-narrows.js",
           "line": 350
+        },
+        {
+          "file": "amenti-qr.js?v=c016424e",
+          "line": 351
         }
       ],
       "calls": [
@@ -2157,8 +2161,8 @@
         "declares": [
           "AmentiNarrows"
         ],
-        "loadedByAPage": false,
-        "note": "declares globals that nothing calls"
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-probe-loader.js",
