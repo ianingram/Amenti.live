@@ -70,6 +70,28 @@ BOX_KM = {
     'bog': 40.0, 'marsh': 40.0, 'fen': 40.0, 'forest': 40.0,
     'sand': 60.0, 'ice': 60.0,
 }
+# ── AND A KIND IS NOT ALWAYS ENOUGH · 7 Sep ─────────────────────────────────
+# Eight entries came back saying WIDER THAN THE WINDOW, which is the harvest
+# refusing to pass a box width off as a crossing. The refusals were right and
+# the windows were simply too small: the Cilician Gates is a defile that runs
+# for kilometres, the Smolensk Gate is a gate between two river systems and is
+# tens of kilometres across, and Megiddo is a pass through a ridge rather than
+# between two peaks.
+#
+# THE OVERRIDE IS PER PLACE, NOT PER KIND, because the ground does not care what
+# a register calls something. Each of these was set from what the first run
+# measured — the box is widened until the walk stops hitting the edge, and no
+# further. Anything still refusing after this is a coordinate, not a window.
+BOX_OVERRIDE = {
+    'cilician-gates': 20.0,
+    'shipka':         24.0,
+    'moravian-gate':  40.0,
+    'smolensk-gate':  40.0,
+    'caudine-forks':  16.0,
+    'megiddo':        24.0,
+    'hormuz':         80.0,
+    'malacca':        90.0,
+}
 BOX_DEFAULT = 12.0
 RISE_M   = 150.0   # ground this far above the floor blocks a march
 SAMPLES  = 36      # directions walked outward
@@ -192,7 +214,7 @@ def main(root='.'):
         if r['lat2']:                       # a line: measure at its midpoint
             lat = (lat + float(r['lat2'])) / 2
             lon = (lon + float(r['lon2'])) / 2
-        km = BOX_KM.get(r['kind'], BOX_DEFAULT)
+        km = BOX_OVERRIDE.get(r['key'], BOX_KM.get(r['kind'], BOX_DEFAULT))
         a, err, px = read_box(lat, lon, km)
         if a is None:
             blind.append('%s \u2014 %s' % (r['key'], err))
