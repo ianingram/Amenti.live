@@ -1,0 +1,81 @@
+key,name,kind,class,lat,lon,lat2,lon2,drained,why
+# ============================================================================,,,,,,,,,
+# NARROWS.csv · THE GROUND THAT FORCES A CHOICE                    SLIP #74,,,,,,,,,
+# ----------------------------------------------------------------------------,,,,,,,,,
+# The map draws continents and knows nothing of defiles. REGIONS.json holds 39,,,,,,,,,
+# deserts and 156 ranges — continental ground, and the geography that actually,,,,,,,,
+# decides where history happens is narrow. None of it was held anywhere.,,,,,,,,,
+#,,,,,,,,,
+# TWO KINDS THAT DO ONE JOB:,,,,,,,,,
+#     funnel   pass · strait · ford · isthmus · defile   everyone came through HERE,,,,,,,,,
+#     forbid   bog · marsh · forest · sand · ice         nobody came through at all,,,,,,,,,
+#,,,,,,,,,
+# They are opposites and they are the same information. Thermopylae is a pass;,,,,,,,,,
+# it is THE pass because of what lies either side.,,,,,,,,,
+#,,,,,,,,,
+# ── THIS IS NOT A MOVEMENT ──────────────────────────────────────────────────,,,,,,,,,
+# #64d refuses troop movements and trade routes and that refusal stands. It,,,,,,,,,
+# refuses a claim about a PARTICULAR passage — this army, this road, this date —,,,,,,,
+# which no register holds. It does not refuse GEOGRAPHY. That an army walking,,,,,,,,,
+# from France to Russia crosses the North European Plain is true of every army,,,,,,,,,
+# that ever made the trip and is derived from no event's record.,,,,,,,,,
+#,,,,,,,,,
+# ── THE COORDINATES ARE AUTHORED AND UNVERIFIED ─────────────────────────────,,,,,,,,,
+# Every lat/lon here was written from knowledge, NOT read out of a gazetteer.,,,,,,,,
+# cities15000 holds cities; it does not hold passes. They are close enough to,,,,,,,,,
+# draw and NOT close enough to trust, and probe-narrows checks only that they,,,,,,,,
+# are plausible — in range, on the right continent, an area that is actually an,,,,,,,
+# area. It CANNOT check whether Thermopylae is where this file says it is.,,,,,,,,,
+# Verify against a source before any of this is treated as placed.,,,,,,,,,
+#,,,,,,,,,
+# ── AND THE `why` IS EDITORIAL ──────────────────────────────────────────────,,,,,,,,,
+# One sentence on why the ground forced the issue. These are drafts. They are,,,,,,,,,
+# the captain's line to write, and the whole value of the register is in them:,,,,,,,,
+# without it this is a list of coordinates, and with it the map can finally say,,,,,,,,
+# why a battle happened where it did.,,,,,,,,,
+#,,,,,,,,,
+# ── COLUMNS ─────────────────────────────────────────────────────────────────,,,,,,,,,
+#   key      slug, unique,,,,,,,,
+#   name     as a reader would say it,,,,,,,,,
+#   kind     pass strait ford isthmus defile gate | bog marsh forest sand ice,,,,,,,,,
+#   class    funnel | forbid,,,,,,,,,
+#   lat,lon  a point (funnel) or one corner of a box (forbid),,,,,,,,
+#   lat2,lon2  the far end of a line, or the far corner. Blank for a point.,,,,,,,
+#   drained  the year a wetland stopped being one. Blank if it still is.,,,,,,,,,
+#            A DRAINED FEN MUST NOT BE DRAWN UNDER A NORMAN BATTLE — the same,,,,,,,,,
+#            rule the made lakes already keep, pointed the other way.,,,,,,,,
+#   why      one sentence. Editorial.,,,,,,,,,
+# ============================================================================,,,,,,,,,
+thermopylae,Thermopylae,pass,funnel,38.796,22.536,,,,"A strip between cliff and sea — in 480 BC the only road south into Greece for an army, and the coast has silted several kilometres since."
+hellespont,The Hellespont,strait,funnel,40.22,26.40,40.02,26.19,,"The narrowest crossing between Europe and Asia Minor; an army moving between the two continents on foot comes here or goes around the Black Sea."
+bosphorus,The Bosphorus,strait,funnel,41.12,29.07,41.02,29.00,,"The other crossing, and the reason a city was founded on it."
+gibraltar,The Strait of Gibraltar,strait,funnel,36.00,-5.60,35.90,-5.55,,"Fourteen kilometres between two continents and the only sea door to the Mediterranean."
+bab-el-mandeb,Bab-el-Mandeb,strait,funnel,12.58,43.33,,,,"The southern gate of the Red Sea; everything between the Mediterranean and the Indian Ocean passes it."
+hormuz,The Strait of Hormuz,strait,funnel,26.57,56.25,,,,"The mouth of the Persian Gulf."
+malacca,The Strait of Malacca,strait,funnel,2.50,101.50,,,,"The sea road between the Indian Ocean and the South China Sea."
+oresund,The Oresund,strait,funnel,55.80,12.70,,,,"The Baltic's door, and why a toll castle stands at Helsingor."
+khyber,The Khyber Pass,pass,funnel,34.08,71.16,,,,"The road from Central Asia into the Indian subcontinent; invaders of India come through here or by sea."
+brenner,The Brenner Pass,pass,funnel,47.00,11.51,,,,"The lowest crossing of the main Alpine chain, and the reason Italy and Germany have always been able to reach each other."
+great-st-bernard,The Great St Bernard Pass,pass,funnel,45.87,7.17,,,,"An Alpine crossing usable by an army, which most are not."
+roncevaux,Roncevaux Pass,pass,funnel,43.01,-1.33,,,,"A way through the western Pyrenees, and a defile where a rearguard can be destroyed."
+cilician-gates,The Cilician Gates,defile,funnel,37.28,34.78,,,,"A cleft through the Taurus and the road from Anatolia into Syria."
+shipka,The Shipka Pass,pass,funnel,42.75,25.32,,,,"The crossing of the Balkan range between the Danube plain and Thrace."
+iron-gates,The Iron Gates,defile,funnel,44.67,22.53,,,,"Where the Danube cuts through the Carpathians — a gorge that is both a road and a wall."
+moravian-gate,The Moravian Gate,gate,funnel,49.60,17.90,,,,"The low ground between the Sudetes and the Carpathians; the way between the North European Plain and the Danube."
+smolensk-gate,The Smolensk Gate,gate,funnel,54.78,32.05,,,,"Dry ground between the Dvina and the Dnieper, with marsh either side — the land road to Moscow."
+corinth,The Isthmus of Corinth,isthmus,funnel,37.93,22.95,,,,"Six kilometres joining the Peloponnese to the mainland; a wall here closes off a peninsula."
+suez,The Isthmus of Suez,isthmus,funnel,30.00,32.50,,,,"The land bridge between Africa and Asia."
+panama,The Isthmus of Panama,isthmus,funnel,9.08,-79.68,,,,"The narrow join between two continents and two oceans."
+tempe,The Vale of Tempe,defile,funnel,39.87,22.55,,,,"The gorge between Olympus and Ossa; the northern door into Thessaly, and why Thermopylae mattered once it was abandoned."
+caudine-forks,The Caudine Forks,defile,funnel,41.05,14.60,,,,"A defile a Roman army walked into and could not walk out of."
+megiddo,The Pass of Megiddo,pass,funnel,32.58,35.18,,,,"Where the coast road crosses the Carmel ridge; armies between Egypt and Mesopotamia have fought here for three thousand years."
+pripet,The Pripet Marshes,marsh,forbid,51.00,25.00,53.00,30.00,,"Impassable wetland the size of a country — it split the Eastern Front in two in both world wars, and neither side could close the gap."
+fens,The Fens,fen,forbid,52.30,-0.30,52.90,0.50,1650,"Waterlogged ground that held out against the Normans; drained in the seventeenth century and now farmland."
+pontine,The Pontine Marshes,marsh,forbid,41.35,12.90,41.60,13.20,1934,"Malarial marsh on Rome's own doorstep, drained under Mussolini."
+dutch-water-line,The Dutch Water Line,marsh,forbid,51.90,4.90,52.40,5.30,,"A country flooding its own fields on purpose — a wall made of shallow water, too deep to walk and too shallow to sail."
+teutoburg,The Teutoburg Forest,forest,forbid,51.90,8.20,52.20,8.90,,"Forest and bog together; three legions went in and Roman expansion into Germany ended."
+sudd,The Sudd,marsh,forbid,6.50,29.50,9.50,31.50,,"A papyrus swamp that closed the upper Nile to travel and kept its source unknown to the Mediterranean world."
+rub-al-khali,The Rub al Khali,sand,forbid,17.00,45.00,23.00,55.00,,"The Empty Quarter — sand on a scale that is not crossed but gone around."
+taklamakan,The Taklamakan,sand,forbid,37.00,77.00,41.00,88.00,,"The desert the Silk Road splits to avoid, north and south, and rejoins beyond."
+danube-delta,The Danube Delta,marsh,forbid,44.70,28.70,45.30,29.70,,"Reed and channel where the river meets the sea; a barrier at the end of a road."
+everglades,The Everglades,marsh,forbid,25.20,-81.30,26.40,-80.40,,"Sawgrass and shallow water, and the reason a war against the Seminole could not be won."
