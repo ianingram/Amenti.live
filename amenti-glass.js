@@ -76,6 +76,9 @@
     ['#amenti-map svg',    'the map canvas'],
     ['#amenti-map .mp-view',  'the camera group the whole world hangs from'],
     ['#amenti-map .mp-pins',  'the seat layer']
+    /* .nr-layer is NOT listed: the narrows are optional and the glass works
+       without them. A missing layer is a layer that is switched off, which is
+       a reader's choice and not a fault. */
   ];
 
   function missing() {
@@ -89,9 +92,17 @@
     var s = document.createElement('style');
     s.id = uid + '-css';
     s.textContent = [
-      /* the ground under the glass: a shade darker than the map, so the circle
-         reads as a thing laid ON the chart rather than a hole cut in it */
-      '#amenti-map .gl-ground{fill:#070c14;fill-opacity:.93;pointer-events:none}',
+      /* ── A GLASS SHOWS THE CHART BETTER, IT DOES NOT HIDE IT ─────────────
+         This was fill-opacity .93 — near-opaque — to make the circle read as a
+         thing laid ON the chart. It did, and it blacked out everything under
+         it: the coastline, the rivers, the gates, the ground that tells a
+         reader WHERE they are. Names floated in a dark disc.
+
+         The rim marks the boundary. The fill does not have to, and at .93 it
+         was doing a job the rim already did while destroying the one thing a
+         magnifier exists to serve. Enough tint to separate the circle from the
+         map, and no more. */
+      '#amenti-map .gl-ground{fill:#0a1018;fill-opacity:.16;pointer-events:none}',
       '#amenti-map .gl-rim{fill:none;stroke:#5fd0e8;stroke-width:1.1;opacity:.5;',
       '  vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-map .gl-pin{fill:#5fd0e8;fill-opacity:.9}',
@@ -107,7 +118,10 @@
       '#amenti-map .gl-hair{stroke:#5fd0e8;stroke-width:.4;opacity:.22}',
       '#amenti-map .gl-count{fill:#5fd0e8;font:400 7px ui-monospace,Menlo,monospace;',
       '  text-anchor:middle;opacity:.7;pointer-events:none}',
-      '#amenti-map .mp-glass-layer{pointer-events:none}'
+      '#amenti-map .mp-glass-layer{pointer-events:none}',
+      '#amenti-map .gl-ground-mark .nr-gate{stroke:#8a9bb0;stroke-width:.9;opacity:.9}',
+      '#amenti-map .gl-ground-mark .nr-forbid{opacity:.65}',
+      '#amenti-map .gl-faint{opacity:.4}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -196,6 +210,39 @@
       if (label) h += '<text class="gl-name" x="' + gx.toFixed(1) + '" y="' +
                       (gy - 4.3).toFixed(1) + '">' + esc(label) + '</text>';
     }
+    /* ── THE GROUND UNDER THE GLASS · added 7 Sep ────────────────────────
+       The glass was written before amenti-narrows.js existed, so it queried
+       .mp-pins and nothing else: gates and hatched ground passed underneath it
+       untouched, and a reader magnifying Thermopylae saw seats floating over
+       nothing. A magnifier over a map should show what is ON the map.
+
+       These are DRAWN, NOT SPREAD. A seat is a point and can be moved apart
+       from its neighbours; a pass is a place and a marsh is an area, and
+       pulling either away from where it sits would move the ground itself.
+       So they are magnified about the centre — which is what a glass over
+       paper does, and correct here because the claim is about extent rather
+       than position. */
+    var nl = document.querySelector('#amenti-map .nr-layer');
+    if (nl) {
+      var gates = nl.querySelectorAll('.nr-gate, .nr-forbid');
+      for (var q = 0; q < gates.length; q++) {
+        var b;
+        try { b = gates[q].getBBox(); } catch (e) { continue; }
+        var bx = (b.x + b.width / 2) * cam.K + cam.TX;
+        var by = (b.y + b.height / 2) * cam.K + cam.TY;
+        if (Math.hypot(bx - cx, by - cy) > gather) continue;
+        var nx = cx + (bx - cx) * M, ny = cy + (by - cy) * M;
+        var cls = gates[q].getAttribute('class') || '';
+        var faint = /nr-unconfirmed/.test(gates[q].parentNode &&
+                    (gates[q].parentNode.getAttribute('class') || ''));
+        h += '<g class="gl-ground-mark' + (faint ? ' gl-faint' : '') +
+             '" transform="translate(' + nx.toFixed(1) + ' ' + ny.toFixed(1) +
+             ') scale(' + (M * cam.K).toFixed(3) + ') translate(' +
+             (-(b.x + b.width / 2)).toFixed(1) + ' ' + (-(b.y + b.height / 2)).toFixed(1) + ')">' +
+             gates[q].outerHTML + '</g>';
+      }
+    }
+
     body.innerHTML = h;
     count.textContent = inside
       ? inside + ' seat' + (inside === 1 ? '' : 's') +
