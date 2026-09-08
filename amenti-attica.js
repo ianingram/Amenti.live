@@ -100,6 +100,21 @@
     { k: 'late', label: 'late antique', a:  300, b:  640, when: 'AD 300–640' }
   ];
 
+  /* ── WHAT THE CORPUS NAMES · optional ────────────────────────────────────
+     ATTICA-MENTIONS.csv is the join between this register and the reading
+     rooms: 603 texts, 35.9 M characters, matched against 5,615 attested name
+     forms. 152 of 1,746 places are named by something; 85 by more than one.
+
+     IT IS A DIFFERENT CLAIM FROM A COORDINATE. The atlas says the Dipylon Gate
+     was at 37.979N 23.718E. The corpus says people kept writing about it. A
+     place with both is corroborated; a place with only the first is recorded;
+     and 1,594 have only the first, which is a finding rather than an absence —
+     either the library has a gap or no author cared to name a farmstead.
+
+     Optional, and its absence is stated rather than fatal. Without it every
+     place still draws; nothing is silently downgraded for want of a file. */
+  var mentions = null, mentionsErr = null;
+
   var el = null, svg = null, view = null, open = false;
   var rows = null, loadErr = null, era = PERIODS[0];
 
@@ -241,10 +256,14 @@
          The svg keeps its aspect and the wrap centres it, so the ground is
          never wider or taller than the ground. */
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
-      '  flex-direction:column;padding:20px 244px 8px 26px;gap:0;',
+      '  flex-direction:column;padding:20px 244px 122px 26px;gap:0;',
       '  align-items:center}',
-      '#amenti-attica svg{flex:1 1 auto;min-height:0;min-width:0;',
-      '  max-width:100%;aspect-ratio:1/1;cursor:grab}',
+      /* `flex:1 1 auto` leaves the basis at auto, so the svg took its width
+         from the row and aspect-ratio never got to decide anything — the
+         region drew half as tall as it is. Basis zero, height from the row,
+         WIDTH FROM THE ASPECT. A square region cannot then be drawn wide. */
+      '#amenti-attica svg{flex:1 1 0;min-height:0;min-width:0;height:100%;',
+      '  width:auto;max-width:100%;aspect-ratio:1/1;cursor:grab}',
       '#amenti-attica svg.at-drag{cursor:grabbing}',
       '#amenti-attica .at-ground{pointer-events:none}',
       /* A PIN. Small, hard, bright \u2014 the map's own value, so a reader crossing
@@ -273,6 +292,10 @@
          stated. The same distinction as pin and wash, in a second dimension. */
       '#amenti-attica .at-undated .at-pin{fill:#7d8ea6;fill-opacity:.45}',
       '#amenti-attica .at-undated .at-name{opacity:.55}',
+      /* named by more than one reading room: the mark holds, the name reads */
+      '#amenti-attica .at-cited .at-pin{stroke-opacity:1;fill-opacity:1}',
+      '#amenti-attica .at-cited .at-name{opacity:1;fill:#eaf6ff}',
+      '#amenti-attica .at-mentioned .at-pin{stroke-opacity:.92}',
       /* A WASH. Soft, edgeless, never a point. Pleiades called it rough. */
       '#amenti-attica .at-wash{fill:#4a6c8f;fill-opacity:.14;stroke:none;',
       '  cursor:default}',
@@ -289,9 +312,16 @@
          behind the period row. It gets a bounded box that scrolls, and the
          controls get clear air beneath it. A caveat a reader cannot read is
          not a caveat. */
-      '#amenti-attica .at-note{color:#6f8098;font-size:11.5px;margin-top:8px;',
-      '  flex:0 0 auto;width:100%;max-width:88ch;line-height:1.45;',
-      '  max-height:62px;overflow-y:auto;padding-bottom:2px;',
+      /* ── THE NOTE WAS STILL UNDER THE BUTTONS ──────────────────────────
+         Bounding it in the flex column was not enough: the column also holds
+         the map, which takes what it can, so the note was pushed down onto the
+         control row anyway. It comes OUT of the flow and gets its own strip
+         above the buttons, and the wrap reserves the height for both. A caveat
+         a reader cannot read is not a caveat, and this is the second attempt
+         at the same sentence. */
+      '#amenti-attica .at-note{position:absolute;left:26px;right:262px;',
+      '  bottom:60px;color:#6f8098;font-size:11.5px;line-height:1.45;',
+      '  max-height:52px;overflow-y:auto;z-index:5;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent}',
       '#amenti-attica .at-warn{color:#c99a4e}',
       /* THE SHORELINE IS THE MOST IMPORTANT SENTENCE ON THIS SURFACE and it
@@ -303,7 +333,7 @@
       '  z-index:7;font-size:10.5px;letter-spacing:.06em;color:#6f8098;',
       '  text-align:right;padding-bottom:6px;border-bottom:1px solid #1e2836;',
       '  width:220px}',
-      '#amenti-attica .at-list{position:absolute;right:0;top:82px;bottom:104px;',
+      '#amenti-attica .at-list{position:absolute;right:0;top:82px;bottom:126px;',
       '  width:232px;padding:8px 24px 12px 12px;overflow-y:auto;text-align:right;',
       '  background:linear-gradient(270deg,rgba(5,8,14,.94),rgba(5,8,14,0));',
       '  border-left:1px solid rgba(43,58,80,.5);scrollbar-width:thin}',
@@ -328,6 +358,8 @@
       '#amenti-attica .at-halo{fill:none;stroke:#a9edff;stroke-width:1.2;',
       '  opacity:.65;vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-attica .at-li span{color:#5d6e84;font-size:10.5px}',
+      '#amenti-attica .at-licited{color:#dbe8f5}',
+      '#amenti-attica .at-licited span{color:#5fd0e8}',
       '#amenti-attica .at-ctl{position:absolute;left:26px;right:26px;bottom:16px;',
       '  z-index:6;display:flex;gap:8px;align-items:center;flex-wrap:wrap;',
       '  background:linear-gradient(0deg,rgba(5,8,14,.96) 60%,rgba(5,8,14,0));',
@@ -337,6 +369,24 @@
       '  padding:5px 10px;cursor:pointer;letter-spacing:.05em}',
       '#amenti-attica button:hover{color:#c3d3e6;border-color:#33637a}',
       '#amenti-attica button[aria-pressed="true"]{color:#0a1018;background:#8fa8c4}',
+      /* ── A KEY WITHOUT ITS TEXT IS WORSE THAN NO KEY ────────────────────
+         Nine marks arrived and nothing said what they were. The world map met
+         this on 4 September, when five legend entries overflowed the right
+         edge and the amber diamond was left stranded with its words cut off —
+         a reader sees a mark they cannot look up and assumes it means
+         something. It wraps here, and it counts, so the key doubles as a
+         census of what the period holds. */
+      '#amenti-attica .at-key{position:absolute;left:26px;top:52px;z-index:6;',
+      '  display:flex;flex-direction:column;gap:3px;font-size:10.5px;',
+      '  color:#7d8ea6;background:rgba(5,8,14,.62);padding:9px 12px;',
+      '  border:1px solid rgba(43,58,80,.5);border-radius:4px;letter-spacing:.03em}',
+      '#amenti-attica .at-key div{display:flex;align-items:center;gap:7px;',
+      '  cursor:pointer;white-space:nowrap}',
+      '#amenti-attica .at-key div:hover{color:#dbe8f5}',
+      '#amenti-attica .at-key div[aria-pressed="false"]{opacity:.34}',
+      '#amenti-attica .at-key svg{width:13px;height:13px;overflow:visible;flex:0 0 13px}',
+      '#amenti-attica .at-key b{color:#5d6e84;font-weight:400;margin-left:auto;',
+      '  padding-left:8px;font-variant-numeric:tabular-nums}',
       '#amenti-attica .at-hit{position:fixed;pointer-events:none;z-index:9;',
       '  background:rgba(8,12,20,.95);border:1px solid #2b3a50;border-radius:3px;',
       '  padding:7px 10px;font-size:11.5px;color:#dbe4f0;max-width:38ch;',
@@ -365,6 +415,7 @@
         '</svg>' +
         '<div class="at-note"></div>' +
       '</div>' +
+      '<div class="at-key"></div>' +
       '<div class="at-listhead"></div><div class="at-list"></div>' +
       '<div class="at-ctl">' +
         PERIODS.map(function (p) {
@@ -440,7 +491,21 @@
        stroke: every name on the world map drew as a black lozenge. The pair
        is one thing and moves as one. */
     var ph = '', placed = [], named = 0, dropped = 0, undated = 0;
-    pins.sort(function (a, b) { return (+a.km) - (+b.km); });
+    var tally = {};
+    /* ── THE CULL RANKS BY CORROBORATION, THEN BY NEARNESS ────────────────
+       Sorting by distance alone put the Acropolis' own gates first and Delphi
+       nowhere, because the cull lays out greedily and the near ones take the
+       room. THE CORPUS KNOWS WHICH PLACES CARRY THE STORY — Athens in 61
+       reading rooms, Corinth in 27, Delphi in 24 — so a place named by many
+       sources gets its label before a farmstead two hundred metres from the
+       centre. Without the mentions file this falls back to distance, which is
+       what it did before. */
+    pins.sort(function (a, b) {
+      var ma = mentions && mentions[a.key], mb = mentions && mentions[b.key];
+      var sa = ma ? ma.src : 0, sb = mb ? mb.src : 0;
+      if (sa !== sb) { return sb - sa; }
+      return (+a.km) - (+b.km);
+    });
     pins.forEach(function (r) {
       var p = proj(r.lat, r.lon);
       var fit = true, w = (r.name || '').length * 1.6 * iv;
@@ -451,7 +516,10 @@
       if (fit && K >= 1.8) { placed.push([p[0], p[1], w]); named++; } else { fit = false; dropped++; }
       var und = (r.from === null && r.until === null);
       if (und) { undated++; }
-      var m = markOf(r.kind), a = 1.9 * iv, d = shape(m, a);
+      var m = markOf(r.kind);
+      tally[m] = (tally[m] || 0) + 1;
+      if (offMarks[m]) { return; }
+      var a = 1.9 * iv, d = shape(m, a);
       var body;
       if (d) {
         body = '<path class="at-pin at-m-' + m + '" d="' + d + '" transform="translate(' +
@@ -464,8 +532,16 @@
         body = '<circle class="at-pin at-m-' + m + '" cx="' + p[0].toFixed(2) + '" cy="' +
                p[1].toFixed(2) + '" r="' + (1.5 * iv).toFixed(2) + '" data-k="' + esc(r.key) + '"/>';
       }
+      /* ── CORROBORATED IS BRIGHTER, AND IT IS NOT A SECOND KIND OF PLACE ──
+         A place the corpus names is the same place; what changes is how much
+         stands behind it. So the MARK does not change — a harbour is a
+         crescent whether Thucydides mentions it or not — only its weight. Two
+         sources or more and it holds full strength; the rest sit back. */
+      var mn = mentions && mentions[r.key];
       ph += '<g class="at-seat at-' + m + (fit ? ' at-named' : '') +
-            (und ? ' at-undated' : '') + '" data-k="' + esc(r.key) + '">' + body +
+            (und ? ' at-undated' : '') +
+            (mn ? (mn.src > 1 ? ' at-cited' : ' at-mentioned') : '') +
+            '" data-k="' + esc(r.key) + '">' + body +
             (fit ? '<text class="at-name" x="' + p[0].toFixed(2) + '" y="' +
                    (p[1] - 3.4 * iv).toFixed(2) + '" style="font-size:' + (5 * iv).toFixed(3) +
                    'px;stroke-width:' + (1.5 * iv).toFixed(3) + 'px">' +
@@ -495,6 +571,14 @@
         : ' \u00b7 <b>five periods, not years</b> \u2014 \u201cClassical\u201d is dated ' +
           '550\u2013330 BC because a range needs a number, and most spans cross every ' +
           'period, so this filters less than it looks like it should') +
+      (mentions
+        ? ' \u00b7 <b>' + shown.filter(function (x) { return mentions[x.key]; }).length +
+          ' named in the library</b>, of 603 texts and 35.9 M characters \u2014 ' +
+          'labels go to the corroborated first'
+        : (mentionsErr
+            ? ' \u00b7 ATTICA-MENTIONS.csv not read (' + esc(mentionsErr) + '), so nothing ' +
+              'here knows which places the corpus names'
+            : '')) +
       ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
 
     /* the ring is redrawn with the frame so it stays on its place through a
@@ -502,18 +586,72 @@
        none */
     haloAt(litKey);
 
+    /* THE KEY DRAWS ITS SWATCHES WITH THE SAME shape() THE MAP USES. Two
+       drawings of one mark would drift the first time either changed, and a
+       legend that disagrees with the surface is worse than none. */
+    var key = el.querySelector('.at-key');
+    if (key && !key._built) {
+      key._built = true;
+      key.innerHTML = KEY.map(function (o) {
+        var d = shape(o.k, 5);
+        var body = d
+          ? '<path d="' + d + '" fill="none" stroke="currentColor" stroke-width="1.2" ' +
+            'stroke-linejoin="round" stroke-linecap="round" transform="translate(6.5 6.5)"/>'
+          : (o.k === 'games'
+              ? '<ellipse cx="6.5" cy="6.5" rx="5.8" ry="3.4" fill="none" ' +
+                'stroke="currentColor" stroke-width="1.2"/>'
+              : '<circle cx="6.5" cy="6.5" r="3" fill="currentColor"/>');
+        return '<div data-m="' + o.k + '" aria-pressed="true" title="' + esc(o.eg) + '">' +
+               '<svg viewBox="0 0 13 13">' + body + '</svg>' + o.label +
+               '<b data-n="' + o.k + '"></b></div>';
+      }).join('');
+      key.addEventListener('click', function (e) {
+        var d = e.target.closest ? e.target.closest('[data-m]') : null;
+        if (!d) { return; }
+        var m = d.getAttribute('data-m');
+        if (offMarks[m]) { delete offMarks[m]; } else { offMarks[m] = 1; }
+        d.setAttribute('aria-pressed', offMarks[m] ? 'false' : 'true');
+        draw();
+      });
+    }
+    if (key) {
+      KEY.forEach(function (o) {
+        var b = key.querySelector('b[data-n="' + o.k + '"]');
+        if (b) { b.textContent = tally[o.k] || 0; }
+      });
+    }
+
     var lh = el.querySelector('.at-listhead');
     if (lh) {
       lh.textContent = pins.length + ' pinned \u00b7 nearest first';
     }
     var lb = el.querySelector('.at-list');
     lb.innerHTML = pins.slice(0, 90).map(function (r) {
-      return '<div class="at-li" data-k="' + esc(r.key) + '">' + esc(r.name) +
-             ' <span>' + (r.km) + ' km</span></div>';
+      var mn = mentions && mentions[r.key];
+      return '<div class="at-li' + (mn && mn.src > 1 ? ' at-licited' : '') +
+             '" data-k="' + esc(r.key) + '">' + esc(r.name) +
+             ' <span>' + (mn ? mn.src + ' room' + (mn.src === 1 ? '' : 's')
+                             : r.km + ' km') + '</span></div>';
     }).join('') || '<div class="at-li">nothing in this year</div>';
   }
 
   var litKey = null;
+  /* pressing a key entry hides that kind. A reader looking for harbours should
+     be able to see only harbours, and the count stays visible either way so
+     nothing is hidden without saying how much. */
+  var offMarks = {};
+  var KEY = [
+    { k: 'settled', label: 'settled',  eg: 'settlement, deme, village' },
+    { k: 'sacred',  label: 'sacred',   eg: 'temple, sanctuary, shrine, acropolis' },
+    { k: 'built',   label: 'built',    eg: 'stoa, basilica, library, bath' },
+    { k: 'defence', label: 'defence',  eg: 'fort, tower, wall, gate' },
+    { k: 'harbour', label: 'harbour',  eg: 'port, limen, mole' },
+    { k: 'games',   label: 'games',    eg: 'theatre, stadium, gymnasion, odeon' },
+    { k: 'worked',  label: 'worked',   eg: 'mine, quarry, kiln' },
+    { k: 'buried',  label: 'buried',   eg: 'tomb, necropolis, tumulus' },
+    { k: 'ground',  label: 'ground',   eg: 'mountain, cape, river, island' },
+    { k: 'other',   label: 'other',    eg: 'region, province, map label' }
+  ];
 
   /* ── LIGHTING BOTH ENDS ─────────────────────────────────────────────────
      Delegated rather than bound, because both the list and the marks are
@@ -570,7 +708,16 @@
           ? '\nattested ' + (r.from !== null ? yr(r.from) : '?') + ' to ' +
             (r.until !== null ? yr(r.until) : '?')
           : '\nno date in the register') +
-        '\n' + r.km + ' km from the Acropolis';
+        '\n' + r.km + ' km from the Acropolis' +
+        (function () {
+          var mn = mentions && mentions[r.key];
+          if (!mn) {
+            return mentions ? '\n\nnamed by nothing in the library' : '';
+          }
+          return '\n\nnamed ' + mn.n + ' time' + (mn.n === 1 ? '' : 's') +
+                 ' in ' + mn.src + ' reading room' + (mn.src === 1 ? '' : 's') +
+                 (mn.where ? '\n' + mn.where.replace(/;/g, '\n') : '');
+        })();
       hit.style.opacity = 1;
     });
     el.addEventListener('pointermove', function (e) {
@@ -664,6 +811,27 @@
           'the ground existed. Nothing is drawn in its place.</span>';
       });
       img.setAttribute('href', RAW + 'ATTICA.jpg');
+    }
+    if (mentions === null && mentionsErr === null) {
+      fetch(RAW + 'ATTICA-MENTIONS.csv?_=' + Date.now())
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (t) {
+          if (!t) { mentionsErr = 'not in the repo yet'; return; }
+          mentions = {};
+          var lines = t.replace(/\r\n/g, '\n').split('\n');
+          var cols = split(lines[0]);
+          for (var i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) { continue; }
+            var c = split(lines[i]), o = {};
+            for (var j = 0; j < cols.length; j++) { o[cols[j]] = c[j] == null ? '' : c[j]; }
+            if (o.key && +o.mentions > 0) {
+              mentions[o.key] = { n: +o.mentions, src: +o.sources,
+                                  where: o['in'] || '', snip: o.first_seen || '' };
+            }
+          }
+          draw();
+        })
+        .catch(function (e) { mentionsErr = e.message; });
     }
     if (rows === null && loadErr === null) {
       fetch(RAW + 'ATTICA.csv?_=' + Date.now())
