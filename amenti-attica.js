@@ -440,6 +440,8 @@
       '  paint-order:stroke;stroke:#05080e;stroke-opacity:.85;stroke-linejoin:round}',
       /* an authored coordinate is drawn dashed: this one stands on no place */
       '#amenti-attica .at-ev-loose{stroke-dasharray:2 2}',
+      '#amenti-attica .at-evstem{stroke:#e0913f;stroke-width:.5;opacity:.35;',
+      '  vector-effect:non-scaling-stroke}',
       /* ── THE DASHES ARE THE IGNORANCE ───────────────────────────────────
          A fleet is the colour of water, an army the colour of dry ground, a
          flight the colour of the event that caused it. None of them is solid,
@@ -499,6 +501,9 @@
       '#amenti-attica .at-key div:hover{color:#dbe8f5}',
       '#amenti-attica .at-key div[aria-pressed="false"]{opacity:.34}',
       '#amenti-attica .at-key svg{width:13px;height:13px;overflow:visible;flex:0 0 13px}',
+      /* a rule above the first non-place row: these are other registers */
+      '#amenti-attica .at-keysep{margin-top:5px;padding-top:6px;',
+      '  border-top:1px solid rgba(43,58,80,.7)}',
       '#amenti-attica .at-key b{color:#5d6e84;font-weight:400;margin-left:auto;',
       '  padding-left:8px;font-variant-numeric:tabular-nums}',
       /* ── THE SECOND CLOCK, KEPT VISIBLY APART FROM THE FIRST ────────────
@@ -790,7 +795,7 @@
        is why it does not vary with the ground. */
     var mg = el.querySelector('.at-moves'), mh = '', mvn = 0;
     if (mg) {
-      if (moves) {
+      if (moves && !offMarks.moves) {
         moves.forEach(function (v) {
           if (era.a !== null && (v.year < era.a || v.year > era.b)) { return; }
           /* the scrub dims a leg the same way it dims an event: never hidden,
@@ -845,8 +850,34 @@
        and are tested by overlap. A moment has a year; a place has a stretch of
        centuries, and asking the same question of both would be wrong twice. */
     var eg = el.querySelector('.at-events'), eh = '', evn = 0;
+    /* THE COUNT IS TRUE WHETHER OR NOT THE LAYER IS DRAWN. A switched-off kind
+       still says how many it is hiding — the same rule the nine place rows
+       already keep, and the reason the key is a census and not a filter. */
+    if (events) {
+      tally.events = events.filter(function (v) {
+        return era.a === null || (v.year >= era.a && v.year <= era.b);
+      }).length;
+    }
+    if (moves) {
+      tally.moves = moves.filter(function (v) {
+        return era.a === null || (v.year >= era.a && v.year <= era.b);
+      }).length;
+    }
     if (eg) {
-      if (events) {
+      if (events && !offMarks.events) {
+        /* ── SEVEN EVENTS ON ONE PLACE IS A PILE, NOT A MARK ────────────────
+           ATTICA-EVENTS.csv points many events at the same few places, and
+           correctly: Sokrates was tried in the Agora, the war was voted for on
+           the Pnyx, and several things happened on the Acropolis rock. Drawn
+           at their own coordinates they landed on top of one another and the
+           Athens basin became an unreadable amber smear.
+
+           THEY ARE STACKED UPWARD FROM THE PLACE, NOT SCATTERED AROUND IT.
+           Scattering would put an event at a coordinate no register holds —
+           the same fault as an invented arrow origin. A vertical stack is
+           plainly a LIST rather than a set of positions, and the first one
+           sits exactly on the ground it happened on. */
+        var seenAt = {};
         events.forEach(function (v) {
           if (era.a !== null && (v.year < era.a || v.year > era.b)) { return; }
           /* ── IT FADES WITH DISTANCE IN YEARS, IT DOES NOT VANISH ─────────
@@ -860,18 +891,29 @@
           var glow = scrub === null ? 1 : Math.max(0.1, 1 - d / FADE);
           evn++;
           var p = proj(v.lat, v.lon), a = 3.4 * iv * (0.75 + 0.45 * glow);
+          var slot = (v.lat.toFixed(3) + ',' + v.lon.toFixed(3));
+          var tier = seenAt[slot] || 0;
+          seenAt[slot] = tier + 1;
+          if (tier) { p = [p[0], p[1] - tier * 9 * iv]; }
           var d = 'M0 ' + (-a).toFixed(2) + 'v' + (a * 0.55).toFixed(2) +
                   'M0 ' + a.toFixed(2) + 'v' + (-a * 0.55).toFixed(2) +
                   'M' + (-a).toFixed(2) + ' 0h' + (a * 0.55).toFixed(2) +
                   'M' + a.toFixed(2) + ' 0h' + (-a * 0.55).toFixed(2);
           eh += '<g class="at-evg" data-e="' + esc(v.name) + '" style="opacity:' +
                 (0.22 + 0.78 * glow).toFixed(3) + '">' +
+                /* THE STACK SAYS WHERE IT STANDS. Without the hairline a
+                   raised event is at a coordinate it does not claim. */
+                (tier ? '<line class="at-evstem" x1="' + p[0].toFixed(2) + '" y1="' +
+                        (p[1] + tier * 9 * iv).toFixed(2) + '" x2="' + p[0].toFixed(2) +
+                        '" y2="' + p[1].toFixed(2) + '"/>' : '') +
                 '<circle class="at-ev' + (v.at ? '' : ' at-ev-loose') + '" cx="' +
                 p[0].toFixed(2) + '" cy="' + p[1].toFixed(2) + '" r="' +
                 (a * 0.62).toFixed(2) + '"/>' +
                 '<path class="at-ev" transform="translate(' + p[0].toFixed(2) + ' ' +
                 p[1].toFixed(2) + ')" d="' + d + '"/>' +
-                (K >= 2.2 || glow > 0.75
+                /* a stacked event only gets its name when the year is on it,
+                   or the stack becomes a wall of text */
+                ((K >= 2.2 && !tier) || glow > 0.9 || (glow > 0.75 && !tier)
                   ? '<text class="at-evname" x="' + p[0].toFixed(2) + '" y="' +
                     (p[1] + LBL * 1.6 * iv).toFixed(2) + '" style="font-size:' +
                     (LBL * 0.92 * iv).toFixed(3) + 'px;stroke-width:' +
@@ -896,14 +938,27 @@
       key._built = true;
       key.innerHTML = KEY.map(function (o) {
         var d = shape(o.k, 5);
-        var body = d
-          ? '<path d="' + d + '" fill="none" stroke="currentColor" stroke-width="1.2" ' +
-            'stroke-linejoin="round" stroke-linecap="round" transform="translate(6.5 6.5)"/>'
-          : (o.k === 'games'
-              ? '<ellipse cx="6.5" cy="6.5" rx="5.8" ry="3.4" fill="none" ' +
-                'stroke="currentColor" stroke-width="1.2"/>'
-              : '<circle cx="6.5" cy="6.5" r="3" fill="currentColor"/>');
-        return '<div data-m="' + o.k + '" aria-pressed="true" title="' + esc(o.eg) + '">' +
+        var body;
+        if (o.k === 'events') {
+          body = '<circle cx="6.5" cy="6.5" r="2.6" fill="none" stroke="#e0913f" ' +
+                 'stroke-width="1.2"/><path d="M6.5 0.4v2.1M6.5 12.6v-2.1' +
+                 'M0.4 6.5h2.1M12.6 6.5h-2.1" stroke="#e0913f" stroke-width="1.2" ' +
+                 'stroke-linecap="round"/>';
+        } else if (o.k === 'moves') {
+          body = '<path d="M0.5 6.5L3 3.5L5.5 9.5L8 3.5L10.5 6.5" fill="none" ' +
+                 'stroke="#7fd8f0" stroke-width="1.2" stroke-linejoin="round"/>';
+        } else if (d) {
+          body = '<path d="' + d + '" fill="none" stroke="currentColor" ' +
+                 'stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" ' +
+                 'transform="translate(6.5 6.5)"/>';
+        } else if (o.k === 'games') {
+          body = '<ellipse cx="6.5" cy="6.5" rx="5.8" ry="3.4" fill="none" ' +
+                 'stroke="currentColor" stroke-width="1.2"/>';
+        } else {
+          body = '<circle cx="6.5" cy="6.5" r="3" fill="currentColor"/>';
+        }
+        return '<div data-m="' + o.k + '" aria-pressed="true"' +
+               (o.sep ? ' class="at-keysep"' : '') + ' title="' + esc(o.eg) + '">' +
                '<svg viewBox="0 0 13 13">' + body + '</svg>' + o.label +
                '<b data-n="' + o.k + '"></b></div>';
       }).join('');
@@ -976,7 +1031,16 @@
     { k: 'worked',  label: 'worked',   eg: 'mine, quarry, kiln' },
     { k: 'buried',  label: 'buried',   eg: 'tomb, necropolis, tumulus' },
     { k: 'ground',  label: 'ground',   eg: 'mountain, cape, river, island' },
-    { k: 'other',   label: 'other',    eg: 'region, province, map label' }
+    { k: 'other',   label: 'other',    eg: 'region, province, map label' },
+    /* ── THE OTHER TWO REGISTERS BELONG IN THE KEY TOO ────────────────────
+       The nine above are kinds of PLACE. Events and moves are different
+       registers with different clocks — the year drives them, the periods
+       drive the places — and a reader wanting to see the ground without the
+       campaign on it, or the campaign without a thousand demes behind it, had
+       no way to say so. Same switch, same live count. */
+    { k: 'events',  label: 'events',   eg: 'what happened, on the ground it happened on',
+      sep: true },
+    { k: 'moves',   label: 'moves',    eg: 'from here to here, not the route taken' }
   ];
 
   /* ── LIGHTING BOTH ENDS ─────────────────────────────────────────────────
