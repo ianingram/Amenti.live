@@ -6,34 +6,51 @@
 
        node probes/probe-twins.mjs .
 
-   Five probes exist in both the repository root and `probes/`:
+   Files can exist in both the repository root and `probes/`. Today the pairs
+   may match, because both were uploaded together. NOTHING KEEPS THEM MATCHING.
+   A workflow pointing at root gets one copy and a workflow pointing at
+   `probes/` gets the other, and the day someone fixes one of them the fleet
+   quietly holds two different answers to the same question.
 
-       probe-attica · probe-citations · probe-geo · probe-post · probe-surfaces
-
-   plus probe14.js, probe15.js and posts-example.json. Today the pairs match,
-   because both were uploaded together. NOTHING KEEPS THEM MATCHING. A workflow
-   pointing at root gets one copy and a workflow pointing at `probes/` gets the
-   other, and the day someone fixes one of them the fleet quietly holds two
-   different answers to the same question.
+   First run, 8 Sep: 9 twins, 2 DRIFTED. `SEATS.csv` existed twice with
+   different contents and was named without a folder by fifteen things —
+   including `amenti-map.js` and four probes. The map read one copy and a probe
+   may have been checking the other.
 
    ── WHY THIS IS A PROBE AND NOT A DELETION ────────────────────────────────
-   The obvious move is to delete the root copies. IT IS NOT SAFE UNTIL SOMEONE
-   KNOWS WHAT READS THEM, and nobody does — the workflows were written across
-   weeks by different sessions, and a path is easy to write and invisible to
-   check.
-
    > **A DELETION IS THE ONE ACTION A PROBE CANNOT UNDO. So this probe deletes
    > nothing. It reads every workflow, every script and every page, and reports
    > WHICH COPY EACH ONE NAMES.**
 
-   ── AND IT REPORTS THE DIFFERENCE, NOT JUST THE DUPLICATION ───────────────
-   Two identical copies are untidy. Two copies that have DRIFTED are a fault
-   already in the water, and the byte comparison is the only way to tell the
-   difference — a listing shows both dated "17 hours ago" whether they agree
-   or not.
+   ── AND IT ACCUSED ITSELF ON THE FIRST RUN · fixed 8 Sep ──────────────────
+   It reported `posts-example.json`, `probe14.js` and `probe15.js` as "named
+   without a folder by probes/probe-twins.mjs" — BY ITSELF, in the very comment
+   block explaining that they were doubled. The workflow did the same.
 
-   RULE 4 · RETURN TEN TIMES WHAT IT COST. Findings, not confirmations. A pair
-   that matches and is referenced consistently gets one line at the end.
+   A PROBE THAT NAMES A FILE IN ORDER TO REPORT ON IT IS NOT A READER OF THAT
+   FILE, and counting it as one turns every finding into evidence for itself.
+   The probe and its own workflow are now excluded from the corpus, and the
+   exclusion is stated in section 0 rather than hidden — a probe that quietly
+   skips things is worse than one that names what it skipped.
+
+   ── AND IT COULD NOT TELL A DEPENDENCY FROM A SENTENCE · fixed 8 Sep ──────
+   The first run flagged `probe-geo.mjs` as "named without a folder by
+   probes/extents.mjs and probes/geo-tier.mjs". Both were about to be edited to
+   point at `probes/`. NEITHER USES probe-geo AT ALL — all four mentions are
+   prose in comment blocks explaining where a rule came from:
+
+       "It lived inside probe-geo.mjs, and probe-events then refused twenty
+        events"
+
+   A DOCUMENTATION REFERENCE IS NOT A DEPENDENCY, and reporting them alike
+   nearly produced two edits to two files that depend on nothing.
+
+   So a mention is now classified. A `node …`, an `import`, a `from`, a
+   `require` or a `readFileSync` is a RUNNER. Anything else is a MENTION, and
+   the two are reported separately, because only the first can break when a
+   copy is deleted.
+
+   RULE 4 · RETURN TEN TIMES WHAT IT COST. Findings, not confirmations.
    ========================================================================== */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,16 +63,26 @@ const say = (s = '') => { OUT.push(s); console.log(s); };
 const hash = p => crypto.createHash('sha256')
   .update(fs.readFileSync(p)).digest('hex').slice(0, 12);
 
-/* every place a path could be written down */
 const SEARCH_DIRS = ['.', 'probes', 'tools', 'scripts', '.github/workflows'];
 const SEARCH_EXT = new Set(['.yml', '.yaml', '.js', '.mjs', '.html', '.py', '.sh', '.md']);
+
+/* ── THIS PROBE AND ITS WORKFLOW CANNOT BE WITNESSES ─────────────────────
+   Both necessarily name the files they report on. Excluded by path, and the
+   exclusion is printed. */
+const SELF = new Set([
+  'probes/probe-twins.mjs',
+  'probe-twins.mjs',
+  '.github/workflows/twins.yml',
+  'probe-twins.txt',
+  'twins.log'
+]);
 
 function listFiles(dir) {
   const p = path.join(ROOT, dir);
   if (!fs.existsSync(p)) return [];
   return fs.readdirSync(p, { withFileTypes: true })
     .filter(d => d.isFile())
-    .map(d => path.join(dir, d.name));
+    .map(d => (dir === '.' ? d.name : path.join(dir, d.name)));
 }
 
 say('='.repeat(74));
@@ -63,13 +90,16 @@ say('  PROBE · TWINS · the same file in two places');
 say('  ' + new Date().toISOString().replace('T', ' ').slice(0, 16));
 say('='.repeat(74));
 say('');
-say('0 · WHAT THIS CANNOT SEE');
+say('0 · WHAT THIS CANNOT SEE, AND WHAT IT DELIBERATELY IGNORES');
 say('  · Anything outside this repository. A workflow in Fleet-Documents that');
 say('    reaches in here would not be found.');
 say('  · A path built at run time — `probes/${name}.mjs` and the like. It reads');
 say('    LITERAL text, so a constructed path is invisible to it.');
 say('  · Which copy is CORRECT. It can say they differ. It cannot say which of');
 say('    two versions of a probe is the one anybody wanted.');
+say('  · ITSELF AND ITS OWN WORKFLOW. probe-twins.mjs and twins.yml name every');
+say('    file they report on, and on the first run they were counted as readers');
+say('    of it — a probe citing itself as evidence for its own finding.');
 
 const rootFiles = listFiles('.');
 const probeFiles = listFiles('probes');
@@ -86,10 +116,11 @@ if (!twins.length) {
   process.exit(0);
 }
 
-/* read every candidate file once and look for each twin's name */
 const corpus = [];
+let skipped = 0;
 for (const d of SEARCH_DIRS) {
   for (const f of listFiles(d)) {
+    if (SELF.has(f)) { skipped++; continue; }
     if (!SEARCH_EXT.has(path.extname(f))) continue;
     try { corpus.push([f, fs.readFileSync(path.join(ROOT, f), 'utf8')]); }
     catch (e) { /* unreadable is not a finding */ }
@@ -98,22 +129,27 @@ for (const d of SEARCH_DIRS) {
 
 say('');
 say(`1 · ${twins.length} FILE(S) EXIST IN BOTH ROOT AND probes/`);
+say(`    (read ${corpus.length} files looking for references; skipped ${skipped} as self)`);
 say('');
 
-let drifted = 0, ambiguous = 0;
+let drifted = 0, ambiguous = 0, orphan = 0;
 for (const [name, rp, pp] of twins) {
   const hr = hash(path.join(ROOT, rp)), hp = hash(path.join(ROOT, pp));
   const same = hr === hp;
   if (!same) drifted++;
 
-  /* who names which */
-  const namesRoot = [], namesProbes = [], namesBare = [];
+  const namesProbes = [], runsBare = [], mentionsBare = [];
+  const esc = name.replace(/\./g, '\\.');
+  /* A RUNNER EXECUTES OR READS THE FILE. Only these break on a deletion. */
+  const RUNNER = new RegExp(
+    '(?:node|python3?|bash|sh)\\s+[^\\n]*?' + esc +          /* node probes/x.mjs   */
+    '|(?:import|from|require\\s*\\(|readFileSync\\s*\\()[^\\n]*?' + esc,
+    'm');
   for (const [f, text] of corpus) {
-    if (path.basename(f) === name) continue;          /* not itself */
-    const hasProbes = text.includes('probes/' + name);
-    const bare = new RegExp('(^|[^/\\w])' + name.replace('.', '\\.'), 'm').test(text);
-    if (hasProbes) namesProbes.push(f);
-    else if (bare) namesBare.push(f);
+    if (path.basename(f) === name) continue;
+    if (text.includes('probes/' + name)) { namesProbes.push(f); continue; }
+    if (!new RegExp('(^|[^/\\w])' + esc, 'm').test(text)) continue;
+    if (RUNNER.test(text)) { runsBare.push(f); } else { mentionsBare.push(f); }
   }
 
   say(`  ${name}`);
@@ -122,12 +158,20 @@ for (const [name, rp, pp] of twins) {
   if (namesProbes.length) {
     say(`     named as probes/${name} by: ${namesProbes.join(', ')}`);
   }
-  if (namesBare.length) {
-    say(`     named WITHOUT a folder by:  ${namesBare.join(', ')}`);
-    say(`        \u2014 which copy that resolves to depends on the working directory`);
+  if (runsBare.length) {
+    say(`     RUN or READ without a folder by: ${runsBare.join(', ')}`);
+    say('        \u2014 resolves against the working directory. Every workflow on this');
+    say('          ship runs `node probes/x.mjs .` FROM THE ROOT, so a bare name');
+    say('          reaches the ROOT copy. THESE BREAK IF ROOT IS DELETED.');
     ambiguous++;
   }
-  if (!namesProbes.length && !namesBare.length) {
+  if (mentionsBare.length) {
+    say(`     merely MENTIONED by: ${mentionsBare.join(', ')}`);
+    say('        \u2014 prose, not a dependency. Deleting a copy cannot break a');
+    say('          sentence about it.');
+  }
+  if (!namesProbes.length && !runsBare.length && !mentionsBare.length) {
+    orphan++;
     say('     NAMED BY NOTHING IN THIS REPOSITORY.');
     say('        Either it is run by hand, or it is dead. Both are worth knowing');
     say('        and this probe cannot tell them apart.');
@@ -136,7 +180,8 @@ for (const [name, rp, pp] of twins) {
 }
 
 say('-'.repeat(74));
-say(`  ${twins.length} twin(s) \u00b7 ${drifted} drifted \u00b7 ${ambiguous} named without a folder`);
+say(`  ${twins.length} twin(s) \u00b7 ${drifted} drifted \u00b7 ${ambiguous} RUN without a folder ` +
+    `\u00b7 ${orphan} named by nothing`);
 if (drifted) {
   say('');
   say('  A DRIFTED PAIR IS A FAULT ALREADY IN THE WATER. Two answers to one');
