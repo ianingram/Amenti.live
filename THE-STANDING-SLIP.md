@@ -1,3 +1,4 @@
+<!-- THE-STANDING-SLIP.md  →  Amenti.live/THE-STANDING-SLIP.md -->
 # THE STANDING SLIP
 **The yard's open work · Ingram Manor LLC · opened 24 August 2026**
 
@@ -60,6 +61,9 @@ Ordered by how much it hurts to leave undone.
 - **#77 — a proxy becomes a foundation.** Modern roads for ancient ones: refused, and the refusal is a rule for every shortcut of that kind.
 - **#78 — a tour is a sequence of register states.** The switches turned out to be a narrator that asserts nothing. The honest form of the storytelling move.
 - **#79 — the sheet is the most persuasive layer and the least accountable.** The expressive pane over locked registers, and the two rules that keep it honest.
+- **#80 — the battle is rare and the aftermath is everywhere.** 82% of the timeline sits within a century of a recorded conflict. The register holds moments and not consequences.
+- **#81 — a file must say where it lives.** The destination in the file's own header. Trivial per file, dangerous as a sweep: JSON cannot take a comment.
+- **#82 — a register of the slain.** All conflict is violent, so the sort was moral and was refused. What was wanted is a register of people and their manner of death — and the silence around the unnamed.
 - **#49 — the science cohort rooms.** ~30 authors dated and waiting; 4 shelved.
 
 **📐 PRINCIPLES (keep, never “done”):** #53 who/when/where colouring · #54 the reference layer · #55 the ratchet · #57 the marketing language.
@@ -2800,6 +2804,198 @@ on the surface, and it would rest on nothing. **CAN THE CUE NAME A PASSAGE.**
   and reach the passage it stands on. **Kept, the sheet is the best instrument
   on the ship, because every element on it points down into something
   checkable. Dropped, it is a documentary with a map behind it.**
+
+---
+
+### 80 · THE BATTLE IS RARE AND THE AFTERMATH IS EVERYWHERE
+Raised 8 Sep, out of a cue layer that could animate a moment and had no way to
+animate what a moment left behind.
+
+**THE REGISTER HOLDS MOMENTS AND NOT CONSEQUENCES.** `EVENTS.csv` gives a
+battle a year. The field at Marathon was a field for months after; the tumulus
+is still there. The plague ran four years. The Long Walls came down and stayed
+down. NONE OF THAT HAS A MARK, and a surface that flashes at a year and clears
+draws war as an interruption.
+
+**MEASURED, on the world register, 8 Sep:**
+
+```
+    103 conflicts across 3,296 years — one every 32 years
+
+    within  10 years of a conflict    32.7% of the timeline
+    within  25 years                  53.6%
+    within  50 years                  68.5%
+    within 100 years                  82.0%
+```
+
+> **THE BATTLE IS RARE. THE AFTERMATH IS ALMOST EVERYWHERE.** At a decade's
+> memory a third of history is scarred; at a lifetime's, two thirds; at a
+> century's, four fifths.
+
+**AND THE CAVEAT IS PART OF THE FINDING.** This is a REGISTER of 103 conflicts,
+not a census. It holds what someone thought worth recording, so it undercounts
+small wars and overcounts famous ones. **82% is what the register implies, not
+what happened** — and a probe reporting it as history would be doing what the
+Vesuvius ring did.
+
+**THE VOCABULARY WAS WRONG TOO, and that is how this was found.** The first cue
+layer gave everything a FIRE grammar, because the two events it started from
+happened to burn — Athens in 480, the pyres in 430. Most ancient battlefields
+were mud and rain and bodies. A layer built from two cases and generalised is a
+layer that will misdescribe the third.
+
+**WHAT AFTERMATH NEEDS THAT A MOMENT DOES NOT:**
+- A DURATION THAT IS AUTHORED, not derived. How long the ground stayed changed
+  is a claim, and a different one from how long the fighting lasted.
+- A MARK THAT DULLS RATHER THAN FLICKERS. Flicker is an event happening.
+  Aftermath is not happening; it is persisting, and the two must not look alike.
+- AND IT MUST NOT SPREAD. The stain fades in place. Where the consequence
+  reached is the same unrecorded thing as where the smoke stopped.
+
+- **Unblocks:** the ground rarely being clean, which is a reading of the whole
+  register that no surface on this ship has ever shown.
+- **The move:** a `holds` column on `EVENTS.csv` — years the ground stayed
+  changed, authored per row, blank where nobody knows. Blank is not zero and
+  must not be drawn as zero.
+- **Acceptance test:** scrubbing forward from 490 BC, Marathon goes quiet and
+  does not go clean; and a reader can say which mark is the battle and which is
+  what it left.
+
+---
+
+### 81 · A FILE MUST SAY WHERE IT LIVES
+Raised 8 Sep, after a register was handed over with a full explanation of its
+columns, its doctrine and its rules — and no statement of where to put it.
+
+**THE DESTINATION IS THE ONE THING THAT DOES NOT SURVIVE THE HANDOVER.** A file
+travels from a chat to a download to a repository, and at every step it keeps
+its contents and loses its address. The captain has asked for this for months.
+It has been given in prose, in the wrong order, after the file rather than
+before it, and on 8 September not at all.
+
+> **PROSE IS NOT A CONVENTION. A LINE IN THE FILE IS.**
+
+The address goes in the file's own header, first line, before anything else:
+
+```
+    /* amenti-attica.js  →  Amenti.live/amenti-attica.js
+       ================================================= */
+
+    # ATTICA-EVENTS.csv  →  Amenti.live/ATTICA-EVENTS.csv
+```
+
+Six months from now the chat is gone and the file still says where it belongs.
+
+**AND SWEEPING THE REPOSITORY IS THE RISK, NOT THE CHANGE.**
+
+> **JSON CANNOT TAKE A COMMENT.** `GEO.json`, `ROSTER-INDEX.json`, `WORLD.json`,
+> `EVENTS.json`, `GRAPH.json`, `img/KEYS.json`. A `#` or a `//` in any of them
+> and the map does not boot.
+
+The convention for those already exists and was invented for another reason:
+`GEO.json` carries `_` and `_law` as ordinary fields. So JSON takes a `_where`
+key and everything else takes a comment.
+
+**AND SOME CSVs ARE READ BY PARSERS THAT DO NOT SKIP `#`.** A comment line in
+one of those is a phantom row. `ATTICA.csv` is safe because the surface skips
+them; the harvests and the older registers have not been checked, and CHECKING
+IS THE WORK — the header is trivial.
+
+> **FIFTY FILES CHANGED AT ONCE PRODUCES FIFTY SMALL SYMPTOMS AND NO SINGLE
+> VISIBLE FAILURE.** That is the shape of the night the map went down five
+> times, and the reason the region refactor was refused at hour twelve.
+
+- **Unblocks:** a repository where any file, opened cold, says what it is and
+  where it goes.
+- **The move, in this order and not as one commit:**
+  1. the JS modules — a comment line, no reader to break
+  2. the workflows and the HTML — the same
+  3. the CSVs, ONE AT A TIME, each after checking every script that reads it
+  4. the JSON, as a `_where` field beside the `_` that is already there
+  5. a probe that reads every file back and reports which lack an address
+- **Acceptance test:** a stranger handed any single file from this repository
+  can place it correctly without asking anyone and without reading this slip.
+
+---
+
+### 82 · A REGISTER OF THE SLAIN — and the silence around it
+Raised 8 Sep, out of trying to give conflict its own marks and finding that the
+distinction wanted was not about events at all.
+
+**THE MARK VOCABULARY BROKE ON A MORAL SORT.** Nine kinds of place had earned
+nine marks; events still draw as one amber burst whatever happened. The obvious
+extension was a set for conflict — battle, siege, SLAUGHTER, capitulation — and
+a skull for the worst of them.
+
+> **ALL CONFLICT IS VIOLENT.** Marathon killed six thousand Persians in an
+> afternoon. Calling that `conflict` and Melos `slaughter` treats one as an
+> event and the other as a crime, and THE SOURCES DID NOT HAND THAT SORT OVER.
+> A mark that loud asserts a moral reading, and a reader takes it as the
+> register's position.
+
+So conflict stays one mark, and the `note` says what happened. Melos gets
+`conflict` and a note saying the men were killed and the women and children
+sold, BECAUSE THUCYDIDES SAYS SO. The reader gets the fact rather than the
+assistant's adjective.
+
+**AND THE THING ACTUALLY WANTED IS A DIFFERENT REGISTER.** Not kinds of event —
+the people they happened to. Named individuals with a manner of death: killed
+in battle, executed, proscribed, martyred, taken, lost at sea, died in
+captivity.
+
+**MUCH OF IT IS ALREADY IN THE ROSTER.** 2,043 souls, many of whom died
+violently and whose deaths are recorded — Sokrates executed, Cicero proscribed,
+Archimedes killed at Syracuse. That is a `how` column on `names.csv` with a
+source, not a new file, and it is the cheap half.
+
+**THE EXPENSIVE HALF IS THE SILENCE.**
+
+> **A REGISTER OF PEOPLE CAN ONLY HOLD THE NAMED.** Refugees, prisoners,
+> slaves, the lost at sea — the overwhelming majority — have no names in any
+> source. Drawn alone, the named deaths would imply the rest did not happen,
+> which is the loudest possible version of the fault this ship keeps
+> catching.
+
+The map already knows the answer to that shape of problem: it COUNTS what it
+cannot draw. 204 souls have no place on earth and the footer says so; 1,594 of
+1,746 Attic places are named by nothing in the corpus and the probe says so.
+
+So: **named deaths as rows, unnamed as COUNTS wherever a source gives one, and
+the disproportion stated on the surface rather than left to be inferred.**
+
+- **Unblocks:** the human register under the geography — who, not just where.
+- **The move, cheap half first:** `died_at`, `how` and `how_source` columns on
+  `names.csv`, filled only where a source says, and a second mode for the left
+  column. Blank is not zero. THE UNNAMED WAIT for a counting scheme that does
+  not pretend to be a list.
+- **And a warning about the skull:** it is the loudest symbol available and it
+  carries centuries of borrowed meaning. It is a judgement, not a type, and
+  nothing in this ship's vocabulary is a judgement.
+**AND THE CHEAPEST USEFUL FORM IS A VIEW, NOT A LAYER.** The map's left column
+already lists souls by where they were born. THE SAME PANEL COULD LIST THEM BY
+WHERE THEY DIED — not a new surface, not a new register, a second question put
+to the one that exists.
+
+```
+    Pompey        the beach at Pelusium
+    Caesar        the Theatre of Pompey, Rome
+    Cicero        Formiae
+    Archimedes    Syracuse
+    Sokrates      the prison, Athens
+```
+
+**A DEATH PLACE IS OFTEN NOWHERE NEAR A BIRTH PLACE, so switching the panel
+MOVES THE PINS.** The same souls, different ground — and that is a genuinely
+new reading of a register the ship already holds, for the price of two columns.
+
+The caution is the one above and it applies harder here: it would be the famous
+few. The panel must say HOW MANY OF THE 2,043 HAVE A RECORDED DEATH PLACE AT
+ALL, the way the map already says 204 have no place on earth. Probably a small
+fraction, and the fraction is the finding.
+
+- **Acceptance test:** a reader can see how many of the dead this register
+  names, and how many it does not, without being told which is the larger
+  number by anyone but the count.
 
 ---
 
