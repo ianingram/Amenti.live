@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-08T22:00:25.006Z",
+    "generated": "2026-09-08T22:14:05.143Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1433,7 +1433,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51157,
-      "sha256": "a990aa175826c2aa",
+      "sha256": "eec0087d76b506f2",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1766,7 +1766,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 52,
+    "count": 53,
     "files": [
       {
         "file": "events-gaz.mjs",
@@ -1947,6 +1947,12 @@
         "title": null,
         "guards": null,
         "bytes": 10885
+      },
+      {
+        "file": "probe-twins.mjs",
+        "title": null,
+        "guards": null,
+        "bytes": 6457
       },
       {
         "file": "probe-voice.mjs",
