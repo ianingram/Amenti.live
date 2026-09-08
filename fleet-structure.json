@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-08T05:01:27.785Z",
+    "generated": "2026-09-08T05:11:32.645Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -398,6 +398,19 @@
           "own": false
         }
       ],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-attica-cues.js",
+      "bytes": 13840,
+      "sha256": "00f9edbe9ab5771a",
+      "type": "js",
+      "declares": [
+        "AmentiAtticaCues"
+      ],
+      "loads": [],
+      "calls": [],
       "endpoints": [],
       "tables": []
     },
@@ -1420,7 +1433,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 50879,
-      "sha256": "b7e7a17b00f941b3",
+      "sha256": "ac68fe72bf93e9e5",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -2075,6 +2088,14 @@
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+      },
+      {
+        "file": "amenti-attica-cues.js",
+        "declares": [
+          "AmentiAtticaCues"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-attica-glass.js",
