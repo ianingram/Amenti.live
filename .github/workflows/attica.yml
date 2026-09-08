@@ -1,0 +1,106 @@
+# ============================================================================
+# .github/workflows/attica.yml · THE ATTICA REGISTERS, CROSS-EXAMINED
+# ----------------------------------------------------------------------------
+# Five files were written in one evening and none of them checked the others.
+# probe-attica.mjs reads all five together, which is the only place they can be
+# read together — a desk has whichever ones were last handed over.
+#
+# It found its first real fault before this workflow existed: 200 places dated
+# AD 2000–2099 by Pleiades, because the only location on file is a modern
+# survey point, and every one of them was invisible in all five ancient
+# periods. Eleven per cent of the register, and no screenshot showed it,
+# BECAUSE WHAT IS MISSING DOES NOT DRAW.
+#
+# RULE 4 — RETURN TEN TIMES WHAT IT COST. This prints findings, not
+# confirmations. If nothing is wrong it says one line and stops.
+#
+# It writes probe-attica.txt and does NOT commit it. Reading the registers is
+# safe; writing to main from a runner is the captain's decision — slip #10.
+# ============================================================================
+name: attica
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: 'commit probe-attica.txt back to main?'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Say which registers are here
+        run: |
+          # A MISSING REGISTER IS NOT A FAILURE AND MUST NOT LOOK LIKE ONE.
+          # The probe reports what it could not read; this says the same thing
+          # before it runs, so a thin reading is understood rather than
+          # puzzled over.
+          for f in ATTICA.csv ATTICA-WHY.csv ATTICA-EVENTS.csv \
+                   ATTICA-MOVES.csv ATTICA-MENTIONS.csv; do
+            if [ -f "$f" ]; then
+              printf '  %-24s %6s rows\n' "$f" "$(($(wc -l < "$f") - 1))"
+            else
+              printf '  %-24s ABSENT — the probe will say so\n' "$f"
+            fi
+          done
+          if [ ! -f probes/probe-attica.mjs ]; then
+            echo "MISSING: probes/probe-attica.mjs"; exit 2
+          fi
+
+      - name: Run the probe
+        run: |
+          set -o pipefail
+          node probes/probe-attica.mjs . | tee attica-probe.log
+
+      - name: Write the reading to the run summary
+        if: always()
+        run: |
+          {
+            echo '## attica · the registers cross-examined'
+            echo
+            echo '```'
+            tail -120 attica-probe.log 2>/dev/null || echo '(no output)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the reading
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: attica-probe
+          path: |
+            probe-attica.txt
+            attica-probe.log
+          if-no-files-found: warn
+
+      - name: Commit it back
+        if: inputs.commit == true
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add probe-attica.txt
+          if git diff --cached --quiet; then
+            echo 'nothing changed'
+            exit 0
+          fi
+          git commit -m 'attica: probe reading'
+          # THE RACE hall.yml AND patrol.yml BOTH HAD TO LEARN. A run that
+          # started before another commit landed will be rejected on push;
+          # rebase rather than forcing over someone's work.
+          for i in 1 2 3; do
+            git pull --rebase --autostash && git push && exit 0
+            sleep 5
+          done
+          echo 'could not push after three tries'
+          exit 1
