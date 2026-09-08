@@ -115,6 +115,40 @@
      place still draws; nothing is silently downgraded for want of a file. */
   var mentions = null, mentionsErr = null;
 
+  /* ── WHAT HAPPENED HERE · optional ──────────────────────────────────────
+     ATTICA-EVENTS.csv is authored. The world register holds nine events inside
+     this box and SEVEN OF THEM SIT ON ONE COORDINATE — the Acropolis —
+     including Plato founding the Academy, which is a mile outside the walls.
+     Correct at 40 km a pixel and a lie at 39 metres.
+
+     Each row carries `at`, a key into ATTICA.csv, so an event stands on a
+     place the gazetteer holds rather than at a typed coordinate. Where no such
+     place exists — a sea-fight in open water — the coordinate is authored and
+     `at` is empty, which is how the file says so. */
+  var events = null, eventsErr = null;
+
+  /* ── TWO CLOCKS, BECAUSE THE TWO REGISTERS HAVE TWO GRAINS ──────────────
+     The obvious thing is one scrubber moving everything. IT CANNOT BE DONE
+     HONESTLY HERE, and the reason is worth stating where the next person will
+     find it.
+
+     A PLACE IN ATTICA.csv IS DATED TO A PERIOD, NOT A YEAR. Pleiades records
+     "attested in the Classical period" and the harvest turns that into
+     550–330 BC because a range needs a number. Measured: 399 spans begin at
+     exactly 550 BC, 311 at 750 BC, 411 end at AD 300. So scrubbing from 480 to
+     404 changes NOTHING among the places — every Classical entry is dated
+     identically — and an animation of them would be a moving picture of a
+     register that is standing still.
+
+     AN EVENT HAS A YEAR. 490, 480, 431, 404. That is a real clock and it can
+     be scrubbed.
+
+     So the periods drive the places and the year drives the events, and the
+     surface says so rather than letting a reader assume one control moves
+     everything. A SURFACE WITH TWO CLOCKS IS HONEST WHERE ONE WOULD BE A LIE. */
+  var scrub = null;        /* the year, or null for the whole period */
+  var FADE = 40;           /* years either side that an event still glows */
+
   var el = null, svg = null, view = null, open = false;
   var rows = null, loadErr = null, era = PERIODS[0];
 
@@ -256,7 +290,7 @@
          The svg keeps its aspect and the wrap centres it, so the ground is
          never wider or taller than the ground. */
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
-      '  flex-direction:column;padding:20px 244px 122px 26px;gap:0;',
+      '  flex-direction:column;padding:20px 244px 152px 26px;gap:0;',
       '  align-items:center}',
       /* `flex:1 1 auto` leaves the basis at auto, so the svg took its width
          from the row and aspect-ratio never got to decide anything — the
@@ -300,10 +334,12 @@
       '#amenti-attica .at-wash{fill:#4a6c8f;fill-opacity:.14;stroke:none;',
       '  cursor:default}',
       '#amenti-attica .at-wash:hover{fill-opacity:.28}',
-      '#amenti-attica .at-name{fill:#c3d3e6;text-anchor:middle;pointer-events:none;',
-      '  opacity:0;paint-order:stroke;stroke:#05080e;stroke-linejoin:round;',
-      '  transition:opacity .3s ease}',
-      '#amenti-attica .at-named .at-name{opacity:.92}',
+      /* brighter than the terrain at its palest, and the outline is a hint of
+         separation rather than a box the letter sits inside */
+      '#amenti-attica .at-name{fill:#eef4fb;text-anchor:middle;pointer-events:none;',
+      '  opacity:0;paint-order:stroke;stroke:#05080e;stroke-opacity:.85;',
+      '  stroke-linejoin:round;transition:opacity .3s ease}',
+      '#amenti-attica .at-named .at-name{opacity:.95}',
       '#amenti-attica .at-head{display:flex;justify-content:space-between;',
       '  align-items:baseline;gap:20px;margin-bottom:10px;flex:0 0 auto}',
       '#amenti-attica .at-title{color:#8fa2ba;font-size:13px}',
@@ -320,7 +356,7 @@
          a reader cannot read is not a caveat, and this is the second attempt
          at the same sentence. */
       '#amenti-attica .at-note{position:absolute;left:26px;right:262px;',
-      '  bottom:60px;color:#6f8098;font-size:11.5px;line-height:1.45;',
+      '  bottom:148px;color:#6f8098;font-size:11.5px;line-height:1.45;',
       '  max-height:52px;overflow-y:auto;z-index:5;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent}',
       '#amenti-attica .at-warn{color:#c99a4e}',
@@ -333,7 +369,7 @@
       '  z-index:7;font-size:10.5px;letter-spacing:.06em;color:#6f8098;',
       '  text-align:right;padding-bottom:6px;border-bottom:1px solid #1e2836;',
       '  width:220px}',
-      '#amenti-attica .at-list{position:absolute;right:0;top:82px;bottom:126px;',
+      '#amenti-attica .at-list{position:absolute;right:0;top:82px;bottom:156px;',
       '  width:232px;padding:8px 24px 12px 12px;overflow-y:auto;text-align:right;',
       '  background:linear-gradient(270deg,rgba(5,8,14,.94),rgba(5,8,14,0));',
       '  border-left:1px solid rgba(43,58,80,.5);scrollbar-width:thin}',
@@ -355,6 +391,19 @@
       '  fill-opacity:1;stroke-width:1.6}',
       '#amenti-attica .at-seat.at-lit{transform-box:fill-box;transform-origin:center}',
       '#amenti-attica .at-seat.at-lit .at-name{opacity:1;fill:#eaf6ff}',
+      /* ── AN EVENT IS A MOMENT AND A PLACE IS NOT ────────────────────────
+         Amber, and a burst rather than any of the nine place marks — the world
+         map's own colour for something that HAPPENED, so a reader crossing
+         between the two surfaces reads the same thing. Gold is not spent here;
+         gold is a verified quote. */
+      '#amenti-attica .at-ev{fill:none;stroke:#e0913f;stroke-width:1.3;',
+      '  vector-effect:non-scaling-stroke;stroke-linecap:round;opacity:.9;',
+      '  cursor:pointer}',
+      '#amenti-attica .at-ev:hover{stroke:#ffc379;opacity:1}',
+      '#amenti-attica .at-evname{fill:#e8bd83;text-anchor:middle;pointer-events:none;',
+      '  paint-order:stroke;stroke:#05080e;stroke-opacity:.85;stroke-linejoin:round}',
+      /* an authored coordinate is drawn dashed: this one stands on no place */
+      '#amenti-attica .at-ev-loose{stroke-dasharray:2 2}',
       '#amenti-attica .at-halo{fill:none;stroke:#a9edff;stroke-width:1.2;',
       '  opacity:.65;vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-attica .at-li span{color:#5d6e84;font-size:10.5px}',
@@ -391,6 +440,19 @@
       '#amenti-attica .at-key svg{width:13px;height:13px;overflow:visible;flex:0 0 13px}',
       '#amenti-attica .at-key b{color:#5d6e84;font-weight:400;margin-left:auto;',
       '  padding-left:8px;font-variant-numeric:tabular-nums}',
+      /* ── THE SECOND CLOCK, KEPT VISIBLY APART FROM THE FIRST ────────────
+         It sits above the period row and is labelled, because a reader who
+         assumed one control moved everything would conclude the places were
+         frozen or broken. Two controls, two registers, said out loud. */
+      '#amenti-attica .at-clock{position:absolute;left:26px;right:262px;',
+      '  bottom:118px;z-index:6;display:flex;gap:10px;align-items:center;',
+      '  font-size:11px;color:#7d8ea6;letter-spacing:.04em}',
+      '#amenti-attica .at-clocklab{flex:0 0 auto;color:#5d6e84}',
+      '#amenti-attica .at-scrub{flex:1 1 auto;max-width:520px;accent-color:#e0913f;',
+      '  height:3px;cursor:pointer}',
+      '#amenti-attica .at-clockread{flex:0 0 auto;color:#e8bd83;min-width:9ch;',
+      '  font-variant-numeric:tabular-nums}',
+      '#amenti-attica .at-clockoff{flex:0 0 auto;font-size:10.5px;padding:3px 8px}',
       '#amenti-attica .at-hit{position:fixed;pointer-events:none;z-index:9;',
       '  background:rgba(8,12,20,.95);border:1px solid #2b3a50;border-radius:3px;',
       '  padding:7px 10px;font-size:11.5px;color:#dbe4f0;max-width:38ch;',
@@ -414,7 +476,8 @@
           '<g class="at-view">' +
             '<image class="at-ground" x="0" y="0" width="' + VB + '" height="' + VB + '" ' +
               'preserveAspectRatio="none"></image>' +
-            '<g class="at-washes"></g><g class="at-pins"></g><g class="at-halo-g"></g>' +
+            '<g class="at-washes"></g><g class="at-pins"></g>' +
+      '<g class="at-events"></g><g class="at-halo-g"></g>' +
           '</g>' +
         '</svg>' +
         '<div class="at-note"></div>' +
@@ -430,6 +493,12 @@
         '<button type="button" data-z="out">\u2212</button>' +
         '<button type="button" data-z="in">+</button>' +
         '<button type="button" data-z="fit">fit</button>' +
+      '</div>' +
+      '<div class="at-clock">' +
+        '<span class="at-clocklab">the year</span>' +
+        '<input class="at-scrub" type="range" min="-520" max="320" step="1" value="-480">' +
+        '<span class="at-clockread"></span>' +
+        '<button type="button" class="at-clockoff" aria-pressed="true">off</button>' +
       '</div>' +
       '<div class="at-hit"></div>';
     document.body.appendChild(el);
@@ -563,15 +632,31 @@
                constant — the world map corrected its font on 6 September and
                left the stroke behind, and every name drew as a black lozenge
                at ×14. One pair, one number. */
+            /* ── THE HALO ATE THE LETTER · found 7 Sep ────────────────────
+               At 0.30 of the font the stroke is 2.3 px on a 7.7 px face, which
+               is 1.15 px EACH SIDE of the glyph outline — and a monospace stem
+               at that size is about 1 px wide. The outline met itself in the
+               middle and every name drew solid dark: invisible on pale
+               terrain, fine on the sea, which is why it looked like the labels
+               were flipping colour as the map moved.
+
+               THE WORLD MAP'S LOZENGE WAS THE SAME FAULT AT FOUR TIMES THE
+               SCALE. Its ratio of 0.29 survived only because 5.6 px type has
+               slightly fatter stems than 7.7 px type has room for. 0.17 leaves
+               the stem clear at every size this surface draws. */
             (fit ? '<text class="at-name" x="' + p[0].toFixed(2) + '" y="' +
                    (p[1] - TY * 0.68 * iv).toFixed(2) + '" style="font-size:' +
                    (TY * iv).toFixed(3) + 'px;stroke-width:' +
-                   (TY * 0.3 * iv).toFixed(3) + 'px">' +
+                   (TY * 0.17 * iv).toFixed(3) + 'px">' +
                    esc(r.name) + '</text>' : '') +
             '</g>';
     });
     el.querySelector('.at-pins').innerHTML = ph;
 
+    var cr = el.querySelector('.at-clockread');
+    if (cr) {
+      cr.textContent = scrub === null ? 'the whole period' : yr(scrub);
+    }
     el.querySelector('.at-read').textContent =
       era.a === null ? 'the whole register' : era.label + '  \u00b7  ' + era.when;
     el.querySelector('.at-note').innerHTML =
@@ -601,7 +686,58 @@
             ? ' \u00b7 ATTICA-MENTIONS.csv not read (' + esc(mentionsErr) + '), so nothing ' +
               'here knows which places the corpus names'
             : '')) +
+      (events ? ' \u00b7 <b>' + evn + ' event' + (evn === 1 ? '' : 's') +
+                '</b> on the ground they happened on, authored' +
+                (scrub !== null
+                  ? ' \u00b7 <b>the year moves the events only</b> \u2014 a place here is ' +
+                    'dated to a PERIOD, so scrubbing cannot move it and pretending ' +
+                    'otherwise would animate a register that is standing still'
+                  : '') : '') +
       ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
+
+    /* ── THE EVENTS, ON THE GROUND THEY HAPPENED ON ──────────────────────
+       An event belongs to a period if its year sits INSIDE it — a containment
+       test, and correct here unlike the places, whose spans are period bands
+       and are tested by overlap. A moment has a year; a place has a stretch of
+       centuries, and asking the same question of both would be wrong twice. */
+    var eg = el.querySelector('.at-events'), eh = '', evn = 0;
+    if (eg) {
+      if (events) {
+        events.forEach(function (v) {
+          if (era.a !== null && (v.year < era.a || v.year > era.b)) { return; }
+          /* ── IT FADES WITH DISTANCE IN YEARS, IT DOES NOT VANISH ─────────
+             At the scrubbed year an event is at full strength; forty years
+             either side it is a trace. It is never hidden, because a reader
+             moving through time should see what is coming and what has just
+             passed — and because a mark that blinks out asserts that nothing
+             happened, which is a claim about silence the register cannot
+             make. */
+          var d = scrub === null ? 0 : Math.abs(v.year - scrub);
+          var glow = scrub === null ? 1 : Math.max(0.1, 1 - d / FADE);
+          evn++;
+          var p = proj(v.lat, v.lon), a = 3.4 * iv * (0.75 + 0.45 * glow);
+          var d = 'M0 ' + (-a).toFixed(2) + 'v' + (a * 0.55).toFixed(2) +
+                  'M0 ' + a.toFixed(2) + 'v' + (-a * 0.55).toFixed(2) +
+                  'M' + (-a).toFixed(2) + ' 0h' + (a * 0.55).toFixed(2) +
+                  'M' + a.toFixed(2) + ' 0h' + (-a * 0.55).toFixed(2);
+          eh += '<g class="at-evg" data-e="' + esc(v.name) + '" style="opacity:' +
+                (0.22 + 0.78 * glow).toFixed(3) + '">' +
+                '<circle class="at-ev' + (v.at ? '' : ' at-ev-loose') + '" cx="' +
+                p[0].toFixed(2) + '" cy="' + p[1].toFixed(2) + '" r="' +
+                (a * 0.62).toFixed(2) + '"/>' +
+                '<path class="at-ev" transform="translate(' + p[0].toFixed(2) + ' ' +
+                p[1].toFixed(2) + ')" d="' + d + '"/>' +
+                (K >= 2.2 || glow > 0.75
+                  ? '<text class="at-evname" x="' + p[0].toFixed(2) + '" y="' +
+                    (p[1] + TY * 1.6 * iv).toFixed(2) + '" style="font-size:' +
+                    (TY * 0.92 * iv).toFixed(3) + 'px;stroke-width:' +
+                    (TY * 0.17 * iv).toFixed(3) + 'px">' + esc(v.name) + '</text>'
+                  : '') +
+                '</g>';
+        });
+      }
+      eg.innerHTML = eh;
+    }
 
     /* the ring is redrawn with the frame so it stays on its place through a
        pan or a zoom — it is a pointer, and a pointer that lags is worse than
@@ -741,6 +877,19 @@
     el.addEventListener('pointerover', function (e) {
       var n = e.target.closest ? e.target.closest('[data-k]') : null;
       light(n ? n.getAttribute('data-k') : null);
+      var ev = e.target.closest ? e.target.closest('[data-e]') : null;
+      if (ev && events) {
+        var nm = ev.getAttribute('data-e');
+        var v = events.filter(function (x) { return x.name === nm; })[0];
+        if (v) {
+          hit.textContent = v.name + '\n' + yr(v.year) + '  ·  ' + (v.category || '') +
+            (v.where ? '\n' + v.where : '') +
+            (v.note ? '\n\n' + v.note : '') +
+            (v.at ? '' : '\n\n— authored coordinate: this stands on no place in the ' +
+                         'register, and a sea-fight has no single position');
+          hit.style.opacity = 1;
+        }
+      }
     });
     el.addEventListener('pointerleave', function () { light(null); });
     el.addEventListener('pointerover', function (e) {
@@ -770,6 +919,23 @@
       hit.style.left = (e.clientX + 14) + 'px';
       hit.style.top = (e.clientY + 14) + 'px';
     });
+
+    var sc = el.querySelector('.at-scrub'), so = el.querySelector('.at-clockoff');
+    if (sc) {
+      sc.addEventListener('input', function () {
+        scrub = +sc.value;
+        so.setAttribute('aria-pressed', 'false');
+        so.textContent = 'off';
+        draw();
+      });
+    }
+    if (so) {
+      so.addEventListener('click', function () {
+        scrub = (scrub === null) ? +sc.value : null;
+        so.setAttribute('aria-pressed', scrub === null ? 'true' : 'false');
+        draw();
+      });
+    }
 
     el.querySelectorAll('.at-ctl button').forEach(function (b) {
       b.addEventListener('click', function (ev) {
@@ -857,6 +1023,26 @@
           'the ground existed. Nothing is drawn in its place.</span>';
       });
       img.setAttribute('href', RAW + 'ATTICA.jpg');
+    }
+    if (events === null && eventsErr === null) {
+      fetch(RAW + 'ATTICA-EVENTS.csv?_=' + Date.now())
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (t) {
+          if (!t) { eventsErr = 'not in the repo yet'; return; }
+          var lines = t.replace(/\r\n/g, '\n').split('\n');
+          var cols = split(lines[0]), out = [];
+          for (var i = 1; i < lines.length; i++) {
+            var l = lines[i];
+            if (!l.trim() || l.replace(/^\s+/, '').charAt(0) === '#') { continue; }
+            var c = split(l), o = {};
+            for (var j = 0; j < cols.length; j++) { o[cols[j]] = c[j] == null ? '' : c[j]; }
+            o.year = +o.year; o.lat = +o.lat; o.lon = +o.lon;
+            if (!isNaN(o.year) && !isNaN(o.lat) && !isNaN(o.lon)) { out.push(o); }
+          }
+          events = out;
+          draw();
+        })
+        .catch(function (e) { eventsErr = e.message; });
     }
     if (mentions === null && mentionsErr === null) {
       fetch(RAW + 'ATTICA-MENTIONS.csv?_=' + Date.now())
