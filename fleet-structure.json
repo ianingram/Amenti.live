@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-08T06:39:43.021Z",
+    "generated": "2026-09-08T07:34:57.266Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1433,7 +1433,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51136,
-      "sha256": "a99a88e4ae38a558",
+      "sha256": "701f37ca47d6b8aa",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1558,8 +1558,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 20857,
-      "sha256": "c24de4e1cbf31f2c",
+      "bytes": 20911,
+      "sha256": "082023d156fa1737",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1605,8 +1605,12 @@
           "line": 353
         },
         {
-          "file": "amenti-qr.js?v=c016424e",
+          "file": "amenti-attica-cues.js",
           "line": 354
+        },
+        {
+          "file": "amenti-qr.js?v=c016424e",
+          "line": 355
         }
       ],
       "calls": [
@@ -2094,8 +2098,8 @@
         "declares": [
           "AmentiAtticaCues"
         ],
-        "loadedByAPage": false,
-        "note": "declares globals that nothing calls"
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-attica-glass.js",
