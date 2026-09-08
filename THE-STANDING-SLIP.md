@@ -56,6 +56,10 @@ Ordered by how much it hurts to leave undone.
 - **#73 — the key that names two men.** The index counts 6 plates and rooms that do not exist. A 3-line probe fix.
 - **#74 — the ground that forces a choice.** Passes and bogs: the geography that decides where history happens, and the register had none of it.
 - **#75 — the registers are the product.** Every instrument already reads a file rather than another instrument. Nobody can legally use any of it.
+- **#76 — a key that counts.** The legend became a census of what each period holds, and the world map's key does neither.
+- **#77 — a proxy becomes a foundation.** Modern roads for ancient ones: refused, and the refusal is a rule for every shortcut of that kind.
+- **#78 — a tour is a sequence of register states.** The switches turned out to be a narrator that asserts nothing. The honest form of the storytelling move.
+- **#79 — the sheet is the most persuasive layer and the least accountable.** The expressive pane over locked registers, and the two rules that keep it honest.
 - **#49 — the science cohort rooms.** ~30 authors dated and waiting; 4 shelved.
 
 **📐 PRINCIPLES (keep, never “done”):** #53 who/when/where colouring · #54 the reference layer · #55 the ratchet · #57 the marketing language.
@@ -2565,6 +2569,237 @@ headline move. The two are the same work seen from two ends.
 - **Acceptance test:** a stranger can fetch a register, know what it is, know
   what they may do with it, know what it was derived from, and check any single
   row against its source — without reading this slip or asking anyone.
+
+---
+
+### 76 · A KEY THAT COUNTS IS AN INSTRUMENT — the legend as a census
+Raised 7 Sep, out of a legend built to explain nine marks that turned out to
+answer a question nothing else on the surface could.
+
+**THE MARKS SHIPPED FIRST AND WERE UNREADABLE.** `ATTICA.csv` holds 108 distinct
+place types and drew every one as the same cyan dot, so a temple, a silver mine
+and a ship harbour were one fact. Nine marks fixed that and created a worse
+problem: a reader saw a gable and a crenellation with nothing to look them up
+in. **The world map met this on 4 September**, when five legend entries
+overflowed the right edge and the amber diamond was left with its words cut off.
+
+> **A KEY WITHOUT ITS TEXT IS WORSE THAN NO KEY.** A reader sees a mark they
+> cannot look up and assumes it means something.
+
+**AND THEN IT DID SOMETHING THE SURFACE COULD NOT.** Each row carries a live
+count for the period in view, so switching periods turns the legend into a
+reading of what the register holds:
+
+```
+                 whole register   hellenistic
+    settled            543            492
+    sacred             257            217
+    built              100             72
+    defence            156            125
+    harbour             28             23
+```
+
+That is not decoration. **It is the only place on either surface that says what
+a period is MADE OF** — and it costs nothing, because the count was already
+being computed to draw the marks.
+
+**THREE PROPERTIES WORTH KEEPING WHEREVER THIS IS COPIED.**
+
+> **THE KEY DRAWS ITS SWATCHES WITH THE SAME FUNCTION THE SURFACE DRAWS WITH.**
+> Two drawings of one mark drift the first time either changes, and a legend
+> that disagrees with the surface is worse than none.
+
+> **EACH ROW IS A SWITCH.** Press `harbour` and only harbours remain.
+
+> **AND THE COUNT STAYS VISIBLE WHEN A KIND IS SWITCHED OFF**, so nothing is
+> hidden without saying how much.
+
+- **Unblocks:** the same treatment on the world map, which has a legend with
+  neither counts nor switches.
+- **Acceptance test:** a reader who has never seen the surface can name every
+  mark on it, and say how many of each the period holds, without hovering.
+
+---
+
+### 77 · A PROXY BECOMES A FOUNDATION — modern roads for ancient ones
+Raised 7 Sep, out of a good idea that had to be refused, and the refusal is
+worth more than the idea was.
+
+**THE PROPOSAL WAS SOUND ON ITS FACE.** Major roads are mapped everywhere,
+free, and precise. Terrain constrains routes — the pass at Eleutherai is the
+pass whoever is walking — so a modern network laid down as a first
+approximation would be quick, and street-by-street work could be built off it
+later.
+
+**AND THE EVIDENCE SAYS THERE IS NO EASY ALTERNATIVE.** Measured in the
+Pleiades package on 7 September:
+
+```
+    3,293 places typed road · via · canal · bridge · pass · station
+      296 of them carry any geometry at all
+        2 of those fall inside a hundred miles of the Acropolis
+```
+
+The Barrington Atlas drew the roads. **The digital gazetteer recorded them as
+PLACES WITH A REPRESENTATIVE POINT, and a road's representative point is
+meaningless.** So there is nothing to harvest, which is exactly the condition
+under which a proxy is most tempting.
+
+**WHY IT STILL FAILS.** Terrain constrains routes IN THE PASSES AND NOWHERE
+ELSE. Across a plain the ground permits any line, and what decides a modern one
+is modern economics: the ports that matter now, the cities that matter now, a
+border drawn in 1832. The Athens–Thessaloniki motorway serves a country that
+did not exist. **A constraint that holds at Thermopylae and fails across
+Boeotia is not a method, it is a coincidence with good publicity.**
+
+**AND THE REAL FAULT IS INHERITANCE, WHICH IS WHY THIS IS A MOVE AND NOT A
+NOTE.**
+
+> **A PROXY LAID DOWN AS A FOUNDATION IS BUILT ON, AND WHAT IS BUILT ON IT
+> CANNOT REMEMBER THAT IT WAS A PROXY.**
+
+Every road authored afterwards would be positioned relative to a motorway.
+Every correction would be a correction *of the modern line*. The provenance
+survives in a comment for one session and in nobody's head after that, and the
+register ends up asserting a road network derived from the E75 with no way left
+to tell.
+
+**THE SHIP HAS ALREADY SEEN THIS FAULT IN A SMALLER FORM.** `ATTICA.csv` dates
+the Acharnian Gate to AD 2000–2099, because Pleiades is recording WHERE A
+MODERN EXCAVATION IDENTIFIED IT rather than when it stood. Correct in its own
+terms, and wrong the moment it is used as the date of a gate. Same shape: a
+modern fact standing in for an ancient one, honest at the source and false
+downstream.
+
+- **Unblocks:** an honest road layer, and a rule for every future shortcut of
+  this kind.
+- **The move:** check `itiner-e`, which appears in the Pleiades linestrings and
+  is digitising Roman roads as actual routes. If it is open and covers Greece
+  the problem is solved properly. Failing that, AUTHOR THE FEW: the Sacred Way
+  to Eleusis, the Panathenaic Way, the road over Pentelikon to Marathon, the
+  road to Sounion, the Diolkos — which is already in the register. Ten or
+  twelve, each with a source.
+- **And the standing rule:** a modern layer may be shown BESIDE the register,
+  labelled as today's, and may never be shown as the register. Where a proxy is
+  the only thing available, IT IS DRAWN AS A PROXY OR IT IS NOT DRAWN.
+- **Acceptance test:** no coordinate in any register can be traced to a modern
+  road, and a reader can tell at a glance which lines are attested and which
+  are today's.
+
+---
+
+### 78 · A TOUR IS A SEQUENCE OF REGISTER STATES, NOT A SCRIPT
+Raised 7 Sep, out of a switchable legend that turned out to be the narrator the
+ship has been circling for two days.
+
+**THE PIECES ARRIVED SEPARATELY AND WITHOUT THIS IN MIND.** Nine place marks,
+each a switch. Events and moves as their own rows. Five periods. A year that
+scrubs. A `why` sentence per place. Each was built to answer its own small
+problem, and together they are a composition surface: a reader can start on
+BARE TERRAIN and add one register at a time.
+
+Turn everything off. Bring in the ground. Add the harbours — there are the three
+at the Piraeus. Add defence — there is Rhamnous over the strait and Eleutherai
+in the pass. Add the events at 490. Then the moves.
+
+> **NOTHING IN THAT SEQUENCE IS AN ASSERTION. Each step is the register showing
+> one of its own layers, and the story is in the ORDER, not in anything added.**
+
+**AND THAT IS THE HONEST FORM OF THE NARRATOR.** A voice that says *the wheat
+came from Egypt, so Athens could not afford to lose the sea* is making an
+argument, and an argument is a claim no register holds. A sequence of states
+makes none — every frame is pausable, hoverable and traceable to a source,
+because every frame IS the register.
+
+**THE SAME DISTINCTION AS THE ZIGZAG.** A script asserts a path between two
+points. A state shows one layer of what is already filed. The reader supplies
+the join, and can refuse it.
+
+**IT IS NOT ONE SURFACE'S PROBLEM.** The hall answers WHO in prose, the
+timeline WHEN, the map WHERE, and Attica what stood on this ground and why the
+ground mattered. Each is a different question and each has always answered its
+own. What is new is that a reader can now COMPOSE them rather than receive
+them — and the `why` column is already the seam, being the hall's register
+living on the map's ground.
+
+**THE OBSTACLE, NAMED SO IT IS NOT DISCOVERED LATE.** `hall.html` says in its
+own comment that the map and the hall NEVER SHARE THE SCREEN, and the map
+clears `scene-bare` on the way in. That is a good rule — the two instruments
+would fight for the same attention — so a tour that moves between prose and
+ground must SEQUENCE between them rather than show both. Breaking that rule
+casually would cost more than the tour is worth.
+
+- **Unblocks:** the narrator, without the narrator having to be a voice; and
+  teaching, which is the point of the whole ship.
+- **The move:** a small register — a named list of states, each with a caption
+  and a set of switches, playable in order. Everything it needs exists. NO NEW
+  CLAIM IS INTRODUCED BY IT, which is the test any tour format must pass.
+- **Acceptance test:** a reader can pause any frame of any tour, hover
+  anything in it, and reach the source. If a frame contains something that
+  cannot be traced, the tour has started asserting and the format has failed.
+
+---
+
+### 79 · THE SHEET IS THE MOST PERSUASIVE LAYER AND THE LEAST ACCOUNTABLE
+Raised 8 Sep, on building `amenti-attica-cues.js` — a pane over the Attica
+surface carrying fire, smoke and motion, with everything below it locked.
+
+**THE SPLIT IS RIGHT.** The registers underneath are checkable: every place has
+a Pleiades URI, every event a note, every move a passage. The pane above is
+expressive and can hold anything — animation, words, pictures — and cannot
+corrupt what it sits on. That is what makes the freedom safe, and it is the
+same module architecture that let five instruments join the rail on 7 September
+without one line of `amenti-map.js` changing.
+
+**AND THE FREEDOM IS THE FAILURE MODE.**
+
+> **EVERYTHING ON THE SHEET IS MORE PERSUASIVE THAN EVERYTHING UNDER IT.**
+> Motion and colour beat a dot and a label every time. So the pane has more
+> power than the registers and less accountability, and a reader cannot tell
+> which layer they are looking at.
+
+That asymmetry is the same one behind three refusals already on this slip: the
+Vesuvius ring, the derived line, and the modern road. NONE OF THOSE WAS REFUSED
+FOR BEING WRONG. Each was refused for convincing out of proportion to what
+stood behind it.
+
+**TWO THINGS KEEP IT HONEST, AND BOTH ARE CHEAP NOW AND EXPENSIVE LATER.**
+
+> **EVERY CUE NAMES ITS PASSAGE.** The four built today do — Thucydides 2.52
+> for the pyres, Herodotus for the burning of the city. The moment one does
+> not, the sheet has started asserting, and it will be the most believed thing
+> on the screen.
+
+> **AND THE FORM DECLARES WHAT KIND OF CLAIM IT IS.** The smoke has no edge
+> because where it stopped is unrecorded. The zigzag cannot be read as a route.
+> The wash is not a dot. A reader should always be able to tell the expressive
+> layer from the register WITHOUT BEING TOLD, because the shape of the mark
+> says so.
+
+**THE OPERATING RULE, ALREADY ENFORCED IN THE FIRST CUE FILE:**
+
+> **IT MAY ANIMATE INTENSITY AND TIME. IT MAY NEVER ANIMATE EXTENT.**
+
+A plume that grows draws a boundary every frame and a boundary is a claim about
+how far. A plume that drifts and fades says fire here, wind that way, and both
+are recorded — the Etesians blow from the north through the Attic summer, which
+is a fact about a season rather than a guess about a day.
+
+**AND ONE TEST SETTLES MOST CASES.** Pyres or birds? Thucydides describes the
+burials failing, bodies thrown on other men's fires. Ravens along the shore is
+inference from the scene: nobody wrote it, it would be the most convincing thing
+on the surface, and it would rest on nothing. **CAN THE CUE NAME A PASSAGE.**
+
+- **Unblocks:** the narrative layer — animation, words, images — over ground
+  that cannot be corrupted by it.
+- **The move:** a `source` field on every cue, non-optional, and a probe that
+  refuses a cue without one. The four in `amenti-attica-cues.js` carry theirs
+  in a `why` string; that is custom rather than structure, and custom does not
+  survive.
+- **Acceptance test:** a reader can point at any moving thing on the surface
+  and reach the passage it stands on. **Kept, the sheet is the best instrument
+  on the ship, because every element on it points down into something
+  checkable. Dropped, it is a documentary with a map behind it.**
 
 ---
 
