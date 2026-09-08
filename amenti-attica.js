@@ -1,5 +1,7 @@
 /* ============================================================================
-   amenti-attica.js  ·  ATTICA — the first place
+   amenti-attica.js  →  Amenti.live/amenti-attica.js
+   ----------------------------------------------------------------------------
+   ATTICA — the first place
    ----------------------------------------------------------------------------
    A hundred miles from the Acropolis, at 39 metres a pixel. Marathon, Salamis,
    Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame, on
@@ -182,8 +184,53 @@
      the possibilities were. */
   var moves = null, movesErr = null;
 
+  /* ── PLAY IS THE SCRUB MOVING ITSELF ────────────────────────────────────
+     A century either side of wherever the reader is standing, run forward at a
+     readable rate. Nothing new is asserted: it is the same year control, moved
+     by a clock instead of by a hand.
+
+     AND ONLY THREE REGISTERS CAN FOLLOW IT. Events have years, moves have
+     years, cues have years. THE PLACES DO NOT — they are dated to periods, so
+     across two centuries of play not one of them changes, and the note says so
+     while the year is live.
+
+     That is the honest shape and it is also the interesting one: what plays is
+     the thin layer of dated things over ground that stands still, which is
+     roughly how a century feels from inside it. */
+  /* ── THE RATE IS SET BY WHAT A READER CAN TAKE IN, NOT BY THE CLOCK ─────
+     14 years a second put the Persian Wars through in half a second: Marathon,
+     Thermopylae, Salamis, Psyttaleia, the burning of Athens and Plataea all
+     inside 490–479, which at that rate is 0.8 s. A reader sees a flicker and
+     learns nothing.
+
+     6 a second gives that decade five seconds and the whole two hundred years
+     thirty-three — long enough to read a name and short enough to sit through.
+
+     AND THE FRAME RATE IS NOT THE YEAR RATE. draw() rebuilds 1,671 places as
+     a string, and during play NOT ONE OF THEM CAN CHANGE — they are dated to
+     periods, which is the same argument that says the places cannot follow the
+     scrub. Redrawing them sixty times a second to move a dozen amber marks is
+     work nobody asked for. Twelve frames a second is smooth for a year that
+     advances six times a second, and it is A FIFTH OF THE DRAWING PER SECOND.
+
+     (An earlier version of this comment said "an eightieth" and that was
+     wrong: 12 against 60 is five times, not eighty. MEASURE THE CLAIM BEFORE
+     WRITING IT DOWN — a comment is read as fact long after anyone remembers
+     who wrote it.) */
+  var PLAY_SPAN = 100;     /* years either side */
+  var PLAY_RATE = 6;       /* years a second */
+  var PLAY_FPS  = 12;      /* frames a second while playing */
+  var playing = 0, playFrom = 0, playT0 = 0, playLast = 0;
+
   var scrub = null;        /* the year, or null for the whole period */
-  var FADE = 40;           /* years either side that an event still glows */
+  /* ── A CUE AND AN EVENT MUST BE VISIBLE FOR THE SAME LENGTH OF TIME ─────
+     Events glowed for 40 years either side and the cue layer burned for 6.
+     At 6 years a second that is thirteen seconds against two, so a cue would
+     have appeared and gone while its own event was still bright — the two
+     layers describing one moment and disagreeing about when it was.
+     Both are 18 now. amenti-attica-cues.js carries the matching number and
+     says where it came from. */
+  var FADE = 18;           /* years either side that an event still glows */
 
   var el = null, svg = null, view = null, open = false;
   var rows = null, loadErr = null, era = PERIODS[0];
@@ -518,7 +565,9 @@
       '  height:3px;cursor:pointer}',
       '#amenti-attica .at-clockread{flex:0 0 auto;color:#e8bd83;min-width:9ch;',
       '  font-variant-numeric:tabular-nums}',
-      '#amenti-attica .at-clockoff{flex:0 0 auto;font-size:10.5px;padding:3px 8px}',
+      '#amenti-attica .at-clockoff,#amenti-attica .at-play{flex:0 0 auto;',
+      '  font-size:10.5px;padding:3px 8px}',
+      '#amenti-attica .at-play[aria-pressed="true"]{color:#0a1018;background:#e0913f}',
       '#amenti-attica .at-hit{position:fixed;pointer-events:none;z-index:9;',
       '  background:rgba(8,12,20,.95);border:1px solid #2b3a50;border-radius:3px;',
       '  padding:7px 10px;font-size:11.5px;color:#dbe4f0;max-width:38ch;',
@@ -580,6 +629,8 @@
         '<input class="at-scrub" type="range" min="-520" max="320" step="1" value="-480">' +
         '<span class="at-clockread"></span>' +
         '<button type="button" class="at-clockoff" aria-pressed="true">off</button>' +
+        '<button type="button" class="at-play" title="run the year forward">' +
+          '\u25b6 play</button>' +
       '</div>' +
       '<div class="at-hit"></div>';
     document.body.appendChild(el);
@@ -869,7 +920,20 @@
            the same fault as an invented arrow origin. A vertical stack is
            plainly a LIST rather than a set of positions, and the first one
            sits exactly on the ground it happened on. */
-        var seenAt = {};
+        /* ── STACKING BY COORDINATE WAS THE WRONG KEY · found 8 Sep ────────
+           The first version keyed on the exact lat/lon, so three events on the
+           Agora separated and the rest did not. But the Athens pile is not one
+           coordinate — it is the Academy, the Parthenon, the Agora, the Long
+           Walls and the Piraeus, FIVE DIFFERENT PLACES INSIDE TWO KILOMETRES,
+           each correctly on its own ground and all landing on top of one
+           another once the map is zoomed out.
+
+           WHAT COLLIDES IS ON THE SCREEN, SO THE TEST MUST BE ON THE SCREEN.
+           Each event is pushed upward until its label clears every label
+           already placed — the same greedy method the place cull uses, and it
+           handles a shared coordinate and a crowded neighbourhood with one
+           rule instead of two. */
+        var placedEv = [];
         events.forEach(function (v) {
           if (era.a !== null && (v.year < era.a || v.year > era.b)) { return; }
           /* ── IT FADES WITH DISTANCE IN YEARS, IT DOES NOT VANISH ─────────
@@ -901,10 +965,23 @@
           var elat = anchor ? anchor.lat : v.lat;
           var elon = anchor ? anchor.lon : v.lon;
           var p = proj(elat, elon), a = 3.4 * iv * (0.75 + 0.45 * glow);
-          var slot = (elat.toFixed(3) + ',' + elon.toFixed(3));
-          var tier = seenAt[slot] || 0;
-          seenAt[slot] = tier + 1;
-          if (tier) { p = [p[0], p[1] - tier * 9 * iv]; }
+          /* the label is what collides, so its width sets the test */
+          var evw = (v.name || '').length * (LBL * 0.30) * iv;
+          var rowH = LBL * 1.5 * iv;
+          var ground = p[1];
+          var tier = 0;
+          for (var t2 = 0; t2 < 14; t2++) {
+            var clash = false;
+            for (var q2 = 0; q2 < placedEv.length; q2++) {
+              var o2 = placedEv[q2];
+              if (Math.abs(p[0] - o2[0]) < (evw + o2[2]) &&
+                  Math.abs(p[1] - o2[1]) < rowH) { clash = true; break; }
+            }
+            if (!clash) { break; }
+            p = [p[0], p[1] - rowH];
+            tier++;
+          }
+          placedEv.push([p[0], p[1], evw]);
           var d = 'M0 ' + (-a).toFixed(2) + 'v' + (a * 0.55).toFixed(2) +
                   'M0 ' + a.toFixed(2) + 'v' + (-a * 0.55).toFixed(2) +
                   'M' + (-a).toFixed(2) + ' 0h' + (a * 0.55).toFixed(2) +
@@ -913,17 +990,23 @@
                 (0.22 + 0.78 * glow).toFixed(3) + '">' +
                 /* THE STACK SAYS WHERE IT STANDS. Without the hairline a
                    raised event is at a coordinate it does not claim. */
+                /* THE STEM SAYS WHERE IT STANDS. A raised event is at a
+                   coordinate it does not claim, and without the line back to
+                   the ground it would be asserting one. */
                 (tier ? '<line class="at-evstem" x1="' + p[0].toFixed(2) + '" y1="' +
-                        (p[1] + tier * 9 * iv).toFixed(2) + '" x2="' + p[0].toFixed(2) +
+                        ground.toFixed(2) + '" x2="' + p[0].toFixed(2) +
                         '" y2="' + p[1].toFixed(2) + '"/>' : '') +
                 '<circle class="at-ev' + (v.at ? '' : ' at-ev-loose') + '" cx="' +
                 p[0].toFixed(2) + '" cy="' + p[1].toFixed(2) + '" r="' +
                 (a * 0.62).toFixed(2) + '"/>' +
                 '<path class="at-ev" transform="translate(' + p[0].toFixed(2) + ' ' +
                 p[1].toFixed(2) + ')" d="' + d + '"/>' +
-                /* a stacked event only gets its name when the year is on it,
-                   or the stack becomes a wall of text */
-                ((K >= 2.2 && !tier) || glow > 0.9 || (glow > 0.75 && !tier)
+                /* Every event that found room gets its name: the whole reason
+                   for pushing it upward was to make the name readable, and
+                   withholding it afterwards would have moved the mark for
+                   nothing. Events that ran out of room after fourteen rows
+                   keep their mark and lose their label, like a place. */
+                (K >= 1.6 || glow > 0.6
                   ? '<text class="at-evname" x="' + p[0].toFixed(2) + '" y="' +
                     (p[1] + LBL * 1.6 * iv).toFixed(2) + '" style="font-size:' +
                     (LBL * 0.92 * iv).toFixed(3) + 'px;stroke-width:' +
@@ -1115,6 +1198,32 @@
      Delegated rather than bound, because both the list and the marks are
      rebuilt on every draw and a listener attached to a node would die with it.
      That is the world map's own lesson, kept. */
+  function stopPlay() {
+    if (playing) { cancelAnimationFrame(playing); }
+    playing = 0;
+    var pb = el && el.querySelector('.at-play');
+    if (pb) { pb.textContent = '\u25b6 play'; pb.setAttribute('aria-pressed', 'false'); }
+  }
+
+  function step(now) {
+    if (!playing || !open) { return; }
+    var y = Math.round(playFrom + (now - playT0) / 1000 * PLAY_RATE);
+    if (y > playFrom + PLAY_SPAN * 2) { stopPlay(); return; }
+    /* the year advances every frame; the SURFACE is redrawn at PLAY_FPS */
+    if (now - playLast >= 1000 / PLAY_FPS || y !== scrub) {
+      if (now - playLast >= 1000 / PLAY_FPS) {
+        playLast = now;
+        scrub = y;
+        var sc0 = el.querySelector('.at-scrub');
+        if (sc0) { sc0.value = String(Math.max(+sc0.min, Math.min(+sc0.max, y))); }
+        var so0 = el.querySelector('.at-clockoff');
+        if (so0) { so0.setAttribute('aria-pressed', 'false'); }
+        draw();
+      }
+    }
+    playing = requestAnimationFrame(step);
+  }
+
   function light(key) {
     if (key === litKey) { return; }
     litKey = key;
@@ -1216,9 +1325,25 @@
       hit.style.top = (e.clientY + 14) + 'px';
     });
 
+    var pb = el.querySelector('.at-play');
+    if (pb) {
+      pb.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        if (playing) { stopPlay(); return; }
+        var sc0 = el.querySelector('.at-scrub');
+        var here = scrub === null ? +sc0.value : scrub;
+        playFrom = here - PLAY_SPAN;
+        playT0 = performance.now();
+        pb.textContent = '\u25a0 stop';
+        pb.setAttribute('aria-pressed', 'true');
+        playing = requestAnimationFrame(step);
+      });
+    }
+
     var sc = el.querySelector('.at-scrub'), so = el.querySelector('.at-clockoff');
     if (sc) {
       sc.addEventListener('input', function () {
+        stopPlay();
         scrub = +sc.value;
         so.setAttribute('aria-pressed', 'false');
         so.textContent = 'off';
@@ -1227,6 +1352,7 @@
     }
     if (so) {
       so.addEventListener('click', function () {
+        stopPlay();
         scrub = (scrub === null) ? +sc.value : null;
         so.setAttribute('aria-pressed', scrub === null ? 'true' : 'false');
         draw();
@@ -1419,6 +1545,7 @@
   }
 
   function hide() {
+    stopPlay();
     open = false;
     document.body.classList.remove('scene-attica');
   }
