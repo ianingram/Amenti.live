@@ -627,7 +627,17 @@
        back where the counter-scale took them from — 5 px at ×1 becoming 60 px
        at ×12 — and the surface would be a wall of type. This runs 5.0 px at ×1
        to about 8.6 px at ×12: legible, and still smaller than the list. */
-    var TY = 5.0 * (1 + Math.log(Math.max(1, K)) * 0.22);
+    /* ── DO NOT NAME IT TY · found 7 Sep ──────────────────────────────────
+       `TY` is already the camera's translate-Y, declared at the top of this
+       file. Declaring `var TY` here for the label size SHADOWED IT FOR THE
+       WHOLE FUNCTION — and `var` hoists, so at the transform line thirty lines
+       ABOVE this one, TY was undefined and `TY.toFixed` threw. The surface
+       drew ground and nothing else.
+
+       THE SAME FAULT AS THE ANCHOR NAME IN amenti-map.js ON 6 SEPTEMBER: an
+       assignment that looks local, a declaration that is not, and a variable
+       read before the line that appears to set it. */
+    var LBL = 5.0 * (1 + Math.log(Math.max(1, K)) * 0.22);
     var shown = rows.filter(alive);
     var pins = shown.filter(function (r) { return r.tier === 'pin'; });
     var wash = shown.filter(function (r) { return r.tier !== 'pin'; });
@@ -670,10 +680,10 @@
     });
     pins.forEach(function (r) {
       var p = proj(r.lat, r.lon);
-      var fit = true, w = (r.name || '').length * (TY * 0.32) * iv;
+      var fit = true, w = (r.name || '').length * (LBL * 0.32) * iv;
       for (var i = 0; i < placed.length; i++) {
         if (Math.abs(p[0] - placed[i][0]) < (w + placed[i][2]) &&
-            Math.abs(p[1] - placed[i][1]) < TY * 1.4 * iv) { fit = false; break; }
+            Math.abs(p[1] - placed[i][1]) < LBL * 1.4 * iv) { fit = false; break; }
       }
       if (fit && K >= 1.8) { placed.push([p[0], p[1], w]); named++; } else { fit = false; dropped++; }
       var und = (r.from === null && r.until === null);
@@ -704,7 +714,7 @@
             (und ? ' at-undated' : '') +
             (mn ? (mn.src > 1 ? ' at-cited' : ' at-mentioned') : '') +
             '" data-k="' + esc(r.key) + '">' + body +
-            /* THE OUTLINE MOVES WITH THE TYPE. Sized from TY, not from a
+            /* THE OUTLINE MOVES WITH THE TYPE. Sized from LBL, not from a
                constant — the world map corrected its font on 6 September and
                left the stroke behind, and every name drew as a black lozenge
                at ×14. One pair, one number. */
@@ -721,9 +731,9 @@
                slightly fatter stems than 7.7 px type has room for. 0.17 leaves
                the stem clear at every size this surface draws. */
             (fit ? '<text class="at-name" x="' + p[0].toFixed(2) + '" y="' +
-                   (p[1] - TY * 0.68 * iv).toFixed(2) + '" style="font-size:' +
-                   (TY * iv).toFixed(3) + 'px;stroke-width:' +
-                   (TY * 0.17 * iv).toFixed(3) + 'px">' +
+                   (p[1] - LBL * 0.68 * iv).toFixed(2) + '" style="font-size:' +
+                   (LBL * iv).toFixed(3) + 'px;stroke-width:' +
+                   (LBL * 0.17 * iv).toFixed(3) + 'px">' +
                    esc(r.name) + '</text>' : '') +
             '</g>';
     });
@@ -863,9 +873,9 @@
                 p[1].toFixed(2) + ')" d="' + d + '"/>' +
                 (K >= 2.2 || glow > 0.75
                   ? '<text class="at-evname" x="' + p[0].toFixed(2) + '" y="' +
-                    (p[1] + TY * 1.6 * iv).toFixed(2) + '" style="font-size:' +
-                    (TY * 0.92 * iv).toFixed(3) + 'px;stroke-width:' +
-                    (TY * 0.17 * iv).toFixed(3) + 'px">' + esc(v.name) + '</text>'
+                    (p[1] + LBL * 1.6 * iv).toFixed(2) + '" style="font-size:' +
+                    (LBL * 0.92 * iv).toFixed(3) + 'px;stroke-width:' +
+                    (LBL * 0.17 * iv).toFixed(3) + 'px">' + esc(v.name) + '</text>'
                   : '') +
                 '</g>';
         });
@@ -1241,13 +1251,32 @@
     if (rows === null && loadErr === null) {
       fetch(RAW + 'ATTICA.csv?_=' + Date.now())
         .then(function (r) { if (!r.ok) { throw new Error('HTTP ' + r.status); } return r.text(); })
-        .then(function (t) { rows = parse(t); draw(); })
+        .then(function (t) {
+          /* ── THE CATCH MUST NOT BLAME THE FETCH FOR A DRAWING FAULT ──────
+             Both were inside one .then, so when draw() threw on the TY shadow
+             the surface reported "ATTICA.csv did not load" — a file that had
+             loaded perfectly. AN INSTRUMENT THAT MISNAMES WHICH THING BROKE
+             SENDS ITS READER TO THE WRONG PLACE, which is worse than saying
+             nothing. The parse is guarded here; drawing is guarded on its own. */
+          rows = parse(t);
+        })
         .catch(function (e) {
           loadErr = e.message;
           el.querySelector('.at-note').innerHTML =
-            '<span class="at-warn">ATTICA.csv did not load (' + esc(e.message) +
-            '). The ground is drawn and nothing is on it \u2014 which is the register ' +
-            'missing, not the places being absent.</span>';
+            '<span class="at-warn">ATTICA.csv did not load or would not parse (' +
+            esc(e.message) + '). The ground is drawn and nothing is on it \u2014 which ' +
+            'is the register missing, not the places being absent.</span>';
+        })
+        .then(function () {
+          try {
+            draw();
+          } catch (e2) {
+            el.querySelector('.at-note').innerHTML =
+              '<span class="at-warn">The register loaded and DRAWING failed (' +
+              esc(e2.message) + '). That is a fault in this file, not in the ' +
+              'data.</span>';
+            throw e2;
+          }
         });
     }
     draw();
