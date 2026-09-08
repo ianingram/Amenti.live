@@ -18,6 +18,29 @@ cannot keep.**
 
 Kept by hand. Reviewed at the top of a session, not the bottom.
 
+**EVERY MOVE CARRIES A STATE.** Without one, entry #3 and entry #82 read alike
+and the only record of what is finished is somebody's memory. Six states, and
+no others:
+
+```
+    OPEN       raised, nobody has started
+    IN HAND    started, not finished — say what is left
+    DONE       THE ACCEPTANCE TEST PASSED. Not "the file was uploaded."
+    REFUSED    decided against, and the reasoning is the value. Never deleted.
+    PRINCIPLE  a standing rule. Cannot be done and must not be marked so.
+    WATCH      not yet worth doing. Say what would promote it.
+```
+
+> **A MOVE GOES TO `DONE` ONLY WHEN ITS OWN ACCEPTANCE TEST HAS BEEN RUN BY
+> THE CAPTAIN.** The assistant cannot reach the surface and cannot mark it —
+> and an assistant marking its own work done is how a register starts lying
+> about itself.
+
+**STATES ARE UNSET BELOW #72.** Moves #1–#71 predate this column and are not
+marked, because marking them from memory would be guessing at seventy-one
+acceptance tests. They keep their place in the triage index until someone
+reads them and says.
+
 **THE NUMBERS ARE NAMES, NOT RANKS.** They are referenced from the handoff and
 from other briefs, so they do not move once given. The order lives in THE
 CRITICAL PATH below, and a move added late can outrank one added early.
@@ -50,20 +73,26 @@ Ordered by how much it hurts to leave undone.
 ## ▶ TRIAGE INDEX — updated 3 Sep 2026
 *Sorted by status. The entries themselves are unchanged, below. Start here.*
 
+**✅ DONE — acceptance test passed:**
+- **#74 — the ground that forces a choice.** The narrows register, its probe, its drawing module, and the terrain harvest that measured it. Three coordinates in the register are still wrong and are named in the entry.
+- **#76 — a key that counts.** The legend that became a census. Ten rows, live counts, each a switch.
+
+**🔨 IN HAND — started, not finished:**
+- **#75 — the registers are the product.** `DATA-LICENSE.md` and `REGISTERS.md` written. The version tag and the per-row provenance columns are not.
+- **#79 — the persuasive sheet.** `amenti-attica-cues.js` exists with four sourced cues. The required `source` is a string in the file rather than a column, and no probe refuses a cue without one.
+- **#80 — the aftermath.** `holds` and `source` are in `ATTICA-EVENTS.csv` with three sourced spans. **NOTHING DRAWS THEM YET.**
+- **#81 — a file must say where it lives.** In force for every new file. The repository sweep and the probe that would check it are not done.
+
+**⛔ REFUSED — decided, and kept for the reasoning:**
+- **#77 — a proxy becomes a foundation.** Modern roads will not underlie ancient ones. `itiner-e` is still worth checking and that is a different move. See `BRIEF-A-PROXY-BECOMES-A-FOUNDATION.md`.
+
 **⭐ DO NEXT (the queue):**
 - **#58 — the mention graph harvest.** THE HEADLINE. Both halves aboard (historian texts + 1,501 dated souls). Prove on one text. (#47 is the same build — merged.)
 - **#56 — the reign-span schema.** Unlocks the ancient Near East (Babylon, Persia, Egypt) whose kings kept reigns, not birthdays.
-- **#72 — the soul with one real date.** The other half of #56: 96 souls carry a century in a year cell. One schema decision covers both.
-- **#73 — the key that names two men.** The index counts 6 plates and rooms that do not exist. A 3-line probe fix.
-- **#74 — the ground that forces a choice.** Passes and bogs: the geography that decides where history happens, and the register had none of it.
-- **#75 — the registers are the product.** Every instrument already reads a file rather than another instrument. Nobody can legally use any of it.
-- **#76 — a key that counts.** The legend became a census of what each period holds, and the world map's key does neither.
-- **#77 — a proxy becomes a foundation.** Modern roads for ancient ones: refused, and the refusal is a rule for every shortcut of that kind.
-- **#78 — a tour is a sequence of register states.** The switches turned out to be a narrator that asserts nothing. The honest form of the storytelling move.
-- **#79 — the sheet is the most persuasive layer and the least accountable.** The expressive pane over locked registers, and the two rules that keep it honest.
-- **#80 — the battle is rare and the aftermath is everywhere.** 82% of the timeline sits within a century of a recorded conflict. The register holds moments and not consequences.
-- **#81 — a file must say where it lives.** The destination in the file's own header. Trivial per file, dangerous as a sweep: JSON cannot take a comment.
-- **#82 — a register of the slain.** All conflict is violent, so the sort was moral and was refused. What was wanted is a register of people and their manner of death — and the silence around the unnamed.
+- **#72 · OPEN — the soul with one real date.** The other half of #56: 96 souls carry a century in a year cell. One schema decision covers both.
+- **#73 · OPEN — the key that names two men.** The index counts 6 plates and rooms that do not exist. A 3-line probe fix.
+- **#78 · OPEN — a tour is a sequence of register states.** The switches turned out to be a narrator that asserts nothing. The honest form of the storytelling move.
+- **#82 · OPEN — a register of the slain.** All conflict is violent, so the sort was moral and was refused. What was wanted is a register of people and their manner of death — and the silence around the unnamed.
 - **#49 — the science cohort rooms.** ~30 authors dated and waiting; 4 shelved.
 
 **📐 PRINCIPLES (keep, never “done”):** #53 who/when/where colouring · #54 the reference layer · #55 the ratchet · #57 the marketing language.
@@ -2263,6 +2292,7 @@ made load-bearing. The principle is sound and the machinery half exists.
   and the derivation shows its working the way the hall's does.
 
 ### 72 · A SOUL WITH ONE REAL DATE — the second half of #56, and nobody had counted it
+**State: OPEN** — the schema decision is unmade; probe-anomalies counts them and nothing acts on it.
 Found 6 Sep by `probe-anomalies`, in a section added the same hour. #56 named
 the reign gap: the ancient Near East kept regnal years and the schema demands a
 lifespan. **This is the same schema demanding two dates from a record that holds
@@ -2329,6 +2359,7 @@ placeholder wear the shape of a fact.
 ---
 
 ### 73 · A KEY THAT NAMES TWO MEN — and the index counts art that is not there
+**State: OPEN** — the 3-line probe-roster fix is not in.
 Found 6 Sep, reading `probe-roster.mjs` against `img/KEYS.json`.
 
 `ROSTER-INDEX.json` says the ship has **54 plates and 55 rooms. It has 51 and
@@ -2416,6 +2447,7 @@ larger than the pair count, and the pair count is not a measure of it.**
 ---
 
 ### 74 · THE GROUND THAT FORCES A CHOICE — a register the map has never had
+**State: DONE** — NARROWS.csv, probe-narrows, amenti-narrows.js and the terrain harvest are all placed and drawing; the Fens do not draw after 1650 and Thermopylae's tooltip carries its measured crossing. Three coordinates remain wrong and are noted in the entry — a fault in the data, not the move.
 Raised 7 Sep, out of asking what a magnifier over Thermopylae would actually
 show. The answer was: a coastline and an ember mark. **The pass is not on the
 map, because nothing in any register knows it exists.**
@@ -2496,6 +2528,7 @@ confidence the terrain refused.
 ---
 
 ### 75 · THE REGISTERS ARE THE PRODUCT, AND NOBODY CAN LEGALLY USE THEM
+**State: IN HAND** — DATA-LICENSE.md and REGISTERS.md written; the tag and the per-row provenance columns are not.
 Raised 7 Sep, out of a mentions harvest that cost an evening only because two
 registers already existed in a readable shape.
 
@@ -2577,6 +2610,7 @@ headline move. The two are the same work seen from two ends.
 ---
 
 ### 76 · A KEY THAT COUNTS IS AN INSTRUMENT — the legend as a census
+**State: DONE** — the legend counts and switches on the Attica surface, ten rows including events and moves. The same treatment on the world map is a separate move and is not raised yet.
 Raised 7 Sep, out of a legend built to explain nine marks that turned out to
 answer a question nothing else on the surface could.
 
@@ -2626,6 +2660,7 @@ being computed to draw the marks.
 ---
 
 ### 77 · A PROXY BECOMES A FOUNDATION — modern roads for ancient ones
+**State: REFUSED** — modern roads will not be used as a foundation. `itiner-e` is still worth checking and that is a different move.
 Raised 7 Sep, out of a good idea that had to be refused, and the refusal is
 worth more than the idea was.
 
@@ -2693,6 +2728,7 @@ downstream.
 ---
 
 ### 78 · A TOUR IS A SEQUENCE OF REGISTER STATES, NOT A SCRIPT
+**State: OPEN** — nothing built; the switches it would drive all exist.
 Raised 7 Sep, out of a switchable legend that turned out to be the narrator the
 ship has been circling for two days.
 
@@ -2745,6 +2781,7 @@ casually would cost more than the tour is worth.
 ---
 
 ### 79 · THE SHEET IS THE MOST PERSUASIVE LAYER AND THE LEAST ACCOUNTABLE
+**State: IN HAND** — amenti-attica-cues.js is written and carries four sourced cues; the required `source` field is a string in the file rather than a column, and no probe refuses a cue without one.
 Raised 8 Sep, on building `amenti-attica-cues.js` — a pane over the Attica
 surface carrying fire, smoke and motion, with everything below it locked.
 
@@ -2808,6 +2845,7 @@ on the surface, and it would rest on nothing. **CAN THE CUE NAME A PASSAGE.**
 ---
 
 ### 80 · THE BATTLE IS RARE AND THE AFTERMATH IS EVERYWHERE
+**State: IN HAND** — `holds` and `source` columns added to ATTICA-EVENTS.csv with three sourced spans; NO MARK DRAWS THEM YET.
 Raised 8 Sep, out of a cue layer that could animate a moment and had no way to
 animate what a moment left behind.
 
@@ -2864,6 +2902,7 @@ layer that will misdescribe the third.
 ---
 
 ### 81 · A FILE MUST SAY WHERE IT LIVES
+**State: IN HAND** — the convention is in force for new files; the repository sweep and the probe that would check it are not.
 Raised 8 Sep, after a register was handed over with a full explanation of its
 columns, its doctrine and its rules — and no statement of where to put it.
 
@@ -2919,6 +2958,7 @@ IS THE WORK — the header is trivial.
 ---
 
 ### 82 · A REGISTER OF THE SLAIN — and the silence around it
+**State: OPEN** — no columns added to names.csv, no second mode on the left column.
 Raised 8 Sep, out of trying to give conflict its own marks and finding that the
 distinction wanted was not about events at all.
 
