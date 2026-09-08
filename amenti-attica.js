@@ -607,9 +607,38 @@
      AND A PLACE WITH NO SPAN IS ALWAYS DRAWN. 705 of 1,746 carry no date,
      which is Pleiades not knowing rather than the place not existing. Hiding
      them in every period would invent an absence. */
+  /* ── A MODERN DATE IS NOT AN ANCIENT ONE · found by probe-attica, 8 Sep ──
+     Pleiades dates a LOCATION, and for 200 of these 1,746 places the only
+     location on file is a modern survey point — so the span reads AD
+     2000–2099. That is correct at the source: it is recording when somebody
+     stood on the ground and fixed it.
+
+     READ AS THE DATE OF THE THING IT IS A DISASTER, and it was. Measured:
+
+         200 places vanished from EVERY ancient period, all five
+          43 of them mountains — Hymettos did not exist in 480 BC
+          11 named gates of the Themistoklean wall
+          15 islands, 17 capes, 7 temples
+
+     Eleven per cent of the register was invisible in every view except "all of
+     it", and no screenshot showed it because what is missing does not draw.
+
+     A PLACE WHOSE ONLY DATE IS MODERN HAS NO ANCIENT DATE, which is a
+     different fact from being absent in antiquity. It is treated as UNDATED —
+     always drawn, dimmed, counted in the undated tally — because that is what
+     the register actually knows. The alternative, believing the survey year,
+     asserts that a mountain was not there. */
+  var MODERN_FROM = 1500;
+
+  function undatedInAntiquity(r) {
+    if (r.from === null && r.until === null) { return true; }
+    if (r.from !== null && r.from >= MODERN_FROM) { return true; }
+    return false;
+  }
+
   function alive(r) {
     if (era.a === null) { return true; }
-    if (r.from === null && r.until === null) { return true; }
+    if (undatedInAntiquity(r)) { return true; }
     if (r.until !== null && r.until < era.a) { return false; }
     if (r.from !== null && r.from > era.b) { return false; }
     return true;
@@ -691,7 +720,7 @@
             Math.abs(p[1] - placed[i][1]) < LBL * 1.4 * iv) { fit = false; break; }
       }
       if (fit && K >= 1.8) { placed.push([p[0], p[1], w]); named++; } else { fit = false; dropped++; }
-      var und = (r.from === null && r.until === null);
+      var und = undatedInAntiquity(r);
       if (und) { undated++; }
       var m = markOf(r.kind);
       tally[m] = (tally[m] || 0) + 1;
@@ -762,8 +791,10 @@
       (named ? named + ' named' : '<b>nothing named at this zoom</b> \u2014 every ' +
                'label collides; zoom past \u00d71.8') +
       (named && dropped ? ', ' + dropped + ' with no room' : '') +
-      (undated ? ' \u00b7 <b>' + undated + ' undated</b>, drawn dim in every period: ' +
-                 'Pleiades not knowing WHEN is not the place not existing' : '') +
+      (undated ? ' \u00b7 <b>' + undated + ' with no ancient date</b>, drawn dim in ' +
+                 'every period \u2014 either Pleiades does not know when, or the only ' +
+                 'date on file is a MODERN SURVEY, and a survey year is not the ' +
+                 'age of a mountain' : '') +
       (era.a === null
         ? ' \u00b7 <b>all of it at once, which is a smear</b> \u2014 pick a period'
         : ' \u00b7 <b>five periods, not years</b> \u2014 \u201cClassical\u201d is dated ' +
@@ -1124,10 +1155,13 @@
       if (!r) { return; }
       hit.textContent = r.name + '\n' + (r.kind || '') +
         '\n' + (r.tier === 'pin' ? 'a position' : 'somewhere in this area') +
-        (r.from !== null || r.until !== null
-          ? '\nattested ' + (r.from !== null ? yr(r.from) : '?') + ' to ' +
-            (r.until !== null ? yr(r.until) : '?')
-          : '\nno date in the register') +
+        (r.from !== null && r.from >= MODERN_FROM
+          ? '\nno ancient date \u2014 the only location on file is a modern survey (' +
+            yr(r.from) + ')'
+          : (r.from !== null || r.until !== null
+              ? '\nattested ' + (r.from !== null ? yr(r.from) : '?') + ' to ' +
+                (r.until !== null ? yr(r.until) : '?')
+              : '\nno date in the register')) +
         '\n' + r.km + ' km from the Acropolis' +
         (function () {
           var mn = mentions && mentions[r.key];
