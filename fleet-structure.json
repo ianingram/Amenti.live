@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-08T04:27:41.377Z",
+    "generated": "2026-09-08T04:33:16.484Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1420,7 +1420,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 50879,
-      "sha256": "f9c8da34cffe6762",
+      "sha256": "dccdf90a6032b4f3",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1749,7 +1749,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 51,
+    "count": 52,
     "files": [
       {
         "file": "events-gaz.mjs",
@@ -1786,6 +1786,12 @@
         "title": "WHAT NOBODY THOUGHT TO LOOK FOR",
         "guards": null,
         "bytes": 14800
+      },
+      {
+        "file": "probe-attica.mjs",
+        "title": null,
+        "guards": null,
+        "bytes": 13286
       },
       {
         "file": "probe-citations.mjs",
