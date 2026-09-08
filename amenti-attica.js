@@ -103,6 +103,78 @@
   var el = null, svg = null, view = null, open = false;
   var rows = null, loadErr = null, era = PERIODS[0];
 
+  /* ── NINE MARKS FOR A HUNDRED AND EIGHT KINDS ─────────────────────────────
+     ATTICA.csv holds 108 distinct place types and drew every one as the same
+     cyan dot — which told a reader that a temple, a silver mine and a ship
+     harbour are the same kind of fact. They are not.
+
+     The kinds are grouped by WHAT A READER WOULD ASK ABOUT THEM, not by
+     Pleiades' vocabulary, and each mark is drawable in a few strokes at three
+     pixels because that is the size it will usually be:
+
+         settled   570   a filled dot — the default, and the map's own pin
+         ground    328   a peak stroke, matching the world map's summits
+         sacred    268   a gable: temple, sanctuary, shrine, acropolis
+         defence   168   a crenellation: fort, tower, wall, gate
+         built     113   an open square, as the world map draws a site
+         worked     81   crossed strokes: mine, quarry, kiln
+         games      50   an oval, the shape of the track itself
+         buried     47   a stele, upright
+         harbour    31   a crescent, the shape of a bay
+         other      90   region, province, map label — no mark to make
+
+     GOLD IS NOT SPENT HERE and none of these borrows the world map's ember,
+     which is an event, or its amber diamond, which is the sky. */
+  var MARKS = [
+    ['harbour', /\bport\b|harbor|harbour|limen|mole|quay/],
+    ['games',   /stadi|gymnas|palaestra|palaistra|hippodrom|theatre|theater|odeon|odeum/],
+    ['sacred',  /sanctuar|shrine|acropolis|temple|altar|oracle|temenos/],
+    ['defence', /\bfort|tower|wall|gate|castle|citadel|rampart/],
+    ['worked',  /\bmine\b|quarry|kiln|workshop|factory/],
+    ['buried',  /tomb|necropolis|cemeter|tumulus|catacomb|grave|mausoleum/],
+    ['built',   /stoa|basilica|church|building|architectural|monument|bath|villa|house|library|bridge|aqueduct|fountain/],
+    ['ground',  /mountain|hill|peak|cape|promontor|island|river|spring|lake|plain|valley|pass|cave|water/],
+    ['settled', /settlement|deme|village|town|city|station|people/]
+  ];
+  function markOf(kind) {
+    var k = String(kind || '').toLowerCase();
+    for (var i = 0; i < MARKS.length; i++) {
+      if (MARKS[i][1].test(k)) { return MARKS[i][0]; }
+    }
+    return 'other';
+  }
+
+  /* each returns a path `d` about the origin, at radius a */
+  function shape(m, a) {
+    var f = function (v) { return v.toFixed(2); };
+    if (m === 'sacred') {                 /* a gable */
+      return 'M' + f(-a) + ' ' + f(a * .6) + 'L0 ' + f(-a) + 'L' + f(a) + ' ' + f(a * .6);
+    }
+    if (m === 'defence') {                /* a crenellation */
+      return 'M' + f(-a) + ' ' + f(a) + 'V' + f(-a * .3) + 'h' + f(a * .7) + 'V' + f(-a) +
+             'h' + f(a * .6) + 'V' + f(-a * .3) + 'H' + f(a) + 'V' + f(a);
+    }
+    if (m === 'harbour') {                /* a bay, opening seaward */
+      return 'M' + f(-a) + ' ' + f(-a * .5) + 'A' + f(a) + ' ' + f(a) + ' 0 0 0 ' +
+             f(a) + ' ' + f(-a * .5);
+    }
+    if (m === 'worked') {                 /* crossed strokes */
+      return 'M' + f(-a) + ' ' + f(-a) + 'L' + f(a) + ' ' + f(a) +
+             'M' + f(-a) + ' ' + f(a) + 'L' + f(a) + ' ' + f(-a);
+    }
+    if (m === 'buried') {                 /* a stele */
+      return 'M0 ' + f(a) + 'V' + f(-a) + 'M' + f(-a * .55) + ' ' + f(-a) + 'h' + f(a * 1.1);
+    }
+    if (m === 'built') {                  /* an open square */
+      return 'M' + f(-a) + ' ' + f(-a) + 'h' + f(a * 2) + 'v' + f(a * 2) + 'h' + f(-a * 2) + 'Z';
+    }
+    if (m === 'ground') {                 /* a summit, as the world map draws one */
+      return 'M' + f(-a) + ' ' + f(a * .7) + 'L0 ' + f(-a) + 'L' + f(a) + ' ' + f(a * .7);
+    }
+    if (m === 'games') { return null; }   /* an oval — drawn as <ellipse> */
+    return null;                          /* settled and other — a dot */
+  }
+
   function proj(lat, lon) {
     return [(lon - LO0) / (LO1 - LO0) * VB,
             (LA1 - lat) / (LA1 - LA0) * VB];
@@ -180,6 +252,19 @@
       '#amenti-attica .at-pin{fill:#5fd0e8;fill-opacity:.85;stroke:#081018;',
       '  stroke-width:.35;vector-effect:non-scaling-stroke;cursor:pointer}',
       '#amenti-attica .at-pin:hover{fill:#a9edff;fill-opacity:1}',
+      /* AN OUTLINE IS NOT A FILL. A gable, a crenellation, a bay and a stele
+         are strokes; only the settlement dot and the games oval carry a fill,
+         and the oval is hollow so a track reads as a track. */
+      '#amenti-attica .at-m-sacred,#amenti-attica .at-m-defence,',
+      '#amenti-attica .at-m-harbour,#amenti-attica .at-m-worked,',
+      '#amenti-attica .at-m-buried,#amenti-attica .at-m-built,',
+      '#amenti-attica .at-m-ground,#amenti-attica .at-m-games{',
+      '  fill:none;stroke:#5fd0e8;stroke-opacity:.8;stroke-width:.9;',
+      '  vector-effect:non-scaling-stroke;stroke-linejoin:round;',
+      '  stroke-linecap:round}',
+      '#amenti-attica .at-m-ground{stroke:#8a9bb0;stroke-opacity:.6}',
+      '#amenti-attica .at-m-harbour{stroke:#7fd8f0}',
+      '#amenti-attica .at-pin:hover{stroke:#a9edff;stroke-opacity:1}',
       /* ── UNDATED IS NOT THE SAME CLAIM AS ATTESTED HERE ──────────────────
          705 of 1,746 places carry no span. They are drawn in every period,
          because Pleiades not knowing when is not the place not existing — but
@@ -224,7 +309,24 @@
       '  border-left:1px solid rgba(43,58,80,.5);scrollbar-width:thin}',
       '#amenti-attica .at-li{font-size:12px;line-height:1.5;color:#9fb1c7;',
       '  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:default}',
-      '#amenti-attica .at-li:hover{color:#eaf6ff}',
+      '#amenti-attica .at-li:hover,#amenti-attica .at-li.at-lit{color:#eaf6ff;',
+      '  background:rgba(95,208,232,.08)}',
+      /* ── THE LIST AND THE MAP POINT AT EACH OTHER ──────────────────────
+         The names on the map are 5 px because a thousand of them must not
+         collide; that is right for the map and wrong for READING. So the same
+         places are listed at a legible size down the right, and hovering
+         either end lights the other. The map answers WHERE, the list answers
+         WHICH, and neither has to compromise.
+
+         The lit mark GROWS — the one place on this surface where a mark
+         changes size, and it is not a claim about the world, it is the
+         reader's own pointer. */
+      '#amenti-attica .at-seat.at-lit .at-pin{stroke:#a9edff;stroke-opacity:1;',
+      '  fill-opacity:1;stroke-width:1.6}',
+      '#amenti-attica .at-seat.at-lit{transform-box:fill-box;transform-origin:center}',
+      '#amenti-attica .at-seat.at-lit .at-name{opacity:1;fill:#eaf6ff}',
+      '#amenti-attica .at-halo{fill:none;stroke:#a9edff;stroke-width:1.2;',
+      '  opacity:.65;vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-attica .at-li span{color:#5d6e84;font-size:10.5px}',
       '#amenti-attica .at-ctl{position:absolute;left:26px;right:26px;bottom:16px;',
       '  z-index:6;display:flex;gap:8px;align-items:center;flex-wrap:wrap;',
@@ -258,7 +360,7 @@
           '<g class="at-view">' +
             '<image class="at-ground" x="0" y="0" width="' + VB + '" height="' + VB + '" ' +
               'preserveAspectRatio="none"></image>' +
-            '<g class="at-washes"></g><g class="at-pins"></g>' +
+            '<g class="at-washes"></g><g class="at-pins"></g><g class="at-halo-g"></g>' +
           '</g>' +
         '</svg>' +
         '<div class="at-note"></div>' +
@@ -349,10 +451,21 @@
       if (fit && K >= 1.8) { placed.push([p[0], p[1], w]); named++; } else { fit = false; dropped++; }
       var und = (r.from === null && r.until === null);
       if (und) { undated++; }
-      ph += '<g class="at-seat' + (fit ? ' at-named' : '') +
-            (und ? ' at-undated' : '') + '">' +
-            '<circle class="at-pin" cx="' + p[0].toFixed(2) + '" cy="' + p[1].toFixed(2) +
-            '" r="' + (1.5 * iv).toFixed(2) + '" data-k="' + esc(r.key) + '"/>' +
+      var m = markOf(r.kind), a = 1.9 * iv, d = shape(m, a);
+      var body;
+      if (d) {
+        body = '<path class="at-pin at-m-' + m + '" d="' + d + '" transform="translate(' +
+               p[0].toFixed(2) + ' ' + p[1].toFixed(2) + ')" data-k="' + esc(r.key) + '"/>';
+      } else if (m === 'games') {
+        body = '<ellipse class="at-pin at-m-games" cx="' + p[0].toFixed(2) + '" cy="' +
+               p[1].toFixed(2) + '" rx="' + (a * 1.15).toFixed(2) + '" ry="' +
+               (a * .68).toFixed(2) + '" data-k="' + esc(r.key) + '"/>';
+      } else {
+        body = '<circle class="at-pin at-m-' + m + '" cx="' + p[0].toFixed(2) + '" cy="' +
+               p[1].toFixed(2) + '" r="' + (1.5 * iv).toFixed(2) + '" data-k="' + esc(r.key) + '"/>';
+      }
+      ph += '<g class="at-seat at-' + m + (fit ? ' at-named' : '') +
+            (und ? ' at-undated' : '') + '" data-k="' + esc(r.key) + '">' + body +
             (fit ? '<text class="at-name" x="' + p[0].toFixed(2) + '" y="' +
                    (p[1] - 3.4 * iv).toFixed(2) + '" style="font-size:' + (5 * iv).toFixed(3) +
                    'px;stroke-width:' + (1.5 * iv).toFixed(3) + 'px">' +
@@ -384,6 +497,11 @@
           'period, so this filters less than it looks like it should') +
       ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
 
+    /* the ring is redrawn with the frame so it stays on its place through a
+       pan or a zoom — it is a pointer, and a pointer that lags is worse than
+       none */
+    haloAt(litKey);
+
     var lh = el.querySelector('.at-listhead');
     if (lh) {
       lh.textContent = pins.length + ' pinned \u00b7 nearest first';
@@ -395,8 +513,52 @@
     }).join('') || '<div class="at-li">nothing in this year</div>';
   }
 
+  var litKey = null;
+
+  /* ── LIGHTING BOTH ENDS ─────────────────────────────────────────────────
+     Delegated rather than bound, because both the list and the marks are
+     rebuilt on every draw and a listener attached to a node would die with it.
+     That is the world map's own lesson, kept. */
+  function light(key) {
+    if (key === litKey) { return; }
+    litKey = key;
+    el.querySelectorAll('.at-lit').forEach(function (n) { n.classList.remove('at-lit'); });
+    if (key) {
+      el.querySelectorAll('[data-k="' + String(key).replace(/"/g, '') + '"]')
+        .forEach(function (n) {
+          n.classList.add('at-lit');
+          if (n.classList.contains('at-li') && n.scrollIntoView) {
+            var box = n.getBoundingClientRect(), par = n.parentNode.getBoundingClientRect();
+            if (box.top < par.top || box.bottom > par.bottom) {
+              n.scrollIntoView({ block: 'nearest' });
+            }
+          }
+        });
+    }
+    haloAt(key);
+  }
+
+  /* A RING ROUND THE LIT PLACE. The marks themselves never grow — a mark
+     stands for a claim and a claim does not get bigger — so the ring carries
+     the pointing instead, and it is plainly not one of the map's own marks. */
+  function haloAt(key) {
+    var g = el.querySelector('.at-halo-g');
+    if (!g) { return; }
+    if (!key || !rows) { g.innerHTML = ''; return; }
+    var r = rows.filter(function (x) { return x.key === key; })[0];
+    if (!r || !alive(r)) { g.innerHTML = ''; return; }
+    var p = proj(r.lat, r.lon), a = 6 / K;
+    g.innerHTML = '<circle class="at-halo" cx="' + p[0].toFixed(2) + '" cy="' +
+                  p[1].toFixed(2) + '" r="' + a.toFixed(2) + '"/>';
+  }
+
   function wire() {
     var hit = el.querySelector('.at-hit');
+    el.addEventListener('pointerover', function (e) {
+      var n = e.target.closest ? e.target.closest('[data-k]') : null;
+      light(n ? n.getAttribute('data-k') : null);
+    });
+    el.addEventListener('pointerleave', function () { light(null); });
     el.addEventListener('pointerover', function (e) {
       var n = e.target.closest ? e.target.closest('[data-k]') : null;
       if (!n) { hit.style.opacity = 0; return; }
