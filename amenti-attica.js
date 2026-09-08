@@ -359,6 +359,10 @@
       '  opacity:.65;vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-attica .at-li span{color:#5d6e84;font-size:10.5px}',
       '#amenti-attica .at-licited{color:#dbe8f5}',
+      /* a small open rectangle after the name: this one is an area, not a
+         point, and the wash on the map is the same claim */
+      '#amenti-attica .at-liwash i{font-style:normal;color:#5b7794;',
+      '  font-size:9px;padding-left:2px}',
       '#amenti-attica .at-licited span{color:#5fd0e8}',
       '#amenti-attica .at-ctl{position:absolute;left:26px;right:26px;bottom:16px;',
       '  z-index:6;display:flex;gap:8px;align-items:center;flex-wrap:wrap;',
@@ -623,13 +627,37 @@
 
     var lh = el.querySelector('.at-listhead');
     if (lh) {
-      lh.textContent = pins.length + ' pinned \u00b7 nearest first';
+      lh.textContent = (mentions ? 'most named first' : 'nearest first') +
+        ' \u00b7 ' + pins.length + ' pinned, ' + wash.length + ' area' +
+        (wash.length === 1 ? '' : 's');
     }
+    /* ── THE MOST-NAMED PLACE WAS MISSING FROM THE LIST OF MOST-NAMED ─────
+       The column showed pins only, and `Athenae` is a WASH — Pleiades records
+       the city as an area rather than a point, which is correct and is why it
+       has no dot. So Athens, named in 61 reading rooms against Corinth's 27,
+       did not appear at all, and a reader scanning for it would conclude the
+       corpus is silent on Athens.
+
+       An area is not a lesser place. It is listed with everything else and
+       says what it is, because THAT IT IS AN AREA IS INFORMATION AND NOT A
+       REASON TO HIDE IT. The mark still differs on the map; only the ranking
+       stops caring. */
+    var listed = shown.slice().sort(function (a, b) {
+      var ma = mentions && mentions[a.key], mb = mentions && mentions[b.key];
+      var sa = ma ? ma.src : 0, sb = mb ? mb.src : 0;
+      if (sa !== sb) { return sb - sa; }
+      return (+a.km) - (+b.km);
+    });
+
     var lb = el.querySelector('.at-list');
-    lb.innerHTML = pins.slice(0, 90).map(function (r) {
+    lb.innerHTML = listed.slice(0, 90).map(function (r) {
       var mn = mentions && mentions[r.key];
+      var isWash = r.tier !== 'pin';
       return '<div class="at-li' + (mn && mn.src > 1 ? ' at-licited' : '') +
-             '" data-k="' + esc(r.key) + '">' + esc(r.name) +
+             (isWash ? ' at-liwash' : '') +
+             '" data-k="' + esc(r.key) + '" title="' +
+             (isWash ? 'somewhere in this area \u2014 no single position' : '') + '">' +
+             esc(r.name) + (isWash ? ' <i>\u25ad</i>' : '') +
              ' <span>' + (mn ? mn.src + ' room' + (mn.src === 1 ? '' : 's')
                              : r.km + ' km') + '</span></div>';
     }).join('') || '<div class="at-li">nothing in this year</div>';
