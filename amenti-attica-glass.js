@@ -30,8 +30,13 @@
    are outside it. What changes is how much of the earth you can see, not how
    loudly the register asserts anything.
 
-   Labels are the exception, as they are on the surface: a label is text to be
-   read, not a claim about the world, so it grows with the magnification.
+   AND THE LABELS GROW ONLY SO FAR. A label is text to be read rather than a
+   claim about the world, so unlike a mark it may get bigger — but the growth
+   was left uncapped and at x36 "Mine of Laureion" was a billboard across the
+   circle. PAST LEGIBILITY, LARGER TYPE STOPS BEING READABILITY AND STARTS
+   BEING EMPHASIS, and emphasis is a claim about importance that no register
+   made. Capped at 1.9x, which is enough to read comfortably and not enough to
+   shout.
 
    ── A MODULE, AND IT READS ITS HOST ───────────────────────────────────────
    One script tag, no edit to amenti-attica.js. It reads that surface's camera
@@ -135,6 +140,15 @@
        AT ITS ORIGINAL SIZE. A pin means "here" whether or not a reader is
        holding a lens over it. The names DO grow, because a name is text to
        read and not a claim about the world. */
+    /* ── THE TYPE IS COUNTER-SCALED INSIDE THE GLASS ──────────────────────
+       Everything in the copied group is multiplied by M, which is right for
+       position and wrong for text. The label carries a factor that undoes most
+       of it: the ground magnifies fully, the type grows to TEXT_CAP and no
+       further. Written into the style attribute rather than a class, because
+       the markup is a COPY and a class would style the original too. */
+    var TEXT_CAP = 1.9;
+    var undo = Math.min(1, TEXT_CAP / M);
+
     var gather = R / M, seen = 0;
     var seats = document.querySelectorAll('#amenti-attica .at-pins .at-seat');
     for (var i = 0; i < seats.length; i++) {
@@ -149,7 +163,8 @@
               ') scale(' + M.toFixed(3) + ') translate(' +
               (-bx).toFixed(2) + ' ' + (-by).toFixed(2) + ')">' +
               '<g transform="translate(' + cam.TX.toFixed(2) + ' ' + cam.TY.toFixed(2) +
-              ') scale(' + K.toFixed(4) + ')">' + g.outerHTML + '</g></g>';
+              ') scale(' + K.toFixed(4) + ')">' + capText(g.outerHTML, undo) +
+              '</g></g>';
     }
     layer.querySelector('.atg-body').innerHTML = body;
 
@@ -171,6 +186,19 @@
                       Math.round(320000 / (1000 * total)) + ' m a pixel \u00b7 ' +
                       seen + ' place' + (seen === 1 ? '' : 's') + (frozen ? ' \u00b7 held' : '');
     }
+  }
+
+  /* multiply every inline font-size and stroke-width in a copied mark by f.
+     THE PAIR MOVES TOGETHER — the world map corrected a font on 6 September
+     and left its outline behind, and every name drew as a black lozenge at
+     x14. One factor, both numbers. */
+  function capText(html, f) {
+    if (f >= 1) { return html; }
+    return html.replace(/font-size:\s*([\d.]+)px/g, function (m0, v) {
+      return 'font-size:' + (parseFloat(v) * f).toFixed(4) + 'px';
+    }).replace(/stroke-width:\s*([\d.]+)px/g, function (m0, v) {
+      return 'stroke-width:' + (parseFloat(v) * f).toFixed(4) + 'px';
+    });
   }
 
   function onMove(e) {
