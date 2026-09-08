@@ -470,6 +470,19 @@
     view.setAttribute('transform',
       'translate(' + TX.toFixed(2) + ' ' + TY.toFixed(2) + ') scale(' + K.toFixed(4) + ')');
     var iv = 1 / K;
+    /* ── A LABEL IS NOT A MARK, AND MAY GROW ─────────────────────────────
+       The rule that a mark does not get bigger is about CLAIMS: a pin means
+       "here" at every scale, and swelling it would assert a size no register
+       holds. A LABEL IS NOT A CLAIM ABOUT THE WORLD. It is text to read, and
+       at ×1 it is 5 px because a thousand names are competing for the room.
+       Zoom in and most of that competition leaves the screen, so the type can
+       have the space it was denied.
+
+       It grows on a LOGARITHM, not on K. Linear growth would put the marks
+       back where the counter-scale took them from — 5 px at ×1 becoming 60 px
+       at ×12 — and the surface would be a wall of type. This runs 5.0 px at ×1
+       to about 8.6 px at ×12: legible, and still smaller than the list. */
+    var TY = 5.0 * (1 + Math.log(Math.max(1, K)) * 0.22);
     var shown = rows.filter(alive);
     var pins = shown.filter(function (r) { return r.tier === 'pin'; });
     var wash = shown.filter(function (r) { return r.tier !== 'pin'; });
@@ -512,10 +525,10 @@
     });
     pins.forEach(function (r) {
       var p = proj(r.lat, r.lon);
-      var fit = true, w = (r.name || '').length * 1.6 * iv;
+      var fit = true, w = (r.name || '').length * (TY * 0.32) * iv;
       for (var i = 0; i < placed.length; i++) {
         if (Math.abs(p[0] - placed[i][0]) < (w + placed[i][2]) &&
-            Math.abs(p[1] - placed[i][1]) < 7 * iv) { fit = false; break; }
+            Math.abs(p[1] - placed[i][1]) < TY * 1.4 * iv) { fit = false; break; }
       }
       if (fit && K >= 1.8) { placed.push([p[0], p[1], w]); named++; } else { fit = false; dropped++; }
       var und = (r.from === null && r.until === null);
@@ -546,9 +559,14 @@
             (und ? ' at-undated' : '') +
             (mn ? (mn.src > 1 ? ' at-cited' : ' at-mentioned') : '') +
             '" data-k="' + esc(r.key) + '">' + body +
+            /* THE OUTLINE MOVES WITH THE TYPE. Sized from TY, not from a
+               constant — the world map corrected its font on 6 September and
+               left the stroke behind, and every name drew as a black lozenge
+               at ×14. One pair, one number. */
             (fit ? '<text class="at-name" x="' + p[0].toFixed(2) + '" y="' +
-                   (p[1] - 3.4 * iv).toFixed(2) + '" style="font-size:' + (5 * iv).toFixed(3) +
-                   'px;stroke-width:' + (1.5 * iv).toFixed(3) + 'px">' +
+                   (p[1] - TY * 0.68 * iv).toFixed(2) + '" style="font-size:' +
+                   (TY * iv).toFixed(3) + 'px;stroke-width:' +
+                   (TY * 0.3 * iv).toFixed(3) + 'px">' +
                    esc(r.name) + '</text>' : '') +
             '</g>';
     });
