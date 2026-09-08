@@ -153,10 +153,33 @@
      THE DASHES ARE THE IGNORANCE — and the head carries the one extra thing
      that is recorded, which is which way round.
 
-     THE CURVE IS NOT A ROUTE. It bows a fixed amount so two legs between the
-     same pair do not sit on top of each other, and the bow is the same for a
-     fleet crossing open water as for an army on a road. A route-shaped line
-     would be claiming the route. */
+     AND IT IS DRAWN AS A ZIGZAG RATHER THAN A BOW. The bow is the traditional
+     choice and that is the trouble with it: A BOW LOOKS LIKE A PLAUSIBLE
+     ROUTE. It reads as a great circle, or as a coast being followed, and a
+     reader has no way to tell a drawing convention from a claim about a
+     course.
+
+     A ZIGZAG CANNOT BE MISTAKEN FOR A PATH. Nothing sailed that way. And it
+     carries a second reading that happens to be exactly right: in drafting, a
+     zigzag IS THE BREAK SYMBOL — it means "something omitted here", which is
+     precisely what an unrecorded route is.
+
+     THE REGULARITY IS WHAT CARRIES IT. A mechanical zigzag of fixed amplitude
+     is obviously drawn; an irregular one would read as wandering, which is a
+     claim about how the fleet sailed.
+
+     ── AND IT RUNS BETWEEN TWO RAILS ─────────────────────────────────────
+     Like a skier through gates. The rails make the zigzag read as CONTAINED —
+     deliberately drawn between limits rather than meandering — and a reader
+     who sees a line bouncing between two guides understands at once that they
+     are looking at a diagram and not at a track.
+
+     THE RAILS ARE A DRAWING FRAME AND NOT A CLAIM, and the distinction
+     matters. If their width meant "the passage was somewhere in this band"
+     they would be a wash, and a wash needs evidence — which for a course
+     across open water nobody has. So the width is FIXED by the length of the
+     leg and by nothing else. It says how the picture is drawn, not how wide
+     the possibilities were. */
   var moves = null, movesErr = null;
 
   var scrub = null;        /* the year, or null for the whole period */
@@ -421,14 +444,27 @@
          A fleet is the colour of water, an army the colour of dry ground, a
          flight the colour of the event that caused it. None of them is solid,
          because a solid line would say the path is known. */
-      '#amenti-attica .at-mv{fill:none;stroke-width:1.5;stroke-dasharray:5 4;',
+      /* NO DASHES ON TOP OF THE ZIGZAG. The dashes were carrying the ignorance
+         when the line was a smooth bow; the zigzag now carries it, and both at
+         once reads as noise rather than as a statement. A flight keeps its
+         dashes because it is the one kind whose ENDPOINT is also uncertain. */
+      '#amenti-attica .at-mv{fill:none;stroke-width:1.5;stroke-linejoin:round;',
       '  vector-effect:non-scaling-stroke;opacity:.75;stroke-linecap:round;',
       '  cursor:pointer}',
-      '#amenti-attica .at-mv:hover{opacity:1;stroke-width:2.2}',
-      '#amenti-attica .at-mv-fleet{stroke:#7fd8f0;marker-end:url(#at-head-fleet)}',
-      '#amenti-attica .at-mv-army{stroke:#c9d6a8;marker-end:url(#at-head-army)}',
-      '#amenti-attica .at-mv-flight{stroke:#e0913f;marker-end:url(#at-head-flight);',
-      '  stroke-dasharray:2 5}',
+      '#amenti-attica .at-mvg:hover{opacity:1 !important}',
+      '#amenti-attica .at-mvg:hover .at-mv{stroke-width:2.2}',
+      /* the rails: faint, straight, and marker-less. They frame the zigzag and
+         must not themselves be read as a course, so they carry no arrowhead
+         and half the weight. */
+      '#amenti-attica .at-rail{fill:none;stroke-width:.6;opacity:.3;',
+      '  vector-effect:non-scaling-stroke;marker-end:none;stroke-dasharray:none}',
+      '#amenti-attica .at-mv.at-mv-fleet{stroke:#7fd8f0;marker-end:url(#at-head-fleet)}',
+      '#amenti-attica .at-mv.at-mv-army{stroke:#c9d6a8;marker-end:url(#at-head-army)}',
+      '#amenti-attica .at-mv.at-mv-flight{stroke:#e0913f;',
+      '  marker-end:url(#at-head-flight);stroke-dasharray:3 4}',
+      '#amenti-attica .at-rail.at-mv-fleet{stroke:#7fd8f0}',
+      '#amenti-attica .at-rail.at-mv-army{stroke:#c9d6a8}',
+      '#amenti-attica .at-rail.at-mv-flight{stroke:#e0913f}',
       '#amenti-attica .at-halo{fill:none;stroke:#a9edff;stroke-width:1.2;',
       '  opacity:.65;vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-attica .at-li span{color:#5d6e84;font-size:10.5px}',
@@ -753,14 +789,41 @@
           var glow = scrub === null ? 1 : Math.max(0.08, 1 - d / FADE);
           mvn++;
           var A = proj(v.from_lat, v.from_lon), B = proj(v.to_lat, v.to_lon);
-          var mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
           var dx = B[0] - A[0], dy = B[1] - A[1];
-          var qx = mx - dy * 0.16, qy = my + dx * 0.16;
-          mh += '<path class="at-mv at-mv-' + esc(v.kind || 'fleet') +
-                '" style="opacity:' + (0.12 + 0.7 * glow).toFixed(3) +
-                '" data-mv="' + esc(v.name) + '" d="M' + A[0].toFixed(2) + ' ' +
-                A[1].toFixed(2) + 'Q' + qx.toFixed(2) + ' ' + qy.toFixed(2) + ' ' +
-                B[0].toFixed(2) + ' ' + B[1].toFixed(2) + '"/>';
+          var len = Math.hypot(dx, dy) || 1;
+          var ux = dx / len, uy = dy / len;         /* along */
+          var nx = -uy, ny = ux;                    /* across */
+
+          /* an ODD number of legs, so the zigzag begins and ends on the line
+             and the head points along the chord rather than off at an angle */
+          var teeth = Math.max(3, Math.min(11, Math.round(len / 26) * 2 + 1));
+          var amp = Math.min(len * 0.10, 13);
+          var d2 = 'M' + A[0].toFixed(2) + ' ' + A[1].toFixed(2);
+          for (var t = 1; t < teeth; t++) {
+            var f = t / teeth;
+            var off = (t % 2 ? 1 : -1) * amp;
+            d2 += 'L' + (A[0] + ux * len * f + nx * off).toFixed(2) + ' ' +
+                        (A[1] + uy * len * f + ny * off).toFixed(2);
+          }
+          d2 += 'L' + B[0].toFixed(2) + ' ' + B[1].toFixed(2);
+
+          /* the two rails the zigzag runs between, drawn faint and straight so
+             they cannot be read as a route either */
+          var rail = function (sgn) {
+            return 'M' + (A[0] + nx * amp * sgn).toFixed(2) + ' ' +
+                         (A[1] + ny * amp * sgn).toFixed(2) +
+                   'L' + (B[0] + nx * amp * sgn).toFixed(2) + ' ' +
+                         (B[1] + ny * amp * sgn).toFixed(2);
+          };
+          mh += '<g class="at-mvg" data-mv="' + esc(v.name) + '" style="opacity:' +
+                (0.12 + 0.7 * glow).toFixed(3) + '">' +
+                '<path class="at-rail at-mv-' + esc(v.kind || 'fleet') +
+                  '" d="' + rail(1) + '"/>' +
+                '<path class="at-rail at-mv-' + esc(v.kind || 'fleet') +
+                  '" d="' + rail(-1) + '"/>' +
+                '<path class="at-mv at-mv-' + esc(v.kind || 'fleet') +
+                  '" d="' + d2 + '"/>' +
+                '</g>';
         });
       }
       mg.innerHTML = mh;
@@ -958,8 +1021,10 @@
             (w.note ? '\n\n' + w.note : '') +
             (w.source ? '\n\n' + w.source : '') +
             '\n\n— FROM HERE TO HERE, NOT THE ROUTE TAKEN. The ends are recorded; ' +
-            'the course, the formation and the rate are not, and the curve is a ' +
-            'drawing convention.';
+            'the course, the formation and the rate are not. THE ZIGZAG IS A ' +
+            'BREAK SYMBOL, not a path — nothing sailed or marched that way, and ' +
+            'the two rails are a drawing frame rather than the width of the ' +
+            'possibilities.';
           hit.style.opacity = 1;
         }
       }
