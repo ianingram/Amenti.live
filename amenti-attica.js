@@ -146,6 +146,19 @@
      So the periods drive the places and the year drives the events, and the
      surface says so rather than letting a reader assume one control moves
      everything. A SURFACE WITH TWO CLOCKS IS HONEST WHERE ONE WOULD BE A LIE. */
+  /* ── THE MOVES · optional ───────────────────────────────────────────────
+     ATTICA-MOVES.csv holds departures and arrivals, both recorded, and NOTHING
+     BETWEEN THEM. An arrow asserts a start, an end, a direction, a path and a
+     rate; the sources record two of those five. So the arc is drawn dashed —
+     THE DASHES ARE THE IGNORANCE — and the head carries the one extra thing
+     that is recorded, which is which way round.
+
+     THE CURVE IS NOT A ROUTE. It bows a fixed amount so two legs between the
+     same pair do not sit on top of each other, and the bow is the same for a
+     fleet crossing open water as for an army on a road. A route-shaped line
+     would be claiming the route. */
+  var moves = null, movesErr = null;
+
   var scrub = null;        /* the year, or null for the whole period */
   var FADE = 40;           /* years either side that an event still glows */
 
@@ -404,6 +417,18 @@
       '  paint-order:stroke;stroke:#05080e;stroke-opacity:.85;stroke-linejoin:round}',
       /* an authored coordinate is drawn dashed: this one stands on no place */
       '#amenti-attica .at-ev-loose{stroke-dasharray:2 2}',
+      /* ── THE DASHES ARE THE IGNORANCE ───────────────────────────────────
+         A fleet is the colour of water, an army the colour of dry ground, a
+         flight the colour of the event that caused it. None of them is solid,
+         because a solid line would say the path is known. */
+      '#amenti-attica .at-mv{fill:none;stroke-width:1.5;stroke-dasharray:5 4;',
+      '  vector-effect:non-scaling-stroke;opacity:.75;stroke-linecap:round;',
+      '  cursor:pointer}',
+      '#amenti-attica .at-mv:hover{opacity:1;stroke-width:2.2}',
+      '#amenti-attica .at-mv-fleet{stroke:#7fd8f0;marker-end:url(#at-head-fleet)}',
+      '#amenti-attica .at-mv-army{stroke:#c9d6a8;marker-end:url(#at-head-army)}',
+      '#amenti-attica .at-mv-flight{stroke:#e0913f;marker-end:url(#at-head-flight);',
+      '  stroke-dasharray:2 5}',
       '#amenti-attica .at-halo{fill:none;stroke:#a9edff;stroke-width:1.2;',
       '  opacity:.65;vector-effect:non-scaling-stroke;pointer-events:none}',
       '#amenti-attica .at-li span{color:#5d6e84;font-size:10.5px}',
@@ -477,6 +502,21 @@
             '<image class="at-ground" x="0" y="0" width="' + VB + '" height="' + VB + '" ' +
               'preserveAspectRatio="none"></image>' +
             '<g class="at-washes"></g><g class="at-pins"></g>' +
+      '<defs>' +
+        '<marker id="at-head-fleet" viewBox="0 0 8 8" refX="7" refY="4" ' +
+          'markerWidth="5" markerHeight="5" orient="auto-start-reverse">' +
+          '<path d="M0 0.6L7.4 4L0 7.4" fill="none" stroke="#7fd8f0" ' +
+          'stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/></marker>' +
+        '<marker id="at-head-army" viewBox="0 0 8 8" refX="7" refY="4" ' +
+          'markerWidth="5" markerHeight="5" orient="auto-start-reverse">' +
+          '<path d="M0 0.6L7.4 4L0 7.4" fill="none" stroke="#c9d6a8" ' +
+          'stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/></marker>' +
+        '<marker id="at-head-flight" viewBox="0 0 8 8" refX="7" refY="4" ' +
+          'markerWidth="5" markerHeight="5" orient="auto-start-reverse">' +
+          '<path d="M0 0.6L7.4 4L0 7.4" fill="none" stroke="#e0913f" ' +
+          'stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/></marker>' +
+      '</defs>' +
+      '<g class="at-moves"></g>' +
       '<g class="at-events"></g><g class="at-halo-g"></g>' +
           '</g>' +
         '</svg>' +
@@ -686,6 +726,8 @@
             ? ' \u00b7 ATTICA-MENTIONS.csv not read (' + esc(mentionsErr) + '), so nothing ' +
               'here knows which places the corpus names'
             : '')) +
+      (moves && mvn ? ' \u00b7 <b>' + mvn + ' recorded move' + (mvn === 1 ? '' : 's') +
+                      '</b>, drawn dashed: the ends are recorded and the route is not' : '') +
       (events ? ' \u00b7 <b>' + evn + ' event' + (evn === 1 ? '' : 's') +
                 '</b> on the ground they happened on, authored' +
                 (scrub !== null
@@ -694,6 +736,35 @@
                     'otherwise would animate a register that is standing still'
                   : '') : '') +
       ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
+
+    /* ── THE MOVES, DRAWN BETWEEN RECORDED ENDS ──────────────────────────
+       Bowed by a fixed fraction of the chord so two legs between the same pair
+       are legible, and by the same fraction whether the leg crossed water or
+       followed a road. THE BOW IS A DRAWING CONVENTION AND NOT A CLAIM, which
+       is why it does not vary with the ground. */
+    var mg = el.querySelector('.at-moves'), mh = '', mvn = 0;
+    if (mg) {
+      if (moves) {
+        moves.forEach(function (v) {
+          if (era.a !== null && (v.year < era.a || v.year > era.b)) { return; }
+          /* the scrub dims a leg the same way it dims an event: never hidden,
+             because a leg that vanishes asserts the campaign stopped */
+          var d = scrub === null ? 0 : Math.abs(v.year - scrub);
+          var glow = scrub === null ? 1 : Math.max(0.08, 1 - d / FADE);
+          mvn++;
+          var A = proj(v.from_lat, v.from_lon), B = proj(v.to_lat, v.to_lon);
+          var mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
+          var dx = B[0] - A[0], dy = B[1] - A[1];
+          var qx = mx - dy * 0.16, qy = my + dx * 0.16;
+          mh += '<path class="at-mv at-mv-' + esc(v.kind || 'fleet') +
+                '" style="opacity:' + (0.12 + 0.7 * glow).toFixed(3) +
+                '" data-mv="' + esc(v.name) + '" d="M' + A[0].toFixed(2) + ' ' +
+                A[1].toFixed(2) + 'Q' + qx.toFixed(2) + ' ' + qy.toFixed(2) + ' ' +
+                B[0].toFixed(2) + ' ' + B[1].toFixed(2) + '"/>';
+        });
+      }
+      mg.innerHTML = mh;
+    }
 
     /* ── THE EVENTS, ON THE GROUND THEY HAPPENED ON ──────────────────────
        An event belongs to a period if its year sits INSIDE it — a containment
@@ -877,6 +948,21 @@
     el.addEventListener('pointerover', function (e) {
       var n = e.target.closest ? e.target.closest('[data-k]') : null;
       light(n ? n.getAttribute('data-k') : null);
+      var mv = e.target.closest ? e.target.closest('[data-mv]') : null;
+      if (mv && moves) {
+        var mn2 = mv.getAttribute('data-mv');
+        var w = moves.filter(function (x) { return x.name === mn2; })[0];
+        if (w) {
+          hit.textContent = w.name + '\n' + yr(w.year) + '  ·  ' + (w.kind || '') +
+            '\n' + (w.from_name || '?') + '  →  ' + (w.to_name || '?') +
+            (w.note ? '\n\n' + w.note : '') +
+            (w.source ? '\n\n' + w.source : '') +
+            '\n\n— FROM HERE TO HERE, NOT THE ROUTE TAKEN. The ends are recorded; ' +
+            'the course, the formation and the rate are not, and the curve is a ' +
+            'drawing convention.';
+          hit.style.opacity = 1;
+        }
+      }
       var ev = e.target.closest ? e.target.closest('[data-e]') : null;
       if (ev && events) {
         var nm = ev.getAttribute('data-e');
@@ -1023,6 +1109,28 @@
           'the ground existed. Nothing is drawn in its place.</span>';
       });
       img.setAttribute('href', RAW + 'ATTICA.jpg');
+    }
+    if (moves === null && movesErr === null) {
+      fetch(RAW + 'ATTICA-MOVES.csv?_=' + Date.now())
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (t) {
+          if (!t) { movesErr = 'not in the repo yet'; return; }
+          var lines = t.replace(/\r\n/g, '\n').split('\n');
+          var cols = split(lines[0]), out = [];
+          for (var i = 1; i < lines.length; i++) {
+            var l = lines[i];
+            if (!l.trim() || l.replace(/^\s+/, '').charAt(0) === '#') { continue; }
+            var c = split(l), o = {};
+            for (var j = 0; j < cols.length; j++) { o[cols[j]] = c[j] == null ? '' : c[j]; }
+            o.year = +o.year;
+            o.from_lat = +o.from_lat; o.from_lon = +o.from_lon;
+            o.to_lat = +o.to_lat; o.to_lon = +o.to_lon;
+            if (!isNaN(o.from_lat) && !isNaN(o.to_lat)) { out.push(o); }
+          }
+          moves = out;
+          draw();
+        })
+        .catch(function (e) { movesErr = e.message; });
     }
     if (events === null && eventsErr === null) {
       fetch(RAW + 'ATTICA-EVENTS.csv?_=' + Date.now())
