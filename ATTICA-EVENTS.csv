@@ -1,0 +1,59 @@
+year,name,category,at,lat,lon,where,note
+# ============================================================================,,,,,,,
+# ATTICA-EVENTS.csv · WHAT HAPPENED, AT THE GROUND IT HAPPENED ON,,,,,,
+# ----------------------------------------------------------------------------,,,,,,,
+# EVENTS.csv is a WORLD register and correct as one: London 30 events,,,,,,,
+# Washington 22, Paris 20, Rome 17, Athens 7. Its `Place` column resolves to a,,,,
+# city because at 40 km a pixel a city is the finest thing that can be drawn.,,,,,,,
+#,,,,,,,
+# AT 39 METRES A PIXEL THAT BECOMES A LIE. Seven of the nine events it holds,,,,,,,
+# inside this box sit on one coordinate — 37.984N 23.728E, the Acropolis —,,,,,,
+# including Plato founding the Academy, which is a mile outside the walls, and,,,,,
+# Aristotle founding the Lyceum, which is on the other side of the city. The,,,,,,
+# register already knows where those places are. The events pointed at the town.,,,,,,,
+#,,,,,,,
+# ── WHAT THIS FILE ADDS ─────────────────────────────────────────────────────,,,,,,,
+# `at` is a KEY INTO ATTICA.csv wherever one exists, so an event stands on a,,,,,,
+# place the gazetteer holds rather than at a coordinate someone typed. Where,,,,,,,
+# no such place exists — a sea-fight in open water — lat/lon are authored and,,,,,,,
+# `at` is empty, which is the honest way to say so.,,,,,,
+#,,,,,,,
+# `where` is the ground in one phrase: the strait, the plain, the pass. It is,,,,,
+# what the world register cannot carry and what a place surface exists for.,,,,,,,
+#,,,,,,,
+# ── AND THESE ARE DRAFTS ────────────────────────────────────────────────────,,,,,,,
+# Written by the assistant and NOT CHECKED AGAINST A SOURCE. Dates for the,,,,,,,
+# well-known battles are secure; the coordinates for actions fought at sea are,,,,,,,
+# AUTHORED AND APPROXIMATE, and a sea-fight has no single position anyway.,,,,,,
+# Overwrite freely.,,,,,,,
+#,,,,,,,
+# NO LINE IS DRAWN BETWEEN ANY TWO OF THESE. A fleet sailing from Piraeus to,,,,,,,
+# Sicily is a departure — a fact with a place and a date — and the route it,,,,,,,
+# took is not in any register. That is slip #64d and it holds here.,,,,,,,
+# ============================================================================,,,,,,,
+-490,Battle of Marathon,conflict,pl-580021,38.14655,23.97015,the plain between the marshes,"Persian landing beach. Marsh at both ends narrowed the front to ground the Athenians could hold."
+-480,Battle of Thermopylae,conflict,pl-541140,38.796,22.54364,the strip between cliff and sea,"THE SEA IS SIX KILOMETRES NORTH OF HERE NOW. The pass is in the terrain; the narrowness was made of water."
+-480,Battle of Salamis,conflict,,37.9450,23.5600,the strait between the island and the shore,"A sea-fight has no single position. This is the middle of the channel the Persian fleet entered."
+-480,Landing on Psyttaleia,conflict,pl-580094,37.94089,23.58839,the island in the channel mouth,"Aristides put hoplites ashore on the island the Persians had garrisoned."
+-480,Athens burned by the Persians,conflict,pl-807514119,37.9755,23.72265,the city and the Acropolis,"The Older Parthenon was destroyed. Its burnt drums were built into the north wall and left visible."
+-479,Battle of Plataea,conflict,,38.2200,23.2700,the ground below Kithairon,"The last land battle of the Persian invasion, fought on the Boeotian plain under the pass."
+-478,The Themistoclean wall raised,building,pl-310115518,37.98104,23.72876,around the city,"Built in haste from whatever stood, including grave stelai — which is why the Kerameikos is dated by them."
+-461,The Long Walls begun,building,pl-585128,37.96237,23.70261,between the city and its port,"Six miles of wall joining Athens to Piraeus, making the city an island as long as the fleet held."
+-447,The Parthenon begun,building,pl-168254096,37.97156,23.72658,the Acropolis rock,"Built over the burnt foundations of its predecessor, thirty-three years after the Persians left."
+-431,The Peloponnesian War begins,conflict,pl-205264674,37.97143,23.71947,the assembly hill,"Voted for on the Pnyx. The countryside was abandoned and the population brought inside the Long Walls."
+-430,The plague at Athens,disaster,pl-580062,37.93722,23.64461,the port and the crowded city,"It came ashore at Piraeus and spread through a population packed inside the walls by the war."
+-424,Battle of Delion,conflict,pl-540725,38.34621,23.66135,the sanctuary above the strait,"An Athenian defeat in Boeotia. Sokrates is said to have retreated in good order."
+-415,The fleet sails for Sicily,departure,pl-579966,37.94163,23.63699,the commercial harbour,"A DEPARTURE, NOT A ROUTE. Where the fleet left from is recorded; the passage it took is not."
+-413,Sparta fortifies Dekeleia,conflict,pl-579907,38.13303,23.79187,high ground over the plain,"A permanent garrison in sight of Athens. The silver mines stopped and the countryside was lost."
+-406,Battle of Arginusae aftermath,trial,pl-205264674,37.97143,23.71947,the assembly hill,"The generals were tried and executed for failing to recover the dead. Sokrates alone refused to put it to the vote."
+-404,The Long Walls pulled down,conflict,pl-585128,37.96237,23.70261,between the city and its port,"Sparta required their demolition. The city and the port were separated again."
+-403,The return from Phyle,conflict,pl-580079,38.13996,23.63692,the fort in the mountain,"Thrasyboulos held the fort above the plain and marched down through Piraeus to end the Thirty."
+-399,The trial of Sokrates,trial,pl-807514119,37.9755,23.72265,the law courts on the Agora,"Tried and condemned in the marketplace he had spent his life arguing in."
+-387,Plato founds the Academy,school,pl-479670108,37.99245,23.70735,the olive grove outside the walls,"A public gymnasion with shade and water, a mile from the city — not a retreat but a place anyone could reach."
+-371,Battle of Leuktra,conflict,pl-540913,38.25441,23.18211,the Boeotian plain,"Thebes broke the Spartan line and with it the reputation of Spartan infantry."
+-338,Battle of Chaeronea,conflict,pl-540701,38.49397,22.84143,the plain at the pass,"Philip and Alexander ended the independence of the Greek cities on flat ground below the road north."
+-335,Aristotle founds the Lyceum,school,pl-122572945,37.97403,23.74338,the gymnasion east of the city,"The other school, on the far side of Athens from the Academy. Two of them in one small city."
+-86,Sulla storms Athens,conflict,pl-97294452,37.97842,23.7183,the Kerameikos wall,"The Roman assault came in at the weakest stretch of wall, by the potters' quarter and the graves."
+267,The Herulian sack,conflict,pl-807514119,37.9755,23.72265,the Agora and the lower city,"Afterwards a new wall was thrown up enclosing a fraction of the old city, using the rubble of the Agora."
+1687,The Parthenon explodes,disaster,pl-168254096,37.97156,23.72658,the Acropolis rock,"A Venetian shell reached the Ottoman powder store inside the temple. It had stood two thousand years."
+1896,The first modern Olympics,games,pl-433457819,37.96833,23.74139,the ravine between two hills,"Held in the Panathenaic Stadium, which is a natural ravine adapted rather than a building."
