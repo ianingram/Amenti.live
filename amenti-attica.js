@@ -779,45 +779,6 @@
     }
     el.querySelector('.at-read').textContent =
       era.a === null ? 'the whole register' : era.label + '  \u00b7  ' + era.when;
-    el.querySelector('.at-note').innerHTML =
-      '<span class="at-warn at-first">Every shoreline here is TODAY\u2019S. ' +
-      'Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, Eleusis and ' +
-      'Marathon are silted harbours.</span>' +
-      shown.length + ' of ' + rows.length + ' places \u00b7 ' + pins.length + ' pinned \u00b7 ' +
-      wash.length + ' somewhere in an area \u00b7 ' +
-      /* NOTHING NAMED IS CORRECT AND LOOKS BROKEN. At x1 with the whole
-         register on, every one of 1,567 labels collides and the cull drops
-         them all \u2014 which is the right answer and reads as a fault. It says so. */
-      (named ? named + ' named' : '<b>nothing named at this zoom</b> \u2014 every ' +
-               'label collides; zoom past \u00d71.8') +
-      (named && dropped ? ', ' + dropped + ' with no room' : '') +
-      (undated ? ' \u00b7 <b>' + undated + ' with no ancient date</b>, drawn dim in ' +
-                 'every period \u2014 either Pleiades does not know when, or the only ' +
-                 'date on file is a MODERN SURVEY, and a survey year is not the ' +
-                 'age of a mountain' : '') +
-      (era.a === null
-        ? ' \u00b7 <b>all of it at once, which is a smear</b> \u2014 pick a period'
-        : ' \u00b7 <b>five periods, not years</b> \u2014 \u201cClassical\u201d is dated ' +
-          '550\u2013330 BC because a range needs a number, and most spans cross every ' +
-          'period, so this filters less than it looks like it should') +
-      (mentions
-        ? ' \u00b7 <b>' + shown.filter(function (x) { return mentions[x.key]; }).length +
-          ' named in the library</b>, of 603 texts and 35.9 M characters \u2014 ' +
-          'labels go to the corroborated first'
-        : (mentionsErr
-            ? ' \u00b7 ATTICA-MENTIONS.csv not read (' + esc(mentionsErr) + '), so nothing ' +
-              'here knows which places the corpus names'
-            : '')) +
-      (moves && mvn ? ' \u00b7 <b>' + mvn + ' recorded move' + (mvn === 1 ? '' : 's') +
-                      '</b>, drawn dashed: the ends are recorded and the route is not' : '') +
-      (events ? ' \u00b7 <b>' + evn + ' event' + (evn === 1 ? '' : 's') +
-                '</b> on the ground they happened on, authored' +
-                (scrub !== null
-                  ? ' \u00b7 <b>the year moves the events only</b> \u2014 a place here is ' +
-                    'dated to a PERIOD, so scrubbing cannot move it and pretending ' +
-                    'otherwise would animate a register that is standing still'
-                  : '') : '') +
-      ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
 
     /* ── THE MOVES, DRAWN BETWEEN RECORDED ENDS ──────────────────────────
        Bowed by a fixed fraction of the chord so two legs between the same pair
@@ -921,8 +882,26 @@
           var d = scrub === null ? 0 : Math.abs(v.year - scrub);
           var glow = scrub === null ? 1 : Math.max(0.1, 1 - d / FADE);
           evn++;
-          var p = proj(v.lat, v.lon), a = 3.4 * iv * (0.75 + 0.45 * glow);
-          var slot = (v.lat.toFixed(3) + ',' + v.lon.toFixed(3));
+          /* ── IF AN EVENT NAMES A PLACE, IT STANDS ON THAT PLACE ─────────
+             probe-attica found "The Themistoclean wall raised" carrying a
+             coordinate 0.90 km from the Dipylon Gate its `at` key points to.
+             Both were authored, both by the same hand, and they disagree.
+
+             THE KEY WINS. A coordinate typed beside a key is a second opinion
+             about a position the register already holds, and the register is
+             the thing a reader can check. The lat/lon stays in the file as a
+             fallback for the two events — Salamis and Plataea — that stand on
+             no place at all, and it is used ONLY when `at` is empty or does
+             not resolve.
+
+             This makes the drift impossible rather than merely corrected. */
+          var anchor = v.at && rows
+            ? rows.filter(function (x) { return x.key === v.at; })[0]
+            : null;
+          var elat = anchor ? anchor.lat : v.lat;
+          var elon = anchor ? anchor.lon : v.lon;
+          var p = proj(elat, elon), a = 3.4 * iv * (0.75 + 0.45 * glow);
+          var slot = (elat.toFixed(3) + ',' + elon.toFixed(3));
           var tier = seenAt[slot] || 0;
           seenAt[slot] = tier + 1;
           if (tier) { p = [p[0], p[1] - tier * 9 * iv]; }
@@ -959,6 +938,64 @@
     /* the ring is redrawn with the frame so it stays on its place through a
        pan or a zoom — it is a pointer, and a pointer that lags is worse than
        none */
+    /* ── THE NOTE IS WRITTEN LAST, BECAUSE IT REPORTS COUNTS · 8 Sep ────
+       It was written HERE, near the top of draw(), and it reads `evn` and
+       `mvn` — the event and move counts, which are computed a hundred lines
+       BELOW. `var` hoists, so both were `undefined` at the moment the note
+       was built, `events && evn` was falsy, and THE EVENT COUNT SILENTLY
+       NEVER APPEARED. Not a wrong number: no number, which is why nothing
+       looked broken and nobody found it by looking.
+
+       The same shape as the TY shadow four hours ago and as the anchor name
+       in amenti-map.js on 6 September. A REPORT MUST BE WRITTEN AFTER THE
+       THING IT REPORTS ON, and the way to guarantee that is to write it
+       last. */
+    el.querySelector('.at-note').innerHTML =
+      '<span class="at-warn at-first">Every shoreline here is TODAY\u2019S. ' +
+      'Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, Eleusis and ' +
+      'Marathon are silted harbours.</span>' +
+      shown.length + ' of ' + rows.length + ' places \u00b7 ' + pins.length + ' pinned \u00b7 ' +
+      wash.length + ' somewhere in an area \u00b7 ' +
+      /* NOTHING NAMED IS CORRECT AND LOOKS BROKEN. At x1 with the whole
+         register on, every one of 1,567 labels collides and the cull drops
+         them all \u2014 which is the right answer and reads as a fault. It says so. */
+      (named ? named + ' named' : '<b>nothing named at this zoom</b> \u2014 every ' +
+               'label collides; zoom past \u00d71.8') +
+      (named && dropped ? ', ' + dropped + ' with no room' : '') +
+      (undated ? ' \u00b7 <b>' + undated + ' with no ancient date</b>, drawn dim in ' +
+                 'every period \u2014 either Pleiades does not know when, or the only ' +
+                 'date on file is a MODERN SURVEY, and a survey year is not the ' +
+                 'age of a mountain' : '') +
+      (era.a === null
+        ? ' \u00b7 <b>all of it at once, which is a smear</b> \u2014 pick a period'
+        : ' \u00b7 <b>five periods, not years</b> \u2014 \u201cClassical\u201d is dated ' +
+          '550\u2013330 BC because a range needs a number, and most spans cross every ' +
+          'period, so this filters less than it looks like it should') +
+      (mentions
+        ? ' \u00b7 <b>' + shown.filter(function (x) { return mentions[x.key]; }).length +
+          ' named in the library</b>, of 603 texts and 35.9 M characters \u2014 ' +
+          'labels go to the corroborated first'
+        : (mentionsErr
+            ? ' \u00b7 ATTICA-MENTIONS.csv not read (' + esc(mentionsErr) + '), so nothing ' +
+              'here knows which places the corpus names'
+            : '')) +
+      (moves && mvn ? ' \u00b7 <b>' + mvn + ' recorded move' + (mvn === 1 ? '' : 's') +
+                      '</b>, drawn dashed: the ends are recorded and the route is not' : '') +
+      (events && !evn && era.a !== null
+        ? ' \u00b7 <b>no events in this period</b> \u2014 ATTICA-EVENTS.csv is authored ' +
+          'and 22 of its 26 entries are Classical, so the archaic and the late ' +
+          'antique are empty. THAT IS THE REGISTER, NOT THE CENTURY: things ' +
+          'happened here in both'
+        : '') +
+      (events && evn ? ' \u00b7 <b>' + evn + ' event' + (evn === 1 ? '' : 's') +
+                '</b> on the ground they happened on, authored' +
+                (scrub !== null
+                  ? ' \u00b7 <b>the year moves the events only</b> \u2014 a place here is ' +
+                    'dated to a PERIOD, so scrubbing cannot move it and pretending ' +
+                    'otherwise would animate a register that is standing still'
+                  : '') : '') +
+      ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
+
     haloAt(litKey);
 
     /* THE KEY DRAWS ITS SWATCHES WITH THE SAME shape() THE MAP USES. Two
