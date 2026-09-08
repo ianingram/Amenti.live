@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-08T22:24:26.782Z",
+    "generated": "2026-09-08T22:32:27.462Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1433,7 +1433,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51157,
-      "sha256": "9e54ecfc8ebe95db",
+      "sha256": "85c409575c7ad7e1",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1950,9 +1950,9 @@
       },
       {
         "file": "probe-twins.mjs",
-        "title": null,
+        "title": "A PROBE THAT NAMES A FILE IN ORDER TO",
         "guards": null,
-        "bytes": 6457
+        "bytes": 8964
       },
       {
         "file": "probe-voice.mjs",
