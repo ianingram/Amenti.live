@@ -1,0 +1,49 @@
+year,name,kind,from_lat,from_lon,to_lat,to_lon,from_name,to_name,source,note
+# ============================================================================,,,,,,,,,,
+# ATTICA-MOVES.csv · FROM HERE TO HERE, NOT THE ROUTE TAKEN,,,,,,,,,
+# ----------------------------------------------------------------------------,,,,,,,,,,
+# THE ARROW IS THE MOST DANGEROUS MARK ON ANY HISTORICAL MAP. It asserts a,,,,,,,,,,
+# start, an end, a direction, a path and a rate — and of those five the sources,,,,,,,
+# usually record two. Every invasion arrow you have seen sweeping across a,,,,,,,,,,
+# continent is four parts invention and one part fact.,,,,,,,,,,
+#,,,,,,,,,,
+# So each row here is A DEPARTURE AND AN ARRIVAL, both recorded, and NOTHING,,,,,,,,
+# BETWEEN THEM. It draws as a zigzag between two rails: the zigzag is the,,,,,,,,,,
+# drafting BREAK SYMBOL — something omitted here — and the rails are a drawing,,,,,,,,,,
+# frame rather than the width of the possibilities. A bow was drawn first and,,,,,,,,,,
+# replaced: A BOW LOOKS LIKE A PLAUSIBLE ROUTE and a zigzag cannot.,,,,,,,,,,
+#,,,,,,,,,,
+# The arrowhead carries the one thing beyond the endpoints that IS recorded —,,,,,,,,,,
+# which way round. Slip #64d, and JOURNEYS.csv on the world map already works,,,,,,,,,
+# this way.,,,,,,,,,,
+#,,,,,,,,,,
+# WHAT IS DELIBERATELY ABSENT:,,,,,,,,,,
+#   · the course across the Aegean — never recorded for any of these,,,,,,,,,,
+#   · formation, order of sailing, order of march,,,,,,,,
+#   · rate. A fleet's speed is a modern estimate, not an ancient statement.,,,,,,,,,
+#   · any leg the sources do not name at both ends,,,,,,,,,,
+#,,,,,,,,,,
+# THE APPROACH FROM ASIA IS OFF THIS SURFACE. The expedition assembled in,,,,,,,,,,
+# Cilicia and crossed by Samos and Ikaria — hundreds of miles outside a box,,,,,,,,,,
+# drawn a hundred miles from the Acropolis. A leg was drafted from an invented,,,,,,,,,,
+# mid-Aegean point and removed: A COORDINATE MADE UP TO GIVE AN ARROW SOMEWHERE,,,,,,,,,,
+# TO START IS THE ARROW LYING BEFORE IT IS EVEN DRAWN. The campaign enters this,,,,,,,,,,
+# frame at Naxos.,,,,,,,,,,
+#,,,,,,,,,,
+# ── AND THESE ARE DRAFTS ────────────────────────────────────────────────────,,,,,,,,,,
+# The `source` column names the passage FROM MEMORY AND IS NOT VERIFIED. The,,,,,,,,,,
+# outline of this campaign is secure; the book-and-chapter references are the,,,,,,,,,,
+# part to check. Coordinates for open-water points are authored.,,,,,,,,,,
+#,,,,,,,,,,
+# kind: fleet | army | flight,,,,,,,,,,
+# ============================================================================,,,,,,,,,,
+-490,Delos spared,fleet,37.10,25.52,37.393,25.268,Naxos,Delos,Herodotus 6.97,"Datis anchored off and would not land armed men on the sacred island. The gesture is the record; the course between is not."
+-490,Karystos reduced,fleet,37.393,25.268,38.016,24.418,Delos,Karystos,Herodotus 6.99,"The Euboean towns were taken in turn on the way north."
+-490,Eretria besieged,fleet,38.016,24.418,38.398,23.792,Karystos,Eretria,Herodotus 6.100,"Six days of assault, then the gates opened from inside. The city was burned and its people enslaved."
+-490,The landing at Marathon,fleet,38.398,23.792,38.147,23.970,Eretria,Marathon,Herodotus 6.102,"HIPPIAS CHOSE THE GROUND. He had been tyrant of Athens and knew the plain was the best cavalry country in Attica."
+-490,The Athenians march out,army,37.9755,23.72265,38.147,23.970,Athens,Marathon,Herodotus 6.103,"Out to meet a landing rather than waiting behind walls. The road over Pentelikon is not recorded and is not drawn."
+-490,The Plataeans come,army,38.220,23.270,38.147,23.970,Plataea,Marathon,Herodotus 6.108,"A thousand men, the whole force of a small city, and the only allies to arrive."
+-490,The Persians re-embark,flight,38.147,23.970,38.05,24.05,Marathon,the beach and the ships,Herodotus 6.115,"Seven ships were taken at the water's edge. The rest got away."
+-490,The fleet rounds Sounion,fleet,38.05,24.05,37.937,23.706,off Marathon,Phaleron,Herodotus 6.115,"Making for an undefended Athens by sea. The course round the cape is the obvious one and IS NOT RECORDED — the zigzag says from here to here."
+-490,The army marches back,army,38.147,23.970,37.9755,23.72265,Marathon,Athens,Herodotus 6.116,"THE RACE THAT DECIDED IT. The same men who had just fought, arriving before the fleet could land."
+-490,The fleet turns away,flight,37.937,23.706,37.80,23.55,Phaleron,out to sea,Herodotus 6.116,"They lay off Phaleron, saw the army drawn up, and sailed for Asia."
