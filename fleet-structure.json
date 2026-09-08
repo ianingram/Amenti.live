@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-08T04:12:39.978Z",
+    "generated": "2026-09-08T04:22:53.672Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -416,8 +416,8 @@
     },
     {
       "file": "amenti-attica.js",
-      "bytes": 76721,
-      "sha256": "7bb6f49b182b3048",
+      "bytes": 78396,
+      "sha256": "e165bd2b74af3322",
       "type": "js",
       "declares": [
         "AmentiAttica"
@@ -1420,7 +1420,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 50879,
-      "sha256": "520570dc30a0af0f",
+      "sha256": "f14a58b469ce71e9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
