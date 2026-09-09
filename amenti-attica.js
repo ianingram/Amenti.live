@@ -880,8 +880,28 @@
        Pleiades' bounding_box_wkt and is not harvested yet, so this draws a
        fixed soft area meaning "somewhere about here" rather than a false one
        meaning "exactly this rectangle". */
+    /* ── THE TALLY IS DECLARED HERE AND NOT BELOW · 9 Sep ────────────────
+       It used to sit under the wash loop, which was harmless while the washes
+       counted nothing. The moment they had to, `var` hoisting would have given
+       this loop an undefined object and thrown — THE SAME SHAPE AS THE TY
+       SHADOW recorded thirty lines above. Declared before its first reader. */
+    var tally = {};
+
+    /* ── AND A WASH OBEYS THE SWITCH · 9 Sep ────────────────────────
+       IT DID NOT, AND THE LEGEND HAS BEEN LYING SINCE THE SWITCHES WERE ADDED.
+       Turning `ground` off hid its pins and left its areas on the map. Found on
+       9 September by a tour frame whose caption read MEASURED GROUND AND
+       NOTHING ON IT over 89 visible washes — the format catching a fault in the
+       surface it was built on, which is the argument for the format.
+
+       AND THEY WERE NEVER COUNTED EITHER. The legend's census summed to 1,566,
+       which is the pin count exactly: 89 areas were in no row of the key. A
+       census that omits a tenth of what it surveys is not a census. */
     var wh = '';
     wash.forEach(function (r) {
+      var mw = markOf(r.kind);
+      tally[mw] = (tally[mw] || 0) + 1;
+      if (offMarks[mw]) { return; }
       var p = proj(r.lat, r.lon), a = 9 * iv;
       wh += '<rect class="at-wash" x="' + (p[0] - a).toFixed(2) + '" y="' + (p[1] - a).toFixed(2) +
             '" width="' + (a * 2).toFixed(2) + '" height="' + (a * 2).toFixed(2) +
@@ -895,7 +915,6 @@
        stroke: every name on the world map drew as a black lozenge. The pair
        is one thing and moves as one. */
     var ph = '', placed = [], named = 0, dropped = 0, undated = 0;
-    var tally = {};
     /* ── THE CULL RANKS BY CORROBORATION, THEN BY NEARNESS ────────────────
        Sorting by distance alone put the Acropolis' own gates first and Delphi
        nowhere, because the cull lays out greedily and the near ones take the
