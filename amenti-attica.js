@@ -213,9 +213,20 @@
     var list = el && el.querySelector('.at-list');
     if (!note) { return; }
     if (!list || !list.offsetWidth) { note.style.right = ''; return; }
-    var host = el.getBoundingClientRect();
+    /* ── `right` RESOLVES AGAINST THE OFFSET PARENT, NOT THE HOST · 9 Sep ─
+       THE FIRST VERSION MEASURED AGAINST #amenti-attica AND SET 281 px, WHICH
+       WAS APPLIED AND STILL LEFT THE 7 px OVERLAP. There is a positioned
+       wrapper between the host and the note, and its right edge is 1473 where
+       the host's is 1454 — so a correct number landed nineteen pixels off.
+
+       Three fixes went at this overlap before anyone asked the pane what it
+       had been told. Inline said 281, computed said 281, and the box it was
+       281 FROM was never checked. A MEASUREMENT IS ONLY AS GOOD AS THE BOX IT
+       IS TAKEN FROM. */
+    var base = note.offsetParent || el;
+    var bb = base.getBoundingClientRect();
     var lb = list.getBoundingClientRect();
-    note.style.right = Math.max(0, Math.round(host.right - lb.left) + 12) + 'px';
+    note.style.right = Math.max(0, Math.round(bb.right - lb.left) + 12) + 'px';
   }
   /* ── THE OPENING VIEW HAD NO AIR AROUND IT ─────────────────────────────
      At K=1 the box filled the frame corner to corner. A reader arriving saw
