@@ -396,7 +396,11 @@
       if (here.length) {
         L.push('');
         L.push('here:');
-        here.forEach(function (v) { L.push('   ' + yr(v.year) + '  ' + v.name); });
+        here.forEach(function (v) {
+          L.push('   ' + yr(v.year) + '  ' + v.name +
+                 (v.holds ? '   — and the ground held changed until ' +
+                            yr(v.holds) : ''));
+        });
       }
       if (elsewhere.length && scrub !== null) {
         L.push('');
@@ -594,6 +598,9 @@
       '  paint-order:stroke;stroke:#05080e;stroke-opacity:.85;stroke-linejoin:round}',
       /* an authored coordinate is drawn dashed: this one stands on no place */
       '#amenti-attica .at-ev-loose{stroke-dasharray:2 2}',
+      /* DULL, NOT BRIGHT. No stroke, no edge, no flicker — a discolouration
+         of the ground rather than a mark on it. */
+      '#amenti-attica .at-stain{fill:#7a5230;stroke:none;pointer-events:none}',
       '#amenti-attica .at-evstem{stroke:#e0913f;stroke-width:.5;opacity:.35;',
       '  vector-effect:non-scaling-stroke}',
       /* ── THE DASHES ARE THE IGNORANCE ───────────────────────────────────
@@ -714,6 +721,7 @@
           '<path d="M0 0.6L7.4 4L0 7.4" fill="none" stroke="#e0913f" ' +
           'stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/></marker>' +
       '</defs>' +
+      '<g class="at-after"></g>' +
       '<g class="at-moves"></g>' +
       '<g class="at-events"></g><g class="at-halo-g"></g>' +
           '</g>' +
@@ -1000,6 +1008,56 @@
        test, and correct here unlike the places, whose spans are period bands
        and are tested by overlap. A moment has a year; a place has a stretch of
        centuries, and asking the same question of both would be wrong twice. */
+    /* ── THE AFTERMATH · slip #80 ────────────────────────────────────────
+       An event has a year. The ground it changed has a span, and until now
+       nothing drew it: the surface flashed at a year and cleared, which draws
+       war as an interruption. Measured on the world register, 82% of the
+       timeline sits within a century of a recorded conflict — THE BATTLE IS
+       RARE AND THE AFTERMATH IS ALMOST EVERYWHERE.
+
+       Three rows carry a sourced `holds`: the plague to 426, Dekeleia to 404,
+       the Long Walls down until Konon rebuilt them in 393.
+
+       THREE RULES, ALL FROM THE SLIP:
+
+       · IT DULLS, IT DOES NOT FLICKER. Flicker is a thing happening. Aftermath
+         is not happening, it is PERSISTING, and the two must not look alike.
+       · IT DOES NOT SPREAD. The radius is fixed. Where the consequence reached
+         is the same unrecorded thing as where the smoke stopped.
+       · AND BLANK IS NOT ZERO. A row without `holds` draws nothing at all —
+         not a stain of length nought, which would assert the ground healed the
+         same day. Most rows are blank and must stay silent. */
+    var ag = el.querySelector('.at-after'), ah = '', afn = 0;
+    if (ag) {
+      if (events && !offMarks.events) {
+        events.forEach(function (v) {
+          if (v.holds === null) { return; }
+          var a0 = v.year, a1 = v.holds;
+          if (a1 <= a0) { return; }
+          /* the stain is present for the whole span and fades after it, on the
+             same FADE the events use so the two layers agree about time */
+          var live;
+          if (scrub !== null) {
+            if (scrub < a0) { return; }
+            live = scrub <= a1 ? 1 : Math.max(0, 1 - (scrub - a1) / FADE);
+          } else {
+            if (era.a !== null && (a1 < era.a || a0 > era.b)) { return; }
+            live = 1;
+          }
+          if (live <= 0) { return; }
+          afn++;
+          var anchor2 = v.at && rows
+            ? rows.filter(function (x) { return x.key === v.at; })[0] : null;
+          var p2 = proj(anchor2 ? anchor2.lat : v.lat, anchor2 ? anchor2.lon : v.lon);
+          var rr = 7.5 * iv;
+          ah += '<circle class="at-stain" cx="' + p2[0].toFixed(2) + '" cy="' +
+                p2[1].toFixed(2) + '" r="' + rr.toFixed(2) + '" opacity="' +
+                (0.30 * live).toFixed(3) + '" data-e="' + esc(v.name) + '"/>';
+        });
+      }
+      ag.innerHTML = ah;
+    }
+
     var eg = el.querySelector('.at-events'), eh = '', evn = 0;
     /* THE COUNT IS TRUE WHETHER OR NOT THE LAYER IS DRAWN. A switched-off kind
        still says how many it is hiding — the same rule the nine place rows
@@ -1178,6 +1236,9 @@
           'antique are empty. THAT IS THE REGISTER, NOT THE CENTURY: things ' +
           'happened here in both'
         : '') +
+      (events && afn ? ' \u00b7 <b>' + afn + ' still holding</b> \u2014 ground that had ' +
+                       'not gone back to what it was, drawn dull because ' +
+                       'aftermath persists rather than happens' : '') +
       (events && evn ? ' \u00b7 <b>' + evn + ' event' + (evn === 1 ? '' : 's') +
                 '</b> on the ground they happened on, authored' +
                 (scrub !== null
@@ -1612,6 +1673,9 @@
             var c = split(l), o = {};
             for (var j = 0; j < cols.length; j++) { o[cols[j]] = c[j] == null ? '' : c[j]; }
             o.year = +o.year; o.lat = +o.lat; o.lon = +o.lon;
+            /* `holds` is when the ground STOPPED being changed, and it is
+               blank on most rows. BLANK IS NOT ZERO — see below. */
+            o.holds = (o.holds === '' || o.holds == null) ? null : +o.holds;
             if (!isNaN(o.year) && !isNaN(o.lat) && !isNaN(o.lon)) { out.push(o); }
           }
           events = out;
