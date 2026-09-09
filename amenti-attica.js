@@ -2151,8 +2151,27 @@
     show: show, hide: hide, toggle: toggle,
     isOpen: function () { return open; },
     /* the periods by key: all arch clas hell rome late */
+    /* ── AND THE BUTTON MUST FOLLOW THE PERIOD · 9 Sep ───────────────
+       IT DID NOT, AND THE SURFACE SAID TWO THINGS AT ONCE. A tour frame set
+       `clas`, the register filtered to it and the title read CLASSICAL
+       550-330 BC — while the lit button still read HELLENISTIC, because
+       aria-pressed was only ever written in the click handler. The control was
+       showing where the READER had left it while the surface was somewhere
+       else, and there was no way to tell which one to believe.
+
+       THE SAME FAULT AS THE LEGEND SWITCHES, WHICH marks() ALREADY SYNCS. It
+       was fixed there hours earlier and its twin went unlooked-for. A setter
+       that changes state and leaves its own control behind is lying through
+       the one thing a reader trusts most. */
     period: function (k) {
       era = PERIODS.filter(function (p) { return p.k === k; })[0] || PERIODS[0];
+      var btns = el && el.querySelectorAll('.at-ctl button[data-p]');
+      if (btns) {
+        btns.forEach(function (b) {
+          b.setAttribute('aria-pressed',
+                         b.getAttribute('data-p') === era.k ? 'true' : 'false');
+        });
+      }
       draw();
       return { key: era.k, from: era.a, until: era.b };
     },
