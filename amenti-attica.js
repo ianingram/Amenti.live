@@ -193,6 +193,23 @@
     key.style.overflowY = wantKey > keyH ? 'auto' : '';
     box.style.top = (top0 + keyH + gap) + 'px';
     box.style.maxHeight = listH + 'px';
+    fitNote();
+  }
+
+  /* ── THE NOTE'S GUTTER IS MEASURED OFF THE LIST · 9 Sep ────────────
+     .at-note reserved right:262px for the reading list. THE LIST OCCUPIES 269,
+     so the last seven pixels of every line of the note have been running under
+     it since the list was built. Nobody saw it because seven pixels of a
+     monospace line is most of one character and the eye completes the word.
+     A NUMBER THAT WAS RIGHT WHEN IT WAS WRITTEN IS NOT A MEASUREMENT. */
+  function fitNote() {
+    var note = el && el.querySelector('.at-note');
+    var list = el && el.querySelector('.at-list');
+    if (!note) { return; }
+    if (!list || !list.offsetWidth) { note.style.right = ''; return; }
+    var host = el.getBoundingClientRect();
+    var lb = list.getBoundingClientRect();
+    note.style.right = Math.max(0, Math.round(host.right - lb.left) + 12) + 'px';
   }
   /* ── THE OPENING VIEW HAD NO AIR AROUND IT ─────────────────────────────
      At K=1 the box filled the frame corner to corner. A reader arriving saw
@@ -840,7 +857,11 @@
          ran the list down over the note and the year scrub on a tall window —
          THE THIRD TIME IN ONE EVENING A FIXED PROPORTION WAS USED WHERE THE
          SPACE HAD TO BE MEASURED. */
-      '  overflow-y:auto;scrollbar-width:thin;',
+      /* box-sizing, BECAUSE max-height APPLIES TO THE CONTENT BOX. The column
+         budget set 90 and the pane rendered 110 — nine of padding and one of
+         border on each side, twenty pixels the arithmetic never saw, and a
+         6 px overlap with the note that the probe found and no eye would. */
+      '  box-sizing:border-box;overflow-y:auto;scrollbar-width:thin;',
       '  scrollbar-color:#2b3a50 transparent}',
       '#amenti-attica .at-frames .at-fhead{color:#5d6e84;padding-bottom:5px;',
       '  margin-bottom:4px;border-bottom:1px solid rgba(43,58,80,.6);',
@@ -860,6 +881,7 @@
       '  display:flex;flex-direction:column;gap:3px;font-size:10.5px;',
       '  color:#7d8ea6;background:rgba(5,8,14,.62);padding:9px 12px;',
       '  border:1px solid rgba(43,58,80,.5);border-radius:4px;letter-spacing:.03em;',
+      '  box-sizing:border-box;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent}',
       '#amenti-attica .at-key div{display:flex;align-items:center;gap:7px;',
       '  cursor:pointer;white-space:nowrap}',
