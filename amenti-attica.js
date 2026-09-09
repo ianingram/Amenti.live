@@ -256,6 +256,31 @@
 
   var el = null, svg = null, view = null, open = false;
   var rows = null, loadErr = null, era = PERIODS[0];
+  var unplaced = 0;
+
+  /* ── A THIRD STATE, BECAUSE TWO WERE NOT ENOUGH · 8 Sep ─────────────
+     A PIN IS HERE. A WASH IS SOMEWHERE IN HERE. AND SOME ROWS ARE NEITHER.
+     Pleiades falls back to a 1/8-degree grid intersection when it holds no
+     geometry for a feature. 37.5,22.5 carries Crete, Thessaly, Hellas, late
+     Achaia, Palaia Epeiros and Creta — six extents on one point in Arcadia,
+     none of them within 200 km of it. 91 rows land on 31 such points and 26
+     of those rows are Untitled.
+
+     GEO.json already states the law for the world map in its own header:
+     mythic/none/unplaced = NO MARK, never render an extent as a dot. It is
+     the same law. This surface simply had no way to obey it, so an unplaced
+     feature came out as a wash — and A WASH ASSERTS BOUNDS. Using the mark
+     that exists to admit imprecision in order to launder a placeholder is
+     worse than a wrong pin, because it looks like an admission.
+
+     DETECTED HERE RATHER THAN FLAGGED IN THE REGISTER, so that when Pleiades
+     publishes a real coordinate the row starts drawing with no edit to this
+     file and no edit to ATTICA.csv. */
+  function onFallbackGrid(r) {
+    var g = 8;
+    return Math.abs(r.lat * g - Math.round(r.lat * g)) < 1e-9 &&
+           Math.abs(r.lon * g - Math.round(r.lon * g)) < 1e-9;
+  }
 
   /* ── NINE MARKS FOR A HUNDRED AND EIGHT KINDS ─────────────────────────────
      ATTICA.csv holds 108 distinct place types and drew every one as the same
@@ -1245,6 +1270,10 @@
         : ' \u00b7 <b>five periods, not years</b> \u2014 \u201cClassical\u201d is dated ' +
           '550\u2013330 BC because a range needs a number, and most spans cross every ' +
           'period, so this filters less than it looks like it should') +
+      (unplaced ? ' \u00b7 <b>' + unplaced + ' unplaced</b> \u2014 Pleiades holds no ' +
+                  'geometry for them and falls back to a grid point, so they are ' +
+                  'held and not drawn: a wash would claim bounds they do not have'
+                : '') +
       (mentions
         ? ' \u00b7 <b>' + shown.filter(function (x) { return mentions[x.key]; }).length +
           ' named in the library</b>, of 603 texts and 35.9 M characters \u2014 ' +
@@ -1366,6 +1395,10 @@
      be able to see only harbours, and the count stays visible either way so
      nothing is hidden without saying how much. */
   var offMarks = {};
+  /* wire() owns the camera clamp as a closure. A tour has to move the camera
+     from outside it, so the function is published here when wire() runs
+     rather than being duplicated — two clamps would drift. */
+  var clampCam = null;
   var KEY = [
     { k: 'settled', label: 'settled',  eg: 'settlement, deme, village' },
     { k: 'sacred',  label: 'sacred',   eg: 'temple, sanctuary, shrine, acropolis' },
@@ -1591,6 +1624,7 @@
         TX = TY = (VB - VB * K) / 2;
       }
     }
+    clampCam = clamp;
     el.addEventListener('wheel', function (e) {
       e.preventDefault();
       zoom(e.deltaY > 0 ? 0.88 : 1.14, e.clientX, e.clientY);
@@ -1739,7 +1773,9 @@
              loaded perfectly. AN INSTRUMENT THAT MISNAMES WHICH THING BROKE
              SENDS ITS READER TO THE WRONG PLACE, which is worse than saying
              nothing. The parse is guarded here; drawing is guarded on its own. */
-          rows = parse(t);
+          var all = parse(t);
+          rows = all.filter(function (r) { return !onFallbackGrid(r); });
+          unplaced = all.length - rows.length;
         })
         .catch(function (e) {
           loadErr = e.message;
@@ -1808,9 +1844,72 @@
       return { key: era.k, from: era.a, until: era.b };
     },
     periods: function () { return PERIODS.map(function (p) { return p.k; }); },
+
+    /* ── THE SWITCHES, OPENED · SLIP #78 ──────────────────────────────
+       A TOUR IS A SEQUENCE OF REGISTER STATES, NOT A SCRIPT. These four do
+       exactly what the legend, the period buttons and the year scrub already
+       do by hand, and NOTHING ELSE — no new computation, no new claim. If a
+       tour cannot be driven by these, it wants to say something the surface
+       cannot show, and the tour is wrong rather than the API being short. */
+
+    /* the switch keys ON. '*' = all, '-' or [] = bare terrain. */
+    marks: function (on) {
+      var want = {};
+      if (on === '*') { KEY.forEach(function (o) { want[o.k] = 1; }); }
+      else if (on && on !== '-') {
+        (typeof on === 'string' ? on.split('|') : on).forEach(function (k) {
+          k = String(k).trim(); if (k) { want[k] = 1; }
+        });
+      }
+      offMarks = {};
+      KEY.forEach(function (o) { if (!want[o.k]) { offMarks[o.k] = 1; } });
+      var key = el && el.querySelector('.at-key');
+      if (key) {
+        KEY.forEach(function (o) {
+          var d = key.querySelector('[data-m="' + o.k + '"]');
+          if (d) { d.setAttribute('aria-pressed', offMarks[o.k] ? 'false' : 'true'); }
+        });
+      }
+      draw();
+      return Object.keys(want);
+    },
+
+    /* the year, or null for the whole period with the clock off */
+    year: function (y) {
+      scrub = (y === null || y === undefined || y === '') ? null : +y;
+      var sc = el && el.querySelector('.at-scrub');
+      if (sc && scrub !== null) {
+        sc.value = String(Math.max(+sc.min, Math.min(+sc.max, scrub)));
+      }
+      draw();
+      return scrub;
+    },
+
+    /* centre on a coordinate at a magnification. Blank arguments hold what
+       is already set, so a tour row can move one without disturbing the
+       other. THE CAMERA IS ATTENTION, NOT A CLAIM — it is the one thing here
+       that may move freely, because where a reader looks asserts nothing. */
+    camera: function (lat, lon, k) {
+      if (k !== null && k !== undefined && k !== '') {
+        K = Math.max(K_MIN, Math.min(K_MAX, +k));
+      }
+      if (lat !== null && lat !== undefined && lat !== '' &&
+          lon !== null && lon !== undefined && lon !== '') {
+        var p = proj(+lat, +lon);
+        TX = VB / 2 - p[0] * K;
+        TY = VB / 2 - p[1] * K;
+      }
+      if (clampCam) { clampCam(); }
+      draw();
+      return { k: K, tx: TX, ty: TY };
+    },
+
+    /* what a tour row may legally name, so a validator has one source */
+    switches: function () { return KEY.map(function (o) { return o.k; }); },
     count: function () {
       return rows ? { places: rows.length, shown: rows.filter(alive).length,
-                      pin: rows.filter(function (r) { return r.tier === 'pin'; }).length }
+                      pin: rows.filter(function (r) { return r.tier === 'pin'; }).length,
+                      unplaced: unplaced }
                   : (loadErr ? { error: loadErr } : null);
     }
   };
