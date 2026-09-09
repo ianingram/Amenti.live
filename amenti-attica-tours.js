@@ -205,28 +205,63 @@
     document.head.appendChild(s);
   }
 
-  /* ── MAKE ROOM RATHER THAN OVERLAP ──────────────────────────────
-     Three things want the bottom of this surface: the control row, the note,
-     and now the caption. The band sits above the controls and pushes the note
-     up by exactly its own height, and puts the note back on the way out. A
-     module that permanently moved another module's furniture would be a module
-     that has edited amenti-attica.js by other means. */
-  var noteWas = null;
+  /* ── MEASURE THE WHOLE STACK, NOT ONE ROW OF IT ────────────────────
+     THE FIRST VERSION OF THIS MEASURED .at-ctl AND STEPPED OVER .at-clock,
+     which it had not looked for. The arithmetic was right and the survey was
+     short, so the band landed correctly and the NOTE was pushed down onto the
+     year scrub — a fix that moved the fault rather than removing it.
+
+     Bottom-anchored on this surface, from the floor up:
+         .at-ctl     bottom:16px    the period buttons, and it WRAPS
+         .at-clock   bottom:118px   the year scrub, the clock, play
+         .at-note    bottom:148px   the register's own admissions
+     The band goes in the gap above .at-ctl. AT THIS SIZE IT FITS AND NOTHING
+     NEEDS TO MOVE. If the window narrows, .at-ctl wraps taller and the gap
+     closes, and only then are the clock and the note lifted — by the exact
+     overflow and no more.
+
+     NOTHING IS MOVED THAT DOES NOT HAVE TO BE. A module that rearranges
+     another module's furniture on principle is a module that has edited
+     amenti-attica.js by other means. */
+  var was = null;                       /* the natural bottoms, read once */
+
+  function natural(host) {
+    if (was) { return was; }
+    var c = host.querySelector('.at-clock'), n = host.querySelector('.at-note');
+    was = {
+      clock: c ? parseFloat(getComputedStyle(c).bottom) || 118 : 118,
+      note:  n ? parseFloat(getComputedStyle(n).bottom) || 148 : 148
+    };
+    return was;
+  }
+
   function lift() {
     var host = document.querySelector('#amenti-attica');
     if (!host || !band) { return; }
+    var nat = natural(host);
     var ctl = host.querySelector('.at-ctl');
-    var note = host.querySelector('.at-note');
     var base = 16 + (ctl ? ctl.offsetHeight : 0) + 10;
     band.style.bottom = base + 'px';
-    if (note) {
-      if (noteWas === null) { noteWas = note.style.bottom || ''; }
-      note.style.bottom = (base + band.offsetHeight + 12) + 'px';
+
+    var top = base + band.offsetHeight + 10;      /* what the band reaches */
+    var over = top - nat.clock;                   /* into the clock, or not */
+    var clock = host.querySelector('.at-clock');
+    var note = host.querySelector('.at-note');
+    if (over > 0) {
+      if (clock) { clock.style.bottom = (nat.clock + over) + 'px'; }
+      if (note) { note.style.bottom = (nat.note + over) + 'px'; }
+    } else {
+      if (clock) { clock.style.bottom = ''; }
+      if (note) { note.style.bottom = ''; }
     }
   }
+
   function drop() {
-    var note = document.querySelector('#amenti-attica .at-note');
-    if (note && noteWas !== null) { note.style.bottom = noteWas; noteWas = null; }
+    var host = document.querySelector('#amenti-attica');
+    if (!host) { return; }
+    var clock = host.querySelector('.at-clock'), note = host.querySelector('.at-note');
+    if (clock) { clock.style.bottom = ''; }
+    if (note) { note.style.bottom = ''; }
   }
 
   function mount() {
