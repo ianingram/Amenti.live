@@ -813,6 +813,50 @@
         "dispatch"
       ],
       "note": "Dismisses the day's dispatch reader. Navigation only — the dispatch is already rendered when it opens."
+    },
+    "attica-frames": {
+      "name": "The frame picker",
+      "kind": "control",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "amenti-attica.js",
+        "section": "the Attica surface, left edge under the legend"
+      },
+      "engine": "AmentiAttica.frame",
+      "costs": [],
+      "reaches": {
+        "counted": null,
+        "memory": null,
+        "dial": null,
+        "voice": false
+      },
+      "linkedFrom": [
+        "attica-surface"
+      ],
+      "note": "Fifteen regions from FRAMES.csv, stacked. Choosing one drops every register the surface holds and re-reads them off the new key — a frame that kept the last one's events would draw Marathon on the Rhine. IT MARKS WHICH FRAME HAS BEEN READ: Attica carries `· read` and the other fourteen carry only a place count, because a reader choosing between fifteen names should see before clicking that one has been authored and fourteen have only been harvested."
+    },
+    "attica-tours": {
+      "name": "The tour band",
+      "kind": "control",
+      "audience": "reader",
+      "where": {
+        "repo": "Amenti.live",
+        "file": "amenti-attica-tours.js",
+        "section": "the Attica surface, above the control row"
+      },
+      "engine": "AmentiAtticaTours",
+      "costs": [],
+      "reaches": {
+        "counted": null,
+        "memory": null,
+        "dial": null,
+        "voice": false
+      },
+      "linkedFrom": [
+        "attica-surface"
+      ],
+      "note": "Plays TOURS.csv. A TOUR IS A SEQUENCE OF REGISTER STATES, NOT A SCRIPT (#78) — every frame is four values a reader could set by hand, and the story is in the ORDER. Its button reads `run tour` and NOT `play`, because the clock a hundred pixels away already owns that word and runs the year; on 9 Sep the captain pressed one expecting the other and reported the tour broken, which it was not. It borrows the reader's switches, period and year on open and gives them back on close."
     }
   },
   "_stillUnknown": [
@@ -820,6 +864,8 @@
     "The gameroom's interaction points, for the same reason.",
     "The seventeen panes. Each is an operator surface and none is entered; fleet-nav.js is their registry and should be read rather than retyped.",
     "The reading vaults. Per-figure, generated, and their chat box is a conversation surface nobody has counted.",
-    "Whether the dial fires on counsel. Written as null rather than false, because nobody has checked."
+    "Whether the dial fires on counsel. Written as null rather than false, because nobody has checked.",
+    "The rest of the Attica family. The surface itself, its legend switches, the year scrub, the period buttons, the chart glass and the cue layer are all interaction points and NONE of them was declared here before 9 September 2026 — the two entries added that day are the two built that day. probes/attica-probe.js reads them all off the live DOM and is the fastest way to enumerate what is really there.",
+    "Whether any Attica surface is counted, reaches memory, or fires the dial. Written as null rather than false: false is a claim and nobody has checked."
   ]
 }
