@@ -225,6 +225,49 @@
      amenti-attica.js by other means. */
   var was = null;                       /* the natural bottoms, read once */
 
+  /* ── A TOUR BORROWS THE SURFACE AND MUST GIVE IT BACK · 9 Sep ─────────
+     IT DID NOT. Frame 1 of `ground-first` is bare terrain, so closing the
+     panel on the first frame left every switch off, the legend dimmed, and a
+     map with nothing on it AND NO STATEMENT ANYWHERE OF WHY. The counts kept
+     showing, because a count is a census and not a switch, so the surface
+     looked broken rather than switched off.
+
+     THE READER'S OWN STATE IS NOT THE TOUR'S TO SPEND. What the reader had set
+     before the tour opened is taken here and put back on the way out. */
+  var borrowed = null;
+
+  function borrow() {
+    var A = window.AmentiAttica, host = document.querySelector('#amenti-attica');
+    if (!A || borrowed) { return; }
+    var on = [];
+    if (host) {
+      host.querySelectorAll('.at-key [data-m]').forEach(function (d) {
+        if (d.getAttribute('aria-pressed') !== 'false') { on.push(d.getAttribute('data-m')); }
+      });
+    }
+    var sc = host && host.querySelector('.at-scrub');
+    var off = host && host.querySelector('.at-clockoff');
+    borrowed = {
+      marks: on.length ? on.join('|') : '-',
+      period: (A.period ? null : null),
+      /* the clock is only a year when it is ON; `off` means the whole period */
+      year: (off && off.getAttribute('aria-pressed') === 'true') || !sc
+              ? null : +sc.value
+    };
+    var lit = host && host.querySelector('.at-ctl button[data-p][aria-pressed="true"]');
+    borrowed.period = lit ? lit.getAttribute('data-p') : 'all';
+  }
+
+  function giveBack() {
+    var A = window.AmentiAttica;
+    if (!A || !borrowed) { return; }
+    A.marks(borrowed.marks);
+    A.period(borrowed.period);
+    A.year(borrowed.year);
+    borrowed = null;
+  }
+
+
   function natural(host) {
     if (was) { return was; }
     var c = host.querySelector('.at-clock'), n = host.querySelector('.at-note');
@@ -322,6 +365,7 @@
     if (!document.body.classList.contains('scene-attica')) { return false; }
     if (!mount()) { return false; }
     open = true;
+    borrow();
     band.style.display = '';
     lift();
 
@@ -377,6 +421,7 @@
     open = false;
     if (band) { band.style.display = 'none'; }
     drop();
+    giveBack();
     return false;
   }
   function toggle() { return open ? hide() : show(); }
