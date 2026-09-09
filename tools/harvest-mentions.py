@@ -64,7 +64,19 @@ def strip_accents(s):
                    if unicodedata.category(c) != 'Mn')
 
 
+# ── ORIGIN IS A PROPERTY OF A FORM *FOR A PLACE*, NOT OF A FORM ──────────
+# The first version keyed on the form alone, so a spelling that is ATTESTED for
+# one place and DERIVED for another kept whichever was read last. `Salamis` is
+# attested for the island and could be derived for something else; the wrong
+# one wins by file order, which is not a rule, it is an accident.
+#
+# `origin_of` is now keyed by (place, form). `any_attested` keeps the strongest
+# claim any place makes on a spelling, and that is what the case rule consults —
+# because A FORM THAT IS ATTESTED SOMEWHERE IS A REAL WORD SOMEWHERE, and
+# refusing it in lower case would throw away a gazetteer's evidence to guard
+# against a generated one.
 origin_of = {}
+any_attested = {}
 
 
 def load():
@@ -86,7 +98,11 @@ def load():
             # not the same claim, and until now the output could not tell them
             # apart — which quietly turned a generated spelling into an
             # attestation the moment it matched.
-            origin_of[strip_accents(r['form']).lower()] = r.get('origin') or 'attested'
+            origin_of[(r['key'], strip_accents(r['form']).lower())] = \
+                r.get('origin') or 'attested'
+            key_form = strip_accents(r['form']).lower()
+            if any_attested.get(key_form) != 'attested':
+                any_attested[key_form] = r.get('origin') or 'attested'
         else:
             held[r['key']].append((r['form'], r['caution']))
     return places, forms, held
@@ -157,16 +173,17 @@ def main():
             # does NOT kill Marius, which is capitalised and is a man — that
             # wants the ambiguity rule extended to people, and is a different
             # move.
-            if got[:1].islower() and all(
-                    origin_of.get(f, 'attested') == 'derived'
-                    for f in [got.lower()]):
+            # A DERIVED FORM MUST BE CAPITALISED. `any_attested` holds the
+            # strongest claim on this spelling: if ANY place attests it, the
+            # lower-case hit stands.
+            if got[:1].islower() and any_attested.get(got.lower()) == 'derived':
                 continue
             for key in lookup.get(got.lower(), ()):
                 h = hits[key]
                 h['n'] += 1
                 h['srcs'][src] += 1
                 h['forms'].add(got)
-                h['origins'].add(origin_of.get(got.lower(), 'attested'))
+                h['origins'].add(origin_of.get((key, got.lower()), 'attested'))
                 if h['snip'] is None:
                     a = max(0, m.start() - SNIPPET // 2)
                     h['snip'] = ' '.join(raw[a:a + SNIPPET].split())
@@ -186,7 +203,7 @@ def main():
             'matched_as': '|'.join(sorted(h['forms']))[:80] if h else '',
             'matched_origin': (
                 'attested' if h and any(
-                    origin_of.get(strip_accents(f).lower()) == 'attested'
+                    origin_of.get((key, strip_accents(f).lower())) == 'attested'
                     for f in h['forms'])
                 else ('derived' if h else '')),
             'unsearchable_forms': len(held.get(key, [])),
