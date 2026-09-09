@@ -74,6 +74,7 @@ Ordered by how much it hurts to leave undone.
 *Sorted by status. The entries themselves are unchanged, below. Start here.*
 
 **✅ DONE — acceptance test passed:**
+- **#83 — the gazetteer's language is not the corpus's.** 1,670 Latin forms generated; named places went 152 → 235 and corroborated 85 → 133. Crete was invisible and is now second. The origin column caught four false positives on its first reading.
 - **#74 — the ground that forces a choice.** The narrows register, its probe, its drawing module, and the terrain harvest that measured it. Three coordinates in the register are still wrong and are named in the entry.
 - **#76 — a key that counts.** The legend that became a census. Ten rows, live counts, each a switch.
 
@@ -3036,6 +3037,116 @@ fraction, and the fraction is the finding.
 - **Acceptance test:** a reader can see how many of the dead this register
   names, and how many it does not, without being told which is the larger
   number by anyone but the count.
+
+---
+
+### 83 · THE GAZETTEER'S LANGUAGE IS NOT THE CORPUS'S LANGUAGE
+**State: DONE** — the Latin forms are generated, the harvest re-run, the
+measurement taken, and the case rule added after the first reading exposed four
+false positives. Modern Greek and the person-name collision are separate moves.
+
+Raised 8 Sep, when `ATTICA-MENTIONS.csv` reported Laureion as named by NOTHING
+in a library of 603 texts and the captain found it in under a minute, spelled
+**Laurium**.
+
+**NEITHER THE HARVEST NOR THE ALIAS TABLE WAS WRONG.** Pleiades itself does not
+hold the Latin form:
+
+```
+    Pleiades has    Laureion · Laúreion · Λαύρειον
+    the corpus has  Laurium
+```
+
+Pleiades is a Greek-and-Roman gazetteer that records Greek places in GREEK. An
+English-language library of older scholarship uses LATIN. Where the Latin form
+happened to sit inside a Pleiades title the place matched — `Corinthus/Korinthos`
+and `Thebai/Thebae` were near the top of the corroborated list for exactly that
+reason. WHERE IT DID NOT, THE PLACE VANISHED, and vanished silently: a zero
+looks identical whether nobody wrote about a place or nobody asked in its
+language.
+
+**MEASURED, by generating 1,670 Latin forms and re-running:**
+
+```
+    before   152 named ·  85 corroborated · 1,594 silent
+    after    236 named · 133 corroborated · 1,510 silent
+             +84 places, +48 corroborated — FIFTY-FIVE PER CENT MORE
+```
+
+**AND WHAT CAME BACK SAYS WHAT KIND OF GAP IT WAS:**
+
+```
+    Krete              33 rooms   the corpus says Crete
+    Olympos (mountain) 19 rooms
+    Isthmos            19 rooms   the corpus says Isthmus
+    Odeion of Agrippa  15 rooms   the corpus says Odeum
+```
+
+**Crete is now the second most-corroborated place in the register and was
+invisible an hour earlier.** So was the Isthmus — the one piece of ground that
+decides who moves in and out of the Peloponnese. Every one of them is a
+`-os → -us` or an `-eion → -eum`.
+
+**A DERIVED FORM IS NOT AN ATTESTED ONE**, and the table says which is which in
+an `origin` column. A hit on an attested form means the corpus names this place.
+A hit on a derived form means the corpus names something that TRANSLITERATES to
+this place. Collapse the two and the register starts claiming attestation for
+spellings it invented.
+
+**AND ONE RULE HAD TO BE WEAKENED TO BE HONEST.** `-on → -um` is right for
+Sounion→Sunium and WRONG for Marathon, which Latin keeps whole. No rule
+separates the names Latin transliterated from the ones it borrowed, so `-on` is
+now converted only after `-i`. **A missed form finds nothing; a mangled one
+finds nothing AND occupies a row claiming to be a spelling.**
+
+- **What it unblocked immediately:** Thucydides names Laurium twice, and the
+  second is Alcibiades telling Sparta to cut off the silver — WHICH IS THE
+  ADVICE THAT PRODUCED DEKELEIA, already an event in the register at 413 BC.
+  The corpus held the strategy and the register held its consequence, and
+  neither knew about the other.
+**AND THE ORIGIN COLUMN EARNED ITSELF ON ITS FIRST READING.** Of the 84 places
+resting entirely on derived forms, four were not places at all:
+
+```
+    Klimax    matched  climax     an ordinary word
+    Odeion    matched  odium      an ordinary word
+    Acropolis matched  acropolis  every citadel, not this one
+    Marios    matched  Marius     a Roman general
+```
+
+Without the column those would have entered the register as corroboration and
+looked identical to Crete. **A DERIVED FORM IS A GUESS AT A SPELLING, and a
+guess that matches a common noun is not evidence of anything.** So a derived
+form is now matched CASE-SENSITIVELY — an attested form has a gazetteer behind
+it and keeps the benefit of the doubt; a generated one must at least be
+capitalised, because every proper noun in this corpus is.
+
+The rule cost one place and cleared three false ones. **And two real places
+surfaced from underneath the noise:**
+
+```
+    Leuktra → Leuctra           4 rooms   the battle that broke Sparta
+    Pnyx fountain → Callirrhoe  4 rooms   the spring below the Pnyx
+```
+
+`Isthmos` fell from 19 sources to 14, which is five lowercase `isthmus` — the
+common noun — correctly refused.
+
+- **Still open:** 1,511 places silent, 168 of them with no searchable form at
+  all. MODERN GREEK IS THE UNTRIED THIRD AXIS — Lavrio, Athina, Korinthos — and
+  a corpus with modern scholarship in it would need it.
+- **And one class the case rule cannot catch:** a derived form that is
+  capitalised and is a PERSON. `Marios → Marius` matches the Roman general in
+  seven rooms; `Patroklou Charax → PATROCLUS` matches Achilles' companion.
+  The ship already holds 2,043 souls, so a derived form colliding with a name
+  in `names.csv` could be refused the same way an ambiguous place form is.
+  THAT IS A DIFFERENT MOVE and it is not raised yet.
+- **And the general form of the fault:** any gazetteer speaks one language and
+  any corpus speaks another. THIS WILL RECUR WITH EVERY NEW REGION AND EVERY
+  NEW LIBRARY, and the first symptom will be the same one: a silence that
+  looks like absence.
+- **Acceptance test:** passed — Laureion resolves to Laurium, Thorikos to
+  Thoricus, Sounion to Sunium, and Marathon is left alone.
 
 ---
 
