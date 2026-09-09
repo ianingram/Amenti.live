@@ -145,14 +145,26 @@
     QUESTIONS.forEach(function (q, i) {
       chain = chain.then(function () {
         var before = snap(), t0 = Date.now();
-        return window.AmentiHall.ask(q[1]).then(function (answer) {
+        return window.AmentiHall.ask(q[1]).then(function (res) {
+          /* ── ask() RESOLVES WITH A REPORT, NOT A STRING · 9 Sep ──────────
+             THE FIRST RUN PRINTED `[object Object]` FIVE TIMES. The prose is
+             `.answer`; the object also carries `cited`, `opened`, `souls` and
+             `degraded`, which are worth having — the citations especially,
+             because whether a cheaper model still quotes a real passage is
+             the question this bench exists to answer and the titles are
+             right there. */
+          var answer = (res && typeof res === 'object') ? (res.answer || '') : String(res || '');
+          var cited = (res && res.cited) ? res.cited : [];
+          var opened = (res && res.opened) ? res.opened : [];
+          var degraded = (res && res.degraded && res.degraded.length) ? res.degraded : [];
           var after = snap(), ms = Date.now() - t0;
           var used = { i: after.i - before.i, o: after.o - before.o,
                        turns: after.t - before.t, m: after.m };
           var r = rateFor(used.m);
           var cost = r ? (used.i / 1e6) * r['in'] + (used.o / 1e6) * r.out : null;
           rows.push({ n: i + 1, route: q[0], q: q[1], used: used, cost: cost,
-                      ms: ms, answer: String(answer || '') });
+                      ms: ms, answer: String(answer || ''),
+                      cited: cited, opened: opened, degraded: degraded });
         }).catch(function (e) {
           rows.push({ n: i + 1, route: q[0], q: q[1], err: String(e.message || e) });
         });
@@ -171,13 +183,26 @@
         say('     ' + x.used.i + ' in \u00b7 ' + x.used.o + ' out \u00b7 ' +
             x.used.turns + ' call' + (x.used.turns === 1 ? '' : 's') +
             ' \u00b7 ' + (x.ms / 1000).toFixed(1) + 's \u00b7 ' + money(x.cost));
-        if (x.used.turns > 1) {
-          say('     (more than one call \u2014 the router opened a room, which is the');
-          say('      expensive path and is what this question is here to price)');
+        /* ── EVERY QUESTION MAKES TWO CALLS · MEASURED 9 Sep ──────────────
+           The first run of this bench printed `the router opened a room, which
+           is the expensive path` on ALL FIVE lines, because the router fires on
+           every question and not only the ones that open something. A note that
+           appears on every row is not a finding, it is furniture. It says
+           something now only when the count is NOT two. */
+        if (x.used.turns !== 2) {
+          say('     (' + x.used.turns + ' calls, where two is the norm \u2014 router ' +
+              'then answer. Worth knowing why.)');
+        }
+        say('     opened: ' + (x.opened.length
+              ? x.opened.map(function (o) { return o.title + (o.read ? '' : ' [UNREAD]'); }).join(' \u00b7 ')
+              : 'no room'));
+        if (x.degraded.length) {
+          say('     \u2716 degraded: ' + x.degraded.join(', ') + ' \u2014 the answer was ' +
+              'built without them');
         }
         say('');
-        say('     ' + x.answer.replace(/\s+/g, ' ').slice(0, 300) +
-            (x.answer.length > 300 ? '\u2026' : ''));
+        say('     ' + x.answer.replace(/\s+/g, ' ').slice(0, 400) +
+            (x.answer.length > 400 ? '\u2026' : ''));
       });
       say('\u2500'.repeat(70));
       say('');
@@ -192,8 +217,23 @@
         var hi = rows.reduce(function (a, b) { return (b.cost !== null && b.cost > a) ? b.cost : a; }, 0);
         say('  cheapest ' + money(lo) + ' \u00b7 dearest ' + money(hi) +
             ' \u2014 a ' + (hi / lo).toFixed(1) + '\u00d7 spread.');
-        say('  ONE QUESTION PRICED AND GENERALISED WOULD BE WRONG BY WHICHEVER');
-        say('  END IT LANDED ON.');
+        /* ── WHAT THE FIRST RUN ACTUALLY SHOWED · 9 Sep ───────────────────
+           The routes barely differ. Input ran 7,190 to 7,867 across all five
+           because THE FIXED BLOCK DOMINATES AND THE ROUTE HARDLY MOVES IT.
+           What varied was OUTPUT: 122 tokens on the counts question, 518 on
+           Carthage. COST TRACKS HOW MUCH THE HALL SAYS, NOT WHICH PATH IT
+           TOOK — which means trimming the prompt helps every ask equally and
+           the routes are not the lever. */
+        var ilo = rows.reduce(function (a, b) { return b.used && b.used.i < a ? b.used.i : a; }, Infinity);
+        var ihi = rows.reduce(function (a, b) { return b.used && b.used.i > a ? b.used.i : a; }, 0);
+        var olo = rows.reduce(function (a, b) { return b.used && b.used.o < a ? b.used.o : a; }, Infinity);
+        var ohi = rows.reduce(function (a, b) { return b.used && b.used.o > a ? b.used.o : a; }, 0);
+        say('');
+        say('  input  ' + ilo + '\u2013' + ihi + '  (' + (ihi / ilo).toFixed(2) + '\u00d7)   ' +
+            'output ' + olo + '\u2013' + ohi + '  (' + (ohi / olo).toFixed(1) + '\u00d7)');
+        say('  IF INPUT IS FLAT AND OUTPUT IS NOT, cost tracks how much the hall');
+        say('  SAYS and not which route it took \u2014 so trimming the prompt helps');
+        say('  every ask equally, and the routes are not the lever.');
       } else {
         say('  ' + (rows.length - priced) + ' of ' + rows.length + ' unpriced \u2014 tokens ' +
             'are real and dollars are withheld.');
