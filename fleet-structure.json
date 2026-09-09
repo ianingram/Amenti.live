@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-09T23:17:23.589Z",
+    "generated": "2026-09-09T23:29:42.827Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1472,7 +1472,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51986,
-      "sha256": "273c04d8a0280f8b",
+      "sha256": "88aa6a28b02a65df",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1817,7 +1817,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 56,
+    "count": 57,
     "files": [
       {
         "file": "attica-probe.js",
@@ -1842,6 +1842,12 @@
         "title": null,
         "guards": null,
         "bytes": 5513
+      },
+      {
+        "file": "hall-bench.js",
+        "title": null,
+        "guards": null,
+        "bytes": 11951
       },
       {
         "file": "hall-probe.js",
