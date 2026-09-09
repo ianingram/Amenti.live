@@ -8,6 +8,12 @@ Harvests one frame from FRAMES.csv, or all of them.
     python3 tools/harvest-frame.py pleiades-places.csv           # every frame
     python3 tools/harvest-frame.py pleiades-places.csv sicilia   # just one
 
+A FRAME MARKED `detail: full` IS SKIPPED BY A RUN THAT DID NOT NAME IT.
+Attica has a why column, events, moves, cues and a mentions join, all keyed to
+the register as it stands, and a blank run would replace it with 1,751 rows
+where the joins expect 1,746. AUTHORED WORK IS NOT OVERWRITTEN BY A HARVEST
+THAT WAS ASKED FOR SOMETHING ELSE. Name the frame to mean it.
+
     source   Pleiades · pleiades.stoa.org · CC BY 3.0
              https://atlantides.org/downloads/pleiades/dumps/
              pleiades-places-latest.csv.gz — gunzip it first
@@ -194,6 +200,17 @@ def main():
     todo = [f for f in frames() if ONLY is None or f['key'] == ONLY]
     if not todo:
         sys.exit('no such frame in FRAMES.csv: ' + str(ONLY))
+
+    # ── A HARVEST DOES NOT OVERWRITE AUTHORED WORK IT WAS NOT ASKED ABOUT ─
+    # `detail: full` means a frame carries a why column, events, moves and a
+    # mentions join keyed to the register AS IT STANDS. Regenerating it from a
+    # blank run would hand those joins a different set of rows. Naming the
+    # frame is how the captain says that is intended.
+    if ONLY is None:
+        held = [f['key'] for f in todo if f.get('detail') == 'full']
+        todo = [f for f in todo if f.get('detail') != 'full']
+        for k in held:
+            print('  %-13s HELD \u2014 detail: full. Name it to regenerate it.' % k)
 
     ph = ['key', 'name', 'kind', 'tier', 'precision', 'lat', 'lon', 'from',
           'until', 'km', 'unplaced', 'uri', 'why']
