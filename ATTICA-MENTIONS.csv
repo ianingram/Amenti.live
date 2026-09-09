@@ -1,15 +1,19 @@
 key,name,kind,tier,lat,lon,km,mentions,sources,in,matched_as,unsearchable_forms,uri,first_seen
 pl-579885,Athenae,settlement,wash,37.97164,23.72391,1.4,534,61,shakespeare-william/02-first-folio.md(58); shakespeare-william/33-timon-of-athens.md(48); thucydides/02-the-funeral-oration.md(39); thucydides/05-the-sicilian-expedition.md(32),ATHENS|Athen|Athenae|Athens,0,https://pleiades.stoa.org/places/579885,"Knatchbull, pp. 113-115. Symeon Seth (Athens edition), p. 16. John of Capua,"
+pl-1001897,Krete,province,wash,37.5,22.5,120.6,91,33,lycurgus/04-aristotle-politics-two.md(13); theseus/00-plutarch-theseus.md(11); plutarch/01-theseus.md(11); lycurgus/06-herodotus-book-one.md(5),Crete,0,https://pleiades.stoa.org/places/1001897,"tal men? (ll. 30-50) Among those who are in Crete, and in the township of Athens, and in"
+pl-570106,Argos,settlement|archaeological site,pin,37.63105,22.72038,96.8,62,28,theseus/05-oedipus-at-colonus.md(7); thucydides/03-the-plague.md(6); lycurgus/06-herodotus-book-one.md(6); apollo/08-pindar-pythian.md(5),Argos|Argus,2,https://pleiades.stoa.org/places/570106,"them sport Ares and the keen-eyed Slayer of Argus, while Apollo plays his lyre stepping h"
 pl-570182,Corinthus/Korinthos,settlement|archaeological site,pin,37.90564,22.87861,74.9,75,27,thucydides/05-the-sicilian-expedition.md(7); shakespeare-william/02-first-folio.md(7); thucydides/06-the-defeat.md(6); shakespeare-william/05-errors.md(6),Corinth|Corinthus,0,https://pleiades.stoa.org/places/570182,"herd who took him to his master, the King of Corinth. Polybus being childless adopted the"
 pl-541138,Thebai/Thebae,"settlement|archaeological site|findspot, place of finding, find place",pin,38.31995,23.31765,51.8,108,25,theseus/05-oedipus-at-colonus.md(23); shakespeare-william/38-two-noble-kinsmen.md(22); apollo/07-sophocles-oedipus.md(17); apollo/08-pindar-pythian.md(14),THEBES|Thebes,5,https://pleiades.stoa.org/places/541138,"ARGUMENT To Laius, King of Thebes, an oracle foretold that the child bor"
 pl-540726,Delphi,sanctuary (religious center)|settlement,pin,38.48229,22.50117,120.6,116,24,lycurgus/06-herodotus-book-one.md(36); apollo/08-pindar-pythian.md(26); theseus/00-plutarch-theseus.md(7); plutarch/01-theseus.md(7),Delphi|Pytho,5,https://pleiades.stoa.org/places/540726,"2-206) Leto's all-glorious son goes to rocky Pytho, playing upon his hollow lyre, clad in"
-pl-570106,Argos,settlement|archaeological site,pin,37.63105,22.72038,96.8,57,24,theseus/05-oedipus-at-colonus.md(7); thucydides/03-the-plague.md(6); lycurgus/06-herodotus-book-one.md(6); apollo/08-pindar-pythian.md(5),Argos,2,https://pleiades.stoa.org/places/570106,"free her. She shall grow old in my house at Argos far from her own home, busying herself"
 pl-570577,Peloponnesus/Peloponnesos/Peloponnese,peninsula|region,wash,37.09278,22.33596,157.7,120,23,herodotus/04-salamis.md(20); thucydides/06-the-defeat.md(18); thucydides/02-the-funeral-oration.md(14); thucydides/05-the-sicilian-expedition.md(11),Peloponnese|Peloponnesus,3,https://pleiades.stoa.org/places/570577,"rfect hecatombs, both those who live in rich Peloponnesus and those of Europe and all the"
 pl-570685,Sparta,"settlement|temple, sanctuary, shrine, monument, tomb (deprecated)|temple|archaeological site",pin,37.08178,22.42467,152.5,107,23,lycurgus/01-plutarch-lycurgus.md(26); lycurgus/03-xenophon-lacedaemonians.md(17); lycurgus/05-plutarch-agis.md(14); herodotus/03-thermopylai.md(10),Sparta,0,https://pleiades.stoa.org/places/570685,"all I of Athenians take reward of thanks, at Sparta when I shall tell in a song to come of"
 pl-570406,Lacedaemon/Laconia,region|map label location,pin,37.04573,22.66035,140.5,94,19,lycurgus/01-plutarch-lycurgus.md(15); lycurgus/04-aristotle-politics-two.md(11); thucydides/02-the-funeral-oration.md(10); thucydides/05-the-sicilian-expedition.md(10),Lacedaemon|Laconia|Lakedaimon,0,https://pleiades.stoa.org/places/570406,"then they would have gone forth from mighty Lakedaimon, and from the Argive gulf, and fro"
+pl-580042,Olympos (mountain),mountain,wash,37.875,23.875,17.7,47,19,apollo/06-iliad-book-one.md(13); shakespeare-william/02-first-folio.md(6); apollo/02-homeric-hymn-pythian.md(4); apollo/01-homeric-hymn-delian.md(3),Olympus,2,https://pleiades.stoa.org/places/580042,"of Leto's trouble, for she sat on the top of Olympus beneath golden clouds by white-armed"
+pl-570317,Isthmos,isthmus,pin,37.94139,22.98778,65.0,46,19,herodotus/04-salamis.md(16); thucydides/02-the-funeral-oration.md(4); lycurgus/06-herodotus-book-one.md(4); thucydides/05-the-sicilian-expedition.md(3),Isthmos|Isthmus|isthmus|isthmus of Corinth,0,https://pleiades.stoa.org/places/570317,"house. And I hereto am led by victories, at Isthmos five, and one pre-eminent, won at Oly"
 pl-1001896,Hellas (Late Roman province),province,wash,37.5,22.5,120.6,87,15,thucydides/01-the-method.md(21); thucydides/05-the-sicilian-expedition.md(14); herodotus/04-salamis.md(11); lycurgus/06-herodotus-book-one.md(8),Hellas,2,https://pleiades.stoa.org/places/1001896,"hurled their youth into the sea, to deliver Hellas from the bondage of the oppressor. Fr"
 pl-540703,Chalcis,settlement,pin,38.45714,23.62194,53.4,51,15,flavius-josephus/01-antiquities.md(12); flavius-josephus/02-wars-of-the-jews.md(9); flavius-josephus/antiquities-book-20.md(7); flavius-josephus/wars-book-02.md(7),Chalcis|Chalkis,0,https://pleiades.stoa.org/places/540703,"and the men of Pylos; past Cruni it went and Chalcis and past Dyme and fair Elis, where th"
-pl-479670108,Academy/Akademeia/Akademia,archaeological site,pin,37.99245,23.70735,2.0,24,15,george-washington/02-journal-over-the-mountains.md(4); augustus-caesar/02-the-inscription.md(3); einstein-albert/05-sidelights.md(3); george-washington/05-masonic-correspondence.md(2),Academy,0,https://pleiades.stoa.org/places/479670108,"made his home while attending Mr. William's Academy. Austin is, or has been, in Virginia"
+pl-479670108,Academy/Akademeia/Akademia,archaeological site,pin,37.99245,23.70735,2.0,26,15,george-washington/02-journal-over-the-mountains.md(4); augustus-caesar/02-the-inscription.md(3); einstein-albert/05-sidelights.md(3); george-washington/05-masonic-correspondence.md(2),Academia|Academy,0,https://pleiades.stoa.org/places/479670108,"made his home while attending Mr. William's Academy. Austin is, or has been, in Virginia"
+pl-832198698,Odeion of Agrippa,odeon,pin,37.97507,23.72315,1.0,19,15,cleopatra/04-suetonius-julius.md(3); cleopatra/05-suetonius-augustus.md(3); lincoln/lincoln/24-his-speech-on-the-dred-scott-decision-sp.md(1); brutus/03-the-expulsion.md(1),Agrippium|odium,4,https://pleiades.stoa.org/places/832198698,", by much drumming and repeating, fasten the odium of that idea upon his adversaries, he t"
 pl-570468,Megara,settlement,pin,37.98508,23.34016,33.9,29,14,thucydides/05-the-sicilian-expedition.md(8); theseus/00-plutarch-theseus.md(4); plutarch/01-theseus.md(4); herodotus/04-salamis.md(2),Megara,0,https://pleiades.stoa.org/places/570468,"beneath the hands of the adversary. Now at Megara also hast thou won a prize, and in sec"
 pl-540775,Euboea (island),island,pin,38.53,23.87,62.0,28,13,thucydides/02-the-funeral-oration.md(4); thucydides/06-the-defeat.md(4); plutarch/05-pericles.md(4); herodotus/04-salamis.md(3),Euboea,1,https://pleiades.stoa.org/places/540775,"hip of Athens, and in the isle of Aegina and Euboea, famous for ships, in Aegae and Eiresi"
 pl-579888,Attica,region,wash,38.03333,23.65,8.7,65,12,thucydides/02-the-funeral-oration.md(13); herodotus/04-salamis.md(8); thucydides/03-the-plague.md(8); theseus/00-plutarch-theseus.md(8),Attica,0,https://pleiades.stoa.org/places/579888,amely in order that they might remove out of Attica to a place of safety their children an
@@ -17,20 +21,26 @@ pl-594947,Apollonia,unlocated|settlement,wash,36.97358,24.69879,141.3,39,12,juli
 pl-579874,Aphrodite sanctuary at Dafni,sanctuary (religious center),pin,38.0128,23.6159,10.3,26,12,flavius-josephus/02-wars-of-the-jews.md(5); apollo/05-ovid-daphne.md(4); flavius-josephus/01-antiquities.md(3); flavius-josephus/wars-book-04.md(3),Daphne,1,https://pleiades.stoa.org/places/579874,"[I.452-567] Apollo, falling in love with Daphne, the daughter of the river Peneus, s"
 pl-579945,Helena (island),island,pin,37.69066,24.12125,47.5,280,11,shakespeare-william/02-all-s-well-that-ends-well.md(126); shakespeare-william/24-a-midsummer-night-s-dream.md(71); shakespeare-william/02-first-folio.md(34); flavius-josephus/01-antiquities.md(18),HELENA|Helena,0,https://pleiades.stoa.org/places/579945,"married a Fairfax, and was stationed at St. Helena in 1716-17, and subsequently at the Ba"
 pl-579878,Artemis Tauropolos temple,sanctuary (religious center)|settlement,pin,37.97975,24.00891,24.7,37,9,theseus/04-hippolytus.md(23); apollo/01-homeric-hymn-delian.md(3); apollo/08-pindar-pythian.md(3); apollo/07-sophocles-oedipus.md(2),ARTEMIS|Artemis,1,https://pleiades.stoa.org/places/579878,"bare glorious children, the lord Apollo and Artemis who delights in arrows; her in Ortygi"
+pl-638356144,Acropolis of Athens,acropolis|architectural complex,pin,37.97165,23.72644,1.4,25,9,herodotus/04-salamis.md(10); thucydides/02-the-funeral-oration.md(4); lycurgus/06-herodotus-book-one.md(3); plutarch/05-pericles.md(2),Acropolis|acropolis,0,https://pleiades.stoa.org/places/638356144,"erpent lives in the temple 25 and guards the Acropolis; and they not only say this, but al"
 pl-579920,Eleusis,settlement|deme (Athenian),pin,38.0411,23.5374,17.8,22,9,herodotus/04-salamis.md(4); thucydides/02-the-funeral-oration.md(4); theseus/00-plutarch-theseus.md(4); plutarch/01-theseus.md(4),Eleusis,0,https://pleiades.stoa.org/places/579920,"when a battle was fought by the Athenians at Eleusis against the neighbouring people, he b"
-pl-995644788,"Tholos at the Sanctuary of Asklepios, Epidauros",sanctuary (religious center)|temple,pin,37.59841,23.07405,71.6,13,9,thucydides/03-the-plague.md(2); thucydides/05-the-sicilian-expedition.md(2); thucydides/06-the-defeat.md(2); theseus/04-hippolytus.md(2),Epidaurus,3,https://pleiades.stoa.org/places/995644788,n Attica in the Paralian region. Arriving at Epidaurus in Peloponnese they ravaged most of
+pl-995644788,"Tholos at the Sanctuary of Asklepios, Epidauros",sanctuary (religious center)|temple,pin,37.59841,23.07405,71.6,11,9,thucydides/03-the-plague.md(2); theseus/04-hippolytus.md(2); thucydides/05-the-sicilian-expedition.md(1); thucydides/06-the-defeat.md(1),Epidaurus,3,https://pleiades.stoa.org/places/995644788,n Attica in the Paralian region. Arriving at Epidaurus in Peloponnese they ravaged most of
 pl-570085,A(n)thene,settlement,pin,37.45039,22.6695,110.4,21,8,lycurgus/06-herodotus-book-one.md(10); apollo/08-pindar-pythian.md(3); herodotus/04-salamis.md(2); thucydides/02-the-funeral-oration.md(2),Athene,0,https://pleiades.stoa.org/places/570085,"oice immortal, O tell me. (Ant. 1) First on Athene I call; O Zeus-born goddess, defend!"
 pl-540639,Anthedon,settlement|port,pin,38.49769,23.45165,62.0,20,8,flavius-josephus/01-antiquities.md(5); flavius-josephus/02-wars-of-the-jews.md(5); flavius-josephus/wars-book-01.md(4); flavius-josephus/antiquities-book-13.md(2),Anthedon,0,https://pleiades.stoa.org/places/540639,"he maritime parts of the country, Raphia and Anthedon, [the name of which king Herod after"
 pl-580021,Marathon,settlement|deme (Athenian),pin,38.14655,23.97015,27.9,19,8,lycurgus/06-herodotus-book-one.md(4); theseus/00-plutarch-theseus.md(4); plutarch/01-theseus.md(4); apollo/08-pindar-pythian.md(3),Marathon,0,https://pleiades.stoa.org/places/580021,"victory B.C. 490, the year of the battle of Marathon. He was a member of the great house"
 pl-579844,Aegina (island),island,pin,37.73456,23.4893,34.7,18,8,apollo/08-pindar-pythian.md(5); thucydides/02-the-funeral-oration.md(3); thucydides/06-the-defeat.md(3); thucydides/01-the-method.md(2),AIGINA|Aegina|Aigina|Oinone,3,https://pleiades.stoa.org/places/579844,"n the township of Athens, and in the isle of Aegina and Euboea, famous for ships, in Aegae"
+pl-570340,Kaukasos (mountain),mountain|map label location,pin,37.5382,24.29912,70.6,13,8,lycurgus/06-herodotus-book-one.md(4); cleopatra/03-plutarch-pompey.md(2); shakespeare-william/02-first-folio.md(2); cleopatra/01-plutarch-antony.md(1),Caucasus,0,https://pleiades.stoa.org/places/570340,"d Iberians, and marched victorious as far as Caucasus, by which means the fame of Antony's"
 pl-570299,Hydroussa/Hydrea (island),island,pin,37.33488,23.47409,75.5,10,8,shakespeare-william/02-first-folio.md(3); shakespeare-william/06-coriolanus.md(1); shakespeare-william/09-first-part-of-king-henry-the-fourth.md(1); shakespeare-william/10-second-part-of-king-henry-the-fourth.md(1),Hydra,3,https://pleiades.stoa.org/places/570299,"owglas. Dow. Another King? They grow like Hydra's heads: I am the Dowglas, fatall to a"
+pl-580060,Patroklou Charax (island),island,pin,37.65048,23.95053,41.9,80,7,shakespeare-william/35-troilus-and-cressida.md(73); apollo/06-iliad-book-one.md(2); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),PATROCLUS|Patroclus,0,https://pleiades.stoa.org/places/580060,"as sent you for the girl Briseis. Therefore, Patroclus, bring her and give her to them, bu"
 pl-540740,Doris,region|map label location,pin,38.72285,22.42477,140.2,32,7,flavius-josephus/01-antiquities.md(9); flavius-josephus/02-wars-of-the-jews.md(7); flavius-josephus/wars-book-01.md(7); flavius-josephus/antiquities-book-19.md(5),Doris,0,https://pleiades.stoa.org/places/540740,he Malians from the land which is now called Doris. 44. These were the Peloponnesians who
+pl-570461,Marios,settlement,pin,37.04258,22.81937,131.8,26,7,cleopatra/02-plutarch-caesar.md(16); cleopatra/04-suetonius-julius.md(4); cleopatra/03-plutarch-pompey.md(2); julius-caesar/gallic-war-1.md(1),Marius,0,https://pleiades.stoa.org/places/570461,"e defeat of the Cimbri and Teutones by Caius Marius, the army was regarded as having deser"
 pl-969121823,Areopagus,hill,pin,37.97237,23.72337,1.3,19,7,plutarch/04-solon.md(6); solon/01-the-crisis.md(5); plutarch/05-pericles.md(3); solon/03-the-constitution.md(2),Areopagus,0,https://pleiades.stoa.org/places/969121823,"ing their mystic runes upon the Lions of the Areopagus, and filling the heart of even the"
+pl-541080,Pyra,sanctuary (religious center)|temple,pin,38.75196,22.29911,151.0,16,7,apollo/08-pindar-pythian.md(7); lycurgus/06-herodotus-book-one.md(3); herodotus/03-thermopylai.md(2); herodotus/04-salamis.md(1),Heracles|Herakles,2,https://pleiades.stoa.org/places/541080,"was won at the Theban festival in honour of Herakles, or of Iolaos. Anaxilaos, tyrant of"
 pl-570102,Arcadia,region,wash,37.56503,22.29917,133.9,12,7,lycurgus/06-herodotus-book-one.md(3); livy/02-romulus-remus.md(2); herodotus/03-thermopylai.md(2); romulus/01-livy-the-founding.md(2),Arcadia,1,https://pleiades.stoa.org/places/570102,"atine hill, which, from Palanteum, a city of Arcadia, was first called Palatium, and after"
 pl-540689,Boeotia,region,wash,38.3169,23.13492,63.7,12,7,herodotus/04-salamis.md(3); thucydides/01-the-method.md(2); thucydides/02-the-funeral-oration.md(2); thucydides/06-the-defeat.md(2),Boeotia,0,https://pleiades.stoa.org/places/540689,"in full force waiting for the Barbarians in Boeotia; they found however nothing of this,"
 pl-580062,Peiraieus/Piraeus,region|settlement|deme (Athenian),pin,37.93722,23.64461,8.9,9,7,thucydides/02-the-funeral-oration.md(3); thucydides/03-the-plague.md(1); thucydides/05-the-sicilian-expedition.md(1); theseus/04-hippolytus.md(1),Piraeus,0,https://pleiades.stoa.org/places/580062,"Phaleric. Then there were the Long Walls to Piraeus, a distance of some four miles and a"
 pl-368305524,Orchestra in the Agora of Athens,"theatre, theater",wash,37.97484,23.72252,1.1,7,7,augustus-caesar/04-the-settlement.md(1); cleopatra/04-suetonius-julius.md(1); cleopatra/05-suetonius-augustus.md(1); theseus/04-hippolytus.md(1),Orchestra|orchestra,4,https://pleiades.stoa.org/places/368305524,"ose which were allies of Rome, to sit in the orchestra; having found that some manumitted"
 pl-570292,Hermion(e),settlement|port,pin,37.38522,23.24359,79.0,91,6,shakespeare-william/39-winter-s-tale.md(63); shakespeare-william/02-first-folio.md(22); herodotus/04-salamis.md(3); thucydides/03-the-plague.md(1),HERMIONE|Hermion|Hermione,0,https://pleiades.stoa.org/places/570292,"urians ten, the Troizenians five, the men of Hermion 2601 three, these all, except the Her"
+pl-540735,"Dionysos, T.",temple,pin,38.52368,22.95317,90.4,13,6,flavius-josephus/01-antiquities.md(5); flavius-josephus/antiquities-book-13.md(4); thucydides/02-the-funeral-oration.md(1); lycurgus/06-herodotus-book-one.md(1),Dionysos|Dionysus,1,https://pleiades.stoa.org/places/540735,"eus, of the Pythian Apollo, of Earth, and of Dionysus in the Marshes, the same in whose ho"
 pl-560353,Cyclades Islands,"archipelago, island group|island",wash,36.97423,25.42684,187.3,7,6,theseus/02-the-labyrinth-and-icarus.md(2); julius-caesar/civil-war-3.md(1); thucydides/01-the-method.md(1); thucydides/02-the-funeral-oration.md(1),Cyclades,0,https://pleiades.stoa.org/places/560353,"ollected a numerous fleet from Asia, and the Cyclades, from Corcyra, Athens, Pontus, Bithy"
 pl-570707,Tegea,settlement,pin,37.4553,22.42067,129.1,21,5,lycurgus/06-herodotus-book-one.md(15); lycurgus/05-plutarch-agis.md(3); herodotus/03-thermopylai.md(1); theseus/00-plutarch-theseus.md(1),Tegea,0,https://pleiades.stoa.org/places/570707,"artans three hundred hoplites; of the men of Tegea and Mantineia a thousand, half from eac"
 pl-570498,Mysia (settlement),sanctuary (religious center)|settlement,pin,37.72396,22.72625,92.5,19,5,flavius-josephus/02-wars-of-the-jews.md(9); flavius-josephus/wars-book-07.md(5); flavius-josephus/wars-book-04.md(3); lycurgus/06-herodotus-book-one.md(1),Mysia,0,https://pleiades.stoa.org/places/570498,"rneus in , (now this Atarneus is a region of Mysia 162 opposition Lesbos). So the Persians"
@@ -39,117 +49,191 @@ pl-541140,Thermopylae,"fort, tower (deprecated)|pass, ""gates"" (landform)",pin,
 pl-570467,Megalopolis,settlement|archaeological site,pin,37.41427,22.1264,154.4,10,5,flavius-josephus/01-antiquities.md(3); flavius-josephus/antiquities-book-12.md(3); lycurgus/05-plutarch-agis.md(2); plutarch/09-alexander.md(1),Megalopolis,0,https://pleiades.stoa.org/places/570467,"son Agis. He being killed by Antipater near Megalopolis, and leaving no issue, was succee"
 pl-541012,Parnassus (mountain),mountain,pin,38.53516,22.62206,114.3,8,5,apollo/02-homeric-hymn-pythian.md(4); apollo/05-ovid-daphne.md(1); apollo/07-sophocles-oedipus.md(1); dante-alighieri/06-purgatorio-xxx-xxxi.md(1),Parnassus,0,https://pleiades.stoa.org/places/541012,ry great--build at Crisa below the glades of Parnassus: there no bright chariot will clash
 pl-541021,Pelion (mountain),mountain,pin,39.40822,23.06653,168.5,8,5,apollo/08-pindar-pythian.md(3); shakespeare-william/02-first-folio.md(2); apollo/01-homeric-hymn-delian.md(1); shakespeare-william/08-hamlet-prince-of-denmark.md(1),Pelion,0,https://pleiades.stoa.org/places/541021,"parethus near the sea, in Thracian Athos and Pelion's towering heights and Thracian Samos"
+pl-540618,Akyphas/Pindos,settlement,pin,38.68549,22.37987,141.1,6,5,apollo/08-pindar-pythian.md(2); herodotus/04-salamis.md(1); cleopatra/06-horace-book-one.md(1); lycurgus/06-herodotus-book-one.md(1),Pindos|Pindus,0,https://pleiades.stoa.org/places/540618,"rosperously, when they were come down out of Pindos and drew near in honour to the Tyndari"
+pl-570362,Klimax,"pass, ""gates"" (landform)",pin,37.66786,22.47417,115.5,5,5,lincoln/lincoln/23-mr-lincoln-s-speech-may-19-1856.md(1); frederick-douglass/06-the-christianity-of-this-land.md(1); gutenberg/05-devinne-coster-downfall.md(1); flavius-josephus/01-antiquities.md(1),Climax|climax,0,https://pleiades.stoa.org/places/570362,"F THE UNION, AND YOU SHAN'T!!! [This was the climax; the audience rose to its feet _en mas"
+pl-540986,Opous,settlement,pin,38.63064,23.04788,93.2,5,5,herodotus/03-thermopylai.md(1); romulus/00-plutarch-romulus.md(1); thucydides/02-the-funeral-oration.md(1); plutarch/02-romulus.md(1),Opus|opus,0,https://pleiades.stoa.org/places/540986,. 203. In addition to these the Locrians of Opus had been summoned to come in their full
 pl-541063,Plataea,settlement|archaeological site|abbey church,pin,38.22108,23.27354,47.7,14,4,thucydides/02-the-funeral-oration.md(10); apollo/08-pindar-pythian.md(2); thucydides/06-the-defeat.md(1); lycurgus/05-plutarch-agis.md(1),Plataea,0,https://pleiades.stoa.org/places/541063,te 2: Reading [Greek: erion].] [Footnote 3: Plataea.] [Footnote 4: I. e. it is better to
+pl-579873,Aphidna,settlement|acropolis|deme (Athenian),pin,38.18709,23.8792,26.2,12,4,theseus/00-plutarch-theseus.md(5); plutarch/01-theseus.md(5); romulus/06-comparison-with-theseus.md(1); plutarch/03-comparison-romulus-theseus.md(1),Aphidna|Aphidnae,0,https://pleiades.stoa.org/places/579873,"citizens, and, at last, the loss of the city Aphidnae, when only out of the compassion of"
 pl-541157,Trachis/Herakleia,settlement,pin,38.79204,22.44758,143.3,9,4,herodotus/03-thermopylai.md(6); herodotus/04-salamis.md(1); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Trachis,1,https://pleiades.stoa.org/places/541157,"es, I say, was encamped within the region of Trachis in the land of the Malians, and the H"
 pl-676120271,Basilica,building|basilica,pin,37.97584,23.72387,0.9,7,4,augustus-caesar/01-the-deeds.md(3); cleopatra/05-suetonius-augustus.md(2); augustus-caesar/04-the-settlement.md(1); augustus-caesar/07-the-death.md(1),Basilica|basilica,0,https://pleiades.stoa.org/places/676120271,to its course.[101] The Forum Julium and the basilica which was between the temple of Cast
+pl-540783,Euripos,"water, open|bridge|strait",pin,38.46278,23.58944,54.6,6,4,thucydides/06-the-defeat.md(3); apollo/02-homeric-hymn-pythian.md(1); apollo/08-pindar-pythian.md(1); herodotus/04-salamis.md(1),Euripos|Euripus,0,https://pleiades.stoa.org/places/540783,"nd wooded groves. From there you crossed the Euripus, far-shooting Apollo, and went up the"
 pl-541052,Phthiotis,district|map label location,pin,39.32171,22.37825,189.4,6,4,apollo/06-iliad-book-one.md(2); thucydides/01-the-method.md(2); apollo/08-pindar-pythian.md(1); plutarch/05-pericles.md(1),Phthia|Phthiotis,0,https://pleiades.stoa.org/places/541052,r cut down my harvests on the rich plains of Phthia; for between me and them there is a gr
 pl-540701,Chaeronea,settlement|acropolis,pin,38.49397,22.84143,96.0,5,4,plutarch/09-alexander.md(2); cleopatra/01-plutarch-antony.md(1); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Chaeronea,0,https://pleiades.stoa.org/places/540701,", news came of Antony's defeat, and so saved Chaeronea, for all Antony's purveyors and sol"
 pl-540700,Cephisus (river),"river, drainage",pin,38.51122,22.89421,93.5,4,4,theseus/00-plutarch-theseus.md(1); theseus/05-oedipus-at-colonus.md(1); plutarch/01-theseus.md(1); plutarch/09-alexander.md(1),Cephisus,0,https://pleiades.stoa.org/places/540700,"is journey, and was come as far as the river Cephisus, some of the race of the Phytalidae"
+pl-540913,Leuktra,settlement|settlement-modern,pin,38.25441,23.18211,56.4,4,4,lycurgus/01-plutarch-lycurgus.md(1); lycurgus/03-xenophon-lacedaemonians.md(1); lycurgus/05-plutarch-agis.md(1); plutarch/07-coriolanus.md(1),Leuctra,2,https://pleiades.stoa.org/places/540913,"s, when they were elated by their victory at Leuctra, that they looked like schoolboys who"
+pl-136008628,Pnyx fountain,fountain|cistern,pin,37.97151,23.72086,1.5,4,4,flavius-josephus/01-antiquities.md(1); flavius-josephus/02-wars-of-the-jews.md(1); flavius-josephus/antiquities-book-17.md(1); flavius-josephus/wars-book-01.md(1),Callirrhoe,4,https://pleiades.stoa.org/places/136008628,"athed himself in the warm baths that were at Callirrhoe, which, besides their other genera"
+pl-541107,Skotoussa (Thessaly),settlement,pin,39.37943,22.53729,186.4,4,4,cleopatra/02-plutarch-caesar.md(1); cleopatra/03-plutarch-pompey.md(1); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Scotussa,0,https://pleiades.stoa.org/places/541107,camp with the intention of marching towards Scotussa. But when the tents were now taken
 pl-580034,Temple of Nemesis,sanctuary (religious center)|temple,pin,38.21748,24.02727,36.9,4,4,apollo/08-pindar-pythian.md(1); plutarch/05-pericles.md(1); shakespeare-william/02-first-folio.md(1); shakespeare-william/12-first-part-of-henry-the-sixth.md(1),Nemesis,0,https://pleiades.stoa.org/places/580034,"r do they fight, and dwell unharmed of cruel Nemesis. In the eagerness of his valiant hea"
 pl-541146,Thisbe,"settlement|church, monastery (deprecated)",pin,38.26089,22.96779,73.3,58,3,shakespeare-william/24-a-midsummer-night-s-dream.md(56); shakespeare-william/22-merchant-of-venice.md(1); shakespeare-william/30-romeo-and-juliet.md(1),THISBE|Thisbe,0,https://pleiades.stoa.org/places/541146,"that night. JESSICA. In such a night Did Thisbe fearfully o’ertrip the dew, And saw t"
+pl-570660,Selinous,settlement,pin,37.0251,22.683,140.9,12,3,thucydides/05-the-sicilian-expedition.md(8); thucydides/06-the-defeat.md(3); lycurgus/01-plutarch-lycurgus.md(1),Selinus,1,https://pleiades.stoa.org/places/570660,"ed there, they sent out Pamillus and founded Selinus; he having come from their mother cou"
 pl-580072,Phaleron,settlement|port|deme (Athenian),pin,37.93731,23.70625,5.5,7,3,herodotus/04-salamis.md(5); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Phaleron|Phalerum,0,https://pleiades.stoa.org/places/580072,"os, and in other three days they had reached Phaleron. And, as I suppose, they made their"
+pl-570236,Erineos,settlement,pin,38.30976,21.99333,155.9,6,3,thucydides/06-the-defeat.md(4); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Erineus,1,https://pleiades.stoa.org/places/570236,"ttle inferior to the Athenians, anchored off Erineus in Achaia in the Rhypic country. The"
+pl-580054,Paneion (mountain),mountain,wash,37.875,23.875,17.7,6,3,flavius-josephus/02-wars-of-the-jews.md(3); flavius-josephus/wars-book-03.md(2); flavius-josephus/wars-book-01.md(1),Panium,0,https://pleiades.stoa.org/places/580054,"the fountains of Jordan: the place is called Panium, where is a top of a mountain that is"
 pl-570454,Malea,settlement,pin,37.32756,22.16878,155.4,5,3,lycurgus/06-herodotus-book-one.md(3); apollo/02-homeric-hymn-pythian.md(1); lycurgus/05-plutarch-agis.md(1),Malea,0,https://pleiades.stoa.org/places/570454,"swift ship from behind. First they passed by Malea, and then along the Laconian coast they"
 pl-541024,Peparethus (island),island,pin,39.13527,23.68534,128.1,5,3,romulus/00-plutarch-romulus.md(2); plutarch/02-romulus.md(2); apollo/01-homeric-hymn-delian.md(1),Peparethus,0,https://pleiades.stoa.org/places/541024,"famous for ships, in Aegae and Eiresiae and Peparethus near the sea, in Thracian Athos an"
+pl-590048,Siphnos (settlement),settlement,pin,36.97482,24.74507,143.7,5,3,gutenberg/02-devinne-mentz-early.md(3); flavius-josephus/01-antiquities.md(1); flavius-josephus/antiquities-book-02.md(1),Castro,3,https://pleiades.stoa.org/places/590048,"ador of the king of Cyprus, selected John de Castro as chief commissioner for the sale of"
 pl-560221,Aegaeum Mare,"water, open",wash,38.91396,24.91724,146.4,4,3,apollo/05-ovid-daphne.md(2); flavius-josephus/01-antiquities.md(1); flavius-josephus/antiquities-book-13.md(1),AEgean Sea|Aegean Sea,2,https://pleiades.stoa.org/places/560221,"aving been born in the Isle of Delos, in the AEgean Sea. The Peneus was a river of The"
-pl-540618,Akyphas/Pindos,settlement,pin,38.68549,22.37987,141.1,4,3,apollo/08-pindar-pythian.md(2); herodotus/04-salamis.md(1); lycurgus/06-herodotus-book-one.md(1),Pindos,0,https://pleiades.stoa.org/places/540618,"rosperously, when they were come down out of Pindos and drew near in honour to the Tyndari"
 pl-203037083,Castalian spring,spring,pin,38.48305,22.50542,120.3,4,3,apollo/08-pindar-pythian.md(2); cleopatra/05-suetonius-augustus.md(1); shakespeare-william/44-venus-and-adonis.md(1),Castalia|Kastalia,0,https://pleiades.stoa.org/places/203037083,"am: also I have sent to ask of the oracle at Kastalia whether it be worth the quest, and t"
+pl-570281,Helike,settlement|archaeological site,pin,38.22203,22.13181,142.1,4,3,lycurgus/06-herodotus-book-one.md(2); theseus/02-the-labyrinth-and-icarus.md(1); marcus-aurelius/book-04.md(1),Helice|Helike,0,https://pleiades.stoa.org/places/570281,"me in Italy received its name), and Bura and Helike, to which the Ionians fled for refuge"
 pl-580051,Pallene,settlement|deme (Athenian),pin,38.0184,23.84902,11.3,4,3,herodotus/04-salamis.md(2); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Pallene,0,https://pleiades.stoa.org/places/580051,"e about to run them aground, but Ameinias of Pallene, an Athenian, put forth with his ship"
+pl-570706,Taygetos (mountain),mountain,pin,36.95354,22.34996,167.0,4,3,lycurgus/01-plutarch-lycurgus.md(2); apollo/08-pindar-pythian.md(1); lycurgus/05-plutarch-agis.md(1),Taygetos|Taygetus,0,https://pleiades.stoa.org/places/570706,Herakleidai dwelling beneath the heights of Taygetos is to abide continually in the Doria
 pl-540808,Helicon (mountain),mountain,pin,38.35278,22.8225,89.1,3,3,cleopatra/05-suetonius-augustus.md(1); cleopatra/06-horace-book-one.md(1); plutarch/09-alexander.md(1),Helicon,0,https://pleiades.stoa.org/places/540808,"mage of the voice Shall in the shades of Helicon repeat, etc. The Satires of Horace a"
+pl-570313,Inachos (river),"river, drainage",pin,37.67423,22.66279,99.6,3,3,herodotus/01-the-proem.md(1); lycurgus/06-herodotus-book-one.md(1); flavius-josephus/03-against-apion.md(1),Inachos|Inachus,0,https://pleiades.stoa.org/places/570313,"Hellenes also agree, was Io the daughter of Inachos. These standing near to the stern of"
 pl-122572945,Lyceum,"sanctuary (religious center)|architectural complex|gymnasium, gymnasion",pin,37.97403,23.74338,1.8,3,3,theseus/00-plutarch-theseus.md(1); helen-keller/01-story-of-my-life.md(1); plutarch/01-theseus.md(1),Lyceum|lyceum,0,https://pleiades.stoa.org/places/122572945,"ing in from the Palladium, Ardettus, and the Lyceum, they charged their right wing, and be"
 pl-570479,Messene,settlement,pin,37.1753,21.92005,182.9,3,3,apollo/08-pindar-pythian.md(1); lycurgus/01-plutarch-lycurgus.md(1); flavius-josephus/03-against-apion.md(1),Messene,1,https://pleiades.stoa.org/places/570479,"ghty spear. Then the heart of the old man of Messene was troubled, and he cried unto his s"
 pl-116035285,Munychia,"hill|fort, tower (deprecated)",pin,37.9406,23.6559,7.9,3,3,herodotus/04-salamis.md(1); thucydides/02-the-funeral-oration.md(1); plutarch/04-solon.md(1),Munychia,0,https://pleiades.stoa.org/places/116035285,d all the passage with their ships as far as Munychia. And for this reason they put out th
+pl-271882541,Palladion,shrine,wash,37.95568,23.72482,3.1,3,3,dante-alighieri/03-inferno-xxvi.md(1); theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Palladium,0,https://pleiades.stoa.org/places/271882541,"till deplores Achilles, And pain for the Palladium there is borne.” “If they within t"
+pl-570602,Phleious,settlement,pin,37.8446,22.64658,96.1,3,3,herodotus/03-thermopylai.md(1); thucydides/04-the-melian-dialogue.md(1); plutarch/05-pericles.md(1),Phlius,0,https://pleiades.stoa.org/places/570602,"ans so many; from Corinth four hundred, from Phlius two hundred, and of the men of Mykene"
 pl-541048,Phocis,region,wash,38.55571,22.68658,110.9,3,3,apollo/07-sophocles-oedipus.md(1); thucydides/02-the-funeral-oration.md(1); plutarch/05-pericles.md(1),Phocis,0,https://pleiades.stoa.org/places/541048,happen? Dost thou know the place? JOCASTA Phocis the land is called; the spot is where
 pl-540714,Cithaeron (mountain),mountain,pin,38.1842,23.24919,47.4,9,2,apollo/07-sophocles-oedipus.md(8); marcus-aurelius/book-11.md(1),Cithaeron,0,https://pleiades.stoa.org/places/540714,ted together and he was left to die on Mount Cithaeron. But a shepherd found the babe and
+pl-540587,Acheloos (river),"river, drainage",wash,38.75,22.25,154.4,8,2,theseus/03-the-river-god.md(7); plutarch/05-pericles.md(1),Achelous,0,https://pleiades.stoa.org/places/540587,", is stopped by an inundation of the river Acheloüs, and accepts of an invitation from"
+pl-570325,Kalaureia (island),island,pin,37.52689,23.47627,55.4,8,2,plutarch/09-alexander.md(7); cleopatra/03-plutarch-pompey.md(1),Calauria|Porus,3,https://pleiades.stoa.org/places/570325,"Neptune at the Isthmus, at Taenarus, and at Calauria; those of Apollo at Actium and Leuca"
+pl-579842,Acharnai (N),settlement|deme (Athenian),pin,38.08347,23.73409,11.1,7,2,thucydides/02-the-funeral-oration.md(6); plutarch/05-pericles.md(1),Acharnae,1,https://pleiades.stoa.org/places/579842,"ir right, through Cropia, until they reached Acharnae, the largest of the Athenian demes o"
 pl-570736,Thyrea(tis),region|settlement,wash,37.25,22.75,118.6,7,2,lycurgus/06-herodotus-book-one.md(5); thucydides/02-the-funeral-oration.md(2),Thyrea,0,https://pleiades.stoa.org/places/570736,". The banished Aeginetans found an asylum in Thyrea, which was given to them by Lacedaemon"
+pl-540889,Krisa,settlement|archaeological site|acropolis,pin,38.4654,22.45957,123.0,6,2,apollo/02-homeric-hymn-pythian.md(5); apollo/08-pindar-pythian.md(1),Crisa|Krisa,0,https://pleiades.stoa.org/places/540889,"I, and your strength is very great--build at Crisa below the glades of Parnassus: there no"
+pl-487031708,Thourion,hill,pin,38.499,22.824,97.5,6,2,augustus-caesar/03-the-rise.md(3); cleopatra/05-suetonius-augustus.md(3),Thurium,0,https://pleiades.stoa.org/places/487031708,"andfather was a freedman of the territory of Thurium [107], and a rope-maker, and his gran"
+pl-540953,Mykalessos,settlement,pin,38.41672,23.5196,51.5,5,2,thucydides/06-the-defeat.md(4); apollo/02-homeric-hymn-pythian.md(1),Mycalessus,0,https://pleiades.stoa.org/places/540953,"d went up the green, holy hills, going on to Mycalessus and grassy-bedded Teumessus, and s"
+pl-570537,Orneai,settlement,pin,37.71785,22.54728,107.8,5,2,thucydides/05-the-sicilian-expedition.md(3); herodotus/04-salamis.md(2),Orneae|Orneai,0,https://pleiades.stoa.org/places/570537,"lapse of time, being originally citizens of Orneai or the dwellers in the country round O"
 pl-540583,Abantes,"map label location|people, tribe (historical cultural group)",pin,38.62902,23.70687,71.8,4,2,theseus/00-plutarch-theseus.md(2); plutarch/01-theseus.md(2),Abantes,0,https://pleiades.stoa.org/places/540583,"the fore part of his head, as Homer says the Abantes did.% And this sort of tonsure was f"
+pl-585725955,Delphinion,temple,pin,37.96857,23.73299,1.8,4,2,theseus/00-plutarch-theseus.md(2); plutarch/01-theseus.md(2),Delphinium,1,https://pleiades.stoa.org/places/585725955,there where now is the enclosed space in the Delphinium; for in that place stood Aegeus's
+pl-570215,Elektra (river of Messenia),"river, drainage",pin,37.25181,21.9052,180.0,4,2,dante-alighieri/10-de-monarchia.md(3); cleopatra/04-suetonius-julius.md(1),Electra,2,https://pleiades.stoa.org/places/570215,"ho was Dardanus; from Africa his grandmother Electra, daughter of the great king Atlas, to"
+pl-579935,Gargettos,settlement|deme (Athenian),pin,38.01654,23.87186,13.2,4,2,theseus/00-plutarch-theseus.md(2); plutarch/01-theseus.md(2),Gargettus,0,https://pleiades.stoa.org/places/579935,"e other, hiding themselves in the village of Gargettus, lay in ambush, with a design to se"
+pl-579944,Hekale?,settlement|deme (Athenian),pin,38.13445,23.90884,23.1,4,2,theseus/00-plutarch-theseus.md(2); plutarch/01-theseus.md(2),Hecale,1,https://pleiades.stoa.org/places/579944,"d it to the Delphinian Apollo. The story of Hecale, also, of her receiving and entertaini"
+pl-540837,Iolkos,settlement,pin,39.3663,22.96886,167.2,4,2,apollo/08-pindar-pythian.md(3); apollo/02-homeric-hymn-pythian.md(1),Iolcus|Iolkos,0,https://pleiades.stoa.org/places/540837,"the land of the Perrhaebi. Soon you came to Iolcus and set foot on Cenaeum in Euboea, fam"
 pl-599794,Melas?,settlement,pin,37.09577,25.43471,180.0,4,2,flavius-josephus/01-antiquities.md(2); flavius-josephus/antiquities-book-16.md(2),Melas,0,https://pleiades.stoa.org/places/599794,"of Cappadocia from Archelaus, whose name was Melas; he was one of the principal rulers und"
 pl-570668,Sicyon/Demetrias,settlement,pin,37.98382,22.71219,89.0,4,2,shakespeare-william/03-antony-and-cleopatra.md(3); cleopatra/01-plutarch-antony.md(1),Sicyon,1,https://pleiades.stoa.org/places/570668,"r husband, fell sick by the way, and died at Sicyon, so that an accommodation was the more"
-pl-570317,Isthmos,isthmus,pin,37.94139,22.98778,65.0,3,2,apollo/08-pindar-pythian.md(2); cleopatra/04-suetonius-julius.md(1),Isthmos|isthmus of Corinth,0,https://pleiades.stoa.org/places/570317,"house. And I hereto am led by victories, at Isthmos five, and one pre-eminent, won at Oly"
+pl-599741,Kynthos (mountain),mountain|map label location,pin,37.11802,25.17188,159.6,3,2,apollo/01-homeric-hymn-delian.md(2); cleopatra/06-horace-book-one.md(1),Cynthus,2,https://pleiades.stoa.org/places/599741,"the joy of men, as she rested against Mount Cynthus in that rocky isle, in sea-girt Delos"
 pl-540946,Methone (Magnesian),settlement|acropolis,pin,39.3316,23.0527,160.9,3,2,thucydides/02-the-funeral-oration.md(2); thucydides/05-the-sicilian-expedition.md(1),Methone,0,https://pleiades.stoa.org/places/540946,y landed in Laconia and made an assault upon Methone; there being no garrison in the place
 pl-570491,Mycenae,settlement,wash,37.72754,22.75383,90.1,3,2,apollo/08-pindar-pythian.md(2); herodotus/03-thermopylai.md(1),Mykenai|Mykene,1,https://pleiades.stoa.org/places/570491,"kedaimon, and from the Argive gulf, and from Mykenai. But now he shall in wedlock with a"
 pl-168254096,Parthenon,temple,pin,37.97156,23.72658,1.4,3,2,helen-keller/02-letters-1887-1901.md(2); plutarch/05-pericles.md(1),Parthenon,0,https://pleiades.stoa.org/places/168254096,"were the Venus of Medici, the Minerva of the Parthenon, Diana, in her hunting costume, wit"
 pl-541098,"Serapis, T.",temple,pin,38.58807,22.90915,98.1,3,2,plutarch/09-alexander.md(2); david-hume/02-of-miracles.md(1),Serapis,1,https://pleiades.stoa.org/places/541098,"is foot; in obedience to a vision of the god Serapis, who had enjoined them to have recour"
-pl-579873,Aphidna,settlement|acropolis|deme (Athenian),pin,38.18709,23.8792,26.2,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Aphidna,0,https://pleiades.stoa.org/places/579873,"e verses concerning Alycus And Alycus, upon Aphidna's plain By Theseus in the cause of He"
+pl-570040,Aigai,settlement,pin,38.15488,22.31464,125.1,2,2,apollo/01-homeric-hymn-delian.md(1); plutarch/09-alexander.md(1),Aegae,1,https://pleiades.stoa.org/places/570040,"e of Aegina and Euboea, famous for ships, in Aegae and Eiresiae and Peparethus near the se"
+pl-582870,Ardettos,shrine|hill,wash,37.96826,23.74108,2.1,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Ardettus,0,https://pleiades.stoa.org/places/582870,"fresh supplies coming in from the Palladium, Ardettus, and the Lyceum, they charged their"
 pl-570104,Argolis,region|map label location,pin,37.62633,22.92569,80.9,2,2,thucydides/02-the-funeral-oration.md(1); lycurgus/06-herodotus-book-one.md(1),Argolis,0,https://pleiades.stoa.org/places/570104,"he territory of Thyrea is on the frontier of Argolis and Laconia, reaching down to the sea"
 pl-540717,Coronea,settlement,pin,38.3912,22.95711,81.2,2,2,plutarch/05-pericles.md(1); plutarch/06-alcibiades.md(1),Coronea,1,https://pleiades.stoa.org/places/540717,"f had been defeated and slain in battle near Coronea, and that many brave citizens had fal"
 pl-540719,Cynoscephalae,hill,wash,39.25,22.75,164.4,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Cynoscephalae,0,https://pleiades.stoa.org/places/540719,t shown many tombs of them near Scotussa and Cynoscephalae. This is as much as is worth t
 pl-540723,Daulis,settlement|acropolis,pin,38.5075,22.72886,104.9,2,2,apollo/07-sophocles-oedipus.md(1); thucydides/02-the-funeral-oration.md(1),Daulis,0,https://pleiades.stoa.org/places/540723,t is where Branch roads from Delphi and from Daulis meet. OEDIPUS And how long is it sinc
 pl-939242064,Demian Gate/Gate I,"gate (of a city), city gate|cave",pin,37.9739,23.7171,1.4,2,2,king-arthur/clay-stories.md(1); king-arthur/mabinogion-12-taliesin.md(1),gate I,0,https://pleiades.stoa.org/places/939242064,"nd strongest I have ever seen. At the castle gate I espied a man of right noble mien, who"
+pl-540743,Drymaia,settlement,pin,38.70616,22.54099,131.0,2,2,flavius-josephus/02-wars-of-the-jews.md(1); flavius-josephus/wars-book-01.md(1),Drymus,0,https://pleiades.stoa.org/places/540743,"o he sent them before into that place called Drymus, [the woodland 18 ] to seize upon the"
+pl-540756,Eleutherai,"settlement|fort, tower (deprecated)",pin,38.17944,23.37562,37.7,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Eleutherae,0,https://pleiades.stoa.org/places/540756,"art are yet to be seen in the village called Eleutherae; those of the commanders, at Eleus"
 pl-570228,Epidauros,settlement,pin,37.63346,23.16016,63.3,2,2,herodotus/04-salamis.md(1); lycurgus/06-herodotus-book-one.md(1),Epidauros,0,https://pleiades.stoa.org/places/570228,"Salamis. Now the Eginetans are Dorians from Epidauros, and their island had formerly the"
-pl-540783,Euripos,"water, open|bridge|strait",pin,38.46278,23.58944,54.6,2,2,apollo/08-pindar-pythian.md(1); herodotus/04-salamis.md(1),Euripos,0,https://pleiades.stoa.org/places/540783,ughter of Iphigenia far from her own land on Euripos' shore so sting her mother to the aro
-pl-570313,Inachos (river),"river, drainage",pin,37.67423,22.66279,99.6,2,2,herodotus/01-the-proem.md(1); lycurgus/06-herodotus-book-one.md(1),Inachos,0,https://pleiades.stoa.org/places/570313,"Hellenes also agree, was Io the daughter of Inachos. These standing near to the stern of"
+pl-570229,Epidauros Limera,settlement,pin,36.7313,23.02637,152.4,2,2,thucydides/05-the-sicilian-expedition.md(1); thucydides/06-the-defeat.md(1),Epidaurus Limera,0,https://pleiades.stoa.org/places/570229,"s, Laespodius, and Demaratus, they landed at Epidaurus Limera, Prasiae, and other places,"
+pl-570386,Krommyon,settlement,pin,37.95001,23.11666,53.7,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Crommyon,0,https://pleiades.stoa.org/places/570386,"bber full of cruelty and lust, that lived in Crommyon, and had the name of Sow given her f"
+pl-570391,Kyllene (mountain),mountain,pin,37.93972,22.39693,116.8,2,2,apollo/07-sophocles-oedipus.md(1); thucydides/05-the-sicilian-expedition.md(1),Cyllene,0,https://pleiades.stoa.org/places/570391,"eget thee, for he haunts the upland wold; Or Cyllene's lord, or Bacchus, dweller on the hi"
+pl-580010,Laureion,region|archaeological site|map label location,pin,37.7243,23.98711,36.8,2,2,thucydides/03-the-plague.md(1); thucydides/05-the-sicilian-expedition.md(1),Laurium,0,https://pleiades.stoa.org/places/580010,"advanced into the Paralian region as far as Laurium, where the Athenian silver mines are,"
 pl-580020,Mandra,settlement,pin,38.07474,23.49717,22.6,2,2,flavius-josephus/01-antiquities.md(1); flavius-josephus/antiquities-book-10.md(1),Mandra,0,https://pleiades.stoa.org/places/580020,"children, and came to a certain place called Mandra, and there they abode that day, for th"
 pl-570504,Nemea,sanctuary (religious center)|archaeological site|temple,pin,37.80906,22.71068,91.3,2,2,plutarch/05-pericles.md(1); plutarch/06-alcibiades.md(1),Nemea,0,https://pleiades.stoa.org/places/570504,"arance drove many within their walls; and at Nemea, with main force, routed and raised a t"
+pl-580044,Oropos,settlement|port|settlement-modern,pin,38.31998,23.7902,37.8,2,2,thucydides/02-the-funeral-oration.md(1); thucydides/06-the-defeat.md(1),Oropus,0,https://pleiades.stoa.org/places/580044,"at by which they had entered. As they passed Oropus they ravaged the territory of Graea, w"
 pl-541008,Panopeos/Phanotis,settlement|archaeological site,pin,38.49529,22.79432,99.4,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Panopeus,0,https://pleiades.stoa.org/places/541008,"d), being in love with Aegle the daughter of Panopeus, neither justly nor honorably; and l"
+pl-580090,Prasia,settlement|deme (Athenian),pin,37.86517,24.0376,30.2,2,2,thucydides/05-the-sicilian-expedition.md(1); thucydides/06-the-defeat.md(1),Prasiae,1,https://pleiades.stoa.org/places/580090,"Demaratus, they landed at Epidaurus Limera, Prasiae, and other places, and plundered the"
+pl-541112,Spercheios,"river, drainage",pin,38.90399,22.20913,167.2,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Sperchius,2,https://pleiades.stoa.org/places/541112,"s overcame Paris in Thessaly, near the river Sperchius, but that Hector took and plundered"
+pl-580109,Sphettos,settlement|deme (Athenian),pin,37.91724,23.83842,12.2,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Sphettus,0,https://pleiades.stoa.org/places/580109,"panies, one part of them marched openly from Sphettus, with their father, against the city"
 pl-580114,Tanagra,settlement|archaeological site,pin,38.30929,23.58649,38.2,2,2,thucydides/06-the-defeat.md(1); plutarch/05-pericles.md(1),Tanagra,0,https://pleiades.stoa.org/places/580114,e the enemy. Diitrephes first landed them at Tanagra and hastily snatched some booty; he t
 pl-590006,Temple of Poseidon and Amphitrite on Tenos,temple,pin,37.55169,25.14289,133.4,2,2,apollo/01-homeric-hymn-delian.md(1); apollo/07-sophocles-oedipus.md(1),Amphitrite,1,https://pleiades.stoa.org/places/590006,Rhea and Ichnaea and Themis and loud-moaning Amphitrite and the other deathless goddesses
+pl-590074,Tenos (island),island,pin,37.61507,25.11324,128.5,2,2,flavius-josephus/01-antiquities.md(1); flavius-josephus/antiquities-book-11.md(1),Tenus,6,https://pleiades.stoa.org/places/590074,"guards, with their axes, about the throne of Tenus, or Tenudus, that the offender might by"
 pl-580117,Tetrapolis,district,wash,38.15111,23.96443,27.9,2,2,theseus/00-plutarch-theseus.md(1); plutarch/01-theseus.md(1),Tetrapolis,0,https://pleiades.stoa.org/places/580117,"did no small mischief to the inhabitants of Tetrapolis. And having overcome it, he broug"
 pl-270173116,Triangular Shrine,shrine,pin,37.97404,23.72193,1.2,19,1,apollo/08-pindar-pythian.md(19),HIERON|Hieron,2,https://pleiades.stoa.org/places/270173116,"THE PYTHIAN ODES. I. FOR HIERON OF AITNA, WINNER IN THE CHARIOT-RACE. * *"
-pl-541080,Pyra,sanctuary (religious center)|temple,pin,38.75196,22.29911,151.0,7,1,apollo/08-pindar-pythian.md(7),Herakles,2,https://pleiades.stoa.org/places/541080,"was won at the Theban festival in honour of Herakles, or of Iolaos. Anaxilaos, tyrant of"
+pl-570291,Hermai,"temple, sanctuary, shrine, monument, tomb (deprecated)",pin,37.32399,22.54309,127.5,8,1,thucydides/05-the-sicilian-expedition.md(8),Hermae,0,https://pleiades.stoa.org/places/570291,the War—The Sicilian Campaign—Affair of the Hermae—Departure of the Expedition The same
+pl-579980,Koile,settlement|deme (Athenian),pin,37.96984,23.71851,1.7,6,1,shakespeare-william/02-first-folio.md(6),coile,1,https://pleiades.stoa.org/places/579980,"shall not henceforth trouble me; Here is a coile with protestation: Goe, get you gone:"
+pl-570759,Tyros,settlement|acropolis,pin,37.24323,22.87207,111.6,5,1,shakespeare-william/27-pericles-prince-of-tyre.md(5),Tyrus,0,https://pleiades.stoa.org/places/570759,Antiochus and his daughter dead; The men of Tyrus on the head Of Helicanus would set on
+pl-579985,Kolonos,settlement,pin,37.99907,23.72189,1.8,4,1,theseus/05-oedipus-at-colonus.md(4),COLONUS|Colonus,0,https://pleiades.stoa.org/places/579985,"OEDIPUS AT COLONUS Enter the blind OEDIPUS led by his daughter, ANTIGONE. OEDIPUS. Chi"
+pl-580040,Oinoe (Attica),settlement (fortified)|archaeological site|deme (Athenian),pin,38.16868,23.44981,31.8,4,1,thucydides/02-the-funeral-oration.md(4),Oenoe,1,https://pleiades.stoa.org/places/580040,"g. The first town they came to in Attica was Oenoe, where they to enter the country. Sitti"
 pl-570074,Amyklai,settlement,wash,37.03632,22.45026,154.2,3,1,apollo/08-pindar-pythian.md(3),Amyklai,0,https://pleiades.stoa.org/places/570074,"ntinually in the Dorian laws of Aigimios. At Amyklai they dwelt prosperously, when they we"
 pl-570134,Astron,settlement|settlement-modern,pin,37.41635,22.76443,105.6,3,1,einstein-albert/01a-relativity-3rd-ed.md(3),Astron,0,https://pleiades.stoa.org/places/570134,"cal Consequences*: W. de Sitter, *M. N. Roy. Astron. Soc.*, LXXVI. p. 699, 1916; LXXVII. p"
 pl-570248,Eurotas (river),"river, drainage",pin,37.05773,22.47818,150.8,3,1,lycurgus/01-plutarch-lycurgus.md(3),Eurotas,0,https://pleiades.stoa.org/places/570248,"ould have bathed yourself first in the river Eurotas."" After drinking moderately, every m"
-pl-540837,Iolkos,settlement,pin,39.3663,22.96886,167.2,3,1,apollo/08-pindar-pythian.md(3),Iolkos,0,https://pleiades.stoa.org/places/540837,"hall have come to the sunny land of glorious Iolkos, whether a stranger or a citizen he be"
 pl-580094,Psyttaleia (island),island,pin,37.94089,23.58839,13.1,3,1,herodotus/04-salamis.md(3),Psyttaleia,0,https://pleiades.stoa.org/places/580094,"ge number of Persians in the small island of Psyttaleia, which lies between Salamis and th"
 pl-540624,Alpenos,settlement,pin,38.80185,22.58608,134.8,2,1,herodotus/03-thermopylai.md(2),Alpenoi|Alpenos,0,https://pleiades.stoa.org/places/540624,"idge of the mountain and ends by the town of Alpenos, which is the first town of the Locri"
+pl-579902,Cholargos,settlement|deme (Athenian),pin,38.05644,23.73906,8.1,2,1,plutarch/05-pericles.md(2),Cholargus,0,https://pleiades.stoa.org/places/579902,"was of the tribe Acamantis, and the township Cholargus, of the noblest birth both on his f"
 pl-540613,Dimini,settlement,pin,39.36144,22.8938,169.4,2,1,apollo/08-pindar-pythian.md(2),Aison,0,https://pleiades.stoa.org/places/540613,"s; for it shall hardly be said that a son of Aison, born in the land, is come hither to a"
-pl-570281,Helike,settlement|archaeological site,pin,38.22203,22.13181,142.1,2,1,lycurgus/06-herodotus-book-one.md(2),Helike,0,https://pleiades.stoa.org/places/570281,"me in Italy received its name), and Bura and Helike, to which the Ionians fled for refuge"
+pl-97294452,Kerameikos,"ceramic production facility or area|catacomb, cemetery, necropolis|archaeological site",pin,37.97842,23.7183,1.0,2,1,thucydides/05-the-sicilian-expedition.md(2),Ceramicus,0,https://pleiades.stoa.org/places/97294452,"th his bodyguard was outside the city in the Ceramicus, arranging how the different parts"
+pl-449126342,Klima,harbor|settlement|settlement-modern,pin,36.73508,24.42047,151.8,2,1,dante-alighieri/10-de-monarchia.md(2),Clima|clima,1,https://pleiades.stoa.org/places/449126342,"nais and the Riphæan mountains. The seventh ""clima"" passed over the mouths of the Borysthe"
 pl-540902,Lamia,settlement,pin,38.903,22.44259,151.6,2,1,cleopatra/06-horace-book-one.md(2),Lamia,0,https://pleiades.stoa.org/places/540902,"ith sunniest flowers A chaplet for my Lamia twine, Pimplea sweet! my praise we"
-pl-570537,Orneai,settlement,pin,37.71785,22.54728,107.8,2,1,herodotus/04-salamis.md(2),Orneai,0,https://pleiades.stoa.org/places/570537,"lapse of time, being originally citizens of Orneai or the dwellers in the country round O"
+pl-589911,Libeia? Ins.,island,pin,36.75761,24.57839,155.7,2,1,shakespeare-william/02-first-folio.md(2),Libia,0,https://pleiades.stoa.org/places/589911,"person? Flo. Good my Lord, She came from Libia Leo. Where the Warlike Smalus, Tha"
 pl-570756,Troizen,settlement,pin,37.50311,23.34849,63.0,2,1,herodotus/04-salamis.md(2),Troizen,0,https://pleiades.stoa.org/places/570756,"he could. So the greater number sent them to Troizen, but others to Egina, and others to S"
 pl-745058964,Acamantis,"people, tribe (historical cultural group)",wash,37.88406,23.90244,18.9,1,1,plutarch/05-pericles.md(1),Acamantis,0,https://pleiades.stoa.org/places/745058964,"shall here find. Pericles was of the tribe Acamantis, and the township Cholargus, of the"
+pl-579850,Aigaleos,"mountain|fort, tower (deprecated)",pin,38.04917,23.66852,8.9,1,1,thucydides/02-the-funeral-oration.md(1),Aegaleus,1,https://pleiades.stoa.org/places/579850,"he Brooks, they then advanced, keeping Mount Aegaleus on their right, through Cropia, unti"
 pl-570043,Aigeira,settlement,pin,38.12855,22.3782,119.2,1,1,lycurgus/06-herodotus-book-one.md(1),Aigeira,0,https://pleiades.stoa.org/places/570043,"from the side of Sikyon) comes Pellene, then Aigeira and Aigai, in which last is the river"
 pl-570049,Aigion,settlement,pin,38.25271,22.08195,147.0,1,1,lycurgus/06-herodotus-book-one.md(1),Aigion,0,https://pleiades.stoa.org/places/570049,"y were worsted by the Achaians in fight, and Aigion and Rhypes and Patreis and Phareis and"
+pl-579858,Alopeke,settlement|deme (Athenian),pin,37.95,23.75,4.2,1,1,plutarch/05-pericles.md(1),Alopece,0,https://pleiades.stoa.org/places/579858,"prove a monarchy, put forward Thucydides of Alopece, a discreet person, and a near kinsma"
 pl-540630,Amphissa,settlement,pin,38.5184,22.37417,132.3,1,1,cleopatra/01-plutarch-antony.md(1),Amphissa,0,https://pleiades.stoa.org/places/540630,"measure or belief. Philotas, a physician of Amphissa, who was at that time a student of m"
+pl-579863,Anagyrous,settlement|deme (Athenian),pin,37.83002,23.80484,18.4,1,1,herodotus/04-salamis.md(1),Anagyrus,0,https://pleiades.stoa.org/places/579863,"etan Polycritos and the Athenians Eumenes of Anagyrus and Ameinias of Pallene, the man who"
 pl-589693,Andros (island),island,pin,37.85546,24.85341,99.8,1,1,dante-alighieri/09-la-vita-nuova.md(1),Ανδρος,1,https://pleiades.stoa.org/places/589693,"Οὐδὲ ἐῴκει Ἀνδρός γε θνητοῦ παῖς ἔμμεναι, ἀλλὰ θεοῖο."
+pl-540642,Antikyra,settlement|port,pin,38.37544,22.62606,105.7,1,1,cleopatra/01-plutarch-antony.md(1),Anticyra,1,https://pleiades.stoa.org/places/540642,"rn upon their shoulders to the sea-side near Anticyra, men standing by to quicken them wit"
 pl-540657,"Archegetes, T.",temple,pin,38.49929,22.74127,103.5,1,1,thucydides/05-the-sicilian-expedition.md(1),Archegetes,1,https://pleiades.stoa.org/places/540657,"founded Naxos and built the altar to Apollo Archegetes, which now stands outside the town"
 pl-116805959,Argive Plain,plain,wash,37.58731,22.76185,95.6,1,1,theseus/04-hippolytus.md(1),Argive plain,0,https://pleiades.stoa.org/places/116805959,"rein, Each hand, to speed him, toward the Argive plain And Epidaurus."
+pl-599525,Artemision,sanctuary (religious center),pin,37.38853,25.25009,149.4,1,1,plutarch/06-alcibiades.md(1),Artemisium,1,https://pleiades.stoa.org/places/599525,"ense, gained great honor in the sea-fight at Artemisium, and was afterwards slain in the b"
+pl-540670,Askra,settlement,pin,38.32822,23.07538,68.7,1,1,cleopatra/05-suetonius-augustus.md(1),Ascra,0,https://pleiades.stoa.org/places/540670,"i, the Works and Days of Hesiod, the poet of Ascra. But between the productions of the tw"
+pl-570129,Asopos,ruin|settlement,pin,36.6845,22.8426,164.3,1,1,thucydides/02-the-funeral-oration.md(1),Asopus,3,https://pleiades.stoa.org/places/570129,"that had fallen in the night, for the river Asopus had risen and was not easy of passage;"
 pl-579889,Aulis,settlement,pin,38.43026,23.59365,51.0,1,1,shakespeare-william/38-two-noble-kinsmen.md(1),Aulis,0,https://pleiades.stoa.org/places/579889,"] As before, hence you, And at the banks of Aulis meet us with The forces you can raise,"
 pl-579879,Brauron/sanctuary of Artemis Brauronia,sanctuary (religious center)|temple,pin,37.92615,23.99371,24.2,1,1,plutarch/04-solon.md(1),Brauron,1,https://pleiades.stoa.org/places/579879,"em the island, and that one of them dwelt at Brauron in Attica, the other at Melite; and t"
+pl-540711,Chorsiai,settlement,wash,38.25119,22.88736,79.3,1,1,galileo-galilei/01-sidereal-messenger-1610.md(1),Prodromus,11,https://pleiades.stoa.org/places/540711,", ed. C. Frisch. Frankfurt a. M., 1858-71. Prodromus dissertationum mathematicarum conti"
 pl-691939634,Civic Offices,building|stoa,pin,37.97475,23.72258,1.1,1,1,gutenberg/05-devinne-coster-downfall.md(1),civic offices,0,https://pleiades.stoa.org/places/691939634,"d governor of the hospital. He is the man of civic offices, of wealth and high social posi"
-pl-540735,"Dionysos, T.",temple,pin,38.52368,22.95317,90.4,1,1,lycurgus/06-herodotus-book-one.md(1),Dionysos,1,https://pleiades.stoa.org/places/540735,"men of Smyrna were celebrating a festival to Dionysos outside the walls, and then they clo"
+pl-599586,Delion,sanctuary (religious center),pin,37.10347,25.15482,159.4,1,1,plutarch/06-alcibiades.md(1),Delium,1,https://pleiades.stoa.org/places/599586,"suit of armor. Afterwards, in the battle of Delium, when the Athenians were routed and So"
 pl-310115518,Dipylon Gate,"gate (of a city), city gate",pin,37.97854,23.71898,0.9,1,1,plutarch/05-pericles.md(1),Dipylon,0,https://pleiades.stoa.org/places/310115518,"he Thriasian Gates, which are now called the Dipylon, or Double Gate. On the other hand,"
 pl-540744,Dryopes,"people, tribe (historical cultural group)",pin,38.26673,24.20768,52.5,1,1,thucydides/06-the-defeat.md(1),Dryopes,0,https://pleiades.stoa.org/places/540744,"he Athenians, except the Carystians, who are Dryopes, and although subjects and obliged to"
 pl-570227,Ephyra? (island),island,pin,36.78891,24.23851,140.3,1,1,apollo/08-pindar-pythian.md(1),Ephyra,0,https://pleiades.stoa.org/places/570227,to tale. I have hope that when the folk of Ephyra pour forth my sweet strains by Peneus'
+pl-591471666,Eridanos,"river, drainage",pin,37.97837,23.71809,1.0,1,1,theseus/04-hippolytus.md(1),Eridanus,0,https://pleiades.stoa.org/places/591471666,"Adriatic on the shore, Where the waters of Eridanus are clear, And Phaëthon's sad sist"
 pl-137478922,Gate at 25 Erechtheiou St./South Gate/Gate XIII,"gate (of a city), city gate",pin,37.96729,23.72523,1.8,1,1,gautama-buddha/08-fa-hien.md(1),south gate,0,https://pleiades.stoa.org/places/137478922,"purpose. As you go out from the city by the south gate, and 1,200 paces from it, the (Vai"
+pl-540800,Halai,settlement,pin,38.65376,23.19375,87.9,1,1,cleopatra/01-plutarch-antony.md(1),Halae,0,https://pleiades.stoa.org/places/540800,"re I cut it down."" He died and was buried at Halae, near the sea, where it so happened tha"
 pl-540801,Haliartos,settlement|acropolis,pin,38.37832,23.0866,71.2,1,1,apollo/02-homeric-hymn-pythian.md(1),Haliartus,0,https://pleiades.stoa.org/places/540801,assed many-towered Ocalea and reached grassy Haliartus. (ll. 244-253) Then you went towar
 pl-570274,Halieis,settlement|port,pin,37.31509,23.15263,89.9,1,1,thucydides/03-the-plague.md(1),Halieis,0,https://pleiades.stoa.org/places/570274,"s, they laid waste the territory of Troezen, Halieis, and Hermione, all towns on the coast"
 pl-540804,Halos,settlement,pin,39.15518,22.83437,151.6,1,1,gautama-buddha/04-jataka-book-one.md(1),halos,0,https://pleiades.stoa.org/places/540804,"ute of a Buddha), which issued from him like halos, and in pairs. Then, though mighty in v"
+pl-570285,Hellenika,settlement,pin,37.60546,24.34693,68.8,1,1,lycurgus/03-xenophon-lacedaemonians.md(1),Hellenica,0,https://pleiades.stoa.org/places/570285,"the {diabateria}, so often mentioned in the ""Hellenica."" Invariably when he offers sacrif"
 pl-540817,Histiaia/Hestiaia,settlement,pin,38.9466,23.09053,120.6,1,1,herodotus/04-salamis.md(1),Histiaia,1,https://pleiades.stoa.org/places/540817,"onians and having passed over from thence to Histiaia, after staying three days sailed thr"
+pl-579958,Ikarion,settlement|deme (Athenian),pin,38.10506,23.89086,19.7,1,1,theseus/02-the-labyrinth-and-icarus.md(1),Icaria,0,https://pleiades.stoa.org/places/579958,"the spot where he fell, received the name of Icaria.] [Footnote 22: _Branching holm o"
 pl-899305140,Ismenus (river),"river, drainage",pin,38.3248,23.3244,51.8,1,1,apollo/07-sophocles-oedipus.md(1),Ismenus,0,https://pleiades.stoa.org/places/899305140,"Both shrines of Pallas congregate, or where Ismenus gives his oracles by fire. For, as th"
 pl-570330,Kardamyle (Messenia),settlement,pin,36.88478,22.23765,179.5,1,1,herodotus/04-salamis.md(1),Cardamyle,0,https://pleiades.stoa.org/places/570330,"rmion 42 and Asine, which latter is opposite Cardamyle in the Laconian land; and of the Le"
+pl-570336,Karystos,fort|settlement,pin,38.0348,24.43139,61.9,1,1,plutarch/10-marcus-brutus.md(1),Carystus,1,https://pleiades.stoa.org/places/570336,"ne of his friends, he went to meet him about Carystus. Finding him there, and having pers"
+pl-570166,Kastro ano Diakopto,church|settlement|settlement-modern,pin,38.14274,22.20542,134.4,1,1,lycurgus/06-herodotus-book-one.md(1),Bura,0,https://pleiades.stoa.org/places/570166,"e same name in Italy received its name), and Bura and Helike, to which the Ionians fled fo"
 pl-579971,Kephale,settlement|deme (Athenian),pin,37.8118,23.99638,30.4,1,1,lycurgus/06-herodotus-book-one.md(1),kephale,0,https://pleiades.stoa.org/places/579971,e}. The translation is Rawlinson's.] 158 [ {kephale anamaxas}: cp. Hom. Od. xix. 92.] 15
 pl-579974,Kephisos (river),"river, drainage",pin,38.04446,23.74243,6.9,1,1,apollo/02-homeric-hymn-pythian.md(1),Cephissus,2,https://pleiades.stoa.org/places/579974,"ent, O far-shooting Apollo, and reached next Cephissus' sweet stream which pours forth its"
+pl-570361,Kleonai,settlement|archaeological site|temple|architectural complex,pin,37.81972,22.77624,85.4,1,1,thucydides/05-the-sicilian-expedition.md(1),Cleonae,0,https://pleiades.stoa.org/places/570361,"ns marched against Argos, and went as far as Cleonae, when an earthquake occurred and caus"
+pl-538107005,Klepsydra,spring|fountain,pin,37.97219,23.7249,1.3,1,1,cleopatra/01-plutarch-antony.md(1),Clepsydra,0,https://pleiades.stoa.org/places/538107005,"le, he filled a vessel with the water of the Clepsydra, to carry along with him. In this"
 pl-540880,Korax (mountain),mountain,pin,38.64722,22.25194,148.4,1,1,plutarch/06-alcibiades.md(1),corax,1,https://pleiades.stoa.org/places/540880,"e a colax he is,"" says Alcibiades, meaning a corax; on which it is remarked, ""How very ha"
-pl-540889,Krisa,settlement|archaeological site|acropolis,pin,38.4654,22.45957,123.0,1,1,apollo/08-pindar-pythian.md(1),Krisa,0,https://pleiades.stoa.org/places/540889,"front shall give tidings of a victory won in Krisa's dells, glorious in the speech of men"
+pl-570380,Kraneion,grove|settlement,pin,37.9046,22.8947,73.6,1,1,plutarch/09-alexander.md(1),Cranium,0,https://pleiades.stoa.org/places/570380,"much as stirred out of the suburb called the Cranium, where Alexander found him lying alon"
+pl-570382,Krathis (mountain),mountain|map label location,pin,37.99696,22.27815,127.0,1,1,lycurgus/06-herodotus-book-one.md(1),Crathis,1,https://pleiades.stoa.org/places/570382,"igeira and Aigai, in which last is the river Crathis with a perpetual flow (whence the riv"
 pl-492759697,Larisa Fortress (Argolid),fort|castle|acropolis|citadel,pin,37.638,22.715,96.9,1,1,thucydides/02-the-funeral-oration.md(1),Larisa,0,https://pleiades.stoa.org/places/492759697,"olymedes and Aristonus, two party leaders in Larisa; the Pharsalian general was Menon; eac"
 pl-540911,Lelant(i)on Pedion,plain,wash,38.53,23.87,62.0,1,1,apollo/02-homeric-hymn-pythian.md(1),Lelantine plain,0,https://pleiades.stoa.org/places/540911,"in Euboea, famed for ships: you stood in the Lelantine plain, but it pleased not your hear"
 pl-540930,Malis,region|map label location,pin,38.85937,22.41302,150.3,1,1,herodotus/03-thermopylai.md(1),Malis,0,https://pleiades.stoa.org/places/540930,"ch is the first town of the Locrians towards Malis, and by the stone called Black Buttocks"
 pl-570459,Mantineia/Antigoneia,settlement,pin,37.61738,22.39258,124.2,1,1,herodotus/03-thermopylai.md(1),Mantineia,0,https://pleiades.stoa.org/places/570459,"ee hundred hoplites; of the men of Tegea and Mantineia a thousand, half from each place, f"
 pl-582863,Melite,settlement|deme (Athenian),pin,37.97953,23.71841,0.9,1,1,plutarch/04-solon.md(1),Melite,0,https://pleiades.stoa.org/places/582863,"hem dwelt at Brauron in Attica, the other at Melite; and they have a township of Philaidae"
 pl-570508,Nisaia,ruin|settlement,pin,37.97645,23.36368,31.9,1,1,lycurgus/06-herodotus-book-one.md(1),Nisaia,0,https://pleiades.stoa.org/places/570508,"against the Megarians, during which he took Nisaia and performed other signal service. An"
+pl-570510,Nonakris,settlement,pin,38.01442,22.2412,130.3,1,1,plutarch/09-alexander.md(1),Nonacris,0,https://pleiades.stoa.org/places/570510,"e, distilling from a rock in the district of Nonacris, which they gathered like a thin dew"
 pl-540971,Oichalia?,settlement|archaeological site,pin,38.60268,24.09983,76.1,1,1,theseus/04-hippolytus.md(1),Oechalia,0,https://pleiades.stoa.org/places/540971,"* * * There roamed a Steed in Oechalia's wild, A Maid without yoke, wit"
+pl-570523,Oinous (river),"river, drainage",pin,37.11021,22.44395,149.1,1,1,lycurgus/01-plutarch-lycurgus.md(1),Oenus,0,https://pleiades.stoa.org/places/570523,"o assemble; Babyca and Cnacion they now call Oenus; Aristotle says Cnacion is a river, and"
+pl-540984,Onchestos,settlement,pin,38.37327,23.15027,66.5,1,1,apollo/02-homeric-hymn-pythian.md(1),Onchestus,0,https://pleiades.stoa.org/places/540984,"you went, O far-shooting Apollo, and came to Onchestus, Poseidon's bright grove: there the"
 pl-540987,Orchomenos/Orchomenus (Boeotia),tomb|settlement,pin,38.49332,22.9747,86.8,1,1,julius-caesar/civil-war-3.md(1),Orchomenus,1,https://pleiades.stoa.org/places/540987,"chaia. Kalenus recovered Delphi, Thebes, and Orchomenus, by a voluntary submission of thos"
 pl-570543,Pagai,"settlement|port|church, monastery (deprecated)",pin,38.08492,23.19712,47.8,1,1,plutarch/05-pericles.md(1),Pegae,1,https://pleiades.stoa.org/places/570543,"round the Peloponnesus, having set out from Pegae, or The Fountains, the port of Megara,"
+pl-580057,Panormos,harbor,pin,37.69817,24.06177,43.2,1,1,thucydides/05-the-sicilian-expedition.md(1),Panormus,1,https://pleiades.stoa.org/places/580057,"r took up their abode in Motye, Soloeis, and Panormus, near the Elymi, partly because they"
 pl-580059,Parnes (mountain),mountain,pin,38.1734,23.7174,21.1,1,1,thucydides/02-the-funeral-oration.md(1),Parnes,0,https://pleiades.stoa.org/places/580059,and ravaged some of the demes between Mount Parnes and Brilessus. While they were in Atti
+pl-580065,Pentelikon/Brilessos (mountain),mountain,pin,38.08083,23.89972,18.5,1,1,thucydides/02-the-funeral-oration.md(1),Brilessus,0,https://pleiades.stoa.org/places/580065,d some of the demes between Mount Parnes and Brilessus. While they were in Attica the Athe
 pl-585129,Phalerikon Teichos,"wall (of a city), city wall",wash,37.95339,23.71255,3.6,1,1,thucydides/02-the-funeral-oration.md(1),Phaleric wall,0,https://pleiades.stoa.org/places/585129,"he resident aliens who had heavy armour. The Phaleric wall ran for four miles, before it j"
 pl-541042,Pharsalus,settlement|acropolis,pin,39.2885,22.38785,186.0,1,1,julius-caesar/civil-war-3.md(1),Pharsalus,0,https://pleiades.stoa.org/places/541042,"e enemy, he landed his men at a place called Pharsalus, without the loss of a single vesse"
+pl-580075,Philaidai,settlement|deme (Athenian),pin,37.92893,23.98955,23.8,1,1,plutarch/04-solon.md(1),Philaidae,0,https://pleiades.stoa.org/places/580075,"other at Melite; and they have a township of Philaidae, to which Pisistratus belonged, der"
 pl-580076,Phlya,settlement|deme (Athenian),pin,38.02626,23.80683,8.4,1,1,plutarch/04-solon.md(1),Phlya,0,https://pleiades.stoa.org/places/580076,"three hundred noble citizens. And Myron of Phlya being their accuser, they were found gu"
 pl-580079,Phyle,fort|deme (Athenian),pin,38.13996,23.63692,19.1,1,1,lycurgus/01-plutarch-lycurgus.md(1),phyle,2,https://pleiades.stoa.org/places/580079,"to Minerva Hellania, and after that you have phyle'd the people phyles, and obe'd them int"
 pl-570622,Pogon,port,wash,37.75,23.25,49.3,1,1,herodotus/04-salamis.md(1),Pogon,0,https://pleiades.stoa.org/places/570622,"y had been ordered beforehand to assemble at Pogon, which is the harbour of the Troizenian"
 pl-541065,Polis,settlement,pin,38.38529,22.07186,151.4,1,1,george-washington/01-rules-of-civility.md(1),polis,0,https://pleiades.stoa.org/places/541065,"compliments qui se fait parmy les plus polis, & particulierement ceux qui consistent"
+pl-580097,Rhamnous,settlement|archaeological site|deme (Athenian),pin,38.21929,24.02691,37.0,1,1,cleopatra/01-plutarch-antony.md(1),Rhamnus,0,https://pleiades.stoa.org/places/580097,"freedmen, then serving as one of his guards, Rhamnus by name, and made him take an oath th"
 pl-599919,Rheneia (island),island,pin,37.40411,25.22804,146.9,1,1,thucydides/01-the-method.md(1),Rhenea,1,https://pleiades.stoa.org/places/599919,"reduced many of the islands, and among them Rhenea, which he consecrated to the Delian Ap"
 pl-570647,Rhypes,settlement|acropolis|archaeological site,pin,38.21393,22.01894,151.7,1,1,lycurgus/06-herodotus-book-one.md(1),Rhypes,0,https://pleiades.stoa.org/places/570647,"ted by the Achaians in fight, and Aigion and Rhypes and Patreis and Phareis and Olenos, wh"
 pl-570662,Sellasia,ruin|settlement,pin,37.16927,22.4406,145.1,1,1,lycurgus/05-plutarch-agis.md(1),Sellasia,0,https://pleiades.stoa.org/places/570662,"getus, and as far as the cities of Malea and Sellasia, into four thousand five hundred lot"
 pl-590044,Seriphos (island),island,pin,37.15608,24.4824,113.6,1,1,apollo/08-pindar-pythian.md(1),Seriphos,1,https://pleiades.stoa.org/places/590044,"d stricken the third sister, and to the isle Seriphos and its folk bare thence their doom."
+pl-570671,Sidous,settlement,pin,37.91613,23.07978,57.3,1,1,isaac-newton/06-i-do-not-deal-in-conjectures.md(1),Sidus,0,https://pleiades.stoa.org/places/570671,"he particular periods, viz.: 1st. The Julium Sidus, in the time of Justinian, in 1106, in"
+pl-582865,Skambonidai,settlement|deme (Athenian),pin,37.98286,23.72888,0.2,1,1,plutarch/06-alcibiades.md(1),Scambonidae,0,https://pleiades.stoa.org/places/582865,", the son of Clinias, of the township of the Scambonidae, has committed a crime against th"
+pl-541103,Skarpheia,settlement,pin,38.80909,22.66381,130.4,1,1,plutarch/09-alexander.md(1),Scarphia,0,https://pleiades.stoa.org/places/541103,"fy the penalty. Another time, when Lycon of Scarphia happened to act with great applause"
 pl-541092,Skiathos/Sciathus (island),island,pin,39.1669,23.4539,133.7,1,1,herodotus/04-salamis.md(1),Skiathos,1,https://pleiades.stoa.org/places/541092,"vessel which was keeping watch in advance at Skiathos, 56 and in which sailed Pytheas the"
+pl-580107,Sounion (Attica: settlement and deme),settlement|deme (Athenian),wash,37.65209,24.02629,45.3,1,1,thucydides/06-the-defeat.md(1),Sunium,3,https://pleiades.stoa.org/places/580107,was now effected at great cost by sea round Sunium; everything the city required had to b
 pl-599944,Sporades (archipelago),"archipelago, island group|island",wash,39.14328,24.00973,131.2,1,1,theseus/02-the-labyrinth-and-icarus.md(1),Sporades,0,https://pleiades.stoa.org/places/599944,"s, or, according to some writers, one of the Sporades, a group that lay between the Cy"
-pl-570706,Taygetos (mountain),mountain,pin,36.95354,22.34996,167.0,1,1,apollo/08-pindar-pythian.md(1),Taygetos,0,https://pleiades.stoa.org/places/570706,Herakleidai dwelling beneath the heights of Taygetos is to abide continually in the Doria
+pl-580110,Steiria,settlement|deme (Athenian),pin,37.89816,24.01073,26.6,1,1,plutarch/06-alcibiades.md(1),Stiria,0,https://pleiades.stoa.org/places/580110,"as much assisted, however, by Thrasybulus of Stiria, who, having the loudest voice, as we"
 pl-71107898,Temple of Amphiaraus,temple,pin,38.29063,23.84467,35.6,1,1,lycurgus/06-herodotus-book-one.md(1),temple of Amphiaraos,0,https://pleiades.stoa.org/places/71107898,Now those which he sent to Delphi and to the temple of Amphiaraos he dedicated of his own
+pl-541133,Teumessos,settlement,pin,38.35755,23.38228,51.4,1,1,apollo/02-homeric-hymn-pythian.md(1),Teumessus,0,https://pleiades.stoa.org/places/541133,"ls, going on to Mycalessus and grassy-bedded Teumessus, and so came to the wood-clad abode"
+pl-570715,Thalamai,settlement|settlement-modern,pin,36.78451,22.32854,181.8,1,1,lycurgus/05-plutarch-agis.md(1),Thalamae,0,https://pleiades.stoa.org/places/570715,"hae. This was a famous temple and oracle at Thalamae; and this Pasiphae, some say, was on"
 pl-570725,Therme,settlement,pin,37.9753,22.9734,66.1,1,1,thucydides/02-the-funeral-oration.md(1),Therme,0,https://pleiades.stoa.org/places/570725,"with Perdiccas, and induced them to restore Therme to him; upon which Perdiccas at once j"
 pl-541141,Thespiai,settlement|archaeological site,pin,38.29453,23.15236,61.0,1,1,herodotus/04-salamis.md(1),Thespiai,0,https://pleiades.stoa.org/places/541141,verything in those regions. Now he had burnt Thespiai 3101 and Plataia because he was info
 pl-991374,Thessalia (late Roman province),province,wash,37.5,22.5,120.6,1,1,cleopatra/07-lucan-book-ten.md(1),Thessalia,0,https://pleiades.stoa.org/places/991374,elf at peace? The host withdrawn From dread Thessalia raves on Nilus' banks As all the ra
 pl-580120,Thria,settlement|deme (Athenian),pin,38.05447,23.59231,14.2,1,1,thucydides/02-the-funeral-oration.md(1),Thria,3,https://pleiades.stoa.org/places/580120,"d without advancing farther than Eleusis and Thria, which indeed proved the cause of his e"
+pl-541147,Thronion,"fort, tower (deprecated)",pin,38.77584,22.72573,124.0,1,1,thucydides/02-the-funeral-oration.md(1),Thronium,0,https://pleiades.stoa.org/places/541147,"ertain places on the sea-coast, and captured Thronium and took hostages from it. He also d"
 pl-580134,Xypete,settlement|deme (Athenian),pin,37.95755,23.68548,4.7,1,1,plutarch/05-pericles.md(1),Xypete,1,https://pleiades.stoa.org/places/580134,rchitraves; and after his death Metagenes of Xypete added the frieze and the upper line of
 pl-915090919,"""Gymnasium"" at Eleusis","sanctuary (religious center)|gymnasium, gymnasion",pin,38.03974,23.53847,17.7,0,0,,,0,https://pleiades.stoa.org/places/915090919,
 pl-720770008,"""Mithraeum"" at Eleusis",temple,pin,38.0399,23.53834,17.7,0,0,,,0,https://pleiades.stoa.org/places/720770008,
@@ -163,14 +247,11 @@ pl-540585,Achaea Phthiotis,region|map label location,pin,39.05279,22.53241,157.9
 pl-104777482,Achaean League (Second),state (polity),wash,38.01712,22.34545,121.2,0,0,,,0,https://pleiades.stoa.org/places/104777482,
 pl-981502,Achaia (province),province,wash,38.45714,23.62194,53.4,0,0,,,1,https://pleiades.stoa.org/places/981502,
 pl-991372,"Achaia (province, late)",province,wash,37.5,22.5,120.6,0,0,,,1,https://pleiades.stoa.org/places/991372,
-pl-579842,Acharnai (N),settlement|deme (Athenian),pin,38.08347,23.73409,11.1,0,0,,,1,https://pleiades.stoa.org/places/579842,
 pl-579843,Acharnai (S),deme (Athenian),wash,38.125,23.625,18.1,0,0,,,1,https://pleiades.stoa.org/places/579843,
 pl-735036201,Acharnes ancient theater,"theatre, theater",pin,38.08037,23.73322,10.8,0,0,,,0,https://pleiades.stoa.org/places/735036201,
 pl-249767015,Acharnian Gate,"gate (of a city), city gate",pin,37.98104,23.72876,0.3,0,0,,,0,https://pleiades.stoa.org/places/249767015,
-pl-540587,Acheloos (river),"river, drainage",wash,38.75,22.25,154.4,0,0,,,0,https://pleiades.stoa.org/places/540587,
 pl-200503614,Achilleion,settlement,pin,39.15,22.25,182.5,0,0,,,1,https://pleiades.stoa.org/places/200503614,
 pl-540589,Achilleion Sinus,"water, open",wash,38.75,24.75,123.3,0,0,,,0,https://pleiades.stoa.org/places/540589,
-pl-638356144,Acropolis of Athens,acropolis|architectural complex,pin,37.97165,23.72644,1.4,0,0,,,0,https://pleiades.stoa.org/places/638356144,
 pl-337621961,Acropolis of Eretria,wall (defensive)|acropolis|archaeological site,pin,38.40123,23.79545,46.8,0,0,,,0,https://pleiades.stoa.org/places/337621961,
 pl-400626652,Acropolis of Halos,acropolis,pin,39.14407,22.81399,151.5,0,0,,,0,https://pleiades.stoa.org/places/400626652,
 pl-791881840,Acropolis of Lilaia,acropolis,pin,38.62576,22.50629,128.3,0,0,,,0,https://pleiades.stoa.org/places/791881840,
@@ -217,9 +298,7 @@ pl-330976685,Aiantis,"people, tribe (historical cultural group)",wash,37.93731,2
 pl-540602,Aidepsos (spa),"settlement|bath, spa",pin,38.85919,23.04553,114.0,0,0,,,1,https://pleiades.stoa.org/places/540602,
 pl-540601,Aidepsos? (polis),settlement-modern,pin,38.87982,23.0442,116.1,0,0,,,1,https://pleiades.stoa.org/places/540601,
 pl-540603,Aigai,settlement,pin,38.59819,23.55263,70.0,0,0,,,1,https://pleiades.stoa.org/places/540603,
-pl-570040,Aigai,settlement,pin,38.15488,22.31464,125.1,0,0,,,1,https://pleiades.stoa.org/places/570040,
 pl-540604,Aigai (mountain),mountain|map label location,pin,38.68943,23.44839,82.2,0,0,,,1,https://pleiades.stoa.org/places/540604,
-pl-579850,Aigaleos,"mountain|fort, tower (deprecated)",pin,38.04917,23.66852,8.9,0,0,,,1,https://pleiades.stoa.org/places/579850,
 pl-579851,Aigaleos (mountain),mountain,pin,38.03333,23.65,8.7,0,0,,,1,https://pleiades.stoa.org/places/579851,
 pl-570044,Aigiai,settlement|archaeological site|settlement-modern,pin,36.78751,22.51595,170.7,0,0,,,0,https://pleiades.stoa.org/places/570044,
 pl-570045,Aigila,settlement,pin,36.55908,22.46618,193.8,0,0,,,0,https://pleiades.stoa.org/places/570045,
@@ -251,7 +330,6 @@ pl-570063,Alesiai,settlement|settlement-modern,pin,37.05047,22.40707,156.0,0,0,,
 pl-570064,Alesion (mountain),mountain|map label location,pin,37.64224,22.43369,119.8,0,0,,,0,https://pleiades.stoa.org/places/570064,
 pl-540621,Alope,settlement,pin,38.80837,22.88042,117.7,0,0,,,1,https://pleiades.stoa.org/places/540621,
 pl-540622,Alope?,settlement,pin,38.4232,22.14579,146.6,0,0,,,3,https://pleiades.stoa.org/places/540622,
-pl-579858,Alopeke,settlement|deme (Athenian),pin,37.95,23.75,4.2,0,0,,,0,https://pleiades.stoa.org/places/579858,
 pl-215521453,Altar at the temple of Amphiaraos,temple,pin,38.29069,23.84525,35.6,0,0,,,0,https://pleiades.stoa.org/places/215521453,
 pl-756525877,Altar of Androgeos,unlocated|monument,wash,37.93731,23.70625,5.5,0,0,,,0,https://pleiades.stoa.org/places/756525877,
 pl-415460393,Altar of Zeus Agoraios,shrine,pin,37.97325,23.72085,1.3,0,0,,,0,https://pleiades.stoa.org/places/415460393,
@@ -269,7 +347,6 @@ pl-629588005,Amphissa Tholos,tomb,pin,38.51302,22.40174,129.9,0,0,,,0,https://pl
 pl-579862,Amphitrope?,settlement,pin,37.70913,24.0094,39.3,0,0,,,0,https://pleiades.stoa.org/places/579862,
 pl-252533527,Ampouria Parnassou,sanctuary (religious center)|cave|settlement-modern,pin,38.56822,22.70592,110.3,0,0,,,0,https://pleiades.stoa.org/places/252533527,
 pl-573086,Amymone,"unlocated|spring|river, drainage",wash,37.55124,22.71833,100.9,0,0,,,0,https://pleiades.stoa.org/places/573086,
-pl-579863,Anagyrous,settlement|deme (Athenian),pin,37.83002,23.80484,18.4,0,0,,,0,https://pleiades.stoa.org/places/579863,
 pl-579864,Anakaia?,settlement|deme (Athenian),pin,38.141,23.88918,22.5,0,0,,,0,https://pleiades.stoa.org/places/579864,
 pl-579866,Anaphlystos,settlement|settlement-modern|deme (Athenian),pin,37.73756,23.95219,33.7,0,0,,,1,https://pleiades.stoa.org/places/579866,
 pl-540633,Anastasis,settlement,pin,38.62183,23.08285,90.5,0,0,,,0,https://pleiades.stoa.org/places/540633,
@@ -297,7 +374,6 @@ pl-579870,Ankyle Kathyperthen,settlement,pin,37.98008,23.7504,2.0,0,0,,,0,https:
 pl-540637,Ano Ktimeni,settlement,pin,39.1084,22.13127,186.8,0,0,,,0,https://pleiades.stoa.org/places/540637,
 pl-540638,Ano Phteri,settlement,pin,38.88707,22.05633,176.8,0,0,,,0,https://pleiades.stoa.org/places/540638,
 pl-540640,Anthela,shrine|archaeological site,pin,38.7979,22.5104,139.4,0,0,,,0,https://pleiades.stoa.org/places/540640,
-pl-540642,Antikyra,settlement|port,pin,38.37544,22.62606,105.7,0,0,,,1,https://pleiades.stoa.org/places/540642,
 pl-540641,Antikyra?,settlement,pin,38.85278,22.43053,148.7,0,0,,,1,https://pleiades.stoa.org/places/540641,
 pl-540644,Antron(es),settlement,pin,38.95098,22.96748,126.3,0,0,,,0,https://pleiades.stoa.org/places/540644,
 pl-579871,Anydros (mountain),mountain,wash,37.875,23.875,17.7,0,0,,,0,https://pleiades.stoa.org/places/579871,
@@ -331,7 +407,6 @@ pl-499782907,Archaic Temple at Ai Lia,church|temple,pin,38.16409,22.15683,138.9,
 pl-430178769,Archaic tholos tomb at Pharsalos,tomb,pin,39.29502,22.37113,187.4,0,0,,,0,https://pleiades.stoa.org/places/430178769,
 pl-599512,Archilocheion,sanctuary (religious center)|archaeological site|settlement-modern,pin,37.08866,25.17362,161.8,0,0,,,1,https://pleiades.stoa.org/places/599512,
 pl-523926373,Arcuated Building,building,pin,37.97407,23.72708,1.1,0,0,,,0,https://pleiades.stoa.org/places/523926373,
-pl-582870,Ardettos,shrine|hill,wash,37.96826,23.74108,2.1,0,0,,,0,https://pleiades.stoa.org/places/582870,
 pl-570103,Argolicus Sinus,"water, open",pin,37.38004,22.95611,95.5,0,0,,,0,https://pleiades.stoa.org/places/570103,
 pl-570105,Argon Pedion,plain|map label location,pin,37.64918,22.46595,116.9,0,0,,,0,https://pleiades.stoa.org/places/570105,
 pl-540660,Argoura,settlement,pin,38.40431,23.66316,47.1,0,0,,,0,https://pleiades.stoa.org/places/540660,
@@ -346,7 +421,6 @@ pl-570114,Aroanios (Arcadia: river above Kleitor),"river, drainage",pin,37.88803
 pl-540664,"Artemis Diktynnaia, T.",temple,pin,38.41557,22.65553,105.3,0,0,,,1,https://pleiades.stoa.org/places/540664,
 pl-540665,"Artemis Elaphebolia, T.",sanctuary (religious center)|temple,pin,38.6367,22.89554,102.7,0,0,,,1,https://pleiades.stoa.org/places/540665,
 pl-540667,Artemision,sanctuary (religious center)|temple,pin,39.01405,23.22138,122.7,0,0,,,1,https://pleiades.stoa.org/places/540667,
-pl-599525,Artemision,sanctuary (religious center),pin,37.38853,25.25009,149.4,0,0,,,1,https://pleiades.stoa.org/places/599525,
 pl-570121,Artemision (mountain),mountain,pin,37.61978,22.51488,114.0,0,0,,,1,https://pleiades.stoa.org/places/570121,
 pl-570122,Asea,settlement|archaeological site,pin,37.40533,22.28297,142.4,0,0,,,3,https://pleiades.stoa.org/places/570122,
 pl-673950517,Asea Vigla,temple,pin,37.43386,22.32487,137.7,0,0,,,0,https://pleiades.stoa.org/places/673950517,
@@ -361,8 +435,6 @@ pl-346004679,Asklepieion at Zea,sanctuary (religious center)|archaeological site
 pl-52154983,Asklepieion of Messene,sanctuary (religious center)|archaeological site,pin,37.17544,21.92042,182.9,0,0,,,0,https://pleiades.stoa.org/places/52154983,
 pl-627870063,Asklepieion of Pheneos,sanctuary (religious center),pin,37.90904,22.30752,124.8,0,0,,,0,https://pleiades.stoa.org/places/627870063,
 pl-599529,"Asklepieion, Thesmophorion?, Apollo, T.",sanctuary (religious center),pin,37.07812,25.1408,160.2,0,0,,,2,https://pleiades.stoa.org/places/599529,
-pl-540670,Askra,settlement,pin,38.32822,23.07538,68.7,0,0,,,0,https://pleiades.stoa.org/places/540670,
-pl-570129,Asopos,ruin|settlement,pin,36.6845,22.8426,164.3,0,0,,,3,https://pleiades.stoa.org/places/570129,
 pl-540672,Asopos (river),"river, drainage",pin,38.29226,23.61326,35.7,0,0,,,4,https://pleiades.stoa.org/places/540672,
 pl-579880,Asopos (river),"river, drainage",wash,38.375,23.625,44.4,0,0,,,2,https://pleiades.stoa.org/places/579880,
 pl-570131,Asopos (river),"river, drainage",wash,37.75,22.75,89.7,0,0,,,4,https://pleiades.stoa.org/places/570131,
@@ -455,10 +527,8 @@ pl-573169,Chelydorea (mountain),unlocated|mountain,wash,37.93972,22.39693,116.8,
 pl-570176,Chersonesos Pr.,"cape, promontory, promuntory",wash,37.75,23.25,49.3,0,0,,,1,https://pleiades.stoa.org/places/570176,
 pl-540710,Chersonesos? Pr.,"cape, promontory, promuntory",wash,38.75,24.25,96.6,0,0,,,1,https://pleiades.stoa.org/places/540710,
 pl-570177,Choireios (river),"river, drainage",wash,36.75,22.25,189.4,0,0,,,0,https://pleiades.stoa.org/places/570177,
-pl-579902,Cholargos,settlement|deme (Athenian),pin,38.05644,23.73906,8.1,0,0,,,0,https://pleiades.stoa.org/places/579902,
 pl-579903,Choma?,settlement,pin,37.94655,23.64449,8.4,0,0,,,2,https://pleiades.stoa.org/places/579903,
 pl-813654446,Choragic Monument of Lysicrates,monument,pin,37.97108,23.72994,1.4,0,0,,,0,https://pleiades.stoa.org/places/813654446,
-pl-540711,Chorsiai,settlement,wash,38.25119,22.88736,79.3,0,0,,,11,https://pleiades.stoa.org/places/540711,
 pl-133416747,Church of St. Demetrios Katephores,"church|findspot, place of finding, find place|wall (of a city), city wall|archaeological site",pin,37.9738,23.72911,1.1,0,0,,,0,https://pleiades.stoa.org/places/133416747,
 pl-540713,Cicynethus (island),island,pin,39.1608,23.07718,142.6,0,0,,,0,https://pleiades.stoa.org/places/540713,
 pl-650003009,City Eleusinion at Athens,sanctuary (religious center)|architectural complex,pin,37.97331,23.72492,1.2,0,0,,,1,https://pleiades.stoa.org/places/650003009,
@@ -483,12 +553,10 @@ pl-570188,Dasea(i),settlement,pin,37.3935,22.07302,159.7,0,0,,,0,https://pleiade
 pl-579906,Deiradiotai?,settlement|deme (Athenian),pin,37.82418,24.04127,32.8,0,0,,,0,https://pleiades.stoa.org/places/579906,
 pl-579907,Dekeleia,"catacomb, cemetery, necropolis|deme (Athenian)",pin,38.13303,23.79187,17.5,0,0,,,0,https://pleiades.stoa.org/places/579907,
 pl-540725,Delion,settlement,pin,38.34621,23.66135,40.7,0,0,,,1,https://pleiades.stoa.org/places/540725,
-pl-599586,Delion,sanctuary (religious center),pin,37.10347,25.15482,159.4,0,0,,,1,https://pleiades.stoa.org/places/599586,
 pl-599588,Delos (island),island,pin,37.39202,25.27024,150.9,0,0,,,1,https://pleiades.stoa.org/places/599588,
 pl-599587,Delos (settlement),settlement|monument,pin,37.39727,25.26819,150.4,0,0,,,1,https://pleiades.stoa.org/places/599587,
 pl-93346604,Delos Main Harbor,"harbor|coast, shore",pin,37.39994,25.26535,150.1,0,0,,,0,https://pleiades.stoa.org/places/93346604,
 pl-152199037,Delos Synagogue,synagogue,pin,37.40486,25.27458,150.6,0,0,,,0,https://pleiades.stoa.org/places/152199037,
-pl-585725955,Delphinion,temple,pin,37.96857,23.73299,1.8,0,0,,,1,https://pleiades.stoa.org/places/585725955,
 pl-540727,Delphinion,settlement,pin,38.3086,23.85114,37.7,0,0,,,1,https://pleiades.stoa.org/places/540727,
 pl-579909,Dema,fort,pin,38.07142,23.67316,10.8,0,0,,,1,https://pleiades.stoa.org/places/579909,
 pl-726345182,Dema House,archaeological site,pin,38.06612,23.66699,10.6,0,0,,,0,https://pleiades.stoa.org/places/726345182,
@@ -518,7 +586,6 @@ pl-540739,Dorikon,"fort, tower (deprecated)",pin,38.52589,22.15184,150.2,0,0,,,0
 pl-842459208,Double Stoa at Thorikos,stoa|gateway,pin,37.7374,24.04931,39.4,0,0,,,0,https://pleiades.stoa.org/places/842459208,
 pl-599601,Drios (mountain),mountain,pin,37.03048,25.50231,189.1,0,0,,,0,https://pleiades.stoa.org/places/599601,
 pl-540742,Driskole,settlement,pin,39.3782,22.32479,197.1,0,0,,,0,https://pleiades.stoa.org/places/540742,
-pl-540743,Drymaia,settlement,pin,38.70616,22.54099,131.0,0,0,,,0,https://pleiades.stoa.org/places/540743,
 pl-599602,Dryos,settlement,pin,37.00648,25.22279,170.9,0,0,,,0,https://pleiades.stoa.org/places/599602,
 pl-540745,Dyras (river),"river, drainage",pin,38.84102,22.40285,149.7,0,0,,,0,https://pleiades.stoa.org/places/540745,
 pl-540746,Dystos,tower (defensive)|settlement,pin,38.35516,24.1448,55.1,0,0,,,0,https://pleiades.stoa.org/places/540746,
@@ -542,9 +609,7 @@ pl-579918,Elaiousa (island),island|map label location,pin,37.71064,23.90077,34.0
 pl-570214,Elaphos (river),"river, drainage",wash,37.25,22.25,153.6,0,0,,,0,https://pleiades.stoa.org/places/570214,
 pl-540755,Elateia,settlement|archaeological site|settlement-modern,pin,38.64563,22.77999,110.7,0,0,,,0,https://pleiades.stoa.org/places/540755,
 pl-492759698,Electran Gate (Thebes),"gate (of a city), city gate",pin,38.3175,23.3201,51.4,0,0,,,0,https://pleiades.stoa.org/places/492759698,
-pl-570215,Elektra (river of Messenia),"river, drainage",pin,37.25181,21.9052,180.0,0,0,,,2,https://pleiades.stoa.org/places/570215,
 pl-579919,Eleusiniakos Kolpos,"water, open",wash,37.875,23.375,33.2,0,0,,,0,https://pleiades.stoa.org/places/579919,
-pl-540756,Eleutherai,"settlement|fort, tower (deprecated)",pin,38.17944,23.37562,37.7,0,0,,,0,https://pleiades.stoa.org/places/540756,
 pl-540757,Elipeus (river),"river, drainage",wash,39.25,22.25,190.5,0,0,,,0,https://pleiades.stoa.org/places/540757,
 pl-570222,Elixos (river),"river, drainage",wash,37.75,24.25,52.7,0,0,,,0,https://pleiades.stoa.org/places/570222,
 pl-570223,Elymia,settlement,pin,37.68288,22.29411,130.3,0,0,,,0,https://pleiades.stoa.org/places/570223,
@@ -553,7 +618,6 @@ pl-599608,Elytas (river),"river, drainage",wash,37.06519,25.19847,165.1,0,0,,,0,
 pl-570224,Emborio,settlement|settlement-modern,pin,36.70996,24.39182,153.3,0,0,,,0,https://pleiades.stoa.org/places/570224,
 pl-540763,Enipeus (river),"river, drainage",pin,39.31949,22.3585,190.2,0,0,,,0,https://pleiades.stoa.org/places/540763,
 pl-579921,Epakria,district,wash,38.125,23.625,18.1,0,0,,,0,https://pleiades.stoa.org/places/579921,
-pl-570229,Epidauros Limera,settlement,pin,36.7313,23.02637,152.4,0,0,,,0,https://pleiades.stoa.org/places/570229,
 pl-579922,Epikephisia,settlement|deme (Athenian),pin,38.00128,23.70328,2.9,0,0,,,0,https://pleiades.stoa.org/places/579922,
 pl-589778,Episkopi,archaeological site,pin,36.66969,25.09239,189.5,0,0,,,0,https://pleiades.stoa.org/places/589778,
 pl-579923,Erasinos (river),"river, drainage",pin,37.9263,23.99946,24.7,0,0,,,2,https://pleiades.stoa.org/places/579923,
@@ -563,10 +627,8 @@ pl-579924,Erchia,settlement|deme (Athenian),pin,37.9672,23.91869,16.9,0,0,,,0,ht
 pl-750203268,Erechtheion,archaeological site|temple,pin,37.97211,23.72645,1.3,0,0,,,1,https://pleiades.stoa.org/places/750203268,
 pl-579925,Eretria (Euboea),settlement|archaeological site,pin,38.39992,23.79472,46.6,0,0,,,1,https://pleiades.stoa.org/places/579925,
 pl-540767,Eretria (Thessaly),wall (defensive)|settlement,pin,39.29195,22.60593,175.1,0,0,,,1,https://pleiades.stoa.org/places/540767,
-pl-591471666,Eridanos,"river, drainage",pin,37.97837,23.71809,1.0,0,0,,,0,https://pleiades.stoa.org/places/591471666,
 pl-579926,Erikeia?,settlement,pin,38.00282,23.74092,2.4,0,0,,,0,https://pleiades.stoa.org/places/579926,
 pl-540769,Erineos,settlement,pin,38.69436,22.41574,139.0,0,0,,,1,https://pleiades.stoa.org/places/540769,
-pl-570236,Erineos,settlement,pin,38.30976,21.99333,155.9,0,0,,,1,https://pleiades.stoa.org/places/570236,
 pl-540770,Erochos,settlement,pin,38.62369,22.5409,125.6,0,0,,,0,https://pleiades.stoa.org/places/540770,
 pl-579927,Eroiadai,settlement,pin,38.0146,23.64627,7.9,0,0,,,0,https://pleiades.stoa.org/places/579927,
 pl-579928,Erythrai,"people, tribe (historical cultural group)",wash,38.125,23.375,34.6,0,0,,,1,https://pleiades.stoa.org/places/579928,
@@ -599,7 +661,6 @@ pl-766723266,Forum of Roman Corinth,"agora, forum, plaza (deprecated)|forum",pin
 pl-93589647,Franchthi Cave,cave,pin,37.42258,23.13111,81.5,0,0,,,0,https://pleiades.stoa.org/places/93589647,
 pl-589790,Galessos,settlement,pin,37.42,24.875,118.8,0,0,,,0,https://pleiades.stoa.org/places/589790,
 pl-570253,Garates (river),"river, drainage",pin,37.45186,22.45421,126.7,0,0,,,0,https://pleiades.stoa.org/places/570253,
-pl-579935,Gargettos,settlement|deme (Athenian),pin,38.01654,23.87186,13.2,0,0,,,0,https://pleiades.stoa.org/places/579935,
 pl-551863597,Gate at 4 Dragatsaniou St./Northeast Gate,"gate (of a city), city gate",pin,37.9798,23.7311,0.5,0,0,,,0,https://pleiades.stoa.org/places/551863597,
 pl-496542328,Gate at 8 Iosiph ton Rogon St/Gate XI,"gate (of a city), city gate",pin,37.9676,23.73143,1.8,0,0,,,0,https://pleiades.stoa.org/places/496542328,
 pl-799093248,Gate at Hag. Dimitrios Loumbardiaris/Gate XIV,"gate (of a city), city gate",pin,37.9699,23.7202,1.7,0,0,,,0,https://pleiades.stoa.org/places/799093248,
@@ -643,7 +704,6 @@ pl-570268,Gyth(e)ion,"settlement|port|theatre, theater|bath, spa",pin,36.76366,2
 pl-573238,Hagno (spring),unlocated|spring,wash,37.45307,21.98364,164.3,0,0,,,0,https://pleiades.stoa.org/places/573238,
 pl-579938,Hagnous,settlement|deme (Athenian),pin,37.87826,23.93785,21.9,0,0,,,0,https://pleiades.stoa.org/places/579938,
 pl-367368802,Halade Gate/Mystai Gate/Gate XII,"gate (of a city), city gate",pin,37.96663,23.7288,1.9,0,0,,,0,https://pleiades.stoa.org/places/367368802,
-pl-540800,Halai,settlement,pin,38.65376,23.19375,87.9,0,0,,,0,https://pleiades.stoa.org/places/540800,
 pl-579939,Halai Aixonides,settlement,pin,37.85235,23.77004,15.1,0,0,,,0,https://pleiades.stoa.org/places/579939,
 pl-579940,Halai Araphenides,settlement,pin,37.98719,24.00447,24.3,0,0,,,1,https://pleiades.stoa.org/places/579940,
 pl-579941,Halimous,settlement|deme (Athenian),pin,37.90361,23.72235,8.9,0,0,,,0,https://pleiades.stoa.org/places/579941,
@@ -652,13 +712,11 @@ pl-570277,Halous/Oryx,settlement,pin,37.75834,22.01357,152.5,0,0,,,1,https://ple
 pl-156534148,Halykos,settlement|well,pin,37.81835,23.83684,20.7,0,0,,,0,https://pleiades.stoa.org/places/156534148,
 pl-364712046,Harbor at Lechaion,harbor|port,pin,37.93366,22.88739,73.9,0,0,,,0,https://pleiades.stoa.org/places/364712046,
 pl-540805,Harma,settlement,pin,38.37573,23.48413,48.5,0,0,,,3,https://pleiades.stoa.org/places/540805,
-pl-579944,Hekale?,settlement|deme (Athenian),pin,38.13445,23.90884,23.1,0,0,,,1,https://pleiades.stoa.org/places/579944,
 pl-579946,Heleon,settlement,pin,38.3683,23.47013,48.3,0,0,,,1,https://pleiades.stoa.org/places/579946,
 pl-579947,Helioupolis,"fort, tower (deprecated)",pin,37.93598,23.75755,5.9,0,0,,,0,https://pleiades.stoa.org/places/579947,
 pl-570282,Helisson,settlement,pin,37.61288,22.21775,138.9,0,0,,,2,https://pleiades.stoa.org/places/570282,
 pl-570284,Helisson (river in modern Megalopoli),"river, drainage",pin,37.42119,22.15903,151.5,0,0,,,3,https://pleiades.stoa.org/places/570284,
 pl-570283,Helisson (river in modern Sikyona municipality),"river, drainage",pin,37.99751,22.72439,87.9,0,0,,,3,https://pleiades.stoa.org/places/570283,
-pl-570285,Hellenika,settlement,pin,37.60546,24.34693,68.8,0,0,,,0,https://pleiades.stoa.org/places/570285,
 pl-540810,Helleniko,tower (defensive),pin,39.20159,23.60401,135.8,0,0,,,1,https://pleiades.stoa.org/places/540810,
 pl-78993694,Hellenistic Arsenal,building|archaeological site|architectural complex,pin,37.97579,23.72171,1.0,0,0,,,0,https://pleiades.stoa.org/places/78993694,
 pl-814820460,Hellenistic Funerary Monument (Keryneia),tomb|archaeological site,pin,38.15862,22.14202,140.1,0,0,,,0,https://pleiades.stoa.org/places/814820460,
@@ -668,7 +726,6 @@ pl-570288,Heraion,sanctuary (religious center),pin,38.02811,22.85282,76.8,0,0,,,
 pl-570289,Heraion (Argolis),sanctuary (religious center),pin,37.69209,22.77477,89.7,0,0,,,1,https://pleiades.stoa.org/places/570289,
 pl-599642,Herakleia (island),island,pin,36.84261,25.45357,198.3,0,0,,,1,https://pleiades.stoa.org/places/599642,
 pl-579948,Herakleion,sanctuary (religious center),pin,38.12131,23.97614,26.6,0,0,,,0,https://pleiades.stoa.org/places/579948,
-pl-570291,Hermai,"temple, sanctuary, shrine, monument, tomb (deprecated)",pin,37.32399,22.54309,127.5,0,0,,,0,https://pleiades.stoa.org/places/570291,
 pl-579949,Hermos,settlement|deme (Athenian),pin,38.01929,23.66663,6.6,0,0,,,4,https://pleiades.stoa.org/places/579949,
 pl-523458668,Heroon of Eretria,tomb|shrine,pin,38.39788,23.78973,46.4,0,0,,,1,https://pleiades.stoa.org/places/523458668,
 pl-579950,Hestiaia?,settlement,pin,38.007,23.81394,8.0,0,0,,,1,https://pleiades.stoa.org/places/579950,
@@ -708,7 +765,6 @@ pl-540831,Hysiai,settlement,pin,38.21722,23.34442,42.4,0,0,,,1,https://pleiades.
 pl-570306,Hysiai,settlement,pin,37.52,22.58624,112.8,0,0,,,1,https://pleiades.stoa.org/places/570306,
 pl-579957,Iapis (river),"river, drainage",wash,38.125,23.375,34.6,0,0,,,0,https://pleiades.stoa.org/places/579957,
 pl-540833,Icus (island),island,pin,39.20641,23.90634,136.8,0,0,,,1,https://pleiades.stoa.org/places/540833,
-pl-579958,Ikarion,settlement|deme (Athenian),pin,38.10506,23.89086,19.7,0,0,,,0,https://pleiades.stoa.org/places/579958,
 pl-540835,Ikos (settlement),settlement,pin,39.16456,23.90399,132.2,0,0,,,1,https://pleiades.stoa.org/places/540835,
 pl-579959,Ilissos (river),"river, drainage",pin,37.96579,23.72366,2.0,0,0,,,0,https://pleiades.stoa.org/places/579959,
 pl-190624512,Ilissos Basilica,church,pin,37.96831,23.73624,1.9,0,0,,,0,https://pleiades.stoa.org/places/190624512,
@@ -731,7 +787,6 @@ pl-579963,Kaisariani,"fort, tower (deprecated)",pin,37.96728,23.77121,4.2,0,0,,,
 pl-570323,Kalamai,settlement,pin,37.04521,22.17861,171.9,0,0,,,0,https://pleiades.stoa.org/places/570323,
 pl-458012868,Kalamianos,settlement,pin,37.75814,23.15317,56.3,0,0,,,0,https://pleiades.stoa.org/places/458012868,
 pl-570324,Kalathion (mountain),mountain|map label location,pin,36.9266,22.19201,179.4,0,0,,,0,https://pleiades.stoa.org/places/570324,
-pl-570325,Kalaureia (island),island,pin,37.52689,23.47627,55.4,0,0,,,3,https://pleiades.stoa.org/places/570325,
 pl-570326,Kale/Leuke Akte,"cape, promontory, promuntory",wash,37.75,24.25,52.7,0,0,,,1,https://pleiades.stoa.org/places/570326,
 pl-540846,Kallas (river),"river, drainage",pin,38.95727,23.19386,117.8,0,0,,,0,https://pleiades.stoa.org/places/540846,
 pl-540847,Kalliaros,settlement,pin,38.67335,23.06339,96.1,0,0,,,0,https://pleiades.stoa.org/places/540847,
@@ -756,7 +811,6 @@ pl-570333,Karthaia,settlement|archaeological site,pin,37.56107,24.33046,70.8,0,0
 pl-372021189,"Karthaia, Athena Temple",temple,pin,37.56108,24.33031,70.8,0,0,,,0,https://pleiades.stoa.org/places/372021189,
 pl-570334,Karyai?,settlement,pin,37.28873,22.51597,131.7,0,0,,,1,https://pleiades.stoa.org/places/570334,
 pl-570335,Karyai?/Iasos?,settlement,pin,37.33213,22.41676,136.2,0,0,,,1,https://pleiades.stoa.org/places/570335,
-pl-570336,Karystos,fort|settlement,pin,38.0348,24.43139,61.9,0,0,,,1,https://pleiades.stoa.org/places/570336,
 pl-570337,Kastanies,settlement,pin,37.61564,24.36801,69.6,0,0,,,0,https://pleiades.stoa.org/places/570337,
 pl-579967,Kastraki,"fort, tower (deprecated)",pin,38.09633,23.83296,15.6,0,0,,,0,https://pleiades.stoa.org/places/579967,
 pl-570338,Kastri (Keos),settlement,pin,37.66188,24.39281,68.5,0,0,,,0,https://pleiades.stoa.org/places/570338,
@@ -764,11 +818,9 @@ pl-30347987,Kastri (Syros),settlement,pin,37.49068,24.93421,119.4,0,0,,,0,https:
 pl-540857,Kastriotissa,settlement,pin,38.72251,22.23487,153.9,0,0,,,0,https://pleiades.stoa.org/places/540857,
 pl-172755092,Kastro Kourounas Tower,tower (single),pin,37.75064,22.59157,103.0,0,0,,,0,https://pleiades.stoa.org/places/172755092,
 pl-451513645,Kastro Phaneromenis/Kastro Kochylou,fort|castle|archaeological site,pin,37.79931,24.94858,109.1,0,0,,,0,https://pleiades.stoa.org/places/451513645,
-pl-570166,Kastro ano Diakopto,church|settlement|settlement-modern,pin,38.14274,22.20542,134.4,0,0,,,0,https://pleiades.stoa.org/places/570166,
 pl-570339,Kato Komia,settlement|settlement-modern,pin,36.7241,24.53402,157.2,0,0,,,0,https://pleiades.stoa.org/places/570339,
 pl-661894078,Kato Phournos Tomb,tomb|tumulus,pin,37.73132,22.7496,90.3,0,0,,,0,https://pleiades.stoa.org/places/661894078,
 pl-579968,Katsimidi,tower (single),pin,38.18432,23.78655,22.9,0,0,,,0,https://pleiades.stoa.org/places/579968,
-pl-570340,Kaukasos (mountain),mountain|map label location,pin,37.5382,24.29912,70.6,0,0,,,0,https://pleiades.stoa.org/places/570340,
 pl-579969,Kedoi?,settlement|deme (Athenian),pin,37.93681,23.75083,5.6,0,0,,,0,https://pleiades.stoa.org/places/579969,
 pl-579970,Keiriadai,settlement|deme (Athenian),pin,37.97292,23.71337,1.7,0,0,,,0,https://pleiades.stoa.org/places/579970,
 pl-394382064,Kekropeion,shrine|monument,pin,37.972,23.72633,1.3,0,0,,,0,https://pleiades.stoa.org/places/394382064,
@@ -782,7 +834,6 @@ pl-395751423,Kephala,settlement,pin,37.68148,24.32763,62.5,0,0,,,0,https://pleia
 pl-579972,Kephisia,settlement|deme (Athenian),pin,38.08512,23.82064,13.9,0,0,,,0,https://pleiades.stoa.org/places/579972,
 pl-579973,Kephisos (river),"river, drainage",pin,38.11216,23.52907,22.5,0,0,,,2,https://pleiades.stoa.org/places/579973,
 pl-540860,Kephissos (river),"river, drainage",wash,38.85,24.56,120.6,0,0,,,0,https://pleiades.stoa.org/places/540860,
-pl-97294452,Kerameikos,"ceramic production facility or area|catacomb, cemetery, necropolis|archaeological site",pin,37.97842,23.7183,1.0,0,0,,,0,https://pleiades.stoa.org/places/97294452,
 pl-579975,Kerameis,settlement|deme (Athenian),pin,37.97813,23.7188,1.0,0,0,,,0,https://pleiades.stoa.org/places/579975,
 pl-579976,Kerata,"fort, tower (deprecated)",pin,38.03649,23.46079,24.1,0,0,,,0,https://pleiades.stoa.org/places/579976,
 pl-579977,Kerata (mountain),mountain|map label location,pin,38.08094,23.38701,31.7,0,0,,,0,https://pleiades.stoa.org/places/579977,
@@ -804,22 +855,16 @@ pl-630032554,Kirphis (Mountain),mountain,pin,38.462,22.499,119.8,0,0,,,0,https:/
 pl-540868,Kirra,settlement|archaeological site,pin,38.42958,22.44555,122.5,0,0,,,0,https://pleiades.stoa.org/places/540868,
 pl-570360,Kleitor (river),"river, drainage",pin,37.88994,22.09522,143.5,0,0,,,1,https://pleiades.stoa.org/places/570360,
 pl-570359,Kleitor (settlement),"gate (of a city), city gate|settlement|theatre, theater",pin,37.89081,22.09723,143.3,0,0,,,1,https://pleiades.stoa.org/places/570359,
-pl-570361,Kleonai,settlement|archaeological site|temple|architectural complex,pin,37.81972,22.77624,85.4,0,0,,,0,https://pleiades.stoa.org/places/570361,
-pl-538107005,Klepsydra,spring|fountain,pin,37.97219,23.7249,1.3,0,0,,,0,https://pleiades.stoa.org/places/538107005,
-pl-449126342,Klima,harbor|settlement|settlement-modern,pin,36.73508,24.42047,151.8,0,0,,,1,https://pleiades.stoa.org/places/449126342,
-pl-570362,Klimax,"pass, ""gates"" (landform)",pin,37.66786,22.47417,115.5,0,0,,,0,https://pleiades.stoa.org/places/570362,
 pl-570363,Knakalos (mountain),mountain|map label location,pin,37.77793,22.24741,131.9,0,0,,,0,https://pleiades.stoa.org/places/570363,
 pl-540870,Knemis,"fort, tower (deprecated)",pin,38.78414,22.83251,118.3,0,0,,,1,https://pleiades.stoa.org/places/540870,
 pl-540871,Knemis (mountain),mountain|map label location,pin,38.74127,22.56456,131.8,0,0,,,1,https://pleiades.stoa.org/places/540871,
 pl-540872,Ko(u)ralios (river),"river, drainage",wash,39.25,22.25,190.5,0,0,,,1,https://pleiades.stoa.org/places/540872,
-pl-579980,Koile,settlement|deme (Athenian),pin,37.96984,23.71851,1.7,0,0,,,1,https://pleiades.stoa.org/places/579980,
 pl-579981,Kolias (promontory),"cape, promontory, promuntory",pin,37.89463,23.7153,10.0,0,0,,,0,https://pleiades.stoa.org/places/579981,
 pl-582864,Kollytos,settlement|deme (Athenian),pin,37.95859,23.71113,3.1,0,0,,,0,https://pleiades.stoa.org/places/582864,
 pl-122622385,Kolona,settlement|temple,pin,37.74992,23.42369,37.3,0,0,,,0,https://pleiades.stoa.org/places/122622385,
 pl-579983,Kolonai,settlement|deme (Athenian),pin,38.19781,23.91818,29.1,0,0,,,1,https://pleiades.stoa.org/places/579983,
 pl-579984,Kolonai,deme (Athenian),wash,38.23246,23.93474,33.1,0,0,,,1,https://pleiades.stoa.org/places/579984,
 pl-570368,Kolonides,settlement,pin,36.83608,21.92879,203.8,0,0,,,0,https://pleiades.stoa.org/places/570368,
-pl-579985,Kolonos,settlement,pin,37.99907,23.72189,1.8,0,0,,,0,https://pleiades.stoa.org/places/579985,
 pl-146086514,Kolonos Agoraios,hill,pin,37.97543,23.72121,1.1,0,0,,,0,https://pleiades.stoa.org/places/146086514,
 pl-582869,Kolonos Hippios,hill,pin,37.9956,23.71537,1.7,0,0,,,0,https://pleiades.stoa.org/places/582869,
 pl-570369,Kolyergia (promuntory),"cape, promontory, promuntory",pin,37.2912,23.19977,89.9,0,0,,,0,https://pleiades.stoa.org/places/570369,
@@ -853,19 +898,15 @@ pl-570378,Kotyrta,settlement,pin,36.6527,22.88891,165.5,0,0,,,0,https://pleiades
 pl-599729,Koukounaries,settlement|acropolis,pin,37.12532,25.20866,161.7,0,0,,,0,https://pleiades.stoa.org/places/599729,
 pl-875552307,Kouphovouno,settlement,pin,37.0568,22.4207,154.6,0,0,,,0,https://pleiades.stoa.org/places/875552307,
 pl-570379,Kranae (island),island,pin,36.75411,22.57397,170.5,0,0,,,0,https://pleiades.stoa.org/places/570379,
-pl-570380,Kraneion,grove|settlement,pin,37.9046,22.8947,73.6,0,0,,,0,https://pleiades.stoa.org/places/570380,
 pl-102813531,Kraneion Early Christian Basilica,church,pin,37.90463,22.8947,73.6,0,0,,,0,https://pleiades.stoa.org/places/102813531,
-pl-570382,Krathis (mountain),mountain|map label location,pin,37.99696,22.27815,127.0,0,0,,,1,https://pleiades.stoa.org/places/570382,
 pl-570381,Krathis (river),"river, drainage",pin,38.12697,22.27741,128.0,0,0,,,1,https://pleiades.stoa.org/places/570381,
 pl-540887,Kresion,settlement,pin,38.84392,24.55722,119.9,0,0,,,0,https://pleiades.stoa.org/places/540887,
-pl-1001897,Krete,province,wash,37.5,22.5,120.6,0,0,,,0,https://pleiades.stoa.org/places/1001897,
 pl-540888,Kreusis,settlement,pin,38.20828,23.1121,59.4,0,0,,,0,https://pleiades.stoa.org/places/540888,
 pl-570384,Krios (river),"river, drainage",pin,38.06928,22.54723,103.8,0,0,,,0,https://pleiades.stoa.org/places/570384,
 pl-570385,Krokeai,settlement,pin,36.88486,22.54845,160.5,0,0,,,0,https://pleiades.stoa.org/places/570385,
 pl-572298,Krokeai (quarry),quarry,pin,36.88,22.54,161.4,0,0,,,0,https://pleiades.stoa.org/places/572298,
 pl-540890,Krokion Pedion,plain|map label location,pin,39.21432,22.7741,160.0,0,0,,,2,https://pleiades.stoa.org/places/540890,
 pl-540891,Krokyleion?,settlement,pin,38.45459,21.9745,161.8,0,0,,,0,https://pleiades.stoa.org/places/540891,
-pl-570386,Krommyon,settlement,pin,37.95001,23.11666,53.7,0,0,,,0,https://pleiades.stoa.org/places/570386,
 pl-570387,Kromna,settlement|archaeological site,pin,37.90336,22.96184,67.7,0,0,,,1,https://pleiades.stoa.org/places/570387,
 pl-570388,Kromnos,settlement,pin,37.33251,22.09317,161.1,0,0,,,0,https://pleiades.stoa.org/places/570388,
 pl-579996,Kropidai,settlement,pin,38.08965,23.69428,12.1,0,0,,,0,https://pleiades.stoa.org/places/579996,
@@ -873,7 +914,6 @@ pl-579997,Kryptos Limen,port,pin,37.751,23.423,37.2,0,0,,,0,https://pleiades.sto
 pl-540894,Ktimene,settlement,pin,39.06424,21.97851,193.9,0,0,,,0,https://pleiades.stoa.org/places/540894,
 pl-579998,Kydantidai,settlement|deme (Athenian),pin,38.04737,23.89195,16.0,0,0,,,0,https://pleiades.stoa.org/places/579998,
 pl-582862,Kydathenaion,settlement|deme (Athenian),pin,37.97033,23.72257,1.6,0,0,,,0,https://pleiades.stoa.org/places/582862,
-pl-570391,Kyllene (mountain),mountain,pin,37.93972,22.39693,116.8,0,0,,,0,https://pleiades.stoa.org/places/570391,
 pl-580000,Kyllou Pera/Kallia,spring,pin,37.95945,23.79956,6.9,0,0,,,0,https://pleiades.stoa.org/places/580000,
 pl-570392,Kynaitha(i),settlement|settlement-modern,pin,38.03339,22.11039,141.8,0,0,,,0,https://pleiades.stoa.org/places/570392,
 pl-540896,Kynos,settlement,pin,38.71837,23.07017,99.8,0,0,,,0,https://pleiades.stoa.org/places/540896,
@@ -884,7 +924,6 @@ pl-580003,Kynosoura (promontory),"cape, promontory, promuntory",pin,38.13375,24.
 pl-573322,Kynouria (Arcadia),region,wash,37.5564,22.07719,152.6,0,0,,,1,https://pleiades.stoa.org/places/573322,
 pl-570395,Kynouria (Eastern Peloponnese),region,pin,37.40224,22.716,110.0,0,0,,,1,https://pleiades.stoa.org/places/570395,
 pl-599740,Kynthos (mountain),mountain,pin,37.39558,25.27244,150.9,0,0,,,2,https://pleiades.stoa.org/places/599740,
-pl-599741,Kynthos (mountain),mountain|map label location,pin,37.11802,25.17188,159.6,0,0,,,2,https://pleiades.stoa.org/places/599741,
 pl-540897,Kypaira,settlement (fortified),pin,39.05466,22.10084,184.9,0,0,,,0,https://pleiades.stoa.org/places/540897,
 pl-570396,Kyparissia,settlement,pin,36.68689,22.81707,165.2,0,0,,,0,https://pleiades.stoa.org/places/570396,
 pl-570398,Kyphanta,wall (defensive)|settlement,pin,36.96782,22.99205,130.3,0,0,,,0,https://pleiades.stoa.org/places/570398,
@@ -911,7 +950,6 @@ pl-540906,Larymna (Boeotia),settlement|port,pin,38.56735,23.28135,75.7,0,0,,,0,h
 pl-570416,Larysion (mountain),mountain,pin,36.754,22.564,171.1,0,0,,,0,https://pleiades.stoa.org/places/570416,
 pl-341010947,Late Roman Building,building,pin,37.9757,23.72265,1.0,0,0,,,0,https://pleiades.stoa.org/places/341010947,
 pl-675812634,Late Roman Round Building,building|shrine,pin,37.97601,23.72256,1.0,0,0,,,0,https://pleiades.stoa.org/places/675812634,
-pl-580010,Laureion,region|archaeological site|map label location,pin,37.7243,23.98711,36.8,0,0,,,0,https://pleiades.stoa.org/places/580010,
 pl-884693054,Lazarides,settlement,pin,37.72234,23.50714,34.9,0,0,,,0,https://pleiades.stoa.org/places/884693054,
 pl-540907,Lebadeia,settlement,wash,38.43363,22.87073,90.0,0,0,,,0,https://pleiades.stoa.org/places/540907,
 pl-570420,Lechaion,settlement|port,pin,37.93095,22.87882,74.6,0,0,,,0,https://pleiades.stoa.org/places/570420,
@@ -930,10 +968,8 @@ pl-680601466,Leuctra tropaion,monument,pin,38.26468,23.17432,57.6,0,0,,,0,https:
 pl-570428,Leukai (Laconia),settlement,pin,36.71136,22.81846,162.7,0,0,,,0,https://pleiades.stoa.org/places/570428,
 pl-570429,Leuke,plain|map label location,pin,36.78762,22.89397,152.0,0,0,,,0,https://pleiades.stoa.org/places/570429,
 pl-580013,Leukonoion,settlement|deme (Athenian),pin,38.00771,23.69156,4.1,0,0,,,0,https://pleiades.stoa.org/places/580013,
-pl-540913,Leuktra,settlement|settlement-modern,pin,38.25441,23.18211,56.4,0,0,,,2,https://pleiades.stoa.org/places/540913,
 pl-570433,Leuktron,settlement,pin,37.32132,22.13826,158.1,0,0,,,2,https://pleiades.stoa.org/places/570433,
 pl-570431,Leuktron,settlement|archaeological site,pin,36.84275,22.26523,181.0,0,0,,,3,https://pleiades.stoa.org/places/570431,
-pl-589911,Libeia? Ins.,island,pin,36.75761,24.57839,155.7,0,0,,,0,https://pleiades.stoa.org/places/589911,
 pl-728329644,Library of Hadrian at Athens,architectural complex,pin,37.9754,23.72648,0.9,0,0,,,0,https://pleiades.stoa.org/places/728329644,
 pl-582559069,Library of Pantainos,building,pin,37.97445,23.72465,1.1,0,0,,,0,https://pleiades.stoa.org/places/582559069,
 pl-573313209,Lichades Islands,"archipelago, island group|island",pin,38.82055,22.81777,122.2,0,0,,,0,https://pleiades.stoa.org/places/573313209,
@@ -981,7 +1017,6 @@ pl-540932,Manika,"fort, tower (deprecated)",pin,38.50162,23.64561,58.0,0,0,,,0,h
 pl-570458,Manthouria,settlement,pin,37.40959,22.3974,133.3,0,0,,,0,https://pleiades.stoa.org/places/570458,
 pl-580022,Marathonian Pedion,plain,wash,38.14313,23.97366,27.9,0,0,,,0,https://pleiades.stoa.org/places/580022,
 pl-163292061,Marble Quarries at Karystos,quarry,pin,38.0377,24.4469,63.3,0,0,,,0,https://pleiades.stoa.org/places/163292061,
-pl-570461,Marios,settlement,pin,37.04258,22.81937,131.8,0,0,,,0,https://pleiades.stoa.org/places/570461,
 pl-540934,Markesi,"temple, sanctuary, shrine, monument, tomb (deprecated)",pin,38.97461,24.48427,128.4,0,0,,,0,https://pleiades.stoa.org/places/540934,
 pl-716756355,Marmara sanctuary,sanctuary (religious center)|archaeological site,pin,38.1435,22.35666,121.3,0,0,,,0,https://pleiades.stoa.org/places/716756355,
 pl-570462,Marmarion,settlement|quarry,pin,38.04903,24.3209,52.5,0,0,,,0,https://pleiades.stoa.org/places/570462,
@@ -1080,7 +1115,6 @@ pl-515156430,Mycenaean Fountain,fountain|well,pin,37.97217,23.72583,1.3,0,0,,,0,
 pl-720628459,Mycenaean cemetery at Aidonia,"catacomb, cemetery, necropolis",pin,37.84022,22.58318,101.7,0,0,,,0,https://pleiades.stoa.org/places/720628459,
 pl-909179853,"Mycenaean necropolis, Elateia","catacomb, cemetery, necropolis",pin,38.64749,22.77217,111.3,0,0,,,0,https://pleiades.stoa.org/places/909179853,
 pl-291344339,Mygdaleza basilica,church,pin,38.1337,23.88816,21.8,0,0,,,0,https://pleiades.stoa.org/places/291344339,
-pl-540953,Mykalessos,settlement,pin,38.41672,23.5196,51.5,0,0,,,0,https://pleiades.stoa.org/places/540953,
 pl-599808,Mykonos (island),island,pin,37.45307,25.37232,156.2,0,0,,,1,https://pleiades.stoa.org/places/599808,
 pl-599807,Mykonos (settlement),settlement,pin,37.44596,25.32862,153.0,0,0,,,1,https://pleiades.stoa.org/places/599807,
 pl-570492,Mylaon? (river),"river, drainage",wash,37.75,22.25,132.3,0,0,,,0,https://pleiades.stoa.org/places/570492,
@@ -1112,14 +1146,12 @@ pl-540963,Nikaia,settlement,pin,38.81197,22.61732,133.6,0,0,,,0,https://pleiades
 pl-580035,Nike (Monument at Marathon),church|tower (defensive)|monument,pin,38.1409,24.00009,29.6,0,0,,,2,https://pleiades.stoa.org/places/580035,
 pl-928443165,Nisaki,fort|wall (defensive)|acropolis|archaeological site,pin,37.57558,23.39025,54.2,0,0,,,0,https://pleiades.stoa.org/places/928443165,
 pl-570509,Nomia (mountain),mountain|map label location,pin,37.41587,21.96582,167.4,0,0,,,0,https://pleiades.stoa.org/places/570509,
-pl-570510,Nonakris,settlement,pin,38.01442,22.2412,130.3,0,0,,,0,https://pleiades.stoa.org/places/570510,
 pl-335229932,Northern sanctuary at Kythnos,sanctuary (religious center),pin,37.40857,24.39485,86.8,0,0,,,0,https://pleiades.stoa.org/places/335229932,
 pl-753898783,Northwest Building,building,pin,37.97194,23.72523,1.3,0,0,,,0,https://pleiades.stoa.org/places/753898783,
 pl-610659128,Ntourmiza Corinth Aqueduct arches,aqueduct,pin,37.7619,22.5859,103.2,0,0,,,0,https://pleiades.stoa.org/places/610659128,
 pl-145651853,Nymphaion in the Athenian Agora,fountain,pin,37.97408,23.72402,1.1,0,0,,,0,https://pleiades.stoa.org/places/145651853,
 pl-580037,Oai,settlement|deme (Athenian),pin,37.98599,23.88572,13.9,0,0,,,1,https://pleiades.stoa.org/places/580037,
 pl-540965,Oche (mountain),mountain,pin,38.05993,24.46663,65.3,0,0,,,6,https://pleiades.stoa.org/places/540965,
-pl-832198698,Odeion of Agrippa,odeon,pin,37.97507,23.72315,1.0,0,0,,,4,https://pleiades.stoa.org/places/832198698,
 pl-44151680,Odeion of Perikles,odeon,pin,37.97041,23.72868,1.5,0,0,,,4,https://pleiades.stoa.org/places/44151680,
 pl-154745711,Odeon of Herodes Atticus,odeon,pin,37.97082,23.72461,1.5,0,0,,,0,https://pleiades.stoa.org/places/154745711,
 pl-580038,Oe?,settlement,pin,38.08337,23.64085,13.4,0,0,,,5,https://pleiades.stoa.org/places/580038,
@@ -1130,11 +1162,9 @@ pl-370424386,Ogas,acropolis,pin,37.61717,23.4118,49.3,0,0,,,1,https://pleiades.s
 pl-540969,Oiantheia/Euantheia?,settlement,pin,38.34214,22.191,140.1,0,0,,,0,https://pleiades.stoa.org/places/540969,
 pl-599835,Oikonomos,settlement,pin,37.12932,25.25913,165.1,0,0,,,0,https://pleiades.stoa.org/places/599835,
 pl-540972,Oineon,settlement,pin,38.40029,21.99357,158.4,0,0,,,0,https://pleiades.stoa.org/places/540972,
-pl-580040,Oinoe (Attica),settlement (fortified)|archaeological site|deme (Athenian),pin,38.16868,23.44981,31.8,0,0,,,1,https://pleiades.stoa.org/places/580040,
 pl-570519,Oinoe (Corinthia),settlement,pin,38.16711,23.45715,31.2,0,0,,,1,https://pleiades.stoa.org/places/570519,
 pl-580039,Oinoe (Marathon),fort|settlement|deme (Athenian),pin,38.16699,23.94437,27.8,0,0,,,1,https://pleiades.stoa.org/places/580039,
 pl-540975,Oinophyta?,settlement,pin,38.30629,23.63813,36.7,0,0,,,0,https://pleiades.stoa.org/places/540975,
-pl-570523,Oinous (river),"river, drainage",pin,37.11021,22.44395,149.1,0,0,,,0,https://pleiades.stoa.org/places/570523,
 pl-570525,Oion,settlement,pin,37.36549,22.39517,135.9,0,0,,,1,https://pleiades.stoa.org/places/570525,
 pl-580041,Oion Dekeleikon,settlement,pin,38.14125,23.86642,21.3,0,0,,,0,https://pleiades.stoa.org/places/580041,
 pl-540977,Oion?,settlement,pin,38.62896,23.05006,93.0,0,0,,,2,https://pleiades.stoa.org/places/540977,
@@ -1149,20 +1179,16 @@ pl-540979,Olizon,settlement,pin,39.12808,23.21081,134.9,0,0,,,0,https://pleiades
 pl-570529,Olmiai Pr.,"cape, promontory, promuntory",pin,38.061,23.039,60.9,0,0,,,0,https://pleiades.stoa.org/places/570529,
 pl-540980,Olmones,ruin|settlement,pin,38.54184,23.0977,82.9,0,0,,,0,https://pleiades.stoa.org/places/540980,
 pl-570530,Olygyrtos (mountain),mountain,pin,37.80656,22.38676,119.3,0,0,,,0,https://pleiades.stoa.org/places/570530,
-pl-580042,Olympos (mountain),mountain,wash,37.875,23.875,17.7,0,0,,,2,https://pleiades.stoa.org/places/580042,
 pl-540983,Olympos (mountain),mountain,wash,38.25,23.75,29.7,0,0,,,2,https://pleiades.stoa.org/places/540983,
 pl-367412638,Omega House,townhouse,pin,37.97324,23.72419,1.2,0,0,,,0,https://pleiades.stoa.org/places/367412638,
-pl-540984,Onchestos,settlement,pin,38.37327,23.15027,66.5,0,0,,,0,https://pleiades.stoa.org/places/540984,
 pl-570532,Oneon (mountain),mountain,pin,37.86912,22.92895,71.2,0,0,,,0,https://pleiades.stoa.org/places/570532,
 pl-540985,Onochonos (river),"river, drainage",pin,39.40854,21.95844,220.6,0,0,,,0,https://pleiades.stoa.org/places/540985,
 pl-570534,Ophis (river),"river, drainage",wash,37.75,22.25,132.3,0,0,,,2,https://pleiades.stoa.org/places/570534,
-pl-540986,Opous,settlement,pin,38.63064,23.04788,93.2,0,0,,,0,https://pleiades.stoa.org/places/540986,
 pl-365374286,Oracular sanctuary at Oinoe,sanctuary (religious center),pin,38.15688,23.93264,26.3,0,0,,,0,https://pleiades.stoa.org/places/365374286,
 pl-570535,Orchomenos (Arcadia),settlement,pin,37.72472,22.31536,127.3,0,0,,,2,https://pleiades.stoa.org/places/570535,
 pl-540988,Oreos,settlement,pin,38.94978,23.09917,120.5,0,0,,,0,https://pleiades.stoa.org/places/540988,
 pl-570536,Oresthasion,settlement,pin,37.34599,22.20651,151.5,0,0,,,0,https://pleiades.stoa.org/places/570536,
 pl-540989,Orobiai,settlement,pin,38.82251,23.21431,103.4,0,0,,,0,https://pleiades.stoa.org/places/540989,
-pl-580044,Oropos,settlement|port|settlement-modern,pin,38.31998,23.7902,37.8,0,0,,,0,https://pleiades.stoa.org/places/580044,
 pl-540991,Ortha,settlement,pin,39.208,22.04589,199.7,0,0,,,0,https://pleiades.stoa.org/places/540991,
 pl-570540,Oryx(is) (mountain),mountain,pin,37.83972,22.25222,130.4,0,0,,,0,https://pleiades.stoa.org/places/570540,
 pl-573421,Ostrakina (mountain),unlocated|mountain,pin,37.64897,22.26633,133.6,0,0,,,0,https://pleiades.stoa.org/places/573421,
@@ -1189,7 +1215,6 @@ pl-541004,Palaipharsalos,settlement,pin,39.28748,22.54271,177.8,0,0,,,0,https://
 pl-263405328,Palamari,wall (defensive)|archaeological site,pin,38.96467,24.50922,128.6,0,0,,,1,https://pleiades.stoa.org/places/263405328,
 pl-26337957,Paleochristian basilica at Vravrona,church,pin,37.92702,23.98523,23.5,0,0,,,0,https://pleiades.stoa.org/places/26337957,
 pl-226445170,Paliopyrgos tower,tower (single),pin,37.79356,22.63983,97.8,0,0,,,0,https://pleiades.stoa.org/places/226445170,
-pl-271882541,Palladion,shrine,wash,37.95568,23.72482,3.1,0,0,,,0,https://pleiades.stoa.org/places/271882541,
 pl-570548,Pallantion,settlement|archaeological site,pin,37.45364,22.33144,136.2,0,0,,,0,https://pleiades.stoa.org/places/570548,
 pl-570551,Pamisos (river of Messenia),"river, drainage",pin,37.11058,22.00813,180.0,0,0,,,1,https://pleiades.stoa.org/places/570551,
 pl-570550,Pamisos (river),"river, drainage",wash,36.75,22.25,189.4,0,0,,,1,https://pleiades.stoa.org/places/570550,
@@ -1200,9 +1225,7 @@ pl-580053,Panakton (Attika),fort|tower (single),pin,38.18349,23.50583,29.5,0,0,,
 pl-433457819,Panathenaic Stadium,"stadion, stadium",pin,37.96826,23.74108,2.1,0,0,,,0,https://pleiades.stoa.org/places/433457819,
 pl-639740331,Panathenaic Way,street,pin,37.97504,23.72368,1.0,0,0,,,0,https://pleiades.stoa.org/places/639740331,
 pl-936968680,Pandroseion,shrine,pin,37.97206,23.72626,1.3,0,0,,,0,https://pleiades.stoa.org/places/936968680,
-pl-580054,Paneion (mountain),mountain,wash,37.875,23.875,17.7,0,0,,,0,https://pleiades.stoa.org/places/580054,
 pl-580055,Panhellenios (mountain),mountain,pin,37.70075,23.49611,37.5,0,0,,,3,https://pleiades.stoa.org/places/580055,
-pl-580057,Panormos,harbor,pin,37.69817,24.06177,43.2,0,0,,,1,https://pleiades.stoa.org/places/580057,
 pl-541010,Panormos,settlement|acropolis|settlement-modern,pin,39.11072,23.66461,125.4,0,0,,,1,https://pleiades.stoa.org/places/541010,
 pl-570557,Panormos (Megarid),harbor|settlement|settlement-modern,pin,38.11258,23.21988,46.7,0,0,,,1,https://pleiades.stoa.org/places/570557,
 pl-599856,Panormos (Mykonos),harbor|bay,pin,37.47306,25.37472,155.6,0,0,,,1,https://pleiades.stoa.org/places/599856,
@@ -1218,7 +1241,6 @@ pl-570563,Parparos (mountain),mountain|map label location,pin,37.45567,22.69088,
 pl-570564,Parrasia,region,wash,37.25,22.25,153.6,0,0,,,0,https://pleiades.stoa.org/places/570564,
 pl-541013,Parthenion,settlement,pin,38.46084,23.96327,56.9,0,0,,,1,https://pleiades.stoa.org/places/541013,
 pl-570566,Parthenion (mountain),mountain,pin,37.46667,22.55,118.5,0,0,,,1,https://pleiades.stoa.org/places/570566,
-pl-580060,Patroklou Charax (island),island,pin,37.65048,23.95053,41.9,0,0,,,0,https://pleiades.stoa.org/places/580060,
 pl-230559831,Peiraic Gate,"gate (of a city), city gate",pin,37.97593,23.71604,1.3,0,0,,,0,https://pleiades.stoa.org/places/230559831,
 pl-570571,Peiraion,"cape, promontory, promuntory|settlement-modern",pin,38.03019,22.94899,68.4,0,0,,,0,https://pleiades.stoa.org/places/570571,
 pl-992770796,Pelargikon wall,"wall (defensive)|wall (of a city), city wall",wash,37.97204,23.72513,1.3,0,0,,,0,https://pleiades.stoa.org/places/992770796,
@@ -1230,7 +1252,6 @@ pl-570576,Pellene,settlement,pin,38.04321,22.54834,103.5,0,0,,,3,https://pleiade
 pl-573434,Pellene,settlement,wash,38.25271,22.08195,147.0,0,0,,,3,https://pleiades.stoa.org/places/573434,
 pl-570578,Pelos Pyrgaki,settlement,pin,36.72289,24.49591,155.8,0,0,,,0,https://pleiades.stoa.org/places/570578,
 pl-580064,Pentele,settlement,wash,38.08083,23.89972,18.5,0,0,,,0,https://pleiades.stoa.org/places/580064,
-pl-580065,Pentelikon/Brilessos (mountain),mountain,pin,38.08083,23.89972,18.5,0,0,,,0,https://pleiades.stoa.org/places/580065,
 pl-842094502,Penteskouphia,"hill|fort, tower (deprecated)",pin,37.88383,22.85717,77.1,0,0,,,0,https://pleiades.stoa.org/places/842094502,
 pl-541023,Peparethos,settlement,pin,39.1191,23.71962,126.2,0,0,,,0,https://pleiades.stoa.org/places/541023,
 pl-570581,Pephnos,settlement,pin,36.81238,22.29679,181.5,0,0,,,0,https://pleiades.stoa.org/places/570581,
@@ -1263,11 +1284,9 @@ pl-570595,Pheneos,settlement,pin,37.91048,22.3071,124.8,0,0,,,0,https://pleiades
 pl-541044,Pherai,settlement,pin,39.37904,22.75385,176.7,0,0,,,2,https://pleiades.stoa.org/places/541044,
 pl-570596,Pherai,settlement|settlement-modern,pin,37.03776,22.11094,177.2,0,0,,,2,https://pleiades.stoa.org/places/570596,
 pl-541046,Philagra,"fort, tower (deprecated)",pin,38.16332,24.39069,61.4,0,0,,,0,https://pleiades.stoa.org/places/541046,
-pl-580075,Philaidai,settlement|deme (Athenian),pin,37.92893,23.98955,23.8,0,0,,,0,https://pleiades.stoa.org/places/580075,
 pl-570601,Philanorion,settlement,pin,37.53713,23.14158,71.6,0,0,,,0,https://pleiades.stoa.org/places/570601,
 pl-599882,Philitzi,settlement|island,pin,37.1252,25.28993,167.6,0,0,,,0,https://pleiades.stoa.org/places/599882,
 pl-491444298,Philopappos Monument,tomb|monument,pin,37.96736,23.72137,1.9,0,0,,,0,https://pleiades.stoa.org/places/491444298,
-pl-570602,Phleious,settlement,pin,37.8446,22.64658,96.1,0,0,,,0,https://pleiades.stoa.org/places/570602,
 pl-541047,Phlygonion?,settlement,pin,38.47478,22.74069,102.0,0,0,,,0,https://pleiades.stoa.org/places/541047,
 pl-529934476,Phocian Wall,wall (defensive),pin,38.79424,22.53676,137.4,0,0,,,0,https://pleiades.stoa.org/places/529934476,
 pl-570604,Phoibaia,lagoon,wash,37.75,23.25,49.3,0,0,,,0,https://pleiades.stoa.org/places/570604,
@@ -1294,7 +1313,6 @@ pl-580081,Plakoto fort,"fort, tower (deprecated)",pin,38.11371,23.53752,22.0,0,0
 pl-774102407,Plataean Tumulus (Marathon),tumulus,pin,38.12323,23.949,24.8,0,0,,,0,https://pleiades.stoa.org/places/774102407,
 pl-580082,Plotheia,settlement,pin,38.12642,23.87673,20.5,0,0,,,0,https://pleiades.stoa.org/places/580082,
 pl-205264674,Pnyx,ekklesiasterion|hill,pin,37.97143,23.71947,1.5,0,0,,,5,https://pleiades.stoa.org/places/205264674,
-pl-136008628,Pnyx fountain,fountain|cistern,pin,37.97151,23.72086,1.5,0,0,,,4,https://pleiades.stoa.org/places/136008628,
 pl-570623,Poiessa,settlement|archaeological site,pin,37.59949,24.27799,64.5,0,0,,,0,https://pleiades.stoa.org/places/570623,
 pl-585950,Poikilon (mountain),unlocated|mountain,pin,38.03333,23.65,8.7,0,0,,,0,https://pleiades.stoa.org/places/585950,
 pl-570624,Polichna,settlement,pin,37.11022,22.90058,121.5,0,0,,,0,https://pleiades.stoa.org/places/570624,
@@ -1319,7 +1337,6 @@ pl-580088,Potamos Hypenerthen,settlement,pin,37.97194,23.78403,5.1,0,0,,,0,https
 pl-580089,Potamos Kathyperthen,settlement,pin,37.96177,23.79785,6.6,0,0,,,0,https://pleiades.stoa.org/places/580089,
 pl-541069,Poteidania,settlement,pin,38.43725,22.01355,158.0,0,0,,,0,https://pleiades.stoa.org/places/541069,
 pl-541070,Potniai,settlement,pin,38.29991,23.31163,50.6,0,0,,,0,https://pleiades.stoa.org/places/541070,
-pl-580090,Prasia,settlement|deme (Athenian),pin,37.86517,24.0376,30.2,0,0,,,1,https://pleiades.stoa.org/places/580090,
 pl-570629,Prasiai,ruin|settlement,pin,37.145,22.8882,119.0,0,0,,,1,https://pleiades.stoa.org/places/570629,
 pl-418714190,Pre-Erechtheion,temple,wash,37.9719,23.72642,1.3,0,0,,,0,https://pleiades.stoa.org/places/418714190,
 pl-21797994,Preclassical naiskos in the Parthenon,shrine,pin,37.97163,23.72665,1.4,0,0,,,0,https://pleiades.stoa.org/places/21797994,
@@ -1355,7 +1372,6 @@ pl-570642,Pyrrichos,settlement|archaeological site,pin,36.65483,22.43088,187.0,0
 pl-815693600,Pythion,shrine,pin,37.96741,23.73168,1.9,0,0,,,0,https://pleiades.stoa.org/places/815693600,
 pl-568838229,Quartier du Stade at Delos,settlement|architectural complex|district,pin,37.40593,25.27407,150.5,0,0,,,0,https://pleiades.stoa.org/places/568838229,
 pl-570644,Rema,quarry,pin,36.70083,24.53915,159.7,0,0,,,1,https://pleiades.stoa.org/places/570644,
-pl-580097,Rhamnous,settlement|archaeological site|deme (Athenian),pin,38.21929,24.02691,37.0,0,0,,,0,https://pleiades.stoa.org/places/580097,
 pl-585954,Rharion Pedion,unlocated|plain,wash,38.0411,23.5374,17.8,0,0,,,0,https://pleiades.stoa.org/places/585954,
 pl-580098,Rheitoi (river),"river, drainage",wash,38.125,23.625,18.1,0,0,,,0,https://pleiades.stoa.org/places/580098,
 pl-599918,Rheneia (settlement),settlement,pin,37.41206,25.21329,145.4,0,0,,,1,https://pleiades.stoa.org/places/599918,
@@ -1434,7 +1450,6 @@ pl-570656,Schoino(u)s,settlement,pin,37.91918,23.00641,63.6,0,0,,,1,https://plei
 pl-541091,Schoinos,settlement,pin,38.42177,23.36404,58.1,0,0,,,1,https://pleiades.stoa.org/places/541091,
 pl-541093,Scyrus (island),island,pin,38.86083,24.54993,121.0,0,0,,,0,https://pleiades.stoa.org/places/541093,
 pl-541094,Selinous,settlement,pin,39.16517,23.61618,131.7,0,0,,,1,https://pleiades.stoa.org/places/541094,
-pl-570660,Selinous,settlement,pin,37.0251,22.683,140.9,0,0,,,1,https://pleiades.stoa.org/places/570660,
 pl-570661,Selinous (river),"river, drainage",pin,38.15519,22.02161,150.5,0,0,,,1,https://pleiades.stoa.org/places/570661,
 pl-570664,Selleis? (river),"river, drainage",pin,38.03545,22.72211,88.3,0,0,,,0,https://pleiades.stoa.org/places/570664,
 pl-580104,Semachidai?,settlement,pin,38.15862,23.91033,25.2,0,0,,,0,https://pleiades.stoa.org/places/580104,
@@ -1443,7 +1458,6 @@ pl-590043,Seriphos (settlement),settlement|settlement-modern,pin,37.1557,24.5062
 pl-937883502,Sesklo,settlement,pin,39.35538,22.84162,170.8,0,0,,,0,https://pleiades.stoa.org/places/937883502,
 pl-546484819,Shrine of Dionysos,shrine,pin,37.88197,23.45284,26.6,0,0,,,0,https://pleiades.stoa.org/places/546484819,
 pl-570670,Sidero,mine,pin,37.65127,24.40662,70.2,0,0,,,0,https://pleiades.stoa.org/places/570670,
-pl-570671,Sidous,settlement,pin,37.91613,23.07978,57.3,0,0,,,0,https://pleiades.stoa.org/places/570671,
 pl-541100,Sigditsa,fort,pin,38.59935,22.32861,140.0,0,0,,,0,https://pleiades.stoa.org/places/541100,
 pl-585959,Sikelia hill,unlocated|hill,pin,37.96124,23.71537,2.7,0,0,,,0,https://pleiades.stoa.org/places/585959,
 pl-590047,Sikinos (island),island,pin,36.6789,25.12252,190.4,0,0,,,1,https://pleiades.stoa.org/places/590047,
@@ -1452,15 +1466,11 @@ pl-503211161,Silver Mine at Thorikos,mine,pin,37.73817,24.05303,39.5,0,0,,,0,htt
 pl-541101,Sindouka,"fort, tower (deprecated)",pin,39.19729,23.60779,135.3,0,0,,,0,https://pleiades.stoa.org/places/541101,
 pl-541102,Siphai/Tipha,settlement|acropolis,pin,38.18992,23.05282,63.3,0,0,,,2,https://pleiades.stoa.org/places/541102,
 pl-590049,Siphnos (island),island,pin,36.97629,24.69362,140.8,0,0,,,4,https://pleiades.stoa.org/places/590049,
-pl-590048,Siphnos (settlement),settlement,pin,36.97482,24.74507,143.7,0,0,,,3,https://pleiades.stoa.org/places/590048,
-pl-582865,Skambonidai,settlement|deme (Athenian),pin,37.98286,23.72888,0.2,0,0,,,0,https://pleiades.stoa.org/places/582865,
 pl-309176138,Skarkos Hill,settlement,pin,36.73157,25.28307,195.7,0,0,,,0,https://pleiades.stoa.org/places/309176138,
-pl-541103,Skarpheia,settlement,pin,38.80909,22.66381,130.4,0,0,,,0,https://pleiades.stoa.org/places/541103,
 pl-541104,Skiathos (settlement),settlement|settlement-modern,pin,39.1662,23.48889,133.1,0,0,,,1,https://pleiades.stoa.org/places/541104,
 pl-570675,Skiritis,region|map label location,pin,37.31343,22.3799,140.1,0,0,,,0,https://pleiades.stoa.org/places/570675,
 pl-541106,Skolos,settlement,pin,38.30938,23.38353,47.1,0,0,,,0,https://pleiades.stoa.org/places/541106,
 pl-570678,Skotitas,region|map label location,pin,37.31696,22.53784,128.3,0,0,,,0,https://pleiades.stoa.org/places/570678,
-pl-541107,Skotoussa (Thessaly),settlement,pin,39.37943,22.53729,186.4,0,0,,,0,https://pleiades.stoa.org/places/541107,
 pl-570679,Skyllaion (promontory),"cape, promontory, promuntory",pin,37.435,23.523,63.6,0,0,,,0,https://pleiades.stoa.org/places/570679,
 pl-486617494,Skyphoi sanctuary,sanctuary (religious center),wash,37.97225,23.72702,1.3,0,0,,,0,https://pleiades.stoa.org/places/486617494,
 pl-541108,Skyros (settlement),settlement,pin,38.90298,24.56536,125.6,0,0,,,0,https://pleiades.stoa.org/places/541108,
@@ -1470,7 +1480,6 @@ pl-570682,Solygeia,settlement,pin,37.84371,22.9666,68.5,0,0,,,0,https://pleiades
 pl-580106,Soros,tumulus,pin,38.11794,23.97834,26.5,0,0,,,0,https://pleiades.stoa.org/places/580106,
 pl-541109,Sosthenis?,settlement,pin,38.81972,22.42273,146.9,0,0,,,0,https://pleiades.stoa.org/places/541109,
 pl-580108,Sounion (Attica: cape),"cape, promontory, promuntory",pin,37.65011,24.02628,45.4,0,0,,,4,https://pleiades.stoa.org/places/580108,
-pl-580107,Sounion (Attica: settlement and deme),settlement|deme (Athenian),wash,37.65209,24.02629,45.3,0,0,,,3,https://pleiades.stoa.org/places/580107,
 pl-599943,Sounion (Paros),"cape, promontory, promuntory",wash,37.06519,25.19847,165.1,0,0,,,4,https://pleiades.stoa.org/places/599943,
 pl-590057,Sounion? (Siphnos),"cape, promontory, promuntory",pin,37.04055,24.63675,132.0,0,0,,,4,https://pleiades.stoa.org/places/590057,
 pl-567540780,South Slope Spring,spring|cistern,pin,37.97074,23.72605,1.5,0,0,,,0,https://pleiades.stoa.org/places/567540780,
@@ -1484,9 +1493,7 @@ pl-162463494,Southwest Temple in the Agora of Athens,temple,pin,37.97485,23.7226
 pl-935991896,Southwest fountain house,fountain,pin,37.97422,23.72218,1.2,0,0,,,0,https://pleiades.stoa.org/places/935991896,
 pl-541110,Spalauthra,settlement,pin,39.18348,23.22508,140.4,0,0,,,0,https://pleiades.stoa.org/places/541110,
 pl-541111,Spercheiai,"wall (defensive)|fort, tower (deprecated)",pin,38.92295,22.03326,180.7,0,0,,,0,https://pleiades.stoa.org/places/541111,
-pl-541112,Spercheios,"river, drainage",pin,38.90399,22.20913,167.2,0,0,,,2,https://pleiades.stoa.org/places/541112,
 pl-585963,Sphendale,unlocated|deme (Athenian),wash,38.13173,23.79117,17.4,0,0,,,0,https://pleiades.stoa.org/places/585963,
-pl-580109,Sphettos,settlement|deme (Athenian),pin,37.91724,23.83842,12.2,0,0,,,0,https://pleiades.stoa.org/places/580109,
 pl-570688,Spiraion (promuntory),"cape, promontory, promuntory",pin,37.8003,23.176,52.5,0,0,,,0,https://pleiades.stoa.org/places/570688,
 pl-230617790,Spring at Amphiareion,spring,pin,38.29075,23.84514,35.6,0,0,,,0,https://pleiades.stoa.org/places/230617790,
 pl-841476129,Square Peristyle,building|archaeological site,pin,37.97556,23.724,1.0,0,0,,,0,https://pleiades.stoa.org/places/841476129,
@@ -1497,7 +1504,6 @@ pl-210745099,Stadium of Delos,"stadion, stadium",pin,37.40579,25.2736,150.5,0,0,
 pl-333036426,Stadium of Delphi,"stadion, stadium",pin,38.48201,22.49711,120.9,0,0,,,0,https://pleiades.stoa.org/places/333036426,
 pl-278785543,Stadium-Gymnasium Complex at Messene,"stadion, stadium|gymnasium, gymnasion",pin,37.17288,21.91916,183.1,0,0,,,0,https://pleiades.stoa.org/places/278785543,
 pl-999238742,Statues of Harmodios and Aristogeiton,monument,wash,37.97507,23.72315,1.0,0,0,,,0,https://pleiades.stoa.org/places/999238742,
-pl-580110,Steiria,settlement|deme (Athenian),pin,37.89816,24.01073,26.6,0,0,,,0,https://pleiades.stoa.org/places/580110,
 pl-507121565,Stelida,archaeological site|hill,pin,37.08415,25.34447,174.2,0,0,,,0,https://pleiades.stoa.org/places/507121565,
 pl-570690,Stenykleros (plain),plain|map label location,pin,37.2207,21.99717,174.5,0,0,,,0,https://pleiades.stoa.org/places/570690,
 pl-541114,Stephon?,settlement,pin,38.32858,23.51874,42.5,0,0,,,0,https://pleiades.stoa.org/places/541114,
@@ -1564,15 +1570,12 @@ pl-474652024,Temple of Zeus at Lebadea,temple,pin,38.43034,22.86047,90.6,0,0,,,0
 pl-109791198,Temple of Zeus at Nemea,temple,pin,37.80956,22.71048,91.3,0,0,,,0,https://pleiades.stoa.org/places/109791198,
 pl-570711,Tenea,settlement|settlement-modern,pin,37.80794,22.86789,77.9,0,0,,,0,https://pleiades.stoa.org/places/570711,
 pl-541132,Tenerikon Pedion,plain|map label location,pin,38.36549,23.33815,54.4,0,0,,,0,https://pleiades.stoa.org/places/541132,
-pl-590074,Tenos (island),island,pin,37.61507,25.11324,128.5,0,0,,,6,https://pleiades.stoa.org/places/590074,
 pl-590073,Tenos (settlement),settlement|settlement-modern,pin,37.5385,25.1617,135.4,0,0,,,7,https://pleiades.stoa.org/places/590073,
 pl-818633083,Terrace of the Lions at Delos,"agora, forum, plaza (deprecated)",pin,37.40238,25.267,150.1,0,0,,,0,https://pleiades.stoa.org/places/818633083,
 pl-580116,Tetrakomoi,"people, tribe (historical cultural group)",wash,37.875,23.625,15.1,0,0,,,0,https://pleiades.stoa.org/places/580116,
-pl-541133,Teumessos,settlement,pin,38.35755,23.38228,51.4,0,0,,,0,https://pleiades.stoa.org/places/541133,
 pl-570713,Teuthis,settlement,pin,37.59744,22.04128,154.3,0,0,,,0,https://pleiades.stoa.org/places/570713,
 pl-570714,Teuthrone,settlement,pin,36.62114,22.48906,187.0,0,0,,,0,https://pleiades.stoa.org/places/570714,
 pl-570721,Th(e)isoa,settlement,pin,37.62913,22.09398,148.8,0,0,,,3,https://pleiades.stoa.org/places/570721,
-pl-570715,Thalamai,settlement|settlement-modern,pin,36.78451,22.32854,181.8,0,0,,,0,https://pleiades.stoa.org/places/570715,
 pl-570716,Thaliades,settlement,pin,37.78236,21.94745,157.8,0,0,,,0,https://pleiades.stoa.org/places/570716,
 pl-541135,Thaumakia?,settlement,pin,39.17316,23.3396,136.5,0,0,,,0,https://pleiades.stoa.org/places/541135,
 pl-541136,Thaumakoi,settlement,pin,39.12655,22.322,176.3,0,0,,,0,https://pleiades.stoa.org/places/541136,
@@ -1613,11 +1616,9 @@ pl-580118,Thorai?,settlement,pin,37.79343,23.93763,28.1,0,0,,,0,https://pleiades
 pl-580119,Thorikos,settlement|deme (Athenian),pin,37.73787,24.05363,39.6,0,0,,,0,https://pleiades.stoa.org/places/580119,
 pl-772835485,Thorikos Residential and Production District,"production center (manufacturing, fishing)|settlement",pin,37.73931,24.05232,39.4,0,0,,,0,https://pleiades.stoa.org/places/772835485,
 pl-570733,Thouria,settlement|acropolis,pin,37.11004,22.05069,176.9,0,0,,,0,https://pleiades.stoa.org/places/570733,
-pl-487031708,Thourion,hill,pin,38.499,22.824,97.5,0,0,,,0,https://pleiades.stoa.org/places/487031708,
 pl-580121,Thriasion Lager,"fort|fort, tower (deprecated)",pin,38.05217,23.63483,11.1,0,0,,,0,https://pleiades.stoa.org/places/580121,
 pl-580122,Thriasion Pedion,plain,wash,38.125,23.625,18.1,0,0,,,0,https://pleiades.stoa.org/places/580122,
 pl-558185735,Throni tower,tower (single),pin,37.58339,23.37604,54.2,0,0,,,0,https://pleiades.stoa.org/places/558185735,
-pl-541147,Thronion,"fort, tower (deprecated)",pin,38.77584,22.72573,124.0,0,0,,,0,https://pleiades.stoa.org/places/541147,
 pl-580123,Thymaitadai,settlement|deme (Athenian),pin,37.96753,23.61991,9.6,0,0,,,0,https://pleiades.stoa.org/places/580123,
 pl-570735,Thyraion,settlement|settlement-modern,pin,37.50143,22.12468,150.8,0,0,,,1,https://pleiades.stoa.org/places/570735,
 pl-570738,Tiasa (river),"river, drainage",pin,37.04956,22.44183,153.8,0,0,,,0,https://pleiades.stoa.org/places/570738,
@@ -1668,7 +1669,6 @@ pl-482028558,Tsimintiri Archaic Site,island|sanctuary (religious center)|archite
 pl-392437876,Tsimintiri island,island,pin,36.97586,25.01872,159.8,0,0,,,0,https://pleiades.stoa.org/places/392437876,
 pl-580127,Tsoukrati,"fort, tower (deprecated)",pin,38.21291,23.61198,27.4,0,0,,,0,https://pleiades.stoa.org/places/580127,
 pl-643508013,Tsoungiza (Archaia Nemea),archaeological site,pin,37.80965,22.70569,91.7,0,0,,,0,https://pleiades.stoa.org/places/643508013,
-pl-570759,Tyros,settlement|acropolis,pin,37.24323,22.87207,111.6,0,0,,,0,https://pleiades.stoa.org/places/570759,
 pl-328243338,Tzoungiza,settlement|archaeological site,pin,37.8101,22.7049,91.8,0,0,,,0,https://pleiades.stoa.org/places/328243338,
 pl-384326689,Unit IV-1 at Nichoria,settlement|architectural complex,pin,37.00223,21.9153,193.6,0,0,,,0,https://pleiades.stoa.org/places/384326689,
 pl-401250361,Unnamed Gate of the Themistoklean Wall,"gate (of a city), city gate",pin,37.98047,23.72332,0.5,0,0,,,1,https://pleiades.stoa.org/places/401250361,
