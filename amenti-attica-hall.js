@@ -1,46 +1,49 @@
 /* ============================================================================
    amenti-attica-hall.js  →  Amenti.live/amenti-attica-hall.js
    ----------------------------------------------------------------------------
-   THE JOIN  ·  a place names a soul, and the reader may go and read them
+   WHY THIS GROUND MATTERED  ·  and who wrote about it
 
-       WHERE THE TWO SURFACES JOIN IS A NAME.
+   Hover a place and this says the one thing a gazetteer cannot hold:
 
-   The hall knows people. The map knows ground. They have stood beside each
-   other for three days with one register already holding the join and nothing
-   using it: ATTICA-MENTIONS.csv records, per place, WHICH READING ROOMS NAME
-   IT — Athens in sixty-one, Corinth in twenty-seven, Laureion in the two
-   passages of Thucydides that decided a war.
+       "The silver. The hills south of Athens held argentiferous lead, and the
+        fleet that fought at Salamis was paid for out of a single rich strike
+        in 483 BC."
 
-   This is that column made walkable, in one direction only.
+   That sentence is in ATTICA-WHY.csv. It was written by hand, it is checkable,
+   it is already loaded, and IT IS THE REASON THIS SURFACE EXISTS. Under it,
+   the rooms that name the place, from ATTICA-MENTIONS.csv.
 
-   ── IT IS A HANDOVER, NOT A SPLIT SCREEN ──────────────────────────────────
-   hall.html says in its own comment that the hall and the map NEVER SHARE THE
-   SCREEN, and the map clears `scene-bare` on the way in. That rule is good and
-   this keeps it: clicking a name CLOSES ATTICA, restores the hall, and asks
-   the question. One surface at a time, sequenced, and the reader can always
-   come back the way they came.
+   ── THE FIRST VERSION OF THIS FILE ASKED A MODEL INSTEAD · 9 Sep ──────────
+   It ignored the `why` column entirely and routed every click into the hall's
+   Ask box, which calls a model, costs a question, and returns prose that can
+   be wrong about a text sitting on disk. hall.html says in its own header
+   that THE HALL IS NOT A GENERATOR AND CALLS NO MODEL — it shows the
+   documents. The register already knew the exact document and the exact
+   count; that precision was thrown away to ask a generator what it thought.
 
-   A pane that opened a reading room beside the ground would be the easier
-   thing to build and would cost the rule.
+   > **THE ANSWER WAS ALREADY WRITTEN, AND IT WAS BETTER THAN THE ONE A
+   > GENERATOR WOULD PRODUCE.**
+
+   ── SO IT SHOWS AND DOES NOT ASK ──────────────────────────────────────────
+   Nothing here calls a model, spends a question, or leaves the surface. It is
+   a reading of two registers that were both already open. The rooms are named
+   because a reader should know WHERE a claim would be checked — not clicked,
+   because the hall and the ground never share the screen and a handover is a
+   separate decision from a hover.
 
    ── AND IT CARRIES A COUNT, NOT A CLAIM ───────────────────────────────────
    `61 rooms` means sixty-one reading rooms contain a form of this name. It
-   does not mean sixty-one souls wrote ABOUT this place, and the pane says
-   `names it` rather than `writes about it` for exactly that reason. The
-   distinction is the whole difference between a concordance and an argument.
-
-   THE DERIVED FORMS ARE MARKED. A hit on an attested name says the corpus
-   names this place. A hit on a Latinised form says the corpus names something
-   that TRANSLITERATES to it — which caught four false positives on its first
-   reading, `Marius` the Roman general among them.
+   does not mean sixty-one souls wrote ABOUT this place, so the pane says
+   `names it`. THE DERIVED FORMS ARE MARKED: a hit on a Latinised form says
+   the corpus names something that TRANSLITERATES to it, which caught four
+   false positives on its first reading, `Marius` the Roman general among them.
 
    ── WHAT IT READS ─────────────────────────────────────────────────────────
-       <FRAME>-MENTIONS.csv   the join · missing is stated, not fatal
-       #ask-amenti input      the hall's one interaction point
+       <FRAME>-WHY.csv        the authored sentence · the point of the pane
+       <FRAME>-MENTIONS.csv   where it would be checked
 
-   It reads the register itself rather than reaching into amenti-attica.js for
-   the copy already parsed there. A module that reaches into another module's
-   closure is a module that breaks when the other one is tidied.
+   Both read here rather than reached for inside amenti-attica.js. A module
+   that reaches into another module's closure breaks when the other is tidied.
    ========================================================================== */
 (function () {
   'use strict';
@@ -48,6 +51,7 @@
   var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
 
   var pane = null, rows = null, loadErr = null, key = null;
+  var whys = null, whyErr = null;
   var FKEY = 'attica';
 
   function esc(s) {
@@ -91,6 +95,32 @@
     }).join(' ');
   }
 
+  /* ── THE `why` COLUMN, WHICH IS THE POINT ──────────────────────────────
+     ATTICA-WHY.csv states in its own header that these are drafts, written and
+     NOT CHECKED AGAINST A SOURCE, and that the column exists to be overwritten.
+     The pane says so where a reader will see it. An authored sentence that
+     does not admit it was authored is the one thing worse than no sentence. */
+  function loadWhy(then) {
+    if (whys !== null || whyErr !== null) { then(); return; }
+    fetch(RAW + FKEY.toUpperCase() + '-WHY.csv?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) {
+        if (!t) { whyErr = 'not in the repo yet'; return; }
+        var lines = t.replace(/\r\n/g, '\n').split('\n');
+        var cols = split(lines[0]).map(function (h) { return h.trim(); });
+        var ik = cols.indexOf('key'), iw = cols.indexOf('why');
+        whys = {};
+        for (var i = 1; i < lines.length; i++) {
+          if (!lines[i].trim() || lines[i].charAt(0) === '#') { continue; }
+          var c = split(lines[i]);
+          var k = (c[ik] || '').trim(), w = (c[iw] || '').trim();
+          if (k && w) { whys[k] = w; }
+        }
+      })
+      .catch(function (e) { whyErr = e.message; })
+      .then(then);
+  }
+
   function load(then) {
     if (rows !== null || loadErr !== null) { then(); return; }
     fetch(RAW + FKEY.toUpperCase() + '-MENTIONS.csv?_=' + Date.now())
@@ -125,26 +155,31 @@
       /* Under the reading list, on the right, because both answer WHO — the
          list says which places the corpus names most, this says who named
          this one. The bottom-left already carries four rows. */
-      '#amenti-attica .ath{position:absolute;right:24px;bottom:16px;width:232px;',
-      '  z-index:7;font:400 10.5px/1.5 ui-monospace,Menlo,monospace;',
-      '  color:#7d8ea6;background:rgba(5,8,14,.82);padding:9px 11px;',
+      /* Wider than the reading list, because a SENTENCE lives here and a
+         sentence broken over four words a line is not read. Left-aligned for
+         the same reason: the list on the right is a ranking and reads well
+         ragged-left; prose does not. */
+      '#amenti-attica .ath{position:absolute;right:24px;bottom:16px;width:300px;',
+      '  z-index:7;font:400 11px/1.55 ui-monospace,Menlo,monospace;',
+      '  color:#7d8ea6;background:rgba(5,8,14,.88);padding:11px 13px;',
       '  border:1px solid rgba(43,58,80,.5);border-radius:4px;',
-      '  text-align:right;max-height:34vh;overflow-y:auto;',
+      '  text-align:left;max-height:42vh;overflow-y:auto;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent;',
-      '  box-sizing:border-box}',
+      '  box-sizing:border-box;pointer-events:none}',
+      '#amenti-attica .ath-who{color:#e0913f;font-size:12px;letter-spacing:.03em;',
+      '  margin-bottom:6px}',
+      /* THE SENTENCE IS THE PANE. Everything else is smaller than it. */
+      '#amenti-attica .ath-why{color:#c3d3e6;line-height:1.6}',
+      '#amenti-attica .ath-draft{color:#5d6e84;font-size:9.5px;margin-top:5px;',
+      '  letter-spacing:.02em}',
+      '#amenti-attica .ath-none{color:#5d6e84;font-style:italic}',
       '#amenti-attica .ath-head{color:#5d6e84;letter-spacing:.07em;',
-      '  padding-bottom:5px;margin-bottom:5px;',
-      '  border-bottom:1px solid rgba(43,58,80,.6)}',
-      '#amenti-attica .ath-who{color:#e0913f}',
-      '#amenti-attica .ath button{background:none;border:0;color:#7fd8f0;',
-      '  font:inherit;padding:2px 0;cursor:pointer;display:block;width:100%;',
-      '  text-align:right}',
-      '#amenti-attica .ath button:hover{color:#dbe8f5}',
+      '  margin-top:9px;padding-top:7px;font-size:9.5px;',
+      '  border-top:1px solid rgba(43,58,80,.6)}',
       '#amenti-attica .ath b{color:#6f8098;font-weight:400}',
-      /* the sentence that keeps the rule visible: this LEAVES the map */
-      '#amenti-attica .ath-leave{color:#5d6e84;margin-top:7px;padding-top:6px;',
-      '  border-top:1px solid rgba(43,58,80,.4);text-align:right}',
-      '#amenti-attica .ath-warn{color:#c99a4e}'
+      '#amenti-attica .ath-rooms{display:flex;flex-wrap:wrap;gap:2px 10px;',
+      '  margin-top:3px;color:#7fd8f0;font-size:10px}',
+      '#amenti-attica .ath-warn{color:#c99a4e;font-size:9.5px;margin-top:3px}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -158,11 +193,9 @@
     pane.className = 'ath';
     pane.style.display = 'none';
     host.appendChild(pane);
-    pane.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var b = e.target.closest ? e.target.closest('[data-soul]') : null;
-      if (b) { handover(b.getAttribute('data-soul'), b.getAttribute('data-place')); }
-    });
+    /* it reads and does nothing. A click on it does not leave the surface,
+       does not call a model, and does not cost a question. */
+    pane.addEventListener('click', function (e) { e.stopPropagation(); });
     return pane;
   }
 
@@ -170,72 +203,57 @@
     if (!mount()) { return; }
     key = k;
     var r = rows && rows[k];
-    if (!r) { pane.style.display = 'none'; return; }
+    var w = whys && whys[k];
+    if (!r && !w) { pane.style.display = 'none'; return; }
     pane.style.display = '';
-    var list = r.souls.slice(0, 8);
+
+    var name = (r && r.name) || '';
+    var list = r ? r.souls.slice(0, 6) : [];
+
     pane.innerHTML =
-      '<div class="ath-head">who names it</div>' +
-      '<div class="ath-who">' + esc(r.name) + '</div>' +
-      '<div><b>' + r.src + ' room' + (r.src === 1 ? '' : 's') + ' \u00b7 ' +
-      r.n + ' mention' + (r.n === 1 ? '' : 's') + '</b></div>' +
-      (r.origin === 'derived'
-        ? '<div class="ath-warn">matched on <b>' + esc(r.form) + '</b>, a DERIVED ' +
-          'form \u2014 the corpus names something that transliterates to this</div>'
-        : '') +
-      '<div style="margin-top:6px">' +
-      list.map(function (s) {
-        return '<button type="button" data-soul="' + esc(s.key) + '" ' +
-               'data-place="' + esc(r.name) + '" ' +
-               'title="leave the map and ask the hall about ' + esc(pretty(s.key)) + '">' +
-               esc(pretty(s.key)) + ' <b>' + s.n + '</b></button>';
-      }).join('') +
-      '</div>' +
-      (r.souls.length > list.length
-        ? '<div><b>and ' + (r.souls.length - list.length) + ' more</b></div>' : '') +
-      '<div class="ath-leave">a name here LEAVES the map. The hall and the ' +
-      'ground never share the screen.</div>';
+      (name ? '<div class="ath-who">' + esc(name) + '</div>' : '') +
+
+      /* THE SENTENCE FIRST. It is the answer; everything under it is where
+         the answer would be checked. */
+      (w
+        ? '<div class="ath-why">' + esc(w) + '</div>' +
+          '<div class="ath-draft">authored and unverified \u2014 ' +
+          FKEY.toUpperCase() + '-WHY.csv says so of every line in it</div>'
+        : '<div class="ath-none">no sentence written for this ground yet. ' +
+          'Pleiades records that a thing was here; it does not record why ' +
+          'anyone should care.</div>') +
+
+      (r
+        ? '<div class="ath-head">named in</div>' +
+          '<div><b>' + r.src + ' room' + (r.src === 1 ? '' : 's') + ' \u00b7 ' +
+          r.n + ' mention' + (r.n === 1 ? '' : 's') + '</b></div>' +
+          (r.origin === 'derived'
+            ? '<div class="ath-warn">on <b>' + esc(r.form) + '</b>, a DERIVED ' +
+              'form \u2014 the corpus names something that transliterates to this</div>'
+            : '') +
+          '<div class="ath-rooms">' +
+          list.map(function (s2) {
+            return '<span>' + esc(pretty(s2.key)) + ' <b>' + s2.n + '</b></span>';
+          }).join('') +
+          (r.souls.length > list.length
+            ? '<span><b>and ' + (r.souls.length - list.length) + ' more</b></span>' : '') +
+          '</div>'
+        : (rows ? '<div class="ath-head">named by nothing in the library</div>' : ''));
   }
 
   function hide() { if (pane) { pane.style.display = 'none'; } key = null; }
 
-  /* ── THE HANDOVER ──────────────────────────────────────────────────────
-     Close the ground, restore the hall, ask the question. In that order, and
-     with a frame between each so the reader sees one surface give way to the
-     other rather than both flickering at once.
+  /* ── THERE IS NO HANDOVER, AND THAT IS THE CORRECTION ──────────────────
+     The first version of this file ended here with a function that closed
+     Attica, restored the hall, and posted a question into the Ask box. It is
+     gone. Nothing in this module calls a model, spends a question, or moves
+     the reader off the surface: it names the rooms so a reader knows where a
+     claim WOULD be checked, and stops.
 
-     IT ASKS RATHER THAN OPENING. The hall's one interaction point is the Ask
-     box (SURFACES.semantics.json: hall-ask), and a module that reached past it
-     to open a reading room directly would be inventing a second door into a
-     building that has deliberately got one. */
-  function handover(soul, place) {
-    var q = 'what does ' + pretty(soul) + ' say about ' + place + '?';
-
-    if (window.AmentiAttica && window.AmentiAttica.hide) {
-      try { window.AmentiAttica.hide(); } catch (e) {}
-    }
-    document.body.classList.remove('scene-attica', 'scene-map', 'scene-bare');
-    if (window.AmentiMap && window.AmentiMap.syncRail) {
-      try { window.AmentiMap.syncRail(); } catch (e) {}
-    }
-
-    setTimeout(function () {
-      var box = document.querySelector('#ask-amenti input');
-      if (!box) {
-        /* RULE 3: A MISSING SIGNAL IS NOT A RED LIGHT. If the ask box is not on
-           this page the handover cannot complete, and saying so is better than
-           a click that does nothing. */
-        console.log('THE JOIN: no #ask-amenti input on this page, so the ' +
-                    'question was not asked. It was: ' + q);
-        return;
-      }
-      box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      box.focus();
-      box.value = q;
-      box.dispatchEvent(new KeyboardEvent('keydown', {
-        key: 'Enter', code: 'Enter', bubbles: true
-      }));
-    }, 120);
-  }
+     If a handover is wanted later it is a separate decision with its own
+     button, and it should open the DOCUMENT — the register holds the exact
+     file and the exact count — rather than asking a generator what the
+     document says. */
 
   /* ── WHAT LIGHTS IT ────────────────────────────────────────────────────
      The same hover the reading panel uses. It does not add a listener to every
@@ -260,11 +278,18 @@
 
   function arrive(n) {
     if (wire()) {
-      load(function () {
-        if (loadErr) {
-          console.log('THE JOIN: ' + FKEY.toUpperCase() + '-MENTIONS.csv not read (' +
-                      loadErr + '). Places will not offer their rooms.');
-        }
+      loadWhy(function () {
+        load(function () {
+          if (whyErr) {
+            console.log('WHY THE GROUND MATTERED: ' + FKEY.toUpperCase() +
+                        '-WHY.csv not read (' + whyErr + ').');
+          }
+          if (loadErr) {
+            console.log('WHY THE GROUND MATTERED: ' + FKEY.toUpperCase() +
+                        '-MENTIONS.csv not read (' + loadErr + '), so no rooms ' +
+                        'are named.');
+          }
+        });
       });
       return;
     }
@@ -284,7 +309,8 @@
   new MutationObserver(function () {
     if (!document.body.classList.contains('scene-attica')) { hide(); return; }
     var f = window.AmentiAttica && window.AmentiAttica.count ? FKEY : FKEY;
-    if (f !== FKEY) { FKEY = f; rows = null; loadErr = null; load(function () {}); }
+    if (f !== FKEY) { FKEY = f; rows = null; loadErr = null; whys = null; whyErr = null;
+                      loadWhy(function () { load(function () {}); }); }
   }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
   window.AmentiAtticaHall = {
@@ -303,6 +329,19 @@
       });
       return { places: ks.length, souls: Object.keys(all).length };
     },
-    frame: function (k) { FKEY = k; rows = null; loadErr = null; load(function () {}); return FKEY; }
+    frame: function (k) {
+      FKEY = k; rows = null; loadErr = null; whys = null; whyErr = null;
+      loadWhy(function () { load(function () {}); });
+      return FKEY;
+    },
+    /* the sentence for a place, without hovering it */
+    why: function (k) { return whys ? (whys[k] || null) : (whyErr ? { error: whyErr } : null); },
+    /* how much of this frame has a sentence at all */
+    written: function () {
+      if (!whys) { return whyErr ? { error: whyErr } : null; }
+      var named = rows ? Object.keys(rows).length : null;
+      var both = rows ? Object.keys(rows).filter(function (k) { return whys[k]; }).length : null;
+      return { sentences: Object.keys(whys).length, named: named, named_with_sentence: both };
+    }
   };
 })();
