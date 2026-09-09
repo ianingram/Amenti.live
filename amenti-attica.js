@@ -148,21 +148,51 @@
      NOTE IS NOT, and z-index only decides which of the two you can read. */
   function placeFrames() {
     var box = el && el.querySelector('.at-frames');
-    if (!box) { return; }
-    var key = el.querySelector('.at-key');
-    var top = 52;
-    if (key && key.offsetHeight) { top = key.offsetTop + key.offsetHeight + 10; }
-    box.style.top = top + 'px';
+    var key = el && el.querySelector('.at-key');
+    if (!box || !key) { return; }
 
+    /* ── THE LEFT COLUMN HAS A BUDGET AND THE TWO PANES SHARE IT · 9 Sep ─
+       THE FIRST VERSION CLAMPED TO A 90 px MINIMUM AND PLACED THE LIST
+       ANYWAY. On a short window the key alone is 250 px of a 363 px surface,
+       so the list was put at y 312 — below the note, inside the control row —
+       and the probe found five overlaps at once.
+
+       CLAMPING TO A MINIMUM AND DRAWING REGARDLESS IS A SLOWER WAY OF
+       OVERLAPPING. There is one column here and two panes in it, so the space
+       is measured once and divided: the key keeps what it needs up to two
+       thirds, the list takes the rest, and BOTH SCROLL rather than either
+       running over the note. If even that will not fit, the list is hidden and
+       the key says so — a pane that cannot be shown honestly is not shown. */
     var floor = null;
     ['.at-note', '.at-clock', '.at-ctl'].some(function (sel) {
       var n = el.querySelector(sel);
       if (n && n.offsetHeight) { floor = n.offsetTop; return true; }
       return false;
     });
-    var host = el.getBoundingClientRect();
-    if (floor === null) { floor = host.height - 16; }
-    box.style.maxHeight = Math.max(90, floor - top - 14) + 'px';
+    if (floor === null) { floor = el.getBoundingClientRect().height - 16; }
+
+    var top0 = 52, gap = 10, pad = 14;
+    var budget = floor - top0 - pad;
+    if (budget < 120) {                       /* no honest room for either */
+      key.style.maxHeight = Math.max(60, budget) + 'px';
+      key.style.overflowY = 'auto';
+      box.style.display = 'none';
+      return;
+    }
+    box.style.display = '';
+
+    var wantKey = key.scrollHeight;
+    var keyH = Math.min(wantKey, Math.floor(budget * 0.66));
+    var listH = budget - keyH - gap;
+    if (listH < 70) {                         /* give the list a floor by
+                                                 taking it from the key */
+      listH = Math.min(70, budget - 60 - gap);
+      keyH = budget - listH - gap;
+    }
+    key.style.maxHeight = keyH + 'px';
+    key.style.overflowY = wantKey > keyH ? 'auto' : '';
+    box.style.top = (top0 + keyH + gap) + 'px';
+    box.style.maxHeight = listH + 'px';
   }
   /* ── THE OPENING VIEW HAD NO AIR AROUND IT ─────────────────────────────
      At K=1 the box filled the frame corner to corner. A reader arriving saw
@@ -829,7 +859,8 @@
       '#amenti-attica .at-key{position:absolute;left:26px;top:52px;z-index:6;',
       '  display:flex;flex-direction:column;gap:3px;font-size:10.5px;',
       '  color:#7d8ea6;background:rgba(5,8,14,.62);padding:9px 12px;',
-      '  border:1px solid rgba(43,58,80,.5);border-radius:4px;letter-spacing:.03em}',
+      '  border:1px solid rgba(43,58,80,.5);border-radius:4px;letter-spacing:.03em;',
+      '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent}',
       '#amenti-attica .at-key div{display:flex;align-items:center;gap:7px;',
       '  cursor:pointer;white-space:nowrap}',
       '#amenti-attica .at-key div:hover{color:#dbe8f5}',
