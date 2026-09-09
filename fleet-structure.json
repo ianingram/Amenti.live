@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-09T07:24:49.883Z",
+    "generated": "2026-09-09T07:43:01.207Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1446,7 +1446,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51436,
-      "sha256": "1cfd754967205a4f",
+      "sha256": "d4b28a9e307a40aa",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1873,7 +1873,7 @@
         "file": "probe-hall.mjs",
         "title": "THE HALL'S COUNTS",
         "guards": null,
-        "bytes": 5218
+        "bytes": 9604
       },
       {
         "file": "probe-interrupt.mjs",
