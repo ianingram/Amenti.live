@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-09T07:56:32.964Z",
+    "generated": "2026-09-09T08:03:58.522Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1446,7 +1446,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51436,
-      "sha256": "9d10c252f8e88ee5",
+      "sha256": "f24f4c7fb21fe5cf",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1783,7 +1783,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 54,
+    "count": 55,
     "files": [
       {
         "file": "attica-probe.js",
@@ -1970,6 +1970,12 @@
         "title": null,
         "guards": null,
         "bytes": 10885
+      },
+      {
+        "file": "probe-tours.mjs",
+        "title": "AND IT ACCUSES ITS",
+        "guards": null,
+        "bytes": 13789
       },
       {
         "file": "probe-twins.mjs",
