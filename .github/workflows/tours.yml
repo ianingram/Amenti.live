@@ -1,0 +1,104 @@
+# ============================================================================
+# .github/workflows/tours.yml · THE TOURS, CHECKED AGAINST THE SURFACE
+# ----------------------------------------------------------------------------
+# TOURS.csv drives amenti-attica-tours.js, which drives amenti-attica.js. A row
+# that names a switch the surface does not have, a period it does not know, or
+# a year outside the scrub will PLAY AS SOMETHING OTHER THAN IT READS — quietly,
+# because a frame that does less than it says still looks like a frame.
+#
+# THE VOCABULARY IS READ OUT OF amenti-attica.js, NOT RESTATED HERE. A validator
+# keeping its own copy of the twelve switches would pass a tour the surface
+# rejects, the day either list changes.
+#
+# AND THE CAPTION IS THE ONLY PLACE THE FORMAT CAN LIE. Switches cannot assert;
+# prose can. Section 6 reads every caption for the words an argument is made of.
+# It cannot know whether a caption is TRUE — only whether one has changed shape
+# from naming into arguing, which is the part a machine can see.
+#
+# It runs on a push that touches the tour or the surface, because those are
+# exactly the moments a row and its vocabulary can drift apart.
+#
+# It writes probe-tours.txt and does NOT commit it — slip #10, writing to main
+# from a runner is the captain's decision.
+# ============================================================================
+name: tours
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'TOURS.csv'
+      - 'amenti-attica.js'
+      - 'amenti-attica-tours.js'
+      - 'FRAMES.csv'
+      - 'probes/probe-tours.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Say which registers are here
+        run: |
+          # A MISSING REGISTER IS NOT A FAILURE AND MUST NOT LOOK LIKE ONE.
+          # The probe reports what it could not read; this says the same thing
+          # before it runs, so a thin reading is understood rather than puzzled
+          # over.
+          for f in TOURS.csv FRAMES.csv amenti-attica.js; do
+            if [ -f "$f" ]; then
+              printf '  %-22s %6s lines\n' "$f" "$(wc -l < "$f")"
+            else
+              printf '  %-22s ABSENT — the probe will say so\n' "$f"
+            fi
+          done
+          if [ ! -f probes/probe-tours.mjs ]; then
+            echo "MISSING: probes/probe-tours.mjs"; exit 2
+          fi
+
+      - name: Run the probe
+        run: |
+          set -o pipefail
+          node probes/probe-tours.mjs . | tee tours-probe.log
+
+      - name: Fail the run if a frame will play as something other than it reads
+        run: |
+          # THE ONLY WORKFLOW HERE THAT FAILS ON A FINDING, and it does so
+          # because every finding is mechanical: a name that does not exist, a
+          # number outside a range, a caption that has taken the shape of an
+          # argument. None of them is a judgement call, so none of them should
+          # need a person to notice it.
+          if grep -q '✖' tours-probe.log; then
+            echo
+            echo 'TOURS.csv has findings. Read them above; each names its line.'
+            exit 1
+          fi
+          echo 'no findings'
+
+      - name: Write the reading to the run summary
+        if: always()
+        run: |
+          {
+            echo '## tours · the sequence checked against the surface'
+            echo
+            echo '```'
+            cat tours-probe.log 2>/dev/null || echo '(no output)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the reading
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tours-probe
+          path: |
+            probe-tours.txt
+            tours-probe.log
+          if-no-files-found: warn
