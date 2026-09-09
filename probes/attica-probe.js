@@ -272,6 +272,38 @@
       }
     }
   }
+
+  /* -- WHEN A PANE OVERLAPS, SAY WHY IT IS WHERE IT IS ---------------------
+     An overlap tells you two boxes touch. It does not tell you whether the
+     rule that placed them ran, was overridden, or resolved against a box
+     other than the one the arithmetic assumed. THREE FIXES WERE ATTEMPTED ON
+     ONE 7 px OVERLAP BEFORE ANYONE ASKED THE PANE WHAT IT HAD BEEN TOLD. */
+  if (clash) {
+    say('');
+    say('  why they sit where they do:');
+    boxes.forEach(function (b) {
+      var n = $(b.s, el);
+      if (!n) { return; }
+      var cs = getComputedStyle(n);
+      say('    ' + (b.s + '            ').slice(0, 12) +
+          ' inline[' + (n.style.left || '-') + ' ' + (n.style.right || '-') + ' ' +
+          (n.style.top || '-') + ' ' + (n.style.bottom || '-') + ' h' +
+          (n.style.maxHeight || '-') + ']' +
+          '  computed[' + cs.left + ' ' + cs.right + ']' +
+          '  offsetParent=' + (n.offsetParent ? (n.offsetParent.id || n.offsetParent.className || n.offsetParent.tagName) : 'NONE'));
+    });
+    var host2 = el.getBoundingClientRect();
+    var lst = $('.at-list', el);
+    say('    host right=' + Math.round(host2.right) + '  width=' + Math.round(host2.width) +
+        '  el position=' + getComputedStyle(el).position);
+    if (lst) {
+      say('    .at-list offsetWidth=' + lst.offsetWidth +
+          '  rect.left=' + Math.round(lst.getBoundingClientRect().left) +
+          '  -> a note clearing it needs right >= ' +
+          (Math.round(host2.right - lst.getBoundingClientRect().left) + 12) + 'px');
+    }
+  }
+
   if (!clash && boxes.length > 1) { say('  no overlap \u2014 the stack is clear.'); }
   if (boxes.length < 2) { blind('the bottom stack', 'fewer than two panes are visible'); }
 
