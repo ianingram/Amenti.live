@@ -61,9 +61,51 @@
   var SVGNS = 'http://www.w3.org/2000/svg';
   var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
 
-  /* the box render-attica.py cut, and the projection that matches it */
+  /* ── THE FRAME IS A ROW, NOT A CONSTANT · 9 Sep ────────────────────
+     This box was written here because when it was written there was one
+     surface and it was Attica. IT WAS NEVER GOING TO STAY A CONSTANT.
+     Marathon outgrew it on its first real use — the campaign enters from
+     Cilicia and the frame is a hundred miles — and ATTICA-EXTENTS.csv then
+     said the same thing from the data side: the Aegean's own bounding box is
+     768 x 817 km inside a 320 km frame.
+
+     FRAMES.csv holds fifteen regions and this reads one. The default is
+     Attica, so nothing about the existing surface changes; every other frame
+     is a register with NOTHING AUTHORED ON IT, and the note says so rather
+     than letting a reader take an unauthored surface for a finished one.
+
+     The projection below was already parameterised. What was not was WHICH
+     FOUR NUMBERS IT PROJECTED, and that is all this changes. */
+  var FRAME = null;                    /* the row from FRAMES.csv */
+  var groundErr = null;
+  var frames = null, framesErr = null;
+  var FKEY = 'attica';
+
+  /* the box the frame cuts, and the projection that matches it. Recomputed
+     whenever the frame changes; these are the Attica values until then. */
   var LA0 = 36.542, LA1 = 39.425, LO0 = 21.899, LO1 = 25.556;
   var VB = 1000;                       /* square: the box is 1.0002 tall */
+
+  /* ── THE BOX IS CUT THE WAY THE HARVEST CUT IT ───────────────────
+     tools/harvest-frame.py takes radius_km and converts it to degrees with
+     the SAME two lines. If these ever disagree the surface will draw places
+     it did not harvest and drop places it did, so the arithmetic is copied
+     rather than approximated. */
+  function boxOf(f) {
+    var la = +f.lat, lo = +f.lon, R = +f.radius_km;
+    var dla = R / 111.0;
+    var dlo = R / (111.0 * Math.cos(la * Math.PI / 180));
+    return { la0: la - dla, la1: la + dla, lo0: lo - dlo, lo1: lo + dlo };
+  }
+  function useFrame(f) {
+    FRAME = f;
+    FKEY = f.key;
+    var b = boxOf(f);
+    LA0 = b.la0; LA1 = b.la1; LO0 = b.lo0; LO1 = b.lo1;
+  }
+  /* the registers this frame reads, named off its key */
+  function reg(suffix) { return RAW + FKEY.toUpperCase() + suffix + '?_=' + Date.now(); }
+  function isReference() { return !!(FRAME && FRAME.detail !== 'full'); }
   /* ── THE OPENING VIEW HAD NO AIR AROUND IT ─────────────────────────────
      At K=1 the box filled the frame corner to corner. A reader arriving saw
      ground running off every edge with nothing to orient against, and could
@@ -277,6 +319,18 @@
      publishes a real coordinate the row starts drawing with no edit to this
      file and no edit to ATTICA.csv. */
   function onFallbackGrid(r) {
+    /* ── THE REGISTER NOW SAYS THIS ITSELF · 9 Sep ─────────────────
+       tools/harvest-frame.py writes an `unplaced` column, so the fourteen
+       frames harvested on 9 September carry the answer rather than leaving it
+       to be re-derived from decimal places. ATTICA.csv predates that column
+       and is detected the old way.
+
+       THE TWO SIGNALS WERE CHECKED AGAINST EACH OTHER BEFORE THIS WAS
+       TRUSTED. A coordinate on a 1/8-degree intersection and a bounding box
+       on a 0.25-degree cell mark the same rows: 91 of 92 in Attica, 277 of
+       278 in Gaul, 482 of 483 on the Black Sea. The odd one out each time is
+       a place with a fallback coordinate and no box at all. */
+    if (r.unplaced !== undefined && r.unplaced !== '') { return r.unplaced === '1'; }
     var g = 8;
     return Math.abs(r.lat * g - Math.round(r.lat * g)) < 1e-9 &&
            Math.abs(r.lon * g - Math.round(r.lon * g)) < 1e-9;
@@ -730,7 +784,10 @@
     el.innerHTML =
       '<div class="at-wrap">' +
         '<div class="at-head">' +
-          '<div class="at-title">Attica \u00b7 a hundred miles from the Acropolis</div>' +
+          '<div class="at-title">' +
+          esc(FRAME ? FRAME.name : 'Attica') + ' \u00b7 ' +
+          esc(FRAME ? FRAME.subtitle : 'a hundred miles from the Acropolis') +
+          '</div>' +
           '<div class="at-read"></div>' +
         '</div>' +
         '<svg viewBox="0 0 ' + VB + ' ' + VB + '" preserveAspectRatio="xMidYMid meet">' +
@@ -1305,9 +1362,30 @@
 
     el.querySelector('.at-note').innerHTML =
       switchSay +
-      '<span class="at-warn at-first">Every shoreline here is TODAY\u2019S. ' +
-      'Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, Eleusis and ' +
-      'Marathon are silted harbours.</span>' +
+      /* THE LAW IS EVERY FRAME'S; THE EXAMPLE IS ATTICA'S. Thermopylae and the
+         silted harbours are measurements on this ground and would be a false
+         specific on the Rhine. The sentence that matters travels; the evidence
+         for it does not. */
+      '<span class="at-warn at-first">Every shoreline here is TODAY\u2019S.' +
+      (FKEY === 'attica'
+        ? ' Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, ' +
+          'Eleusis and Marathon are silted harbours.'
+        : ' The terrain is the baseline because it is complete and free, NOT ' +
+          'because it is contemporary with anything drawn on it.') +
+      '</span>' +
+      (isReference()
+        ? '<span class="at-warn at-first">THIS IS A REFERENCE FRAME. Its places ' +
+          'are harvested from Pleiades and NOTHING HAS BEEN AUTHORED ON IT \u2014 no ' +
+          'why sentences, no events, no moves, no cues. What you see is the ' +
+          'gazetteer, not a reading of it.</span>'
+        : '') +
+      (groundErr || (FRAME && !FRAME.ground)
+        ? '<span class="at-warn at-first">' +
+          (groundErr ? esc(groundErr) + ' \u2014 ' : 'No ground has been cut for this ' +
+           'frame yet \u2014 ') +
+          'the places are drawn on nothing. A constellation rather than a chart, ' +
+          'which is a state and not a fault.</span>'
+        : '') +
       shown.length + ' of ' + rows.length + ' places \u00b7 ' + pins.length + ' pinned \u00b7 ' +
       wash.length + ' somewhere in an area \u00b7 ' +
       /* NOTHING NAMED IS CORRECT AND LOOKS BROKEN. At x1 with the whole
@@ -1716,25 +1794,72 @@
     }, true);
   }
 
+  /* \u2500\u2500 THE FRAME REGISTER LOADS BEFORE ANYTHING THAT DEPENDS ON IT \u2500\u2500\u2500\u2500
+     Everything below \u2014 the box, the projection, which CSVs to fetch, the
+     title \u2014 is downstream of one row. IT IS NOT FATAL IF IT IS MISSING:
+     without FRAMES.csv the surface stands on Attica's own constants, which is
+     exactly what it did before 9 September, and says so. A NEW REGISTER MUST
+     NOT BE ABLE TO TAKE DOWN A SURFACE THAT WORKED WITHOUT IT. */
+  function loadFrames(then) {
+    if (frames !== null || framesErr !== null) { then(); return; }
+    fetch(RAW + 'FRAMES.csv?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) {
+        if (!t) { framesErr = 'not in the repo yet'; return; }
+        /* \u2500\u2500 parse() DOES NOT DROP COMMENT LINES, AND `+''` IS 0 \u2500\u2500\u2500\u2500\u2500\u2500\u2500
+           The shared parser keeps a row if lat and lon are not NaN, and an
+           EMPTY STRING COERCES TO ZERO. Every `#` line in FRAMES.csv therefore
+           came through as a frame at 0N 0E \u2014 86 rows where there are 15, and
+           frames() would have listed seventy lines of prose as regions.
+           Caught by running the parser over the file rather than assuming.
+           Filtered here rather than in parse(), because the other registers
+           have depended on its exact behaviour since 6 September. */
+        var list = parse(t).filter(function (f) {
+          return f.key && f.key.charAt(0) !== '#' && f.radius_km;
+        });
+        var by = {};
+        list.forEach(function (f) { by[f.key] = f; });
+        frames = { list: list, by: by };
+        if (by[FKEY]) { useFrame(by[FKEY]); }
+      })
+      .catch(function (e) { framesErr = e.message; })
+      .then(then);
+  }
+
   function show() {
     mount();
     /* the two instruments never share the screen \u2014 the map's own rule, kept */
     document.body.classList.remove('scene-bare', 'scene-map');
     document.body.classList.add('scene-attica');
     open = true;
+    if (frames === null && framesErr === null) {
+      loadFrames(function () { if (open) { show(); } });
+      return true;
+    }
 
+    /* \u2500\u2500 GROUND IS OPTIONAL AND ITS ABSENCE IS A STATE, NOT A FAULT \u2500\u2500\u2500
+       Only Attica has an image cut. FRAMES.csv leaves `ground` blank for the
+       other fourteen, and this file already says in its own header what that
+       means: ground without places is a chart, places without ground is a
+       CONSTELLATION, and either is better than a blank surface with no reason
+       given. A missing image is not retried and not apologised for \u2014 it is
+       reported once, in the note, with the reason. */
     var img = el.querySelector('.at-ground');
-    if (!img.getAttribute('href')) {
+    var gname = FRAME ? (FRAME.ground || '') : 'ATTICA.jpg';
+    if (gname && img.getAttribute('data-g') !== gname) {
       img.addEventListener('error', function () {
-        el.querySelector('.at-note').innerHTML =
-          '<span class="at-warn">ATTICA.jpg did not load \u2014 the places are drawn on ' +
-          'nothing. That is a chart without ground, which is what this was before ' +
-          'the ground existed. Nothing is drawn in its place.</span>';
+        groundErr = gname + ' did not load';
       });
-      img.setAttribute('href', RAW + 'ATTICA.jpg');
+      img.setAttribute('data-g', gname);
+      img.setAttribute('href', RAW + gname);
+      groundErr = null;
+    } else if (!gname) {
+      img.removeAttribute('href');
+      img.removeAttribute('data-g');
+      groundErr = null;
     }
     if (whys === null && whysErr === null) {
-      fetch(RAW + 'ATTICA-WHY.csv?_=' + Date.now())
+      fetch(reg('-WHY.csv'))
         .then(function (r) { return r.ok ? r.text() : null; })
         .then(function (t) {
           if (!t) { whysErr = 'not in the repo yet'; return; }
@@ -1753,7 +1878,7 @@
         .catch(function (e) { whysErr = e.message; });
     }
     if (moves === null && movesErr === null) {
-      fetch(RAW + 'ATTICA-MOVES.csv?_=' + Date.now())
+      fetch(reg('-MOVES.csv'))
         .then(function (r) { return r.ok ? r.text() : null; })
         .then(function (t) {
           if (!t) { movesErr = 'not in the repo yet'; return; }
@@ -1775,7 +1900,7 @@
         .catch(function (e) { movesErr = e.message; });
     }
     if (events === null && eventsErr === null) {
-      fetch(RAW + 'ATTICA-EVENTS.csv?_=' + Date.now())
+      fetch(reg('-EVENTS.csv'))
         .then(function (r) { return r.ok ? r.text() : null; })
         .then(function (t) {
           if (!t) { eventsErr = 'not in the repo yet'; return; }
@@ -1798,7 +1923,7 @@
         .catch(function (e) { eventsErr = e.message; });
     }
     if (mentions === null && mentionsErr === null) {
-      fetch(RAW + 'ATTICA-MENTIONS.csv?_=' + Date.now())
+      fetch(reg('-MENTIONS.csv'))
         .then(function (r) { return r.ok ? r.text() : null; })
         .then(function (t) {
           if (!t) { mentionsErr = 'not in the repo yet'; return; }
@@ -1819,7 +1944,7 @@
         .catch(function (e) { mentionsErr = e.message; });
     }
     if (rows === null && loadErr === null) {
-      fetch(RAW + 'ATTICA.csv?_=' + Date.now())
+      fetch(reg('.csv'))
         .then(function (r) { if (!r.ok) { throw new Error('HTTP ' + r.status); } return r.text(); })
         .then(function (t) {
           /* ── THE CATCH MUST NOT BLAME THE FETCH FOR A DRAWING FAULT ──────
@@ -1899,6 +2024,36 @@
       return { key: era.k, from: era.a, until: era.b };
     },
     periods: function () { return PERIODS.map(function (p) { return p.k; }); },
+
+    /* \u2500\u2500 THE FRAME, AS A PARAMETER \u00b7 SLIP #4 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+           AmentiAttica.frames()          the keys on file
+           AmentiAttica.frame('sicilia')  stand somewhere else
+       Changing frame drops every register this surface holds, because they
+       are all keyed to the old one. A frame that kept the previous frame's
+       events would be drawing Marathon on the Rhine. */
+    frames: function () {
+      return frames ? frames.list.map(function (f) {
+        return { key: f.key, name: f.name, detail: f.detail,
+                 places: +f.places, ground: !!f.ground };
+      }) : (framesErr ? { error: framesErr } : null);
+    },
+    frame: function (k) {
+      if (!frames) { return framesErr ? { error: framesErr } : null; }
+      var f = frames.by[k];
+      if (!f) { return { error: 'no such frame: ' + k }; }
+      useFrame(f);
+      rows = null; loadErr = null; unplaced = 0;
+      whys = null; whysErr = null;
+      events = null; eventsErr = null;
+      moves = null; movesErr = null;
+      mentions = null; mentionsErr = null;
+      K = K_FIT; TX = 0; TY = 0;
+      var t = el && el.querySelector('.at-title');
+      if (t) { t.textContent = f.name + ' \u00b7 ' + f.subtitle; }
+      if (open) { show(); }
+      return { key: f.key, name: f.name, detail: f.detail,
+               places: +f.places, ground: f.ground || null };
+    },
 
     /* ── THE SWITCHES, OPENED · SLIP #78 ──────────────────────────────
        A TOUR IS A SEQUENCE OF REGISTER STATES, NOT A SCRIPT. These four do
