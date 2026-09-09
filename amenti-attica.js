@@ -1,5 +1,7 @@
 /* ============================================================================
-   amenti-attica.js  ·  ATTICA — the first place
+   amenti-attica.js  →  Amenti.live/amenti-attica.js
+   ----------------------------------------------------------------------------
+   ATTICA — the first place
    ----------------------------------------------------------------------------
    A hundred miles from the Acropolis, at 39 metres a pixel. Marathon, Salamis,
    Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame, on
@@ -523,6 +525,10 @@
       /* named by more than one reading room: the mark holds, the name reads */
       '#amenti-attica .at-cited .at-pin{stroke-opacity:1;fill-opacity:1}',
       '#amenti-attica .at-cited .at-name{opacity:1;fill:#eaf6ff}',
+      /* named in ten rooms or more: the type holds full white as well as
+         full size, so rank reads at a glance and not only on inspection */
+      '#amenti-attica .at-major .at-name{opacity:1;fill:#ffffff;',
+      '  letter-spacing:.06em}',
       '#amenti-attica .at-mentioned .at-pin{stroke-opacity:.92}',
       /* A WASH. Soft, edgeless, never a point. Pleiades called it rough. */
       '#amenti-attica .at-wash{fill:#4a6c8f;fill-opacity:.14;stroke:none;',
@@ -881,10 +887,28 @@
     });
     pins.forEach(function (r) {
       var p = proj(r.lat, r.lon);
-      var fit = true, w = (r.name || '').length * (LBL * 0.32) * iv;
+      /* ── A MAP WITH NO RANK CANNOT BE READ ────────────────────────────
+         Every place drew at one size, so Athens and the Dipylon Gate looked
+         alike — and the captain spent half an hour hunting for the city among
+         its own gates. Every map ever drawn sizes its type by importance; this
+         one had the ranking and rendered it flat.
+
+         THE SIZE IS NOT CHOSEN, IT IS THE REGISTER. `sources` is how many
+         reading rooms name the place, out of 603 texts. Athens 61, Corinth 27,
+         Delphi 24, a deme 0. Nothing here is an opinion about what matters:
+         the corpus already said.
+
+         On a logarithm, because 61 against 0 rendered linearly would be a
+         billboard beside a speck. 1.0x for an unnamed place, about 1.9x for
+         Athens. AND IT IS THE LABEL ONLY — a mark stands for a claim and a
+         claim does not get bigger, which is the same line the glass keeps. */
+      var mnr = mentions && mentions[r.key];
+      var rank = mnr ? 1 + Math.log(1 + mnr.src) * 0.22 : 1;
+      var lbl = LBL * rank;
+      var fit = true, w = (r.name || '').length * (lbl * 0.32) * iv;
       for (var i = 0; i < placed.length; i++) {
         if (Math.abs(p[0] - placed[i][0]) < (w + placed[i][2]) &&
-            Math.abs(p[1] - placed[i][1]) < LBL * 1.4 * iv) { fit = false; break; }
+            Math.abs(p[1] - placed[i][1]) < lbl * 1.4 * iv) { fit = false; break; }
       }
       if (fit && K >= 1.8) { placed.push([p[0], p[1], w]); named++; } else { fit = false; dropped++; }
       var und = undatedInAntiquity(r);
@@ -912,6 +936,7 @@
          sources or more and it holds full strength; the rest sit back. */
       var mn = mentions && mentions[r.key];
       ph += '<g class="at-seat at-' + m + (fit ? ' at-named' : '') +
+            (mnr && mnr.src >= 10 ? ' at-major' : '') +
             (und ? ' at-undated' : '') +
             (mn ? (mn.src > 1 ? ' at-cited' : ' at-mentioned') : '') +
             '" data-k="' + esc(r.key) + '">' + body +
@@ -932,9 +957,9 @@
                slightly fatter stems than 7.7 px type has room for. 0.17 leaves
                the stem clear at every size this surface draws. */
             (fit ? '<text class="at-name" x="' + p[0].toFixed(2) + '" y="' +
-                   (p[1] - LBL * 0.68 * iv).toFixed(2) + '" style="font-size:' +
-                   (LBL * iv).toFixed(3) + 'px;stroke-width:' +
-                   (LBL * 0.17 * iv).toFixed(3) + 'px">' +
+                   (p[1] - lbl * 0.68 * iv).toFixed(2) + '" style="font-size:' +
+                   (lbl * iv).toFixed(3) + 'px;stroke-width:' +
+                   (lbl * 0.17 * iv).toFixed(3) + 'px">' +
                    esc(r.name) + '</text>' : '') +
             '</g>';
     });
