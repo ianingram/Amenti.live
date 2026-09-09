@@ -1,7 +1,5 @@
 /* ============================================================================
-   amenti-attica.js  →  Amenti.live/amenti-attica.js
-   ----------------------------------------------------------------------------
-   ATTICA — the first place
+   amenti-attica.js  ·  ATTICA — the first place
    ----------------------------------------------------------------------------
    A hundred miles from the Acropolis, at 39 metres a pixel. Marathon, Salamis,
    Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame, on
@@ -128,6 +126,18 @@
      place exists — a sea-fight in open water — the coordinate is authored and
      `at` is empty, which is how the file says so. */
   var events = null, eventsErr = null;
+
+  /* ── WHY THE GROUND MATTERED · optional ─────────────────────────────────
+     ATTICA-WHY.csv holds 39 authored sentences and THE SURFACE HAS NEVER READ
+     ONE. They were written, placed, and left unwired for two days — the value
+     was already in the repository and only the connection was missing, which
+     is the cheapest kind of fault to have and the easiest to leave.
+
+     Pleiades can say a place is a mine. It cannot say the silver from those
+     hills paid for the fleet that fought at Salamis. That sentence is the only
+     part of the register a gazetteer cannot hold, and it is the reason a
+     reader would look at the mark at all. */
+  var whys = null, whysErr = null;
 
   /* ── TWO CLOCKS, BECAUSE THE TWO REGISTERS HAVE TWO GRAINS ──────────────
      The obvious thing is one scrubber moving everything. IT CANNOT BE DONE
@@ -310,6 +320,93 @@
   function proj(lat, lon) {
     return [(lon - LO0) / (LO1 - LO0) * VB,
             (LA1 - lat) / (LA1 - LA0) * VB];
+  }
+
+  /* ── WHAT IS NEAR THIS, AND WHAT ELSE WAS HAPPENING ─────────────────────
+     Both are measurements rather than claims. A NEIGHBOUR IS A DISTANCE — the
+     panel says these are the nearest things in the register, not that they are
+     connected. A COMPANION EVENT IS A YEAR — it says these fall in the window
+     the reader has open, not that one caused another.
+
+     The distinction matters because a reading panel is prose, and prose is
+     read as argument unless it is careful to be a list. */
+  function nearby(r, howMany) {
+    if (!rows) { return []; }
+    var out = [];
+    for (var i = 0; i < rows.length; i++) {
+      var o = rows[i];
+      if (o.key === r.key || !o.name || !alive(o)) { continue; }
+      var dx = (o.lon - r.lon) * 111 * Math.cos(r.lat * Math.PI / 180);
+      var dy = (o.lat - r.lat) * 111;
+      var d = Math.hypot(dx, dy);
+      if (d > 6) { continue; }
+      out.push([d, o]);
+    }
+    out.sort(function (a, b) { return a[0] - b[0]; });
+    return out.slice(0, howMany);
+  }
+
+  function reading(r) {
+    var L = [];
+    L.push(r.name);
+    L.push((r.kind || '').replace(/\|/g, ' · '));
+    L.push(r.tier === 'pin' ? 'a position' : 'somewhere in this area — not a point');
+
+    if (r.from !== null && r.from >= MODERN_FROM) {
+      L.push('no ancient date — the only location on file is a modern survey (' +
+             yr(r.from) + ')');
+    } else if (r.from !== null || r.until !== null) {
+      L.push('attested ' + (r.from !== null ? yr(r.from) : '?') + ' to ' +
+             (r.until !== null ? yr(r.until) : '?'));
+    } else {
+      L.push('no date in the register');
+    }
+
+    /* THE SENTENCE. The only part of this a gazetteer cannot hold. */
+    var w = whys && whys[r.key];
+    if (w) { L.push(''); L.push(w); }
+
+    var near = nearby(r, 4);
+    if (near.length) {
+      L.push('');
+      L.push('nearest in the register:');
+      near.forEach(function (p) {
+        L.push('   ' + p[1].name + '  · ' + p[0].toFixed(1) + ' km');
+      });
+    }
+
+    /* what else was in the window — a year, not a cause */
+    if (events) {
+      var win = events.filter(function (v) {
+        if (scrub !== null) { return Math.abs(v.year - scrub) <= FADE; }
+        return era.a === null || (v.year >= era.a && v.year <= era.b);
+      });
+      var here = win.filter(function (v) { return v.at === r.key; });
+      var elsewhere = win.filter(function (v) { return v.at !== r.key; });
+      if (here.length) {
+        L.push('');
+        L.push('here:');
+        here.forEach(function (v) { L.push('   ' + yr(v.year) + '  ' + v.name); });
+      }
+      if (elsewhere.length && scrub !== null) {
+        L.push('');
+        L.push('and in these years, elsewhere:');
+        elsewhere.slice(0, 5).forEach(function (v) {
+          L.push('   ' + yr(v.year) + '  ' + v.name);
+        });
+      }
+    }
+
+    var mn = mentions && mentions[r.key];
+    L.push('');
+    if (mn) {
+      L.push('named ' + mn.n + ' time' + (mn.n === 1 ? '' : 's') + ' in ' +
+             mn.src + ' reading room' + (mn.src === 1 ? '' : 's'));
+    } else if (mentions) {
+      L.push('named by nothing in the library');
+    }
+    L.push(r.km + ' km from the Acropolis');
+    return L.join('\n');
   }
 
   function esc(s) {
@@ -569,8 +666,9 @@
       '  font-size:10.5px;padding:3px 8px}',
       '#amenti-attica .at-play[aria-pressed="true"]{color:#0a1018;background:#e0913f}',
       '#amenti-attica .at-hit{position:fixed;pointer-events:none;z-index:9;',
-      '  background:rgba(8,12,20,.95);border:1px solid #2b3a50;border-radius:3px;',
-      '  padding:7px 10px;font-size:11.5px;color:#dbe4f0;max-width:38ch;',
+      '  background:rgba(8,12,20,.96);border:1px solid #2b3a50;border-radius:3px;',
+      '  padding:9px 12px;font-size:11.5px;line-height:1.5;color:#dbe4f0;',
+      '  max-width:52ch;max-height:70vh;overflow:hidden;',
       '  opacity:0;transition:opacity .12s;white-space:pre-line}'
     ].join('\n');
     document.head.appendChild(s);
@@ -1299,25 +1397,21 @@
       if (!n) { hit.style.opacity = 0; return; }
       var r = rows && rows.filter(function (x) { return x.key === n.getAttribute('data-k'); })[0];
       if (!r) { return; }
-      hit.textContent = r.name + '\n' + (r.kind || '') +
-        '\n' + (r.tier === 'pin' ? 'a position' : 'somewhere in this area') +
-        (r.from !== null && r.from >= MODERN_FROM
-          ? '\nno ancient date \u2014 the only location on file is a modern survey (' +
-            yr(r.from) + ')'
-          : (r.from !== null || r.until !== null
-              ? '\nattested ' + (r.from !== null ? yr(r.from) : '?') + ' to ' +
-                (r.until !== null ? yr(r.until) : '?')
-              : '\nno date in the register')) +
-        '\n' + r.km + ' km from the Acropolis' +
-        (function () {
-          var mn = mentions && mentions[r.key];
-          if (!mn) {
-            return mentions ? '\n\nnamed by nothing in the library' : '';
-          }
-          return '\n\nnamed ' + mn.n + ' time' + (mn.n === 1 ? '' : 's') +
-                 ' in ' + mn.src + ' reading room' + (mn.src === 1 ? '' : 's') +
-                 (mn.where ? '\n' + mn.where.replace(/;/g, '\n') : '');
-        })();
+      /* ── A READING, NOT A ROW ─────────────────────────────────────────
+         The tooltip listed columns: kind, tier, dates, distance. All true and
+         none of it a reason to care. A PLACE ON A TEMPORAL MAP CAN ANSWER FIVE
+         QUESTIONS AND FOUR OF THEM WERE ALREADY IN THE REPOSITORY:
+
+             what is this          kind, dates, pin or wash
+             why the ground        ATTICA-WHY.csv — written and unread
+             what is near it       from coordinates already held
+             what else was happening   events inside the year window
+             who wrote about it    ATTICA-MENTIONS.csv
+
+         Each is a join on files that exist. Nothing here is authored at draw
+         time and nothing is inferred: a neighbour is a distance, and a
+         companion event is a year. */
+      hit.textContent = reading(r);
       hit.style.opacity = 1;
     });
     el.addEventListener('pointermove', function (e) {
@@ -1445,6 +1539,25 @@
           'the ground existed. Nothing is drawn in its place.</span>';
       });
       img.setAttribute('href', RAW + 'ATTICA.jpg');
+    }
+    if (whys === null && whysErr === null) {
+      fetch(RAW + 'ATTICA-WHY.csv?_=' + Date.now())
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (t) {
+          if (!t) { whysErr = 'not in the repo yet'; return; }
+          whys = {};
+          var lines = t.replace(/\r\n/g, '\n').split('\n');
+          var cols = split(lines[0]);
+          for (var i = 1; i < lines.length; i++) {
+            var l = lines[i];
+            if (!l.trim() || l.replace(/^\s+/, '').charAt(0) === '#') { continue; }
+            var c = split(l), o = {};
+            for (var j = 0; j < cols.length; j++) { o[cols[j]] = c[j] == null ? '' : c[j]; }
+            if (o.key && o.why) { whys[o.key] = o.why; }
+          }
+          draw();
+        })
+        .catch(function (e) { whysErr = e.message; });
     }
     if (moves === null && movesErr === null) {
       fetch(RAW + 'ATTICA-MOVES.csv?_=' + Date.now())
