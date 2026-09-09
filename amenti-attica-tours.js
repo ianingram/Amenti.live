@@ -135,8 +135,15 @@
     band.querySelector('.att-dots').innerHTML = steps.map(function (s, i) {
       return '<i' + (i === at ? ' class="att-on"' : '') + ' data-i="' + i + '"></i>';
     }).join('');
+    /* ── IT MUST NOT SAY `play` · 9 Sep ─────────────────────────
+       THE CLOCK ALREADY HAS A BUTTON CALLED `play` AND IT RUNS THE YEAR. This
+       one runs a sequence of register states. They sat a hundred pixels apart
+       on the same surface, both reading `play`, and the captain pressed one
+       expecting the other — then reported the tour broken, which it was not.
+       A LABEL THAT IS RIGHT ABOUT ITS OWN FUNCTION CAN STILL BE WRONG ON A
+       SURFACE THAT ALREADY USES THE WORD. */
     var pb = band.querySelector('.att-play');
-    if (pb) { pb.textContent = playing ? 'pause' : 'play'; }
+    if (pb) { pb.textContent = playing ? '\u25a0 stop tour' : '\u25b6 run tour'; }
     lift();
   }
 
@@ -193,6 +200,10 @@
       '  background:rgba(5,8,14,.72);padding:6px 8px;border-radius:2px}',
       '#amenti-attica .att-ctl button{background:none;border:1px solid #2b3b4d;',
       '  color:#9fb4c8;font:inherit;padding:2px 9px;border-radius:2px;cursor:pointer}',
+      /* the running state is the band's own amber, so at a glance it is clear
+         WHICH of the two clocks on this surface is moving */
+      '#amenti-attica .att-ctl .att-play{border-color:#5a4630}',
+      '#amenti-attica .att-ctl .att-play:hover{border-color:#e0913f;color:#e0913f}',
       '#amenti-attica .att-ctl button:hover{color:#dbe8f5;border-color:#4b647d}',
       '#amenti-attica .att-ctl select{background:#0a1017;border:1px solid #2b3b4d;',
       '  color:#9fb4c8;font:inherit;padding:2px 4px;border-radius:2px}',
@@ -318,7 +329,9 @@
       '<div class="att-ctl">' +
       '<select class="att-pick"></select>' +
       '<button type="button" class="att-prev">\u2039</button>' +
-      '<button type="button" class="att-play">play</button>' +
+      '<button type="button" class="att-play" ' +
+      'title="step through the frames of this tour \u2014 not the year clock">' +
+      '\u25b6 run tour</button>' +
       '<button type="button" class="att-next">\u203a</button>' +
       '<span class="att-dots"></span>' +
       '</div>';

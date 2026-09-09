@@ -141,14 +141,28 @@
     placeFrames();
   }
 
-  /* measured, not offset — see the note on .at-frames in style() */
+  /* ── MEASURED AT BOTH ENDS ─────────────────────────────────
+     The top comes off the key's real height, and the bottom off whatever is
+     actually below — the note, or failing that the clock, or failing that the
+     control row. A LIST THAT SCROLLS IS HONEST; A LIST THAT LIES ACROSS THE
+     NOTE IS NOT, and z-index only decides which of the two you can read. */
   function placeFrames() {
     var box = el && el.querySelector('.at-frames');
-    var key = el && el.querySelector('.at-key');
     if (!box) { return; }
+    var key = el.querySelector('.at-key');
     var top = 52;
     if (key && key.offsetHeight) { top = key.offsetTop + key.offsetHeight + 10; }
     box.style.top = top + 'px';
+
+    var floor = null;
+    ['.at-note', '.at-clock', '.at-ctl'].some(function (sel) {
+      var n = el.querySelector(sel);
+      if (n && n.offsetHeight) { floor = n.offsetTop; return true; }
+      return false;
+    });
+    var host = el.getBoundingClientRect();
+    if (floor === null) { floor = host.height - 16; }
+    box.style.maxHeight = Math.max(90, floor - top - 14) + 'px';
   }
   /* ── THE OPENING VIEW HAD NO AIR AROUND IT ─────────────────────────────
      At K=1 the box filled the frame corner to corner. A reader arriving saw
@@ -792,7 +806,11 @@
       '  display:flex;flex-direction:column;gap:1px;font-size:10.5px;',
       '  color:#7d8ea6;background:rgba(5,8,14,.62);padding:8px 12px;',
       '  border:1px solid rgba(43,58,80,.5);border-radius:4px;letter-spacing:.03em;',
-      '  max-height:44vh;overflow-y:auto;scrollbar-width:thin;',
+      /* max-height IS SET AT RUNTIME by placeFrames(). 44vh was a guess and it
+         ran the list down over the note and the year scrub on a tall window —
+         THE THIRD TIME IN ONE EVENING A FIXED PROPORTION WAS USED WHERE THE
+         SPACE HAD TO BE MEASURED. */
+      '  overflow-y:auto;scrollbar-width:thin;',
       '  scrollbar-color:#2b3a50 transparent}',
       '#amenti-attica .at-frames .at-fhead{color:#5d6e84;padding-bottom:5px;',
       '  margin-bottom:4px;border-bottom:1px solid rgba(43,58,80,.6);',
