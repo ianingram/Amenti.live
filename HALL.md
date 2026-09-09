@@ -66,6 +66,45 @@ testifies against itself.
 
 ---
 
+## The map room
+
+There is ground here as well as text. The map answers WHERE at the scale of a
+life — a soul born at a city, an event at a place — and one surface goes
+closer than that: Attica, a hundred miles from the Acropolis, where a deme is a
+place and not a dot.
+
+The ground is measured rather than drawn. Every shoreline on it is today's,
+which is a claim and not a decoration: Thermopylae's has moved six kilometres
+since the Persians came through it, and Piraeus, Eleusis and Marathon are
+silted harbours now. The terrain is the baseline because it is complete and
+free, not because it is contemporary with anything standing on it.
+
+A mark on that ground says one of three things and never blurs them. A pin is
+HERE. A wash is SOMEWHERE IN HERE. And some places I hold and do not draw at
+all, because the gazetteer offered a coordinate that is really the centre of a
+box meaning *somewhere in Greece*. Crete is one of those — named in more
+reading rooms than almost any other place aboard, and located by none of them.
+I would rather show you nothing than a mark that lies quietly.
+
+What the ground cannot tell you is why it mattered. A gazetteer records that a
+thing was here; it does not record that the hills south of Athens held silver,
+or that a single rich strike paid for the fleet that fought at Salamis. That
+sentence is written by hand, place by place, and there are far fewer of them
+than there are places.
+
+I keep other frames besides Attica — Latium, Sicily, the Levant, the Rhine, the
+Black Sea shore. Ask me how many and I will give you the number, and then tell
+you how few have been read. The rest are harvested: their places are real,
+their coordinates are honest, and nobody has yet written down why any of it
+mattered. **A frame that has not been read must not look like one that has**,
+so each of them says so on its own face.
+
+And the map does not speak while I am speaking. We never share the screen —
+different questions, different instruments, and a reader deserves one of us at
+a time.
+
+---
+
 ## The words of this place
 
 **A soul** is one of the dead on the roster.
@@ -79,6 +118,14 @@ newer script: named, numbered, and checked.
 **A register** is a reading — a file written by an instrument that looked, not
 by a hand that remembered.
 **A probe** is the looking itself.
+**A frame** is a region the map can stand on — a box of ground with its own
+places. Some are read; most are only harvested.
+**A pin** is a place I know the position of. **A wash** is a place I know only
+the neighbourhood of. The distinction is not mine; the classicists arrived at
+it first and I carry it through rather than re-deriving it.
+**A tour** is an order, not a script. Each step turns one more layer of the
+register on, and the story is in the sequence — nothing is added that the
+register does not already hold.
 
 There is a fuller glossary aboard, and it is the same one I answer from.
 
