@@ -1,0 +1,17 @@
+{
+  "_": "AUTHORED BY HAND. What a million tokens costs, per model, so amenti-meter.js can price what the door already counts. A PRICE CHANGE IS AN EDIT TO THIS FILE and not a deploy.",
+  "_where": "Amenti.live/RATES.json",
+  "_law": "A RATE HERE IS A CLAIM ABOUT A BILL AND MUST BE CHECKED AGAINST THE CONSOLE. These were read from third-party trackers on 9 Sep 2026, not from an invoice. If the meter and the invoice disagree, THE INVOICE IS RIGHT and this file is wrong.",
+  "_honesty": "A model with no entry here is reported UNPRICED BY NAME, never priced at zero. The meter shows tokens and withholds dollars rather than showing a number from a stale constant, because a stale price looks like a measurement.",
+  "_units": "US dollars per 1,000,000 tokens. `in` is input, `out` is output. Cached reads and batch discounts are NOT modelled — both make the real bill lower, so the meter reads high rather than low, which is the safe direction for a number you are budgeting against.",
+  "checked": "2026-09-09",
+  "source": "third-party rate trackers, cross-read; NOT an Anthropic invoice",
+  "rates": {
+    "claude-sonnet-4-6":            { "in": 3,  "out": 15 },
+    "claude-sonnet-5":              { "in": 3,  "out": 15 },
+    "claude-haiku-4-5-20251001":    { "in": 1,  "out": 5  },
+    "claude-haiku-4-5":             { "in": 1,  "out": 5  },
+    "claude-opus-5":                { "in": 5,  "out": 25 },
+    "claude-fable-5-1":             { "in": 10, "out": 50 }
+  }
+}
