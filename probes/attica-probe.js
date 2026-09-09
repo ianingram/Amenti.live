@@ -198,6 +198,41 @@
     if (!faults) { say('  no switch fault \u2014 every mark answers to its own row.'); }
   }
 
+  /* -- 3b . DOES EVERY CONTROL AGREE WITH THE STATE IT CONTROLS ----------
+     Found 9 September BY EYE, in a screenshot: the heading read CLASSICAL
+     550-330 BC while the lit period button read HELLENISTIC, because a tour
+     frame had set the period and aria-pressed was only ever written by the
+     click handler.
+
+     A CONTROL THAT DISAGREES WITH ITS OWN STATE IS WORSE THAN A MISSING ONE.
+     A reader trusts the lit button over the heading, and both were on screen
+     saying different things. This drives each period in turn and checks that
+     the button and the register move together. */
+  head('3b \u00b7 THE CONTROLS AGAINST THE STATE');
+  if (!A || typeof A.period !== 'function' || !A.periods) {
+    blind('the control test', 'AmentiAttica.period() or periods() unavailable');
+    say('  not run.');
+  } else {
+    var back = (periodKey === '(none lit)') ? 'all' : periodKey;
+    var wrong = 0;
+    A.periods().forEach(function (p) {
+      var got = A.period(p);
+      var b = $('.at-ctl button[data-p="' + p + '"]', el);
+      var litNow = $('.at-ctl button[data-p][aria-pressed="true"]', el);
+      if (!b || b.getAttribute('aria-pressed') !== 'true' ||
+          !litNow || litNow.getAttribute('data-p') !== p) {
+        wrong++;
+        say('  \u2716 period(' + p + '): the register moved to ' +
+            (got && got.key) + ' and the lit button says ' +
+            (litNow ? litNow.getAttribute('data-p') : 'NONE'));
+      }
+    });
+    A.period(back);
+    say(wrong ? '  ' + wrong + ' period(s) leave their button behind.'
+              : '  every period moves its button and the register together.');
+    say('  restored to: ' + back);
+  }
+
   /* ── 4 · EVERY MARK RESOLVES TO A ROW ─────────────────────────────────── */
   head('4 \u00b7 MARKS WITHOUT KEYS');
   var noKey = $$('.at-pin, .at-wash', el).filter(function (n) {
