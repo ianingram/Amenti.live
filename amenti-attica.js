@@ -62,7 +62,17 @@
   /* the box render-attica.py cut, and the projection that matches it */
   var LA0 = 36.542, LA1 = 39.425, LO0 = 21.899, LO1 = 25.556;
   var VB = 1000;                       /* square: the box is 1.0002 tall */
-  var K = 1, TX = 0, TY = 0, K_MIN = 1, K_MAX = 12;
+  /* ── THE OPENING VIEW HAD NO AIR AROUND IT ─────────────────────────────
+     At K=1 the box filled the frame corner to corner. A reader arriving saw
+     ground running off every edge with nothing to orient against, and could
+     not tell whether they were looking at the whole region or the middle of
+     something larger.
+
+     A MAP NEEDS A MARGIN TO READ AS A MAP. K_MIN drops below one so the
+     hundred-mile square sits inside the frame with sea around it, and the
+     opening view is that rather than the tightest possible crop. */
+  var K_FIT = 0.86;
+  var K = K_FIT, TX = 0, TY = 0, K_MIN = 0.7, K_MAX = 12;
 
   /* ── THE REGISTER KNOWS PERIODS, NOT YEARS · measured 7 Sep ──────────────
      The first version of this surface offered year buttons — 480 BC, 430 BC,
@@ -1463,7 +1473,7 @@
             o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
           });
         } else if (z === 'fit') {
-          K = 1; TX = 0; TY = 0;
+          K = K_FIT; clamp();
         } else {
           zoom(z === 'in' ? 1.5 : 1 / 1.5);
         }
@@ -1482,10 +1492,18 @@
       K = k; TX = mx - wx * K; TY = my - wy * K;
       clamp();
     }
+    /* ── AND THE CLAMP HAD TO LEARN ABOUT ZOOMING OUT ────────────────────
+       It kept the image covering the frame, which is right above K=1 and
+       impossible below it: at K<1 the box is SMALLER than the frame and the
+       old rule would have pinned it to a corner. Under one, it centres. */
     function clamp() {
-      var m = VB - VB * K;
-      TX = Math.min(0, Math.max(m, TX));
-      TY = Math.min(0, Math.max(m, TY));
+      if (K >= 1) {
+        var m = VB - VB * K;
+        TX = Math.min(0, Math.max(m, TX));
+        TY = Math.min(0, Math.max(m, TY));
+      } else {
+        TX = TY = (VB - VB * K) / 2;
+      }
     }
     el.addEventListener('wheel', function (e) {
       e.preventDefault();
@@ -1510,7 +1528,7 @@
     ['pointerup', 'pointercancel'].forEach(function (t) {
       el.addEventListener(t, function () { pan = false; svg.classList.remove('at-drag'); });
     });
-    el.addEventListener('dblclick', function () { K = 1; TX = 0; TY = 0; draw(); });
+    el.addEventListener('dblclick', function () { K = K_FIT; clamp(); draw(); });
     ['click', 'pointerdown'].forEach(function (t) {
       el.addEventListener(t, function (e) { e.stopPropagation(); });
     });
