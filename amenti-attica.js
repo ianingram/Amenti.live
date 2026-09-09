@@ -106,6 +106,50 @@
   /* the registers this frame reads, named off its key */
   function reg(suffix) { return RAW + FKEY.toUpperCase() + suffix + '?_=' + Date.now(); }
   function isReference() { return !!(FRAME && FRAME.detail !== 'full'); }
+
+  /* ── THE PICKER ──────────────────────────────────────────
+     Left edge, under the key, because the key already answers WHAT IS ON THIS
+     GROUND and this answers WHICH GROUND. The bottom of the surface holds four
+     rows already and a fifth would be one too many.
+
+     IT CARRIES THE PLACE COUNT AND MARKS THE AUTHORED FRAME. A reader choosing
+     between fifteen names should see, before clicking, that one of them has
+     been read and fourteen have only been harvested. */
+  function drawFrames() {
+    var box = el && el.querySelector('.at-frames');
+    if (!box) { return; }
+    if (!frames) {
+      box.innerHTML = '<div class="at-fhead">frames</div>' +
+        '<div style="color:#c99a4e">' +
+        (framesErr ? 'FRAMES.csv not read (' + esc(framesErr) + ') \u2014 standing on ' +
+                     'Attica\u2019s own box, which is what this did before the register '
+                   : 'reading FRAMES.csv\u2026') + '</div>';
+      placeFrames();
+      return;
+    }
+    box.innerHTML = '<div class="at-fhead">frames \u00b7 ' + frames.list.length + '</div>' +
+      frames.list.map(function (f) {
+        var auth = f.detail === 'full';
+        return '<button type="button" data-f="' + esc(f.key) + '"' +
+               (f.key === FKEY ? ' aria-current="true"' : '') +
+               (auth ? ' class="at-fauth"' : '') +
+               ' title="' + esc(f.subtitle || '') + ' \u00b7 ' + esc(f.radius_km) +
+               ' km' + (auth ? '' : ' \u00b7 harvested, nothing authored') + '">' +
+               esc(f.name) +
+               '<i>' + esc(f.places) + (auth ? ' \u00b7 read' : '') + '</i></button>';
+      }).join('');
+    placeFrames();
+  }
+
+  /* measured, not offset — see the note on .at-frames in style() */
+  function placeFrames() {
+    var box = el && el.querySelector('.at-frames');
+    var key = el && el.querySelector('.at-key');
+    if (!box) { return; }
+    var top = 52;
+    if (key && key.offsetHeight) { top = key.offsetTop + key.offsetHeight + 10; }
+    box.style.top = top + 'px';
+  }
   /* ── THE OPENING VIEW HAD NO AIR AROUND IT ─────────────────────────────
      At K=1 the box filled the frame corner to corner. A reader arriving saw
      ground running off every edge with nothing to orient against, and could
@@ -738,6 +782,32 @@
          a reader sees a mark they cannot look up and assumes it means
          something. It wraps here, and it counts, so the key doubles as a
          census of what the period holds. */
+      /* ── THE FRAMES SIT UNDER THE KEY, AND `top` IS MEASURED ─────────
+         The legend is twelve rows today and will not always be. A fixed offset
+         under it would be right until the day a mark is added — the same
+         mistake the tour band made against the control row on 9 September,
+         where the arithmetic was right and the survey was short. placeFrames()
+         reads the key's real height. */
+      '#amenti-attica .at-frames{position:absolute;left:26px;z-index:6;',
+      '  display:flex;flex-direction:column;gap:1px;font-size:10.5px;',
+      '  color:#7d8ea6;background:rgba(5,8,14,.62);padding:8px 12px;',
+      '  border:1px solid rgba(43,58,80,.5);border-radius:4px;letter-spacing:.03em;',
+      '  max-height:44vh;overflow-y:auto;scrollbar-width:thin;',
+      '  scrollbar-color:#2b3a50 transparent}',
+      '#amenti-attica .at-frames .at-fhead{color:#5d6e84;padding-bottom:5px;',
+      '  margin-bottom:4px;border-bottom:1px solid rgba(43,58,80,.6);',
+      '  letter-spacing:.08em}',
+      '#amenti-attica .at-frames button{background:none;border:0;color:#7d8ea6;',
+      '  font:inherit;text-align:left;padding:2px 0;cursor:pointer;',
+      '  display:flex;align-items:baseline;gap:7px;white-space:nowrap}',
+      '#amenti-attica .at-frames button:hover{color:#dbe8f5}',
+      '#amenti-attica .at-frames button[aria-current="true"]{color:#e0913f}',
+      /* A REFERENCE FRAME IS MARKED WHERE IT IS CHOSEN, not only once it is
+         open. A reader picking between fifteen names should be able to see
+         which one has been read and which fourteen have only been harvested. */
+      '#amenti-attica .at-frames i{font-style:normal;color:#4d5c70;',
+      '  font-size:9.5px;margin-left:auto;padding-left:10px}',
+      '#amenti-attica .at-frames .at-fauth i{color:#c99a4e}',
       '#amenti-attica .at-key{position:absolute;left:26px;top:52px;z-index:6;',
       '  display:flex;flex-direction:column;gap:3px;font-size:10.5px;',
       '  color:#7d8ea6;background:rgba(5,8,14,.62);padding:9px 12px;',
@@ -817,6 +887,7 @@
         '<div class="at-note"></div>' +
       '</div>' +
       '<div class="at-key"></div>' +
+      '<div class="at-frames"></div>' +
       '<div class="at-listhead"></div><div class="at-list"></div>' +
       '<div class="at-ctl">' +
         PERIODS.map(function (p) {
@@ -1469,6 +1540,18 @@
                '<svg viewBox="0 0 13 13">' + body + '</svg>' + o.label +
                '<b data-n="' + o.k + '"></b></div>';
       }).join('');
+      var fb = el.querySelector('.at-frames');
+      if (fb && !fb.getAttribute('data-wired')) {
+        fb.setAttribute('data-wired', '1');
+        fb.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var b = e.target.closest ? e.target.closest('[data-f]') : null;
+          if (!b) { return; }
+          var k = b.getAttribute('data-f');
+          if (k === FKEY) { return; }
+          window.AmentiAttica.frame(k);
+        });
+      }
       key.addEventListener('click', function (e) {
         var d = e.target.closest ? e.target.closest('[data-m]') : null;
         if (!d) { return; }
@@ -1484,6 +1567,7 @@
         if (b) { b.textContent = tally[o.k] || 0; }
       });
     }
+    drawFrames();
 
     var lh = el.querySelector('.at-listhead');
     if (lh) {
