@@ -147,6 +147,13 @@
      control row. A LIST THAT SCROLLS IS HONEST; A LIST THAT LIES ACROSS THE
      NOTE IS NOT, and z-index only decides which of the two you can read. */
   function placeFrames() {
+    /* ── THE NOTE IS FITTED FIRST, BECAUSE THIS FUNCTION CAN RETURN EARLY ─
+       It was called at the END and the short-window branch returns before
+       reaching it, so on exactly the window where the panes are tightest the
+       gutter fix never ran. AN EARLY RETURN IS A SILENT SKIP OF EVERYTHING
+       BELOW IT, and the thing below it here had nothing to do with the frames
+       at all. Unconditional work goes above the first branch. */
+    fitNote();
     var box = el && el.querySelector('.at-frames');
     var key = el && el.querySelector('.at-key');
     if (!box || !key) { return; }
@@ -193,7 +200,6 @@
     key.style.overflowY = wantKey > keyH ? 'auto' : '';
     box.style.top = (top0 + keyH + gap) + 'px';
     box.style.maxHeight = listH + 'px';
-    fitNote();
   }
 
   /* ── THE NOTE'S GUTTER IS MEASURED OFF THE LIST · 9 Sep ────────────
