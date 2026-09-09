@@ -266,7 +266,10 @@
       '#amenti-attica .ath-st-record{color:#c99a4e}',
       '#amenti-attica .ath-st-inference{color:#b98cd0}',
       '#amenti-attica .ath-turn,#amenti-attica .ath-room{display:block;',
-      '  color:#5d6e84;font-size:8.5px;margin-top:1px}'
+      '  color:#5d6e84;font-size:8.5px;margin-top:1px}',
+      /* the sentence that tells a reader what the other state would give */
+      '#amenti-attica .ath-hint{display:block;color:#4d5c70;font-size:8.5px;',
+      '  letter-spacing:.02em;margin-top:1px;text-transform:none}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -313,9 +316,26 @@
         if (!t && !o) { return ''; }
         var y = yearNow();
         var showT = alive(t, y), showO = alive(o, y);
+        /* ── EACH STATE NAMES THE OTHER · 9 Sep ──────────────────────
+           The header used to read `its life` or `in 431 BC` and say nothing
+           about why the pane held twelve paragraphs one moment and one the
+           next. A READER WHO HOVERS THE SAME PLACE TWICE AND GETS DIFFERENT
+           AMOUNTS OF IT NEEDS TO BE TOLD WHY, at the place they are looking,
+           and not in a manual. It is the same admission as `cues need a year`
+           on the clock and `the image is spent at x8` on the glass.
+
+           It says it only when there is something to explain: one moment out
+           of one needs no instruction. */
+        var total = (t || []).length;
         var head = (y === null)
-          ? '<div class="ath-head">its life</div>'
-          : '<div class="ath-head">in ' + Math.abs(y) + (y < 0 ? ' BC' : ' AD') + '</div>';
+          ? '<div class="ath-head">its life' +
+            (total > 1 ? ' · ' + total + ' moments' +
+              '<span class="ath-hint">set the year to read one</span>' : '') +
+            '</div>'
+          : '<div class="ath-head">in ' + Math.abs(y) + (y < 0 ? ' BC' : ' AD') +
+            (total > 1 ? ' · ' + showT.length + ' of ' + total + ' moments' +
+              '<span class="ath-hint">clock off for the whole life</span>' : '') +
+            '</div>';
         if (!showT.length && !showO.length) {
           return head + '<div class="ath-none">nothing recorded of this ground in ' +
                  'that year. Turn the clock off for the whole life.</div>';

@@ -988,10 +988,17 @@
         '<button type="button" data-z="fit">fit</button>' +
       '</div>' +
       '<div class="at-clock">' +
-        '<span class="at-clocklab">the year</span>' +
+        /* NAMED, BECAUSE IT DOES TWO THINGS. It moves the year for events,
+           moves and cues, and it decides whether a place shows its whole life
+           or the one moment alive in that year. `the year` named the first
+           and said nothing about the second. */
+        '<span class="at-clocklab">the temporal toggle</span>' +
         '<input class="at-scrub" type="range" min="-520" max="320" step="1" value="-480">' +
         '<span class="at-clockread"></span>' +
-        '<button type="button" class="at-clockoff" aria-pressed="true">off</button>' +
+        '<button type="button" class="at-clockoff" aria-pressed="true" ' +
+          'title="OFF shows the whole period and a place\u2019s whole life. ON ' +
+          'shows one year, and the one moment of a place alive in it.">' +
+          'off</button>' +
         '<button type="button" class="at-play" title="run the year forward">' +
           '\u25b6 play</button>' +
       '</div>' +
@@ -1227,7 +1234,11 @@
 
     var cr = el.querySelector('.at-clockread');
     if (cr) {
-      cr.textContent = scrub === null ? 'the whole period' : yr(scrub);
+      /* the readout says WHICH OF THE TWO STATES it is in, not just the
+         number. `the whole period` was true and did not say that a place
+         would give its whole life with it. */
+      cr.textContent = scrub === null ? 'the whole period \u00b7 whole lives'
+                                      : yr(scrub) + ' \u00b7 that year only';
     }
     el.querySelector('.at-read').textContent =
       era.a === null ? 'the whole register' : era.label + '  \u00b7  ' + era.when;
