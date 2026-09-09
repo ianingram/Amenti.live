@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-09T22:31:53.480Z",
+    "generated": "2026-09-09T23:17:23.589Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1471,8 +1471,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 51965,
-      "sha256": "a90091bcbbc0397a",
+      "bytes": 51986,
+      "sha256": "273c04d8a0280f8b",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1817,7 +1817,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 55,
+    "count": 56,
     "files": [
       {
         "file": "attica-probe.js",
@@ -1854,6 +1854,12 @@
         "title": null,
         "guards": null,
         "bytes": 26001
+      },
+      {
+        "file": "meter-probe.js",
+        "title": null,
+        "guards": null,
+        "bytes": 12884
       },
       {
         "file": "probe-anomalies.mjs",
