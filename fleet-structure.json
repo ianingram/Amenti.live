@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-09T08:13:13.861Z",
+    "generated": "2026-09-09T08:21:00.165Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1458,8 +1458,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 51436,
-      "sha256": "6c8d2c86bb685a5d",
+      "bytes": 51693,
+      "sha256": "9e4a6a783a4272e2",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1468,25 +1468,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1221,
+          "line": 1228,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1222,
+          "line": 1229,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1223,
+          "line": 1230,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1224,
+          "line": 1231,
           "when": "toplevel",
           "own": false
         }
@@ -1584,8 +1584,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 20962,
-      "sha256": "61da231c9add3d6e",
+      "bytes": 21013,
+      "sha256": "5c68117913ba5c2c",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1639,8 +1639,12 @@
           "line": 355
         },
         {
-          "file": "amenti-qr.js?v=c016424e",
+          "file": "amenti-attica-hall.js",
           "line": 356
+        },
+        {
+          "file": "amenti-qr.js?v=c016424e",
+          "line": 357
         }
       ],
       "calls": [
@@ -2162,8 +2166,8 @@
         "declares": [
           "AmentiAtticaHall"
         ],
-        "loadedByAPage": false,
-        "note": "declares globals that nothing calls"
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-attica-tours.js",
