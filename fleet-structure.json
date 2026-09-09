@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-09T22:03:21.588Z",
+    "generated": "2026-09-09T22:29:27.759Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -941,6 +941,19 @@
       "tables": []
     },
     {
+      "file": "amenti-meter.js",
+      "bytes": 10829,
+      "sha256": "5861358c75549060",
+      "type": "js",
+      "declares": [
+        "AmentiMeter"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-migration-audit.js",
       "bytes": 28320,
       "sha256": "46ca0adf63e98cd1",
@@ -1459,7 +1472,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51714,
-      "sha256": "0ef1f6ba7bd9bff5",
+      "sha256": "716b69568d4a022d",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -2310,6 +2323,14 @@
         "file": "amenti-memory.js",
         "declares": [
           "AmentiMemory"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-meter.js",
+        "declares": [
+          "AmentiMeter"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
