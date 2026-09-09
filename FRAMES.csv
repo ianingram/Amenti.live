@@ -1,0 +1,91 @@
+key,name,subtitle,lat,lon,radius_km,ground,ground_px,m_per_px,detail,places,note
+# ============================================================================
+# FRAMES.csv  ->  Amenti.live/FRAMES.csv
+# FRAMES.csv · THE REGIONS THIS SHIP CAN STAND ON               SLIP #4 / #85
+# ----------------------------------------------------------------------------
+# Attica was built as one surface with its box written into amenti-attica.js as
+# constants. IT WAS NEVER GOING TO BE THE ONLY ONE. Marathon outgrew it on its
+# first real use — the campaign enters from Cilicia and the frame is a hundred
+# miles — and ATTICA-EXTENTS.csv then said the same thing from the data side:
+# the Aegean's own bounding box is 768 x 817 km inside a 320 km frame.
+#
+# SO THE FRAME BECOMES A ROW RATHER THAN A CONSTANT. This file is that row.
+#
+# -- THESE ARE REFERENCE FRAMES AND MOST ARE NOT DETAILED ------------------
+# `detail: full` means the frame has authored registers behind it — a why
+# column, events, moves, cues. ONLY ATTICA HAS THOSE and it took three days.
+# `detail: reference` means the frame exists, its places are harvested, and
+# NOTHING HAS BEEN AUTHORED ON IT. That is a real and useful state: a reader
+# can stand on Sicily and see 750 ancient places on measured ground, and the
+# surface must not pretend that anyone has curated them.
+#
+# A REFERENCE FRAME MUST SAY THAT IT IS ONE. Silence would let a reader take
+# an unauthored surface for a finished one, which is the same fault as a wash
+# standing in for an extent.
+#
+# -- GROUND IS THE EXPENSIVE PART AND IT IS OPTIONAL ------------------------
+# ATTICA.jpg is 8192 px of Copernicus 30 m land and ETOPO sea, cut by
+# tools/render-attica.py. Every frame here could have one and none of them
+# needs one to exist: amenti-attica.js already states the case in its own
+# header — ground without places is a chart, places without ground is a
+# constellation, and either is better than a blank surface with no reason
+# given. `ground` names the image if it has been cut, and is blank if not.
+#
+# -- AND THE WORLD MAP CANNOT LEND ITS GROUND -------------------------------
+# It holds COAST, RIVERS, LAKES, REGIONS and PEAKS for the whole earth, and
+# every one of them is NATURAL EARTH 1:50m. Measured inside these frames:
+#
+#     attica    84 coast vertices across 320 km   — one every 4 km
+#     sicilia   25 across 440 km                  — one every 18 km
+#     rhenus    21 across 800 km · levant 15 across 520 km
+#     rivers    ZERO inside attica, latium, sicilia, creta and africa
+#
+# At 40 km a pixel that is the right instrument and the world map is correct to
+# use it. AT 39 METRES A PIXEL IT IS A POLYGON, NOT A COAST. That is why
+# ATTICA.jpg exists and why the Attica glass can magnify while the world map's
+# cannot — there is nothing under the world map to magnify.
+#
+# -- SO GROUND CARRIES ITS OWN RESOLUTION -----------------------------------
+# `ground_px` is the image edge and `m_per_px` is what one pixel of it is worth
+# on the earth. A GLASS THAT MAGNIFIES PAST ITS SOURCE IS LYING QUIETLY —
+# amenti-attica-glass.js turns amber at x8 because ATTICA.jpg is spent there,
+# and it can only know that if the frame says what the image holds. Both blank
+# where there is no ground.
+#
+# -- COVERAGE, MEASURED RATHER THAN CLAIMED --------------------------------
+# Pleiades holds 34,820 located places. These fifteen frames contain 21,470 of
+# them, 62%. 13,350 ARE IN NO FRAME — Mesopotamia, Arabia, the Sahara, India,
+# the far Atlantic. That is not a gap to be embarrassed about; it is the shape
+# of what this ship has chosen to stand on, and it is written down so the next
+# frame is added on purpose.
+#
+# 2,848 places fall in more than one frame. Frames OVERLAP and that is correct:
+# Byzantium belongs to the Propontis and to the Black Sea both, and a place is
+# not owned by a surface.
+#
+# -- COLUMNS ----------------------------------------------------------------
+# key         slug · names the registers: <KEY>.csv, <KEY>-EXTENTS.csv, <KEY>.jpg
+# name        what the surface calls itself
+# subtitle    the line under the title, in the frame's own terms
+# lat,lon     the centre the box is cut around
+# radius_km   half the box edge · the frame is square, as ATTICA's is
+# ground      the terrain image, or blank if none has been cut yet
+# detail      full | reference — see above
+# places      how many Pleiades places fall inside, measured 9 Sep 2026
+# note        what the frame is FOR, in one line
+# ============================================================================
+attica,Attica,a hundred miles from the Acropolis,37.9838,23.7275,160,ATTICA.jpg,8192,39,full,1790,"The first surface. Marathon, Salamis, Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame."
+latium,Latium & Campania,the city and the bay,41.85,12.60,200,,,,reference,2966,"Rome, Ostia, Praeneste, Capua, Cumae, Pompeii and Neapolis. The densest ground in the gazetteer."
+sicilia,Sicily & the Straits,the island between two seas,37.40,14.40,220,,,,reference,750,"Syracuse, Akragas, Segesta and the Straits — where Greek, Punic and Roman ground meet."
+aegean-east,Ionia & the Asian shore,the far side of the Aegean,38.30,27.20,220,,,,reference,1611,"Ephesos, Miletos, Smyrna, Sardis and Pergamon. The Attica surface's opposite bank."
+propontis,The Propontis,the two crossings,40.60,28.20,240,,,,reference,1334,"Byzantion, Chalkedon, Kyzikos, and the Hellespont and Bosphorus that NARROWS.csv holds."
+macedonia,Macedonia & Thrace,the road north,41.00,23.50,300,,,,reference,2327,"Pella, Amphipolis, Philippi, Thessalonike. The ground an army from the north crosses."
+creta,Crete & the southern sea,the island the register could not place,35.20,24.90,240,,,,reference,865,"Knossos, Phaistos, Gortyn. NAMED BY 33 READING ROOMS AND HELD AND NOT DRAWN on the Attica surface, because Pleiades gives its province a 5-degree cell. Here it is the frame itself."
+levant,The Levant,the eastern shore,33.50,35.90,260,,,,reference,1264,"Tyre, Sidon, Damascus, Jerusalem, Caesarea. Where the corpus goes when it leaves Greece."
+aegyptus,The Nile Delta,where the grain came from,30.90,31.20,260,,,,reference,462,"Alexandria, Naukratis, Memphis, Pelusium. Thin in the gazetteer and heavy in the corpus."
+africa,Carthage & the African shore,the other city,36.60,10.20,260,,,,reference,2074,"Carthage, Utica, Hadrumetum, Thugga. Three wars and a province."
+hispania,Hispania,the far west,38.50,-4.00,400,,,,reference,1551,"Gades, Corduba, Tarraco, Saguntum. The silver and the long war."
+gallia,Gaul & the Rhone,the corridor,45.00,4.50,400,,,,reference,2617,"Massalia, Lugdunum, Narbo, Alesia. The route between the middle sea and the north."
+rhenus,The Rhine & upper Danube,the frontier,49.50,8.50,400,,,,reference,1687,"Colonia, Mogontiacum, Augusta Vindelicorum. A limit that was garrisoned rather than drawn."
+britannia,Britannia,the last province,52.20,-1.50,400,,,,reference,1631,"Londinium, Eboracum, Aquae Sulis, and the wall. The edge of the map for most of the corpus."
+pontus,The Black Sea shore,the grain route,44.00,33.00,500,,,,reference,1914,"Olbia, Chersonesos, Sinope, Trapezous. Where Athens' wheat came from and where exile went."
