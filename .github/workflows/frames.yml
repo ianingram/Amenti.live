@@ -1,0 +1,127 @@
+# ============================================================================
+# .github/workflows/frames.yml · THE REGIONS, HARVESTED
+# ----------------------------------------------------------------------------
+# FRAMES.csv holds fifteen regions and tools/harvest-frame.py cuts each one out
+# of the Pleiades dump. The captain works from a browser and cannot run python,
+# so the runner does it.
+#
+# IT DOWNLOADS 6.5 MB AND WRITES THIRTY FILES. That is why it is
+# workflow_dispatch and not a push trigger: nobody wants thirty registers
+# rewritten because a comment changed in a module.
+#
+# WHAT IT FOUND ON ITS FIRST RUN — 9 September:
+#   · Two independent fallback signals AGREE. A coordinate on a 1/8-degree
+#     intersection and a bounding box on a 0.25-degree cell mark the same rows:
+#     91 of 92 in Attica, 277 of 278 in Gaul, 482 of 483 on the Black Sea. The
+#     odd one out each time is a place with a fallback coordinate and no box.
+#   · THE BLACK SEA IS A QUARTER UNPLACED. 483 of 1,828. Britannia is 2%. A
+#     frame should say that before anyone authors on it.
+#
+# It does NOT commit by default — slip #10, writing to main from a runner is
+# the captain's decision. Everything lands as an artifact to be looked at
+# first.
+# ============================================================================
+name: frames
+
+on:
+  workflow_dispatch:
+    inputs:
+      frame:
+        description: 'one frame key, or blank for all fifteen'
+        type: string
+        default: ''
+      commit:
+        description: 'commit the registers back to main?'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Say what is here before anything runs
+        run: |
+          # A MISSING INPUT IS NOT A FAILURE AND MUST NOT LOOK LIKE ONE.
+          if [ ! -f FRAMES.csv ]; then
+            echo "MISSING: FRAMES.csv — the frames are the parameter"; exit 2
+          fi
+          if [ ! -f tools/harvest-frame.py ]; then
+            echo "MISSING: tools/harvest-frame.py"; exit 2
+          fi
+          echo "frames on file:"
+          grep -v '^#' FRAMES.csv | tail -n +2 | cut -d, -f1,2 | sed 's/^/  /'
+
+      - name: Fetch the Pleiades dump
+        run: |
+          set -o pipefail
+          # THE SOURCE IS NAMED AND DATED IN THE LOG, because a register whose
+          # provenance lives only in a tool's docstring cannot be audited.
+          URL=https://atlantides.org/downloads/pleiades/dumps/pleiades-places-latest.csv.gz
+          echo "source: $URL"
+          curl -sSL --retry 3 -m 600 "$URL" -o pleiades.csv.gz
+          gunzip -f pleiades.csv.gz
+          echo "rows: $(($(wc -l < pleiades.csv) - 1))"
+          echo "sha256: $(sha256sum pleiades.csv | cut -d' ' -f1)"
+
+      - name: Cut the frames
+        run: |
+          set -o pipefail
+          python3 tools/harvest-frame.py pleiades.csv ${{ inputs.frame }} \
+            | tee frames-harvest.log
+
+      - name: What changed against what is already committed
+        if: always()
+        run: |
+          # RULE 4 — RETURN TEN TIMES WHAT IT COST. A diff of row counts is the
+          # whole point of re-running; a list of thirty unchanged files is not.
+          git --no-pager diff --stat -- '*.csv' | tail -40 || echo '(no diff)'
+
+      - name: Write the reading to the run summary
+        if: always()
+        run: |
+          {
+            echo '## frames · the regions harvested'
+            echo
+            echo '```'
+            cat frames-harvest.log 2>/dev/null || echo '(no output)'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the registers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frames-registers
+          path: |
+            *.csv
+            frames-harvest.log
+          if-no-files-found: warn
+
+      - name: Commit them back
+        if: inputs.commit == true
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ./*.csv
+          if git diff --cached --quiet; then
+            echo 'nothing changed'
+            exit 0
+          fi
+          git commit -m 'frames: registers harvested from Pleiades'
+          # THE RACE hall.yml AND patrol.yml BOTH HAD TO LEARN. Rebase rather
+          # than forcing over a commit that landed while this ran.
+          for i in 1 2 3; do
+            git pull --rebase --autostash && git push && exit 0
+            sleep 5
+          done
+          echo 'could not push after three tries'
+          exit 1
