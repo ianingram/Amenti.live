@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-09T06:36:29.197Z",
+    "generated": "2026-09-09T06:36:53.983Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1446,7 +1446,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 51436,
-      "sha256": "36ee7e2f127f1585",
+      "sha256": "148908287f2484f3",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1783,8 +1783,14 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 53,
+    "count": 54,
     "files": [
+      {
+        "file": "attica-probe.js",
+        "title": null,
+        "guards": null,
+        "bytes": 17654
+      },
       {
         "file": "events-gaz.mjs",
         "title": "WHERE THE EVENTS HAPPENED",
