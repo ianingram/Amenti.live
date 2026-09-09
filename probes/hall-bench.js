@@ -60,7 +60,24 @@
     ['the counts',          'how many souls are on the roster?'],
     ['the doors',           'where do I find the map?'],
     ['a room + a passage',  'what does Thucydides say about the plague at Athens?'],
-    ['honest refusal',      'does Amenti hold anything about Carthage?']
+    /* ── CARTHAGE WAS A BAD QUESTION AND THE HALL WAS RIGHT · 9 Sep ──────
+       The first run asked `does Amenti hold anything about Carthage?` on the
+       assumption that nothing aboard covered it. HANNIBAL AND CAESAR BOTH HAVE
+       ROOMS, Polybius on the Alps and on Cannae are in them, and the hall
+       opened four works and answered well. The refusal path went untested and
+       the label lied.
+
+       THE ROSTER IS 2,043 SOULS AND ALMOST ANY FAMOUS NAME RETURNS SOMETHING.
+       Moctezuma, Atahualpa, Shaka, Genghis and Leif are all on it. Polynesian
+       navigation is absent from the roster AND from the library, which makes
+       it a clean absence rather than a guessed one.
+
+       A HARDER VARIANT WORTH RUNNING SEPARATELY: `what does Amenti hold on
+       Moctezuma?` — he IS on the roster and has NO room and no text. The right
+       answer distinguishes `named and dated here` from `there is something to
+       read`, and a model that blurs the two is failing in the way that
+       matters most. */
+    ['honest refusal',      'does Amenti hold any text about Polynesian navigation?']
   ];
 
   var rates = null, ratesErr = null;
@@ -217,13 +234,24 @@
         var hi = rows.reduce(function (a, b) { return (b.cost !== null && b.cost > a) ? b.cost : a; }, 0);
         say('  cheapest ' + money(lo) + ' \u00b7 dearest ' + money(hi) +
             ' \u2014 a ' + (hi / lo).toFixed(1) + '\u00d7 spread.');
-        /* ── WHAT THE FIRST RUN ACTUALLY SHOWED · 9 Sep ───────────────────
-           The routes barely differ. Input ran 7,190 to 7,867 across all five
-           because THE FIXED BLOCK DOMINATES AND THE ROUTE HARDLY MOVES IT.
-           What varied was OUTPUT: 122 tokens on the counts question, 518 on
-           Carthage. COST TRACKS HOW MUCH THE HALL SAYS, NOT WHICH PATH IT
-           TOOK — which means trimming the prompt helps every ask equally and
-           the routes are not the lever. */
+        /* ── WHAT TWO RUNS SHOWED, AND HOW THE FIRST READING WAS WRONG ────
+           RUN ONE: input 7,190–7,867 across five questions, a 1.09x spread,
+           and the conclusion drawn was that INPUT IS FLAT and the routes are
+           not the lever.
+
+           RUN TWO CONTRADICTED IT. One question opened four works and input
+           went to 10,469 — a 1.46x spread, and that question cost 60% more
+           than the cheapest. THE FIRST FIVE HAPPENED NOT TO OPEN MUCH, and a
+           conclusion was drawn from the sample rather than the mechanism.
+
+           WHAT IS ACTUALLY TRUE: the fixed block sets a floor of about 7,200
+           input tokens that every ask pays, and OPENING ROOMS ADDS TO IT.
+           Trimming the prompt lowers the floor for everybody; limiting how
+           many works open caps the ceiling. Both are levers and the second one
+           only bites on questions that reach the library.
+
+           THE NUMBERS BELOW ARE THIS RUN AND NOT A LAW. Five questions is a
+           sample, and the first sample was already misleading once. */
         var ilo = rows.reduce(function (a, b) { return b.used && b.used.i < a ? b.used.i : a; }, Infinity);
         var ihi = rows.reduce(function (a, b) { return b.used && b.used.i > a ? b.used.i : a; }, 0);
         var olo = rows.reduce(function (a, b) { return b.used && b.used.o < a ? b.used.o : a; }, Infinity);
@@ -231,9 +259,12 @@
         say('');
         say('  input  ' + ilo + '\u2013' + ihi + '  (' + (ihi / ilo).toFixed(2) + '\u00d7)   ' +
             'output ' + olo + '\u2013' + ohi + '  (' + (ohi / olo).toFixed(1) + '\u00d7)');
-        say('  IF INPUT IS FLAT AND OUTPUT IS NOT, cost tracks how much the hall');
-        say('  SAYS and not which route it took \u2014 so trimming the prompt helps');
-        say('  every ask equally, and the routes are not the lever.');
+        var floor = ilo;
+        say('  every ask pays a floor of about ' + floor + ' input tokens \u2014 the fixed');
+        say('  block \u2014 and opening rooms adds to it. TRIMMING THE PROMPT LOWERS THE');
+        say('  FLOOR FOR EVERYBODY; capping how many works open caps the ceiling.');
+        say('  Five questions is a SAMPLE. The first one drawn from this bench said');
+        say('  input was flat, and the second run disproved it.');
       } else {
         say('  ' + (rows.length - priced) + ' of ' + rows.length + ' unpriced \u2014 tokens ' +
             'are real and dollars are withheld.');
