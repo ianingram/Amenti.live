@@ -1,0 +1,44 @@
+key,from,until,prose,from_lines,written
+# ============================================================================
+# ATTICA-TOLD.csv  ->  Amenti.live/ATTICA-TOLD.csv
+# ATTICA-TOLD.csv · THE TELLING                                     SLIP #87
+# ----------------------------------------------------------------------------
+# The prose a reader sees on hover, WRITTEN ONCE FROM ATTICA-LIVES.csv AND
+# STORED. One row per moment, matching a row of the ore by `from`.
+#
+# -- WHY IT IS A FILE AND NOT A CALL -----------------------------------------
+# Generating this at hover time would cost a model call PER HOVER, arrive
+# slower than a fetch, and produce different words every time — which means a
+# sentence could never be corrected and stay corrected. Written once, it costs
+# nothing to serve, reads the same every time, and can be edited by hand the
+# moment it is wrong.
+#
+# AND THIS SURFACE CALLS NO MODEL. amenti-attica.js says so in its own header
+# and the hall says so in HALL.md. A pane that generated prose on hover would
+# have broken that quietly.
+#
+# -- THE ORE IS THE EVIDENCE AND THIS IS THE READING -------------------------
+# `from_lines` names which rows of ATTICA-LIVES.csv this was written from, by
+# their `from` year. A probe can then say when the ore has changed underneath
+# the telling — THE SAME STALENESS CHECK AS THE TWO TIMELINES. A reader can
+# open the ore from the pane and see the terse claims the paragraph was built
+# out of, each with its own `standing`.
+#
+# NOTHING HERE MAY SAY WHAT THE ORE DOES NOT. The prose expands, orders and
+# joins; it does not add a fact. Where it reaches past the rows it was written
+# from, the register has stopped being a reading and started being a source,
+# and the fault is in this file rather than in the ore.
+#
+# -- MARKUP ------------------------------------------------------------------
+# **double asterisks** mark a proper name or a date, and the pane renders them
+# in terminal blue. Written here rather than guessed at render time.
+#
+# -- AND IT IS A DRAFT LIKE EVERYTHING ELSE ----------------------------------
+# `written` records who or what wrote it. Nothing in this column has been
+# checked against a source by a person. Overwrite freely; that is what it is
+# for.
+# ============================================================================
+pl-580010,-3200,-1200,"Copper first, and long before anyone cared what lay beneath it. These hills were worked in the Bronze Age by people who wanted the surface ore and had no use for the argentiferous lead under it. The silver sat there for two thousand years while the means to reach it did not exist.",-3200,"assistant, 9 Sep 2026"
+pl-580010,-550,-510,"By the time of the tyrants the mines belonged to whoever held Athens. **Peisistratos** drew revenue from this ground before the city as a whole did, and a private income out of public hills is one of the ways a tyranny pays for itself. The workings were shallow, the yield was steady, and nobody yet understood what the ridge was worth.",-550,"assistant, 9 Sep 2026"
+pl-580010,-483,-480,"Then a single rich strike, and an argument about what to do with it. The custom was to divide a windfall among the citizens and close the matter. **Themistokles** argued instead for two hundred ships — on the pretext of a war with **Aegina** that everyone could see, and against a Persian return that only he was willing to name. The assembly voted for the fleet. Three years later those hulls were in the strait at **Salamis**.",-483,"assistant, 9 Sep 2026"
+pl-580010,-413,-404,"And then it stopped. **Sparta** fortified **Dekeleia** in **413 BC** and held it through the winter rather than raiding in summer and going home, so the roads north were cut and the countryside could not be worked. Twenty thousand slaves walked out of Attica, most of them from these mines. The silver that had paid for the fleet stopped paying for anything, and Athens fought the rest of the war on tribute and credit.",-413,"assistant, 9 Sep 2026"

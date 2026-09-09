@@ -52,6 +52,8 @@
 
   var pane = null, rows = null, loadErr = null, key = null;
   var whys = null, whyErr = null;
+  var lives = null, told = null, livesErr = null, toldErr = null;
+  var showOre = false;
   var FKEY = 'attica';
 
   function esc(s) {
@@ -121,6 +123,68 @@
       .then(then);
   }
 
+  /* ── THE ORE AND THE TELLING · SLIP #87 ───────────────────────
+     ATTICA-LIVES.csv is terse dated claims, each with what it rests on.
+     ATTICA-TOLD.csv is the prose written from them, ONCE, and stored.
+
+     NEITHER IS GENERATED HERE. Writing the prose at hover time would cost a
+     model call per hover, arrive slower than a fetch, and read differently
+     every time — so a sentence could never be corrected and stay corrected.
+     And this surface calls no model; that is written in amenti-attica.js and
+     in HALL.md, and a pane that quietly generated would have broken it. */
+  function rows2(text, keyName) {
+    var lines = String(text).replace(/\r\n/g, '\n').split('\n');
+    var cols = split(lines[0]).map(function (h) { return h.trim(); });
+    var by = {};
+    for (var i = 1; i < lines.length; i++) {
+      if (!lines[i].trim() || lines[i].charAt(0) === '#') { continue; }
+      var c = split(lines[i]), o = {};
+      for (var j = 0; j < cols.length; j++) { o[cols[j]] = (c[j] == null ? '' : c[j]).trim(); }
+      if (!o.key) { continue; }
+      (by[o.key] = by[o.key] || []).push(o);
+    }
+    Object.keys(by).forEach(function (k) {
+      by[k].sort(function (a, b) { return (+a.from) - (+b.from); });
+    });
+    return by;
+  }
+  function loadPair(then) {
+    if (lives !== null || livesErr !== null) { then(); return; }
+    var got = 0, done = function () { if (++got === 2) { then(); } };
+    fetch(RAW + FKEY.toUpperCase() + '-LIVES.csv?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) { if (t) { lives = rows2(t); } else { livesErr = 'not in the repo yet'; } })
+      .catch(function (e) { livesErr = e.message; }).then(done);
+    fetch(RAW + FKEY.toUpperCase() + '-TOLD.csv?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) { if (t) { told = rows2(t); } else { toldErr = 'not in the repo yet'; } })
+      .catch(function (e) { toldErr = e.message; }).then(done);
+  }
+
+  /* **name** and **483 BC** — marked in the register, not guessed here. A
+     renderer deciding for itself which words were names would be wrong about
+     Attica and about Marius both. */
+  function mark(t) {
+    return esc(t).replace(/\*\*([^*]+)\*\*/g, '<i class="ath-n">$1</i>');
+  }
+
+  /* which moment is alive. THE CLOCK OFF MEANS THE WHOLE LIFE, not none of it:
+     read end to end the moments ARE the history, and a reader who has not set
+     a year has not asked for one of them. */
+  function alive(list, y) {
+    if (!list || !list.length) { return []; }
+    if (y === null || y === undefined) { return list; }
+    var hit = list.filter(function (r) { return +r.from <= y && y <= +r.until; });
+    return hit.length ? hit : [];
+  }
+
+  function yearNow() {
+    var el2 = document.querySelector('#amenti-attica .at-clockoff');
+    if (el2 && el2.getAttribute('aria-pressed') === 'true') { return null; }
+    var sc = document.querySelector('#amenti-attica .at-scrub');
+    return sc ? +sc.value : null;
+  }
+
   function load(then) {
     if (rows !== null || loadErr !== null) { then(); return; }
     fetch(RAW + FKEY.toUpperCase() + '-MENTIONS.csv?_=' + Date.now())
@@ -165,7 +229,7 @@
       '  border:1px solid rgba(43,58,80,.5);border-radius:4px;',
       '  text-align:left;max-height:42vh;overflow-y:auto;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent;',
-      '  box-sizing:border-box;pointer-events:none}',
+      '  box-sizing:border-box}',
       '#amenti-attica .ath-who{color:#e0913f;font-size:12px;letter-spacing:.03em;',
       '  margin-bottom:6px}',
       /* THE SENTENCE IS THE PANE. Everything else is smaller than it. */
@@ -179,7 +243,30 @@
       '#amenti-attica .ath b{color:#6f8098;font-weight:400}',
       '#amenti-attica .ath-rooms{display:flex;flex-wrap:wrap;gap:2px 10px;',
       '  margin-top:3px;color:#7fd8f0;font-size:10px}',
-      '#amenti-attica .ath-warn{color:#c99a4e;font-size:9.5px;margin-top:3px}'
+      '#amenti-attica .ath-warn{color:#c99a4e;font-size:9.5px;margin-top:3px}',
+      /* THE PROSE IS THE PANE. Everything else is smaller than it. */
+      '#amenti-attica .ath-prose{color:#c3d3e6;line-height:1.62;margin-top:2px}',
+      /* proper names and dates, terminal blue and bold. MARKED IN THE
+         REGISTER with **asterisks**, never guessed here. */
+      '#amenti-attica .ath-n{color:#57b6ff;font-weight:700;font-style:normal}',
+      '#amenti-attica .ath-ore-t{background:none;border:0;color:#5d6e84;',
+      '  font:inherit;font-size:9.5px;padding:6px 0 0;cursor:pointer;',
+      '  text-align:left;display:block;letter-spacing:.04em}',
+      '#amenti-attica .ath-ore-t:hover{color:#9fb4c8}',
+      '#amenti-attica .ath-ore{margin-top:5px;padding-top:6px;font-size:9.5px;',
+      '  border-top:1px dashed rgba(43,58,80,.7);color:#8c9db2}',
+      '#amenti-attica .ath-line{margin-bottom:6px;line-height:1.5}',
+      '#amenti-attica .ath-span{color:#5d6e84}',
+      /* WHAT THE LINE RESTS ON, and the three do not look alike. `corpus` can
+         be opened and checked; `record` cannot be checked here at all. */
+      '#amenti-attica .ath-st{display:inline-block;margin-left:5px;padding:0 4px;',
+      '  border-radius:2px;font-size:8.5px;letter-spacing:.06em;',
+      '  border:1px solid currentColor;opacity:.9}',
+      '#amenti-attica .ath-st-corpus{color:#7fd8f0}',
+      '#amenti-attica .ath-st-record{color:#c99a4e}',
+      '#amenti-attica .ath-st-inference{color:#b98cd0}',
+      '#amenti-attica .ath-turn,#amenti-attica .ath-room{display:block;',
+      '  color:#5d6e84;font-size:8.5px;margin-top:1px}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -193,9 +280,15 @@
     pane.className = 'ath';
     pane.style.display = 'none';
     host.appendChild(pane);
-    /* it reads and does nothing. A click on it does not leave the surface,
-       does not call a model, and does not cost a question. */
-    pane.addEventListener('click', function (e) { e.stopPropagation(); });
+    /* The one thing it does is show its own evidence. A click does not leave
+       the surface, does not call a model, and does not cost a question. */
+    pane.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (e.target.closest && e.target.closest('.ath-ore-t')) {
+        showOre = !showOre;
+        if (key) { show(key); }
+      }
+    });
     return pane;
   }
 
@@ -213,9 +306,46 @@
     pane.innerHTML =
       (name ? '<div class="ath-who">' + esc(name) + '</div>' : '') +
 
-      /* THE SENTENCE FIRST. It is the answer; everything under it is where
-         the answer would be checked. */
-      (w
+      /* THE TELLING FIRST, THEN THE ORE IT WAS WRITTEN FROM. The `why`
+         sentence stays for places that have one and no life written yet. */
+      (function () {
+        var t = told && told[k], o = lives && lives[k];
+        if (!t && !o) { return ''; }
+        var y = yearNow();
+        var showT = alive(t, y), showO = alive(o, y);
+        var head = (y === null)
+          ? '<div class="ath-head">its life</div>'
+          : '<div class="ath-head">in ' + Math.abs(y) + (y < 0 ? ' BC' : ' AD') + '</div>';
+        if (!showT.length && !showO.length) {
+          return head + '<div class="ath-none">nothing recorded of this ground in ' +
+                 'that year. Turn the clock off for the whole life.</div>';
+        }
+        return head +
+          showT.map(function (x) {
+            return '<div class="ath-prose">' + mark(x.prose) + '</div>';
+          }).join('') +
+          (showO.length
+            ? '<button type="button" class="ath-ore-t">' +
+              (showOre ? '\u2212 hide the lines' : '+ the lines it was written from') +
+              '</button>' +
+              (showOre
+                ? '<div class="ath-ore">' + showO.map(function (x) {
+                    return '<div class="ath-line"><span class="ath-span">' +
+                      Math.abs(+x.from) + '\u2013' + Math.abs(+x.until) +
+                      (+x.until < 0 ? ' BC' : '') + '</span> ' + mark(x.line) +
+                      ' <span class="ath-st ath-st-' + esc(x.standing) + '">' +
+                      esc(x.standing) + '</span>' +
+                      (x.turns_on ? '<span class="ath-turn">turns on ' +
+                        esc(x.turns_on) + '</span>' : '') +
+                      (x.room ? '<span class="ath-room">' + esc(x.room) + '</span>' : '') +
+                      '</div>';
+                  }).join('') + '</div>'
+                : '')
+            : '');
+      })() +
+
+      ((told && told[k]) ? '' :
+       w
         ? '<div class="ath-why">' + esc(w) + '</div>' +
           '<div class="ath-draft">authored and unverified \u2014 ' +
           FKEY.toUpperCase() + '-WHY.csv says so of every line in it</div>'
@@ -265,6 +395,7 @@
     if (!host || host.getAttribute('data-ath') === '1') { return !!host; }
     host.setAttribute('data-ath', '1');
     host.addEventListener('pointerover', function (e) {
+      if (e.target.closest && e.target.closest('.ath')) { return; }
       var n = e.target.closest ? e.target.closest('[data-k]') : null;
       if (!n) { return; }
       var k = n.getAttribute('data-k');
@@ -278,6 +409,7 @@
 
   function arrive(n) {
     if (wire()) {
+      loadPair(function () {
       loadWhy(function () {
         load(function () {
           if (whyErr) {
@@ -289,7 +421,12 @@
                         '-MENTIONS.csv not read (' + loadErr + '), so no rooms ' +
                         'are named.');
           }
+          if (livesErr) { console.log('THE ORE: ' + FKEY.toUpperCase() +
+                        '-LIVES.csv not read (' + livesErr + ').'); }
+          if (toldErr) { console.log('THE TELLING: ' + FKEY.toUpperCase() +
+                        '-TOLD.csv not read (' + toldErr + ').'); }
         });
+      });
       });
       return;
     }
@@ -333,6 +470,16 @@
       FKEY = k; rows = null; loadErr = null; whys = null; whyErr = null;
       loadWhy(function () { load(function () {}); });
       return FKEY;
+    },
+    /* the ore and the telling for a place, without hovering it */
+    life: function (k) { return lives ? (lives[k] || null) : (livesErr ? { error: livesErr } : null); },
+    story: function (k) { return told ? (told[k] || null) : (toldErr ? { error: toldErr } : null); },
+    /* how many places have a life written */
+    lives: function () {
+      return lives ? { places: Object.keys(lives).length,
+                       moments: Object.keys(lives).reduce(function (a, k) { return a + lives[k].length; }, 0),
+                       told: told ? Object.keys(told).length : null }
+                   : (livesErr ? { error: livesErr } : null);
     },
     /* the sentence for a place, without hovering it */
     why: function (k) { return whys ? (whys[k] || null) : (whyErr ? { error: whyErr } : null); },

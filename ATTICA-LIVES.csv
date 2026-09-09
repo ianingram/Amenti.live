@@ -1,0 +1,52 @@
+key,from,until,line,standing,turns_on,room
+# ============================================================================
+# ATTICA-LIVES.csv  ->  Amenti.live/ATTICA-LIVES.csv
+# ATTICA-LIVES.csv · THE ORE                                        SLIP #87
+# ----------------------------------------------------------------------------
+# A PLACE HAS A LIFE, JUST AS A PERSON DOES. TIME IS THE THING THAT MOVES.
+#
+# ATTICA-WHY.csv holds ONE sentence per place, so it can only ever hold a
+# moment. Laureion's says the silver strike of 483 and cannot say that the same
+# hills were a copper working in the Bronze Age, a tyrant's income under
+# Peisistratos, and a stopped mine after Dekeleia. Same ground, same file,
+# different year.
+#
+# This file is one row per MOMENT. Terse, dated, auditable, and diffable. It is
+# the source material and not the reading: ATTICA-TOLD.csv holds the prose
+# written from these rows, and a reader can open one from the other.
+#
+# -- standing · WHAT THE LINE RESTS ON ---------------------------------------
+# The same discipline this ship keeps everywhere else — pin against wash,
+# attested against derived, draft against checked — applied to a sentence.
+#
+#   corpus     the claim is in a NAMED ROOM IN THIS LIBRARY. Quotable, and a
+#              probe can open the file and report whether the terms are there.
+#   record     general historical record and NOT in this library. True as far
+#              as anyone knows and NOT CHECKABLE HERE, which is a different
+#              thing and must look different.
+#   inference  neither. Somebody joined two facts. Rarest, and the one most
+#              worth marking.
+#
+# A `record` LINE CAN BE WRONG AND NOTHING HERE WILL CATCH IT. That is what
+# the column is for.
+#
+# -- turns_on · THE EVENT THE LINE PIVOTS ON ---------------------------------
+# Names a row in ATTICA-EVENTS.csv or EVENTS.csv, and OFTEN AN EVENT SOMEWHERE
+# ELSE. Laureion stops in 413 because Sparta fortified Dekeleia, twenty
+# kilometres north. The column is not `the event here`; it is the event this
+# line turns on, and that distinction is what makes a life a history rather
+# than a list.
+#
+# -- room · WHERE IT WOULD BE CHECKED ----------------------------------------
+# `soul-key/document.md`, as ATTICA-MENTIONS.csv writes it. Required when
+# standing is `corpus` and blank otherwise.
+#
+# -- AND THE MARKUP IS IN THE LINE -------------------------------------------
+# **double asterisks** mark a proper name or a date. It is written here rather
+# than guessed at render time, because a renderer that decided for itself which
+# words were names would be wrong about Attica and about Marius both.
+# ============================================================================
+pl-580010,-3200,-1200,"Copper worked in these hills long before anyone wanted the silver beneath it.",record,,
+pl-580010,-550,-510,"A tyrant's holding. **Peisistratos** drew revenue from the mines before the city did.",record,,
+pl-580010,-483,-480,"A single rich strike. **Themistokles** argued the windfall into two hundred ships instead of a dividend.",record,Battle of Salamis,
+pl-580010,-413,-404,"The mines stopped. **Sparta** held **Dekeleia** year-round and twenty thousand slaves walked out.",corpus,Sparta fortifies Dekeleia,thucydides/05-the-sicilian-expedition.md
