@@ -1,0 +1,50 @@
+tour,step,caption,marks,period,year,lat,lon,zoom,hold
+# ============================================================================
+# TOURS.csv  ->  Amenti.live/TOURS.csv
+# TOURS.csv · A SEQUENCE OF REGISTER STATES                        SLIP #78
+# ----------------------------------------------------------------------------
+# A TOUR ADDS NOTHING. Every frame is a state a reader could reach by hand from
+# the legend, the period buttons and the year scrub. The story is in the ORDER.
+# If a frame shows something no register holds, the format has failed and the
+# row is wrong.
+#
+# -- THE CAPTION IS THE ONLY PLACE THIS CAN LIE ------------------------------
+# The switches cannot assert; prose can. A caption NAMES WHAT IS ON SCREEN and
+# nothing else. "The three harbours of the Piraeus" is a caption. "Athens could
+# be starved by closing them" is an argument, belongs in ATTICA-WHY.csv where it
+# is attached to a place and checkable, and MUST NOT appear here.
+#
+# -- COLUMNS -----------------------------------------------------------------
+# tour     slug, groups the rows; steps play in `step` order
+# step     integer from 1, contiguous
+# caption  one line, names the layer being added
+# marks    pipe-separated switch keys ON for this frame:
+#            settled sacred built defence harbour games worked buried ground
+#            other events moves
+#          `-` = every switch off (bare terrain)    `*` = every switch on
+#          The list is AmentiAttica.switches(), so a validator has one source.
+# period   all | arch | clas | hell | rome | late
+# year     integer, or blank for the clock off. Drives events, moves and cues.
+# lat,lon  optional camera centre; blank holds the previous frame's camera
+# zoom     optional magnification 0.7-12; blank holds the previous frame's
+# hold     seconds to rest on this frame when played unattended
+# ============================================================================
+ground-first,1,Attica at 39 metres a pixel — measured ground and nothing on it,-,all,,38.05,23.75,1,5
+ground-first,2,"The ground register: mountains, capes, rivers, islands",ground,all,,,,,4
+ground-first,3,Where people settled on it,ground|settled,clas,,,,,4
+ground-first,4,The harbours — three of them at the Piraeus,ground|settled|harbour,clas,,37.94,23.64,3,5
+ground-first,5,Defence: Rhamnous over the strait and Eleutherai in the pass,ground|settled|harbour|defence,clas,,38.05,23.75,1,5
+ground-first,6,The year 490,ground|settled|harbour|defence|events,clas,-490,,,,4
+ground-first,7,And the moves recorded in that year,ground|settled|harbour|defence|events|moves,clas,-490,,,,6
+marathon-490,1,"Bare ground, the Aegean from Naxos to Attica",-,all,-490,37.90,24.40,1,4
+marathon-490,2,The islands and coasts the fleet used,ground,all,-490,,,,4
+marathon-490,3,"Ten recorded legs — departures and arrivals, not routes",ground|moves,all,-490,,,,7
+marathon-490,4,The landing beach and the plain behind it,ground|moves|events,all,-490,38.13,23.95,4,6
+marathon-490,5,Marathon in the register,ground|moves|events|settled,all,-490,,,,5
+marathon-490,6,The march back to Athens,ground|moves|events|settled,all,-490,38.05,23.85,2,6
+laureion,1,"The southern hills, bare",-,all,,37.73,23.99,4,4
+laureion,2,The ground: the Laureion ridge and the coast below it,ground,all,,,,,4
+laureion,3,What was worked there — mines and quarries,ground|worked,arch,,,,,5
+laureion,4,The same ground in the Classical period,ground|worked|settled,clas,,,,,5
+laureion,5,"Thorikos: the port, the washeries, the theatre",ground|worked|settled|harbour|games,clas,,37.74,24.05,6,6
+laureion,6,413 BC — Dekeleia,ground|worked|settled|events,clas,-413,38.05,23.80,1,7
