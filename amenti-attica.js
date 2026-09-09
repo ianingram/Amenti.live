@@ -1268,7 +1268,43 @@
        in amenti-map.js on 6 September. A REPORT MUST BE WRITTEN AFTER THE
        THING IT REPORTS ON, and the way to guarantee that is to write it
        last. */
+    /* ── A SURFACE MUST BE ABLE TO SAY THAT IT IS SWITCHED OFF · 9 Sep ────
+       ON 9 SEPTEMBER THIS PANE DESCRIBED A HEALTHY REGISTER BEHIND AN EMPTY
+       SCREEN. The tour reader opened on a bare-terrain frame, the panel was
+       closed, and every switch stayed off. The census went on counting 541
+       settled and 281 ground; this note went on reading `1580 of 1655 places`.
+       Both were TRUE — a count is a census of what the period holds, not of
+       what is drawn — and between them they made a switched-off map look like
+       a broken one. The only cue was opacity:.34 on the legend rows, which
+       reads as styling and not as a state.
+
+       EVERY OTHER INSTRUMENT ON THIS SURFACE ALREADY ADMITS ITS OWN STATE.
+       The glass says the image is spent at x8. This note says nothing is named
+       at this zoom. The clock says cues need a year. The one control that can
+       empty the whole surface had no sentence, and it is the one that needed
+       it most.
+
+       RULE 4 — IT SAYS NOTHING WHEN NOTHING IS OFF. A confirmation that the
+       switches are on is a line the reader has to skip forever. */
+    var offN = 0, marksOn = 0;
+    KEY.forEach(function (o) {
+      if (o.k === 'events' || o.k === 'moves') { return; }
+      marksOn++;
+      if (offMarks[o.k]) { offN++; }
+    });
+    var switchSay =
+      offN === 0 ? ''
+      : offN === marksOn
+        ? '<span class="at-warn at-first">EVERY PLACE SWITCH IS OFF \u2014 ' +
+          shown.length + ' places in this period and none drawn. The counts below ' +
+          'are a census of what is here, not of what is shown. Click a row of the ' +
+          'key to bring it back.</span>'
+        : '<span class="at-warn at-first">' + offN + ' of ' + marksOn +
+          ' place switches off \u2014 the counts below are the census, not the ' +
+          'drawing.</span>';
+
     el.querySelector('.at-note').innerHTML =
+      switchSay +
       '<span class="at-warn at-first">Every shoreline here is TODAY\u2019S. ' +
       'Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, Eleusis and ' +
       'Marathon are silted harbours.</span>' +
