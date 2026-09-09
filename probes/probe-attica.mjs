@@ -72,6 +72,8 @@ const why      = read('ATTICA-WHY.csv');
 const events   = read('ATTICA-EVENTS.csv');
 const moves    = read('ATTICA-MOVES.csv');
 const mentions = read('ATTICA-MENTIONS.csv');
+/* the world's timeline, which this file does not own and must not edit */
+const world    = read('EVENTS.csv');
 
 say('='.repeat(74));
 say('  PROBE · ATTICA · the registers cross-examined');
@@ -260,6 +262,60 @@ if (!F.length) {
   for (const [sec, line] of F) {
     if (sec !== last) { say(''); say(`${sec} · ${TITLES[sec]}`); last = sec; }
     say('  ' + line);
+  }
+}
+
+/* ── 9 · THE TWO TIMELINES ────────────────────────────────────────────────────
+   EVENTS.csv is the world's and this frame's is the ground's, and until
+   9 September NOTHING JOINED THEM. Eight events sat in both under different
+   names — `The trial of Sokrates` and `Trial and death of Socrates` — and two
+   records of one event came back from two files that had never been checked
+   against each other.
+
+   THE `event` COLUMN POINTS AT A NAME BECAUSE EVENTS.csv HAS NO KEY. No id,
+   nothing stable; the name it carries today is its only identifier. That is
+   fragile, and this section exists because it is fragile: the day somebody
+   renames a row over there, the join goes stale silently unless something
+   looks.
+
+   A BLANK IS NOT A FAULT. A frame register is allowed to hold what a world one
+   does not. Blanks are counted and named and never marked wrong. */
+say('');
+say('9 · THE TWO TIMELINES');
+if (!events) {
+  say('  UNREAD — ATTICA-EVENTS.csv not present.');
+} else if (!('event' in (events[0] || {}))) {
+  say('  UNREAD — this register has no `event` column, so the two timelines are');
+  say('  not joined. That is the state before 9 Sep 2026, not an error.');
+} else if (!world) {
+  say('  UNREAD — EVENTS.csv not present, so the join cannot be checked. The');
+  say('  `event` values are carried and unverified.');
+} else {
+  const names = new Set(world.map(r => (r.name || '').trim()).filter(Boolean));
+  const keyed = events.filter(e => (e.event || '').trim());
+  const blank = events.filter(e => !(e.event || '').trim());
+  let stale = 0, yearOff = 0;
+  const byName = {};
+  world.forEach(r => { byName[(r.name || '').trim()] = r; });
+  keyed.forEach(e => {
+    const k = e.event.trim();
+    if (!names.has(k)) {
+      stale++;
+      say('  ✖ line ' + e._line + ' `' + e.name + '` points at `' + k +
+          '`, which is no longer a row in EVENTS.csv. A RENAME OVER THERE ' +
+          'BREAKS THE JOIN SILENTLY; this is the something that looks.');
+    } else if (String(byName[k].year).trim() !== String(e.year).trim()) {
+      yearOff++;
+      say('  ✖ line ' + e._line + ' `' + e.name + '` is dated ' + e.year +
+          ' here and ' + byName[k].year + ' in EVENTS.csv. One of the two is ' +
+          'wrong and neither file knows it.');
+    }
+  });
+  say('  ' + keyed.length + ' joined · ' + blank.length + ' in this frame only' +
+      (stale || yearOff ? '' : ' · no stale name, no year disagreement'));
+  if (blank.length) {
+    say('  in this frame and not in the world register — a QUEUE, not an error:');
+    blank.forEach(e => say('     ' + String(e.year).padStart(6) + '  ' + e.name));
   }
 }
 
