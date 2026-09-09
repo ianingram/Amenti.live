@@ -137,6 +137,7 @@
     }).join('');
     var pb = band.querySelector('.att-play');
     if (pb) { pb.textContent = playing ? 'pause' : 'play'; }
+    lift();
   }
 
   function go(i) {
@@ -176,7 +177,12 @@
     s.textContent = [
       /* the band sits under the surface rather than over it: a caption laid
          across the ground would cover the thing it is naming */
-      '#amenti-attica .att-band{position:absolute;left:26px;right:26px;bottom:16px;',
+      /* bottom is SET AT RUNTIME by lift(), not here. The surface's own
+         control row is at bottom:16px and wraps, so its height depends on how
+         wide the window is \u2014 a fixed offset picked once put this band across
+         the period buttons on an iMac and would have been wrong again on the
+         next screen. MEASURE, DO NOT GUESS. */
+      '#amenti-attica .att-band{position:absolute;left:26px;right:26px;',
       '  z-index:9;display:flex;align-items:flex-end;gap:14px;',
       '  font:400 12px/1.5 ui-monospace,Menlo,monospace;color:#9fb4c8}',
       '#amenti-attica .att-cap{flex:1 1 auto;max-width:620px;',
@@ -197,6 +203,30 @@
       '#amenti-attica .att-warn{color:#c99a4e}'
     ].join('\n');
     document.head.appendChild(s);
+  }
+
+  /* ── MAKE ROOM RATHER THAN OVERLAP ──────────────────────────────
+     Three things want the bottom of this surface: the control row, the note,
+     and now the caption. The band sits above the controls and pushes the note
+     up by exactly its own height, and puts the note back on the way out. A
+     module that permanently moved another module's furniture would be a module
+     that has edited amenti-attica.js by other means. */
+  var noteWas = null;
+  function lift() {
+    var host = document.querySelector('#amenti-attica');
+    if (!host || !band) { return; }
+    var ctl = host.querySelector('.at-ctl');
+    var note = host.querySelector('.at-note');
+    var base = 16 + (ctl ? ctl.offsetHeight : 0) + 10;
+    band.style.bottom = base + 'px';
+    if (note) {
+      if (noteWas === null) { noteWas = note.style.bottom || ''; }
+      note.style.bottom = (base + band.offsetHeight + 12) + 'px';
+    }
+  }
+  function drop() {
+    var note = document.querySelector('#amenti-attica .at-note');
+    if (note && noteWas !== null) { note.style.bottom = noteWas; noteWas = null; }
   }
 
   function mount() {
@@ -258,6 +288,7 @@
     if (!mount()) { return false; }
     open = true;
     band.style.display = '';
+    lift();
 
     var why = ready();
     if (why) {
@@ -310,6 +341,7 @@
     stop();
     open = false;
     if (band) { band.style.display = 'none'; }
+    drop();
     return false;
   }
   function toggle() { return open ? hide() : show(); }
@@ -345,6 +377,10 @@
 
   /* leaving Attica stops the clock. A tour ticking on a surface nobody is
      looking at would move the camera under a reader who has gone elsewhere. */
+  /* the control row wraps differently at a different width, so the offset it
+     was measured against stops being true the moment the window changes */
+  window.addEventListener('resize', function () { if (open) { lift(); } });
+
   new MutationObserver(function () {
     if (open && !document.body.classList.contains('scene-attica')) {
       hide();
