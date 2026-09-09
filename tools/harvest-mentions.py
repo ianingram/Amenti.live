@@ -2,8 +2,8 @@
 """
 ============================================================================
 harvest-mentions.py  →  Amenti.live/tools/harvest-mentions.py
-============================================================================
-harvest-mentions.py  ·  WHICH PLACES THE CORPUS ACTUALLY NAMES
+----------------------------------------------------------------------------
+WHICH PLACES THE CORPUS ACTUALLY NAMES
 ----------------------------------------------------------------------------
     python3 tools/harvest-mentions.py library/
 
@@ -138,6 +138,29 @@ def main():
         src = os.path.relpath(path, CORPUS)
         for m in BIG.finditer(flat):
             got = m.group(1)
+            # ── A DERIVED FORM MUST BE CAPITALISED · found 8 Sep ────────────
+            # The origin column earned itself on its first run. Of the 84
+            # places resting entirely on derived forms, four were not places:
+            #
+            #     Klimax  matched  climax      an ordinary word
+            #     Odeion  matched  odium       an ordinary word
+            #     Acropolis matched acropolis  every citadel, not this one
+            #     Marios  matched  Marius      a Roman general
+            #
+            # A DERIVED FORM IS A GUESS AT A SPELLING, and a guess that matches
+            # a common noun is not evidence of anything. An attested form has a
+            # gazetteer behind it and keeps the benefit of the doubt; a
+            # generated one must at least be capitalised in the text, because
+            # every proper noun in this corpus is.
+            #
+            # This kills climax, odium and lower-case acropolis outright. It
+            # does NOT kill Marius, which is capitalised and is a man — that
+            # wants the ambiguity rule extended to people, and is a different
+            # move.
+            if got[:1].islower() and all(
+                    origin_of.get(f, 'attested') == 'derived'
+                    for f in [got.lower()]):
+                continue
             for key in lookup.get(got.lower(), ()):
                 h = hits[key]
                 h['n'] += 1
@@ -185,6 +208,8 @@ def main():
     print('  %d of %d places are named in the corpus (%.0f%%)'
           % (len(named), len(rows), 100.0 * len(named) / len(rows)))
     print('  %d are named by MORE THAN ONE source \u2014 the corroborated ones' % len(multi))
+    print('  derived forms are matched CASE-SENSITIVELY: a generated spelling')
+    print('  that appears only in lower case is a common word, not a place.')
     dv = [r for r in named if r.get('matched_origin') == 'derived']
     if dv:
         print()
