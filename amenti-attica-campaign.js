@@ -205,11 +205,20 @@
      seven kilometres of water is seven kilometres at any zoom — and a field
      that held its screen size would be claiming a different stretch of sea
      every time the reader zoomed. */
-  var SPREAD = { fleet: 22, army: 9, flight: 20 };
-  /* how much of the lane the force is strung out along. A FLEET IN OPEN WATER
-     IS A COLUMN, NOT A KNOT — the front is arriving while the rear is still
-     leaving, which is the thing a single travelling dot cannot show. */
-  var TRAIL  = { fleet: 0.42, army: 0.3, flight: 0.36 };
+  var SPREAD = { fleet: 34, army: 5, flight: 30 };
+  /* ── A FLEET IS NOT A COLUMN · CORRECTED 10 Sep 2026 ─────────────────────
+     The first version strung the fleet out along 42% of the lane, so the van
+     was arriving while the rear had not left. THAT IS A COLUMN AND GALLEYS DO
+     NOT MOVE IN ONE IN OPEN WATER. A column is for narrows and for following a
+     leader through hazards; a fleet crossing open sea moves as a body, broad
+     across the direction of travel and shallow behind.
+
+     So the geometry is the other way round: WIDE ACROSS, SHORT ALONG. The
+     stagger that remains is enough to keep it from being a wall, not enough to
+     be a queue.
+
+     An army on a road IS a column, and keeps one. */
+  var TRAIL  = { fleet: 0.06, army: 0.34, flight: 0.09 };
   /* ── MOORED, IN ROWS · 10 Sep 2026 ───────────────────────────────────────
      THE TEXT SAYS `MOORED` AND SAYS NOTHING ELSE. Herodotus 6.107: `as the
      ships came in to shore at Marathon, he moored them there, and after the
