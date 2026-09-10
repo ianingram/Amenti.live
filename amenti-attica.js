@@ -2200,6 +2200,21 @@
   window.AmentiAttica = {
     show: show, hide: hide, toggle: toggle,
     isOpen: function () { return open; },
+
+    /* ── THE PROJECTION, LENT OUT · 10 Sep 2026 ───────────────────────────
+       A LAYER ABOVE THIS ONE MUST NOT RE-DERIVE THE PROJECTION. Two functions
+       computing the same thing from the same box will agree until one frame
+       changes and then disagree by a few pixels forever, and nothing on the
+       surface would show it.
+
+       `proj` returns [x, y] in viewBox units. `plane` returns the group that
+       carries the camera transform — anything appended to it pans and zooms
+       with the ground and needs no transform of its own. */
+    proj: function (lat, lon) {
+      var p = proj(+lat, +lon);
+      return { x: p[0], y: p[1] };
+    },
+    plane: function () { return view; },
     /* the periods by key: all arch clas hell rome late */
     /* ── AND THE BUTTON MUST FOLLOW THE PERIOD · 9 Sep ───────────────
        IT DID NOT, AND THE SURFACE SAID TWO THINGS AT ONCE. A tour frame set
