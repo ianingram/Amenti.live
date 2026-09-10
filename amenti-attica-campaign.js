@@ -140,6 +140,29 @@
     var A = window.AmentiAttica;
     return (A && A.proj) ? A.proj(+lat, +lon) : null;
   }
+  /* ── A MARK DOES NOT GET BIGGER · 10 Sep 2026 ───────────────────────────
+     THE FIRST RUN OF THE TRAVEL DREW ONE LARGE BLOB. The marks live inside
+     `.at-view`, which carries the camera's `scale(K)` — so at ×3 they were
+     three times the size and had merged into each other.
+
+     The surface has obeyed this rule since it was written: every pin is
+     counter-scaled by 1/K, and a LABEL is the stated exception because a label
+     is text to read rather than a claim about the world. A fleet mark is a
+     claim about a position, so it takes the rule.
+
+     The scatter takes it too. The spread here is not an assertion of extent —
+     it exists so a force reads as many rather than as one — so it should hold
+     its size on the screen, not on the ground.
+
+     K is read from the transform the surface already writes, rather than asked
+     for, so there is nothing new to keep in step. */
+  function zoom() {
+    var pl = plane();
+    if (!pl) { return 1; }
+    var m = String(pl.getAttribute('transform') || '').match(/scale\(([\d.]+)\)/);
+    return m ? (+m[1] || 1) : 1;
+  }
+
   function plane() {
     var A = window.AmentiAttica;
     return (A && A.plane) ? A.plane() : null;
@@ -234,14 +257,15 @@
       line.setAttribute('points', zig(a.x, a.y, b.x, b.y));
       line.setAttribute('fill', 'none');
       line.setAttribute('stroke', col);
-      line.setAttribute('stroke-width', '1.2');
+      line.setAttribute('stroke-width', (1.2 / zoom()).toFixed(2));
       line.setAttribute('opacity', '.85');
       svg.appendChild(line);
 
+      var z = 1 / zoom();
       [[a, 2.2], [b, 3.2]].forEach(function (p) {
         var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         c.setAttribute('cx', p[0].x); c.setAttribute('cy', p[0].y);
-        c.setAttribute('r', p[1]);
+        c.setAttribute('r', (p[1] * z).toFixed(2));
         c.setAttribute('fill', col);
         svg.appendChild(c);
       });
@@ -253,9 +277,10 @@
         for (var i = 0; i < n; i++) {
           var ang = (i / n) * Math.PI * 2;
           var m = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          m.setAttribute('cx', (b.x + Math.cos(ang) * 9).toFixed(1));
-          m.setAttribute('cy', (b.y + Math.sin(ang) * 9).toFixed(1));
-          m.setAttribute('r', '1.6');
+          var zz = 1 / zoom();
+          m.setAttribute('cx', (b.x + Math.cos(ang) * 9 * zz).toFixed(1));
+          m.setAttribute('cy', (b.y + Math.sin(ang) * 9 * zz).toFixed(1));
+          m.setAttribute('r', (1.6 * zz).toFixed(2));
           m.setAttribute('fill', '#d05f5f');
           svg.appendChild(m);
         }
@@ -265,10 +290,11 @@
       var kind = r.kind || 'fleet';
       var host = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       host.setAttribute('class', 'ac-force');
-      var off = scatter(TOKEN[kind] || 10, SPREAD[kind] || 6, g.ch % 97);
+      var iv = 1 / zoom();
+      var off = scatter(TOKEN[kind] || 10, (SPREAD[kind] || 6) * iv, g.ch % 97);
       off.forEach(function (o) {
         var m = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        m.setAttribute('r', kind === 'army' ? '1.1' : '1.35');
+        m.setAttribute('r', ((kind === 'army' ? 1.1 : 1.35) * iv).toFixed(2));
         m.setAttribute('fill', col);
         m.setAttribute('opacity', '.9');
         m.setAttribute('cx', (a.x + o[0]).toFixed(1));
@@ -356,6 +382,21 @@
     s.id = 'campaign-css';
     s.textContent = [
       '#amenti-campaign{position:absolute;inset:0;pointer-events:none;z-index:6}',
+      /* ── THE REGISTER'S OWN MOVES DIM, THEY DO NOT GO · 10 Sep ────────────
+         Turning every switch on turns on the `moves` layer, which draws all
+         ten legs at once — and the campaign's step was lost inside its own
+         register drawn whole. SWITCHING IT OFF WOULD BE WORSE: the ten legs
+         are the shape of the campaign, and a reader stepping through them
+         should see where this step sits in the whole.
+
+         AND THE FIRST RULE WAS WRITTEN AGAINST THE GROUP AND DID NOTHING.
+         Each leg carries an inline `style="opacity:..."`, computed per leg
+         from the year scrub, and an inline style beats a class rule on the
+         parent. So this reaches the legs themselves and takes `!important` —
+         which is not a preference here, it is the only thing that beats an
+         inline value. It is scoped to a class this file adds and removes. */
+      '#amenti-attica.ac-dim-moves .at-mvg{opacity:.1 !important;transition:opacity .3s}',
+      '#amenti-attica.ac-dim-moves .at-mvg:hover{opacity:.55 !important}',
       /* ── MEASURED, NOT ASSUMED · 10 Sep ──────────────────────────────
          `bottom:96px` was a guess and it landed the caption on the note and
          the year scrub. FOUR COLLISIONS WERE FIXED ON THIS SURFACE ON 9
@@ -486,6 +527,7 @@
            and drawing legs across a blank chart shows a fleet sailing over
            nothing. It asks for what it needs and gives back what it took. */
         if (A.marks) { A.marks('*'); }
+        if (host) { host.classList.add('ac-dim-moves'); }
         if (A.period) { A.period('clas'); }
       }
       step = 0;
@@ -494,6 +536,8 @@
     });
   }
   function stop() {
+    var h = document.getElementById('amenti-attica');
+    if (h) { h.classList.remove('ac-dim-moves'); }
     if (el && el.parentNode) { el.parentNode.removeChild(el); }
     if (svg && svg.parentNode) { svg.parentNode.removeChild(svg); }
     el = null; svg = null; step = -1;
