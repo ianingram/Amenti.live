@@ -890,7 +890,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
      inline fallback, silently.
 
      REBUILD IT if you edit any of the six. It is generated, not authored. -->
-<script src="amenti-core.bundle.js"></script>
+<script src="amenti-core.bundle.js?v=e349cab1"></script>
 <!-- amenti-dial.js — THE DIAL SEQUENCE. Announcement, tone, ring, until the
      figure speaks. Listens for `amenti:voice-started`, which the voice engine
      dispatches at the instant the first buffer is scheduled; deferred because
@@ -976,7 +976,7 @@ body[data-page="counsel"]{color:var(--text);font-family:var(--font-script);min-h
 })();
 </script>
 <style>.section-header .section-title{order:0;} .section-header .section-tag{order:1;} .jd-row{display:flex;align-items:center;gap:10px;margin:2px 0 0;flex-basis:100%;width:100%;order:2;}.jd-row .jd-tag{font-family:var(--font-mono,monospace);font-size:13px;letter-spacing:.28em;color:#f5c542;text-shadow:0 0 10px rgba(245,197,66,.5);text-transform:uppercase;}.jd-scales{filter:drop-shadow(0 0 8px rgba(245,197,66,.45));opacity:.92;}</style>
-<link rel="stylesheet" href="amenti-responsive.css">
+<link rel="stylesheet" href="amenti-responsive.css?v=fd025d5f">
 
 <!-- ===========================================================================
      GATEWAY META ALIGNMENT
@@ -5687,7 +5687,7 @@ window.AMENTI_ERAS = [
      Now amenti-svg-library.js, deferred. Every consumer reads it inside a
      function after boot. The tag sits before amenti-art-2.js, though the
      library merges rather than assigns, so order no longer decides. -->
-<script src="amenti-svg-library.js" defer></script>
+<script src="amenti-svg-library.js?v=7b34f8ea" defer></script>
 
 <script data-codex="2">
 window.AMENTI_LIBRARY_KEYS = window.AMENTI_LIBRARY_KEYS || ['lincoln','caesar','sun-tzu','hannibal','gandhi','tesla','moses','oliver-cromwell','marcus-aurelius','tacitus','david-hume','charles-martel','edward-gibbon','bram-stoker','plato','seneca','confucius','frederick-douglass','john-milton','akhenaten','ingram'];
@@ -6020,7 +6020,7 @@ window.AMENTI_ERAS = window.AMENTI_ERAS || [];
        · throttle must precede listen, which reads Amenti.throttle at load
        · doctrine must precede create(), which is where the engine reads its judgment
      ═══════════════════════════════════════════════════════════════════════════ -->
-<script src="amenti-doctrine.js" defer></script>
+<script src="amenti-doctrine.js?v=976c6275" defer></script>
 <!-- DEPLOY C — ONE ENGINE.
      amenti-voice.js publishes Amenti.throttle as a FACADE, so all 8 call sites in
      this page keep working unchanged. It also publishes Amenti.conversation — the
@@ -7287,7 +7287,7 @@ try{
 }catch(e){ console.error('browse script error', e); }
 })();
 </script>
-<script src="library.js" defer></script>
+<script src="library.js?v=fe8cc091" defer></script>
 <!-- The instrument. Ships with the code, costs nothing until called.
      Amenti.probe.state()  free  · what is this page actually running?
      Amenti.probe.wall()   ~1c   · is the Worker's wall up, and does it pass real traffic?
@@ -7298,7 +7298,7 @@ try{
      passage, both live chunk profiles, six measures, six keys, six wires.
      Renders once (~5c), then hits forever. Mounts a panel only under ?debug;
      a visitor sees nothing. DO NOT EDIT THE PASSAGE. -->
-<script src="amenti-canonical.js" defer></script>
+<script src="amenti-canonical.js?v=43cdd39f" defer></script>
 <!-- voiceprofiles.js is NOT loaded. It is a SPEC, not infrastructure — the target
      state for the Parler / wave-file voice-mapping work, which is not built yet.
      The live TTS is Gemini, via /speak, composed in amenti-voice.js.
@@ -8304,27 +8304,27 @@ window.AMENTI_VOICE = {
 })();
 </script> 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-<script src="amenti-auth.js" defer></script>  
+<script src="amenti-auth.js?v=9911c691" defer></script>  
 <!-- amenti-quiz.js is NOT in amenti-core.bundle.js and must not be. Its own
      header: "Drop two script tags before </body> (supabase-js + amenti-auth.js
      already load the auth client), THEN this file." The first bundle moved it
      into the head ahead of the auth client and window.amentiQuiz stopped
      existing — silently, because a throw inside a bundle takes out everything
      after it. It stays here, after auth, where its header says it belongs. -->
-<script src="amenti-quiz.js" defer></script>
-<script src="amenti-roster.js" defer></script>
-<script src="amenti-roster-view.js" defer></script>
-<script src="amenti-bay.js" defer></script>
-<script src="amenti-motion.js" defer></script>
-<script src="amenti-art-2.js" defer></script> 
-<script src="amenti-leaderboard.js" defer></script>  
-<script src="amenti-readaloud.js" defer></script>  
+<script src="amenti-quiz.js?v=ef4a2536" defer></script>
+<script src="amenti-roster.js?v=b0f5ca91" defer></script>
+<script src="amenti-roster-view.js?v=2dc9f768" defer></script>
+<script src="amenti-bay.js?v=e57e5f85" defer></script>
+<script src="amenti-motion.js?v=d9c60056" defer></script>
+<script src="amenti-art-2.js?v=ec74203b" defer></script> 
+<script src="amenti-leaderboard.js?v=3bd469b9" defer></script>  
+<script src="amenti-readaloud.js?v=e97258f9" defer></script>  
 })();
 </script>
-<script src="amenti-vallhalla-signup.js" defer></script>
-  <script src="amenti-flourish.js" defer></script>
-  <script src="amenti-mascot.js" defer></script>
-  <script src="amenti-profile.js" defer></script>
+<script src="amenti-vallhalla-signup.js?v=9aea018b" defer></script>
+  <script src="amenti-flourish.js?v=285c68c5" defer></script>
+  <script src="amenti-mascot.js?v=d141d87a" defer></script>
+  <script src="amenti-profile.js?v=0f18021a" defer></script>
 <!-- amenti-probe-loader.js REMOVED. It was a byte-identical copy of
      amenti-roster-view.js (same md5, same 11,936 bytes), so the roster view
      mounted twice and every /roster call to the mint worker happened twice —
@@ -8332,7 +8332,7 @@ window.AMENTI_VOICE = {
      Nothing referenced a probe-loader global; its only export was
      amentiRosterView, which amenti-roster-view.js already provides. -->
  
-  <script src="amenti-art-photo.js" defer></script>
+  <script src="amenti-art-photo.js?v=2806daac" defer></script>
 <!-- Diagnostics. Inert unless the page is loaded with ?diagnose=1 -->
 <!-- The diagnostic is 47 KB and is of no use to a reader. It used to load on
      every single visit. It now loads ONLY when the page is opened with
@@ -8346,10 +8346,10 @@ window.AMENTI_VOICE = {
   document.head.appendChild(t);
 })();
 </script>
-    <script src="amenti-art-3.js" defer></script>
+    <script src="amenti-art-3.js?v=40425d02" defer></script>
   
 
-<link rel="stylesheet" href="img/grades.css">
+<link rel="stylesheet" href="img/grades.css?v=23fab079">
 
 <style data-amenti="art-v1">
 /* AMENTI ART v1 — raster art on the hero and the reading room.
@@ -8780,7 +8780,7 @@ window.AMENTI_VOICE = {
   };
 })();
 </script>
-<script src="amenti-dispatch-art.js" defer></script>
+<script src="amenti-dispatch-art.js?v=944e432e" defer></script>
 
 <script>
 /* THE LIBRARY, READ — the Codex unlocked count and key list come from
