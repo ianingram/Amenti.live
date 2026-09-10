@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-10T03:20:59.071Z",
+    "generated": "2026-09-10T03:35:55.339Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1508,8 +1508,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 52387,
-      "sha256": "91ab745be42f85d4",
+      "bytes": 52408,
+      "sha256": "e4a27521adf39e8a",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1634,8 +1634,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 21273,
-      "sha256": "49b473ffa8f1e897",
+      "bytes": 21284,
+      "sha256": "ea09853381d93b12",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1665,7 +1665,7 @@
           "line": 345
         },
         {
-          "file": "amenti-guide.js",
+          "file": "amenti-guide.js?v=5699f2a9",
           "line": 346
         },
         {
@@ -1862,13 +1862,19 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 58,
+    "count": 59,
     "files": [
       {
         "file": "attica-probe.js",
         "title": null,
         "guards": null,
         "bytes": 20891
+      },
+      {
+        "file": "cost-bench.js",
+        "title": null,
+        "guards": null,
+        "bytes": 16187
       },
       {
         "file": "events-gaz.mjs",
@@ -2396,8 +2402,8 @@
         "declares": [
           "AmentiGuide"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-hall-box.js",
