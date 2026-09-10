@@ -438,7 +438,20 @@
       var pts = points(a.x, a.y, b.x, b.y);
       var off = field(TOKEN[kind] || 200, SPREAD[kind] || 12,
                       TRAIL[kind] || 0.35, g.ch % 97);
-      var sz = (SIZE[kind] || 1.2) * iv;
+      /* ── PARTIALLY COUNTER-SCALED · 10 Sep 2026 ─────────────────────────
+         FULL counter-scale makes a mark GROW as the ground shrinks. Zoomed
+         out, Marathon bay is a few units wide and four hundred marks at full
+         screen size became A SOLID RED RECTANGLE — the fleet had arrived and
+         the picture said `a block`.
+
+         A pin can afford full counter-scale because there is one of it. A
+         field of four hundred cannot: the marks have to give way to each other
+         as the ground they sit on gets smaller.
+
+         So iv^0.55. Zoomed out they shrink but stay visible; zoomed in they
+         hold enough size to be individual ships. IT IS NOT THE PIN RULE AND
+         DOES NOT PRETEND TO BE — a fleet is a texture and a pin is a claim. */
+      var sz = (SIZE[kind] || 1.2) * Math.pow(iv, 0.55);
       var tri = 'M0,' + (-sz).toFixed(2) + 'L' + (sz * 0.78).toFixed(2) + ',' +
                 (sz * 0.72).toFixed(2) + 'L' + (-sz * 0.78).toFixed(2) + ',' +
                 (sz * 0.72).toFixed(2) + 'Z';
@@ -475,6 +488,13 @@
       }
       moving.push(rec);
     });
+    /* a ring on every place this step arrived at and changed */
+    g.rows.forEach(function (r) {
+      if (['taken', 'landed', 'unopposed'].indexOf(r.outcome) < 0) { return; }
+      pulse(project(r.to_lat, r.to_lon),
+            r.outcome === 'unopposed' ? '#7fd8f0' : '#d0402f');
+    });
+
     /* the measure appears once the force is on the ground it measures */
     if (g.rows.some(function (r) { return /marathon/i.test(r.to_name || ''); })) {
       furlongs();
@@ -552,6 +572,35 @@
       return [c.x + Math.cos(a) * d + j * r * 0.18,
               c.y + Math.sin(a) * d * 0.75 + j * r * 0.18];
     });
+  }
+
+  /* ── WHAT WAS TAKEN, AND WHERE THEY LANDED · 10 Sep 2026 ────────────────
+     A ring at the arrival of any leg that ended in something happening to the
+     place — Naxos and Karystos and Eretria reduced, Marathon landed on. It
+     pulses, because a place that has just been taken is not the same as a
+     place on a register, and the eye should go there.
+
+     IT MARKS THE ARRIVAL AND NOT THE EVENT. The register says a leg ended
+     `taken` and the ring says the leg ended there; what was done is in the
+     caption, where the passage's own words are. A ring cannot say `plundered,
+     the temples burned in retribution for Sardis, the people enslaved on
+     Darius's orders` — 6.101 can, and does. */
+  function pulse(p, hue) {
+    if (!p || !svg) { return; }
+    var z = 1 / zoom();
+    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'ac-pulse');
+    g.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')');
+    [0, 1].forEach(function (i) {
+      var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('r', ((i ? 7.5 : 3.4) * z).toFixed(2));
+      c.setAttribute('fill', 'none');
+      c.setAttribute('stroke', hue);
+      c.setAttribute('stroke-width', ((i ? 0.7 : 1.1) * z).toFixed(2));
+      c.setAttribute('class', i ? 'ac-ring2' : 'ac-ring1');
+      g.appendChild(c);
+    });
+    svg.appendChild(g);
   }
 
   /* the measure on the plain — a bar, and its name */
@@ -675,6 +724,12 @@
     s.id = 'campaign-css';
     s.textContent = [
       '#amenti-campaign{position:absolute;inset:0;pointer-events:none;z-index:6}',
+      '@keyframes ac-beat{0%,100%{opacity:.85}50%{opacity:.16}}',
+      '@keyframes ac-beat2{0%{opacity:.5;transform:scale(.55)}',
+      '  70%{opacity:0;transform:scale(1.25)}100%{opacity:0;transform:scale(1.25)}}',
+      '#amenti-attica .ac-ring1{animation:ac-beat 1.5s ease-in-out infinite}',
+      '#amenti-attica .ac-ring2{animation:ac-beat2 1.5s ease-out infinite;',
+      '  transform-box:fill-box;transform-origin:center}',
       /* ── THE REGISTER'S OWN MOVES DIM, THEY DO NOT GO · 10 Sep ────────────
          Turning every switch on turns on the `moves` layer, which draws all
          ten legs at once — and the campaign's step was lost inside its own
