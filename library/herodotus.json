@@ -39,6 +39,15 @@
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
    "note": "The battle that decided the war, and the least heroic narrative on this shelf: the Greek commanders spend most of it arguing about whether to withdraw, and Themistocles, seeing his argument about to be defeated, 'secretly went forth from the assembly' and sent his children's tutor Sikinnos to tell the Persians the Greeks were about to scatter — making retreat impossible. Herodotus reports the deception in detail, admiringly, and does not pretend it was anything else. Artemisia of Halicarnassos, the only woman commanding a ship, gets the best advice in the book and is ignored.",
    "file": "herodotus/04-salamis.md"
-  }
- ]
+  },
+{
+ "id": "05-marathon",
+ "section": "The war",
+ "title": "Marathon — Book VI §94–120",
+ "mode": "stored",
+ "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+ "note": "The campaign that ATTICA-MOVES.csv cites chapter by chapter — 6.97 through 6.116 — and which this library did not hold until now. Same volume as Thermopylai and Salamis on this shelf; the register was naming a text that was not aboard.\n\nTHE INTERESTING PART IS NOT THE BATTLE. Herodotus gives the fighting a few sentences and spends the chapters around it on why men did what they did. Datis anchors off Delos and will not land armed men on sacred ground. Hippias, tyrant of Athens fifty years earlier, chooses the landing beach because he knows the country — and on the way he loses a tooth in the sand and decides the omen has already been spent. The Plataians arrive in a body, the whole force of a small city. The Lacedemonians are held at home by the full moon and reach Attica three days after leaving Sparta, too late, and go out to Marathon to look at the dead.\n\nAND HE REPORTS WHAT HE CANNOT EXPLAIN. Seven ships taken at the water's edge. A shield displayed from the mountain to the Persians already aboard, which he records, and whose sender he says he cannot name. That is the method stated in Book VII working in Book VI: report the thing reported, and attach the doubt.",
+ "file": "herodotus/05-marathon.md"
+}
+  ] 
 }
