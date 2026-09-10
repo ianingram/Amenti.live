@@ -1,11 +1,22 @@
 {
   "meta": {
-    "generated": "2026-09-10T02:43:36.278Z",
+    "generated": "2026-09-10T03:16:51.538Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
   },
   "files": [
+    {
+      "file": "AMENTI-HOW-TO-USE-IT.html",
+      "bytes": 13485,
+      "sha256": "691c11426816acff",
+      "type": "html",
+      "declares": [],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
     {
       "file": "Codex.html",
       "bytes": 579,
@@ -779,6 +790,19 @@
       "tables": []
     },
     {
+      "file": "amenti-guide.js",
+      "bytes": 4329,
+      "sha256": "f66b486e522aac72",
+      "type": "js",
+      "declares": [
+        "AmentiGuide"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-hall-box.js",
       "bytes": 39127,
       "sha256": "7ba1acc556fab114",
@@ -955,8 +979,8 @@
     },
     {
       "file": "amenti-meter.js",
-      "bytes": 10829,
-      "sha256": "5861358c75549060",
+      "bytes": 12561,
+      "sha256": "eeb81d30a29d599f",
       "type": "js",
       "declares": [
         "AmentiMeter"
@@ -1484,8 +1508,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 52074,
-      "sha256": "4704861d3eeb5479",
+      "bytes": 51875,
+      "sha256": "c9e6c51baff90771",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1494,25 +1518,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1243,
+          "line": 1237,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1244,
+          "line": 1238,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1245,
+          "line": 1239,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1246,
+          "line": 1240,
           "when": "toplevel",
           "own": false
         }
@@ -2359,6 +2383,14 @@
         "file": "amenti-ground.js",
         "declares": [
           "AmentiGround"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-guide.js",
+        "declares": [
+          "AmentiGuide"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
