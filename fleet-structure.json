@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-10T01:58:38.723Z",
+    "generated": "2026-09-10T02:01:15.327Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -800,11 +800,11 @@
     },
     {
       "file": "amenti-hall-ground.js",
-      "bytes": 11626,
-      "sha256": "290e636db2e3a05c",
+      "bytes": 12549,
+      "sha256": "e895ba0077e012ed",
       "type": "js",
       "declares": [
-        "AmentiGround"
+        "AmentiHallGround"
       ],
       "loads": [],
       "calls": [],
@@ -1484,8 +1484,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 52263,
-      "sha256": "0faee7ddee7c97db",
+      "bytes": 52284,
+      "sha256": "e1494130c2160814",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -2337,7 +2337,7 @@
       {
         "file": "amenti-hall-ground.js",
         "declares": [
-          "AmentiGround"
+          "AmentiHallGround"
         ],
         "loadedByAPage": true,
         "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
