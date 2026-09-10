@@ -195,9 +195,25 @@
                       'something that transliterates to this' : ''),
                from: FKEY + '-MENTIONS.csv' });
     }
-    if (p.narrow) {
-      o.push({ ask: 'what does the ground at ' + p.name + ' force?',
-               answer: plain(p.narrow.why), from: 'NARROWS.csv' });
+    if (p.narrow && p.narrow.why) {
+      var nw = plain(p.narrow.why);
+      var twin = o.filter(function (x) { return x.answer && sameish(x.answer, nw) > 0.6; })[0];
+      if (twin) {
+        twin.from += ' and NARROWS.csv';
+        if (nw !== twin.answer) {
+          twin.caveat = (twin.caveat ? twin.caveat + ' \u00b7 ' : '') +
+            'NARROWS.csv states this slightly differently \u2014 both are authored ' +
+            'drafts and they have drifted';
+          twin.also = nw;
+        }
+      } else {
+        o.push({ ask: 'what does the ground at ' + p.name + ' force?',
+                 answer: nw, from: 'NARROWS.csv',
+                 hint: p.narrow['class'] === 'funnel'
+                   ? 'a funnel \u2014 the ground everyone came through'
+                   : (p.narrow['class'] === 'forbid'
+                      ? 'forbidding ground \u2014 what an army went around' : '') });
+      }
     }
     return o;
   }
@@ -216,6 +232,31 @@
     return String(t == null ? '' : t).replace(/\*\*([^*]+)\*\*/g, '$1');
   }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
+
+  /* ── TWO REGISTERS AGREEING MUST NOT BECOME TWO OFFERS · 10 Sep ──────────
+     ATTICA-WHY.csv and NARROWS.csv both describe Thermopylae, in nearly the
+     same sentence, and the reader was offered it twice under two different
+     questions. One place out of thirty-three, so it is not a pattern — but it
+     is the right KIND of fault to handle once, because the second one will
+     turn up in a register nobody is looking at.
+
+     AND WHERE THEY DISAGREE, THAT IS A FINDING AND NOT A CHOICE. One says the
+     coast has silted SIX KILOMETRES and the other SEVERAL. Both are authored
+     drafts, and the offer says so rather than picking a winner: a surface that
+     silently prefers one register over another has decided something on the
+     captain's behalf and left no trace. */
+  function sameish(a, b) {
+    var norm = function (t) {
+      return String(t || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ')
+        .replace(/\s+/g, ' ').trim().split(' ');
+    };
+    var x = norm(a), y = norm(b);
+    if (!x.length || !y.length) { return 0; }
+    var seen = {}, hit = 0;
+    x.forEach(function (w) { seen[w] = (seen[w] || 0) + 1; });
+    y.forEach(function (w) { if (seen[w]) { seen[w]--; hit++; } });
+    return hit / Math.max(x.length, y.length);
+  }
 
   function describe(p) {
     var bits = [];
@@ -255,7 +296,11 @@
         hits.forEach(function (p) {
           var o = offers(p);
           (o.length ? rich : thin).push({ key: p.key, name: p.name,
-            what: describe(p), rooms: p.rooms, unplaced: p.unplaced, offers: o });
+            what: describe(p), rooms: p.rooms,
+            /* the count as a phrase, so no surface has to get the plural right
+               a second time \u2014 `1 rooms` shipped once already */
+            roomsSaid: p.rooms ? plural(p.rooms, 'reading room') : 'no reading room',
+            unplaced: p.unplaced, offers: o });
         });
         return { word: String(word || ''), places: rich, also: thin };
       });
