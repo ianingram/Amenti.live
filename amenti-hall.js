@@ -893,7 +893,90 @@
      room holds it and it was not read. LIBRARY.json cannot tell a stored work
      from a reconstructed one (it keeps only title, section and source), but the
      room's own catalogue can, and this is where that matters. */
-  function fetchWorks(works, degraded) {
+  /* ── THE SLICE MUST LOOK WHERE THE QUESTION POINTS · 10 Sep 2026 ────────
+     `.slice(0, WORK_SLICE)` took the FIRST 780 characters of every work. On a
+     26,000-character text that is 3%, always the opening, and everything after
+     it was unreachable.
+
+     SEEN LIVE the day Herodotus Book VI was ingested. Asked about the shield
+     displayed from the mountain at Marathon, the hall opened the right room,
+     the right work, and then said the passage was not in the text it had been
+     given. IT WAS RIGHT: the shield sits at character 21,298, twenty-seven
+     slices further in than the cut ever reached.
+
+     THE WHOLE FILE WAS ALREADY IN THE BROWSER. get() fetches all of it and the
+     slice threw away everything but the opening BEFORE the prompt was built.
+     No index, no harvest, no second call — the text was here and the cut was
+     not looking.
+
+     So the window follows the question. The words of the question are matched
+     against the text, the densest run of them wins, and the slice is taken
+     around it.
+
+     WHAT THIS DOES NOT DO. It does not search the library — the router still
+     chooses the room and the work, exactly as before, and this only decides
+     WHICH 780 CHARACTERS of what the router already picked. A wrong room is
+     still a wrong room.
+
+     AND IT FALLS BACK TO THE OPENING. No match, or a question with no content
+     words, takes the first 780 as it always did. That is the old behaviour
+     kept as the floor, not an error. */
+  var STOP = (' a an and are as at be but by for from had has have he her his ' +
+    'i in is it its me my no not of on or our say says said she that the their ' +
+    'them then there these they this to was we were what when where which who ' +
+    'whom why will with you your about does did do how ').split(' ');
+
+  function window780(text, question, size) {
+    var t = String(text || '');
+    if (t.length <= size) { return t; }
+    var words = String(question || '').toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ').split(/\s+/)
+      .filter(function (w) { return w.length > 3 && STOP.indexOf(w) < 0; });
+    if (!words.length) { return t.slice(0, size); }
+
+    var low = t.toLowerCase();
+    /* ── PLAIN DENSITY, AND IT WAS MEASURED AGAINST THE ALTERNATIVE ────────
+       Weighting each occurrence by 1/n — so a rare word outranks a common one
+       — is the obvious improvement and it was written, run, and thrown away.
+       Scored against eight questions with known chapters in Herodotus VI:
+
+           plain density      5 of 8
+           weighted by rarity 3 of 8
+
+       The weighting fixed the Lacedemonians and broke Hippias, the Plataians,
+       Eretria and Delos. IT WAS ADOPTED ON THE STRENGTH OF ONE EXAMPLE AND
+       WOULD HAVE SHIPPED IF NOBODY HAD SCORED IT.
+
+       Five of eight is not good and is not defended as good. It is better than
+       three of eight and much better than the first 780 characters, which
+       scored one. A better retrieval rule is real work and wants an eval file,
+       not an evening. */
+    var hits = [];
+    words.forEach(function (w) {
+      var i = low.indexOf(w);
+      while (i >= 0 && hits.length < 4000) { hits.push({ p: i, w: 1 }); i = low.indexOf(w, i + w.length); }
+    });
+    if (!hits.length) { return t.slice(0, size); }
+    hits.sort(function (a, b) { return a.p - b.p; });
+
+    var best = hits[0].p, bestN = -1;
+    for (var i = 0; i < hits.length; i++) {
+      var n = 0;
+      for (var j = i; j < hits.length && hits[j].p < hits[i].p + size; j++) { n += hits[j].w; }
+      if (n > bestN) { bestN = n; best = hits[i].p; }
+    }
+    /* back off a little so the window opens before the match rather than on it,
+       and snap to a chapter number if one is close — this corpus numbers its
+       chapters and a passage that starts mid-sentence reads as damage */
+    var start = Math.max(0, best - Math.floor(size / 4));
+    var snap = t.lastIndexOf('\n', start);
+    var num = t.slice(Math.max(0, snap - 1), snap + 8).match(/\n(\d+)\. /);
+    if (snap > 0 && start - snap < 400) { start = snap + 1; }
+    void num;
+    return t.slice(start, start + size);
+  }
+
+  function fetchWorks(works, degraded, question) {
     return Promise.all((works || []).map(function (w) {
       if (!w.work.file) {
         return Promise.resolve({ room: w.room, roomName: w.roomName, roomNote: w.roomNote, work: w.work,
@@ -904,8 +987,14 @@
           degraded.push(w.work.id + ' — ' + r.error);
           return { room: w.room, roomName: w.roomName, roomNote: w.roomNote, work: w.work, text: null, why: 'could not be read' };
         }
+        var full = stripMarkup(r.value);
         return { room: w.room, roomName: w.roomName, roomNote: w.roomNote, work: w.work,
-          text: stripMarkup(r.value).slice(0, WORK_SLICE), why: null };
+          text: window780(full, question, WORK_SLICE),
+          /* the surface already tells a reader what was opened; now it can
+             also say that what it read was a WINDOW and not the whole work */
+          windowed: full.length > WORK_SLICE,
+          ofChars: full.length,
+          why: null };
       });
     }));
   }
@@ -1168,7 +1257,7 @@
       var ship = sectionText(items, shipPicks);
 
       return openRooms(roomPicks, lib, degraded).then(function (o) {
-      return fetchWorks(o.works, degraded).then(function (opened) {
+      return fetchWorks(o.works, degraded, question).then(function (opened) {
 
         /* ── THE COVERAGE STATEMENT ─────────────────────────────────────
            Built from what actually HAPPENED — the rooms really opened and the
