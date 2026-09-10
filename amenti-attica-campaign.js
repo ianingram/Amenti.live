@@ -342,7 +342,18 @@
           });
         }
         var per = host && host.querySelector('.at-ctl button[data-p][aria-pressed="true"]');
-        borrowed = { marks: lit.join('|'), period: per ? per.getAttribute('data-p') : null };
+        /* ── AN EMPTY SURFACE IS NOT A STATE WORTH KEEPING · 10 Sep ────────
+           If every switch is already off when this starts — because a previous
+           run of this file left them off — remembering `off` as the reader's
+           state means the surface CAN NEVER RECOVER ITSELF. One fault becomes
+           permanent across every later run. So an empty set is read as `all`,
+           which is what the surface opens with. */
+        borrowed = { marks: lit.length ? lit.join('|') : '*',
+                     period: per ? per.getAttribute('data-p') : null };
+        /* AND THE CAMPAIGN NEEDS ITS OWN GROUND VISIBLE. It draws over places,
+           and drawing legs across a blank chart shows a fleet sailing over
+           nothing. It asks for what it needs and gives back what it took. */
+        if (A.marks) { A.marks('*'); }
         if (A.period) { A.period('clas'); }
       }
       step = 0;
