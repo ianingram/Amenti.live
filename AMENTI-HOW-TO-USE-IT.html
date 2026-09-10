@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to use Amenti · the hall and the ground</title>
+<style>
+:root{
+  --ink:#07080c; --ink-2:#0d0f16; --bone:#e9e5da; --slate:#8c93a4;
+  --gold:#c9a227; --gold-2:#e8c65a; --gold-dim:#7d6618; --oxide:#b0413e;
+  --verdigris:#4a8f9e; --blue:#7fb4f0; --rule:#1d212c;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--bone);
+  font:400 17px/1.65 "IBM Plex Sans",system-ui,sans-serif;padding:0 24px 120px}
+.page{max-width:980px;margin:0 auto}
+h1,h2,h3{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:500;letter-spacing:-.015em;margin:0}
+h1{font-size:clamp(38px,6.5vw,72px);line-height:1.02;letter-spacing:-.03em}
+h2{font-size:clamp(24px,3.4vw,34px);line-height:1.15;margin:0 0 6px}
+h3{font-size:18px;letter-spacing:0;margin:0 0 8px}
+p{margin:0 0 18px;max-width:68ch}
+strong{font-weight:500;color:#fff}
+em{font-style:italic;color:var(--slate)}
+.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-weight:500}
+a{color:var(--gold)}
+header{padding:78px 0 0}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--gold);letter-spacing:.16em;margin:0 0 26px}
+.sub{font-size:20px;color:var(--slate);max-width:64ch;margin:22px 0 0;line-height:1.5}
+section{margin:64px 0 0;border-top:1px solid var(--rule);padding-top:42px}
+section.nolead{border-top:none;padding-top:0}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--gold-dim);letter-spacing:.16em;text-transform:uppercase;margin:0 0 14px}
+blockquote{margin:34px 0;padding:0 0 0 22px;border-left:2px solid var(--gold);
+  font-family:"Space Grotesk",system-ui,sans-serif;font-size:23px;line-height:1.38;color:var(--bone);max-width:60ch}
+blockquote em{color:var(--slate)}
+figure{margin:34px 0;border:1px solid var(--rule);border-radius:10px;background:var(--ink-2);padding:26px 22px 16px}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--slate);letter-spacing:.05em;margin-top:14px;text-align:center}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:30px 0;border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.two > div{padding:22px 22px}
+.two .old{background:rgba(176,65,62,.06);border-right:1px solid var(--rule)}
+.two h3{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px}
+.two .old h3{color:var(--oxide)}
+.two .new h3{color:var(--verdigris)}
+.two p{font-size:15px;margin:0 0 12px}
+@media(max-width:640px){.two{grid-template-columns:1fr}.two .old{border-right:none;border-bottom:1px solid var(--rule)}}
+.props{margin:26px 0;border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.prop{display:grid;grid-template-columns:200px 1fr;border-top:1px solid var(--rule)}
+.prop:first-child{border-top:none}
+.prop .l{padding:16px 20px;background:var(--ink-2);font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--gold);letter-spacing:.04em}
+.prop .r{padding:16px 20px}
+.prop .r b{color:#fff;font-weight:500}
+@media(max-width:640px){.prop{grid-template-columns:1fr}.prop .l{border-bottom:1px solid var(--rule)}}
+.stat{display:flex;flex-wrap:wrap;margin:28px 0;border:1px solid var(--rule);border-radius:8px}
+.stat div{flex:1 1 120px;padding:18px 20px;border-left:1px solid var(--rule)}
+.stat div:first-child{border-left:none}
+.stat .n{font-family:"IBM Plex Mono",monospace;font-size:26px;color:var(--gold)}
+.stat .l{font-size:13px;color:var(--slate);margin-top:4px;line-height:1.35}
+footer{margin:82px 0 0;border-top:1px solid var(--gold-dim);padding-top:22px;
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--slate);letter-spacing:.05em;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <p class="kicker">AMENTI &middot; HOW TO USE IT</p>
+  <h1>The hall<br>and the ground</h1>
+  <p class="sub">Two instruments. They answer different questions and they never
+  share the screen &mdash; that is on purpose, because they ask different things
+  of your attention.</p>
+</header>
+
+<section class="nolead" style="margin-top:56px;border-top:none">
+  <div class="two">
+    <div class="old" style="background:rgba(74,143,158,.06)">
+      <h3 style="color:var(--verdigris)">The hall knows people</h3>
+      <p>Two thousand and forty-three souls, and for some of them a room lined
+      with their own works &mdash; the actual texts, readable.</p>
+    </div>
+    <div class="new">
+      <h3>The map knows ground</h3>
+      <p>Where a thing was, what stood on it, and why the ground mattered.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">The hall</p>
+  <h2>Ask Amenti.</h2>
+  <p>The box at the top. Type a question and press return.</p>
+  <p><strong>A name is not a question, and that is deliberate.</strong> Type
+  <em>Caesar</em> and the hall searches &mdash; instant, and it shows you what it
+  holds. Type <em>what did Caesar think of Cato</em> and it reads the room and
+  answers. If you know what you want, ask in a sentence. If you are looking
+  around, a word is faster.</p>
+
+  <div class="props">
+    <div class="prop"><div class="l">it answers</div><div class="r">For <b>the building</b>. What this place is, how it works, what a word means here, where a thing is.</div></div>
+    <div class="prop"><div class="l">it declines</div><div class="r">What a soul thought or felt or would have done. It points you at them instead: <em>they are standing right there, ask them.</em> It is a doorway, not a medium.</div></div>
+    <div class="prop"><div class="l">its numbers</div><div class="r">Were <b>read this hour</b>, from a register, not remembered. If a register cannot be read when you ask, it says so rather than guessing.</div></div>
+    <div class="prop"><div class="l">its limits</div><div class="r">If nothing aboard covers your question, it tells you plainly that nothing aboard does.</div></div>
+  </div>
+
+  <blockquote>
+    A confident answer from nowhere is the one fault<br>
+    this whole place was built to refuse.
+  </blockquote>
+
+  <p>An answer that rests on a text will name the work and quote from it. The
+  hall opens at most three rooms and four passages for any question &mdash;
+  enough to answer from the record, not so much that the answer becomes a
+  reading list. It will also tell you what it searched and did <em>not</em>
+  open, because <strong>a search that misses and says nothing is worse than one
+  that says it missed</strong>.</p>
+</section>
+
+<section>
+  <p class="eyebrow">The ground</p>
+  <h2>Measured, not drawn.</h2>
+  <p>Open it from the row of instruments at the top right. Attica, a hundred
+  miles from the Acropolis, on real elevation data and real coastline.</p>
+  <p><strong>And every shoreline is today&rsquo;s.</strong> That is a claim, not
+  a decoration. Thermopylae&rsquo;s coast has moved six kilometres since 480 BC.
+  The pass is in the terrain; the narrowness is not.</p>
+
+  <h2 style="margin-top:38px">The marks.</h2>
+  <p>A mark tells you one of three things and never blurs them.</p>
+  <div class="props">
+    <div class="prop"><div class="l">a pin</div><div class="r"><b>HERE.</b> A specific position.</div></div>
+    <div class="prop"><div class="l">a wash</div><div class="r"><b>SOMEWHERE IN HERE.</b> The bounds within which to look.</div></div>
+    <div class="prop"><div class="l">nothing</div><div class="r">Some places are <b>held and not drawn</b>, because the gazetteer gave a coordinate that is really the centre of a box meaning <em>somewhere in Greece</em>. Better nothing than a mark that lies quietly.</div></div>
+  </div>
+  <p>Nine kinds &mdash; settled, sacred, built, defence, harbour, games, worked,
+  buried, ground &mdash; grouped by what a reader would ask, not by the
+  gazetteer&rsquo;s vocabulary.</p>
+</section>
+
+<section>
+  <p class="eyebrow">The controls</p>
+  <h2>The key, on the left.</h2>
+  <p>Every row is a <strong>switch and a count</strong>. Click a row to turn
+  that kind off.</p>
+  <p>The count is a <em>census of what the period holds</em>, not of what is
+  drawn. So a switched-off row still shows its number &mdash; the register
+  telling you what is there, while the switch tells you what is shown. When
+  everything is off, the note says so.</p>
+  <p>Under the key is the <strong>frame list</strong>. Fifteen regions. Only
+  Attica has been read; the rest are harvested &mdash; their places are real,
+  their coordinates honest, and nobody has yet written down why any of it
+  mattered. <strong>Each says so on its face.</strong></p>
+
+  <h2 style="margin-top:38px">The temporal toggle, at the bottom.</h2>
+  <div class="two">
+    <div class="old" style="background:rgba(74,143,158,.06)">
+      <h3 style="color:var(--verdigris)">Off</h3>
+      <p>The whole period &mdash; and a place gives you <strong>its whole
+      life</strong>.</p>
+    </div>
+    <div class="new">
+      <h3>On</h3>
+      <p>One year &mdash; and a place gives you <strong>the one moment alive in
+      it</strong>.</p>
+    </div>
+  </div>
+  <p>Press <strong>play</strong> on that row and the year runs, a century either
+  side, at six years a second. What moves is the thin layer of dated things over
+  ground that stands still, which is roughly how a century feels from inside
+  it.</p>
+</section>
+
+<section>
+  <p class="eyebrow">Tours</p>
+  <h2>run tour is a different button and a different clock.</h2>
+  <p>It steps through a prepared sequence.</p>
+  <blockquote>
+    A tour adds nothing.<br>
+    Every frame is a state you could reach by hand.<br>
+    <em>The story is in the order.</em>
+  </blockquote>
+  <p>Which means you can stop on any frame and hover anything in it, and
+  everything you see traces back to a file. Nothing is asserted that the
+  registers do not already hold.</p>
+  <div class="props">
+    <div class="prop"><div class="l">ground-first</div><div class="r">Builds Attica up a layer at a time, from bare terrain.</div></div>
+    <div class="prop"><div class="l">marathon-490</div><div class="r">Follows ten recorded legs &mdash; departures and arrivals, <b>not routes</b>.</div></div>
+    <div class="prop"><div class="l">laureion</div><div class="r">One hillside through four periods: copper, a tyrant&rsquo;s holding, the strike that paid for a fleet, and the mines stopping.</div></div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Hovering a place</p>
+  <h2>A pane, bottom right.</h2>
+  <p>It gives you three things, in this order.</p>
+  <div class="props">
+    <div class="prop"><div class="l">the prose</div><div class="r">What the place was &mdash; in that year, or across its whole life, depending on the toggle. Proper names and dates in blue.</div></div>
+    <div class="prop"><div class="l">the lines</div><div class="r">Click to open the terse dated claims it was written from. Each carries <b>what it rests on</b>: <em>corpus</em> &mdash; the claim is in a named room of this library, and the room is named. <em>record</em> &mdash; general history, <b>not checkable here</b>, and it says so. <em>inference</em> &mdash; somebody joined two facts.</div></div>
+    <div class="prop"><div class="l">who names it</div><div class="r">How many reading rooms contain a form of the name. <span class="num">61 rooms</span> means sixty-one rooms contain a form of it. <b>It does not mean sixty-one souls wrote about the place</b>, which is why the pane says <em>names it</em>.</div></div>
+  </div>
+  <p>Where a name was matched on a Latinised form, it says so: <em>the corpus
+  names something that transliterates to this</em>.</p>
+
+  <h2 style="margin-top:38px">The magnifier.</h2>
+  <p>Hold it over the ground and it enlarges. Past &times;8 the readout turns
+  amber: <em>the image is spent at &times;8 &mdash; this is bigger pixels, not
+  more ground</em>.</p>
+  <blockquote>
+    An instrument that keeps magnifying past its source<br>
+    is lying quietly.
+  </blockquote>
+</section>
+
+<section>
+  <p class="eyebrow">Before you trust any of it</p>
+  <h2>Four things worth knowing.</h2>
+  <div class="props">
+    <div class="prop"><div class="l">the sentences</div><div class="r">Every <em>why</em> sentence and every told moment was <b>written and not checked against a source</b>. The registers say so of themselves and the pane repeats it. They are claims to confirm or replace, not findings.</div></div>
+    <div class="prop"><div class="l">a blank</div><div class="r">Is not a zero. An event with no recorded duration draws no stain, because a stain of length nought would assert <b>that the ground healed the same day</b>.</div></div>
+    <div class="prop"><div class="l">the counts</div><div class="r">Are read, not remembered. Ask how many souls, how many frames, how many places &mdash; it reads a register written that hour.</div></div>
+    <div class="prop"><div class="l">the frames</div><div class="r">Fifteen exist. <b>One is authored.</b> That number is stated rather than smoothed over, because a frame that has not been read must not look like one that has.</div></div>
+  </div>
+</section>
+
+<footer>
+  INGRAM MANOR LLC &middot; AMENTI<br>
+  The souls are drawn from history, their works are their works, and the voices
+  are performances built from the record.<br>
+  Nothing here pretends to be a s&eacute;ance. It is a reading room with very
+  good acoustics.
+</footer>
+
+</div>
+</body>
+</html>

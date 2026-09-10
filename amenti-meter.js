@@ -11,6 +11,23 @@
    This is the dial. It reads what the door already records, prices it, and
    puts the number where the person spending it can see it.
 
+   ── AND IT IS SHOWN TO VISITORS ON PURPOSE · 10 Sep ──────────────────────
+   It began as a builder's instrument and stayed visible because there is an
+   argument for it. NOTHING ELSE ON THE WEB TELLS YOU WHAT AN ANSWER COST. The
+   hall already says, in HALL.md, that every number it gives was read this hour
+   and that it will say so when a register cannot be read. A meter is that same
+   honesty turned on the machine itself.
+
+   Two things follow, and both are in the panel:
+
+   IT SAYS WHOSE MONEY IT IS. The asks are the visitor's; the bill is the
+   proprietor's. A total with no owner reads as an invoice.
+
+   AND IT LEADS WITH THE SMALL NUMBER. For a visitor the interesting figure is
+   `this answer cost about two and a half cents` — a fact about the machine.
+   The tokens and the per-million rates are still there, underneath, for
+   whoever wants them.
+
    ── WHY IT MATTERS THAT THIS IS ON THE PAGE ───────────────────────────────
    The hall's prompt is budgeted to the character in amenti-hall.js — 8,600
    fixed, four passages of 780, 5,800 of sections — and every one of those
@@ -110,6 +127,11 @@
       '#amenti-meter .m-r{display:flex;justify-content:space-between;gap:10px}',
       '#amenti-meter .m-r span:last-child{color:#c3d3e6}',
       '#amenti-meter .m-big span:last-child{color:#e0913f;font-size:13px}',
+      /* the small number, large — it is the one a visitor came for */
+      '#amenti-meter .m-lead{color:#e0913f;font:400 26px/1.1 ui-monospace,Menlo,monospace;',
+      '  margin:2px 0 10px}',
+      '#amenti-meter .m-lead span{display:block;color:#5d6e84;font-size:10px;',
+      '  letter-spacing:.06em;margin-top:3px}',
       '#amenti-meter .m-sub{color:#4d5c70;font-size:9px;margin-top:7px;',
       '  padding-top:6px;border-top:1px solid rgba(43,58,80,.4);line-height:1.5}',
       '#amenti-meter .m-warn{color:#c99a4e}',
@@ -124,7 +146,9 @@
     panel = document.createElement('div');
     panel.id = 'amenti-meter';
     panel.innerHTML = '<div class="m-body" style="display:none"></div>' +
-                      '<button type="button" class="m-tab">meter</button>';
+                      '<button type="button" class="m-tab" ' +
+                      'title="what the hall\u2019s answers cost to produce">' +
+                      'what this costs</button>';
     document.body.appendChild(panel);
     panel.querySelector('.m-tab').addEventListener('click', function () {
       open = !open;
@@ -154,12 +178,18 @@
     if (d.c.turns === seen && seen !== -1) { return; }
     seen = d.c.turns;
 
+    /* the tab leads with the PER-ASK figure, not the running total: the small
+       number is the interesting one and the total reads as a bill */
     panel.querySelector('.m-tab').innerHTML = d.c.turns
-      ? 'meter \u00b7 <b>' + (d.cost === null ? d.c.turns + ' asks' : money(d.cost)) + '</b>'
-      : 'meter';
+      ? 'this answer \u00b7 <b>' +
+        (d.last === null ? d.c.turns + ' asks' : money(d.last)) + '</b>'
+      : 'what this costs';
 
     b.innerHTML =
-      '<div class="m-h">this page load \u00b7 this browser</div>' +
+      '<div class="m-h">what the hall\u2019s answers cost</div>' +
+      (d.last !== null
+        ? '<div class="m-lead">' + money(d.last) + '<span>the last answer</span></div>'
+        : '') +
       row('asks', num(d.c.turns)) +
       row('input tokens', num(d.c.inputTokens)) +
       row('output tokens', num(d.c.outputTokens)) +
@@ -178,10 +208,11 @@
                              'RATES.json. ' : 'no answer yet, so no model to price. ')) +
           'TOKENS ARE REAL AND DOLLARS ARE NOT SHOWN \u2014 a price from a stale ' +
           'number looks like a measurement.</div>') +
-      '<div class="m-sub">THIS BROWSER AND THIS PAGE LOAD ONLY. A visitor\u2019s ' +
-      'tokens are counted in the visitor\u2019s browser and never arrive here; the ' +
-      'proxy is the only place that sees every request. Cached reads and batch ' +
-      'discounts are not modelled.</div>';
+      '<div class="m-sub">THE ASKS ARE YOURS AND THE BILL IS THE ' +
+      'PROPRIETOR\u2019S \u2014 you are not charged for anything here. This counts ' +
+      'only what has been asked in this browser since the page loaded, and it ' +
+      'resets when you reload. Cached reads and batch discounts are not ' +
+      'modelled, so it reads a little high.</div>';
   }
   function row(k, v) {
     return '<div class="m-r"><span>' + k + '</span><span>' + v + '</span></div>';
