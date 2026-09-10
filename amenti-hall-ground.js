@@ -44,6 +44,11 @@
    surface holds it and does not draw it. THE PROSE EXISTS AND HAS NO DOOR.
    Through here it has one.
 
+   ── THE NAME ─────────────────────────────────────────────────────────────
+   window.AmentiHallGround. NOT AmentiGround — that belongs to
+   amenti-ground.js, which draws GROUND.jpg under the world map and has owned
+   the name since it was written.
+
    ── WHAT IT CANNOT DO ────────────────────────────────────────────────────
    \u00b7 Search frames that have no authored registers. Fourteen of fifteen are
      harvested and unread; a hit there can offer a place and a kind and
@@ -214,7 +219,15 @@
     return bits.join(' \u00b7 ');
   }
 
-  window.AmentiGround = {
+  /* ── AmentiHallGround, NOT AmentiGround · 10 Sep ────────────────────────
+     amenti-ground.js HAS OWNED window.AmentiGround SINCE IT WAS WRITTEN — it
+     is the terrain under the world map, and it loads after this one, so it
+     overwrote the whole object and `look` came back undefined on the first
+     try. Two modules with `ground` in the name doing different things.
+
+     The name says which ground: this is the HALL searching the ground, not
+     the ground itself. */
+  window.AmentiHallGround = {
     /* the one call the box needs: what do I hold on this word? */
     look: function (word) {
       return load().then(function () {
