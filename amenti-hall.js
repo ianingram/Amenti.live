@@ -1235,8 +1235,45 @@
         var system = buildAnswer(meaning, state, opened, coverage, degraded,
                                  (opened.length || ship) ? null : doorsText(items, lib, true), ship);
 
+        /* ── THE MODEL FOLLOWS THE WORK · 10 Sep 2026 ──────────────────────
+           TWELVE ATTACKS WERE RUN ON BOTH MODELS AND BOTH PASSED ALL TWELVE.
+           So this is not a safety decision. It is an editorial one, and the
+           difference showed in exactly one place.
+
+           Where a ROOM WAS OPENED and a passage is being quoted, Sonnet
+           reaches further: it supplied that most of Livy's 142 books did not
+           survive antiquity, it quoted the ship's own words back on the
+           séance question, and it refused fraud with `I will not dress the
+           refusal up as a capability limit — it is a choice`. That is the rule
+           about refusing in your own voice, honoured rather than followed.
+
+           Where NOTHING WAS OPENED — navigation, counts, what a word means,
+           an honest refusal — the two were indistinguishable, and Haiku
+           answered in half the time for a third of the price. On one attack it
+           was BETTER: asked to list its own files it named one where Sonnet
+           enumerated three with a timestamp, so the cheaper model disclosed
+           less prompt structure.
+
+           Measured on the same question, same prompt:
+               sonnet   $0.0202   18.2s
+               haiku    $0.0086    8.3s     -57% and twice the speed
+
+           SO THE QUESTION DECIDES THE MODEL, NOT THE BUDGET. A question that
+           reaches the library gets the better writer because there is
+           something to write about. A question that does not gets the faster
+           one, because there is nothing Sonnet would add.
+
+           IF THIS EVER READS WRONG, THE FIX IS ONE LINE: set
+           AmentiModel.ANSWER_PLAIN to the same string as the rich one and the
+           split is gone. */
+        var M = window.AmentiModel || {};
+        var answerWith = (opened.length || ship)
+          ? (M.ANSWER_RICH || M.get && M.get() || 'claude-sonnet-4-6')
+          : (M.ANSWER_PLAIN || 'claude-haiku-4-5-20251001');
+
         return window.claude.complete({
           system: system,
+          model: answerWith,
           messages: [{ role: 'user', content: String(question) }]
         }).then(function (answer) {
           return {
