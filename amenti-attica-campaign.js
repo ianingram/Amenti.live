@@ -205,20 +205,25 @@
      seven kilometres of water is seven kilometres at any zoom — and a field
      that held its screen size would be claiming a different stretch of sea
      every time the reader zoomed. */
-  var SPREAD = { fleet: 34, army: 5, flight: 30 };
-  /* ── A FLEET IS NOT A COLUMN · CORRECTED 10 Sep 2026 ─────────────────────
-     The first version strung the fleet out along 42% of the lane, so the van
-     was arriving while the rear had not left. THAT IS A COLUMN AND GALLEYS DO
-     NOT MOVE IN ONE IN OPEN WATER. A column is for narrows and for following a
-     leader through hazards; a fleet crossing open sea moves as a body, broad
-     across the direction of travel and shallow behind.
+  var SPREAD = { fleet: 6, army: 4, flight: 7 };
+  /* ── THE WATER SETS THE SHAPE, AND THIS WATER IS A CHANNEL · 10 Sep ──────
+     Three versions of this and each was wrong in a different way. First a
+     column strung down 42% of the lane — GALLEYS DO NOT DO THAT IN OPEN SEA.
+     Then a body 22 km broad — WHICH SPILLED ONTO EUBOEA AND OVER THE ATTIC
+     COAST, because the Euboean channel is nothing like 22 km wide.
 
-     So the geometry is the other way round: WIDE ACROSS, SHORT ALONG. The
-     stagger that remains is enough to keep it from being a wall, not enough to
-     be a queue.
+     Both were the same fault: a constant where the design always said the
+     water decides. A fleet is broad in open sea AND NARROW IN A STRAIT, and
+     the whole Marathon run is a strait — down the channel inside Euboea and
+     across to the bay. So it is narrow here, and it hugs the lane.
 
-     An army on a road IS a column, and keeps one. */
-  var TRAIL  = { fleet: 0.06, army: 0.34, flight: 0.09 };
+     THIS IS STILL A CONSTANT AND STILL NOT THE WATER. Doing it properly wants
+     the coastline the surface already draws, measured across the lane at every
+     point, and this layer does not have it. What is here is a number chosen to
+     fit the narrowest water on this campaign, and the next frame will need it
+     chosen again — which is the honest state and is written down rather than
+     hidden in a good-looking default. */
+  var TRAIL  = { fleet: 0.30, army: 0.34, flight: 0.24 };
   /* ── MOORED, IN ROWS · 10 Sep 2026 ───────────────────────────────────────
      THE TEXT SAYS `MOORED` AND SAYS NOTHING ELSE. Herodotus 6.107: `as the
      ships came in to shore at Marathon, he moored them there, and after the
