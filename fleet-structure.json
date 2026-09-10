@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-10T14:59:19.865Z",
+    "generated": "2026-09-10T15:14:27.940Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -426,6 +426,19 @@
       "tables": []
     },
     {
+      "file": "amenti-attica-campaign.js",
+      "bytes": 14550,
+      "sha256": "4f9fbf46a02d34bd",
+      "type": "js",
+      "declares": [
+        "AmentiCampaign"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-attica-cues.js",
       "bytes": 13840,
       "sha256": "00f9edbe9ab5771a",
@@ -479,8 +492,8 @@
     },
     {
       "file": "amenti-attica.js",
-      "bytes": 125163,
-      "sha256": "09ef4b1ceb30faa8",
+      "bytes": 125929,
+      "sha256": "934f4813bd4fdaeb",
       "type": "js",
       "declares": [
         "AmentiAttica"
@@ -1521,8 +1534,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 52618,
-      "sha256": "7df480082cabc458",
+      "bytes": 52639,
+      "sha256": "ad733fbac313079c",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1647,8 +1660,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 21992,
-      "sha256": "54bce5dc8d10c431",
+      "bytes": 22048,
+      "sha256": "a0c7428fa8d5a3aa",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1718,12 +1731,16 @@
           "line": 377
         },
         {
-          "file": "amenti-attica-hall.js?v=78d647f0",
+          "file": "amenti-attica-campaign.js",
           "line": 378
         },
         {
-          "file": "amenti-qr.js?v=c016424e",
+          "file": "amenti-attica-hall.js?v=78d647f0",
           "line": 379
+        },
+        {
+          "file": "amenti-qr.js?v=c016424e",
+          "line": 380
         }
       ],
       "calls": [
@@ -2298,6 +2315,14 @@
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-attica-campaign.js",
+        "declares": [
+          "AmentiCampaign"
+        ],
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-attica-cues.js",
