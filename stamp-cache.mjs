@@ -20,6 +20,23 @@
    Run:  node stamp-cache.mjs            # stamps every .html in the folder
          node stamp-cache.mjs hall.html  # just one
          node stamp-cache.mjs --check    # exit 1 if any stamp is stale (a probe)
+
+   -- AND IT ONLY EVER SAW TAGS THAT ALREADY CARRIED A ?v= · 10 Sep ---------
+   The pattern above matches src="NAME?v=..." . A LOCAL SCRIPT WITH NO ?v= AT
+   ALL WAS INVISIBLE TO IT, and being invisible is indistinguishable from
+   being fine.
+
+   That cost an hour on 10 September. Two modules were added with plain tags,
+   the stamper passed them over in silence, and the browser served a stale copy
+   three times running while everybody looked for a cache bug. There was no
+   cache bug. There was a tag that had never opted in.
+
+       A TOOL THAT SILENTLY SKIPS WHAT IT CANNOT HELP WITH LOOKS EXACTLY LIKE
+       A TOOL THAT FOUND NOTHING WRONG.
+
+   So it now finds the unstamped ones too. `--check` fails on them, and a plain
+   run ADDS the ?v= rather than only refreshing one, because a stamp nobody has
+   to remember to type is the whole point of the file.
    ========================================================================== */
 
 import fs from 'fs';
@@ -38,7 +55,12 @@ function hash(file) {
   catch { return null; }
 }
 
-let changed = 0, stale = 0, stamped = 0;
+let changed = 0, stale = 0, stamped = 0, adopted = 0, bare = 0;
+
+/* a local .js or .css reference with NO version at all. Same shape as the
+   stamped pattern minus the query, and it must NOT match one that already has
+   a ?v= — hence the negative lookahead on the quote. */
+const BARE = /((?:src|href)=")([^"?]+?\.(?:js|css))(")/g;
 
 for (const html of htmls) {
   let src;
@@ -59,15 +81,40 @@ for (const html of htmls) {
     }
   );
 
-  if (out !== src && !check) {
-    fs.writeFileSync(html, out);
+  /* ── THE ONES THAT NEVER OPTED IN ──────────────────────────────────────
+     Run AFTER the stamping pass, over the already-stamped text, so a tag that
+     just received a hash is not counted twice. */
+  const out2 = out.replace(BARE, (m, pre, file, post) => {
+    const abs = path.join(path.dirname(html), file);
+    const h = hash(abs);
+    if (!h) return m;                        /* not ours — leave alone */
+    bare++;
+    if (check) {
+      console.error('  UNSTAMPED  ' + html + ' :: ' + file +
+                    '  — no ?v= at all, so this tool has never touched it and ' +
+                    'the browser will serve a stale copy after every edit');
+      return m;
+    }
+    adopted++;
+    return pre + file + '?v=' + h + post;
+  });
+
+  if (out2 !== src && !check) {
+    fs.writeFileSync(html, out2);
     console.log('  stamped ' + html);
   }
 }
 
 if (check) {
-  if (stale) { console.error('\n\u2717 ' + stale + ' stale ?v= stamp(s). Run stamp-cache.mjs and commit.'); process.exit(1); }
-  console.log('\u2713 all ' + stamped + ' cache stamps are current.');
+  if (stale || bare) {
+    if (stale) { console.error('\n\u2717 ' + stale + ' stale ?v= stamp(s).'); }
+    if (bare) { console.error('\u2717 ' + bare + ' local script(s) with NO ?v= at all \u2014 ' +
+      'invisible to this tool until now, and stale in every browser after every edit.'); }
+    console.error('  Run stamp-cache.mjs and commit.');
+    process.exit(1);
+  }
+  console.log('\u2713 all ' + stamped + ' cache stamps are current, and no tag is unstamped.');
 } else {
-  console.log('done \u2014 ' + stamped + ' references checked, ' + changed + ' updated.');
+  console.log('done \u2014 ' + stamped + ' references checked, ' + changed + ' updated, ' +
+              adopted + ' newly stamped.');
 }
