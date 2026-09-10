@@ -67,6 +67,21 @@
     '#ask-amenti .aa-answer{margin:.9rem 0 0;padding:.9rem 1rem;border-left:3px solid rgba(127,127,127,.5);white-space:pre-wrap;font-size:.97rem;line-height:1.55}',
     '#ask-amenti .aa-note{margin:.5rem 0 0;font-size:.82rem;opacity:.65}',
     '#ask-amenti .aa-busy{opacity:.6;font-style:italic}',
+    /* ── THE OFFERS · 10 Sep ────────────────────────────────────────────
+       A HEADING THAT IS NOT CLICKABLE, then its questions. `read` is amber
+       and free; `ask` is the ordinary list colour and spends. The difference
+       must be legible BEFORE the click, not explained after it. */
+    '#ask-amenti .aa-ghead{opacity:.9;padding-top:.5rem;font-size:.9rem}',
+    '#ask-amenti .aa-unplaced{display:block;opacity:.5;font-size:.76rem;margin-top:.15rem}',
+    '#ask-amenti .aa-offer{padding-left:1.1rem}',
+    '#ask-amenti .aa-offer .aa-hint{display:block;opacity:.5;font-size:.76rem;',
+    '  margin:.1rem 0 0 0}',
+    '#ask-amenti .aa-free .aa-kind{color:#e0913f;opacity:.85}',
+    /* an answer that came from a file, marked as one */
+    '#ask-amenti .aa-reg{border-left:3px solid #e0913f;padding:.9rem 1rem;margin:.9rem 0 0}',
+    '#ask-amenti .aa-reg-h{color:#e0913f;font-size:.9rem;margin-bottom:.4rem}',
+    '#ask-amenti .aa-reg-b{font-size:.97rem;line-height:1.55}',
+    '#ask-amenti .aa-reg-f{opacity:.55;font-size:.76rem;margin-top:.5rem;line-height:1.45}',
     '#ask-amenti .aa-cite{color:inherit;text-decoration:underline;text-underline-offset:2px;opacity:.9}',
     '#ask-amenti .aa-cite:hover{opacity:1}',
     '#ask-amenti .aa-answer strong{font-weight:600}',
@@ -188,10 +203,98 @@
     }
   });
 
+  /* ── THE GROUND ANSWERS BEFORE THE DOOR DOES · 10 Sep 2026 ──────────────
+     amenti-hall-ground.js reads the map's registers and turns a bare word into
+     OFFERS — real questions built from what is actually on disk, two of every
+     five of which it can answer outright from a file.
+
+     UNTIL NOW NONE OF IT WAS VISIBLE. The offers existed in an API and the box
+     never rendered them, so a visitor typing `Thermopylae` got a document list
+     and the pass, the battle and the shoreline sat unreachable in four
+     registers.
+
+     THE ORDER MATTERS AND IT IS NOT ARBITRARY. What a register can answer goes
+     first and is marked as free. What it can only offer goes second, as a
+     question the visitor may choose to spend on. The document list stays where
+     it was, underneath. NOTHING IS TAKEN AWAY — the offers are added above.
+
+     AND A WORD THE REGISTER DOES NOT HOLD ADDS NOTHING. `Henry` typed a
+     hundred times reaches no register, offers nothing, and spends nothing. */
+  function ground(q) {
+    if (!window.AmentiHallGround || !window.AmentiHallGround.look) {
+      return Promise.resolve(null);
+    }
+    return window.AmentiHallGround.look(q).catch(function () { return null; });
+  }
+
+  function renderOffers(g) {
+    if (!g || g.error || !g.places || !g.places.length) { return 0; }
+    var n = 0;
+    g.places.forEach(function (p) {
+      var head = el('li', 'aa-ghead');
+      head.appendChild(el('span', 'aa-kind', 'ground'));
+      head.appendChild(document.createTextNode(
+        p.name + (p.what ? ' \u00b7 ' + p.what : '')));
+      if (p.unplaced) {
+        head.appendChild(el('span', 'aa-unplaced',
+          'held and not drawn \u2014 the gazetteer gave no location'));
+      }
+      head.style.cursor = 'default';
+      results.appendChild(head);
+
+      p.offers.forEach(function (o) {
+        var li = el('li', 'aa-offer' + (o.answer ? ' aa-free' : ''));
+        li.appendChild(el('span', 'aa-kind', o.answer ? 'read' : 'ask'));
+        li.appendChild(document.createTextNode(o.ask));
+        if (o.hint) { li.appendChild(el('span', 'aa-hint', o.hint)); }
+        li.addEventListener('click', function () {
+          if (o.answer) {
+            /* IT IS ALREADY WRITTEN. Handing it over costs nothing and reads
+               the same every time, which is the whole reason it was composed
+               once and stored rather than generated on demand. */
+            showRegister(o, p);
+          } else {
+            input.value = o.ask;
+            ask(o.ask);
+          }
+        });
+        results.appendChild(li);
+        n++;
+      });
+    });
+    return n;
+  }
+
+  /* An answer that came from a file, shown where a model's answer would be,
+     and SAYING WHICH FILE. A reader must always be able to tell one from the
+     other — the same rule as the seam between a quotation and the hall's own
+     words. */
+  function showRegister(o, p) {
+    answer.innerHTML = '<div class="aa-reg">' +
+      '<div class="aa-reg-h">' + esc(p.name) + '</div>' +
+      '<div class="aa-reg-b">' + esc(o.answer) + '</div>' +
+      '<div class="aa-reg-f">read from <b>' + esc(o.from) + '</b>' +
+      (o.caveat ? ' \u00b7 ' + esc(o.caveat) : '') +
+      ' \u00b7 no model was called and nothing was spent</div>' +
+      (o.also ? '<div class="aa-reg-f">the other register words it: ' +
+        esc(o.also) + '</div>' : '') +
+      '</div>';
+    answer.style.display = '';
+    read.style.display = 'none';
+    note.style.display = 'none';
+  }
+
   function search(q, logged) {
     if (!window.AmentiHall) return;
+    var gp = ground(q);
     window.AmentiHall.find(q).then(function (r) {
       results.innerHTML = '';
+      return gp.then(function (g) {
+        var offered = renderOffers(g);
+        return { r: r, offered: offered, g: g };
+      });
+    }).then(function (st) {
+      var r = st.r;
       /* A deliberate search that finds nothing is not an answer. If there was
          more than one word the visitor was probably ASKING and the router
          missed — escalate rather than print a false "nothing aboard". This is
@@ -201,11 +304,14 @@
          say so plainly and spend nothing.
          ask() does its own logging, so the tally below is skipped on escalate
          or the same text is counted twice under two different kinds. */
-      if (!r.length && logged && q.split(/\s+/).length > 1) { ask(q); return; }
+      /* AND IT DOES NOT ESCALATE OVER AN OFFER. Escalating exists so a router
+         miss is never terminal; a word the ground answered is not a miss, and
+         spending on it would undo the saving the offer just made. */
+      if (!r.length && !st.offered && logged && q.split(/\s+/).length > 1) { ask(q); return; }
       if (logged) log(q, 'search');
       /* Only say "nothing matches" for a deliberate search (Enter on a
          non-question). A live keystroke that finds nothing stays silent. */
-      if (!r.length && logged) {
+      if (!r.length && !st.offered && logged) {
         var li = el('li', null, 'nothing aboard matches \u201c' + q + '\u201d');
         li.style.cursor = 'default'; li.style.opacity = '.6';
         results.appendChild(li);
