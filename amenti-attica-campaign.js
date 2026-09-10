@@ -205,7 +205,7 @@
      seven kilometres of water is seven kilometres at any zoom — and a field
      that held its screen size would be claiming a different stretch of sea
      every time the reader zoomed. */
-  var SPREAD = { fleet: 6, army: 4, flight: 7 };
+  var SPREAD = { fleet: 11, army: 5, flight: 12 };
   /* ── THE WATER SETS THE SHAPE, AND THIS WATER IS A CHANNEL · 10 Sep ──────
      Three versions of this and each was wrong in a different way. First a
      column strung down 42% of the lane — GALLEYS DO NOT DO THAT IN OPEN SEA.
@@ -223,7 +223,7 @@
      fit the narrowest water on this campaign, and the next frame will need it
      chosen again — which is the honest state and is written down rather than
      hidden in a good-looking default. */
-  var TRAIL  = { fleet: 0.30, army: 0.34, flight: 0.24 };
+  var TRAIL  = { fleet: 0.50, army: 0.40, flight: 0.44 };
   /* ── MOORED, IN ROWS · 10 Sep 2026 ───────────────────────────────────────
      THE TEXT SAYS `MOORED` AND SAYS NOTHING ELSE. Herodotus 6.107: `as the
      ships came in to shore at Marathon, he moored them there, and after the
@@ -292,8 +292,20 @@
      off while it runs and gives it back on close, the same borrow it already
      makes for the period and the moves. TWO THINGS MEANING DIFFERENT THINGS
      WITH THE SAME MARK IS THE ONE COLLISION A MAP CANNOT TALK ITS WAY OUT OF. */
-  var GLYPH  = { fleet: '\u00d7', army: 'o', flight: '\u00d7' };
-  var SIZE   = { fleet: 3.4, army: 3.0, flight: 3.4 };
+  /* ── TRIANGLES, AND SMALL ENOUGH TO SEE WATER · 10 Sep 2026 ──────────────
+     The glyphs at 3.4 covered FIVE TIMES the area available to them, and the
+     fleet drew as one solid mass with no sea in it. A field with no gaps is
+     not a fleet, it is a stain.
+
+     Measured: 400 marks in a field ±11 units across and half a lane long get
+     about five square units each. A triangle 1.2 across covers a fifth of that
+     — water showing between ships — and ±11 units is 7 km, inside the channel
+     rather than lying over Euboea.
+
+     A TRIANGLE, NOT A LETTER. It reads at 1.2 units where a letter needs
+     three, it has a bow so it can point down the lane, and it does not collide
+     with the X the map already draws for mines. */
+  var SIZE   = { fleet: 1.2, army: 1.0, flight: 1.2 };
   var HUE    = { fleet: '#c9503f', army: '#c9d6a8', flight: '#e0913f' };
   var LEG_MS = 2600;          /* the same for every leg: see travel() */
 
@@ -426,20 +438,16 @@
       var pts = points(a.x, a.y, b.x, b.y);
       var off = field(TOKEN[kind] || 200, SPREAD[kind] || 12,
                       TRAIL[kind] || 0.35, g.ch % 97);
-      /* the Plataians are an army and are not the Athenians — 6.108 names them
-         and the register's own row name carries it */
-      var glyph = GLYPH[kind] || '\u00b7';
-      if (kind === 'army' && /plataea|plataia/i.test(r.name || '')) { glyph = 'p'; }
+      var sz = (SIZE[kind] || 1.2) * iv;
+      var tri = 'M0,' + (-sz).toFixed(2) + 'L' + (sz * 0.78).toFixed(2) + ',' +
+                (sz * 0.72).toFixed(2) + 'L' + (-sz * 0.78).toFixed(2) + ',' +
+                (sz * 0.72).toFixed(2) + 'Z';
       var frag = document.createDocumentFragment();
       off.forEach(function () {
-        var m = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        m.setAttribute('font-size', ((SIZE[kind] || 3.2) * iv).toFixed(2));
-        m.setAttribute('font-family', 'ui-monospace,Menlo,monospace');
-        m.setAttribute('text-anchor', 'middle');
-        m.setAttribute('dominant-baseline', 'central');
+        var m = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        m.setAttribute('d', tri);
         m.setAttribute('fill', HUE[kind] || col);
-        m.setAttribute('opacity', '.8');
-        m.textContent = glyph;
+        m.setAttribute('opacity', '.85');
         frag.appendChild(m);
       });
       host.appendChild(frag);
@@ -495,7 +503,9 @@
      force lies along the shore it came to rather than piled on the point */
   function moorage(m, kind) {
     var f = frame(m.pts, 0.999);
-    var n = m.off.length, rows = ROWS[kind] || 8;
+    /* THE MOORAGE FILLS THE BAY. The first one drew a dense block off the
+       point; Marathon is five kilometres of shore and the fleet lay along it. */
+    var n = m.off.length, rows = (kind === 'fleet' ? 12 : (ROWS[kind] || 8));
     var per = Math.ceil(n / rows);
     /* ── SIZED TO THE BAY, NOT TO THE MARKS · 10 Sep 2026 ─────────────────
        The first moorage put fifty ships to a row at a spacing that came out
@@ -516,7 +526,7 @@
     /* 8 rows about 100 m apart is 800 m of water off the beach — deep enough
        to hold four hundred hulls, shallow enough not to be a claim about a
        fleet anchored a kilometre out */
-    var gapA = 0.32;                           /* one row behind another, ~100 m */
+    var gapA = 0.9;                            /* one row behind another, ~290 m */
     var gapB = BAY / Math.max(1, per - 1);     /* along the shore, edge to edge */
     return m.off.map(function (o, i) {
       var row = Math.floor(i / per), col = i % per;
@@ -602,10 +612,11 @@
              arrival while the rear is still a third of the lane behind, and
              the run is long enough that everyone gets there. */
           var f = frame(m.pts, e * (1 + (TRAIL[m.kind] || 0.35)) - o.lag);
-          kids[i].setAttribute('x',
-            (f.p[0] + f.nx * o.across + f.tx * o.along).toFixed(2));
-          kids[i].setAttribute('y',
-            (f.p[1] + f.ny * o.across + f.ty * o.along).toFixed(2));
+          var px = f.p[0] + f.nx * o.across + f.tx * o.along;
+          var py = f.p[1] + f.ny * o.across + f.ty * o.along;
+          var deg = Math.atan2(f.ty, f.tx) * 180 / Math.PI + 90;
+          kids[i].setAttribute('transform',
+            'translate(' + px.toFixed(2) + ' ' + py.toFixed(2) + ') rotate(' + deg.toFixed(1) + ')');
         }
         /* ── AND THEN THEY MOOR ────────────────────────────────────────────
            The last fifth of the run eases the field out of its column and into
@@ -615,9 +626,13 @@
         if (t > 0.8 && m.rest) {
           var u = (t - 0.8) / 0.2, w = u * u * (3 - 2 * u);
           for (var k = 0; k < kids.length; k++) {
-            var cx = +kids[k].getAttribute('x'), cy = +kids[k].getAttribute('y');
-            kids[k].setAttribute('x', (cx + (m.rest[k][0] - cx) * w).toFixed(2));
-            kids[k].setAttribute('y', (cy + (m.rest[k][1] - cy) * w).toFixed(2));
+            var tr = String(kids[k].getAttribute('transform') || '');
+            var mm = tr.match(/translate\(([-\d.]+) ([-\d.]+)\) rotate\(([-\d.]+)\)/);
+            if (!mm) { continue; }
+            var cx = +mm[1], cy = +mm[2];
+            kids[k].setAttribute('transform',
+              'translate(' + (cx + (m.rest[k][0] - cx) * w).toFixed(2) + ' ' +
+              (cy + (m.rest[k][1] - cy) * w).toFixed(2) + ') rotate(' + mm[3] + ')');
           }
         }
         if (t >= 1 && m.outcome === 'withdrew') {
