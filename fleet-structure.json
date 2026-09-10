@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-10T01:54:21.011Z",
+    "generated": "2026-09-10T01:58:38.723Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1484,8 +1484,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 51986,
-      "sha256": "30a6647c48e593d1",
+      "bytes": 52263,
+      "sha256": "0faee7ddee7c97db",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1494,25 +1494,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1235,
+          "line": 1243,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1236,
+          "line": 1244,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1237,
+          "line": 1245,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1238,
+          "line": 1246,
           "when": "toplevel",
           "own": false
         }
@@ -1610,8 +1610,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 21061,
-      "sha256": "d3f121153ac7568f",
+      "bytes": 21115,
+      "sha256": "c685e803c5cb3f06",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1633,48 +1633,52 @@
           "line": 343
         },
         {
-          "file": "amenti-meter.js",
+          "file": "amenti-hall-ground.js",
           "line": 344
         },
         {
-          "file": "amenti-map.js?v=d9904d8d",
-          "line": 349
+          "file": "amenti-meter.js",
+          "line": 345
         },
         {
-          "file": "amenti-glass.js",
+          "file": "amenti-map.js?v=d9904d8d",
           "line": 350
         },
         {
-          "file": "amenti-narrows.js",
+          "file": "amenti-glass.js",
           "line": 351
         },
         {
-          "file": "amenti-ground.js",
+          "file": "amenti-narrows.js",
           "line": 352
         },
         {
-          "file": "amenti-attica.js",
+          "file": "amenti-ground.js",
           "line": 353
         },
         {
-          "file": "amenti-attica-glass.js",
+          "file": "amenti-attica.js",
           "line": 354
         },
         {
-          "file": "amenti-attica-cues.js",
+          "file": "amenti-attica-glass.js",
           "line": 355
         },
         {
-          "file": "amenti-attica-tours.js",
+          "file": "amenti-attica-cues.js",
           "line": 356
         },
         {
-          "file": "amenti-attica-hall.js",
+          "file": "amenti-attica-tours.js",
           "line": 357
         },
         {
-          "file": "amenti-qr.js?v=c016424e",
+          "file": "amenti-attica-hall.js",
           "line": 358
+        },
+        {
+          "file": "amenti-qr.js?v=c016424e",
+          "line": 359
         }
       ],
       "calls": [
@@ -2335,8 +2339,8 @@
         "declares": [
           "AmentiGround"
         ],
-        "loadedByAPage": false,
-        "note": "declares globals that nothing calls"
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-hall.js",
