@@ -1,0 +1,238 @@
+/* ============================================================================
+   amenti-hall-ground.js  →  Amenti.live/amenti-hall-ground.js
+   ----------------------------------------------------------------------------
+   THE HALL LEARNS TO SEARCH THE GROUND
+
+   Until now the hall could search PEOPLE and DOCUMENTS. Type `Thermopylae`
+   and it matched the word inside a register's description; the pass itself
+   was invisible to it. Fifteen frames, twenty-one thousand places and four
+   registers of authored ground sat behind a front door that could not see
+   them.
+
+   This gives the door a fifth source: the ground.
+
+   ── OFFER BY DEFAULT. ANSWER ONLY WHEN THE REGISTER PLAINLY HOLDS IT ─────
+   A hit becomes an OFFER \u2014 two to five readings of the place, each built from
+   a register row and each a question the hall answers well. The reader picks,
+   and the paid call happens AFTER the intent is settled rather than as a
+   guess at it.
+
+   It ANSWERS outright only where a register contains the answer as written
+   prose: a `why` sentence, or a told moment from ATTICA-TOLD.csv. Those were
+   authored to be read. Handing one over costs nothing and reads better than
+   a model writing around it.
+
+   > EVERYTHING ELSE IS AN OFFER, BECAUSE A LOOKUP THAT GUESSES WHICH OF FOUR
+   > READINGS YOU WANTED IS THE THING THIS REPLACES.
+
+   ── AND AN OFFER NAMES ONLY WHAT IS ON DISK ──────────────────────────────
+   Thermopylae has a kind, a why, five rooms and an event: four offers.
+   Skambonidai is a deme named in one document and has nothing else: ONE
+   offer, and no invitation to spend on what the ground cannot answer. The
+   shape was checked against a rich place, a thin one, and an unplaced one
+   before it was written, because the lives schema was designed off a single
+   rich example on 9 September and broke on the second.
+
+   ── WHAT IT SAVES ────────────────────────────────────────────────────────
+   A ground question answered from files never opens the paid door. `where is
+   Thermopylae`, `what happened there`, `who writes about it` are all lookups
+   today costing about two and a half cents each, to say what a CSV holds.
+
+   ── AND IT REACHES WHAT THE MAP CANNOT ───────────────────────────────────
+   Krete is named in thirty-three reading rooms, carries four written moments,
+   and is `unplaced` \u2014 Pleiades gives its province a five-degree cell, so the
+   surface holds it and does not draw it. THE PROSE EXISTS AND HAS NO DOOR.
+   Through here it has one.
+
+   ── WHAT IT CANNOT DO ────────────────────────────────────────────────────
+   \u00b7 Search frames that have no authored registers. Fourteen of fifteen are
+     harvested and unread; a hit there can offer a place and a kind and
+     nothing else, and says so.
+   \u00b7 Judge whether a `why` sentence is TRUE. ATTICA-WHY.csv says in its own
+     header that every line is an unverified draft, and an answer built from
+     one carries that.
+   \u00b7 Match a name the gazetteer spells differently. That is what
+     ATTICA-NAMES.csv and the Latinised forms are for, and this reads the
+     mentions register\u2019s `matched_as` rather than re-deriving it.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
+  var FKEY = 'ATTICA';
+
+  var G = null, err = null, loading = null;
+
+  function split(line) {
+    var c = [], cur = '', q = false;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (ch === '"') { q = !q; continue; }
+      if (ch === ',' && !q) { c.push(cur); cur = ''; continue; }
+      cur += ch;
+    }
+    c.push(cur);
+    return c;
+  }
+  function parse(t) {
+    var lines = String(t).replace(/\r\n/g, '\n').split('\n');
+    var cols = split(lines[0]).map(function (h) { return h.trim(); });
+    var out = [];
+    for (var i = 1; i < lines.length; i++) {
+      if (!lines[i].trim() || lines[i].charAt(0) === '#') { continue; }
+      var c = split(lines[i]), o = {};
+      for (var j = 0; j < cols.length; j++) { o[cols[j]] = (c[j] == null ? '' : c[j]).trim(); }
+      out.push(o);
+    }
+    return out;
+  }
+  function grab(name) {
+    return fetch(RAW + name + '?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) { return t ? parse(t) : null; })
+      .catch(function () { return null; });
+  }
+
+  /* ── LOADED ONCE, NOT PER KEYSTROKE ──────────────────────────────────────
+     The box searches as the visitor types. Five CSV fetches on every letter
+     would be a cost of a different kind \u2014 bandwidth rather than dollars, and
+     just as real. One load, cached for the page. */
+  function load() {
+    if (G || err) { return Promise.resolve(); }
+    if (loading) { return loading; }
+    loading = Promise.all([
+      grab(FKEY + '.csv'), grab(FKEY + '-WHY.csv'), grab(FKEY + '-MENTIONS.csv'),
+      grab(FKEY + '-EVENTS.csv'), grab(FKEY + '-LIVES.csv'), grab(FKEY + '-TOLD.csv'),
+      grab('NARROWS.csv')
+    ]).then(function (r) {
+      if (!r[0]) { err = FKEY + '.csv could not be read'; return; }
+      var by = {};
+      r[0].forEach(function (p) {
+        if (!p.key) { return; }
+        by[p.key] = { key: p.key, name: p.name, kind: p.kind, tier: p.tier,
+                      lat: p.lat, lon: p.lon, unplaced: p.unplaced === '1',
+                      why: null, rooms: 0, form: '', origin: '',
+                      events: [], ore: [], told: [], narrow: null };
+      });
+      (r[1] || []).forEach(function (w) { if (by[w.key] && w.why) { by[w.key].why = w.why; } });
+      (r[2] || []).forEach(function (m) {
+        if (!by[m.key] || !(+m.sources > 0)) { return; }
+        by[m.key].rooms = +m.sources;
+        by[m.key].form = m.matched_as || '';
+        by[m.key].origin = m.matched_origin || '';
+        by[m.key]['in'] = m['in'] || '';
+      });
+      (r[3] || []).forEach(function (e) { if (by[e.at]) { by[e.at].events.push(e); } });
+      (r[4] || []).forEach(function (o) { if (by[o.key]) { by[o.key].ore.push(o); } });
+      (r[5] || []).forEach(function (t) { if (by[t.key]) { by[t.key].told.push(t); } });
+      (r[6] || []).forEach(function (n) {
+        var nm = (n.name || '').toLowerCase();
+        Object.keys(by).forEach(function (k) {
+          if (by[k].name && by[k].name.toLowerCase() === nm) { by[k].narrow = n; }
+        });
+      });
+      G = by;
+    });
+    return loading;
+  }
+
+  /* ── MATCHING ────────────────────────────────────────────────────────────
+     Exact name first, then a prefix, then the attested forms the mentions
+     harvest already matched on. IT DOES NOT RE-DERIVE THE LATIN FORMS \u2014
+     tools/latinise-names.py did that and marked every one `derived`, and a
+     second guess at the same problem would disagree with the first sooner or
+     later. */
+  function look(word) {
+    var q = String(word || '').trim().toLowerCase();
+    if (!q || !G) { return []; }
+    var exact = [], starts = [], formed = [];
+    Object.keys(G).forEach(function (k) {
+      var p = G[k], n = (p.name || '').toLowerCase();
+      if (!n) { return; }
+      if (n === q) { exact.push(p); return; }
+      if (n.indexOf(q) === 0 || n.split('/').some(function (x) { return x === q; })) { starts.push(p); return; }
+      if (p.form && p.form.toLowerCase().split('|').indexOf(q) >= 0) { formed.push(p); }
+    });
+    /* the corpus decides the order among equals: a place named in more rooms
+       is the one a reader more likely meant */
+    var by = function (a, b) { return (b.rooms || 0) - (a.rooms || 0); };
+    return exact.sort(by).concat(starts.sort(by)).concat(formed.sort(by)).slice(0, 4);
+  }
+
+  /* ── WHAT A PLACE CAN BE ASKED ───────────────────────────────────────────
+     Each offer is a real sentence, so what reaches the model is a question it
+     is good at rather than a fragment. `answer` on an offer means the
+     register plainly holds it and NO CALL IS NEEDED. */
+  function offers(p) {
+    var o = [];
+    if (p.why) {
+      o.push({ ask: 'why did ' + p.name + ' matter?', answer: p.why,
+               from: FKEY + '-WHY.csv',
+               caveat: 'authored and unverified \u2014 the register says so of every line in it' });
+    }
+    (p.told || []).slice(0, 4).forEach(function (t) {
+      var y = Math.abs(+t.from) + (+t.from < 0 ? ' BC' : '');
+      o.push({ ask: 'what was ' + p.name + ' in ' + y + '?', answer: t.prose,
+               from: FKEY + '-TOLD.csv',
+               caveat: 'written from the dated lines in ' + FKEY + '-LIVES.csv' });
+    });
+    (p.events || []).slice(0, 3).forEach(function (e) {
+      o.push({ ask: 'what happened at ' + p.name + ' in ' +
+                    Math.abs(+e.year) + (+e.year < 0 ? ' BC' : '') + '?',
+               hint: e.name + (e.where ? ' \u2014 ' + e.where : ''),
+               from: FKEY + '-EVENTS.csv' });
+    });
+    if (p.rooms) {
+      o.push({ ask: 'what do the sources say about ' + p.name + '?',
+               hint: p.rooms + ' reading room' + (p.rooms === 1 ? '' : 's') + ' name it' +
+                     (p.origin === 'derived' ? ', on a DERIVED form \u2014 the corpus names ' +
+                      'something that transliterates to this' : ''),
+               from: FKEY + '-MENTIONS.csv' });
+    }
+    if (p.narrow) {
+      o.push({ ask: 'what does the ground at ' + p.name + ' force?',
+               answer: p.narrow.why, from: 'NARROWS.csv' });
+    }
+    if (!o.length) {
+      o.push({ ask: 'what is ' + p.name + '?',
+               hint: p.kind ? p.kind.replace(/\|/g, ' \u00b7 ') : 'a place in the register',
+               from: FKEY + '.csv',
+               thin: true });
+    }
+    return o;
+  }
+
+  function describe(p) {
+    var bits = [];
+    if (p.kind) { bits.push(p.kind.replace(/\|/g, ' \u00b7 ')); }
+    if (p.unplaced) {
+      bits.push('HELD AND NOT DRAWN \u2014 the gazetteer gives a fallback coordinate, ' +
+                'not a location, so the map cannot show it');
+    } else if (p.tier === 'wash') {
+      bits.push('somewhere in an area, not a point');
+    }
+    return bits.join(' \u00b7 ');
+  }
+
+  window.AmentiGround = {
+    /* the one call the box needs: what do I hold on this word? */
+    look: function (word) {
+      return load().then(function () {
+        if (err) { return { error: err }; }
+        var hits = look(word);
+        return {
+          word: String(word || ''),
+          places: hits.map(function (p) {
+            return { key: p.key, name: p.name, what: describe(p),
+                     rooms: p.rooms, unplaced: p.unplaced,
+                     offers: offers(p) };
+          })
+        };
+      });
+    },
+    /* the whole row, for the console */
+    place: function (key) { return load().then(function () { return G ? (G[key] || null) : { error: err }; }); },
+    ready: function () { return !!G; },
+    count: function () { return G ? Object.keys(G).length : (err ? { error: err } : null); }
+  };
+})();
