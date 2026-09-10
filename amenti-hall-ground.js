@@ -171,41 +171,51 @@
   function offers(p) {
     var o = [];
     if (p.why) {
-      o.push({ ask: 'why did ' + p.name + ' matter?', answer: p.why,
+      o.push({ ask: 'why did ' + p.name + ' matter?', answer: plain(p.why),
                from: FKEY + '-WHY.csv',
                caveat: 'authored and unverified \u2014 the register says so of every line in it' });
     }
     (p.told || []).slice(0, 4).forEach(function (t) {
       var y = Math.abs(+t.from) + (+t.from < 0 ? ' BC' : '');
-      o.push({ ask: 'what was ' + p.name + ' in ' + y + '?', answer: t.prose,
+      o.push({ ask: 'what was ' + p.name + ' in ' + y + '?', answer: plain(t.prose),
                from: FKEY + '-TOLD.csv',
                caveat: 'written from the dated lines in ' + FKEY + '-LIVES.csv' });
     });
     (p.events || []).slice(0, 3).forEach(function (e) {
       o.push({ ask: 'what happened at ' + p.name + ' in ' +
                     Math.abs(+e.year) + (+e.year < 0 ? ' BC' : '') + '?',
-               hint: e.name + (e.where ? ' \u2014 ' + e.where : ''),
+               hint: plain(e.name) + (e.where ? ' \u2014 ' + plain(e.where) : ''),
                from: FKEY + '-EVENTS.csv' });
     });
     if (p.rooms) {
       o.push({ ask: 'what do the sources say about ' + p.name + '?',
-               hint: p.rooms + ' reading room' + (p.rooms === 1 ? '' : 's') + ' name it' +
+               hint: plural(p.rooms, 'reading room') +
+                     (p.rooms === 1 ? ' names it' : ' name it') +
                      (p.origin === 'derived' ? ', on a DERIVED form \u2014 the corpus names ' +
                       'something that transliterates to this' : ''),
                from: FKEY + '-MENTIONS.csv' });
     }
     if (p.narrow) {
       o.push({ ask: 'what does the ground at ' + p.name + ' force?',
-               answer: p.narrow.why, from: 'NARROWS.csv' });
-    }
-    if (!o.length) {
-      o.push({ ask: 'what is ' + p.name + '?',
-               hint: p.kind ? p.kind.replace(/\|/g, ' \u00b7 ') : 'a place in the register',
-               from: FKEY + '.csv',
-               thin: true });
+               answer: plain(p.narrow.why), from: 'NARROWS.csv' });
     }
     return o;
   }
+
+  /* ── THE ASTERISKS BELONG TO THE MAP PANE, NOT HERE · 10 Sep ────────────
+     ATTICA-TOLD.csv marks proper names and dates with **asterisks** so
+     amenti-attica-hall.js can render them in terminal blue. THE HALL IS NOT
+     THAT PANE. It got the raw markup and a reader saw `**Minoan** **Crete**`.
+
+     A register written for one surface arrives at the next one carrying that
+     surface's conventions, and the second surface has to say what it does
+     with them. This one strips: the box renders its own prose and has its own
+     way of colouring a proper noun, and two markup systems in one sentence is
+     worse than none. */
+  function plain(t) {
+    return String(t == null ? '' : t).replace(/\*\*([^*]+)\*\*/g, '$1');
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
 
   function describe(p) {
     var bits = [];
@@ -232,15 +242,22 @@
     look: function (word) {
       return load().then(function () {
         if (err) { return { error: err }; }
-        var hits = look(word);
-        return {
-          word: String(word || ''),
-          places: hits.map(function (p) {
-            return { key: p.key, name: p.name, what: describe(p),
-                     rooms: p.rooms, unplaced: p.unplaced,
-                     offers: offers(p) };
-          })
-        };
+        /* ── A HIT WITH NOTHING BEHIND IT IS NOT AN OFFER · 10 Sep ─────────
+           `Marathonian Pedion` came back as `what is Marathonian Pedion? —
+           plain`, which is the register reading its own `kind` column back at
+           the visitor and calling it a question. AN OFFER THAT DOES NOT EARN
+           ITS LINE TEACHES A READER TO SKIP THE LIST.
+
+           A place with no `why`, no told moment, no event and no room is real
+           and is in the register, and the honest thing is to SAY IT IS THERE
+           without inviting a question the ground cannot answer. */
+        var hits = look(word), rich = [], thin = [];
+        hits.forEach(function (p) {
+          var o = offers(p);
+          (o.length ? rich : thin).push({ key: p.key, name: p.name,
+            what: describe(p), rooms: p.rooms, unplaced: p.unplaced, offers: o });
+        });
+        return { word: String(word || ''), places: rich, also: thin };
       });
     },
     /* the whole row, for the console */
