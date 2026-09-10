@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-09-10T01:57:58.930Z",
+  "generated": "2026-09-10T02:56:41.605Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -27,12 +27,12 @@
   "surfaces": [
     {
       "file": "Page1.html",
-      "bytes": 545893,
+      "bytes": 546146,
       "lines": 8807,
-      "sha256": "d0eeabb1672f029b",
+      "sha256": "3b12cb3e1826f8d4",
       "scripts": [
         {
-          "src": "amenti-core.bundle.js",
+          "src": "amenti-core.bundle.js?v=e349cab1",
           "line": 893,
           "loading": "blocking",
           "remote": false
@@ -50,25 +50,25 @@
           "remote": false
         },
         {
-          "src": "amenti-svg-library.js",
+          "src": "amenti-svg-library.js?v=7b34f8ea",
           "line": 5690,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-doctrine.js",
+          "src": "amenti-doctrine.js?v=976c6275",
           "line": 6023,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "library.js",
+          "src": "library.js?v=fe8cc091",
           "line": 7290,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-canonical.js",
+          "src": "amenti-canonical.js?v=43cdd39f",
           "line": 7301,
           "loading": "defer",
           "remote": false
@@ -80,97 +80,97 @@
           "remote": true
         },
         {
-          "src": "amenti-auth.js",
+          "src": "amenti-auth.js?v=9911c691",
           "line": 8307,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-quiz.js",
+          "src": "amenti-quiz.js?v=ef4a2536",
           "line": 8314,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-roster.js",
+          "src": "amenti-roster.js?v=b0f5ca91",
           "line": 8315,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-roster-view.js",
+          "src": "amenti-roster-view.js?v=2dc9f768",
           "line": 8316,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-bay.js",
+          "src": "amenti-bay.js?v=e57e5f85",
           "line": 8317,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-motion.js",
+          "src": "amenti-motion.js?v=d9c60056",
           "line": 8318,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-art-2.js",
+          "src": "amenti-art-2.js?v=ec74203b",
           "line": 8319,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-leaderboard.js",
+          "src": "amenti-leaderboard.js?v=3bd469b9",
           "line": 8320,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-readaloud.js",
+          "src": "amenti-readaloud.js?v=e97258f9",
           "line": 8321,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-vallhalla-signup.js",
+          "src": "amenti-vallhalla-signup.js?v=9aea018b",
           "line": 8324,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-flourish.js",
+          "src": "amenti-flourish.js?v=285c68c5",
           "line": 8325,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-mascot.js",
+          "src": "amenti-mascot.js?v=d141d87a",
           "line": 8326,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-profile.js",
+          "src": "amenti-profile.js?v=0f18021a",
           "line": 8327,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-art-photo.js",
+          "src": "amenti-art-photo.js?v=2806daac",
           "line": 8335,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-art-3.js",
+          "src": "amenti-art-3.js?v=40425d02",
           "line": 8349,
           "loading": "defer",
           "remote": false
         },
         {
-          "src": "amenti-dispatch-art.js",
+          "src": "amenti-dispatch-art.js?v=944e432e",
           "line": 8783,
           "loading": "defer",
           "remote": false
@@ -178,360 +178,6 @@
       ],
       "inlineBlocks": 28,
       "engines": [
-        {
-          "global": "Amenti.doctrine",
-          "registered": 35,
-          "registeredIn": "amenti-doctrine.js",
-          "registeredBy": "file",
-          "loading": "defer",
-          "availableAt": "after parse",
-          "role": "file",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 0,
-          "readsInLoadedFiles": 6,
-          "readsInLoadedFilesAt": [
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 738
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1387
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1387
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2266
-            },
-            {
-              "file": "amenti-doctrine.js",
-              "line": 33
-            },
-            {
-              "file": "amenti-doctrine.js",
-              "line": 33
-            }
-          ],
-          "firstRead": null,
-          "firstReadEvaluation": null,
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [],
-          "callSites": []
-        },
-        {
-          "global": "amentiFlourish",
-          "registered": 67,
-          "registeredIn": "amenti-flourish.js",
-          "registeredBy": "file",
-          "loading": "defer",
-          "availableAt": "after parse",
-          "role": "file",
-          "methods": [
-            "play"
-          ],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 0,
-          "readsInLoadedFiles": 3,
-          "readsInLoadedFilesAt": [
-            {
-              "file": "amenti-vallhalla-signup.js",
-              "line": 50
-            },
-            {
-              "file": "amenti-vallhalla-signup.js",
-              "line": 50
-            },
-            {
-              "file": "amenti-vallhalla-signup.js",
-              "line": 51
-            }
-          ],
-          "firstRead": null,
-          "firstReadEvaluation": null,
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [],
-          "callSites": []
-        },
-        {
-          "global": "Amenti.voice",
-          "registered": 1257,
-          "registeredIn": "amenti-core.bundle.js",
-          "registeredBy": "file",
-          "loading": "blocking",
-          "availableAt": 893,
-          "role": "file",
-          "methods": [
-            "speak",
-            "stop",
-            "isSpeaking"
-          ],
-          "hasStop": true,
-          "delegatesStop": false,
-          "reads": 3,
-          "readsInLoadedFiles": 2,
-          "readsInLoadedFilesAt": [
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 629
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 629
-            }
-          ],
-          "firstRead": 7893,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "isSpeaking",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 7843,
-              "method": "isSpeaking",
-              "via": "alias",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7893,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.throttle",
-          "registered": 1280,
-          "registeredIn": "amenti-core.bundle.js",
-          "registeredBy": "file",
-          "loading": "blocking",
-          "availableAt": 893,
-          "role": "file",
-          "methods": [
-            "speak",
-            "stop"
-          ],
-          "hasStop": true,
-          "delegatesStop": false,
-          "reads": 10,
-          "readsInLoadedFiles": 3,
-          "readsInLoadedFilesAt": [
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1351
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1351
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1352
-            }
-          ],
-          "firstRead": 3039,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "speak",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 3039,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 3499,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6845,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6851,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 6868,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 8222,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 8242,
-              "method": "speak",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.conversation",
-          "registered": 1297,
-          "registeredIn": "amenti-core.bundle.js",
-          "registeredBy": "file",
-          "loading": "blocking",
-          "availableAt": 893,
-          "role": "file",
-          "methods": [
-            "speak",
-            "stop",
-            "isSpeaking",
-            "styleFor"
-          ],
-          "hasStop": true,
-          "delegatesStop": false,
-          "reads": 6,
-          "readsInLoadedFiles": 0,
-          "readsInLoadedFilesAt": [],
-          "firstRead": 7346,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "isSpeaking",
-            "speak",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 7367,
-              "method": "speak",
-              "via": "alias",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7372,
-              "method": "stop",
-              "via": "alias",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7377,
-              "method": "isSpeaking",
-              "via": "alias",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.listen",
-          "registered": 1769,
-          "registeredIn": "amenti-core.bundle.js",
-          "registeredBy": "file",
-          "loading": "blocking",
-          "availableAt": 893,
-          "role": "file",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 7,
-          "readsInLoadedFiles": 27,
-          "readsInLoadedFilesAt": [
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1346
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2855
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2855
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2900
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2900
-            },
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 2901
-            }
-          ],
-          "firstRead": 7498,
-          "firstReadEvaluation": "deferred",
-          "parseTimeReads": [],
-          "uncertainReads": [],
-          "calls": [
-            "cancel",
-            "stop"
-          ],
-          "callSites": [
-            {
-              "line": 7498,
-              "method": "stop",
-              "via": "direct",
-              "evaluation": "deferred"
-            },
-            {
-              "line": 7895,
-              "method": "cancel",
-              "via": "direct",
-              "evaluation": "deferred"
-            }
-          ]
-        },
-        {
-          "global": "Amenti.chat",
-          "registered": 3799,
-          "registeredIn": "amenti-core.bundle.js",
-          "registeredBy": "file",
-          "loading": "blocking",
-          "availableAt": 893,
-          "role": "file",
-          "methods": [],
-          "hasStop": false,
-          "delegatesStop": false,
-          "reads": 2,
-          "readsInLoadedFiles": 1,
-          "readsInLoadedFilesAt": [
-            {
-              "file": "amenti-core.bundle.js",
-              "line": 1820
-            }
-          ],
-          "firstRead": 6215,
-          "firstReadEvaluation": "parse-time",
-          "parseTimeReads": [
-            6215
-          ],
-          "uncertainReads": [],
-          "calls": [],
-          "callSites": []
-        },
         {
           "global": "Amenti.terminal",
           "registered": 6411,
@@ -629,6 +275,214 @@
               "line": 7894,
               "method": "stop",
               "via": "direct",
+              "evaluation": "deferred"
+            }
+          ]
+        },
+        {
+          "global": "Amenti.throttle",
+          "registered": null,
+          "registeredIn": null,
+          "registeredBy": null,
+          "loading": null,
+          "availableAt": null,
+          "role": "unresolved",
+          "methods": [],
+          "hasStop": false,
+          "delegatesStop": false,
+          "reads": 10,
+          "readsInLoadedFiles": 0,
+          "readsInLoadedFilesAt": [],
+          "firstRead": 3039,
+          "firstReadEvaluation": "deferred",
+          "parseTimeReads": [],
+          "uncertainReads": [],
+          "calls": [
+            "speak",
+            "stop"
+          ],
+          "callSites": [
+            {
+              "line": 3039,
+              "method": "speak",
+              "via": "direct",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 3499,
+              "method": "stop",
+              "via": "direct",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 6845,
+              "method": "speak",
+              "via": "direct",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 6851,
+              "method": "stop",
+              "via": "direct",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 6868,
+              "method": "speak",
+              "via": "direct",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 8222,
+              "method": "stop",
+              "via": "direct",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 8242,
+              "method": "speak",
+              "via": "direct",
+              "evaluation": "deferred"
+            }
+          ]
+        },
+        {
+          "global": "Amenti.listen",
+          "registered": null,
+          "registeredIn": null,
+          "registeredBy": null,
+          "loading": null,
+          "availableAt": null,
+          "role": "unresolved",
+          "methods": [],
+          "hasStop": false,
+          "delegatesStop": false,
+          "reads": 7,
+          "readsInLoadedFiles": 0,
+          "readsInLoadedFilesAt": [],
+          "firstRead": 7498,
+          "firstReadEvaluation": "deferred",
+          "parseTimeReads": [],
+          "uncertainReads": [],
+          "calls": [
+            "cancel",
+            "stop"
+          ],
+          "callSites": [
+            {
+              "line": 7498,
+              "method": "stop",
+              "via": "direct",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 7895,
+              "method": "cancel",
+              "via": "direct",
+              "evaluation": "deferred"
+            }
+          ]
+        },
+        {
+          "global": "Amenti.voice",
+          "registered": null,
+          "registeredIn": null,
+          "registeredBy": null,
+          "loading": null,
+          "availableAt": null,
+          "role": "unresolved",
+          "methods": [],
+          "hasStop": false,
+          "delegatesStop": false,
+          "reads": 3,
+          "readsInLoadedFiles": 0,
+          "readsInLoadedFilesAt": [],
+          "firstRead": 7893,
+          "firstReadEvaluation": "deferred",
+          "parseTimeReads": [],
+          "uncertainReads": [],
+          "calls": [
+            "isSpeaking",
+            "stop"
+          ],
+          "callSites": [
+            {
+              "line": 7843,
+              "method": "isSpeaking",
+              "via": "alias",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 7893,
+              "method": "stop",
+              "via": "direct",
+              "evaluation": "deferred"
+            }
+          ]
+        },
+        {
+          "global": "Amenti.chat",
+          "registered": null,
+          "registeredIn": null,
+          "registeredBy": null,
+          "loading": null,
+          "availableAt": null,
+          "role": "unresolved",
+          "methods": [],
+          "hasStop": false,
+          "delegatesStop": false,
+          "reads": 2,
+          "readsInLoadedFiles": 0,
+          "readsInLoadedFilesAt": [],
+          "firstRead": 6215,
+          "firstReadEvaluation": "parse-time",
+          "parseTimeReads": [
+            6215
+          ],
+          "uncertainReads": [],
+          "calls": [],
+          "callSites": []
+        },
+        {
+          "global": "Amenti.conversation",
+          "registered": null,
+          "registeredIn": null,
+          "registeredBy": null,
+          "loading": null,
+          "availableAt": null,
+          "role": "unresolved",
+          "methods": [],
+          "hasStop": false,
+          "delegatesStop": false,
+          "reads": 6,
+          "readsInLoadedFiles": 0,
+          "readsInLoadedFilesAt": [],
+          "firstRead": 7346,
+          "firstReadEvaluation": "deferred",
+          "parseTimeReads": [],
+          "uncertainReads": [],
+          "calls": [
+            "isSpeaking",
+            "speak",
+            "stop"
+          ],
+          "callSites": [
+            {
+              "line": 7367,
+              "method": "speak",
+              "via": "alias",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 7372,
+              "method": "stop",
+              "via": "alias",
+              "evaluation": "deferred"
+            },
+            {
+              "line": 7377,
+              "method": "isSpeaking",
+              "via": "alias",
               "evaluation": "deferred"
             }
           ]
@@ -782,9 +636,9 @@
     },
     {
       "file": "Page2.html",
-      "bytes": 1452439,
+      "bytes": 1452450,
       "lines": 16853,
-      "sha256": "082a9174a493bed4",
+      "sha256": "cbc24e163c730cfc",
       "scripts": [
         {
           "src": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
@@ -829,7 +683,7 @@
           "remote": true
         },
         {
-          "src": "config.js",
+          "src": "config.js?v=38b1e896",
           "line": 22,
           "loading": "blocking",
           "remote": false
@@ -1192,9 +1046,10 @@
     }
   ],
   "files": {
-    "read": [
+    "read": [],
+    "unread": [
       {
-        "src": "amenti-core.bundle.js",
+        "src": "amenti-core.bundle.js?v=e349cab1",
         "requestedBy": [
           {
             "surface": "Page1.html",
@@ -1202,468 +1057,8 @@
             "loading": "blocking"
           }
         ],
-        "bytes": 209109,
-        "lines": 3807,
-        "registers": [
-          "AMENTI_CONFIG",
-          "AmentiResolve.report",
-          "AmentiResolve",
-          "Amenti",
-          "Amenti.listen",
-          "claude.acceptsSystemTail",
-          "Amenti.chat",
-          "VERSION",
-          "SAME_PERSON",
-          "ALIASES",
-          "GUARDS",
-          "INDEX",
-          "OWNER",
-          "RECORDS",
-          "COLLISIONS",
-          "BUILT",
-          "L",
-          "VOICE_WORKER",
-          "VOICE_REGISTER",
-          "VOICE_NAME_DEFAULT",
-          "CHUNK_MAX",
-          "PROFILES",
-          "CHUNK_LOOKAHEAD",
-          "CHUNK_TIMEOUT",
-          "START_TIMEOUT",
-          "CONV_FIRST_MAX",
-          "RATE_FAST",
-          "RATE_SLOW",
-          "REST_SOFT",
-          "REST_SENTENCE",
-          "REST_PARA",
-          "PACE_DIRECTION",
-          "READ_ALOUD",
-          "READ_STOP",
-          "READ_RETRY",
-          "Ctx",
-          "LEDGER_CSV_URL",
-          "CONV_REGISTER",
-          "LOCAL_CSV",
-          "Amenti.voice"
-        ]
+        "reason": "not on disk at probe time"
       },
-      {
-        "src": "amenti-svg-library.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 5690,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 147555,
-        "lines": 2134,
-        "registers": [
-          "AMENTI_SVG",
-          "F",
-          "F.lincoln",
-          "F.musashi",
-          "F.caesar",
-          "F.gandhi",
-          "F.moses",
-          "F.hannibal",
-          "F.cleopatra",
-          "F.tesla"
-        ]
-      },
-      {
-        "src": "amenti-doctrine.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 6023,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 18644,
-        "lines": 264,
-        "registers": [
-          "Amenti",
-          "VERSION",
-          "Amenti.doctrine"
-        ]
-      },
-      {
-        "src": "library.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 7290,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 47246,
-        "lines": 951,
-        "registers": [
-          "Amenti",
-          "claude.complete",
-          "Amenti.__readingRoom",
-          "VOICE_WORKER",
-          "VOICE_REGISTER",
-          "VOICE_NAME_DEFAULT",
-          "CHUNK_MAX",
-          "CHUNK_LOOKAHEAD",
-          "CHUNK_TIMEOUT",
-          "START_TIMEOUT",
-          "RATE_FAST",
-          "RATE_SLOW",
-          "REST_SOFT",
-          "REST_SENTENCE",
-          "REST_PARA",
-          "PACE_DIRECTION",
-          "READ_ALOUD",
-          "READ_STOP",
-          "READ_RETRY",
-          "Ctx",
-          "LEDGER_CSV_URL",
-          "Amenti.openReadingRoom",
-          "Amenti.closeReadingRoom"
-        ]
-      },
-      {
-        "src": "amenti-canonical.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 7301,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 14691,
-        "lines": 316,
-        "registers": [
-          "Amenti",
-          "TEXT",
-          "TEXT_SHA256",
-          "TEXT_CHARS",
-          "WIRES",
-          "VOICE_WORKER",
-          "HIT_MS",
-          "API"
-        ]
-      },
-      {
-        "src": "amenti-auth.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8307,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 21638,
-        "lines": 254,
-        "registers": [
-          "amentiAuth",
-          "SUPABASE_URL",
-          "SUPABASE_KEY",
-          "SIGNIN_SELECTOR"
-        ]
-      },
-      {
-        "src": "amenti-quiz.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8314,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 33130,
-        "lines": 518,
-        "registers": [
-          "Amenti.openReadingRoom",
-          "amentiAuth.refresh",
-          "amentiQuiz",
-          "MINT",
-          "DEFAULT_TOPIC",
-          "GLYPH"
-        ]
-      },
-      {
-        "src": "amenti-roster.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8315,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 42648,
-        "lines": 852,
-        "registers": [
-          "AMENTI_STACKS",
-          "AMENTI_PROGRESS",
-          "AMENTI_CHARS",
-          "AMENTI_SVG",
-          "AmentiRoster",
-          "AmentiRoster.rekey",
-          "AmentiRoster.rekeyLog",
-          "amentiRoster",
-          "MINT",
-          "ICON",
-          "DOMAIN_ICON",
-          "R",
-          "PROGRESS",
-          "SIGNED_IN",
-          "MARK_PX",
-          "STAT_LABEL",
-          "DEPTH_NAME",
-          "FIRST",
-          "REKEY_LOG",
-          "BOOTS"
-        ]
-      },
-      {
-        "src": "amenti-roster-view.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8316,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 11936,
-        "lines": 266,
-        "registers": [
-          "amentiRosterView",
-          "MINT"
-        ]
-      },
-      {
-        "src": "amenti-bay.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8317,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 12932,
-        "lines": 267,
-        "registers": [
-          "amentiBay",
-          "P"
-        ]
-      },
-      {
-        "src": "amenti-motion.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8318,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 8972,
-        "lines": 189,
-        "registers": [
-          "amentiMotion"
-        ]
-      },
-      {
-        "src": "amenti-art-2.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8319,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 65892,
-        "lines": 964,
-        "registers": [
-          "AMENTI_SVG",
-          "F"
-        ]
-      },
-      {
-        "src": "amenti-leaderboard.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8320,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 10857,
-        "lines": 147,
-        "registers": [
-          "amentiLeaderboard",
-          "MINT",
-          "GLYPH",
-          "G",
-          "LG",
-          "W",
-          "FAINT",
-          "DEEP",
-          "N"
-        ]
-      },
-      {
-        "src": "amenti-readaloud.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8321,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 14268,
-        "lines": 228,
-        "registers": [
-          "amentiAuth.refresh",
-          "amentiReadAloud",
-          "MINT",
-          "GLYPH",
-          "ADULT_KEY",
-          "COVERAGE_MIN",
-          "SR"
-        ]
-      },
-      {
-        "src": "amenti-vallhalla-signup.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8324,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 2606,
-        "lines": 63,
-        "registers": [
-          "amentiFlourish.play"
-        ]
-      },
-      {
-        "src": "amenti-flourish.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8325,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 37046,
-        "lines": 69,
-        "registers": [
-          "amentiFlourish",
-          "SEEN_KEY",
-          "STYLES",
-          "SCENE"
-        ]
-      },
-      {
-        "src": "amenti-mascot.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8326,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 5575,
-        "lines": 124,
-        "registers": [
-          "amentiMascot",
-          "PASS_MS",
-          "FIRST_DELAY",
-          "REST_MIN",
-          "REST_MAX",
-          "MAX_PASSES"
-        ]
-      },
-      {
-        "src": "amenti-profile.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8327,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 19009,
-        "lines": 210,
-        "registers": [
-          "amentiProfile"
-        ]
-      },
-      {
-        "src": "amenti-art-photo.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8335,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 18622,
-        "lines": 403,
-        "registers": [
-          "AmentiArtPhoto",
-          "BASE",
-          "MAX_TERMINAL"
-        ]
-      },
-      {
-        "src": "amenti-art-3.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8349,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 12289,
-        "lines": 280,
-        "registers": [
-          "CFG",
-          "BASE",
-          "STYLE",
-          "BATCH",
-          "L"
-        ]
-      },
-      {
-        "src": "amenti-dispatch-art.js",
-        "requestedBy": [
-          {
-            "surface": "Page1.html",
-            "line": 8783,
-            "loading": "defer"
-          }
-        ],
-        "bytes": 10589,
-        "lines": 239,
-        "registers": [
-          "AmentiDispatchArt",
-          "MANIFEST",
-          "DEPT_BY_FIGURE"
-        ]
-      },
-      {
-        "src": "config.js",
-        "requestedBy": [
-          {
-            "surface": "Page2.html",
-            "line": 22,
-            "loading": "blocking"
-          }
-        ],
-        "bytes": 3728,
-        "lines": 75,
-        "registers": [
-          "AMENTI_CONFIG"
-        ]
-      }
-    ],
-    "unread": [
       {
         "src": "amenti-dial.js?v=ad24f23f",
         "requestedBy": [
@@ -1685,10 +1080,252 @@
           }
         ],
         "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-svg-library.js?v=7b34f8ea",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 5690,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-doctrine.js?v=976c6275",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 6023,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "library.js?v=fe8cc091",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 7290,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-canonical.js?v=43cdd39f",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 7301,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-auth.js?v=9911c691",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8307,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-quiz.js?v=ef4a2536",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8314,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-roster.js?v=b0f5ca91",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8315,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-roster-view.js?v=2dc9f768",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8316,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-bay.js?v=e57e5f85",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8317,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-motion.js?v=d9c60056",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8318,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-art-2.js?v=ec74203b",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8319,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-leaderboard.js?v=3bd469b9",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8320,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-readaloud.js?v=e97258f9",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8321,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-vallhalla-signup.js?v=9aea018b",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8324,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-flourish.js?v=285c68c5",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8325,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-mascot.js?v=d141d87a",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8326,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-profile.js?v=0f18021a",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8327,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-art-photo.js?v=2806daac",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8335,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-art-3.js?v=40425d02",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8349,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "amenti-dispatch-art.js?v=944e432e",
+        "requestedBy": [
+          {
+            "surface": "Page1.html",
+            "line": 8783,
+            "loading": "defer"
+          }
+        ],
+        "reason": "not on disk at probe time"
+      },
+      {
+        "src": "config.js?v=38b1e896",
+        "requestedBy": [
+          {
+            "surface": "Page2.html",
+            "line": 22,
+            "loading": "blocking"
+          }
+        ],
+        "reason": "not on disk at probe time"
       }
     ]
   },
   "unread": [
+    {
+      "src": "amenti-core.bundle.js?v=e349cab1",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 893,
+          "loading": "blocking"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
     {
       "src": "amenti-dial.js?v=ad24f23f",
       "requestedBy": [
@@ -1707,6 +1344,237 @@
           "surface": "Page1.html",
           "line": 909,
           "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-svg-library.js?v=7b34f8ea",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 5690,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-doctrine.js?v=976c6275",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 6023,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "library.js?v=fe8cc091",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 7290,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-canonical.js?v=43cdd39f",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 7301,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-auth.js?v=9911c691",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8307,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-quiz.js?v=ef4a2536",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8314,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-roster.js?v=b0f5ca91",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8315,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-roster-view.js?v=2dc9f768",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8316,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-bay.js?v=e57e5f85",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8317,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-motion.js?v=d9c60056",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8318,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-art-2.js?v=ec74203b",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8319,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-leaderboard.js?v=3bd469b9",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8320,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-readaloud.js?v=e97258f9",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8321,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-vallhalla-signup.js?v=9aea018b",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8324,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-flourish.js?v=285c68c5",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8325,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-mascot.js?v=d141d87a",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8326,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-profile.js?v=0f18021a",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8327,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-art-photo.js?v=2806daac",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8335,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-art-3.js?v=40425d02",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8349,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "amenti-dispatch-art.js?v=944e432e",
+      "requestedBy": [
+        {
+          "surface": "Page1.html",
+          "line": 8783,
+          "loading": "defer"
+        }
+      ],
+      "reason": "not on disk at probe time"
+    },
+    {
+      "src": "config.js?v=38b1e896",
+      "requestedBy": [
+        {
+          "surface": "Page2.html",
+          "line": 22,
+          "loading": "blocking"
         }
       ],
       "reason": "not on disk at probe time"
@@ -1795,12 +1663,44 @@
   ],
   "findings": [
     {
-      "id": "load-order-clear",
-      "severity": "confirmed",
+      "id": "unresolved",
+      "severity": "finding",
+      "surface": "Page1.html",
+      "global": "Amenti.throttle",
+      "detail": "called 10x, first at line 3039; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
+      "test": "reads with no registration"
+    },
+    {
+      "id": "unresolved",
+      "severity": "finding",
+      "surface": "Page1.html",
+      "global": "Amenti.listen",
+      "detail": "called 7x, first at line 7498; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
+      "test": "reads with no registration"
+    },
+    {
+      "id": "unresolved",
+      "severity": "finding",
+      "surface": "Page1.html",
+      "global": "Amenti.voice",
+      "detail": "called 3x, first at line 7893; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
+      "test": "reads with no registration"
+    },
+    {
+      "id": "unresolved",
+      "severity": "finding",
       "surface": "Page1.html",
       "global": "Amenti.chat",
-      "detail": "read at PARSE TIME on line 6215; available from line 893 (amenti-core.bundle.js, blocking). 5322 lines of margin.",
-      "test": "first parse-time read >= availability line"
+      "detail": "called 2x, first at line 6215; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
+      "test": "reads with no registration"
+    },
+    {
+      "id": "unresolved",
+      "severity": "finding",
+      "surface": "Page1.html",
+      "global": "Amenti.conversation",
+      "detail": "called 6x, first at line 7346; no registration found on any surface or readable file. It is registered somewhere the probe cannot see, or it is not registered at all.",
+      "test": "reads with no registration"
     },
     {
       "id": "load-order-clear",
@@ -1880,19 +1780,19 @@
     {
       "id": "unread",
       "severity": "blocking",
-      "detail": "2 referenced file(s) could not be opened: amenti-dial.js?v=ad24f23f, amenti-memory.js?v=8a3ebb27. No verdict above covers them.",
+      "detail": "24 referenced file(s) could not be opened: amenti-core.bundle.js?v=e349cab1, amenti-dial.js?v=ad24f23f, amenti-memory.js?v=8a3ebb27, amenti-svg-library.js?v=7b34f8ea, amenti-doctrine.js?v=976c6275, library.js?v=fe8cc091, amenti-canonical.js?v=43cdd39f, amenti-auth.js?v=9911c691, amenti-quiz.js?v=ef4a2536, amenti-roster.js?v=b0f5ca91, amenti-roster-view.js?v=2dc9f768, amenti-bay.js?v=e57e5f85, amenti-motion.js?v=d9c60056, amenti-art-2.js?v=ec74203b, amenti-leaderboard.js?v=3bd469b9, amenti-readaloud.js?v=e97258f9, amenti-vallhalla-signup.js?v=9aea018b, amenti-flourish.js?v=285c68c5, amenti-mascot.js?v=d141d87a, amenti-profile.js?v=0f18021a, amenti-art-photo.js?v=2806daac, amenti-art-3.js?v=40425d02, amenti-dispatch-art.js?v=944e432e, config.js?v=38b1e896. No verdict above covers them.",
       "test": "existsSync on every local <script src>"
     }
   ],
   "counts": {
     "surfaces": 2,
-    "engines": 12,
-    "filesRead": 22,
-    "filesUnread": 2,
+    "engines": 10,
+    "filesRead": 0,
+    "filesUnread": 24,
     "faults": 0,
-    "confirmed": 3,
+    "confirmed": 2,
     "unproven": 0,
-    "findings": 2,
+    "findings": 7,
     "blocking": 1,
     "accepted": 4
   }
