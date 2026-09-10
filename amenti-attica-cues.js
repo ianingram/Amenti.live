@@ -72,6 +72,29 @@
       lat: 37.93722, lon: 23.64461, kind: 'fire', points: 4, spread: 0.9,
       why: 'It came in through Piraeus, into a population packed inside the ' +
            'Long Walls by the war.' },
+    /* ── ADDED 10 SEP 2026, WHEN BOOK VI CAME ABOARD ────────────────────
+       The rule for this pane is that a cue names a passage, and until
+       Herodotus VI was in the library NOTHING AT MARATHON OR ERETRIA COULD
+       HAVE ONE. It is now, and this is what it earns.
+
+       The temples, not the city. Herodotus 6.101: `these having entered the
+       city plundered and set fire to the temples in retribution for the
+       temples which were burned at Sardis`. FEWER POINTS AND A TIGHTER SPREAD
+       THAN ATHENS IN 480, because that was the city and the Acropolis and this
+       is the sanctuaries — the passage draws the distinction and so does the
+       mark.
+
+       AND THE OTHER TWO DO NOT GET ONE. Karystos was besieged and its land
+       ravaged until it came over — 6.99 says nothing about fire. Naxos was
+       burned, town and temples both, and at 37.10, 25.52 it is outside this
+       frame entirely. One fire, and it is the one the passage gives a motive
+       for. */
+    { year: -490, name: 'Eretria burned',
+      lat: 38.3980, lon: 23.7920, kind: 'fire', points: 5, spread: 0.7,
+      why: 'Herodotus 6.101: betrayed from inside on the seventh day, and the ' +
+           'temples fired IN RETRIBUTION FOR SARDIS. The people were enslaved ' +
+           'on Darius\u2019s own order and carried off; the fleet came on to ' +
+           'Marathon a few days later.' },
     { year: 1687, name: 'The Parthenon explodes',
       lat: 37.97156, lon: 23.72658, kind: 'blast', points: 1, spread: 0.15,
       why: 'A Venetian shell reached the Ottoman powder store inside the ' +
@@ -247,7 +270,7 @@
     open = true;
     t0 = performance.now();
     raf = requestAnimationFrame(draw);
-    console.log('THE CUES: four recorded events \u2014 480 BC, 430 BC (twice), AD 1687. ' +
+    console.log('THE CUES: five recorded events \u2014 490 BC, 480 BC, 430 BC (twice), AD 1687. ' +
                 'Scrub the year to them. Nothing burns at a year no source names.');
     return true;
   }
