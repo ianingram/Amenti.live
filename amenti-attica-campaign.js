@@ -224,8 +224,14 @@
     s.id = 'campaign-css';
     s.textContent = [
       '#amenti-campaign{position:absolute;inset:0;pointer-events:none;z-index:6}',
+      /* ── MEASURED, NOT ASSUMED · 10 Sep ──────────────────────────────
+         `bottom:96px` was a guess and it landed the caption on the note and
+         the year scrub. FOUR COLLISIONS WERE FIXED ON THIS SURFACE ON 9
+         SEPTEMBER AND EVERY ONE WAS A FIXED PROPORTION USED WHERE THE SPACE
+         HAD TO BE MEASURED. The floor is computed in place() from whatever is
+         actually down there. */
       '#amenti-campaign .ac-cap{position:absolute;left:50%;transform:translateX(-50%);',
-      '  bottom:96px;width:min(560px,80%);pointer-events:auto;',
+      '  width:min(560px,80%);pointer-events:auto;',
       '  background:rgba(5,8,14,.92);border:1px solid rgba(43,58,80,.6);',
       '  border-radius:4px;padding:10px 13px;',
       '  font:400 11px/1.5 ui-monospace,Menlo,monospace;color:#c3d3e6}',
@@ -239,7 +245,7 @@
       '#amenti-campaign .ac-step{color:#4d5c70;font-size:9px;margin-top:7px;',
       '  padding-top:5px;border-top:1px solid rgba(43,58,80,.4)}',
       '#amenti-campaign .ac-nav{position:absolute;left:50%;transform:translateX(-50%);',
-      '  bottom:64px;pointer-events:auto;display:flex;gap:6px}',
+      '  pointer-events:auto;display:flex;gap:6px}',
       '#amenti-campaign .ac-nav button{background:rgba(5,8,14,.9);',
       '  border:1px solid rgba(43,58,80,.6);border-radius:3px;color:#7d8ea6;',
       '  padding:3px 11px;cursor:pointer;font:inherit;letter-spacing:.05em}',
@@ -276,7 +282,29 @@
         draw();
       });
     });
+    place();
+    window.addEventListener('resize', place);
     return true;
+  }
+
+  /* THE FLOOR IS WHAT IS ALREADY DOWN THERE. The note, the clock and the
+     period buttons all live at the bottom of this surface; the caption sits
+     above the highest of them, measured from the host's own box. */
+  function place() {
+    if (!el) { return; }
+    var host = document.getElementById('amenti-attica');
+    if (!host) { return; }
+    var hb = host.getBoundingClientRect(), floor = 12;
+    ['.at-note', '.at-clock', '.at-ctl'].forEach(function (sel) {
+      var n = host.querySelector(sel);
+      if (!n) { return; }
+      var b = n.getBoundingClientRect();
+      if (b.height) { floor = Math.max(floor, hb.bottom - b.top + 10); }
+    });
+    var nav = el.querySelector('.ac-nav'), cap = el.querySelector('.ac-cap');
+    if (nav) { nav.style.bottom = floor + 'px'; }
+    var nh = nav ? nav.getBoundingClientRect().height : 24;
+    if (cap) { cap.style.bottom = (floor + nh + 8) + 'px'; }
   }
 
   /* ── BORROW AND GIVE BACK ───────────────────────────────────────────────
@@ -286,12 +314,39 @@
     return load().then(function () {
       if (err) { console.log('THE CAMPAIGN: ' + err); return; }
       if (!mount()) { console.log('THE CAMPAIGN: the ground is not open.'); return; }
+      /* ── BORROWING IS TAKING AND RETURNING, NOT TAKING · 10 Sep ──────────
+         THE FIRST RUN OF THIS OPENED ON AN EMPTY SURFACE. `A.marks()` was read
+         to remember the reader's switches — and reading it with no argument
+         TURNS EVERY SWITCH OFF, because marks() is a setter and an empty call
+         means `show nothing`. The note said so plainly, in the sentence written
+         for exactly this on 9 September: EVERY PLACE SWITCH IS OFF — 1,539
+         places in this period and none drawn.
+
+         The tour learned this same lesson the same week and this file repeated
+         it. So: read the switches from the legend, not from the setter.
+
+         AND THE PERIOD WAS WRONG. `arch` is 750–550 BC and the campaign is 490.
+         `clas` is 550–330 and contains it. A layer that sets a period which
+         excludes its own subject is drawing over a register filtered to the
+         wrong centuries. */
       var A = window.AmentiAttica;
       if (A) {
-        borrowed = { marks: A.marks ? A.marks() : null };
-        if (A.period) { A.period('arch'); }
+        var host = document.getElementById('amenti-attica');
+        var lit = [];
+        if (host) {
+          /* the legend rows carry data-m, not data-k — checked against the
+             markup rather than assumed, because the first guess was wrong and
+             would have restored an empty surface */
+          host.querySelectorAll('.at-key div[data-m]').forEach(function (b) {
+            if (b.getAttribute('aria-pressed') !== 'false') { lit.push(b.getAttribute('data-m')); }
+          });
+        }
+        var per = host && host.querySelector('.at-ctl button[data-p][aria-pressed="true"]');
+        borrowed = { marks: lit.join('|'), period: per ? per.getAttribute('data-p') : null };
+        if (A.period) { A.period('clas'); }
       }
       step = 0;
+      place();
       draw();
     });
   }
@@ -300,7 +355,10 @@
     if (svg && svg.parentNode) { svg.parentNode.removeChild(svg); }
     el = null; svg = null; step = -1;
     var A = window.AmentiAttica;
-    if (A && borrowed && borrowed.marks && A.marks) { A.marks(borrowed.marks); }
+    if (A && borrowed) {
+      if (A.marks) { A.marks(borrowed.marks || '*'); }
+      if (A.period && borrowed.period) { A.period(borrowed.period); }
+    }
     borrowed = null;
   }
 
