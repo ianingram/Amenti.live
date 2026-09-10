@@ -1,49 +1,39 @@
-year,name,kind,from_lat,from_lon,to_lat,to_lon,from_name,to_name,source,note
-# ============================================================================,,,,,,,,,,
-# ATTICA-MOVES.csv · FROM HERE TO HERE, NOT THE ROUTE TAKEN,,,,,,,,,
-# ----------------------------------------------------------------------------,,,,,,,,,,
-# THE ARROW IS THE MOST DANGEROUS MARK ON ANY HISTORICAL MAP. It asserts a,,,,,,,,,,
-# start, an end, a direction, a path and a rate — and of those five the sources,,,,,,,
-# usually record two. Every invasion arrow you have seen sweeping across a,,,,,,,,,,
-# continent is four parts invention and one part fact.,,,,,,,,,,
-#,,,,,,,,,,
-# So each row here is A DEPARTURE AND AN ARRIVAL, both recorded, and NOTHING,,,,,,,,
-# BETWEEN THEM. It draws as a zigzag between two rails: the zigzag is the,,,,,,,,,,
-# drafting BREAK SYMBOL — something omitted here — and the rails are a drawing,,,,,,,,,,
-# frame rather than the width of the possibilities. A bow was drawn first and,,,,,,,,,,
-# replaced: A BOW LOOKS LIKE A PLAUSIBLE ROUTE and a zigzag cannot.,,,,,,,,,,
-#,,,,,,,,,,
-# The arrowhead carries the one thing beyond the endpoints that IS recorded —,,,,,,,,,,
-# which way round. Slip #64d, and JOURNEYS.csv on the world map already works,,,,,,,,,
-# this way.,,,,,,,,,,
-#,,,,,,,,,,
-# WHAT IS DELIBERATELY ABSENT:,,,,,,,,,,
-#   · the course across the Aegean — never recorded for any of these,,,,,,,,,,
-#   · formation, order of sailing, order of march,,,,,,,,
-#   · rate. A fleet's speed is a modern estimate, not an ancient statement.,,,,,,,,,
-#   · any leg the sources do not name at both ends,,,,,,,,,,
-#,,,,,,,,,,
-# THE APPROACH FROM ASIA IS OFF THIS SURFACE. The expedition assembled in,,,,,,,,,,
-# Cilicia and crossed by Samos and Ikaria — hundreds of miles outside a box,,,,,,,,,,
-# drawn a hundred miles from the Acropolis. A leg was drafted from an invented,,,,,,,,,,
-# mid-Aegean point and removed: A COORDINATE MADE UP TO GIVE AN ARROW SOMEWHERE,,,,,,,,,,
-# TO START IS THE ARROW LYING BEFORE IT IS EVEN DRAWN. The campaign enters this,,,,,,,,,,
-# frame at Naxos.,,,,,,,,,,
-#,,,,,,,,,,
-# ── AND THESE ARE DRAFTS ────────────────────────────────────────────────────,,,,,,,,,,
-# The `source` column names the passage FROM MEMORY AND IS NOT VERIFIED. The,,,,,,,,,,
-# outline of this campaign is secure; the book-and-chapter references are the,,,,,,,,,,
-# part to check. Coordinates for open-water points are authored.,,,,,,,,,,
-#,,,,,,,,,,
-# kind: fleet | army | flight,,,,,,,,,,
-# ============================================================================,,,,,,,,,,
--490,Delos spared,fleet,37.10,25.52,37.393,25.268,Naxos,Delos,Herodotus 6.97,"Datis anchored off and would not land armed men on the sacred island. The gesture is the record; the course between is not."
--490,Karystos reduced,fleet,37.393,25.268,38.016,24.418,Delos,Karystos,Herodotus 6.99,"The Euboean towns were taken in turn on the way north."
--490,Eretria besieged,fleet,38.016,24.418,38.398,23.792,Karystos,Eretria,Herodotus 6.100,"Six days of assault, then the gates opened from inside. The city was burned and its people enslaved."
--490,The landing at Marathon,fleet,38.398,23.792,38.147,23.970,Eretria,Marathon,Herodotus 6.102,"HIPPIAS CHOSE THE GROUND. He had been tyrant of Athens and knew the plain was the best cavalry country in Attica."
--490,The Athenians march out,army,37.9755,23.72265,38.147,23.970,Athens,Marathon,Herodotus 6.103,"Out to meet a landing rather than waiting behind walls. The road over Pentelikon is not recorded and is not drawn."
--490,The Plataeans come,army,38.220,23.270,38.147,23.970,Plataea,Marathon,Herodotus 6.108,"A thousand men, the whole force of a small city, and the only allies to arrive."
--490,The Persians re-embark,flight,38.147,23.970,38.05,24.05,Marathon,the beach and the ships,Herodotus 6.115,"Seven ships were taken at the water's edge. The rest got away."
--490,The fleet rounds Sounion,fleet,38.05,24.05,37.937,23.706,off Marathon,Phaleron,Herodotus 6.115,"Making for an undefended Athens by sea. The course round the cape is the obvious one and IS NOT RECORDED — the zigzag says from here to here."
--490,The army marches back,army,38.147,23.970,37.9755,23.72265,Marathon,Athens,Herodotus 6.116,"THE RACE THAT DECIDED IT. The same men who had just fought, arriving before the fleet could land."
--490,The fleet turns away,flight,37.937,23.706,37.80,23.55,Phaleron,out to sea,Herodotus 6.116,"They lay off Phaleron, saw the army drawn up, and sailed for Asia."
+year,name,kind,from_lat,from_lon,to_lat,to_lon,from_name,to_name,source,note,outcome,count,chapter,says
+# ATTICA-MOVES.csv  ->  Amenti.live/ATTICA-MOVES.csv
+#
+# HEADER ON LINE 1, COMMENTS AFTER. Putting the banner first crashes read() in
+# probe-attica.mjs, which takes the # line as the header.
+#
+# -- OUTCOME, COUNT, CHAPTER AND SAYS - added 10 September 2026 --------------
+# The ten legs were cited to Herodotus by chapter from the day they were
+# written, AND THE TEXT WAS NOT ABOARD. Book VI arrived on 10 September and
+# these four columns are what reading it produced.
+#
+#   outcome   what the force was when it arrived: unopposed, taken, landed,
+#             arrived, lost, sailing, withdrew. THE ANIMATION LAYER READS THIS
+#             AND NOTHING ELSE about how a leg ended.
+#   count     a number THE PASSAGE ITSELF GIVES. Seven ships at the water's
+#             edge, and nothing else in these ten rows. A blank is not a zero;
+#             it is Herodotus not counting.
+#   chapter   the ordering key. All ten legs are dated -490 and the year scrub
+#             CANNOT SEPARATE THEM - but the witness put them in order, 6.97
+#             through 6.116. TWO PAIRS SHARE A CHAPTER AND THAT IS THE RACE:
+#             the fleet rounding Sunion while the army marches back overland.
+#   says      what the chapter says, in short. NOT an interpretation and not a
+#             reason - the note column already carries those.
+#
+# WHAT IS DELIBERATELY NOT HERE: how many ships in the fleet, how many men in
+# the line, which ships burned, where anything was on the water. Herodotus
+# gives 6,400 Persian and 192 Athenian dead at 6.117, and neither is a MOVE.
+# A surface may draw the seven, because seven is in the passage. It may draw
+# no other number from these rows.
+-490,Delos spared,fleet,37.10,25.52,37.393,25.268,Naxos,Delos,Herodotus 6.97,Datis anchored off and would not land armed men on the sacred island. The gesture is the record; the course between is not.,unopposed,,6.97,Datis anchored at Rhenaia across the channel and would not let the ships anchor at Delos. The Delians had already fled to Tenos.
+-490,Karystos reduced,fleet,37.393,25.268,38.016,24.418,Delos,Karystos,Herodotus 6.99,The Euboean towns were taken in turn on the way north.,taken,,6.99,The islands gave hostages and additional forces. Carystos refused both and was besieged until it yielded.
+-490,Eretria besieged,fleet,38.016,24.418,38.398,23.792,Karystos,Eretria,Herodotus 6.100,"Six days of assault, then the gates opened from inside. The city was burned and its people enslaved.",taken,,6.100 — 6.101,"Six days of assault, heavy losses on both sides, then two Eretrians opened the gates from inside."
+-490,The landing at Marathon,fleet,38.398,23.792,38.147,23.970,Eretria,Marathon,Herodotus 6.102,HIPPIAS CHOSE THE GROUND. He had been tyrant of Athens and knew the plain was the best cavalry country in Attica.,landed,,6.102,"Marathon was the most convenient place in Attica for horsemen, and near Eretria. Hippias was guiding them."
+-490,The Athenians march out,army,37.9755,23.72265,38.147,23.970,Athens,Marathon,Herodotus 6.103,Out to meet a landing rather than waiting behind walls. The road over Pentelikon is not recorded and is not drawn.,arrived,,6.103,"Ten generals, of whom the tenth was Miltiades. Drawn up in the sacred enclosure of Heracles."
+-490,The Plataeans come,army,38.220,23.270,38.147,23.970,Plataea,Marathon,Herodotus 6.108,"A thousand men, the whole force of a small city, and the only allies to arrive.",arrived,,6.108,The Plataians came to their help in a body.
+-490,The Persians re-embark,flight,38.147,23.970,38.05,24.05,Marathon,the beach and the ships,Herodotus 6.115,Seven ships were taken at the water's edge. The rest got away.,lost,7,6.115,SEVEN OF THE SHIPS the Athenians got possession of at the water’s edge. The number is the passage’s own.
+-490,The fleet rounds Sounion,fleet,38.05,24.05,37.937,23.706,off Marathon,Phaleron,Herodotus 6.115,Making for an undefended Athens by sea. The course round the cape is the obvious one and IS NOT RECORDED — the zigzag says from here to here.,sailing,,6.115,"They took the Eretrian captives off the island where they had left them and sailed round Sunion, purposing to arrive at the city before the Athenians."
+-490,The army marches back,army,38.147,23.970,37.9755,23.72265,Marathon,Athens,Herodotus 6.116,"THE RACE THAT DECIDED IT. The same men who had just fought, arriving before the fleet could land.",arrived,,6.116,"The Athenians came back to the city as speedily as they could and arrived before the Barbarians, encamping at Kynosarges."
+-490,The fleet turns away,flight,37.937,23.706,37.80,23.55,Phaleron,out to sea,Herodotus 6.116,"They lay off Phaleron, saw the army drawn up, and sailed for Asia.",withdrew,,6.116,"They lay off Phaleron, and then sailed away to Asia."
