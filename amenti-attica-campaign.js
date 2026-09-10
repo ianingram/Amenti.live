@@ -145,13 +145,82 @@
     return (A && A.plane) ? A.plane() : null;
   }
 
+  /* ── THE CLUSTER IS A TOKEN AND NOT A COUNT · 10 Sep 2026 ───────────────
+     Herodotus gives SIX HUNDRED TRIREMES at 6.95 — and that is the fleet
+     sailing from Ionia, before Delos, before the islands, before hostages and
+     garrisons and Eretria. NOTHING IN THE PASSAGE SAYS SIX HUNDRED WERE AT
+     MARATHON.
+
+     So the marks are a token. Enough to read as a fleet rather than a boat,
+     the same number on every fleet leg, AND THE NUMBER MEANS NOTHING. The
+     count Herodotus gives is spoken in the caption, where it can carry the
+     qualification a picture cannot.
+
+     THE ONE EXCEPTION IS SEVEN. `count` on a row is a number the passage
+     itself gives — seven ships taken at the water's edge — and seven is small
+     enough to draw as seven individuals truthfully. That is the whole of the
+     numeric licence and the register's own header says so.
+
+     AND THE SCATTER IS SET BY THE WATER. A cluster bunched in a harbour and
+     spread in open sea would be a claim about formation, which the sources
+     give almost nowhere. The spread here is fixed per kind and DOES NOT
+     ANIMATE — a cluster that tightens entering a strait is drawing a manoeuvre
+     nobody recorded, which is the same rule amenti-attica-cues.js keeps for
+     its own spreads and says why. */
+  var TOKEN = { fleet: 14, army: 9, flight: 12 };
+  var SPREAD = { fleet: 7, army: 4, flight: 8 };
+  var LEG_MS = 2600;          /* the same for every leg: see travel() */
+
   var COLOUR = {
     unopposed: '#7fd8f0', taken: '#e0913f', landed: '#e0913f',
     arrived: '#8fd08f', lost: '#d05f5f', sailing: '#7fd8f0', withdrew: '#5d6e84'
   };
 
+  /* ── A POINT ALONG THE BREAK-LINE ───────────────────────────────────────
+     Marks travel the ZIGZAG, not a straight line and not a curve. A bow was
+     drawn on this surface once and replaced because A BOW LOOKS LIKE A
+     PLAUSIBLE ROUTE; a straight line is the same claim with less confidence.
+     The break symbol says `these two points and nothing between them`, and
+     marks moving along it inherit that — no fleet ever sailed a zigzag, so
+     nobody reads it as a course. */
+  function along(pts, t) {
+    var seg = [], total = 0, i;
+    for (i = 0; i < pts.length - 1; i++) {
+      var d = Math.hypot(pts[i + 1][0] - pts[i][0], pts[i + 1][1] - pts[i][1]);
+      seg.push(d); total += d;
+    }
+    var want = total * Math.max(0, Math.min(1, t)), run = 0;
+    for (i = 0; i < seg.length; i++) {
+      if (run + seg[i] >= want) {
+        var u = seg[i] ? (want - run) / seg[i] : 0;
+        return [pts[i][0] + (pts[i + 1][0] - pts[i][0]) * u,
+                pts[i][1] + (pts[i + 1][1] - pts[i][1]) * u];
+      }
+      run += seg[i];
+    }
+    return pts[pts.length - 1];
+  }
+  function points(x1, y1, x2, y2) {
+    return zig(x1, y1, x2, y2).split(' ').map(function (p) {
+      var q = p.split(','); return [+q[0], +q[1]];
+    });
+  }
+
+  /* a stable scatter per mark, so a cluster does not shimmer as it moves */
+  function scatter(n, r, seed) {
+    var out = [];
+    for (var i = 0; i < n; i++) {
+      var a = ((i * 2.399963 + seed) % (Math.PI * 2));
+      var d = r * Math.sqrt(((i * 0.618034 + seed * 0.31) % 1));
+      out.push([Math.cos(a) * d, Math.sin(a) * d]);
+    }
+    return out;
+  }
+
   function draw() {
     if (!svg || !legs) { return; }
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    moving = [];
     while (svg.firstChild) { svg.removeChild(svg.firstChild); }
     if (step < 0 || step >= legs.length) { return; }
     var g = legs[step];
@@ -191,8 +260,71 @@
           svg.appendChild(m);
         }
       }
+
+      /* the force itself, at the departure, waiting to be told to go */
+      var kind = r.kind || 'fleet';
+      var host = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      host.setAttribute('class', 'ac-force');
+      var off = scatter(TOKEN[kind] || 10, SPREAD[kind] || 6, g.ch % 97);
+      off.forEach(function (o) {
+        var m = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        m.setAttribute('r', kind === 'army' ? '1.1' : '1.35');
+        m.setAttribute('fill', col);
+        m.setAttribute('opacity', '.9');
+        m.setAttribute('cx', (a.x + o[0]).toFixed(1));
+        m.setAttribute('cy', (a.y + o[1]).toFixed(1));
+        host.appendChild(m);
+      });
+      svg.appendChild(host);
+      moving.push({ g: host, off: off, pts: points(a.x, a.y, b.x, b.y),
+                    outcome: r.outcome });
     });
     caption(g);
+    travel();
+  }
+
+  /* ── THE TRAVEL · step two · 10 Sep 2026 ─────────────────────────────────
+     EVERY LEG TAKES THE SAME TIME ON SCREEN, whatever its length. The register
+     holds no duration and no speed, and giving a long crossing more seconds
+     than a short hop would be inventing one. What is being shown is SEQUENCE
+     and SIMULTANEITY, not pace — which is what a sequence diagram does, and it
+     is honest about it.
+
+     Legs that share a chapter start together and finish together, because that
+     is what sharing a chapter means in this register: the fleet rounding
+     Sunion while the army marches back overland.
+
+     AND THE ARRIVAL IS WHERE THE OUTCOME LANDS. `withdrew` leaves the frame.
+     `taken` stops and stays. Nothing else changes, because nothing else is in
+     the register. */
+  var moving = [], raf = null, t0 = 0;
+
+  function travel() {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (!moving.length) { return; }
+    t0 = 0;
+    var tick = function (now) {
+      if (!t0) { t0 = now; }
+      var t = Math.min(1, (now - t0) / LEG_MS);
+      /* eased at both ends: a force does not start and stop instantly, and
+         easing asserts nothing about the water in between */
+      var e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      moving.forEach(function (m) {
+        var p = along(m.pts, e);
+        var kids = m.g.childNodes;
+        for (var i = 0; i < kids.length; i++) {
+          kids[i].setAttribute('cx', (p[0] + m.off[i][0]).toFixed(1));
+          kids[i].setAttribute('cy', (p[1] + m.off[i][1]).toFixed(1));
+        }
+        if (t >= 1 && m.outcome === 'withdrew') {
+          m.g.setAttribute('opacity', '0');
+          m.g.setAttribute('style', 'transition:opacity 1.1s');
+        }
+      });
+      if (t < 1) { raf = requestAnimationFrame(tick); }
+      else { raf = null; }
+    };
+    raf = requestAnimationFrame(tick);
   }
 
   function caption(g) {
@@ -375,6 +507,7 @@
 
   window.AmentiCampaign = {
     start: start, stop: stop,
+    replay: function () { travel(); },
     step: function (n) { if (legs) { step = Math.max(0, Math.min(legs.length - 1, n)); draw(); } return step; },
     legs: function () { return load().then(function () {
       return err ? { error: err } : legs.map(function (g) {
