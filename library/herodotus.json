@@ -40,14 +40,68 @@
    "note": "The battle that decided the war, and the least heroic narrative on this shelf: the Greek commanders spend most of it arguing about whether to withdraw, and Themistocles, seeing his argument about to be defeated, 'secretly went forth from the assembly' and sent his children's tutor Sikinnos to tell the Persians the Greeks were about to scatter — making retreat impossible. Herodotus reports the deception in detail, admiringly, and does not pretend it was anything else. Artemisia of Halicarnassos, the only woman commanding a ship, gets the best advice in the book and is ignored.",
    "file": "herodotus/04-salamis.md"
   },
-{
- "id": "05-marathon",
- "section": "The war",
- "title": "Marathon — Book VI §94–120",
- "mode": "stored",
- "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
- "note": "The campaign that ATTICA-MOVES.csv cites chapter by chapter — 6.97 through 6.116 — and which this library did not hold until now. Same volume as Thermopylai and Salamis on this shelf; the register was naming a text that was not aboard.\n\nTHE INTERESTING PART IS NOT THE BATTLE. Herodotus gives the fighting a few sentences and spends the chapters around it on why men did what they did. Datis anchors off Delos and will not land armed men on sacred ground. Hippias, tyrant of Athens fifty years earlier, chooses the landing beach because he knows the country — and on the way he loses a tooth in the sand and decides the omen has already been spent. The Plataians arrive in a body, the whole force of a small city. The Lacedemonians are held at home by the full moon and reach Attica three days after leaving Sparta, too late, and go out to Marathon to look at the dead.\n\nAND HE REPORTS WHAT HE CANNOT EXPLAIN. Seven ships taken at the water's edge. A shield displayed from the mountain to the Persians already aboard, which he records, and whose sender he says he cannot name. That is the method stated in Book VII working in Book VI: report the thing reported, and attach the doubt.",
- "file": "herodotus/05-marathon.md"
-}
-  ] 
+  {
+   "id": "05-marathon",
+   "section": "The war",
+   "title": "Marathon — Book VI §94–120",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "The campaign that ATTICA-MOVES.csv cites chapter by chapter — 6.97 through 6.116 — and which this library did not hold until now. Same volume as Thermopylai and Salamis on this shelf; the register was naming a text that was not aboard.\n\nTHE INTERESTING PART IS NOT THE BATTLE. Herodotus gives the fighting a few sentences and spends the chapters around it on why men did what they did. Datis anchors off Delos and will not land armed men on sacred ground. Hippias, tyrant of Athens fifty years earlier, chooses the landing beach because he knows the country — and on the way he loses a tooth in the sand and decides the omen has already been spent. The Plataians arrive in a body, the whole force of a small city. The Lacedemonians are held at home by the full moon and reach Attica three days after leaving Sparta, too late, and go out to Marathon to look at the dead.\n\nAND HE REPORTS WHAT HE CANNOT EXPLAIN. Seven ships taken at the water's edge. A shield displayed from the mountain to the Persians already aboard, which he records, and whose sender he says he cannot name. That is the method stated in Book VII working in Book VI: report the thing reported, and attach the doubt.",
+   "file": "herodotus/05-marathon.md"
+  },
+  {
+   "id": "06-athos",
+   "section": "The war",
+   "title": "The wreck at Athos — Book VI §43–45",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "492 BC, and the reason the Marathon campaign took the route it took. Mardonios rounds Mount Athos and a violent north wind takes the fleet against the mountain: THREE HUNDRED SHIPS AND MORE THAN TWENTY THOUSAND MEN.\n\nHERODOTUS ITEMISES HOW THEY DIED, which is not what a casualty figure usually gets. Some were taken by the sea monsters that fill that water. Some were dashed on the rocks. Some drowned because they did not know how to swim. Some died of the cold. He is reporting what he was told — `it is said indeed that the number was three hundred` — and the sea monsters arrive with the same phrasing as the arithmetic.\n\nTWO YEARS LATER THE FLEET GOES THE OTHER WAY. At 6.95 the expedition starts from Samos and crosses by the Icarian Sea between the islands rather than coasting the mainland, `because, as I think, they feared more than all else the voyage round Athos`. That `as I think` is his own inference and he marks it as one. READ THIS BEFORE THE MARATHON PASSAGE: the fear the later chapter attributes to them is earned here, and the campaign's route is a decision made by a wreck.",
+   "file": "herodotus/06-athos.md"
+  },
+  {
+   "id": "07-plataia-gathering",
+   "section": "The war",
+   "title": "Before Plataia — Book IX §1–27",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "Mardonios takes Athens a second time and finds it empty. The Athenians have gone to Salamis again, and they send to Sparta to say that if no help comes they will find some means of safety for themselves — which is a threat, and everyone in the room knows it.\n\nTHE SPARTANS ARE KEEPING A FESTIVAL AND DELAY TEN DAYS. Then they send five thousand Spartiates in the night without telling the envoys, so that the envoys deliver an ultimatum to men who have already marched.\n\nIt ends in a quarrel about honour: the Tegeans and the Athenians argue over who has earned the left wing, and each argues it FROM HISTORY — old battles, old kings, the sons of Heracles. The Athenians win the wing by out-arguing them and then say they will stand wherever they are told.",
+   "file": "herodotus/07-plataia-gathering.md"
+  },
+  {
+   "id": "08-plataia-waiting",
+   "section": "The war",
+   "title": "Plataia — the ten days · Book IX §28–58",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "Two armies in position and neither will begin, because the omens forbid crossing first and both diviners say the same thing. ELEVEN DAYS PASS.\n\nWhat breaks it is water and food. The Persian cavalry rides down and fouls the Gargaphian spring, the supply road over Kithairon is cut, and the Greeks resolve to move in the night to ground where they can drink. THE NIGHT MOVE GOES WRONG — one commander refuses to stir, the centre goes to the wrong place, and dawn finds the line broken into three.\n\nAnd a man rides into the Athenian camp in the dark. He gives his name as Alexander of Macedon, says he is a Hellene by descent, tells them Mardonios will attack at dawn, and asks that if the war goes well they remember him. Herodotus reports the whole speech.",
+   "file": "herodotus/08-plataia-waiting.md"
+  },
+  {
+   "id": "09-plataia-battle",
+   "section": "The war",
+   "title": "Plataia — the battle · Book IX §59–89",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "Mardonios sees the Greek line gone in the morning and takes it for flight. He crosses the Asopos and comes on shouting, in confused numbers, thinking to make short work of it.\n\nTHE SPARTANS STAND AND WILL NOT ENGAGE, because the sacrifices are against them, while men are being killed by arrows in front of Demeter's precinct. Pausanias looks to the temple of Hera and prays, and the omens change.\n\nMardonios is killed by Aeimnestos, a Spartan, with a stone. Artabazos, who commanded forty thousand and had argued against fighting at all, marches them away without engaging and does not stop until Thessaly. And Herodotus names the best men on both sides — the Barbarians as well — which is the habit that makes him worth reading.",
+   "file": "herodotus/09-plataia-battle.md"
+  },
+  {
+   "id": "10-mykale",
+   "section": "The war",
+   "title": "Mykale — Book IX §90–105",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "ON THE SAME DAY, ACROSS THE AEGEAN. Herodotus says so flatly and then reports a rumour he cannot check: that word of Plataia reached the men at Mykale before the fighting, a herald's staff lying on the beach, and the army believing it.\n\nThe Persians beach their ships at Mykale and put an enclosure round them of stones and timber, cutting down fruit-trees for it, having sent the Phoenician squadron away. The Greeks land and take it. The Ionians in the Persian line change sides during the battle, and the revolt that began Book V begins again here and this time holds.\n\nThe war that Marathon started ends in these chapters, and it ends twice in one day.",
+   "file": "herodotus/10-mykale.md"
+  },
+  {
+   "id": "11-sestos",
+   "section": "The war",
+   "title": "Sestos, and the end · Book IX §106–122",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "The Hellenes sail to the Hellespont, find the bridges already broken by weather, and besiege Sestos through the winter until the defenders are eating boiled bed-cords.\n\nIT TURNS ON A STORY HERODOTUS DOES NOT ENDORSE. Artaÿktes, who had stripped the shrine of Protesilaos and farmed its sacred land, is being held for ransom when a guard's salted fish leap and writhe on the fire like newly caught. Artaÿktes reads it as the god telling him what he is owed. He is nailed to boards above the shore anyway, and his son stoned in front of him. The whole tale is attributed — `it is said by the men of the Chersonese` — and left standing.\n\nAND THEN THE LAST CHAPTER GOES BACK TO CYRUS, sixty years and a whole empire earlier. The Persians ask to leave their poor rugged country for better land, and Cyrus tells them that soft ground makes soft men and they should prepare to be subjects rather than rulers. They choose the poor land. THE HISTORY OF THE WAR ENDS ON THE DECISION THAT MADE THE EMPIRE THAT LOST IT.",
+   "file": "herodotus/11-sestos.md"
+  }
+ ]
 }
