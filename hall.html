@@ -308,7 +308,25 @@
   var PROXY = 'https://amenti-proxy.ingram-ian.workers.dev';
   var MODELS = ['claude-haiku-4-5-20251001','claude-sonnet-4-6'];
   var MODEL  = 'claude-sonnet-4-6';
-  window.AmentiModel = { options: MODELS, DEFAULT: MODEL, get: function(){ return MODEL; }, set: function(){} };
+    /* set() WAS A NO-OP AND EVERY MODEL COMPARISON RUN AGAINST IT WAS SONNET
+     AGAINST SONNET. Found 10 Sep by reading it rather than trusting it. It is
+     real now, so a model can be tried from the console without a commit —
+     which is the only way to test one honestly, because a change that needs a
+     deploy gets tested once and kept. */
+  window.AmentiModel = {
+    options: MODELS,
+    DEFAULT: MODEL,
+    ROUTER: 'claude-haiku-4-5-20251001',
+    get: function(){ return MODEL; },
+    set: function(m){
+      if (!m) { return MODEL; }
+      if (m === 'haiku')  { m = 'claude-haiku-4-5-20251001'; }
+      if (m === 'sonnet') { m = 'claude-sonnet-4-6'; }
+      MODEL = m;
+      console.log('the hall now answers on ' + MODEL);
+      return MODEL;
+    }
+  };
   window.claude = {
     complete: async function(opts){
       opts = opts || {};
