@@ -191,12 +191,95 @@
      nobody recorded, which is the same rule amenti-attica-cues.js keeps for
      its own spreads and says why. */
   var TOKEN  = { fleet: 400, army: 120, flight: 300 };
-  var SPREAD = { fleet: 5.5, army: 3, flight: 6 };
+  /* ── THE FIELD WAS FIVE PIXELS WIDE · 10 Sep 2026 ────────────────────────
+     Four hundred marks were drawn into a spread of 5.5 units — half a square
+     unit each — and read as ONE DOT WITH A FEW BEHIND IT. The count was right
+     and the room was not.
+
+     One viewBox unit is 320 metres on this frame. Twenty-two units is about
+     seven kilometres of water, which is the width a fleet of that order
+     occupies and it gives each mark room to be seen as itself.
+
+     THE SPREAD IS IN GROUND UNITS AND DOES NOT COUNTER-SCALE. The marks do,
+     because a mark is a claim about a position. The field does not, because
+     seven kilometres of water is seven kilometres at any zoom — and a field
+     that held its screen size would be claiming a different stretch of sea
+     every time the reader zoomed. */
+  var SPREAD = { fleet: 22, army: 9, flight: 20 };
   /* how much of the lane the force is strung out along. A FLEET IN OPEN WATER
      IS A COLUMN, NOT A KNOT — the front is arriving while the rear is still
      leaving, which is the thing a single travelling dot cannot show. */
   var TRAIL  = { fleet: 0.42, army: 0.3, flight: 0.36 };
-  var DOT    = { fleet: 0.85, army: 0.7, flight: 0.85 };
+  /* ── MOORED, IN ROWS · 10 Sep 2026 ───────────────────────────────────────
+     THE TEXT SAYS `MOORED` AND SAYS NOTHING ELSE. Herodotus 6.107: `as the
+     ships came in to shore at Marathon, he moored them there, and after the
+     Barbarians had come from their ships to land, he was engaged in disposing
+     them in their places`. Moored — not beached, not drawn up.
+
+     Rows are a rendering of that word and not a recorded formation. What the
+     rows are FAITHFUL to is the geometry: ships at a shore lie along it rather
+     than in a heap offshore, and they lie facing out. WHAT THEY ARE NOT is a
+     claim that anyone arranged them for a fast departure.
+
+     Though the departure was fast. At 6.115 the Barbarians `pushed off from
+     land` and the Athenians took seven at the water's edge — so the outcome
+     records a quick re-embarkation even where the arrangement does not. */
+  var ROWS = { fleet: 8, flight: 6 };
+
+  /* ── THE EIGHT FURLONGS · 10 Sep 2026 ────────────────────────────────────
+     Herodotus 6.112: `the space between the armies was not less than eight
+     furlongs`, and the Athenians ran it. IT IS A FLOOR, NOT A MEASUREMENT —
+     `not less than` — and Macaulay has quietly converted: the Greek is stades
+     at about 178 m and a furlong is 201, so the same eight units is 1,420 m or
+     1,610 m depending which you take.
+
+     IT IS DRAWN AS A SCALE AND NOT AS A CONNECTOR. The passage gives a
+     distance, not two positions, and the register holds only one of the two
+     armies' ground. A line between them would be inventing where each stood.
+     So the bar lies on the plain, anchored at Marathon and running inland,
+     and it measures rather than joins.
+
+     AND THE GROUND CANNOT CHECK IT. The register's Marathon is the DEME — the
+     town — and the Persians were on the beach east of it; the Herakleion is
+     2.86 km from that point, which is not a disagreement with 1.4 km because
+     it is not the same two things. Nothing here claims the figure is
+     confirmed. */
+  var FURLONGS = 4.4;              /* 8 stades in viewBox units, 320 m each */
+  var MARATHON = { lat: 38.14655, lon: 23.97015 };
+  /* the sanctuary the Athenians were drawn up in — 6.108, `the sacred enclosure
+     of Heracles`, and it is in ATTICA.csv by name */
+  var HERAKLEION = { lat: 38.12131, lon: 23.97614 };
+  /* ── THE SAME SIZE AS A PLACE PIN · 10 Sep 2026 ──────────────────────────
+     `0.85 * iv` was picked by eye and was less than half a pin. THE SURFACE
+     DRAWS EVERY PLACE AT `1.9 * iv` — read out of amenti-attica.js rather than
+     matched by eye, because two numbers meaning `the size of a mark` will
+     drift apart the first time one of them is tuned.
+
+     A fleet mark is slightly under a place pin on purpose: a place is a
+     standing claim and a ship is a token in a field of four hundred. Close
+     enough to read as the same kind of thing, small enough not to shout over
+     the ground. */
+  var PIN    = 1.9;
+  var DOT    = { fleet: PIN * 0.8, army: PIN * 0.55, flight: PIN * 0.8 };
+
+  /* ── LETTERS, NOT DOTS · 10 Sep 2026 ─────────────────────────────────────
+     x for the Persians, o for the Athenians, p for the Plataians.
+
+     A LETTER NEEDS ROOM A DOT DOES NOT. A place pin is 1.9 units and a glyph
+     is illegible below about three, so these are drawn at 3.4 — nearly twice a
+     pin. In open water that is fine, because a force strung along 42% of a
+     long lane has space to spare. IN THE MOORAGE IT OVERLAPS HEAVILY and that
+     is left alone: four hundred ships in a five-kilometre bay is a solid band
+     whatever glyph is drawn, and a texture of overlapping x is a truer picture
+     of it than four hundred separated marks would be.
+
+     THE MAP ALREADY DRAWS X FOR `worked` — the mines and quarries, and Laureion
+     is a field of them in the same frame. So the campaign turns that switch
+     off while it runs and gives it back on close, the same borrow it already
+     makes for the period and the moves. TWO THINGS MEANING DIFFERENT THINGS
+     WITH THE SAME MARK IS THE ONE COLLISION A MAP CANNOT TALK ITS WAY OUT OF. */
+  var GLYPH  = { fleet: '\u00d7', army: 'o', flight: '\u00d7' };
+  var SIZE   = { fleet: 3.4, army: 3.0, flight: 3.4 };
   var HUE    = { fleet: '#c9503f', army: '#c9d6a8', flight: '#e0913f' };
   var LEG_MS = 2600;          /* the same for every leg: see travel() */
 
@@ -327,20 +410,53 @@
       host.setAttribute('class', 'ac-force');
       var iv = 1 / zoom();
       var pts = points(a.x, a.y, b.x, b.y);
-      var off = field(TOKEN[kind] || 200, (SPREAD[kind] || 5) * iv,
+      var off = field(TOKEN[kind] || 200, SPREAD[kind] || 12,
                       TRAIL[kind] || 0.35, g.ch % 97);
+      /* the Plataians are an army and are not the Athenians — 6.108 names them
+         and the register's own row name carries it */
+      var glyph = GLYPH[kind] || '\u00b7';
+      if (kind === 'army' && /plataea|plataia/i.test(r.name || '')) { glyph = 'p'; }
       var frag = document.createDocumentFragment();
       off.forEach(function () {
-        var m = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        m.setAttribute('r', ((DOT[kind] || 0.85) * iv).toFixed(3));
+        var m = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        m.setAttribute('font-size', ((SIZE[kind] || 3.2) * iv).toFixed(2));
+        m.setAttribute('font-family', 'ui-monospace,Menlo,monospace');
+        m.setAttribute('text-anchor', 'middle');
+        m.setAttribute('dominant-baseline', 'central');
         m.setAttribute('fill', HUE[kind] || col);
-        m.setAttribute('opacity', '.85');
+        m.setAttribute('opacity', '.8');
+        m.textContent = glyph;
         frag.appendChild(m);
       });
       host.appendChild(frag);
       svg.appendChild(host);
-      moving.push({ g: host, off: off, pts: pts, outcome: r.outcome, iv: iv });
+      /* ── AN ARMY RESTS WHERE THE TEXT PUTS IT · 10 Sep ──────────────────
+         The Athenians and the Plataians both arrive at Marathon, and both were
+         `drawn up in the sacred enclosure of Heracles`. The register holds the
+         Herakleion, so the army marks settle there rather than on the deme
+         point the leg was drawn to — A PLACE THE PASSAGE NAMES BEATS A
+         COORDINATE THE LEG HAPPENED TO END ON.
+
+         They rest as a block, not a line. Herodotus gives the battle order at
+         6.111 — Callimachos on the right, the tribes numbered, the Plataians
+         on the left — and that is the ORDER OF BATTLE, not the shape of a camp,
+         and this step is the camp. */
+      var rec = { g: host, off: off, pts: pts, outcome: r.outcome, iv: iv, kind: kind };
+      if (kind === 'army' && /marathon/i.test(r.to_name || '')) {
+        var h = project(HERAKLEION.lat, HERAKLEION.lon);
+        if (h) { rec.at = h; }
+      }
+      /* a force that arrives somewhere it stays takes a resting shape; one
+         that is leaving does not */
+      if (r.outcome !== 'withdrew' && r.outcome !== 'sailing') {
+        rec.rest = rec.at ? camp(rec, kind) : moorage(rec, kind);
+      }
+      moving.push(rec);
     });
+    /* the measure appears once the force is on the ground it measures */
+    if (g.rows.some(function (r) { return /marathon/i.test(r.to_name || ''); })) {
+      furlongs();
+    }
     caption(g);
     travel();
   }
@@ -361,6 +477,89 @@
      the register. */
   var moving = [], raf = null, t0 = 0;
 
+  /* the field's resting shape at the arrival: rows across the approach, so the
+     force lies along the shore it came to rather than piled on the point */
+  function moorage(m, kind) {
+    var f = frame(m.pts, 0.999);
+    var n = m.off.length, rows = ROWS[kind] || 8;
+    var per = Math.ceil(n / rows);
+    /* ── SIZED TO THE BAY, NOT TO THE MARKS · 10 Sep 2026 ─────────────────
+       The first moorage put fifty ships to a row at a spacing that came out
+       FORTY-NINE KILOMETRES WIDE — wider than Attica. It had been derived from
+       the travelling spread, which is a number chosen so marks can be told
+       apart, and that is not a measurement of anything.
+
+       One viewBox unit is 320 metres on this frame. Marathon bay is about five
+       kilometres of usable beach, so the whole moorage is FIFTEEN UNITS and
+       four hundred ships in it sit a hundred metres apart.
+
+       WHICH MEANS THE MARKS OVERLAP AT EVERY ZOOM BELOW ABOUT x5, AND THAT IS
+       THE PICTURE. Four hundred ships in five kilometres is a solid band, and
+       a rendering that spaced them out so each could be seen would be drawing
+       a fleet four times the size of the bay it moored in. The density is the
+       truthful part. */
+    var BAY = 15.6;                            /* 5 km, in viewBox units */
+    /* 8 rows about 100 m apart is 800 m of water off the beach — deep enough
+       to hold four hundred hulls, shallow enough not to be a claim about a
+       fleet anchored a kilometre out */
+    var gapA = 0.32;                           /* one row behind another, ~100 m */
+    var gapB = BAY / Math.max(1, per - 1);     /* along the shore, edge to edge */
+    return m.off.map(function (o, i) {
+      var row = Math.floor(i / per), col = i % per;
+      /* a little jitter, fixed per ship: MOORED IS NOT PARKED, and a perfect
+         lattice would be a claim about discipline nobody recorded */
+      var j1 = ((i * 0.7548776662) % 1) - 0.5;
+      var j2 = ((i * 0.5698402909) % 1) - 0.5;
+      var da = -(row - (rows - 1) / 2) * gapA + j1 * gapA * 0.4;
+      var db = (col - (per - 1) / 2) * gapB + j2 * gapB * 0.5;
+      return [f.p[0] + f.tx * da + f.nx * db,
+              f.p[1] + f.ty * da + f.ny * db];
+    });
+  }
+
+  /* a camp is a mass with a little room in it, not a formation */
+  function camp(m, kind) {
+    var c = m.at, n = m.off.length;
+    var r = (SPREAD[kind] || 9) * 0.55;
+    return m.off.map(function (o, i) {
+      var a = (i * 2.399963) % (Math.PI * 2);
+      var d = r * Math.sqrt((i + 0.5) / n);
+      var j = ((i * 0.7548776662) % 1) - 0.5;
+      return [c.x + Math.cos(a) * d + j * r * 0.18,
+              c.y + Math.sin(a) * d * 0.75 + j * r * 0.18];
+    });
+  }
+
+  /* the measure on the plain — a bar, and its name */
+  function furlongs() {
+    var p = project(MARATHON.lat, MARATHON.lon);
+    if (!p || !svg) { return; }
+    var z = 1 / zoom();
+    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'ac-scale');
+    var y0 = p.y + 2, y1 = p.y + 2 + FURLONGS;
+    var bar = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    bar.setAttribute('d',
+      'M' + (p.x - 1.6 * z) + ' ' + y0 + 'h' + (3.2 * z) +
+      'M' + p.x + ' ' + y0 + 'V' + y1 +
+      'M' + (p.x - 1.6 * z) + ' ' + y1 + 'h' + (3.2 * z));
+    bar.setAttribute('fill', 'none');
+    bar.setAttribute('stroke', '#c9d6a8');
+    bar.setAttribute('stroke-width', (0.9 * z).toFixed(2));
+    bar.setAttribute('opacity', '.7');
+    g.appendChild(bar);
+    var t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', (p.x + 3 * z).toFixed(1));
+    t.setAttribute('y', ((y0 + y1) / 2).toFixed(1));
+    t.setAttribute('fill', '#c9d6a8');
+    t.setAttribute('opacity', '.65');
+    t.setAttribute('font-size', (5.5 * z).toFixed(2));
+    t.setAttribute('font-family', 'ui-monospace,Menlo,monospace');
+    t.textContent = 'marathon';
+    g.appendChild(t);
+    svg.appendChild(g);
+  }
+
   function travel() {
     if (raf) { cancelAnimationFrame(raf); raf = null; }
     if (!moving.length) { return; }
@@ -369,7 +568,7 @@
       if (!t0) { t0 = now; }
       /* the trail means the rear is still moving after the van has arrived, so
          the leg runs longer than the head's own crossing */
-      var t = Math.min(1, (now - t0) / (LEG_MS * 1.5));
+      var t = Math.min(1, (now - t0) / (LEG_MS * 1.6));
       /* eased at both ends: a force does not start and stop instantly, and
          easing asserts nothing about the water in between */
       var e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -379,11 +578,33 @@
           var o = m.off[i];
           /* the van leads by its lag; the rear has not left until the head is
              well down the lane */
-          var f = frame(m.pts, e * (1 + o.lag) - o.lag);
-          kids[i].setAttribute('cx',
+          /* ── AND THE COLUMN MUST NOT COLLAPSE AT EITHER END ──────────────
+             `e * (1 + lag) - lag` puts every mark at 0 when e is 0 and at 1
+             when e is 1, so the force STACKED AT THE DEPARTURE AND STACKED
+             AGAIN AT THE ARRIVAL and was a column only in between. A fleet
+             does not arrive on a single point.
+
+             A plain subtraction keeps the interval: the van reaches the
+             arrival while the rear is still a third of the lane behind, and
+             the run is long enough that everyone gets there. */
+          var f = frame(m.pts, e * (1 + (TRAIL[m.kind] || 0.35)) - o.lag);
+          kids[i].setAttribute('x',
             (f.p[0] + f.nx * o.across + f.tx * o.along).toFixed(2));
-          kids[i].setAttribute('cy',
+          kids[i].setAttribute('y',
             (f.p[1] + f.ny * o.across + f.ty * o.along).toFixed(2));
+        }
+        /* ── AND THEN THEY MOOR ────────────────────────────────────────────
+           The last fifth of the run eases the field out of its column and into
+           its rows, so the arrival is a change of shape rather than a stop.
+           It is the one place the shape is allowed to change, because coming
+           to a shore IS a change of shape and the passage names it. */
+        if (t > 0.8 && m.rest) {
+          var u = (t - 0.8) / 0.2, w = u * u * (3 - 2 * u);
+          for (var k = 0; k < kids.length; k++) {
+            var cx = +kids[k].getAttribute('x'), cy = +kids[k].getAttribute('y');
+            kids[k].setAttribute('x', (cx + (m.rest[k][0] - cx) * w).toFixed(2));
+            kids[k].setAttribute('y', (cy + (m.rest[k][1] - cy) * w).toFixed(2));
+          }
         }
         if (t >= 1 && m.outcome === 'withdrew') {
           m.g.setAttribute('opacity', '0');
@@ -569,7 +790,12 @@
         /* AND THE CAMPAIGN NEEDS ITS OWN GROUND VISIBLE. It draws over places,
            and drawing legs across a blank chart shows a fleet sailing over
            nothing. It asks for what it needs and gives back what it took. */
-        if (A.marks) { A.marks('*'); }
+        /* everything except `worked` — its X collides with the Persian glyph,
+           and Laureion is a field of them in this same frame */
+        if (A.marks) {
+          A.marks(['settled', 'sacred', 'built', 'defence', 'harbour', 'games',
+                   'buried', 'ground', 'other', 'events', 'moves'].join('|'));
+        }
         if (host) { host.classList.add('ac-dim-moves'); }
         if (A.period) { A.period('clas'); }
       }
