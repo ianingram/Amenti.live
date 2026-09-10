@@ -659,14 +659,84 @@
   var WORK_NOTE   = 250;
   var LIB        = RAW + 'library/';
 
+  /* ── THE DESK RUNS ON THE MEANING TOO · 10 Sep 2026 ──────────────────────
+     THE LIBRARY HAS HAD TRIAGE SINCE 31 AUGUST AND THE MEANING NEVER DID.
+     550 works sit behind three rooms and four passages, chosen by the router,
+     which is the whole reason a 20,000-character wall can hold a growing
+     corpus. HALL.md went in WHOLE on every question — the emerald economy
+     carried into a question about Thucydides, the map room carried into a
+     question about the ledger.
+
+     It stopped fitting. On 9 September the answer call measured 20,286 and the
+     proxy refused it: HALL.md WAS 8,453 OF THAT, 42% of the wall spent saying
+     what Amenti is, in a question about Polynesian navigation. The file had
+     warned in its own comments that HALL.md was 29% of the wall and named
+     scoping it as the move; the warning was read and not acted on, and then
+     the document grew.
+
+     So the same desk that picks rooms now picks LANES. The spine always goes:
+     what this place is, how it answers, what it refuses. A lane goes only when
+     the question reaches it.
+
+     A LANE IS NOT HIDDEN, IT IS UNSENT. Nothing is lost from HALL.md and
+     nothing is authored twice; the file is one document with named sections
+     and this reads the headings. If the router names nothing, THE SPINE ALONE
+     ANSWERS, which is what the hall did before any lane existed.
+
+     AND THE SPINE IS NOT NEGOTIABLE. `How I answer` carries the refusals —
+     answer first and point after, say plainly when nothing aboard covers it,
+     never a confident answer from nowhere. A prompt that dropped those to save
+     characters would be buying room with the one thing this hall is for. */
+  var SPINE = ['(opening)', 'The three refusals', 'How I answer', 'Small talk'];
+
+  /* the headings a question may reach, and one line each so the router can
+     choose without being shown the section itself */
+  var LANES = {
+    'The economy':          'the emerald, the ledger, payouts, the court, endorsement, settlement',
+    'The map room':         'the map, the ground, places, frames, pins and washes, Attica, coordinates',
+    'The words of this place': 'what a term means here \u2014 soul, key, plate, room, spell, register, probe, frame, tour',
+    'Where this comes from': 'who built it, who owns it, whether it is legal, where it is, Ingram Manor'
+  };
+
+  /* Split on `## ` headings. The text before the first heading is the opening
+     and is always spine — it carries the epigraph, which amenti-hall.js records
+     as the thesis of the whole project. */
+  function laneSplit(md) {
+    var out = { '(opening)': '' }, order = ['(opening)'], cur = '(opening)';
+    String(md || '').split('\n').forEach(function (line) {
+      var m = line.match(/^##\s+(.+?)\s*$/);
+      if (m) { cur = m[1]; if (!(cur in out)) { out[cur] = ''; order.push(cur); } }
+      out[cur] += line + '\n';
+    });
+    return { by: out, order: order };
+  }
+
+  /* Assemble the spine plus whatever the desk asked for, in the file's own
+     order. UNKNOWN NAMES ARE DROPPED WITHOUT COMMENT — the router is a model
+     and will invent a heading sooner or later, and a heading that does not
+     exist must not become a missing section the hall apologises for. */
+  function laneText(md, want) {
+    if (!md) { return null; }
+    var sp = laneSplit(md), keep = {};
+    SPINE.forEach(function (k) { keep[k] = true; });
+    (want || []).forEach(function (k) { if (k in sp.by) { keep[k] = true; } });
+    return sp.order.filter(function (k) { return keep[k]; })
+      .map(function (k) { return sp.by[k]; }).join('\n').replace(/\n{3,}/g, '\n\n');
+  }
+
   /* ── call one: which doors does this question reach? ──────────────────── */
 
   /* Answers with JSON and nothing else. It is shown the doors and the question
      and NOTHING ELSE — no HALL.md, no counts, no rules about how to write. It
      is not addressing the visitor; it is pointing. Small keeps it cheap, and
      keeps it from starting to answer. */
-  function pickRooms(question, doors) {
+  function pickRooms(question, doors, out) {
     var p = [];
+    /* the lanes ride back on the caller's object rather than changing what
+       this function resolves with — every reader of pickRooms() expects an
+       array of rooms and none of them should have to learn a new shape */
+    var lanes = [];
+    var give = function () { if (out) { out.lanes = lanes; } };
     p.push('You are routing a question inside the library of Amenti. You do NOT answer it.');
     p.push('');
     p.push('=== EVERY DOOR THAT EXISTS ===');
@@ -694,9 +764,19 @@
        OF THING and the instruction has to say so. */
     p.push('THE DOORS ARE TWO KINDS. The ROOMS hold what a historical figure wrote. The SECTIONS hold the ship\u2019s own files — what Amenti is, how it is built, what surfaces and instruments and registers it has. A QUESTION ABOUT AMENTI ITSELF — its features, its pages, its architecture, whether it HAS some thing — REACHES A SECTION, NOT A FIGURE\u2019S ROOM. Asking whether the site has a timeline is a question about the ship; asking who wrote about betrayal is a question about the library. Name the section by its full name exactly as written above.');
     p.push('Returning an empty list is honest ONLY when no room could plausibly bear on the question at all. Prefer naming a room you are unsure of over naming none: the next step opens it and reads it, and a wrong room costs a passage, while no room costs the visitor their answer.');
+    /* ── AND WHICH PARTS OF THE HALL'S OWN MEANING · 10 Sep ────────────────
+       The same call, a few hundred characters more, and HALL.md stops going in
+       whole. It is asked LAST and framed as a separate question so it cannot
+       bleed into the room picking, which is the job this call was built for
+       and the job it must not get worse at. */
+    p.push('');
+    p.push('=== AND WHICH PARTS OF THE HALL\u2019S OWN DESCRIPTION ARE NEEDED ===');
+    p.push('Separately from the rooms: the hall has an authored description of itself in named parts. Some parts always go. These are the OPTIONAL ones:');
+    Object.keys(LANES).forEach(function (k) { p.push('\u00b7 ' + k + ' \u2014 ' + LANES[k]); });
+    p.push('Name the ones a good answer to THIS question would need, and no others. Most questions need NONE of them: a question about what a figure wrote needs no part of the hall\u2019s self-description at all. Name a part only when the question is ABOUT that thing.');
     p.push('');
     p.push('Reply with JSON and nothing else. No prose, no markdown fence:');
-    p.push('{"rooms":[{"key":"<room key exactly as written>","sections":["<section title>"]}]}');
+    p.push('{"rooms":[{"key":"<room key exactly as written>","sections":["<section title>"]}],"hall":["<part name exactly as written>"]}');
 
     return window.claude.complete({
       system: p.join('\n'),
@@ -705,7 +785,7 @@
       /* The model writes a fence whether or not it is asked not to. */
       var t = String(raw).replace(/```json|```/g, '').trim();
       var a = t.indexOf('{'), b = t.lastIndexOf('}');
-      if (a === -1 || b === -1) return [];
+      if (a === -1 || b === -1) { give(); return []; }
       try {
         var got = JSON.parse(t.slice(a, b + 1));
         /* FOUND BY ATTACK, 31 Aug. `{"rooms":"brutus"}` is valid JSON of the
@@ -714,7 +794,12 @@
            hall could not answer. The router is a model; it will produce that
            shape sooner or later. Everything below now checks the type it got
            rather than the type it expected. */
-        if (!got || !Array.isArray(got.rooms)) return [];
+        if (!got || !Array.isArray(got.rooms)) { got = got || {}; got.rooms = []; }
+        /* SAME COERCION AS `sections`, FOR THE SAME REASON. A bare string here
+           would indexOf() as a substring and a lane could match by accident;
+           a missing key is the common case and means the spine alone. */
+        lanes = Array.isArray(got.hall) ? got.hall
+              : (typeof got.hall === 'string' ? [got.hall] : []);
         return got.rooms.filter(function (r) {
           return r && typeof r.key === 'string';
         }).map(function (r) {
@@ -724,8 +809,9 @@
           return { key: r.key, sections: Array.isArray(r.sections) ? r.sections
                                        : (typeof r.sections === 'string' ? [r.sections] : []) };
         }).slice(0, MAX_ROOMS);
-      } catch (e) { return []; }
-    }, function () { return []; });
+      } catch (e) { give(); return []; }
+      finally { give(); }
+    }, function () { give(); return []; });
   }
 
   /* ── opening them ─────────────────────────────────────────────────────────
@@ -1044,7 +1130,9 @@
       var nDocs  = items.filter(function (i) { return !i.unreachable; }).length;
 
       /* CALL ONE — which doors does this question reach? */
-      return pickRooms(question, cat).then(function (picks) {
+      /* the desk's second answer rides back here */
+      var desk = {};
+      return pickRooms(question, cat, desk).then(function (picks) {
       /* A pick is either a LIBRARY ROOM (fetch it) or a SHIP SECTION (already
          in hand). Until 31 Aug a section pick was dropped in silence — the
          router named `the surfaces`, openRooms found no such library room, and
@@ -1108,7 +1196,20 @@
         /* The doors go in only when NOTHING was found — no room and no section.
            A section pick is a found thing, so the door list comes out and its
            5,812 chars pay for the register entries instead. */
-        var system = buildAnswer(hall, state, opened, coverage, degraded,
+        /* ── THE MEANING, SCOPED TO THE QUESTION · 10 Sep ──────────────────
+           HALL.md went in whole for its whole life and on 9 September it was
+           8,453 of a 20,286-character prompt against a wall of 20,000 — 42% of
+           the room spent saying what Amenti is, in a question about Polynesian
+           navigation, and the proxy refused the lot.
+
+           The spine still always goes. What is dropped is a lane the question
+           does not reach: the emerald economy in a question about Thucydides,
+           the map room in a question about the ledger. IF THE DESK NAMES
+           NOTHING, THE SPINE ANSWERS — which is what the hall did before any
+           lane existed, and is a smaller prompt rather than a broken one. */
+        var meaning = laneText(hall, desk.lanes);
+
+        var system = buildAnswer(meaning, state, opened, coverage, degraded,
                                  (opened.length || ship) ? null : doorsText(items, lib, true), ship);
 
         return window.claude.complete({
