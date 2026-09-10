@@ -190,8 +190,14 @@
      ANIMATE — a cluster that tightens entering a strait is drawing a manoeuvre
      nobody recorded, which is the same rule amenti-attica-cues.js keeps for
      its own spreads and says why. */
-  var TOKEN = { fleet: 14, army: 9, flight: 12 };
-  var SPREAD = { fleet: 7, army: 4, flight: 8 };
+  var TOKEN  = { fleet: 400, army: 120, flight: 300 };
+  var SPREAD = { fleet: 5.5, army: 3, flight: 6 };
+  /* how much of the lane the force is strung out along. A FLEET IN OPEN WATER
+     IS A COLUMN, NOT A KNOT — the front is arriving while the rear is still
+     leaving, which is the thing a single travelling dot cannot show. */
+  var TRAIL  = { fleet: 0.42, army: 0.3, flight: 0.36 };
+  var DOT    = { fleet: 0.85, army: 0.7, flight: 0.85 };
+  var HUE    = { fleet: '#c9503f', army: '#c9d6a8', flight: '#e0913f' };
   var LEG_MS = 2600;          /* the same for every leg: see travel() */
 
   var COLOUR = {
@@ -229,15 +235,44 @@
     });
   }
 
-  /* a stable scatter per mark, so a cluster does not shimmer as it moves */
-  function scatter(n, r, seed) {
+  /* ── A FIELD, NOT A CLUSTER · 10 Sep 2026 ────────────────────────────────
+     Fourteen marks read as one blob and moved as one thing. FOUR HUNDRED READ
+     AS A FLEET.
+
+     THE NUMBER IS STILL NOT A COUNT. Herodotus gives six hundred triremes at
+     6.95 sailing from Ionia, before Delos and the islands and Eretria, and
+     nothing says how many were at Marathon. Four hundred is chosen to look
+     like what it was — water crowded with ships — and the caption carries the
+     number the passage actually gives, where it can be qualified.
+
+     Each mark holds a LAG along the lane and a small offset across it. The lag
+     strings the force out so the van is arriving while the rear has not left;
+     the offset is lateral only, so the field follows the lane rather than
+     smearing around it. Both are fixed per mark: nothing shimmers, and NOTHING
+     ABOUT THE SHAPE CHANGES WHILE IT MOVES, which would be drawing a
+     manoeuvre. */
+  function field(n, spread, trail, seed) {
     var out = [];
     for (var i = 0; i < n; i++) {
-      var a = ((i * 2.399963 + seed) % (Math.PI * 2));
-      var d = r * Math.sqrt(((i * 0.618034 + seed * 0.31) % 1));
-      out.push([Math.cos(a) * d, Math.sin(a) * d]);
+      var u = (i + 0.5) / n;
+      /* a low-discrepancy sequence, so the field is even without being a grid */
+      var j = ((i * 0.7548776662 + seed * 0.113) % 1);
+      var k = ((i * 0.5698402909 + seed * 0.317) % 1);
+      out.push({
+        lag: trail * (0.15 + 0.85 * u),
+        across: (j - 0.5) * 2 * spread,
+        along: (k - 0.5) * spread * 0.9
+      });
     }
     return out;
+  }
+
+  /* the unit vectors of the lane at a given point, so `across` means across */
+  function frame(pts, t) {
+    var e = Math.min(0.999, Math.max(0.001, t));
+    var p = along(pts, e), q = along(pts, Math.min(1, e + 0.01));
+    var dx = q[0] - p[0], dy = q[1] - p[1], L = Math.hypot(dx, dy) || 1;
+    return { p: p, tx: dx / L, ty: dy / L, nx: -dy / L, ny: dx / L };
   }
 
   function draw() {
@@ -291,19 +326,20 @@
       var host = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       host.setAttribute('class', 'ac-force');
       var iv = 1 / zoom();
-      var off = scatter(TOKEN[kind] || 10, (SPREAD[kind] || 6) * iv, g.ch % 97);
-      off.forEach(function (o) {
+      var pts = points(a.x, a.y, b.x, b.y);
+      var off = field(TOKEN[kind] || 200, (SPREAD[kind] || 5) * iv,
+                      TRAIL[kind] || 0.35, g.ch % 97);
+      var frag = document.createDocumentFragment();
+      off.forEach(function () {
         var m = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        m.setAttribute('r', ((kind === 'army' ? 1.1 : 1.35) * iv).toFixed(2));
-        m.setAttribute('fill', col);
-        m.setAttribute('opacity', '.9');
-        m.setAttribute('cx', (a.x + o[0]).toFixed(1));
-        m.setAttribute('cy', (a.y + o[1]).toFixed(1));
-        host.appendChild(m);
+        m.setAttribute('r', ((DOT[kind] || 0.85) * iv).toFixed(3));
+        m.setAttribute('fill', HUE[kind] || col);
+        m.setAttribute('opacity', '.85');
+        frag.appendChild(m);
       });
+      host.appendChild(frag);
       svg.appendChild(host);
-      moving.push({ g: host, off: off, pts: points(a.x, a.y, b.x, b.y),
-                    outcome: r.outcome });
+      moving.push({ g: host, off: off, pts: pts, outcome: r.outcome, iv: iv });
     });
     caption(g);
     travel();
@@ -331,16 +367,23 @@
     t0 = 0;
     var tick = function (now) {
       if (!t0) { t0 = now; }
-      var t = Math.min(1, (now - t0) / LEG_MS);
+      /* the trail means the rear is still moving after the van has arrived, so
+         the leg runs longer than the head's own crossing */
+      var t = Math.min(1, (now - t0) / (LEG_MS * 1.5));
       /* eased at both ends: a force does not start and stop instantly, and
          easing asserts nothing about the water in between */
       var e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
       moving.forEach(function (m) {
-        var p = along(m.pts, e);
         var kids = m.g.childNodes;
         for (var i = 0; i < kids.length; i++) {
-          kids[i].setAttribute('cx', (p[0] + m.off[i][0]).toFixed(1));
-          kids[i].setAttribute('cy', (p[1] + m.off[i][1]).toFixed(1));
+          var o = m.off[i];
+          /* the van leads by its lag; the rear has not left until the head is
+             well down the lane */
+          var f = frame(m.pts, e * (1 + o.lag) - o.lag);
+          kids[i].setAttribute('cx',
+            (f.p[0] + f.nx * o.across + f.tx * o.along).toFixed(2));
+          kids[i].setAttribute('cy',
+            (f.p[1] + f.ny * o.across + f.ty * o.along).toFixed(2));
         }
         if (t >= 1 && m.outcome === 'withdrew') {
           m.g.setAttribute('opacity', '0');
