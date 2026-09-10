@@ -778,8 +778,31 @@
     p.push('Reply with JSON and nothing else. No prose, no markdown fence:');
     p.push('{"rooms":[{"key":"<room key exactly as written>","sections":["<section title>"]}],"hall":["<part name exactly as written>"]}');
 
+    /* ── THE ROUTER RUNS ON THE CHEAP MODEL · 10 Sep ────────────────────────
+       EVERY QUESTION MAKES TWO CALLS AND THEY DO DIFFERENT WORK. This one is
+       shown a list of doors and asked which bear on the question. It answers
+       in JSON, writes no prose, and makes no judgement about history — it
+       matches a question to a list, which is the cheapest thing a model does.
+
+       The ANSWER call reads the passages, decides what to quote, and decides
+       when to say nothing aboard covers the question. THAT one keeps Sonnet.
+
+       Measured 9 September: the router call is 8,076 characters of a 28,000
+       character pair. Moving it alone is about a third off every ask, WITH THE
+       PROSE MODEL UNTOUCHED.
+
+       THE RISK IS REAL AND BOUNDED. A worse router opens the wrong room and
+       the answer is then built on the wrong passage — a quality failure, not a
+       cost one, and probes/hall-bench.js shows it on the first run: question
+       four either opens the Plague chapter or it does not.
+
+       IF THE ROUTER GETS WORSE, PUT IT BACK. One string. */
+    var routeWith = (window.AmentiModel && window.AmentiModel.ROUTER) ||
+                    'claude-haiku-4-5-20251001';
+
     return window.claude.complete({
       system: p.join('\n'),
+      model: routeWith,
       messages: [{ role: 'user', content: String(question) }]
     }).then(function (raw) {
       /* The model writes a fence whether or not it is asked not to. */
