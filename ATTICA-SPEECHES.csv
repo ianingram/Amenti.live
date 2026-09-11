@@ -1,0 +1,27 @@
+chapter,speaker,who,to,lat,lon,setting,words
+# ATTICA-SPEECHES.csv  ->  Amenti.live/ATTICA-SPEECHES.csv
+#
+# HEADER ON LINE 1, COMMENTS AFTER.
+#
+# WHAT WAS SAID, WHERE IT WAS SAID, AND BY WHOM. `words` is the passage's own
+# wording, copied - not paraphrased, not tightened, not modernised. Macaulay's
+# Herodotus, Gutenberg #2456, the same text herodotus/05-marathon.md holds.
+#
+# THERE IS NO SPEECH AT THE LAUNCHING AND NONE HAS BEEN INVENTED. 6.94 to 6.96
+# is Darius appointing, the muster on the Aleian plain, the sailing, and Naxos
+# burning, and nobody in it says anything. THE FIRST SPOKEN WORDS IN THE WHOLE
+# CAMPAIGN ARE DATIS'S HERALD AT DELOS, one chapter after the fleet leaves.
+#
+# That absence is worth more than a speech would be. A surface that wanted a
+# rousing send-off could have one in a minute and it would be the first thing
+# on this ship to assert something no passage carries.
+#
+# `lat`,`lon` place the speaker so a surface can mark them. MILTIADES IS PLACED
+# AT THE HERAKLEION, where 6.108 says the Athenians were drawn up - the chapter
+# does not say where he stood when he said it, and that is a derived position
+# in the same way the battle legs in ATTICA-MOVES.csv are derived.
+6.97,Datis,the Persian commander,the Delians,37.393,25.268,A herald sent across the channel to an island he had come to conquer.,"Holy men, why are ye fled away and departed, having judged of me that which is not convenient? for even I of myself have wisdom at least so far, and moreover it has been thus commanded me by the king, not to harm at all that land in which the two divinities were born, neither the land itself nor the inhabitants of it. Now therefore return to your own possessions and dwell in your island."
+6.106,Pheidippides,the long-course runner,the magistrates of Sparta,37.075,22.425,"He was in Sparta the day after he left Athens. Pan met him on the way, and the Spartans would not march before the moon was full.","Lacedemonians, the Athenians make request of you to come to their help and not to allow a city most anciently established among the Hellenes to fall into slavery by the means of Barbarians; for even now Eretria has been enslaved, and Hellas has become the weaker by a city of renown."
+6.107,Hippias,tyrant of Athens fifty years earlier,those who were by him,38.147,23.970,"He coughed, a tooth fell in the sand, and he could not find it.","This land is not ours, nor shall we be able to make it subject to us; but so much part in it as belonged to me the tooth possesses."
+6.108,the Lacedemonians,,the Plataians,38.220,23.271,"The refusal that sent Plataia to Athens, and put the Plataians on the left wing at Marathon.","We dwell too far off, and such support as ours would be to you but cold comfort; for ye might many times be reduced to slavery before any of us had information of it: but we counsel you rather to give yourselves to the Athenians, who are both neighbours and also not bad helpers."
+6.109,Miltiades,one of the ten generals,Callimachos the polemarch,38.121,23.976,"The generals were five and five. The polemarch had the casting vote, and this is what was said to him.","With thee now it rests, Callimachos, either to bring Athens under slavery, or by making her free to leave behind thee for all the time that men shall live a memorial such as not even Harmodios and Aristogeiton have left. For now the Athenians have come to a danger the greatest to which they have ever come since they were a people; and on the one hand, if they submit to the Medes, it is determined what they shall suffer, being delivered over to Hippias, while on the other hand, if this city shall gain the victory, it may become the first of the cities of Hellas. How this may happen and how it comes to thee of all men 99 to have the decision of these matters, I am now about to tell. Of us the generals, who are ten in number, the opinions are divided, the one party urging that we fight a battle and the others that we do not fight. Now if we do not, I expect that some great spirit of discord will fall upon the minds of the Athenians and so shake them that they shall go over to the Medes; but if we fight a battle before any unsoundness appear in any part of the Athenian people, then we are able to gain the victory in the fight, if the gods grant equal conditions. These things then all belong to thee and depend on thee; for if thou attach thyself to my opinions, thou hast both a fatherland which is free and a native city which shall be the first among the cities of Hellas; but if thou choose the opinion of those who are earnest against fighting, thou shalt have the opposite of those good things of which I told thee."
