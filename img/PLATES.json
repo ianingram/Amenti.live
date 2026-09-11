@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-09-11T02:36:35.951Z",
+  "generated": "2026-09-11T03:06:41.467Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -91,7 +91,9 @@
     ],
     "unaccepted": [],
     "scenesWithoutFigure": [],
-    "scenesMalformed": [],
+    "scenesMalformed": [
+      "0_1.png"
+    ],
     "notPlates": [
       "0_2-22.png",
       "book-vol1-cover.jpg",
