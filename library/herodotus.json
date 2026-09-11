@@ -5,8 +5,89 @@
  "mentions": "mentions/herodotus-mentions.json",
  "works": [
   {
+   "id": "book-1",
+   "section": "The nine books, entire",
+   "title": "Book I — Croesus, and the rise of Cyrus",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "note": "§1–216 · 209 chapters\n\nThe proem, and then **Gyges and Candaules** — a king who made a man look at his wife naked and lost the kingdom for it. **Croesus** and **Solon** on who is happy; the oracle that destroyed a great empire, his own; the pyre. Then **Cyrus**: the exposed infant, the rise of Persia, Babylon taken by turning a river aside, and the end at the hands of **Tomyris**, who put his head in a skin of blood so he could take his fill of it.\n\nIt is where the method is set out: *of the little and the great cities alike I shall go forward, for those which were great once are now small.*",
+   "file": "herodotus/book-1.md"
+  },
+  {
+   "id": "book-2",
+   "section": "The nine books, entire",
+   "title": "Book II — Egypt",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "note": "§1–182 · 173 chapters\n\nThe longest digression in ancient literature and the one that earned him the name father of history and father of lies in the same breath.\n\n**The Nile** and why it floods in summer, with three explanations rejected and his own offered. The **customs reversed** — women trade, men weave, dough kneaded with the feet. The three grades of **embalming**, described in full. The **phoenix**, which he says he has not seen. **Cheops** and a hundred thousand men in three-month shifts. The labyrinth, which he says is beyond the pyramids.\n\nHe went, and says where he went and who told him what.",
+   "file": "herodotus/book-2.md"
+  },
+  {
+   "id": "book-3",
+   "section": "The nine books, entire",
+   "title": "Book III — Cambyses, the seven, and Dareios",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "note": "§1–160 · 155 chapters\n\n**Cambyses** in Egypt, and his madness — the Apis bull, his brother, his sister-wife. **Polycrates** of Samos, whose luck was so unbroken that a friend told him to throw away what he loved most: the ring came back in a fish.\n\nThen the Magian usurpation, the seven conspirators, and **the earliest recorded debate on the forms of government** — Otanes for the many, Megabyzos for the few, Dareios for one man. Herodotus says twice that the speeches were really made, whatever the Greeks think. Dareios wins, and the book ends with the satrapies and their tribute, listed.",
+   "file": "herodotus/book-3.md"
+  },
+  {
+   "id": "book-4",
+   "section": "The nine books, entire",
+   "title": "Book IV — Scythia and Libya",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "note": "§1–205 · 199 chapters\n\nDareios invades **Scythia** and cannot find an enemy: a people with no cities and no cultivated land, who retreat and burn the grass, and send him a bird, a mouse, a frog and five arrows instead of an answer.\n\nThe customs are the centre of it — the burial of a king, the ring of fifty dead horsemen a year later, the hemp thrown on hot stones. The **Amazons**, and the Sauromatians descended from them. Then **Libya**: the founding of **Kyrene**, the nations along the coast, and the Phoenicians who sailed round Africa and reported the sun on their right hand — which Herodotus does not believe and records anyway.",
+   "file": "herodotus/book-4.md"
+  },
+  {
+   "id": "book-5",
+   "section": "The nine books, entire",
+   "title": "Book V — the Ionian revolt",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "§1–126 · 125 chapters\n\nHow the war started. **Aristagoras** of Miletos, refused by Sparta — he brought a **tablet of bronze with the whole circuit of the earth engraved on it** and lost everything by admitting the king was three months inland — goes to Athens and is given twenty ships.\n\nThey take **Sardis**, and it burns by accident from a reed roof, the temple of the native goddess with it. The Athenians go home and will not come back. And Dareios asks who the Athenians are, shoots an arrow into the sky, and tells a servant to say to him three times at every dinner: *Master, remember the Athenians.*",
+   "file": "herodotus/book-5.md"
+  },
+  {
+   "id": "book-6",
+   "section": "The nine books, entire",
+   "title": "Book VI — Marathon",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "§1–140 · 136 chapters\n\nThe revolt is crushed at Lade and Miletos falls. **Mardonios** comes down to the sea and loses three hundred ships to the north wind at **Athos**. Two years later **Datis** and **Artaphrenes** come by the islands instead, with six hundred triremes and purpose-built horse transports ordered a year in advance.\n\nNaxos burns, Eretria is betrayed from inside on the seventh day, and they land at **Marathon** because **Hippias** says it is the most convenient place in Attica for horsemen. The generals are split five and five; **Miltiades** talks Callimachos into the battle; they run eight furlongs. 6,400 Barbarians and 192 Athenians.\n\nAnd **the shield** — a signal flashed from a mountain, which Herodotus reports and will not say who raised.",
+   "file": "herodotus/book-6.md"
+  },
+  {
+   "id": "book-7",
+   "section": "The nine books, entire",
+   "title": "Book VII — Xerxes comes",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "§1–239 · 231 chapters\n\nThe council where **Artabanos** argues against the war and is called a woman for it; the dream that changes both their minds. The canal cut through Athos so the fleet need never round it again.\n\nThe **Hellespont** bridged, broken by a storm, and given three hundred strokes of the lash with fetters let down into the sea. The crossing, seven days and seven nights under the whip. The review at Abydos, where Xerxes is called happy and weeps — *of all these men, in a hundred years not one will be alive.* **Pythios**, whose eldest son is cut in two and the army marched out between the halves.\n\nThen the catalogue of the army, nation by nation, and **Thermopylai**.",
+   "file": "herodotus/book-7.md"
+  },
+  {
+   "id": "book-8",
+   "section": "The nine books, entire",
+   "title": "Book VIII — Artemision and Salamis",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "§1–144 · 137 chapters\n\nThe fleet actions at **Artemision**, and then the Acropolis taken and burned. **Themistocles** keeps the Greeks in the straits by sending a slave to tell Xerxes they are about to escape.\n\n**Salamis**, watched by the king from a throne on the shore. **Artemisia** of Halikarnassos, who rams a ship on her own side to escape and is praised for it — *my men have become women and my women men.* The retreat, the bridge, and the Persians left behind under Mardonios.",
+   "file": "herodotus/book-8.md"
+  },
+  {
+   "id": "book-9",
+   "section": "The nine books, entire",
+   "title": "Book IX — Plataia, Mycale, and the end",
+   "mode": "stored",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "note": "§1–122 · 119 chapters\n\n**Mardonios** burns Athens a second time and withdraws into Boeotia. The armies face each other for eleven days while the sacrifices refuse; the cavalry commander **Masistios** is killed and the Greeks fight over his body.\n\nThe night march that goes wrong, and then **Plataia** — the Persians break their own wicker shields and Mardonios is killed. The same day, or so it was said, **Mycale**. Then **Sestos**, and the book ends on **Cyrus**: better to live in a rugged land and rule than to sow level plains and be slaves to others.",
+   "file": "herodotus/book-9.md"
+  },
+  {
    "id": "01-the-proem",
-   "section": "The method",
+   "section": "Passages · named doors into the books",
    "title": "The Proem — Book I",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
@@ -15,7 +96,7 @@
   },
   {
    "id": "02-solon-and-croesus",
-   "section": "The method",
+   "section": "Passages · named doors into the books",
    "title": "Solon and Croesus — Book I §28–33",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
@@ -24,7 +105,7 @@
   },
   {
    "id": "03-thermopylai",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Thermopylai — Book VII §201–233",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -33,7 +114,7 @@
   },
   {
    "id": "04-salamis",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Salamis — Book VIII",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -42,7 +123,7 @@
   },
   {
    "id": "05-marathon",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Marathon — Book VI §94–120",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -51,7 +132,7 @@
   },
   {
    "id": "06-athos",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "The wreck at Athos — Book VI §43–45",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -60,7 +141,7 @@
   },
   {
    "id": "07-plataia-gathering",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Before Plataia — Book IX §1–27",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -69,7 +150,7 @@
   },
   {
    "id": "08-plataia-waiting",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Plataia — the ten days · Book IX §28–58",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -78,7 +159,7 @@
   },
   {
    "id": "09-plataia-battle",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Plataia — the battle · Book IX §59–89",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -87,7 +168,7 @@
   },
   {
    "id": "10-mykale",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Mykale — Book IX §90–105",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -96,7 +177,7 @@
   },
   {
    "id": "11-sestos",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Sestos, and the end · Book IX §106–122",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
@@ -105,12 +186,66 @@
   },
   {
    "id": "12-sardis",
-   "section": "The war",
+   "section": "Passages · named doors into the books",
    "title": "Sardis, and the arrow — Book V §97–105",
    "mode": "stored",
    "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
    "note": "WHY THERE WAS A PERSIAN FLEET IN ATTICA AT ALL. Everything else on this shelf about the war begins after the grievance; this is the grievance.\n\n**Aristagoras**, turned away at Sparta, comes to Athens and carries the assembly — Herodotus remarks drily that it seems easier to impose upon thirty thousand than upon one man. Twenty Athenian ships go, with five Eretrian, and the Ionians take **Sardis** without resistance.\n\nAND THEN IT BURNS BY ACCIDENT. The houses were built of reeds, and the brick ones thatched with reeds; one soldier fires one house and the city goes. The temple of the native goddess **Hybebe** goes with it — WHICH THE PERSIANS LATER GAVE AS THEIR REASON FOR BURNING TEMPLES IN GREECE, and which is the sentence standing behind Eretria at 6.101.\n\nThe Athenians go home and refuse to come back. And at 5.105 the report reaches **Darius**, who asks who the Athenians are, and having been told, ASKS FOR HIS BOW: he shoots an arrow into the sky and says `Zeus, that it may be granted me to take vengeance upon the Athenians` — then orders a servant to say to him three times at every dinner, `Master, remember the Athenians`.\n\nTHOSE ARE THE FIRST WORDS IN THE STORY. Book VI has no speech at the launching and none before the fleet sails; the campaign's one recorded utterance from the Persian side is here, at a table, six years earlier.",
    "file": "herodotus/12-sardis.md"
+  },
+  {
+   "id": "13-egypt-reversed",
+   "section": "Passages · named doors into the books",
+   "title": "Egypt, where everything is reversed — Book II §35–37",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "file": "herodotus/13-egypt-reversed.md",
+   "note": "THE FAMOUS CATALOGUE OF INVERSIONS, and the clearest short statement of what Herodotus is doing. He says plainly that the Egyptians have reversed the ordinary practice of mankind, and then lists it: **women go to market and trade while men stay at home and weave**; men carry burdens on their heads and women on their shoulders; weavers push the woof downwards where everyone else pushes it up; dough is kneaded with the feet and clay with the hands.\n\nIt is an ethnography written by somebody who has noticed that HIS OWN CUSTOMS ARE ALSO CUSTOMS. The whole method of the History is in these three chapters.",
+   "mode": "stored"
+  },
+  {
+   "id": "14-the-pyramids",
+   "section": "Passages · named doors into the books",
+   "title": "Cheops and the Great Pyramid — Book II §124–135",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "file": "herodotus/14-the-pyramids.md",
+   "note": "**A HUNDRED THOUSAND MEN AT A TIME, IN SHIFTS OF THREE MONTHS.** Ten years went on the causeway alone — the road by which the stones were dragged — and Herodotus says the causeway is a work hardly less than the pyramid itself.\n\nHe reports what he was told, including that **Cheops** put his own daughter to work in a brothel to raise money, and that she asked each visitor for one stone and built a pyramid of her own with them. He does not vouch for it. He also gives the inscription on the face recording what was spent on radishes, onions and leeks for the workmen — and says an interpreter read it to him.\n\nIT IS THE OLDEST SURVIVING DESCRIPTION OF THE PYRAMIDS BY SOMEBODY WHO WENT.",
+   "mode": "stored"
+  },
+  {
+   "id": "15-the-debate",
+   "section": "Passages · named doors into the books",
+   "title": "What kind of government — Book III §80–84",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "file": "herodotus/15-the-debate.md",
+   "note": "**THE EARLIEST RECORDED DEBATE ON THE FORMS OF GOVERNMENT**, and Herodotus knows it will not be believed: he says twice that these speeches were really made, whatever the Greeks may think.\n\nSeven Persians have killed the Magian and must decide what to do next. **Otanes** argues for rule by the many and names it — equality before the law, offices by lot, every officer accountable. **Megabyzos** argues for the few, on the ground that a crowd is as ignorant as a tyrant is violent. **Dareios** argues for one man, and wins.\n\nWritten about 430 BC and set about 522, it is a Greek political argument put into Persian mouths — which is itself the point, and the reason it is read.",
+   "mode": "stored"
+  },
+  {
+   "id": "16-scythia",
+   "section": "Passages · named doors into the books",
+   "title": "The customs of the Scythians — Book IV §59–82",
+   "source": "Herodotus, *The History*, Volume 1 (Books I–IV) · trans. G. C. Macaulay · Project Gutenberg #2707 · public domain",
+   "file": "herodotus/16-scythia.md",
+   "note": "A people with **no cities and no cultivated land**, who carry their houses with them and shoot from horseback — described by somebody trying to say what that means rather than that it is barbarous.\n\nThe burial of a king is the centre of it: the body carried through every subject people, each of whom cuts a piece from their ear and gashes their arms; then the tomb, and with him a wife, a cup-bearer, a cook, a groom, and horses. **A YEAR LATER, FIFTY MEN AND FIFTY HORSES ARE KILLED, MOUNTED AND SET IN A RING AROUND IT.**\n\nAnd the hemp: thrown on hot stones inside a tent of felt, and the Scythians howl with pleasure at the vapour. It is the first description of the practice in any literature.\n\nTHE ORIGIN MYTH IS NOT IN THIS CUT — Targitaos and the golden implements are at 4.5–10 and would be a second passage.",
+   "mode": "stored"
+  },
+  {
+   "id": "17-the-bronze-map",
+   "section": "Passages · named doors into the books",
+   "title": "Aristagoras at Sparta, with a map — Book V §49–54",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "file": "herodotus/17-the-bronze-map.md",
+   "note": "**HE BROUGHT A TABLET OF BRONZE WITH THE WHOLE CIRCUIT OF THE EARTH ENGRAVED ON IT**, and every sea and every river — the first map in European literature used to argue a case.\n\n**Aristagoras** shows **Cleomenes** the nations between Ionia and Susa and asks for Sparta. Cleomenes asks one question: how far is it from the sea to the king? Three months' journey, says Aristagoras, and loses everything by answering honestly. He is told to leave Sparta before sunset.\n\nThen the bribe, rising from ten talents to fifty — and the king's daughter **Gorgo**, aged eight or nine, standing beside him: *Father, the stranger will corrupt thee unless thou go away.* He goes.\n\nTHIS IS THE REFUSAL THAT SENT ARISTAGORAS TO ATHENS, and Athens said yes. Herodotus’s comment on the assembly there is that it seems easier to impose upon thirty thousand than upon one man. The rest is 12-sardis.md.",
+   "mode": "stored"
+  },
+  {
+   "id": "18-the-hellespont",
+   "section": "Passages · named doors into the books",
+   "title": "Whipping the sea — Book VII §33–56",
+   "source": "Herodotus, *The History*, Volume 2 (Books V–IX) · trans. G. C. Macaulay · Project Gutenberg #2456 · public domain",
+   "file": "herodotus/18-the-hellespont.md",
+   "note": "The bridges are built and **a storm breaks them up**. Xerxes orders the Hellespont given **three hundred strokes of the lash**, a pair of fetters let down into the sea, and — Herodotus has heard, and does not endorse — the water branded. The men who built the bridges are beheaded.\n\nThen they are built again, and the crossing takes **seven days and seven nights**, under the lash.\n\nAnd at Abydos he reviews the whole force and is called happy, and then weeps: **of all these men, in a hundred years not one will be alive.** His uncle Artabanos answers that there is something sadder still — life is short and there is no man who will not wish himself dead more than once in it.\n\n**Pythios** the Lydian offers his whole fortune to the war and asks one thing: that the eldest of his five sons be released from the army. Xerxes has the young man cut in two and the army march out between the halves.",
+   "mode": "stored"
   }
  ]
 }
