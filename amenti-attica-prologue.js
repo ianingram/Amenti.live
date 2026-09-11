@@ -291,17 +291,26 @@
     box.classList.remove('on');
     box.style.backgroundImage = '';
     if (!tag || tried[tag] === false) { return; }
-    var url = SCENE + tag + '.jpg';
-    var img = new Image();
-    img.onload = function () {
-      tried[tag] = true;
-      if (slides[at] && slides[at].scene === tag) {
-        box.style.backgroundImage = 'url("' + url + '")';
-        box.classList.add('on');
-      }
-    };
-    img.onerror = function () { tried[tag] = false; };
-    img.src = url;
+    /* ── THE REPOSITORY FIRST, THE WORKER SECOND · 10 Sep 2026 ────────────
+       A scene may live in either place. img/scene/<tag>.jpg is under version
+       control and can be diffed; the Worker serves /scene/<tag> out of R2,
+       which is where a generated one lands. Everything else load-bearing here
+       is plain text in a repository, and a scene that can be reviewed in a
+       commit is worth more than one that cannot. */
+    var urls = [RAW + 'img/scene/' + tag + '.jpg', SCENE + tag + '.jpg'];
+    (function attempt(i) {
+      if (i >= urls.length) { tried[tag] = false; return; }
+      var img = new Image();
+      img.onload = function () {
+        tried[tag] = true;
+        if (slides[at] && slides[at].scene === tag) {
+          box.style.backgroundImage = 'url("' + urls[i] + '")';
+          box.classList.add('on');
+        }
+      };
+      img.onerror = function () { attempt(i + 1); };
+      img.src = urls[i];
+    })(0);
   }
 
   function show(n) {
