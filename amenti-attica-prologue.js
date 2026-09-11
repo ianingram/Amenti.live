@@ -149,13 +149,27 @@
          A CLICK ANYWHERE THAT IS NOT THE MAP OR THE WORDS puts the map away
          and leaves the picture; a second click brings it back. Nothing is
          lost either way, which is why it can be a click and not a control. */
-      '#amenti-prologue.ap-bare .ap-map{opacity:0;pointer-events:none}',
-      '#amenti-prologue.ap-bare .ap-sc{opacity:1}',
-      '#amenti-prologue.ap-bare .ap-veil{background:linear-gradient(180deg,',
-      '  rgba(5,8,14,.06) 0%,rgba(5,8,14,.18) 40%,rgba(5,8,14,.9) 64%,',
-      '  rgba(5,8,14,.98) 100%)}',
-      '#amenti-prologue .ap-hint{position:absolute;right:14px;top:14px;',
-      '  color:#4d5c70;font-size:9px;letter-spacing:.06em;pointer-events:none}',
+      /* ── BARE MEANS BARE · 10 Sep 2026 ──────────────────────────────────
+         The first version hid the map and left the words, the nav and the
+         veil, so the scene was still cropped and still half covered. IF THE
+         POINT IS TO LOOK AT THE PICTURE, EVERYTHING GOES.
+
+         And the image is `contain`, not `cover`. A scene cropped to fill the
+         frame loses whatever the generator put at its edges — here, the whole
+         upper hall and the arrow in it, which is the subject. */
+      '#amenti-prologue.ap-bare .ap-map,#amenti-prologue.ap-bare .ap-tx,',
+      '#amenti-prologue.ap-bare .ap-nav,#amenti-prologue.ap-bare .ap-dots,',
+      '#amenti-prologue.ap-bare .ap-big,#amenti-prologue.ap-bare .ap-veil{',
+      '  opacity:0;pointer-events:none}',
+      '#amenti-prologue.ap-bare .ap-sc{opacity:1;background-size:contain;',
+      '  background-repeat:no-repeat;background-position:center;',
+      '  background-color:#05080e}',
+      '#amenti-prologue .ap-hint{position:absolute;left:50%;bottom:16px;',
+      '  transform:translateX(-50%);color:#4d5c70;font-size:9px;',
+      '  letter-spacing:.08em;pointer-events:none;z-index:9}',
+      '#amenti-prologue .ap-tx,#amenti-prologue .ap-nav,',
+      '#amenti-prologue .ap-dots,#amenti-prologue .ap-big,',
+      '#amenti-prologue .ap-veil{transition:opacity .35s}',
       '#amenti-prologue .ap-map{position:absolute;left:50%;top:26px;',
       '  transition:opacity .45s;',
       '  transform:translateX(-50%);width:min(760px,88%);aspect-ratio:2253/1161;',
@@ -311,10 +325,16 @@
       '</div><div class="ap-dots"></div>';
     host.appendChild(el);
     el.addEventListener('click', function (e) {
+      /* while bare, ANY click brings everything back — there is nothing else
+         on the screen to click, and a reader should not have to find a target */
+      if (el.classList.contains('ap-bare')) {
+        el.classList.remove('ap-bare');
+        el.querySelector('.ap-hint').textContent = '';
+        return;
+      }
       if (e.target.closest('.ap-map,.ap-tx,.ap-nav,.ap-dots')) { return; }
-      var bare = el.classList.toggle('ap-bare');
-      el.querySelector('.ap-hint').textContent =
-        bare ? 'click to bring the map back' : '';
+      el.classList.add('ap-bare');
+      el.querySelector('.ap-hint').textContent = 'click anywhere to come back';
     });
     el.querySelectorAll('.ap-nav button').forEach(function (b) {
       b.addEventListener('click', function () {
@@ -628,7 +648,16 @@
        THAT EVERY EDGE OF THIS SURFACE IS SPOKEN FOR — the bottom by the guide
        and the meter, the top right by the rail, the left by the key. What is
        free is the margin the map does not fill. */
-    b.style.cssText = 'position:absolute;right:26px;top:116px;z-index:7;' +
+    /* ── FIFTH AND LAST · 10 Sep 2026 ─────────────────────────────────────
+       The control row is under the guide and the meter. Centred under the
+       title is on the map image. The right margin is on the place list. THE
+       STRIP ABOVE THE KEY IS THE ONE PLACE NOTHING ELSE CLAIMS — the key starts
+       at top:52 and the title is centred, so left:26 top:14 is free at every
+       zoom and every period.
+
+       It was here on the second attempt and was moved for being too quiet.
+       Filled amber answers that without moving it again. */
+    b.style.cssText = 'position:absolute;left:26px;top:14px;z-index:8;' +
       'background:#e0913f;color:#0a0e15;' +
       'border:0;border-radius:3px;padding:7px 20px;cursor:pointer;' +
       'font:400 12px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.06em;' +
