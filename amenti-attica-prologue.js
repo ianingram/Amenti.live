@@ -45,6 +45,26 @@
 
   var slides = null, err = null, el = null, at = -1, tried = {};
 
+  /* ── THE THEATRE, CUT FROM THE WORLD'S OWN GROUND · 10 Sep 2026 ──────────
+     REGION.jpg is a crop of GROUND.jpg — the same relief and bathymetry the
+     world map draws — over lon 21.0 to 37.5 and lat 33.5 to 42.0.
+
+     THE ATTICA FRAME IS A CORNER OF THIS. Athos, Thasos, Samos and Kilikia are
+     all outside the ground the campaign runs on, which is the whole reason the
+     back story is told here instead of drawn there. Seeing them on one map is
+     the point of the slide: the reader learns how far away the wreck was
+     before being told it chose the route.
+
+     AND SOME PLACES ARE OFF EVEN THIS. Susa is eleven degrees east of the
+     edge. The slide names it and does not draw it — a place named and not
+     drawn is honest; a place shoved to the border is not. */
+  var RLO0 = 21.0, RLO1 = 37.5, RLA0 = 33.5, RLA1 = 42.0;
+  function rproj(lat, lon) {
+    return { x: (lon - RLO0) / (RLO1 - RLO0) * 100,
+             y: (RLA1 - lat) / (RLA1 - RLA0) * 100,
+             inside: lon >= RLO0 && lon <= RLO1 && lat >= RLA0 && lat <= RLA1 };
+  }
+
   function split(line) {
     var c = [], cur = '', q = false;
     for (var i = 0; i < line.length; i++) {
@@ -111,8 +131,26 @@
       '#amenti-prologue .ap-veil{position:absolute;inset:0;',
       '  background:radial-gradient(ellipse at center,rgba(5,8,14,.82) 0%,',
       '  rgba(5,8,14,.94) 70%)}',
-      '#amenti-prologue .ap-tx{position:absolute;left:50%;top:50%;',
-      '  transform:translate(-50%,-50%);width:min(640px,84%)}',
+      /* the map takes the upper half and the words the lower — the geography
+         is read first and then explained, which is the order a reader wants */
+      '#amenti-prologue .ap-map{position:absolute;left:50%;top:26px;',
+      '  transform:translateX(-50%);width:min(760px,88%);aspect-ratio:2253/1161;',
+      '  border:1px solid rgba(43,58,80,.55);border-radius:3px;overflow:hidden;',
+      '  background:#070d16}',
+      '#amenti-prologue .ap-map img{position:absolute;inset:0;width:100%;',
+      '  height:100%;object-fit:cover;opacity:.72}',
+      '#amenti-prologue .ap-mk{position:absolute;transform:translate(-50%,-50%);',
+      '  pointer-events:none}',
+      '#amenti-prologue .ap-mk i{display:block;width:6px;height:6px;',
+      '  border-radius:50%;background:#e0913f;box-shadow:0 0 0 3px rgba(224,145,63,.18)}',
+      '#amenti-prologue .ap-mk s{position:absolute;left:10px;top:-6px;',
+      '  text-decoration:none;white-space:nowrap;color:#dbe8f5;font-size:9.5px}',
+      '#amenti-prologue .ap-mk s em{display:block;color:#7d8ea6;font-style:normal;',
+      '  font-size:8.5px}',
+      '#amenti-prologue .ap-off{position:absolute;right:8px;bottom:7px;',
+      '  color:#5d6e84;font-size:8.5px;text-align:right;line-height:1.5}',
+      '#amenti-prologue .ap-tx{position:absolute;left:50%;bottom:62px;',
+      '  transform:translateX(-50%);width:min(760px,88%)}',
       '#amenti-prologue .ap-hd{color:#5d6e84;letter-spacing:.1em;font-size:10px;',
       '  margin-bottom:10px}',
       '#amenti-prologue .ap-ti{color:#e0913f;font-size:19px;line-height:1.3;',
@@ -158,6 +196,7 @@
     el.id = 'amenti-prologue';
     el.innerHTML =
       '<div class="ap-sc"></div><div class="ap-veil"></div>' +
+      '<div class="ap-map"><img alt=""><div class="ap-off"></div></div>' +
       '<div class="ap-tx">' +
       '<div class="ap-hd"></div><div class="ap-ti"></div>' +
       '<div class="ap-pr"></div><div class="ap-ft"></div></div>' +
@@ -222,7 +261,76 @@
     dots.querySelectorAll('i').forEach(function (d) {
       d.addEventListener('click', function () { show(+d.getAttribute('data-i')); });
     });
+    locator(s);
     scene(s.scene);
+  }
+
+  /* ── THE LOCATOR ────────────────────────────────────────────────────────
+     Every place the slide names, marked on the theatre, with one line each
+     saying what it was. A leg, where the register gives one, draws as the same
+     break-line the campaign uses: two points and nothing asserted about the
+     water between them. */
+  function locator(s) {
+    var box = el.querySelector('.ap-map');
+    var img = box.querySelector('img');
+    if (img.getAttribute('src') !== RAW + 'REGION.jpg') {
+      img.setAttribute('src', RAW + 'REGION.jpg');
+      img.onerror = function () {
+        box.style.background = '#070d16';
+        el.querySelector('.ap-off').textContent =
+          'REGION.jpg did not load — the places are still named below';
+      };
+    }
+    box.querySelectorAll('.ap-mk,.ap-leg').forEach(function (n) { n.remove(); });
+
+    var off = [];
+    (s.places || '').split(';').forEach(function (p) {
+      if (!p.trim()) { return; }
+      var q = p.split('|');
+      var name = q[0], la = parseFloat(q[1]), lo = parseFloat(q[2]), what = q[3] || '';
+      if (isNaN(la) || isNaN(lo)) { off.push(name.trim()); return; }
+      var r = rproj(la, lo);
+      if (!r.inside) { off.push(name + ' — off this map'); return; }
+      var m = document.createElement('div');
+      m.className = 'ap-mk';
+      m.style.left = r.x.toFixed(2) + '%';
+      m.style.top = r.y.toFixed(2) + '%';
+      m.innerHTML = '<i></i><s>' + esc(name) +
+                    (what ? '<em>' + esc(what) + '</em>' : '') + '</s>';
+      box.appendChild(m);
+    });
+
+    if (s.leg) {
+      var g = s.leg.split('|').map(parseFloat);
+      if (g.length === 4 && !g.some(isNaN)) {
+        var a = rproj(g[0], g[1]), b = rproj(g[2], g[3]);
+        var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        sv.setAttribute('class', 'ap-leg');
+        sv.setAttribute('viewBox', '0 0 100 100');
+        sv.setAttribute('preserveAspectRatio', 'none');
+        sv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;' +
+                           'pointer-events:none';
+        var dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1;
+        var nx = -dy / L * 1.6, ny = dx / L * 1.6;
+        var pts = [[a.x, a.y]];
+        [[0.42, 1], [0.5, 0], [0.58, -1]].forEach(function (t) {
+          pts.push([a.x + dx * t[0] + nx * t[1], a.y + dy * t[0] + ny * t[1]]);
+        });
+        pts.push([b.x, b.y]);
+        var pl = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        pl.setAttribute('points', pts.map(function (p) {
+          return p[0].toFixed(2) + ',' + p[1].toFixed(2); }).join(' '));
+        pl.setAttribute('fill', 'none');
+        pl.setAttribute('stroke', '#c9503f');
+        pl.setAttribute('stroke-width', '.5');
+        pl.setAttribute('vector-effect', 'non-scaling-stroke');
+        pl.setAttribute('opacity', '.85');
+        sv.appendChild(pl);
+        box.appendChild(sv);
+      }
+    }
+    el.querySelector('.ap-off').innerHTML = off.length
+      ? esc(off.join(' · ')) : '';
   }
 
   /* the back story ends and the ground begins \u2014 6.96 to 6.97, which is the
