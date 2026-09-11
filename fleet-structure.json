@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-11T01:19:53.508Z",
+    "generated": "2026-09-11T01:46:08.402Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -479,8 +479,8 @@
     },
     {
       "file": "amenti-attica-prologue.js",
-      "bytes": 19026,
-      "sha256": "80a6c8667356d802",
+      "bytes": 19703,
+      "sha256": "1ee8a26af0e5f0b2",
       "type": "js",
       "declares": [
         "AmentiPrologue"
@@ -1559,7 +1559,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53482,
-      "sha256": "13244a99546f8818",
+      "sha256": "05e1b10b531c94b5",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1684,8 +1684,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 22104,
-      "sha256": "a38bd2e6653797dd",
+      "bytes": 22137,
+      "sha256": "19846fbacacc2fcf",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1719,7 +1719,7 @@
           "line": 364
         },
         {
-          "file": "amenti-alive.js",
+          "file": "amenti-alive.js?v=3a110d63",
           "line": 365
         },
         {
@@ -1739,7 +1739,7 @@
           "line": 373
         },
         {
-          "file": "amenti-attica.js?v=b2ce590e",
+          "file": "amenti-attica.js?v=43562e75",
           "line": 374
         },
         {
@@ -1747,7 +1747,7 @@
           "line": 375
         },
         {
-          "file": "amenti-attica-cues.js?v=7f2e3d3a",
+          "file": "amenti-attica-cues.js?v=e1c37d71",
           "line": 376
         },
         {
@@ -1755,11 +1755,11 @@
           "line": 377
         },
         {
-          "file": "amenti-attica-prologue.js",
+          "file": "amenti-attica-prologue.js?v=818bcf22",
           "line": 378
         },
         {
-          "file": "amenti-attica-campaign.js",
+          "file": "amenti-attica-campaign.js?v=130ee2b6",
           "line": 379
         },
         {
@@ -2333,8 +2333,8 @@
         "declares": [
           "AmentiAlive"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-art-photo.js",
@@ -2349,8 +2349,8 @@
         "declares": [
           "AmentiCampaign"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-attica-cues.js",
@@ -2381,8 +2381,8 @@
         "declares": [
           "AmentiPrologue"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-attica-tours.js",
