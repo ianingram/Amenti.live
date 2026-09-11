@@ -369,7 +369,18 @@
     var b = document.createElement('button');
     b.type = 'button';
     b.setAttribute('data-prologue', '1');
-    b.style.marginLeft = 'auto';
+    /* ── NOT THE RIGHT EDGE · 10 Sep 2026 ─────────────────────────────────
+       `margin-left:auto` pushed it to the far right of the control row, which
+       is exactly where the guide and the meter tabs sit — both fixed to the
+       bottom corners, both drawn over this surface, and the button was UNDER
+       THEM AND UNREADABLE.
+
+       A row that ends where two other instruments begin has no right edge to
+       spare. It goes after `fit`, in the gap in the middle, which is empty at
+       every period and every zoom. */
+    b.style.marginLeft = '18px';
+    b.style.color = '#e0913f';
+    b.style.borderColor = '#6a5330';
     b.textContent = '▶ the Marathon campaign';
     b.title = 'Six slides of back story, then ten legs on the ground — ' +
               'Herodotus 6.43 to 6.116';
