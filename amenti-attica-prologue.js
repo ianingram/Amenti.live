@@ -168,9 +168,44 @@
      CAPITALS ARE EMPHASIS AND NOT NAMES. They render as weight rather than as
      shouting \u2014 a paragraph of capitals is unreadable at this length \u2014 and the
      first letter is kept so the sentence still reads as a sentence. */
-  /* the theatre's own names, for the emphasis transform above */
+  /* ── THE NAMES CAME FROM A LIST AND A LIST FALLS BEHIND · 11 Sep 2026 ──
+     The emphasis transform needs to know which words are names. It was given
+     about seventy of them, typed out — which is the same shape as the selector
+     that enumerated what to delete and missed the thing added after it. Nine
+     books are aboard now and the list was already short on the day it shipped.
+
+     THE REGISTER ALREADY MARKS EVERY NAME. Every proper noun in the prose is
+     written `**Sardis**`, `**Mardonios**`, `**Brygian Thracians**`, because
+     that is how the slide links them. So the set is harvested from the marks
+     themselves, plus the place columns and REGION-PLACES — all of it already
+     in memory, none of it fetched. Write a new slide naming Leonidas and
+     Thermopylai and they are known the moment it loads.
+
+     A name nobody has marked is still unknown, and comes down like any other
+     word. That is the old behaviour, and it is now the only gap. */
   var NAMES = {};
-  'greece greeks greek athens athenians athenian attica eretria eretrian persia persians persian ionia ionians ionian media medes lydia sardis miletos ephesos ephesian samos naxos delos paros thasos macedonia macedon thrace thracians brygian athos acanthos kilikia aleian icarian tmolos kaystrios koressos marathon plataia phaleron euboia hellespont aegean asia europe darius dareios mardonios gobryas artozostra datis artaphernes hippias peisistratos aristagoras miltiades histiaios xerxes kyros zeus apollo herodotus september'.split(/\s+/).forEach(function (n) { NAMES[n] = 1; });
+  function learn(t) {
+    String(t == null ? '' : t).replace(/[A-Z\u00c0-\u00de][a-z\u00df-\u00ff\u00ef'\u2019-]+/g,
+      function (w) { NAMES[w.toLowerCase()] = 1; return w; });
+  }
+  /* ── AND A FEW THAT ARE NEVER MARKS · 11 Sep 2026 ─────────────────────
+     A harvest can only learn what something marks. `Greece`, `Asia`, `Persia`
+     and the peoples named as wholes are never pinned on the map and never
+     linked in the prose — there is nothing to pin — so they are seeded. THIS
+     IS A LIST AND IT WILL FALL BEHIND, and it is kept to the things that by
+     their nature cannot be harvested: continents, and peoples taken whole.
+     Every place and every person is learnt, not typed. */
+  'greece greeks greek asia europe persia persians persian hellas hellenes'
+    .split(' ').forEach(function (n) { NAMES[n] = 1; });
+
+  function harvest() {
+    (slides || []).forEach(function (s) {
+      (s.prose || '').replace(/\*\*([^*]+)\*\*/g, function (m, inner) { learn(inner); return m; });
+      (s.places || '').split(';').forEach(function (p) { learn(p.split('|')[0]); });
+      learn(s.title); learn(s.route_label); learn(s.route_land_label);
+    });
+    (region || []).forEach(function (r) { learn(r.name); });
+  }
 
   function render(t) {
     return esc(t)
@@ -388,7 +423,7 @@
     if (region) { return Promise.resolve(); }
     return fetch(RAW + 'REGION-PLACES.csv?_=' + Date.now())
       .then(function (r) { return r.ok ? r.text() : null; })
-      .then(function (t) { region = t ? parse(t) : []; })
+      .then(function (t) { region = t ? parse(t) : []; harvest(); })
       .catch(function () { region = []; });
   }
 
@@ -400,6 +435,7 @@
         if (!t) { err = 'ATTICA-PROLOGUE.csv could not be read'; return; }
         slides = parse(t).filter(function (r) { return r.prose; })
                          .sort(function (a, b) { return (+a.seq) - (+b.seq); });
+        harvest();
       })
       .catch(function (e) { err = e.message; });
   }
