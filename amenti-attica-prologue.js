@@ -43,7 +43,8 @@
   var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var SCENE = 'https://amenti-proxy.ingram-ian.workers.dev/scene/';
 
-  var slides = null, err = null, el = null, at = -1, tried = {};
+  var slides = null, err = null, el = null, at = -1, tried = {}, region = null;
+  var speeches = null;
 
   /* ── THE THEATRE, CUT FROM THE WORLD'S OWN GROUND · 10 Sep 2026 ──────────
      REGION.jpg is a crop of GROUND.jpg — the same relief and bathymetry the
@@ -147,8 +148,25 @@
       '  text-decoration:none;white-space:nowrap;color:#dbe8f5;font-size:9.5px}',
       '#amenti-prologue .ap-mk s em{display:block;color:#7d8ea6;font-style:normal;',
       '  font-size:8.5px}',
+      /* the room, not the argument */
+      '#amenti-prologue .ap-faint i{width:3px;height:3px;background:#4b647d;',
+      '  box-shadow:none}',
+      '#amenti-prologue .ap-faint s{color:#5d6e84;font-size:8.5px;left:7px;top:-4px}',
       '#amenti-prologue .ap-off{position:absolute;right:8px;bottom:7px;',
       '  color:#5d6e84;font-size:8.5px;text-align:right;line-height:1.5}',
+      /* ── A NAME SET LARGE · 10 Sep 2026 ─────────────────────────────────
+         Ornament, and nothing else. It carries no claim the prose does not
+         already make and a surface that drops it loses nothing.
+
+         AND IT IS NOT A SCRIPT. Achaemenid Persia wrote Old Persian cuneiform
+         and Aramaic; Arabic is a thousand years later, and setting a Persian
+         court in it would be the same class of error as drawing a fleet on a
+         mountain. Large, spaced and thin is the effect. A wrong alphabet is a
+         claim. */
+      '#amenti-prologue .ap-big{position:absolute;left:0;right:0;top:34%;',
+      '  text-align:center;pointer-events:none;color:#e0913f;opacity:.12;',
+      '  font:200 clamp(38px,7.5vw,104px)/1 ui-monospace,Menlo,monospace;',
+      '  letter-spacing:.24em;text-indent:.24em;white-space:nowrap;overflow:hidden}',
       '#amenti-prologue .ap-tx{position:absolute;left:50%;bottom:62px;',
       '  transform:translateX(-50%);width:min(760px,88%)}',
       '#amenti-prologue .ap-hd{color:#5d6e84;letter-spacing:.1em;font-size:10px;',
@@ -159,6 +177,18 @@
       '#amenti-prologue .ap-pr b{color:#dbe8f5;font-weight:400}',
       '#amenti-prologue .ap-pr .ap-n{color:#7fd8f0;font-style:normal}',
       '#amenti-prologue .ap-pr em{color:#9db0c6;font-style:italic}',
+      /* a quotation is set apart, because it is the only thing on the slide
+         that nobody wrote */
+      '#amenti-prologue .ap-said{margin-top:16px}',
+      '#amenti-prologue .ap-q{margin-top:12px;padding-left:13px;',
+      '  border-left:2px solid #6a5330}',
+      '#amenti-prologue .ap-who{color:#e0913f;font-size:10px;letter-spacing:.06em}',
+      '#amenti-prologue .ap-to{color:#5d6e84;margin-left:.7em;letter-spacing:.04em}',
+      '#amenti-prologue .ap-nowhere{color:#4d5c70;margin-left:.7em;font-size:9px}',
+      '#amenti-prologue blockquote{margin:5px 0 0;color:#dbe8f5;font-size:13px;',
+      '  line-height:1.7;font-style:italic}',
+      '#amenti-prologue .ap-set{color:#7d8ea6;font-size:10px;margin-top:5px;',
+      '  line-height:1.6}',
       '#amenti-prologue .ap-ft{color:#4d5c70;font-size:9.5px;margin-top:16px;',
       '  padding-top:9px;border-top:1px solid rgba(43,58,80,.5);line-height:1.6}',
       '#amenti-prologue .ap-nav{position:absolute;left:50%;bottom:26px;',
@@ -174,6 +204,40 @@
       '#amenti-prologue .ap-dots i.on{background:#e0913f}'
     ].join('\n');
     document.head.appendChild(s);
+  }
+
+  /* ── THE ROOM, AND THEN THE ARGUMENT · 10 Sep 2026 ──────────────────────
+     The first slides drew only the places each one named, and the map read as
+     three or four dots in an empty sea. A READER CANNOT PLACE A STORY ON A MAP
+     WITH NOTHING ON IT.
+
+     REGION-PLACES.csv is the standing geography of the theatre — thirty places
+     so the space is legible. It draws FAINT, because it is the room and not
+     the argument, and a slide's own places are drawn bright over the top of
+     it. A place the slide names and the standing set also holds is drawn once,
+     bright. */
+  /* ── WHAT WAS SAID · 10 Sep 2026 ────────────────────────────────────────
+     Every other register on this ship is somebody's sentence ABOUT something.
+     A quotation is the thing itself: copied rather than composed, and a probe
+     can diff it against its file character by character.
+
+     A slide claims a speech by chapter. A speaker with nowhere to be drawn —
+     SUSA IS ELEVEN DEGREES EAST OF THIS MAP — is still named and still quoted;
+     what a surface must not do is move him somewhere he can be seen. */
+  function loadSpeeches() {
+    if (speeches) { return Promise.resolve(); }
+    return fetch(RAW + 'ATTICA-SPEECHES.csv?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) { speeches = t ? parse(t) : []; })
+      .catch(function () { speeches = []; });
+  }
+
+  function loadRegion() {
+    if (region) { return Promise.resolve(); }
+    return fetch(RAW + 'REGION-PLACES.csv?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) { region = t ? parse(t) : []; })
+      .catch(function () { region = []; });
   }
 
   function load() {
@@ -196,10 +260,12 @@
     el.id = 'amenti-prologue';
     el.innerHTML =
       '<div class="ap-sc"></div><div class="ap-veil"></div>' +
+      '<div class="ap-big"></div>' +
       '<div class="ap-map"><img alt=""><div class="ap-off"></div></div>' +
       '<div class="ap-tx">' +
       '<div class="ap-hd"></div><div class="ap-ti"></div>' +
-      '<div class="ap-pr"></div><div class="ap-ft"></div></div>' +
+      '<div class="ap-pr"></div><div class="ap-said"></div>' +
+      '<div class="ap-ft"></div></div>' +
       '<div class="ap-nav">' +
       '<button type="button" data-go="-1">\u25c0</button>' +
       '<button type="button" data-go="1">next \u25b6</button>' +
@@ -247,6 +313,7 @@
     el.querySelector('.ap-hd').textContent =
       yr(s.year) + '  \u00b7  HERODOTUS ' + s.chapter +
       '  \u00b7  ' + (n + 1) + ' of ' + slides.length;
+    el.querySelector('.ap-big').textContent = s.display || '';
     el.querySelector('.ap-ti').textContent = s.title;
     el.querySelector('.ap-pr').innerHTML = render(s.prose);
     el.querySelector('.ap-ft').innerHTML =
@@ -261,8 +328,28 @@
     dots.querySelectorAll('i').forEach(function (d) {
       d.addEventListener('click', function () { show(+d.getAttribute('data-i')); });
     });
+    said(s);
     locator(s);
     scene(s.scene);
+  }
+
+  /* the speeches this slide's chapter carries, under the speaker's name */
+  function said(s) {
+    var box = el.querySelector('.ap-said');
+    var mine = (speeches || []).filter(function (q) { return q.chapter === s.chapter; });
+    if (!mine.length) { box.innerHTML = ''; box.style.display = 'none'; return; }
+    box.style.display = '';
+    box.innerHTML = mine.map(function (q) {
+      var off = rproj(+q.lat, +q.lon).inside ? '' :
+        '<span class="ap-nowhere">not on this map</span>';
+      return '<div class="ap-q">' +
+        '<div class="ap-who">' + esc(q.speaker) +
+        (q.who ? ', ' + esc(q.who) : '') +
+        '<span class="ap-to">to ' + esc(q.to) + '</span>' + off + '</div>' +
+        '<blockquote>' + esc(q.words) + '</blockquote>' +
+        (q.setting ? '<div class="ap-set">' + render(q.setting) + '</div>' : '') +
+        '</div>';
+    }).join('');
   }
 
   /* ── THE LOCATOR ────────────────────────────────────────────────────────
@@ -282,6 +369,23 @@
       };
     }
     box.querySelectorAll('.ap-mk,.ap-leg').forEach(function (n) { n.remove(); });
+
+    /* the room first, underneath everything */
+    var mine = {};
+    (s.places || '').split(';').forEach(function (p) {
+      var q = p.split('|'); if (q[0]) { mine[q[0].trim().toLowerCase()] = 1; }
+    });
+    (region || []).forEach(function (r) {
+      if (mine[(r.name || '').toLowerCase()]) { return; }
+      var q = rproj(+r.lat, +r.lon);
+      if (!q.inside) { return; }
+      var m = document.createElement('div');
+      m.className = 'ap-mk ap-faint';
+      m.style.left = q.x.toFixed(2) + '%';
+      m.style.top = q.y.toFixed(2) + '%';
+      m.innerHTML = '<i></i><s>' + esc(r.name) + '</s>';
+      box.appendChild(m);
+    });
 
     var off = [];
     (s.places || '').split(';').forEach(function (p) {
@@ -326,6 +430,26 @@
         pl.setAttribute('vector-effect', 'non-scaling-stroke');
         pl.setAttribute('opacity', '.85');
         sv.appendChild(pl);
+        /* ── THE FLEET ON THE ROUTE · 10 Sep ────────────────────────────
+           The same marks the campaign draws, standing still. A slide has no
+           animation and does not need one: WHERE THE FLEET WAS IS THE WHOLE
+           CLAIM, and a line with nothing on it says a route was taken rather
+           than that a fleet took it. */
+        var N = 90;
+        for (var i = 0; i < N; i++) {
+          var u = (i + 0.5) / N;
+          var j1 = ((i * 0.7548776662) % 1) - 0.5;
+          var j2 = ((i * 0.5698402909) % 1) - 0.5;
+          var px = a.x + dx * u + nx * j1 * 1.5 + (dx / L) * j2 * 0.8;
+          var py = a.y + dy * u + ny * j1 * 1.5 + (dy / L) * j2 * 0.8;
+          var t = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          t.setAttribute('cx', px.toFixed(2));
+          t.setAttribute('cy', py.toFixed(2));
+          t.setAttribute('r', '.32');
+          t.setAttribute('fill', '#c9503f');
+          t.setAttribute('opacity', '.8');
+          sv.appendChild(t);
+        }
         box.appendChild(sv);
       }
     }
@@ -350,7 +474,7 @@
         console.log('THE BACK STORY: the ground is not open. AmentiAttica.show() first.');
         return;
       }
-      show(0);
+      Promise.all([loadRegion(), loadSpeeches()]).then(function () { show(0); });
     });
   }
 
