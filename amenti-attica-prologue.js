@@ -144,7 +144,20 @@
       '  rgba(5,8,14,.55) 38%,rgba(5,8,14,.93) 62%,rgba(5,8,14,.98) 100%)}',
       /* the map takes the upper half and the words the lower — the geography
          is read first and then explained, which is the order a reader wants */
+      /* ── THE MAP CAN STAND ASIDE · 10 Sep 2026 ──────────────────────────
+         The scene is the better thing to look at and the map is the reference.
+         A CLICK ANYWHERE THAT IS NOT THE MAP OR THE WORDS puts the map away
+         and leaves the picture; a second click brings it back. Nothing is
+         lost either way, which is why it can be a click and not a control. */
+      '#amenti-prologue.ap-bare .ap-map{opacity:0;pointer-events:none}',
+      '#amenti-prologue.ap-bare .ap-sc{opacity:1}',
+      '#amenti-prologue.ap-bare .ap-veil{background:linear-gradient(180deg,',
+      '  rgba(5,8,14,.06) 0%,rgba(5,8,14,.18) 40%,rgba(5,8,14,.9) 64%,',
+      '  rgba(5,8,14,.98) 100%)}',
+      '#amenti-prologue .ap-hint{position:absolute;right:14px;top:14px;',
+      '  color:#4d5c70;font-size:9px;letter-spacing:.06em;pointer-events:none}',
       '#amenti-prologue .ap-map{position:absolute;left:50%;top:26px;',
+      '  transition:opacity .45s;',
       '  transform:translateX(-50%);width:min(760px,88%);aspect-ratio:2253/1161;',
       '  border:1px solid rgba(43,58,80,.55);border-radius:3px;overflow:hidden;',
       '  background:#070d16}',
@@ -285,7 +298,7 @@
     el.id = 'amenti-prologue';
     el.innerHTML =
       '<div class="ap-sc"></div><div class="ap-veil"></div>' +
-      '<div class="ap-big"></div>' +
+      '<div class="ap-big"></div><div class="ap-hint"></div>' +
       '<div class="ap-map"><img alt=""><div class="ap-off"></div></div>' +
       '<div class="ap-tx">' +
       '<div class="ap-hd"></div><div class="ap-ti"></div>' +
@@ -297,6 +310,12 @@
       '<button type="button" data-go="skip">skip to the map</button>' +
       '</div><div class="ap-dots"></div>';
     host.appendChild(el);
+    el.addEventListener('click', function (e) {
+      if (e.target.closest('.ap-map,.ap-tx,.ap-nav,.ap-dots')) { return; }
+      var bare = el.classList.toggle('ap-bare');
+      el.querySelector('.ap-hint').textContent =
+        bare ? 'click to bring the map back' : '';
+    });
     el.querySelectorAll('.ap-nav button').forEach(function (b) {
       b.addEventListener('click', function () {
         var g = b.getAttribute('data-go');
@@ -602,8 +621,15 @@
        box because every other control is a SETTING — a period, a zoom, a
        switch. This one starts a thing, and the one action on a surface of
        settings should not be dressed as another setting. */
-    b.style.cssText = 'position:absolute;left:50%;top:92px;z-index:7;' +
-      'transform:translateX(-50%);background:#e0913f;color:#0a0e15;' +
+    /* ── AND IT SITS CLEAR OF THE GROUND · 10 Sep 2026 ───────────────────
+       Centred under the title it lay ON the map image, which is centred too.
+       The right margin beside the map is empty at every zoom, and below the
+       faculty rail there is room for it. FOURTH PLACEMENT, AND THE LESSON IS
+       THAT EVERY EDGE OF THIS SURFACE IS SPOKEN FOR — the bottom by the guide
+       and the meter, the top right by the rail, the left by the key. What is
+       free is the margin the map does not fill. */
+    b.style.cssText = 'position:absolute;right:26px;top:116px;z-index:7;' +
+      'background:#e0913f;color:#0a0e15;' +
       'border:0;border-radius:3px;padding:7px 20px;cursor:pointer;' +
       'font:400 12px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.06em;' +
       'box-shadow:0 2px 18px rgba(224,145,63,.28)';
