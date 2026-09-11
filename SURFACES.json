@@ -4,15 +4,15 @@
   "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
   "_reaches": "The four booleans are why this register exists. On 27 Aug 2026 each was an argument, six times in one day, because nothing could be looked up.",
   "_honesty": "null in `reaches` means NOT CHECKED. It is not false. False is a claim.",
-  "generated": "2026-09-10T18:44:53.374Z",
+  "generated": "2026-09-11T00:50:24.744Z",
   "generator": "probes/probe-surfaces.mjs",
   "counts": {
     "authored": 38,
-    "walkedControls": 123,
+    "walkedControls": 140,
     "confirmed": 25,
     "offWalk": 13,
     "adrift": 0,
-    "undeclared": 65,
+    "undeclared": 82,
     "unresolved": 1,
     "duplicate": 34
   },
@@ -165,6 +165,108 @@
       "id": "time-compression",
       "claim": "— nothing claims it —",
       "reading": "Amenti.live/Page3.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_n",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_sz",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_sp",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_tr",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_rw",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_by",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_ms",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "d_bt",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_prev",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_next",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_replay",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_run",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_fit",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_zin",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_zout",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_pen",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "b_clear",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/campaign-bench.html"
     },
     {
       "stamp": "UNDECLARED",
