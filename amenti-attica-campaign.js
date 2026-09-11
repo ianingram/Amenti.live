@@ -190,7 +190,7 @@
      ANIMATE — a cluster that tightens entering a strait is drawing a manoeuvre
      nobody recorded, which is the same rule amenti-attica-cues.js keeps for
      its own spreads and says why. */
-  var TOKEN  = { fleet: 400, army: 120, flight: 300 };
+  var TOKEN  = { fleet: 400, army: 120, flight: 300, battle: 90 };
   /* ── THE FIELD WAS FIVE PIXELS WIDE · 10 Sep 2026 ────────────────────────
      Four hundred marks were drawn into a spread of 5.5 units — half a square
      unit each — and read as ONE DOT WITH A FEW BEHIND IT. The count was right
@@ -205,7 +205,7 @@
      seven kilometres of water is seven kilometres at any zoom — and a field
      that held its screen size would be claiming a different stretch of sea
      every time the reader zoomed. */
-  var SPREAD = { fleet: 11, army: 5, flight: 12 };
+  var SPREAD = { fleet: 11, army: 5, flight: 12, battle: 2.6 };
   /* ── THE WATER SETS THE SHAPE, AND THIS WATER IS A CHANNEL · 10 Sep ──────
      Three versions of this and each was wrong in a different way. First a
      column strung down 42% of the lane — GALLEYS DO NOT DO THAT IN OPEN SEA.
@@ -223,7 +223,7 @@
      fit the narrowest water on this campaign, and the next frame will need it
      chosen again — which is the honest state and is written down rather than
      hidden in a good-looking default. */
-  var TRAIL  = { fleet: 0.50, army: 0.40, flight: 0.44 };
+  var TRAIL  = { fleet: 0.50, army: 0.40, flight: 0.44, battle: 0.55 };
   /* ── MOORED, IN ROWS · 10 Sep 2026 ───────────────────────────────────────
      THE TEXT SAYS `MOORED` AND SAYS NOTHING ELSE. Herodotus 6.107: `as the
      ships came in to shore at Marathon, he moored them there, and after the
@@ -305,9 +305,19 @@
      A TRIANGLE, NOT A LETTER. It reads at 1.2 units where a letter needs
      three, it has a bow so it can point down the lane, and it does not collide
      with the X the map already draws for mines. */
-  var SIZE   = { fleet: 1.2, army: 1.0, flight: 1.2 };
-  var HUE    = { fleet: '#c9503f', army: '#c9d6a8', flight: '#e0913f' };
-  var LEG_MS = 2600;          /* the same for every leg: see travel() */
+  var SIZE   = { fleet: 1.2, army: 1.0, flight: 1.2, battle: 1.0 };
+  var HUE    = { fleet: '#c9503f', army: '#c9d6a8', flight: '#e0913f',
+                 battle: '#ffd166' };
+  var LEG_MS = 2600;
+  /* ── PACE IS ATTENTION, NOT DURATION · 10 Sep 2026 ──────────────────────
+     The camera moves freely here because WHERE A READER LOOKS ASSERTS NOTHING,
+     and time on screen is the same: how long we dwell is not how long it took.
+     The durations that are known stay in the caption.
+
+     The battle legs are 1.4 km against crossings of a hundred. Equal time per
+     leg already over-weights them; dwelling only admits the weighting is
+     deliberate. */
+  var BATTLE_SLOW = 2.2;
 
   var COLOUR = {
     unopposed: '#7fd8f0', taken: '#e0913f', landed: '#e0913f',
@@ -483,9 +493,22 @@
       }
       /* a force that arrives somewhere it stays takes a resting shape; one
          that is leaving does not */
-      if (r.outcome !== 'withdrew' && r.outcome !== 'sailing') {
-        rec.rest = rec.at ? camp(rec, kind) : moorage(rec, kind);
-      }
+      /* ── EVERY FLEET LEG SETTLES ASTERN · 10 Sep 2026 ───────────────────
+         Only the legs that MOORED were given a resting shape, so a leg that
+         merely arrived — `sailing`, `withdrew` — stopped wherever the
+         travelling field left it: spread seven kilometres around the arrival,
+         INLAND INCLUDED. At Phaleron that drew the Persian fleet across the
+         Athens plain.
+
+         The moorage fix pulled the rows astern and did not reach this path,
+         because this path had no rest shape at all. So now every fleet leg
+         gets one: those that stay get rows, those that are passing through get
+         a looser body — but ALL OF IT BEHIND THE ARRIVAL, on the water. */
+      if (rec.at) { rec.rest = camp(rec, kind); }
+      else if (kind === 'army') { /* an army stops on the road it marched */ }
+      else if (r.outcome === 'sailing' || r.outcome === 'withdrew') {
+        rec.rest = offing(rec, kind);
+      } else { rec.rest = moorage(rec, kind); }
       moving.push(rec);
     });
     /* a ring on every place this step arrived at and changed */
@@ -554,8 +577,32 @@
          lattice would be a claim about discipline nobody recorded */
       var j1 = ((i * 0.7548776662) % 1) - 0.5;
       var j2 = ((i * 0.5698402909) % 1) - 0.5;
-      var da = -(row - (rows - 1) / 2) * gapA + j1 * gapA * 0.4;
+      /* ── THE ROWS GO SEAWARD, NOT THROUGH THE SHORE · 10 Sep 2026 ───────
+         THE MOORAGE WAS CENTRED ON THE ARRIVAL, so half its rows extended
+         FORWARD along the lane — which is inland — and the fleet drew across
+         the Athens plain and over Phaleron. A fleet on land is the one thing
+         this layer must never show, and it was showing it because of a
+         centring that nobody had asked whether the ground allowed.
+
+         Every row now lies BEHIND the arrival, on the water the fleet came in
+         from. The arrival point is the front rank and the rest are astern of
+         it, which is what mooring off a shore looks like from above. */
+      var da = -(row + 0.5) * gapA + j1 * gapA * 0.4;
       var db = (col - (per - 1) / 2) * gapB + j2 * gapB * 0.5;
+      return [f.p[0] + f.tx * da + f.nx * db,
+              f.p[1] + f.ty * da + f.ny * db];
+    });
+  }
+
+  /* a fleet lying off a shore rather than moored to it: the same astern rule,
+     looser, because it has not come to rest and is not staying */
+  function offing(m, kind) {
+    var f = frame(m.pts, 0.999);
+    var sp = SPREAD[kind] || 11;
+    return m.off.map(function (o, i) {
+      var j = ((i * 0.7548776662) % 1) - 0.5;
+      var da = -(0.4 + 2.4 * ((i * 0.5698402909) % 1)) * sp;
+      var db = o.across * 0.75 + j * sp * 0.2;
       return [f.p[0] + f.tx * da + f.nx * db,
               f.p[1] + f.ty * da + f.ny * db];
     });
@@ -641,7 +688,9 @@
       if (!t0) { t0 = now; }
       /* the trail means the rear is still moving after the van has arrived, so
          the leg runs longer than the head's own crossing */
-      var t = Math.min(1, (now - t0) / (LEG_MS * 1.6));
+      var slow = moving.some(function (m) { return m.kind === 'battle'; })
+                 ? BATTLE_SLOW : 1;
+      var t = Math.min(1, (now - t0) / (LEG_MS * 1.6 * slow));
       /* eased at both ends: a force does not start and stop instantly, and
          easing asserts nothing about the water in between */
       var e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;

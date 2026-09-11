@@ -1,38 +1,45 @@
 year,name,kind,from_lat,from_lon,to_lat,to_lon,from_name,to_name,source,note,outcome,count,chapter,says
 # ATTICA-MOVES.csv  ->  Amenti.live/ATTICA-MOVES.csv
 #
-# HEADER ON LINE 1, COMMENTS AFTER. Putting the banner first crashes read() in
-# probe-attica.mjs, which takes the # line as the header.
+# HEADER ON LINE 1, COMMENTS AFTER.
 #
-# -- OUTCOME, COUNT, CHAPTER AND SAYS - added 10 September 2026 --------------
-# The ten legs were cited to Herodotus by chapter from the day they were
-# written, AND THE TEXT WAS NOT ABOARD. Book VI arrived on 10 September and
-# these four columns are what reading it produced.
+# -- OUTCOME, COUNT, CHAPTER, SAYS - added 10 September 2026 ----------------
+#   outcome   what the force was when it arrived
+#   count     a number THE PASSAGE ITSELF GIVES. Seven ships, and nothing else
+#             in these rows. A blank is not a zero; it is Herodotus not counting.
+#   chapter   the ordering key. The witness put the campaign in order and the
+#             year scrub cannot - all of this is -490. Two pairs share a
+#             chapter and that is the race.
+#   says      what the chapter says, in short. Not an interpretation.
 #
-#   outcome   what the force was when it arrived: unopposed, taken, landed,
-#             arrived, lost, sailing, withdrew. THE ANIMATION LAYER READS THIS
-#             AND NOTHING ELSE about how a leg ended.
-#   count     a number THE PASSAGE ITSELF GIVES. Seven ships at the water's
-#             edge, and nothing else in these ten rows. A blank is not a zero;
-#             it is Herodotus not counting.
-#   chapter   the ordering key. All ten legs are dated -490 and the year scrub
-#             CANNOT SEPARATE THEM - but the witness put them in order, 6.97
-#             through 6.116. TWO PAIRS SHARE A CHAPTER AND THAT IS THE RACE:
-#             the fleet rounding Sunion while the army marches back overland.
-#   says      what the chapter says, in short. NOT an interpretation and not a
-#             reason - the note column already carries those.
+# -- THE BATTLE - added 10 September 2026 -----------------------------------
+# Three rows with kind `battle`, at 6.112 and 6.113. Until they were added the
+# sequence went from the Plataians arriving straight to ships pushing off, and
+# THE RETREAT HAD NOTHING TO BE A RETREAT FROM.
 #
-# WHAT IS DELIBERATELY NOT HERE: how many ships in the fleet, how many men in
-# the line, which ships burned, where anything was on the water. Herodotus
-# gives 6,400 Persian and 192 Athenian dead at 6.117, and neither is a MOVE.
-# A surface may draw the seven, because seven is in the passage. It may draw
-# no other number from these rows.
+# THEIR COORDINATES ARE DERIVED AND NOT GIVEN. Herodotus supplies a distance -
+# `not less than eight furlongs` - and a shape: the centre broken and pursued
+# inland, both wings winning, the wings brought together against the men who
+# broke the centre. HE SUPPLIES NO POSITIONS. The from/to on these three rows
+# are built from the Herakleion, which 6.108 names and ATTICA.csv holds, plus
+# that distance and the compass sense of `inland`.
+#
+# They are the same standing as an `inference` line in ATTICA-LIVES.csv: a join
+# somebody made. A SURFACE DRAWING THEM MUST NOT IMPLY THEY WERE SURVEYED, and
+# the note column on each row says so.
+#
+# WHAT IS STILL NOT HERE: how many men on either side. Herodotus gives no
+# strength for anyone - only the dead, 6,400 Barbarians and 192 Athenians at
+# 6.117, which is after the fighting and is not a move.
 -490,Delos spared,fleet,37.10,25.52,37.393,25.268,Naxos,Delos,Herodotus 6.97,Datis anchored off and would not land armed men on the sacred island. The gesture is the record; the course between is not.,unopposed,,6.97,Datis anchored at Rhenaia across the channel and would not let the ships anchor at Delos. The Delians had already fled to Tenos.
 -490,Karystos reduced,fleet,37.393,25.268,38.016,24.418,Delos,Karystos,Herodotus 6.99,The Euboean towns were taken in turn on the way north.,taken,,6.99,The islands gave hostages and additional forces. Carystos refused both and was besieged until it yielded.
 -490,Eretria besieged,fleet,38.016,24.418,38.398,23.792,Karystos,Eretria,Herodotus 6.100,"Six days of assault, then the gates opened from inside. The city was burned and its people enslaved.",taken,,6.100 — 6.101,"Six days of assault, heavy losses on both sides, then two Eretrians opened the gates from inside."
 -490,The landing at Marathon,fleet,38.398,23.792,38.147,23.970,Eretria,Marathon,Herodotus 6.102,HIPPIAS CHOSE THE GROUND. He had been tyrant of Athens and knew the plain was the best cavalry country in Attica.,landed,,6.102,"Marathon was the most convenient place in Attica for horsemen, and near Eretria. Hippias was guiding them."
 -490,The Athenians march out,army,37.9755,23.72265,38.147,23.970,Athens,Marathon,Herodotus 6.103,Out to meet a landing rather than waiting behind walls. The road over Pentelikon is not recorded and is not drawn.,arrived,,6.103,"Ten generals, of whom the tenth was Miltiades. Drawn up in the sacred enclosure of Heracles."
 -490,The Plataeans come,army,38.220,23.270,38.147,23.970,Plataea,Marathon,Herodotus 6.108,"A thousand men, the whole force of a small city, and the only allies to arrive.",arrived,,6.108,The Plataians came to their help in a body.
+-490,The run,battle,38.12131,23.97614,38.13137,23.98614,the precinct of Heracles,the Persian line,Herodotus 6.112,POSITIONS DERIVED. Herodotus gives a distance and no coordinates.,charged,,6.112,"Not less than eight furlongs, and they came on at a run. The Persians charged them with madness which must be fatal — few, and with neither cavalry nor archers."
+-490,The centre gives way,battle,38.13137,23.98614,38.11738,23.96836,the Persian line,"inland, up the plain",Herodotus 6.113,"POSITIONS DERIVED. `Inland` is a direction in the passage, not a place.",broken,,6.113,"Where the Persians themselves and the Sacans were drawn up the Barbarians were winning, and broke the ranks of their opponents and pursued them inland."
+-490,The wings turn inward,battle,38.13746,23.97623,38.13137,23.98614,both wings,against the broken centre,Herodotus 6.113,POSITIONS DERIVED. The shape is in the passage; where each wing stood is not.,won,,6.113,"On both wings the Athenians and the Plataians were winning; they left the routed part to fly unmolested, and bringing the two wings together fought those who had broken their centre."
 -490,The Persians re-embark,flight,38.147,23.970,38.05,24.05,Marathon,the beach and the ships,Herodotus 6.115,Seven ships were taken at the water's edge. The rest got away.,lost,7,6.115,SEVEN OF THE SHIPS the Athenians got possession of at the water’s edge. The number is the passage’s own.
 -490,The fleet rounds Sounion,fleet,38.05,24.05,37.937,23.706,off Marathon,Phaleron,Herodotus 6.115,Making for an undefended Athens by sea. The course round the cape is the obvious one and IS NOT RECORDED — the zigzag says from here to here.,sailing,,6.115,"They took the Eretrian captives off the island where they had left them and sailed round Sunion, purposing to arrive at the city before the Athenians."
 -490,The army marches back,army,38.147,23.970,37.9755,23.72265,Marathon,Athens,Herodotus 6.116,"THE RACE THAT DECIDED IT. The same men who had just fought, arriving before the fleet could land.",arrived,,6.116,"The Athenians came back to the city as speedily as they could and arrived before the Barbarians, encamping at Kynosarges."
