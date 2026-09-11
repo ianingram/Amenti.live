@@ -1,0 +1,36 @@
+seq,chapter,year,title,scene,prose,source,standing,room
+# ATTICA-PROLOGUE.csv  ->  Amenti.live/ATTICA-PROLOGUE.csv
+#
+# HEADER ON LINE 1, COMMENTS AFTER.
+#
+# THE BACK STORY, BECAUSE MOST OF IT CANNOT BE DRAWN. The campaign register
+# begins at 6.97, Delos, because that is the first leg inside the Attica frame.
+# Everything that explains it happens somewhere the map cannot show:
+#
+#   - Athos is at 40.16 and this frame stops at 39.42. The wreck that chose the
+#     route of the whole campaign is THREE QUARTERS OF A DEGREE OFF THE MAP.
+#   - Naxos is inside the frame but burns before the first drawn leg.
+#   - A fleet being BUILT is not a movement at all. Six hundred triremes and
+#     purpose-made horse-transports ordered a year in advance is the most
+#     consequential fact in the campaign and there is nothing to animate.
+#
+# So it is told rather than drawn, and a slide can carry prose where a caption
+# cannot. Six slides, ending at 6.96, and the animation starts at 6.97 with
+# nothing left unexplained.
+#
+# EVERY SLIDE NAMES ITS CHAPTER AND THE FILE THAT HOLDS IT. `standing` is the
+# same vocabulary as ATTICA-LIVES.csv: `corpus` means the claim is in a named
+# room of this library and a probe can open the file and check it. All six are
+# corpus, because Book VI came aboard on 10 September and before that NONE OF
+# THIS COULD HAVE BEEN WRITTEN with a source behind it.
+#
+# `scene` is a tag for the Worker's /scene/{tag}.jpg. NO IMAGE EXISTS FOR ANY
+# OF THEM YET and the slideshow must read a missing scene as a state, not a
+# fault - prose on a plain ground is the honest default and the surface should
+# say the image has not been made rather than showing a gap.
+1,6.43,-492,Mardonios comes down to the sea,mardonios-kilikia,"In the spring of 492 Darius removes every other commander and gives the war to one man: Mardonios, son of Gobryas, young, and lately married to the king's daughter. He brings a very large land-army and a very large naval force down to Kilikia, puts the army on the road, and boards a ship himself.",Herodotus 6.43,corpus,herodotus/06-athos.md
+2,6.44,-492,"Thasos, and then the mountain",athos-wreck,"Thasos is taken without a hand raised in its defence. Macedonia is made to serve. Then the fleet crosses from Thasos and works along the coast to Acanthos, and tries to get round Mount Athos — and a violent north wind falls on it. THREE HUNDRED SHIPS AND MORE THAN TWENTY THOUSAND MEN. Herodotus itemises how they died: taken by the sea monsters that fill that water, dashed on the rocks, drowned not knowing how to swim, dead of the cold. He reports it as `it is said`, and the monsters arrive in the same breath as the arithmetic.",Herodotus 6.44,corpus,herodotus/06-athos.md
+3,6.45,-492,And the army fares no better,brygian-night,"While the fleet is dying at Athos, the land-army is camped in Macedonia and is attacked in the night by the Brygian Thracians. Many are killed and Mardonios himself is wounded. He will not leave until he has subdued them, and then leads the army home having lost heavily by both land and sea. THE FIRST EXPEDITION ENDS WITHOUT REACHING GREECE.",Herodotus 6.45,corpus,herodotus/06-athos.md
+4,6.94,-491,Remember the Athenians,dareios-court,"Two years pass and the design does not. Darius is put in mind of the Athenians continually by his servant; the sons of Peisistratos are at his court, bringing charges; and there is the pretext he wanted — the cities that would not give earth and water. He takes the command from Mardonios, who had failed, and gives it to Datis and Artaphrenes.",Herodotus 6.94,corpus,herodotus/05-marathon.md
+5,6.95,-490,"A fleet built for horses, and a route chosen out of fear",aleian-plain,"They muster on the Aleian plain in Kilikia, and the whole naval armament comes up to them — SIX HUNDRED TRIREMES, and with them the ships for carrying horses, WHICH DARIUS HAD ORDERED HIS TRIBUTARIES TO BUILD THE YEAR BEFORE. The horses go aboard, the army goes aboard, and they sail for Ionia. Then they do not coast the mainland. They cross from Samos by the Icarian Sea and go island to island — because, Herodotus thinks, they feared above all else the voyage round Athos. THE WRECK IS STILL DECIDING THE ROUTE TWO YEARS LATER.",Herodotus 6.95,corpus,herodotus/05-marathon.md
+6,6.96,-490,"Naxos first, remembering the former events",naxos-burned,"Naxos is the first island and it is chosen on purpose — they came against it first, remembering what had happened there before. The Naxians do not wait: they leave for the mountains. Those caught are made slaves, and the temples and the town are burned. Then the fleet puts out to sea for the other islands. NAXOS IS OUTSIDE THIS FRAME and cannot be drawn on it; the next chapter is Delos, and the map begins there.",Herodotus 6.96,corpus,herodotus/05-marathon.md
