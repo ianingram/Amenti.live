@@ -60,6 +60,68 @@
      edge. The slide names it and does not draw it — a place named and not
      drawn is honest; a place shoved to the border is not. */
   var RLO0 = 21.0, RLO1 = 37.5, RLA0 = 33.5, RLA1 = 42.0;
+
+  /* ── A SHIP DOES NOT CROSS A MOUNTAIN · 10 Sep 2026 ─────────────────────
+     The routes were straight lines between named places, so Kilikia to Samos
+     ran over Anatolia and Thasos to Athos cut across the peninsula. On a map
+     whose whole argument is that the ground decides, THAT IS THE WORST
+     POSSIBLE ERROR — the fleet-on-a-mountain fault, drawn deliberately.
+
+     REGION.jpg is the same cut of GROUND.jpg the campaign samples, so the
+     slide asks the ground the same way: read the pixel, and where a segment
+     crosses land, bend it out to sea.
+
+     IT IS NOT A COURSE AND MUST NOT LOOK LIKE ONE. The bend is the coarsest
+     thing that keeps the line wet — a midpoint pushed off the land, recursively
+     and no further. WHAT IS TRUE IS THE TWO ENDS AND THAT WATER WAS SAILED;
+     the shape between them belongs to this file. */
+  var SEA = (function () {
+    var c = document.createElement('canvas'), data = null, W = 0, H = 0;
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function () {
+      W = c.width = img.width; H = c.height = img.height;
+      try {
+        var x = c.getContext('2d', { willReadFrequently: true });
+        x.drawImage(img, 0, 0);
+        data = x.getImageData(0, 0, W, H).data;
+        if (slides && at >= 0) { show(at); }
+      } catch (e) { data = null; }   /* tainted canvas: no mask, no bending */
+    };
+    img.src = RAW + 'REGION.jpg';
+    return {
+      ready: function () { return !!data; },
+      at: function (px, py) {
+        if (!data) { return true; }
+        var a = Math.round(px / 100 * W), b = Math.round(py / 100 * H);
+        if (a < 0 || b < 0 || a >= W || b >= H) { return true; }
+        var i = (b * W + a) * 4;
+        return (data[i + 2] - data[i]) > 22;
+      }
+    };
+  })();
+
+  function wet(a, b, depth) {
+    if (!SEA.ready() || (depth || 0) > 3) { return [a, b]; }
+    var dry = false, t;
+    for (t = 0.12; t < 0.9; t += 0.08) {
+      if (!SEA.at(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t)) { dry = true; break; }
+    }
+    if (!dry) { return [a, b]; }
+    var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    var dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1;
+    var nx = -dy / L, ny = dx / L;
+    for (var d = 1.5; d <= 26; d += 1.5) {
+      for (var sg = 0; sg < 2; sg++) {
+        var sn = sg ? -1 : 1;
+        var qx = mx + nx * d * sn, qy = my + ny * d * sn;
+        if (!SEA.at(qx, qy)) { continue; }
+        var m = { x: qx, y: qy };
+        return wet(a, m, (depth || 0) + 1).concat(wet(m, b, (depth || 0) + 1).slice(1));
+      }
+    }
+    return [a, b];   /* nowhere wet within reach — leave it, do not pretend */
+  }
   var GL = { fire: '\u25b2', wreck: '\u2715', battle: '\u2694',
              muster: '\u25a3', fleet: '\u25b8', city: '\u25cf', sacred: '\u25c7' };
   function rproj(lat, lon) {
@@ -170,9 +232,15 @@
       '#amenti-prologue .ap-tx,#amenti-prologue .ap-nav,',
       '#amenti-prologue .ap-dots,#amenti-prologue .ap-big,',
       '#amenti-prologue .ap-veil{transition:opacity .35s}',
-      '#amenti-prologue .ap-map{position:absolute;left:50%;top:26px;',
-      '  transition:opacity .45s;',
-      '  transform:translateX(-50%);width:min(760px,88%);aspect-ratio:2253/1161;',
+      /* ── THE MAP AND THE WORDS STOP MEETING · 10 Sep 2026 ────────────────
+         Both were positioned against opposite edges, so on a short window they
+         met in the middle and the prose ran up through the sea. The map owns a
+         band at the top; the words take what is under it AND SCROLL, which is
+         what a passage of prose wants anyway. */
+      ':root{--ap-band:min(37vh,calc(0.515 * min(760px,88vw)))}',
+      '#amenti-prologue .ap-map{position:absolute;left:50%;top:22px;',
+      '  transition:opacity .45s;height:var(--ap-band);',
+      '  transform:translateX(-50%);width:min(760px,88%);',
       '  border:1px solid rgba(43,58,80,.55);border-radius:3px;overflow:hidden;',
       '  background:#070d16}',
       '#amenti-prologue .ap-map img{position:absolute;inset:0;width:100%;',
@@ -200,10 +268,19 @@
       '#amenti-prologue .ap-g-city{color:#e0913f}',
       '#amenti-prologue .ap-g-sacred{color:#7fd8f0}',
       '#amenti-prologue .ap-hasg s{left:13px}',
-      '#amenti-prologue .ap-rl{position:absolute;transform:translate(-50%,-160%);',
-      '  color:#ffd166;font-size:9px;letter-spacing:.04em;white-space:nowrap;',
-      '  text-shadow:0 0 8px rgba(5,8,14,.95),0 0 3px rgba(5,8,14,1);',
-      '  pointer-events:none}',
+      '#amenti-prologue .ap-rl{position:absolute;left:10px;top:8px;',
+      '  color:#ffd166;font-size:9.5px;letter-spacing:.05em;',
+      '  background:rgba(5,8,14,.74);padding:3px 9px;border-radius:2px;',
+      '  pointer-events:none;display:flex;align-items:center;gap:7px}',
+      '#amenti-prologue .ap-rl span{width:16px;height:0;',
+      '  border-top:1.5px dashed #ffd166;display:inline-block}',
+      '#amenti-prologue .ap-legend{position:absolute;left:50%;',
+      '  top:calc(28px + var(--ap-band));',
+      '  transform:translateX(-50%);width:min(760px,88%);',
+      '  display:flex;flex-wrap:wrap;gap:2px 20px;pointer-events:none}',
+      '#amenti-prologue .ap-legend div{color:#7d8ea6;font-size:9.5px;',
+      '  line-height:1.5;white-space:nowrap}',
+      '#amenti-prologue .ap-legend b{color:#dbe8f5;font-weight:400}',
       '#amenti-prologue .ap-off{position:absolute;right:8px;bottom:7px;',
       '  color:#5d6e84;font-size:8.5px;text-align:right;line-height:1.5}',
       /* ── A NAME SET LARGE · 10 Sep 2026 ─────────────────────────────────
@@ -219,8 +296,12 @@
       '  text-align:center;pointer-events:none;color:#e0913f;opacity:.12;',
       '  font:200 clamp(38px,7.5vw,104px)/1 ui-monospace,Menlo,monospace;',
       '  letter-spacing:.24em;text-indent:.24em;white-space:nowrap;overflow:hidden}',
-      '#amenti-prologue .ap-tx{position:absolute;left:50%;bottom:62px;',
-      '  transform:translateX(-50%);width:min(760px,88%)}',
+      '#amenti-prologue .ap-tx{position:absolute;left:50%;bottom:56px;',
+      '  top:calc(62px + var(--ap-band));transform:translateX(-50%);',
+      '  width:min(760px,88%);overflow-y:auto;padding-right:8px}',
+      '#amenti-prologue .ap-tx::-webkit-scrollbar{width:5px}',
+      '#amenti-prologue .ap-tx::-webkit-scrollbar-thumb{',
+      '  background:rgba(43,58,80,.85);border-radius:3px}',
       '#amenti-prologue .ap-hd{color:#5d6e84;letter-spacing:.1em;font-size:10px;',
       '  margin-bottom:10px}',
       '#amenti-prologue .ap-ti{color:#e0913f;font-size:19px;line-height:1.3;',
@@ -314,6 +395,7 @@
       '<div class="ap-sc"></div><div class="ap-veil"></div>' +
       '<div class="ap-big"></div><div class="ap-hint"></div>' +
       '<div class="ap-map"><img alt=""><div class="ap-off"></div></div>' +
+      '<div class="ap-legend"></div>' +
       '<div class="ap-tx">' +
       '<div class="ap-hd"></div><div class="ap-ti"></div>' +
       '<div class="ap-pr"></div><div class="ap-said"></div>' +
@@ -445,7 +527,18 @@
           'REGION.jpg did not load — the places are still named below';
       };
     }
-    box.querySelectorAll('.ap-mk,.ap-leg').forEach(function (n) { n.remove(); });
+    /* ── CLEAR EVERYTHING THIS FUNCTION DRAWS · 10 Sep 2026 ────────────────
+       The route caption was added on every slide and removed on none, so by
+       the eighth there were SEVEN OLD DATES STACKED ACROSS THE MAP and the
+       reader was looking at the whole prologue at once.
+
+       A selector that lists what to remove has to list ALL of it, and it will
+       fall behind every time something new is drawn. So it removes everything
+       inside the map that is not the image — the map owns one child it did not
+       make, and everything else is this function's to clean up. */
+    [].slice.call(box.children).forEach(function (n) {
+      if (n.tagName !== 'IMG' && !n.classList.contains('ap-off')) { n.remove(); }
+    });
 
     /* the room first, underneath everything */
     var mine = {};
@@ -469,7 +562,7 @@
       var q = g.split('='); if (q[0] && q[1]) { glyphs[q[0].trim().toLowerCase()] = q[1].trim(); }
     });
 
-    var off = [];
+    var legend = [], off = [];
     (s.places || '').split(';').forEach(function (p) {
       if (!p.trim()) { return; }
       var q = p.split('|');
@@ -487,12 +580,19 @@
          plain at 6.95, Naxos burnt at 6.96, Delos spared at 6.97. A place
          with nothing recorded gets a plain dot, which is not a smaller claim
          but no claim at all. */
+      /* ── THE MAP CARRIES NAMES, NOT SENTENCES · 10 Sep 2026 ────────────
+         Every named place drew a line of prose under it, and on a map of the
+         whole theatre those lines ran through each other and through the route
+         label — FOUR SENTENCES IN A SPACE THAT HOLDS ONE.
+
+         Names stay on the ground. What each place WAS goes to a legend under
+         the map, in a column, where it can be read. A label is a pointer; a
+         sentence is a paragraph, and they do not belong in the same space. */
       var gk = glyphs[name.trim().toLowerCase()] || '';
       m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
-                        : '<i></i>') +
-                    '<s>' + esc(name) +
-                    (what ? '<em>' + esc(what) + '</em>' : '') + '</s>';
+                        : '<i></i>') + '<s>' + esc(name) + '</s>';
       if (gk) { m.classList.add('ap-hasg'); }
+      if (what) { m.title = name + ' \u2014 ' + what; legend.push([name, what, gk]); }
       box.appendChild(m);
     });
 
@@ -507,6 +607,15 @@
       var pts = s.route.split('>').map(function (q) {
         var c = q.split('|'); return rproj(parseFloat(c[0]), parseFloat(c[1]));
       }).filter(function (q) { return !isNaN(q.x); });
+      /* SEA LEGS ONLY. An army marching is a line over land and should be —
+         `by land` in the caption is the tell. */
+      if (pts.length > 1 && !/by land|army by/i.test(s.route_label || '')) {
+        var wp = [pts[0]];
+        for (var wi = 0; wi < pts.length - 1; wi++) {
+          wp = wp.concat(wet(pts[wi], pts[wi + 1], 0).slice(1));
+        }
+        pts = wp;
+      }
       if (pts.length > 1) {
         var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         sv.setAttribute('class', 'ap-leg');
@@ -536,13 +645,13 @@
         sv.appendChild(hd);
         box.appendChild(sv);
 
+        /* AND THE ROUTE LABEL LEAVES THE LINE. At the midpoint it lay across
+           whatever the route passed over — at Sardis, through the place name
+           and its sentence at once. It goes to the top of the map. */
         if (s.route_label) {
-          var mid = pts[Math.floor(pts.length / 2)];
           var lb = document.createElement('div');
           lb.className = 'ap-rl';
-          lb.style.left = mid.x.toFixed(2) + '%';
-          lb.style.top = mid.y.toFixed(2) + '%';
-          lb.textContent = s.route_label;
+          lb.innerHTML = '<span></span>' + esc(s.route_label);
           box.appendChild(lb);
         }
       }
@@ -579,6 +688,14 @@
         used.push({ x: x, y: y + step * 3.2 });
       });
     })();
+
+    var kb = el.querySelector('.ap-legend');
+    kb.innerHTML = legend.map(function (L) {
+      return '<div>' + (L[2] ? '<u class="ap-g ap-g-' + L[2] +
+             '" style="position:static;transform:none;font-size:10px">' +
+             GL[L[2]] + '</u> ' : '') + '<b>' + esc(L[0]) + '</b> \u00b7 ' +
+             esc(L[1]) + '</div>';
+    }).join('');
 
     el.querySelector('.ap-off').innerHTML = off.length
       ? esc(off.join(' · ')) : '';
