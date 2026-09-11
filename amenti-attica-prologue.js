@@ -60,6 +60,8 @@
      edge. The slide names it and does not draw it — a place named and not
      drawn is honest; a place shoved to the border is not. */
   var RLO0 = 21.0, RLO1 = 37.5, RLA0 = 33.5, RLA1 = 42.0;
+  var GL = { fire: '\u25b2', wreck: '\u2715', battle: '\u2694',
+             muster: '\u25a3', fleet: '\u25b8', city: '\u25cf', sacred: '\u25c7' };
   function rproj(lat, lon) {
     return { x: (lon - RLO0) / (RLO1 - RLO0) * 100,
              y: (RLA1 - lat) / (RLA1 - RLA0) * 100,
@@ -124,14 +126,22 @@
     s.textContent = [
       '#amenti-prologue{position:absolute;inset:0;z-index:9;background:#05080e;',
       '  font:400 11px/1.5 ui-monospace,Menlo,monospace;overflow:hidden}',
+      /* ── THE SCENE WAS INVISIBLE AND IT WAS NOT THE FETCH · 10 Sep 2026 ──
+         The image loaded every time. It was drawn at 34% under a veil at 82 to
+         94%, WHICH IS ABOUT FOUR PER CENT VISIBLE, and an hour went to looking
+         for a broken URL.
+
+         Two opacities multiply and neither one looked wrong on its own. The
+         image now carries itself and the veil only protects the lower band
+         where the words are — the picture is at the top where the map is, and
+         a gradient that darkens downward serves both. */
       '#amenti-prologue .ap-sc{position:absolute;inset:0;background-size:cover;',
-      '  background-position:center;opacity:0;transition:opacity .6s;',
-      '  filter:saturate(.72) contrast(1.04)}',
-      '#amenti-prologue .ap-sc.on{opacity:.34}',
-      /* the scene, when there is one, must not swallow the words */
+      '  background-position:center 28%;opacity:0;transition:opacity .7s;',
+      '  filter:saturate(.8) contrast(1.05)}',
+      '#amenti-prologue .ap-sc.on{opacity:.9}',
       '#amenti-prologue .ap-veil{position:absolute;inset:0;',
-      '  background:radial-gradient(ellipse at center,rgba(5,8,14,.82) 0%,',
-      '  rgba(5,8,14,.94) 70%)}',
+      '  background:linear-gradient(180deg,rgba(5,8,14,.30) 0%,',
+      '  rgba(5,8,14,.55) 38%,rgba(5,8,14,.93) 62%,rgba(5,8,14,.98) 100%)}',
       /* the map takes the upper half and the words the lower — the geography
          is read first and then explained, which is the order a reader wants */
       '#amenti-prologue .ap-map{position:absolute;left:50%;top:26px;',
@@ -152,6 +162,21 @@
       '#amenti-prologue .ap-faint i{width:3px;height:3px;background:#4b647d;',
       '  box-shadow:none}',
       '#amenti-prologue .ap-faint s{color:#5d6e84;font-size:8.5px;left:7px;top:-4px}',
+      '#amenti-prologue .ap-g{position:absolute;left:50%;top:50%;',
+      '  transform:translate(-50%,-50%);text-decoration:none;font-size:13px;',
+      '  line-height:1;text-shadow:0 0 8px rgba(0,0,0,.9)}',
+      '#amenti-prologue .ap-g-fire{color:#ff7a3d}',
+      '#amenti-prologue .ap-g-wreck{color:#ff5a45;font-size:15px}',
+      '#amenti-prologue .ap-g-battle{color:#ffd166}',
+      '#amenti-prologue .ap-g-muster{color:#c9d6a8}',
+      '#amenti-prologue .ap-g-fleet{color:#c9503f}',
+      '#amenti-prologue .ap-g-city{color:#e0913f}',
+      '#amenti-prologue .ap-g-sacred{color:#7fd8f0}',
+      '#amenti-prologue .ap-hasg s{left:13px}',
+      '#amenti-prologue .ap-rl{position:absolute;transform:translate(-50%,-160%);',
+      '  color:#ffd166;font-size:9px;letter-spacing:.04em;white-space:nowrap;',
+      '  text-shadow:0 0 8px rgba(5,8,14,.95),0 0 3px rgba(5,8,14,1);',
+      '  pointer-events:none}',
       '#amenti-prologue .ap-off{position:absolute;right:8px;bottom:7px;',
       '  color:#5d6e84;font-size:8.5px;text-align:right;line-height:1.5}',
       /* ── A NAME SET LARGE · 10 Sep 2026 ─────────────────────────────────
@@ -306,6 +331,10 @@
         if (slides[at] && slides[at].scene === tag) {
           box.style.backgroundImage = 'url("' + urls[i] + '")';
           box.classList.add('on');
+          /* the footer was written before the image answered, and said the
+             scene had not been made while it was loading behind it */
+          var ft = el.querySelector('.ap-ft');
+          if (ft) { ft.innerHTML = ft.innerHTML.split('<br>')[0]; }
         }
       };
       img.onerror = function () { attempt(i + 1); };
@@ -396,6 +425,11 @@
       box.appendChild(m);
     });
 
+    var glyphs = {};
+    (s.glyphs || '').split(';').forEach(function (g) {
+      var q = g.split('='); if (q[0] && q[1]) { glyphs[q[0].trim().toLowerCase()] = q[1].trim(); }
+    });
+
     var off = [];
     (s.places || '').split(';').forEach(function (p) {
       if (!p.trim()) { return; }
@@ -408,60 +442,105 @@
       m.className = 'ap-mk';
       m.style.left = r.x.toFixed(2) + '%';
       m.style.top = r.y.toFixed(2) + '%';
-      m.innerHTML = '<i></i><s>' + esc(name) +
+      /* ── A GLYPH IS A CLAIM · 10 Sep ─────────────────────────────────
+         Every one is in a passage: Sardis burnt at 5.101, Athos wrecked at
+         6.44, the Brygians in the night at 6.45, the muster on the Aleïan
+         plain at 6.95, Naxos burnt at 6.96, Delos spared at 6.97. A place
+         with nothing recorded gets a plain dot, which is not a smaller claim
+         but no claim at all. */
+      var gk = glyphs[name.trim().toLowerCase()] || '';
+      m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
+                        : '<i></i>') +
+                    '<s>' + esc(name) +
                     (what ? '<em>' + esc(what) + '</em>' : '') + '</s>';
+      if (gk) { m.classList.add('ap-hasg'); }
       box.appendChild(m);
     });
 
-    if (s.leg) {
-      var g = s.leg.split('|').map(parseFloat);
-      if (g.length === 4 && !g.some(isNaN)) {
-        var a = rproj(g[0], g[1]), b = rproj(g[2], g[3]);
+    /* ── THE ROUTE · 10 Sep 2026 ────────────────────────────────────────
+       Dashed, with an arrowhead, and a date on it. A DIFFERENT MARK FROM THE
+       CAMPAIGN'S BREAK-LINE on purpose: a break-line says `these two points
+       and nothing between them`; a route with waypoints says the waypoints are
+       where the passage put them. Neither draws a course — the segments run
+       straight between named places and assert nothing about the water or the
+       road in between. */
+    if (s.route) {
+      var pts = s.route.split('>').map(function (q) {
+        var c = q.split('|'); return rproj(parseFloat(c[0]), parseFloat(c[1]));
+      }).filter(function (q) { return !isNaN(q.x); });
+      if (pts.length > 1) {
         var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         sv.setAttribute('class', 'ap-leg');
         sv.setAttribute('viewBox', '0 0 100 100');
         sv.setAttribute('preserveAspectRatio', 'none');
-        sv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;' +
-                           'pointer-events:none';
-        var dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1;
-        var nx = -dy / L * 1.6, ny = dx / L * 1.6;
-        var pts = [[a.x, a.y]];
-        [[0.42, 1], [0.5, 0], [0.58, -1]].forEach(function (t) {
-          pts.push([a.x + dx * t[0] + nx * t[1], a.y + dy * t[0] + ny * t[1]]);
-        });
-        pts.push([b.x, b.y]);
-        var pl = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-        pl.setAttribute('points', pts.map(function (p) {
-          return p[0].toFixed(2) + ',' + p[1].toFixed(2); }).join(' '));
-        pl.setAttribute('fill', 'none');
-        pl.setAttribute('stroke', '#c9503f');
-        pl.setAttribute('stroke-width', '.5');
-        pl.setAttribute('vector-effect', 'non-scaling-stroke');
-        pl.setAttribute('opacity', '.85');
-        sv.appendChild(pl);
-        /* ── THE FLEET ON THE ROUTE · 10 Sep ────────────────────────────
-           The same marks the campaign draws, standing still. A slide has no
-           animation and does not need one: WHERE THE FLEET WAS IS THE WHOLE
-           CLAIM, and a line with nothing on it says a route was taken rather
-           than that a fleet took it. */
-        var N = 90;
-        for (var i = 0; i < N; i++) {
-          var u = (i + 0.5) / N;
-          var j1 = ((i * 0.7548776662) % 1) - 0.5;
-          var j2 = ((i * 0.5698402909) % 1) - 0.5;
-          var px = a.x + dx * u + nx * j1 * 1.5 + (dx / L) * j2 * 0.8;
-          var py = a.y + dy * u + ny * j1 * 1.5 + (dy / L) * j2 * 0.8;
-          var t = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          t.setAttribute('cx', px.toFixed(2));
-          t.setAttribute('cy', py.toFixed(2));
-          t.setAttribute('r', '.32');
-          t.setAttribute('fill', '#c9503f');
-          t.setAttribute('opacity', '.8');
-          sv.appendChild(t);
-        }
+        sv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none';
+        var d = pts.map(function (p, i) {
+          return (i ? 'L' : 'M') + p.x.toFixed(2) + ' ' + p.y.toFixed(2);
+        }).join(' ');
+        var pa = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        pa.setAttribute('d', d);
+        pa.setAttribute('fill', 'none');
+        pa.setAttribute('stroke', '#ffd166');
+        pa.setAttribute('stroke-width', '1.3');
+        pa.setAttribute('stroke-dasharray', '3 2.4');
+        pa.setAttribute('vector-effect', 'non-scaling-stroke');
+        pa.setAttribute('opacity', '.9');
+        sv.appendChild(pa);
+        /* an arrowhead at the last waypoint, turned the way the run arrives */
+        var p1 = pts[pts.length - 2], p2 = pts[pts.length - 1];
+        var ang = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+        var hd = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        hd.setAttribute('d', 'M0,0 L-2.6,1.3 L-2.6,-1.3 Z');
+        hd.setAttribute('fill', '#ffd166');
+        hd.setAttribute('transform', 'translate(' + p2.x.toFixed(2) + ' ' +
+                        p2.y.toFixed(2) + ') rotate(' + ang.toFixed(1) + ')');
+        sv.appendChild(hd);
         box.appendChild(sv);
+
+        if (s.route_label) {
+          var mid = pts[Math.floor(pts.length / 2)];
+          var lb = document.createElement('div');
+          lb.className = 'ap-rl';
+          lb.style.left = mid.x.toFixed(2) + '%';
+          lb.style.top = mid.y.toFixed(2) + '%';
+          lb.textContent = s.route_label;
+          box.appendChild(lb);
+        }
       }
     }
+
+    /* ── LABELS THAT WOULD LAND ON EACH OTHER · 10 Sep 2026 ──────────────
+       Acanthos, Thasos and Athos are within a few kilometres on a map of the
+       whole theatre, and their labels drew straight through one another —
+       `Acanthos` and `Mount Athos` interleaved into one unreadable line.
+
+       The mark stays where the place is; ONLY THE LABEL MOVES, and it is
+       tethered by the dot it belongs to. A label is text to read, not a claim
+       about the world — the same exception the ground surface makes when it
+       lets a label grow with zoom while a pin may not. */
+    (function () {
+      var marks = [].slice.call(box.querySelectorAll('.ap-mk'));
+      var used = [];
+      marks.forEach(function (m) {
+        var lab = m.querySelector('s');
+        if (!lab) { return; }
+        var x = parseFloat(m.style.left), y = parseFloat(m.style.top);
+        var step = 0;
+        while (step < 8) {
+          var clash = used.some(function (u) {
+            return Math.abs(u.x - x) < 13 && Math.abs(u.y - (y + step * 3.2)) < 2.6;
+          });
+          if (!clash) { break; }
+          step++;
+        }
+        if (step) { lab.style.top = (-6 + step * 13) + 'px'; }
+        /* and a label that would run off the right edge flips to the left */
+        if (x > 74) { lab.style.left = 'auto'; lab.style.right = '10px';
+                      lab.style.textAlign = 'right'; }
+        used.push({ x: x, y: y + step * 3.2 });
+      });
+    })();
+
     el.querySelector('.ap-off').innerHTML = off.length
       ? esc(off.join(' · ')) : '';
   }
