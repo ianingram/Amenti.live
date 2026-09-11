@@ -168,12 +168,29 @@
      CAPITALS ARE EMPHASIS AND NOT NAMES. They render as weight rather than as
      shouting \u2014 a paragraph of capitals is unreadable at this length \u2014 and the
      first letter is kept so the sentence still reads as a sentence. */
+  /* the theatre's own names, for the emphasis transform above */
+  var NAMES = {};
+  'greece greeks greek athens athenians athenian attica eretria eretrian persia persians persian ionia ionians ionian media medes lydia sardis miletos ephesos ephesian samos naxos delos paros thasos macedonia macedon thrace thracians brygian athos acanthos kilikia aleian icarian tmolos kaystrios koressos marathon plataia phaleron euboia hellespont aegean asia europe darius dareios mardonios gobryas artozostra datis artaphernes hippias peisistratos aristagoras miltiades histiaios xerxes kyros zeus apollo herodotus september'.split(/\s+/).forEach(function (n) { NAMES[n] = 1; });
+
   function render(t) {
     return esc(t)
       .replace(/\*\*([^*]+)\*\*/g, '<i class="ap-n">$1</i>')
       .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      /* ── CAPS ARE EMPHASIS AND THE TRANSFORM ATE THE NAMES · 11 Sep 2026 ─
+         A run in capitals is the register's emphasis mark, and it came down
+         to sentence case so it would not shout on the page. But lowercasing
+         everything after the first letter LOWERCASED THE PROPER NOUNS INSIDE
+         IT: `WITHOUT REACHING GREECE` drew as `greece`, and `WHO THE
+         ATHENIANS ARE` as `athenians`. The register was right both times.
+
+         A name keeps its capital. The list is the theatre's own — the places
+         and people this prologue names — and a name it does not know comes
+         down like any other word, which is the old behaviour and no worse. */
       .replace(/\b([A-Z][A-Z ,'\u2019\u2014-]{9,})\b/g, function (m) {
-        return '<b>' + m.charAt(0) + m.slice(1).toLowerCase() + '</b>';
+        var body = m.slice(1).toLowerCase().replace(/\b[a-z\u00ef]+\b/g, function (w) {
+          return NAMES[w] ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+        });
+        return '<b>' + m.charAt(0) + body + '</b>';
       });
   }
   function yr(y) {
@@ -269,7 +286,7 @@
       '#amenti-prologue .ap-g-city{color:#e0913f}',
       '#amenti-prologue .ap-g-sacred{color:#7fd8f0}',
       '#amenti-prologue .ap-hasg s{left:13px}',
-      '#amenti-prologue .ap-rl-land{top:28px;color:#c9d6a8}',
+      '#amenti-prologue .ap-rl-land{top:28px;color:#c9503f}',
       '#amenti-prologue .ap-rl{position:absolute;left:10px;top:8px;',
       '  color:#ffd166;font-size:9.5px;letter-spacing:.05em;',
       '  background:rgba(5,8,14,.74);padding:3px 9px;border-radius:2px;',
@@ -615,106 +632,17 @@
     drawRoute(s.route, s.route_label, 'sea');
     drawRoute(s.route_land, s.route_land_label, 'land');
 
-    var glyphs = {};
-    (s.glyphs || '').split(';').forEach(function (g) {
-      var q = g.split('='); if (q[0] && q[1]) { glyphs[q[0].trim().toLowerCase()] = q[1].trim(); }
-    });
+    /* ── THE BLOCK WAS PASTED, NOT MOVED · 11 Sep 2026 ────────────────────
+       When drawRoute() went in, the places loop and the OLD single-route
+       block were left standing below it as well as above. Every place drew
+       twice — `Sardis` under `Sardis`, `Kilikia` under `Kilikia` — and on
+       slide 2 the old block's caption drew on top of the new one, two strings
+       superimposed at different advances, which is why it read
+       `Mardoniosbhimself,tbyosea`. Not a font fault and not a double render:
+       one function drawing the same things twice.
 
-    var legend = [], off = [];
-    (s.places || '').split(';').forEach(function (p) {
-      if (!p.trim()) { return; }
-      var q = p.split('|');
-      var name = q[0], la = parseFloat(q[1]), lo = parseFloat(q[2]), what = q[3] || '';
-      if (isNaN(la) || isNaN(lo)) { off.push(name.trim()); return; }
-      var r = rproj(la, lo);
-      if (!r.inside) { off.push(name + ' — off this map'); return; }
-      var m = document.createElement('div');
-      m.className = 'ap-mk';
-      m.style.left = r.x.toFixed(2) + '%';
-      m.style.top = r.y.toFixed(2) + '%';
-      /* ── A GLYPH IS A CLAIM · 10 Sep ─────────────────────────────────
-         Every one is in a passage: Sardis burnt at 5.101, Athos wrecked at
-         6.44, the Brygians in the night at 6.45, the muster on the Aleïan
-         plain at 6.95, Naxos burnt at 6.96, Delos spared at 6.97. A place
-         with nothing recorded gets a plain dot, which is not a smaller claim
-         but no claim at all. */
-      /* ── THE MAP CARRIES NAMES, NOT SENTENCES · 10 Sep 2026 ────────────
-         Every named place drew a line of prose under it, and on a map of the
-         whole theatre those lines ran through each other and through the route
-         label — FOUR SENTENCES IN A SPACE THAT HOLDS ONE.
-
-         Names stay on the ground. What each place WAS goes to a legend under
-         the map, in a column, where it can be read. A label is a pointer; a
-         sentence is a paragraph, and they do not belong in the same space. */
-      var gk = glyphs[name.trim().toLowerCase()] || '';
-      m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
-                        : '<i></i>') + '<s>' + esc(name) + '</s>';
-      if (gk) { m.classList.add('ap-hasg'); }
-      if (what) { m.title = name + ' \u2014 ' + what; legend.push([name, what, gk]); }
-      box.appendChild(m);
-    });
-
-    /* ── THE ROUTE · 10 Sep 2026 ────────────────────────────────────────
-       Dashed, with an arrowhead, and a date on it. A DIFFERENT MARK FROM THE
-       CAMPAIGN'S BREAK-LINE on purpose: a break-line says `these two points
-       and nothing between them`; a route with waypoints says the waypoints are
-       where the passage put them. Neither draws a course — the segments run
-       straight between named places and assert nothing about the water or the
-       road in between. */
-    if (s.route) {
-      var pts = s.route.split('>').map(function (q) {
-        var c = q.split('|'); return rproj(parseFloat(c[0]), parseFloat(c[1]));
-      }).filter(function (q) { return !isNaN(q.x); });
-      /* SEA LEGS ONLY. An army marching is a line over land and should be —
-         `by land` in the caption is the tell. */
-      if (pts.length > 1 && !/by land|army by/i.test(s.route_label || '')) {
-        var wp = [pts[0]];
-        for (var wi = 0; wi < pts.length - 1; wi++) {
-          wp = wp.concat(wet(pts[wi], pts[wi + 1], 0).slice(1));
-        }
-        pts = wp;
-      }
-      if (pts.length > 1) {
-        var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        sv.setAttribute('class', 'ap-leg');
-        sv.setAttribute('viewBox', '0 0 100 100');
-        sv.setAttribute('preserveAspectRatio', 'none');
-        sv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none';
-        var d = pts.map(function (p, i) {
-          return (i ? 'L' : 'M') + p.x.toFixed(2) + ' ' + p.y.toFixed(2);
-        }).join(' ');
-        var pa = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        pa.setAttribute('d', d);
-        pa.setAttribute('fill', 'none');
-        pa.setAttribute('stroke', '#ffd166');
-        pa.setAttribute('stroke-width', '1.3');
-        pa.setAttribute('stroke-dasharray', '3 2.4');
-        pa.setAttribute('vector-effect', 'non-scaling-stroke');
-        pa.setAttribute('opacity', '.9');
-        sv.appendChild(pa);
-        /* an arrowhead at the last waypoint, turned the way the run arrives */
-        var p1 = pts[pts.length - 2], p2 = pts[pts.length - 1];
-        var ang = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-        var hd = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        hd.setAttribute('d', 'M0,0 L-2.6,1.3 L-2.6,-1.3 Z');
-        hd.setAttribute('fill', '#ffd166');
-        hd.setAttribute('transform', 'translate(' + p2.x.toFixed(2) + ' ' +
-                        p2.y.toFixed(2) + ') rotate(' + ang.toFixed(1) + ')');
-        sv.appendChild(hd);
-        box.appendChild(sv);
-
-        /* AND THE ROUTE LABEL LEAVES THE LINE. At the midpoint it lay across
-           whatever the route passed over — at Sardis, through the place name
-           and its sentence at once. It goes to the top of the map. */
-        if (s.route_label) {
-          var lb = document.createElement('div');
-          lb.className = 'ap-rl';
-          lb.innerHTML = '<span></span>' + esc(s.route_label);
-          box.appendChild(lb);
-        }
-      }
-    }
-
+       Both leftovers are cut. drawRoute() above owns the routes and their
+       captions; the places loop above owns the marks and the legend. */
       function drawRoute(spec, label, kind) {
       if (!spec) { return; }
       var pts = spec.split('>').map(function (q) {
@@ -728,7 +656,11 @@
         }
         pts = wp;
       }
-      var hue = kind === 'land' ? '#c9d6a8' : '#ffd166';
+      /* ── ONE FORCE, TWO MEANS · 11 Sep 2026 ──────────────────────────
+         The army and the fleet are the same expedition, so both legs take the
+         fleet glyph's red. Sea and land stay apart by DASH, not by hue —
+         hue is a side, and there is only one side moving here. */
+      var hue = '#c9503f';
       var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       sv.setAttribute('class', 'ap-leg');
       sv.setAttribute('viewBox', '0 0 100 100');
