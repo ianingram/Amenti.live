@@ -219,6 +219,7 @@
          And the image is `contain`, not `cover`. A scene cropped to fill the
          frame loses whatever the generator put at its edges — here, the whole
          upper hall and the arrow in it, which is the subject. */
+      '#amenti-prologue.ap-bare .ap-legend,',
       '#amenti-prologue.ap-bare .ap-map,#amenti-prologue.ap-bare .ap-tx,',
       '#amenti-prologue.ap-bare .ap-nav,#amenti-prologue.ap-bare .ap-dots,',
       '#amenti-prologue.ap-bare .ap-big,#amenti-prologue.ap-bare .ap-veil{',
@@ -268,6 +269,7 @@
       '#amenti-prologue .ap-g-city{color:#e0913f}',
       '#amenti-prologue .ap-g-sacred{color:#7fd8f0}',
       '#amenti-prologue .ap-hasg s{left:13px}',
+      '#amenti-prologue .ap-rl-land{top:28px;color:#c9d6a8}',
       '#amenti-prologue .ap-rl{position:absolute;left:10px;top:8px;',
       '  color:#ffd166;font-size:9.5px;letter-spacing:.05em;',
       '  background:rgba(5,8,14,.74);padding:3px 9px;border-radius:2px;',
@@ -603,6 +605,62 @@
        where the passage put them. Neither draws a course — the segments run
        straight between named places and assert nothing about the water or the
        road in between. */
+    /* ── TWO FORCES, TWO ROUTES · 10 Sep 2026 ───────────────────────────
+       6.43 sends an army by road and a fleet by sea from the same place to the
+       same place. ONE LINE CANNOT BE BOTH, and labelling a single line `by
+       sea, the army by land` drew it as neither.
+
+       The sea route is bent to the water. The land route is not — a road is a
+       road, and the passage gives no route for either. */
+    drawRoute(s.route, s.route_label, 'sea');
+    drawRoute(s.route_land, s.route_land_label, 'land');
+
+    var glyphs = {};
+    (s.glyphs || '').split(';').forEach(function (g) {
+      var q = g.split('='); if (q[0] && q[1]) { glyphs[q[0].trim().toLowerCase()] = q[1].trim(); }
+    });
+
+    var legend = [], off = [];
+    (s.places || '').split(';').forEach(function (p) {
+      if (!p.trim()) { return; }
+      var q = p.split('|');
+      var name = q[0], la = parseFloat(q[1]), lo = parseFloat(q[2]), what = q[3] || '';
+      if (isNaN(la) || isNaN(lo)) { off.push(name.trim()); return; }
+      var r = rproj(la, lo);
+      if (!r.inside) { off.push(name + ' — off this map'); return; }
+      var m = document.createElement('div');
+      m.className = 'ap-mk';
+      m.style.left = r.x.toFixed(2) + '%';
+      m.style.top = r.y.toFixed(2) + '%';
+      /* ── A GLYPH IS A CLAIM · 10 Sep ─────────────────────────────────
+         Every one is in a passage: Sardis burnt at 5.101, Athos wrecked at
+         6.44, the Brygians in the night at 6.45, the muster on the Aleïan
+         plain at 6.95, Naxos burnt at 6.96, Delos spared at 6.97. A place
+         with nothing recorded gets a plain dot, which is not a smaller claim
+         but no claim at all. */
+      /* ── THE MAP CARRIES NAMES, NOT SENTENCES · 10 Sep 2026 ────────────
+         Every named place drew a line of prose under it, and on a map of the
+         whole theatre those lines ran through each other and through the route
+         label — FOUR SENTENCES IN A SPACE THAT HOLDS ONE.
+
+         Names stay on the ground. What each place WAS goes to a legend under
+         the map, in a column, where it can be read. A label is a pointer; a
+         sentence is a paragraph, and they do not belong in the same space. */
+      var gk = glyphs[name.trim().toLowerCase()] || '';
+      m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
+                        : '<i></i>') + '<s>' + esc(name) + '</s>';
+      if (gk) { m.classList.add('ap-hasg'); }
+      if (what) { m.title = name + ' \u2014 ' + what; legend.push([name, what, gk]); }
+      box.appendChild(m);
+    });
+
+    /* ── THE ROUTE · 10 Sep 2026 ────────────────────────────────────────
+       Dashed, with an arrowhead, and a date on it. A DIFFERENT MARK FROM THE
+       CAMPAIGN'S BREAK-LINE on purpose: a break-line says `these two points
+       and nothing between them`; a route with waypoints says the waypoints are
+       where the passage put them. Neither draws a course — the segments run
+       straight between named places and assert nothing about the water or the
+       road in between. */
     if (s.route) {
       var pts = s.route.split('>').map(function (q) {
         var c = q.split('|'); return rproj(parseFloat(c[0]), parseFloat(c[1]));
@@ -657,7 +715,53 @@
       }
     }
 
-    /* ── LABELS THAT WOULD LAND ON EACH OTHER · 10 Sep 2026 ──────────────
+      function drawRoute(spec, label, kind) {
+      if (!spec) { return; }
+      var pts = spec.split('>').map(function (q) {
+        var c = q.split('|'); return rproj(parseFloat(c[0]), parseFloat(c[1]));
+      }).filter(function (q) { return !isNaN(q.x); });
+      if (pts.length < 2) { return; }
+      if (kind === 'sea') {
+        var wp = [pts[0]];
+        for (var wi = 0; wi < pts.length - 1; wi++) {
+          wp = wp.concat(wet(pts[wi], pts[wi + 1], 0).slice(1));
+        }
+        pts = wp;
+      }
+      var hue = kind === 'land' ? '#c9d6a8' : '#ffd166';
+      var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      sv.setAttribute('class', 'ap-leg');
+      sv.setAttribute('viewBox', '0 0 100 100');
+      sv.setAttribute('preserveAspectRatio', 'none');
+      sv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none';
+      var pa = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      pa.setAttribute('d', pts.map(function (p, i) {
+        return (i ? 'L' : 'M') + p.x.toFixed(2) + ' ' + p.y.toFixed(2); }).join(' '));
+      pa.setAttribute('fill', 'none');
+      pa.setAttribute('stroke', hue);
+      pa.setAttribute('stroke-width', kind === 'land' ? '1.1' : '1.4');
+      pa.setAttribute('stroke-dasharray', kind === 'land' ? '1.5 2.6' : '4 2.6');
+      pa.setAttribute('vector-effect', 'non-scaling-stroke');
+      pa.setAttribute('opacity', kind === 'land' ? '.8' : '.92');
+      sv.appendChild(pa);
+      var p1 = pts[pts.length - 2], p2 = pts[pts.length - 1];
+      var ang = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+      var hd = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      hd.setAttribute('d', 'M0,0 L-2.6,1.3 L-2.6,-1.3 Z');
+      hd.setAttribute('fill', hue);
+      hd.setAttribute('transform', 'translate(' + p2.x.toFixed(2) + ' ' +
+                      p2.y.toFixed(2) + ') rotate(' + ang.toFixed(1) + ')');
+      sv.appendChild(hd);
+      box.appendChild(sv);
+      if (label) {
+        var lb = document.createElement('div');
+        lb.className = 'ap-rl ap-rl-' + kind;
+        lb.innerHTML = '<span style="border-color:' + hue + '"></span>' + esc(label);
+        box.appendChild(lb);
+      }
+    }
+
+  /* ── LABELS THAT WOULD LAND ON EACH OTHER · 10 Sep 2026 ──────────────
        Acanthos, Thasos and Athos are within a few kilometres on a map of the
        whole theatre, and their labels drew straight through one another —
        `Acanthos` and `Mount Athos` interleaved into one unreadable line.
