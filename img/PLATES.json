@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-09-11T03:06:41.467Z",
+  "generated": "2026-09-11T03:12:16.319Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -92,7 +92,7 @@
     "unaccepted": [],
     "scenesWithoutFigure": [],
     "scenesMalformed": [
-      "0_1.png"
+      "darius-bow.jpg"
     ],
     "notPlates": [
       "0_2-22.png",
