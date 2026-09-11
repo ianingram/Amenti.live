@@ -362,35 +362,51 @@
      IT WAITS FOR THE SURFACE. The Attica ground mounts its own controls when
      it opens, so this looks for the row and tries again until it is there —
      and gives up quietly after a while rather than polling for ever. */
+  /* ── ITS OWN PLACE, ABOVE THE KEY · 10 Sep 2026 ───────────────────────────
+     Two attempts inside the control row and both landed under the guide and
+     the meter, which are FIXED TO THE BOTTOM CORNERS AND DRAWN OVER THIS
+     SURFACE. Pushing it left only moved it from under one tab to under both.
+
+     A row that ends where two other instruments begin cannot be negotiated
+     with. So the button leaves the row and takes the strip above the key —
+     top left, between the frame title and the first legend line, empty at
+     every period and every zoom, and the first thing in reading order rather
+     than the last. */
   function join() {
-    var row = document.querySelector('#amenti-attica .at-ctl');
-    if (!row) { return false; }
-    if (row.querySelector('[data-prologue]')) { return true; }
+    var host = document.getElementById('amenti-attica');
+    if (!host) { return false; }
+    if (host.querySelector('[data-prologue]')) { return true; }
     var b = document.createElement('button');
     b.type = 'button';
     b.setAttribute('data-prologue', '1');
-    /* ── NOT THE RIGHT EDGE · 10 Sep 2026 ─────────────────────────────────
-       `margin-left:auto` pushed it to the far right of the control row, which
-       is exactly where the guide and the meter tabs sit — both fixed to the
-       bottom corners, both drawn over this surface, and the button was UNDER
-       THEM AND UNREADABLE.
+    /* ── THE BAND UNDER THE TITLE · 10 Sep 2026 ───────────────────────────
+       Three placements and the first two were both swallowed. The control row
+       ends under the guide and the meter; the top-left strip is narrow and
+       sits against the frame title. THE BAND BELOW THE TITLE AND ABOVE THE
+       GROUND IS EMPTY AT EVERY PERIOD AND EVERY ZOOM, and it is the width of
+       the surface.
 
-       A row that ends where two other instruments begin has no right edge to
-       spare. It goes after `fit`, in the gap in the middle, which is empty at
-       every period and every zoom. */
-    b.style.marginLeft = '18px';
-    b.style.color = '#e0913f';
-    b.style.borderColor = '#6a5330';
-    b.textContent = '▶ the Marathon campaign';
-    b.title = 'Six slides of back story, then ten legs on the ground — ' +
+       AND IT IS FILLED, NOT OUTLINED. Every other control here is a hairline
+       box because every other control is a SETTING — a period, a zoom, a
+       switch. This one starts a thing, and the one action on a surface of
+       settings should not be dressed as another setting. */
+    b.style.cssText = 'position:absolute;left:50%;top:92px;z-index:7;' +
+      'transform:translateX(-50%);background:#e0913f;color:#0a0e15;' +
+      'border:0;border-radius:3px;padding:7px 20px;cursor:pointer;' +
+      'font:400 12px/1.4 ui-monospace,Menlo,monospace;letter-spacing:.06em;' +
+      'box-shadow:0 2px 18px rgba(224,145,63,.28)';
+    b.textContent = '\u25b6 the Marathon campaign';
+    b.title = 'Six slides of back story, then ten legs on the ground \u2014 ' +
               'Herodotus 6.43 to 6.116';
+    b.addEventListener('mouseenter', function () { b.style.background = '#ffd166'; });
+    b.addEventListener('mouseleave', function () { b.style.background = '#e0913f'; });
     b.addEventListener('click', function () {
       if (window.AmentiCampaign && window.AmentiCampaign.stop) {
         window.AmentiCampaign.stop();
       }
       start();
     });
-    row.appendChild(b);
+    host.appendChild(b);
     return true;
   }
 
