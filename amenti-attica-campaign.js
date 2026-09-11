@@ -112,12 +112,24 @@
   /* ── THE BREAK-LINE ──────────────────────────────────────────────────────
      Four segments with the middle two offset perpendicular to the run. It is
      the drafting symbol for `something omitted here`, and that is the claim:
-     a departure, an arrival, and no assertion about the water between. */
+     a departure, an arrival, and no assertion about the water between.
+
+     THE OFFSET WAS A SCREEN CONSTANT AND SHORT LEGS TIED THEMSELVES IN KNOTS
+     · 11 Sep 2026. The three offset points sit in the middle 16% of the run,
+     and +/-6px is a polite kink across the Aegean and LONGER THAN THE SEGMENT
+     ITSELF around Miletos, where the path folded back through its own line.
+     Several short legs doing that in one place is the tangle on slide 1.
+
+     The amplitude is now a fraction of the leg with the old value as a
+     ceiling, so a long crossing draws exactly what it always drew and a short
+     hop draws a break it has room for. IT IS STILL A SCREEN CONSTANT at the
+     top end and still not the ground; what it is not any more is a mark
+     larger than the thing it marks. */
   function zig(x1, y1, x2, y2) {
     var dx = x2 - x1, dy = y2 - y1;
     var len = Math.sqrt(dx * dx + dy * dy) || 1;
     var nx = -dy / len, ny = dx / len;
-    var a = 6;
+    var a = Math.min(6, len * 0.08);
     var p = [[x1, y1]];
     [0.42, 0.5, 0.58].forEach(function (t, i) {
       var s = (i === 1) ? 0 : (i === 0 ? a : -a);
