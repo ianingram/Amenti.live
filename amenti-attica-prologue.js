@@ -162,6 +162,8 @@
 
      GS scales all of them together. Raise it for capture: at 1080p under
      compression the small marks are the first thing to go. */
+  /* null means standing still, which is the default and the honest one */
+  var POS = null, RAF = 0;
   var GS = 1;
   var GA = {
     fire:   ['#ff7a3d', 13],
@@ -195,6 +197,39 @@
              sacred: 'spared, or sacred', storm: 'the wind',
              horse: 'the horses', camp: 'encamped',
              gold: 'gold', silver: 'silver', wheat: 'grain' };
+  /* ── A MARK THAT MOVES · 11 Sep 2026 ────────────────────────────────────
+     A route is already a polyline of authored points. Walking it is `at(p)`,
+     where p is 0 to 1 along the whole line — a POSITION AND NOT A CLOCK.
+
+     That is the only structural decision here and it is the one worth getting
+     right. A mark driven by elapsed time can only play; a mark that is a pure
+     function of p can be paused on, scrubbed backwards, and handed a value by
+     whatever ends up owning the sequence. The clock is somebody else's job.
+
+     IT ASSERTS NOTHING NEW. The glyph is the one the register already gives
+     the leg's destination, drawn at a point on a line the register already
+     holds. Nothing here is a claim the surface was not making standing still. */
+  function at(pts, p) {
+    if (!pts || pts.length < 2) { return null; }
+    var seg = [], total = 0, i;
+    for (i = 0; i < pts.length - 1; i++) {
+      var d = Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+      seg.push(d); total += d;
+    }
+    if (!total) { return null; }
+    var want = Math.max(0, Math.min(1, p)) * total, run = 0;
+    for (i = 0; i < seg.length; i++) {
+      if (run + seg[i] >= want || i === seg.length - 1) {
+        var t = seg[i] ? (want - run) / seg[i] : 0;
+        var a = pts[i], b = pts[i + 1];
+        return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t,
+                 ang: Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI };
+      }
+      run += seg[i];
+    }
+    return null;
+  }
+
   function rproj(lat, lon) {
     return { x: (lon - RLO0) / (RLO1 - RLO0) * 100,
              y: (RLA1 - lat) / (RLA1 - RLA0) * 100,
@@ -388,6 +423,8 @@
       glyphCss(),
       '#amenti-prologue .ap-hasg s{left:13px}',
       '#amenti-prologue .ap-rl-land{top:28px;color:#c9503f}',
+      '#amenti-prologue .ap-mv{position:absolute;transform:translate(-50%,-50%);',
+      '  pointer-events:none;filter:drop-shadow(0 0 6px rgba(0,0,0,.9))}',
       /* the key: what the marks on this slide claim */
       '#amenti-prologue .ap-key{position:absolute;left:50%;',
       '  top:calc(9px + var(--ap-band));transform:translateX(-50%);',
@@ -916,6 +953,20 @@
                       p2.y.toFixed(2) + ') rotate(' + ang.toFixed(1) + ')');
       sv.appendChild(hd);
       box.appendChild(sv);
+
+      /* the mark, where the position says. No position, no mark. */
+      if (POS !== null) {
+        var q = at(pts, POS);
+        if (q) {
+          var gk = kind === 'land' ? 'horse' : 'fleet';
+          var mv = document.createElement('div');
+          mv.className = 'ap-mv';
+          mv.style.left = q.x.toFixed(2) + '%';
+          mv.style.top = q.y.toFixed(2) + '%';
+          mv.innerHTML = '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>';
+          box.appendChild(mv);
+        }
+      }
       if (label) {
         var lb = document.createElement('div');
         lb.className = 'ap-rl ap-rl-' + kind;
@@ -1130,7 +1181,31 @@
     return { scale: GS, marks: GA };
   }
 
+  /* set a position and redraw; play() is a loop that sets positions, and it
+     is deliberately the thin thing on top rather than the other way round */
+  function pos(p) {
+    POS = (p === null || p === undefined) ? null : Math.max(0, Math.min(1, p));
+    if (slides && at >= 0) { locator(slides[at]); }
+    return POS;
+  }
+  function play(seconds) {
+    stopPlay();
+    var t0 = performance.now(), ms = (seconds || 8) * 1000;
+    (function step(now) {
+      var p = (now - t0) / ms;
+      if (p >= 1) { pos(1); RAF = 0; return; }
+      pos(p);
+      RAF = requestAnimationFrame(step);
+    })(t0);
+  }
+  function stopPlay() {
+    if (RAF) { cancelAnimationFrame(RAF); RAF = 0; }
+  }
+
   window.AmentiPrologue = {
+    pos: pos,
+    play: play,
+    stop_play: function () { stopPlay(); pos(null); },
     marks: marks,
     join: join,
     start: start,
