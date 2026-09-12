@@ -122,12 +122,79 @@
     }
     return [a, b];   /* nowhere wet within reach — leave it, do not pretend */
   }
+  /* ── THREE MORE MARKS · 11 Sep 2026 ─────────────────────────────────────
+     STORM is not a place-state and that is why it was missing. Fire, wreck and
+     battle all say what happened TO a place; the north wind at 6.44 happened
+     to a fleet at sea, and the map had no way to say so — the wreck glyph sat
+     on Athos and the wind that caused it was invisible.
+
+     HORSE is in the register already and nowhere on the map. Purpose-made
+     horse-transports ordered from the tributaries a year in advance is, by
+     Herodotus's own arrangement, the fact that says this was not a raid.
+
+     CAMP IS NOT MUSTER. 6.95 is an army gathering; 6.45 is an army encamped
+     and attacked in the night. One is an assembly and one is a position held,
+     and drawing them with the same mark loses the difference. */
+  /* ── AND THREE THAT ARE NOT EVENTS AT ALL · 11 Sep 2026 ─────────────────
+     Every mark so far says WHAT HAPPENED TO A PLACE. Gold, silver and grain
+     say what a place PRODUCES, which is a different kind of claim and the one
+     the campaign keeps turning on. Thasos gives in without a hand raised and
+     Herodotus goes straight to its mines and its revenue at 6.46; the silver
+     at Laurion becomes the fleet at 7.144; the grain out of the Euxine runs
+     through the Hellespont, which is why the straits are worth a war.
+
+     A ground is not an event and does not decay. THE MARK STAYS PUT while
+     fire and wreck and battle come and go around it, and that difference is
+     the whole reason it is drawn rather than written into the prose.
+
+     The two metals are one shape twice — filled and hollow — because they are
+     the same kind of thing and the map should say so before the colour does. */
+  /* ── ONE PLACE FOR HOW A MARK LOOKS · 11 Sep 2026 ───────────────────────
+     Hue and size were spread across fourteen stylesheet lines and the size was
+     only written where it needed correcting, so THE NUMBERS THAT WERE NOT
+     THERE WERE THE HARDEST TO FIND — a glyph at the base size had no line
+     saying so, and changing it meant knowing which ones were silent.
+
+     Every mark now states both. The unicode characters are not drawn to one
+     optical weight — a hexagon at 13px genuinely reads larger than a triangle
+     at 13px — so these are CORRECTIONS AND NOT DECORATION, and they want an
+     eye on a rendered frame rather than a rule.
+
+     GS scales all of them together. Raise it for capture: at 1080p under
+     compression the small marks are the first thing to go. */
+  var GS = 1;
+  var GA = {
+    fire:   ['#ff7a3d', 13],
+    wreck:  ['#ff5a45', 15],
+    battle: ['#ffd166', 13],
+    muster: ['#c9d6a8', 13],
+    fleet:  ['#c9503f', 13],
+    city:   ['#e0913f', 13],
+    sacred: ['#7fd8f0', 13],
+    storm:  ['#8fb4c6', 15],
+    horse:  ['#c9a86a', 13],
+    camp:   ['#b8a06a', 13],
+    gold:   ['#f0c860', 11],
+    silver: ['#c8d4dc', 11],
+    wheat:  ['#b9c47a', 14]
+  };
+  function glyphCss() {
+    return Object.keys(GA).map(function (k) {
+      return '#amenti-prologue .ap-g-' + k + '{color:' + GA[k][0] +
+             ';font-size:' + (GA[k][1] * GS).toFixed(1) + 'px}';
+    }).join('\n');
+  }
+
   var GL = { fire: '\u25b2', wreck: '\u2715', battle: '\u2694',
-             muster: '\u25a3', fleet: '\u25b8', city: '\u25cf', sacred: '\u25c7' };
+             muster: '\u25a3', fleet: '\u25b8', city: '\u25cf', sacred: '\u25c7',
+             storm: '\u224b', horse: '\u265e', camp: '\u2302',
+             gold: '\u2b22', silver: '\u2b21', wheat: '\u03a8' };
   /* what each mark claims, for the key — one line, in the register's words */
   var GN = { fire: 'burnt', wreck: 'wrecked', battle: 'battle',
              muster: 'the army musters', fleet: 'the fleet', city: 'a city',
-             sacred: 'spared, or sacred' };
+             sacred: 'spared, or sacred', storm: 'the wind',
+             horse: 'the horses', camp: 'encamped',
+             gold: 'gold', silver: 'silver', wheat: 'grain' };
   function rproj(lat, lon) {
     return { x: (lon - RLO0) / (RLO1 - RLO0) * 100,
              y: (RLA1 - lat) / (RLA1 - RLA0) * 100,
@@ -318,13 +385,7 @@
       '#amenti-prologue .ap-g{position:absolute;left:50%;top:50%;',
       '  transform:translate(-50%,-50%);text-decoration:none;font-size:13px;',
       '  line-height:1;text-shadow:0 0 8px rgba(0,0,0,.9)}',
-      '#amenti-prologue .ap-g-fire{color:#ff7a3d}',
-      '#amenti-prologue .ap-g-wreck{color:#ff5a45;font-size:15px}',
-      '#amenti-prologue .ap-g-battle{color:#ffd166}',
-      '#amenti-prologue .ap-g-muster{color:#c9d6a8}',
-      '#amenti-prologue .ap-g-fleet{color:#c9503f}',
-      '#amenti-prologue .ap-g-city{color:#e0913f}',
-      '#amenti-prologue .ap-g-sacred{color:#7fd8f0}',
+      glyphCss(),
       '#amenti-prologue .ap-hasg s{left:13px}',
       '#amenti-prologue .ap-rl-land{top:28px;color:#c9503f}',
       /* the key: what the marks on this slide claim */
@@ -339,6 +400,7 @@
       'border-top:1.5px solid #c9503f}',
       '#amenti-prologue .ap-key .ap-k-sea{border-top-style:dashed}',
       '#amenti-prologue .ap-key .ap-k-land{border-top-style:dotted}',
+      '#amenti-prologue .ap-key .ap-k-thin{border-top-width:.5px}',
       /* the chart's furniture: a rose and a bar, both facts about the frame */
       '#amenti-prologue .ap-rose{position:absolute;right:12px;top:10px;',
       'pointer-events:none;color:#cfd6dd;opacity:.5;text-align:center;',
@@ -779,8 +841,23 @@
 
        The sea route is bent to the water. The land route is not — a road is a
        road, and the passage gives no route for either. */
-    drawRoute(s.route, s.route_label, 'sea');
-    drawRoute(s.route_land, s.route_land_label, 'land');
+    /* ── AN ARROW CARRIES MASS · 11 Sep 2026 ────────────────────────────
+       A lone runner and six hundred triremes drew the same line, and a reader
+       had no way to tell them apart. BROAD IS A FORCE AND NARROW IS ONE MAN.
+
+       Mass, and not certainty — certainty has the note column, and a surface
+       that spends its only remaining variable on something already recorded
+       has nothing left for the thing Herodotus keeps saying. Pheidippides at
+       6.105 is what this is for.
+
+       The register gives it as `sea=broad;land=narrow`, the same shape as
+       `glyphs`, and a leg that says nothing is a force. */
+    var mass = {};
+    (s.mass || '').split(';').forEach(function (m) {
+      var q = m.split('='); if (q[0] && q[1]) { mass[q[0].trim()] = q[1].trim(); }
+    });
+    drawRoute(s.route, s.route_label, 'sea', mass.sea);
+    drawRoute(s.route_land, s.route_land_label, 'land', mass.land);
 
     /* ── THE BLOCK WAS PASTED, NOT MOVED · 11 Sep 2026 ────────────────────
        When drawRoute() went in, the places loop and the OLD single-route
@@ -793,7 +870,8 @@
 
        Both leftovers are cut. drawRoute() above owns the routes and their
        captions; the places loop above owns the marks and the legend. */
-      function drawRoute(spec, label, kind) {
+      function drawRoute(spec, label, kind, weight) {
+      var thin = weight === 'narrow';
       if (!spec) { return; }
       var pts = spec.split('>').map(function (q) {
         var c = q.split('|'); return rproj(parseFloat(c[0]), parseFloat(c[1]));
@@ -821,7 +899,9 @@
         return (i ? 'L' : 'M') + p.x.toFixed(2) + ' ' + p.y.toFixed(2); }).join(' '));
       pa.setAttribute('fill', 'none');
       pa.setAttribute('stroke', hue);
-      pa.setAttribute('stroke-width', kind === 'land' ? '1.1' : '1.4');
+      pa.setAttribute('stroke-width', thin ? '0.7' : (kind === 'land' ? '1.1' : '1.4'));
+      /* the dash is the MEDIUM and the weight is the MASS — long for water,
+         fine for a road, and neither says anything about how many */
       pa.setAttribute('stroke-dasharray', kind === 'land' ? '1.5 2.6' : '4 2.6');
       pa.setAttribute('vector-effect', 'non-scaling-stroke');
       pa.setAttribute('opacity', kind === 'land' ? '.8' : '.92');
@@ -829,7 +909,8 @@
       var p1 = pts[pts.length - 2], p2 = pts[pts.length - 1];
       var ang = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
       var hd = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      hd.setAttribute('d', 'M0,0 L-2.6,1.3 L-2.6,-1.3 Z');
+      hd.setAttribute('d', thin ? 'M0,0 L-2.3,0.8 L-2.3,-0.8 Z'
+                                : 'M0,0 L-3.2,1.9 L-3.2,-1.9 Z');
       hd.setAttribute('fill', hue);
       hd.setAttribute('transform', 'translate(' + p2.x.toFixed(2) + ' ' +
                       p2.y.toFixed(2) + ') rotate(' + ang.toFixed(1) + ')');
@@ -908,6 +989,9 @@
     });
     if (s.route) { kbits.push('<span><b class="ap-k-sea"></b> by sea</span>'); }
     if (s.route_land) { kbits.push('<span><b class="ap-k-land"></b> by road</span>'); }
+    if (mass.sea === 'narrow' || mass.land === 'narrow') {
+      kbits.push('<span><b class="ap-k-thin"></b> one man</span>');
+    }
     if (kk) { kk.innerHTML = kbits.join(''); }
 
     /* ── WHAT THE FRAME LEAVES OUT · 11 Sep 2026 ────────────────────────
@@ -1027,7 +1111,27 @@
     setTimeout(wait, 500);
   })();
 
+  /* ── AND IT CAN BE TRIED WITHOUT AN UPLOAD · 11 Sep 2026 ────────────────
+     Tuning a glyph meant an edit, a commit, a Pages build and a hard reload,
+     which is four minutes for a number that wants six tries. `marks()` rewrites
+     the stylesheet in place: AmentiPrologue.marks(1.4) scales every mark, and
+     AmentiPrologue.marks({gold: 15}) moves one. Nothing is saved — what looks
+     right here still has to be written into GA. */
+  function marks(arg) {
+    if (typeof arg === 'number') { GS = arg; }
+    else if (arg) { Object.keys(arg).forEach(function (k) {
+      if (GA[k]) { GA[k][1] = arg[k]; } }); }
+    var old = document.getElementById('prologue-glyph-css');
+    if (old) { old.remove(); }
+    var st = document.createElement('style');
+    st.id = 'prologue-glyph-css';
+    st.textContent = glyphCss();
+    document.head.appendChild(st);
+    return { scale: GS, marks: GA };
+  }
+
   window.AmentiPrologue = {
+    marks: marks,
     join: join,
     start: start,
     stop: function () { if (el && el.parentNode) { el.parentNode.removeChild(el); } el = null; at = -1; },
