@@ -43,7 +43,7 @@
   var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var SCENE = 'https://amenti-proxy.ingram-ian.workers.dev/scene/';
 
-  var slides = null, err = null, el = null, at = -1, tried = {}, region = null, ground = null;
+  var slides = null, err = null, el = null, at = -1, tried = {}, region = null, ground = null, figures = null;
   var speeches = null;
 
   /* ── THE THEATRE, CUT FROM THE WORLD'S OWN GROUND · 10 Sep 2026 ──────────
@@ -446,11 +446,45 @@
          And the image is `contain`, not `cover`. A scene cropped to fill the
          frame loses whatever the generator put at its edges — here, the whole
          upper hall and the arrow in it, which is the subject. */
+      /* ── BARE MEANS BARE, AND TWO THINGS WERE NOT LISTED · 12 Sep 2026 ──
+         The key and the far chart were added after this rule and never joined
+         it, so they drew over the scene — the enumerated-selector fault again,
+         in the one place the surface had already learnt it once. */
       '#amenti-prologue.ap-bare .ap-legend,',
       '#amenti-prologue.ap-bare .ap-map,#amenti-prologue.ap-bare .ap-tx,',
       '#amenti-prologue.ap-bare .ap-nav,#amenti-prologue.ap-bare .ap-dots,',
+      '#amenti-prologue.ap-bare .ap-key,#amenti-prologue.ap-bare .ap-far,',
       '#amenti-prologue.ap-bare .ap-big,#amenti-prologue.ap-bare .ap-veil{',
       '  opacity:0;pointer-events:none}',
+      /* ── AND THE MARGINS WERE DOING NOTHING · 12 Sep 2026 ────────────────
+         The scene is `contain`, so on a wide window it leaves a broad dark
+         band either side. The reader was looking at a picture with the words
+         two clicks away and the man in the picture named nowhere.
+
+         THE PROSE GOES BESIDE THE IMAGE, NOT UNDER IT — a scene and its
+         sentence are one thing, and the map view stays uncluttered because
+         none of this belongs to the map. */
+      '#amenti-prologue .ap-aside{position:absolute;top:0;bottom:0;',
+      '  width:min(300px,21%);padding:26px 20px;box-sizing:border-box;',
+      '  overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .45s;',
+      '  display:flex;flex-direction:column;justify-content:center}',
+      '#amenti-prologue.ap-bare .ap-aside{opacity:1;pointer-events:auto}',
+      '#amenti-prologue .ap-aside-l{left:0}',
+      '#amenti-prologue .ap-aside-r{right:0}',
+      '#amenti-prologue .ap-aside h4{margin:0 0 10px;color:#5d6e84;',
+      '  font-size:9px;font-weight:400;letter-spacing:.16em;',
+      '  text-transform:uppercase}',
+      '#amenti-prologue .ap-aside .ap-pr{font-size:12px;line-height:1.75}',
+      '#amenti-prologue .ap-fig-nm{color:#e0913f;font-size:15px;',
+      '  line-height:1.3;margin-bottom:2px}',
+      '#amenti-prologue .ap-fig-ti{color:#9db0c6;font-size:10.5px;',
+      '  letter-spacing:.05em;margin-bottom:10px}',
+      '#amenti-prologue .ap-fig-yr{color:#5d6e84;font-size:9.5px;',
+      '  letter-spacing:.08em;margin-bottom:12px}',
+      '#amenti-prologue .ap-fig-wh{color:#c3d3e6;font-size:11.5px;',
+      '  line-height:1.7}',
+      '#amenti-prologue .ap-fig-src{color:#4d5c70;font-size:9px;margin-top:12px;',
+      '  padding-top:8px;border-top:1px solid rgba(43,58,80,.5);line-height:1.6}',
       '#amenti-prologue.ap-bare .ap-sc{opacity:1;background-size:contain;',
       '  background-repeat:no-repeat;background-position:center;',
       '  background-color:#05080e}',
@@ -724,6 +758,11 @@
     return loadCsv('REGION-PLACES.csv', function (v) { region = v; });
   }
 
+  function loadFigures() {
+    if (figures) { return Promise.resolve(); }
+    return loadCsv('FIGURES.csv', function (v) { figures = v; });
+  }
+
   function load() {
     if (slides || err) { return Promise.resolve(); }
     return fetch(RAW + 'ATTICA-PROLOGUE.csv?_=' + Date.now())
@@ -871,6 +910,8 @@
       '</svg><b>N</b></div>' +
       '<div class="ap-scale"><i></i><s></s></div></div>' +
       '<div class="ap-far"></div>' +
+      '<div class="ap-aside ap-aside-l"></div>' +
+      '<div class="ap-aside ap-aside-r"></div>' +
       '<div class="ap-key"></div><div class="ap-legend"></div>' +
       '<div class="ap-tx">' +
       '<div class="ap-hd"></div><div class="ap-ti"></div>' +
@@ -982,6 +1023,27 @@
     said(s);
     locator(s);
     /* a new passage starts at its beginning, not where the last one was left */
+    /* ── THE SCENE'S OWN COLUMNS · 12 Sep 2026 ──────────────────────────
+       The prose sits beside the picture rather than under it, and the person
+       in the picture is named where the picture is. Both are filled here and
+       shown only while bare — the map view owes them nothing. */
+    var asL = el.querySelector('.ap-aside-l');
+    var asR = el.querySelector('.ap-aside-r');
+    asL.innerHTML = '<h4>' + esc(yr(s.year)) + '  \u00b7  Herodotus ' +
+      esc(s.chapter) + '</h4><div class="ap-pr">' + render(s.prose) + '</div>';
+    var fig = (figures || []).filter(function (f) {
+      return f.key && s.figure && f.key === s.figure.trim();
+    })[0];
+    asR.innerHTML = fig
+      ? '<h4>who this is</h4>' +
+        '<div class="ap-fig-nm">' + esc(fig.name) + '</div>' +
+        (fig.title ? '<div class="ap-fig-ti">' + esc(fig.title) + '</div>' : '') +
+        (fig.years ? '<div class="ap-fig-yr">' + esc(fig.years) + '</div>' : '') +
+        '<div class="ap-fig-wh">' + render(fig.what) + '</div>' +
+        (fig.source ? '<div class="ap-fig-src">' + esc(fig.source) +
+          (fig.room ? '  \u00b7  ' + esc(fig.room) : '') + '</div>' : '')
+      : '';
+
     fitScale();
     var txb = el.querySelector('.ap-tx');
     if (txb) { txb.scrollTop = 0; }
@@ -1562,7 +1624,7 @@
         console.log('THE BACK STORY: the ground is not open. AmentiAttica.show() first.');
         return;
       }
-      Promise.all([loadRegion(), loadGround(), loadSpeeches()]).then(function () { show(0); });
+      Promise.all([loadRegion(), loadGround(), loadFigures(), loadSpeeches()]).then(function () { show(0); });
     });
   }
 

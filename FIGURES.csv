@@ -1,0 +1,26 @@
+key,name,title,years,what,source,room
+# FIGURES.csv  ->  Amenti.live/FIGURES.csv
+#
+# HEADER ON LINE 1, COMMENTS AFTER.
+#
+# WHO A SLIDE IS ABOUT. A scene draws a man with a bow and the surface could
+# not say who he was — the prose names him and the prose was two clicks away.
+# THE PICTURE AND THE PERSON BELONG TOGETHER, so the scene view carries a
+# panel beside the image and the register says what goes in it.
+#
+# `what` is one paragraph and is the whole claim. It says what this person is
+# TO THIS STORY, not what a biography would say — the Library has the life;
+# this column has the part that makes the campaign make sense.
+#
+# `source` and `room` are the same vocabulary as the slides. A figure whose
+# `room` names a file in the corpus can be checked; one that does not is
+# standing on nothing and should say so.
+#
+# THE PROLOGUE NAMES MORE PEOPLE THAN THIS. Gobryas, Artozostra, Datis,
+# Artaphrenes and the sons of Peisistratos all appear in the prose and none of
+# them has a row. A missing row draws no panel, which is the honest default;
+# adding one is a decision that this person carries a scene.
+#
+darius,Darius,king of the Persians,-550 to -486,"He inherits an empire and spends his reign enlarging it. When word comes that Sardis has been burnt he makes no account of the Ionians — they are subjects and cannot escape — but has to ask who the Athenians are, which is the measure of how small a thing Athens is to him in 498. Then he shoots an arrow into the sky and sets a servant to remind him at every dinner. Everything in this prologue follows from that dinner order: two expeditions, six hundred ships, and a war his son finishes.",Herodotus 5.105,herodotus/12-sardis.md
+mardonios,Mardonios,son of Gobryas,,"Young, lately married to the king's daughter, and given the whole war in 492 when Darius removes every other commander. He brings army and fleet to Kilikia, boards a ship himself, and loses three hundred ships at Athos and a great many men to the Brygians in one season. He is wounded, subdues the Brygians anyway, and takes the army home without reaching Greece. He returns in 480 under Xerxes and dies at Plataia.",Herodotus 6.43,herodotus/06-athos.md
+aristagoras,Aristagoras,tyrant of Miletos,,"He sails from Miletos to ask Athens for help and carries the assembly — twenty ships, and five more from Eretria. What follows is the raid that burns Sardis by accident, from a reed roof, and with it the temple of Hybebe. Herodotus calls those twenty ships the beginning of evils for Greeks and barbarians alike.",Herodotus 5.97,herodotus/12-sardis.md
