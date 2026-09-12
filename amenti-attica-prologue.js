@@ -341,9 +341,26 @@
      A name nobody has marked is still unknown, and comes down like any other
      word. That is the old behaviour, and it is now the only gap. */
   var NAMES = {};
+  /* ── AND IT LEARNT `THE` · 12 Sep 2026 ────────────────────────────────
+     The harvest reads capitalised words, and a title begins with one. `The
+     camp on the Aleïan plain` taught it that The is a name, so every emphasis
+     run afterwards drew `It is The only recorded speech from The Persian Side`.
+
+     A HARVEST CANNOT TELL A NAME FROM A SENTENCE'S FIRST WORD. So the words
+     that begin sentences are refused: they are the only ones a capital does
+     not distinguish. */
+  var NOTNAME = {};
+  ('the a an and or but of in on at to from for with by as is was were it its ' +
+   'this that these those he she they his her their who what when where why ' +
+   'not no so then than there here all every each both one two three')
+    .split(' ').forEach(function (w) { NOTNAME[w] = 1; });
   function learn(t) {
     String(t == null ? '' : t).replace(/[A-Z\u00c0-\u00de][a-z\u00df-\u00ff\u00ef'\u2019-]+/g,
-      function (w) { NAMES[w.toLowerCase()] = 1; return w; });
+      function (w) {
+        var k = w.toLowerCase();
+        if (!NOTNAME[k]) { NAMES[k] = 1; }
+        return w;
+      });
   }
   /* ── AND A FEW THAT ARE NEVER MARKS · 11 Sep 2026 ─────────────────────
      A harvest can only learn what something marks. `Greece`, `Asia`, `Persia`
@@ -448,7 +465,11 @@
          met in the middle and the prose ran up through the sea. The map owns a
          band at the top; the words take what is under it AND SCROLL, which is
          what a passage of prose wants anyway. */
-      ':root{--ap-band:min(37vh,calc(0.515 * min(760px,88vw)))}',
+      /* ── THE MAP CAN HAVE THE ROOM · 12 Sep 2026 ────────────────────────
+         The band was sized so the prose would fit under it without scrolling.
+         The prose scrolls now — the wheel works anywhere on the surface — so
+         the constraint is gone and THE MAP IS THE THING WORTH THE SPACE. */
+      ':root{--ap-band:min(54vh,calc(0.72 * min(760px,88vw)))}',
       '#amenti-prologue .ap-map{position:absolute;left:50%;top:22px;',
       '  transition:opacity .45s;height:var(--ap-band);',
       '  transform:translateX(-50%);width:min(760px,88%);',
