@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-12T02:27:29.249Z",
+    "generated": "2026-09-12T02:37:17.503Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -479,8 +479,8 @@
     },
     {
       "file": "amenti-attica-prologue.js",
-      "bytes": 54453,
-      "sha256": "9d329a8ff17b84e3",
+      "bytes": 56167,
+      "sha256": "3fc9a1fd94bba3c0",
       "type": "js",
       "declares": [
         "AmentiPrologue"
@@ -1558,8 +1558,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 53419,
-      "sha256": "c47a7a8c169948cb",
+      "bytes": 53443,
+      "sha256": "48b476f774e2feaf",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1568,25 +1568,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1279,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Amenti.listen",
           "line": 1280,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.voice",
+          "global": "Amenti.listen",
           "line": 1281,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.doctrine",
+          "global": "Amenti.voice",
           "line": 1282,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 1283,
           "when": "toplevel",
           "own": false
         }
@@ -1685,7 +1685,7 @@
     {
       "file": "hall.html",
       "bytes": 22137,
-      "sha256": "691773a649e06a77",
+      "sha256": "ce3d3d9f25e6ef7d",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1755,7 +1755,7 @@
           "line": 377
         },
         {
-          "file": "amenti-attica-prologue.js?v=93887f7f",
+          "file": "amenti-attica-prologue.js?v=4bd39b94",
           "line": 378
         },
         {
