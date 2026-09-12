@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-11T18:50:00.901Z",
+  "generated": "2026-09-12T01:08:26.275Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-09-11T18:50:00.862Z",
+  "libraryGenerated": "2026-09-12T01:08:26.222Z",
   "totals": {
-    "works": 558,
-    "CITED": 503,
+    "works": 567,
+    "CITED": 512,
     "DATED": 7,
     "THIN": 39,
     "EMPTY": 0,
@@ -201,8 +201,8 @@
       "needs": ""
     },
     "herodotus": {
-      "works": 12,
-      "CITED": 12,
+      "works": 21,
+      "CITED": 21,
       "DATED": 0,
       "THIN": 0,
       "EMPTY": 0,
