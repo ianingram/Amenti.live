@@ -890,8 +890,35 @@
              esc(L[1]) + '</div>';
     }).join('');
 
-    el.querySelector('.ap-off').innerHTML = off.length
-      ? esc(off.join(' · ')) : '';
+    /* ── THE KEY, AND IT COUNTS WHAT IS THERE · 11 Sep 2026 ─────────────
+       Five glyphs, two dashes and three weights of ground text went onto this
+       map and NOTHING SAID WHAT ANY OF THEM MEANT. A reader who does not
+       already know the campaign was given a picture, not a chart.
+
+       The key is built from what this slide actually drew — the glyphs it
+       used, and each route only if that route exists. A KEY THAT LISTS WHAT
+       COULD BE THERE goes stale the moment a mark is added or dropped; this
+       one cannot, because it is counted, not typed. */
+    var kk = el.querySelector('.ap-key'), kbits = [];
+    Object.keys(GN).forEach(function (g) {
+      if (!used_g[g]) { return; }
+      kbits.push('<span><u class="ap-g ap-g-' + g +
+                 '" style="position:static;transform:none;font-size:9px">' +
+                 GL[g] + '</u> ' + GN[g] + '</span>');
+    });
+    if (s.route) { kbits.push('<span><b class="ap-k-sea"></b> by sea</span>'); }
+    if (s.route_land) { kbits.push('<span><b class="ap-k-land"></b> by road</span>'); }
+    if (kk) { kk.innerHTML = kbits.join(''); }
+
+    /* ── WHAT THE FRAME LEAVES OUT · 11 Sep 2026 ────────────────────────
+       `Susa is off this map to the east` was the best line on the surface and
+       it was smuggled in as a place with no coordinates. It has its own column
+       now. A frame that says what it excludes is telling the truth about its
+       edges; one that just stops is not. */
+    var edges = (s.edges || '').split(';').map(function (e) { return e.trim(); })
+                               .filter(function (e) { return e; });
+    el.querySelector('.ap-off').innerHTML =
+      esc(off.concat(edges).join(' \u00b7 '));
   }
 
   /* the back story ends and the ground begins \u2014 6.96 to 6.97, which is the
