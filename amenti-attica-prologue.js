@@ -674,20 +674,33 @@
      written on the chart. A slide's places point at something; ground is what
      they point across, and it says the same on every slide because it was true
      before the campaign and stayed true after. */
+  /* ── A REGISTER THAT IS NOT THERE MUST SAY SO · 12 Sep 2026 ─────────────
+     REGION-PLACES.csv 404'd on every load since the standing-places layer was
+     written. The loader caught it, set the list to empty, and DREW NOTHING
+     WITHOUT SAYING SO — so the layer looked like a design decision rather than
+     a missing file, and the handoff went on listing it as aboard and working.
+
+     REGION.jpg failing writes a line the reader can see. A register failing
+     wrote nothing. Same fault, same fix: what could not be read is named. */
+  var missing = [];
+  function loadCsv(file, set) {
+    return fetch(RAW + file + '?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) {
+        if (!t) { missing.push(file); set([]); return; }
+        set(parse(t)); harvest();
+      })
+      .catch(function () { missing.push(file); set([]); });
+  }
+
   function loadGround() {
     if (ground) { return Promise.resolve(); }
-    return fetch(RAW + 'ATTICA-GROUND.csv?_=' + Date.now())
-      .then(function (r) { return r.ok ? r.text() : null; })
-      .then(function (t) { ground = t ? parse(t) : []; harvest(); })
-      .catch(function () { ground = []; });
+    return loadCsv('ATTICA-GROUND.csv', function (v) { ground = v; });
   }
 
   function loadRegion() {
     if (region) { return Promise.resolve(); }
-    return fetch(RAW + 'REGION-PLACES.csv?_=' + Date.now())
-      .then(function (r) { return r.ok ? r.text() : null; })
-      .then(function (t) { region = t ? parse(t) : []; harvest(); })
-      .catch(function () { region = []; });
+    return loadCsv('REGION-PLACES.csv', function (v) { region = v; });
   }
 
   function load() {
@@ -1500,6 +1513,11 @@
        edges; one that just stops is not. */
     var edges = (s.edges || '').split(';').map(function (e) { return e.trim(); })
                                .filter(function (e) { return e; });
+    if (missing.length) {
+      edges = edges.concat(missing.map(function (f) {
+        return f + ' could not be read';
+      }));
+    }
     el.querySelector('.ap-off').innerHTML =
       esc(off.concat(edges).join(' \u00b7 '));
   }
