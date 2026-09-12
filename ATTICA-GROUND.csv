@@ -1,0 +1,69 @@
+name,lat,lon,kind,note,span
+# ATTICA-GROUND.csv  ->  Amenti.live/ATTICA-GROUND.csv
+#
+# HEADER ON LINE 1, COMMENTS AFTER.
+#
+# THE STANDING GEOGRAPHY, AND IT IS NOT A PLACE LIST. REGION-PLACES.csv holds
+# settlements — things with a position, a mark and a legend line. This register
+# holds GROUND: seas, regions, plains. A reader who does not already know the
+# map was looking at grey land and blue water with two dots on it.
+#
+# The distinction is the one the prologue already makes. A slide's places are
+# POINTERS: they take a glyph and a sentence beneath the map. Ground takes
+# NEITHER. No mark, no legend, no click — it is the label written on the chart,
+# set light and tracked wide, and it says the same thing on every slide because
+# it was true before the campaign and stayed true after.
+#
+# The coordinates are a LABEL ANCHOR, not a position. `Aegean Sea` is not at
+# 37.8|25.2; that is where the words sit so they fall in open water. A sea has
+# no coordinate and this column is not claiming one.
+#
+# kind  water | land | plain
+#       water  seas and straits, the lighter hand
+#       land   regions and provinces
+#       plain  named ground inside a region
+#
+#
+# span   THE WIDEST FRAME, IN DEGREES OF LONGITUDE, AT WHICH THE LABEL DRAWS.
+#        Thirty-five labels on fixed anchors collide; Lykia lands on Pamphylia
+#        and neither can be read. So each name says how much room it needs to
+#        be worth the space. A continent is worth it always (99); Bithynia only
+#        when the frame is close (10). The frame at present is 16.5 wide.
+#
+#        This is not a collision solver. It is a judgement about IMPORTANCE,
+#        made here, by the person who knows which names a reader needs.
+Aegean Sea,37.8000,25.2000,water,the sea the whole campaign crosses,99
+Icarian Sea,37.4000,26.4000,water,named at 6.95 for the crossing island to island,18
+Myrtoan Sea,37.0000,24.0000,water,,14
+Thracian Sea,40.2000,24.8000,water,,22
+Sea of Marmara,40.7000,28.0000,water,,14
+Hellespont,40.2000,26.4000,water,the crossing between the continents,22
+Euxine Sea,41.6000,30.5000,water,,99
+Ionian Sea,38.6000,19.8000,water,,99
+Cretan Sea,35.6000,25.0000,water,,22
+Levantine Sea,34.4000,30.5000,water,,99
+Gulf of Issos,36.5000,35.5000,water,,11
+Asia,39.0000,32.5000,land,the continent the king rules,99
+Europe,41.8000,22.2000,land,the continent he is coming to,99
+Ionia,38.2000,27.0000,land,the revolt began here,22
+Lydia,38.6000,28.8000,land,Sardis is its seat,22
+Karia,37.2000,28.2000,land,,13
+Lykia,36.5000,29.6000,land,,11
+Pamphylia,36.9000,31.0000,land,,11
+Kilikia,37.0000,34.5000,land,where the army musters,22
+Phrygia,38.8000,31.2000,land,,13
+Mysia,39.6000,28.2000,land,,11
+Bithynia,40.5000,30.5000,land,,10
+Kappadokia,38.8000,35.5000,land,,13
+Thrace,41.5000,25.5000,land,,22
+Macedonia,40.7000,22.3000,land,made to serve at 6.44,22
+Thessaly,39.6000,22.2000,land,,18
+Boiotia,38.4000,23.2000,land,,13
+Attica,38.0000,23.8000,land,,22
+Peloponnese,37.5000,22.3000,land,,22
+Euboia,38.5000,23.8000,land,,13
+Crete,35.2000,24.8000,land,,22
+Cyprus,35.0000,33.0000,land,,22
+Aleian Plain,36.9000,35.2000,plain,where they encamp at 6.95,18
+Plain of Marathon,38.1500,23.9800,plain,,9
+Kaystrios Valley,38.1000,27.7000,plain,the road inland from Ephesos,9

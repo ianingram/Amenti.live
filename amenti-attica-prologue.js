@@ -43,7 +43,7 @@
   var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var SCENE = 'https://amenti-proxy.ingram-ian.workers.dev/scene/';
 
-  var slides = null, err = null, el = null, at = -1, tried = {}, region = null;
+  var slides = null, err = null, el = null, at = -1, tried = {}, region = null, ground = null;
   var speeches = null;
 
   /* ── THE THEATRE, CUT FROM THE WORLD'S OWN GROUND · 10 Sep 2026 ──────────
@@ -124,6 +124,10 @@
   }
   var GL = { fire: '\u25b2', wreck: '\u2715', battle: '\u2694',
              muster: '\u25a3', fleet: '\u25b8', city: '\u25cf', sacred: '\u25c7' };
+  /* what each mark claims, for the key — one line, in the register's words */
+  var GN = { fire: 'burnt', wreck: 'wrecked', battle: 'battle',
+             muster: 'the army musters', fleet: 'the fleet', city: 'a city',
+             sacred: 'spared, or sacred' };
   function rproj(lat, lon) {
     return { x: (lon - RLO0) / (RLO1 - RLO0) * 100,
              y: (RLA1 - lat) / (RLA1 - RLA0) * 100,
@@ -205,6 +209,7 @@
       learn(s.title); learn(s.route_label); learn(s.route_land_label);
     });
     (region || []).forEach(function (r) { learn(r.name); });
+    (ground || []).forEach(function (r) { learn(r.name); });
   }
 
   function render(t) {
@@ -322,6 +327,40 @@
       '#amenti-prologue .ap-g-sacred{color:#7fd8f0}',
       '#amenti-prologue .ap-hasg s{left:13px}',
       '#amenti-prologue .ap-rl-land{top:28px;color:#c9503f}',
+      /* the key: what the marks on this slide claim */
+      '#amenti-prologue .ap-key{position:absolute;left:50%;',
+      '  top:calc(9px + var(--ap-band));transform:translateX(-50%);',
+      '  width:min(760px,88%);',
+      'display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;',
+      'font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;',
+      'color:#6d7d92;pointer-events:none}',
+      '#amenti-prologue .ap-key span{display:inline-flex;align-items:center;gap:5px}',
+      '#amenti-prologue .ap-key b{display:inline-block;width:22px;height:0;',
+      'border-top:1.5px solid #c9503f}',
+      '#amenti-prologue .ap-key .ap-k-sea{border-top-style:dashed}',
+      '#amenti-prologue .ap-key .ap-k-land{border-top-style:dotted}',
+      /* the chart's furniture: a rose and a bar, both facts about the frame */
+      '#amenti-prologue .ap-rose{position:absolute;right:12px;top:10px;',
+      'pointer-events:none;color:#cfd6dd;opacity:.5;text-align:center;',
+      'text-shadow:0 1px 3px rgba(0,0,0,.9)}',
+      '#amenti-prologue .ap-rose svg{width:13px;height:17px;display:block;margin:0 auto}',
+      '#amenti-prologue .ap-rose b{font-size:8.5px;font-weight:600;letter-spacing:.16em;',
+      'display:block;margin-top:1px}',
+      '#amenti-prologue .ap-scale{position:absolute;left:12px;bottom:10px;',
+      'pointer-events:none;color:#cfd6dd;opacity:.5;',
+      'text-shadow:0 1px 3px rgba(0,0,0,.9)}',
+      '#amenti-prologue .ap-scale i{display:block;height:4px;border:1px solid currentColor;',
+      'border-top:0;min-width:24px}',
+      '#amenti-prologue .ap-scale s{display:block;text-decoration:none;font-size:8.5px;',
+      'letter-spacing:.14em;margin-top:2px}',
+      /* the ground: a label on a chart, not a pointer at a thing */
+      '#amenti-prologue .ap-gr{position:absolute;transform:translate(-50%,-50%);',
+      'pointer-events:none;white-space:nowrap;font-size:10px;font-weight:400;',
+      'letter-spacing:.22em;text-transform:uppercase;opacity:.42;',
+      'text-shadow:0 1px 3px rgba(0,0,0,.85)}',
+      '#amenti-prologue .ap-gr-water{color:#8fb4c6;font-style:italic;letter-spacing:.3em}',
+      '#amenti-prologue .ap-gr-land{color:#b9b3a4}',
+      '#amenti-prologue .ap-gr-plain{color:#a8a291;font-size:9px;letter-spacing:.18em}',
       '#amenti-prologue .ap-rl{position:absolute;left:10px;top:8px;',
       '  color:#ffd166;font-size:9.5px;letter-spacing:.05em;',
       '  background:rgba(5,8,14,.74);padding:3px 9px;border-radius:2px;',
@@ -329,7 +368,7 @@
       '#amenti-prologue .ap-rl span{width:16px;height:0;',
       '  border-top:1.5px dashed #ffd166;display:inline-block}',
       '#amenti-prologue .ap-legend{position:absolute;left:50%;',
-      '  top:calc(28px + var(--ap-band));',
+      '  top:calc(30px + var(--ap-band));',
       '  transform:translateX(-50%);width:min(760px,88%);',
       '  display:flex;flex-wrap:wrap;gap:2px 20px;pointer-events:none}',
       '#amenti-prologue .ap-legend div{color:#7d8ea6;font-size:9.5px;',
@@ -419,6 +458,25 @@
       .catch(function () { speeches = []; });
   }
 
+  /* ── THE MAP WAS BARE · 11 Sep 2026 ───────────────────────────────────
+     REGION-PLACES holds settlements — a position, a mark, a legend line. It
+     could not answer `what water is this` or `what is that plain`, so a reader
+     who did not already know the Aegean saw grey land and blue water with two
+     dots on it.
+
+     ATTICA-GROUND is the standing geography and it is drawn DIFFERENTLY ON
+     PURPOSE: no mark, no legend, no click, light and tracked wide, the label
+     written on the chart. A slide's places point at something; ground is what
+     they point across, and it says the same on every slide because it was true
+     before the campaign and stayed true after. */
+  function loadGround() {
+    if (ground) { return Promise.resolve(); }
+    return fetch(RAW + 'ATTICA-GROUND.csv?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.text() : null; })
+      .then(function (t) { ground = t ? parse(t) : []; harvest(); })
+      .catch(function () { ground = []; });
+  }
+
   function loadRegion() {
     if (region) { return Promise.resolve(); }
     return fetch(RAW + 'REGION-PLACES.csv?_=' + Date.now())
@@ -440,6 +498,27 @@
       .catch(function (e) { err = e.message; });
   }
 
+  /* ── A ROSE AND A BAR · 11 Sep 2026 ───────────────────────────────────
+     The projection is equirectangular and unrotated, so NORTH IS UP and a rose
+     is a fact rather than an ornament. The bar is computed from the frame's own
+     longitudes at the mid-latitude, not typed — change RLO0/RLO1 and the bar
+     follows. It rounds DOWN to a clean distance so the number is readable and
+     the bar is never longer than the distance it claims.
+
+     Both are the chart's furniture. They belong to the map and not to any
+     slide, so they are built once at mount and the clear routine leaves them
+     where the image is left. */
+  function fitScale() {
+    var bar = el && el.querySelector('.ap-scale');
+    if (!bar) { return; }
+    var kmPerDeg = 111.32 * Math.cos((RLA0 + RLA1) / 2 * Math.PI / 180);
+    var across = (RLO1 - RLO0) * kmPerDeg;
+    var want = across * 0.14, step = [50, 100, 200, 250, 500, 1000], km = step[0];
+    step.forEach(function (v) { if (v <= want) { km = v; } });
+    bar.querySelector('i').style.width = (km / across * 100).toFixed(2) + '%';
+    bar.querySelector('s').textContent = km + ' km';
+  }
+
   function mount() {
     var host = document.getElementById('amenti-attica');
     if (!host || el) { return !!el; }
@@ -449,8 +528,13 @@
     el.innerHTML =
       '<div class="ap-sc"></div><div class="ap-veil"></div>' +
       '<div class="ap-big"></div><div class="ap-hint"></div>' +
-      '<div class="ap-map"><img alt=""><div class="ap-off"></div></div>' +
-      '<div class="ap-legend"></div>' +
+      '<div class="ap-map"><img alt=""><div class="ap-off"></div>' +
+      '<div class="ap-rose"><svg viewBox="0 0 24 30" aria-hidden="true">' +
+      '<path d="M12 1 L16.4 12 L12 9.6 L7.6 12 Z" fill="currentColor"/>' +
+      '<path d="M12 9.6 L16.4 12 L12 23 L7.6 12 Z" fill="currentColor" opacity=".28"/>' +
+      '</svg><b>N</b></div>' +
+      '<div class="ap-scale"><i></i><s></s></div></div>' +
+      '<div class="ap-key"></div><div class="ap-legend"></div>' +
       '<div class="ap-tx">' +
       '<div class="ap-hd"></div><div class="ap-ti"></div>' +
       '<div class="ap-pr"></div><div class="ap-said"></div>' +
@@ -461,6 +545,7 @@
       '<button type="button" data-go="skip">skip to the map</button>' +
       '</div><div class="ap-dots"></div>';
     host.appendChild(el);
+    fitScale();
     el.addEventListener('click', function (e) {
       /* while bare, ANY click brings everything back — there is nothing else
          on the screen to click, and a reader should not have to find a target */
@@ -592,10 +677,39 @@
        inside the map that is not the image — the map owns one child it did not
        make, and everything else is this function's to clean up. */
     [].slice.call(box.children).forEach(function (n) {
-      if (n.tagName !== 'IMG' && !n.classList.contains('ap-off')) { n.remove(); }
+      if (n.tagName === 'IMG') { return; }
+      if (n.classList.contains('ap-off')) { return; }
+      /* the rose and the bar are the chart's furniture, not the slide's · 11 Sep 2026 */
+      if (n.classList.contains('ap-rose') || n.classList.contains('ap-scale')) { return; }
+      n.remove();
     });
 
-    /* the room first, underneath everything */
+    /* the ground first, beneath the room and beneath the slide */
+    /* ── A LABEL EARNS ITS ROOM · 11 Sep 2026 ───────────────────────────
+       Thirty-five ground labels on fixed anchors WILL COLLIDE — Lykia lands on
+       Pamphylia at this frame and neither can be read. The register carries a
+       `span`: the widest frame, in degrees of longitude, at which the label is
+       worth drawing. A continent is worth it always; Bithynia only when the
+       frame is close enough that there is room for the word.
+
+       This is not a collision solver and does not pretend to be one. It is a
+       decision about IMPORTANCE, made in the register by the person who knows
+       which names the reader needs, and it costs nothing at draw time. */
+    var span = RLO1 - RLO0;
+    (ground || []).forEach(function (g) {
+      var sp = parseFloat(g.span);
+      if (!isNaN(sp) && span > sp) { return; }
+      var q = rproj(+g.lat, +g.lon);
+      if (!q.inside) { return; }
+      var d = document.createElement('div');
+      d.className = 'ap-gr ap-gr-' + (g.kind || 'land');
+      d.style.left = q.x.toFixed(2) + '%';
+      d.style.top = q.y.toFixed(2) + '%';
+      d.textContent = g.name || '';
+      box.appendChild(d);
+    });
+
+    /* the room next, underneath the slide */
     var mine = {};
     (s.places || '').split(';').forEach(function (p) {
       var q = p.split('|'); if (q[0]) { mine[q[0].trim().toLowerCase()] = 1; }
@@ -617,7 +731,7 @@
       var q = g.split('='); if (q[0] && q[1]) { glyphs[q[0].trim().toLowerCase()] = q[1].trim(); }
     });
 
-    var legend = [], off = [];
+    var legend = [], off = [], used_g = {};
     (s.places || '').split(';').forEach(function (p) {
       if (!p.trim()) { return; }
       var q = p.split('|');
@@ -646,8 +760,8 @@
       var gk = glyphs[name.trim().toLowerCase()] || '';
       m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
                         : '<i></i>') + '<s>' + esc(name) + '</s>';
-      if (gk) { m.classList.add('ap-hasg'); }
-      if (what) { m.title = name + ' \u2014 ' + what; legend.push([name, what, gk]); }
+      if (gk) { m.classList.add('ap-hasg'); used_g[gk] = 1; }
+      if (what) { m.title = name + ' \u2014 ' + what; legend.push([name, what, gk, lo]); }
       box.appendChild(m);
     });
 
@@ -761,6 +875,13 @@
       });
     })();
 
+    /* ── THE LEGEND READS WEST TO EAST · 11 Sep 2026 ────────────────────
+       The sentences came out in register order and the eye reads the map from
+       the left, so the third line described the first place. Sorted by
+       longitude the two agree, and a reader can follow the legend along the
+       ground instead of hunting for each name. */
+    legend.sort(function (a, b) { return a[3] - b[3]; });
+
     var kb = el.querySelector('.ap-legend');
     kb.innerHTML = legend.map(function (L) {
       return '<div>' + (L[2] ? '<u class="ap-g ap-g-' + L[2] +
@@ -790,7 +911,7 @@
         console.log('THE BACK STORY: the ground is not open. AmentiAttica.show() first.');
         return;
       }
-      Promise.all([loadRegion(), loadSpeeches()]).then(function () { show(0); });
+      Promise.all([loadRegion(), loadGround(), loadSpeeches()]).then(function () { show(0); });
     });
   }
 
