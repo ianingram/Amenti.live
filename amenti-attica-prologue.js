@@ -100,6 +100,61 @@
     return f;
   }
 
+  /* ── THE MARKS ───────────────────────────────────────────────────────────
+     Thirteen. The first ten say WHAT HAPPENED TO A PLACE; gold, silver and
+     grain say what a place PRODUCES, which is a different kind of claim and
+     the one the campaign keeps turning on.
+
+     STORM is not a place-state and that is why it was missing for so long. The
+     north wind at 6.44 happened to a fleet at sea, so the wreck sat on Athos
+     and the thing that caused it had nowhere to be drawn.
+
+     CAMP IS NOT MUSTER. 6.95 is an army encamped on a plain; 6.43 is two
+     forces gathering and parting. An assembly and a position held.
+
+     AN EMOJI BRINGS ITS OWN PALETTE. A triangle does not mean fire; it was
+     unambiguous at 13px, which is not the same thing. The colour of 🔥 is not
+     ours and will differ between platforms — which for a city burning may be
+     right, and is a decision rather than an accident.
+
+     GA carries hue and size together, every mark stating both, because the old
+     arrangement wrote a size only where it needed correcting and THE NUMBERS
+     THAT WERE NOT THERE WERE THE HARDEST TO FIND. GS scales all of them; raise
+     it for capture, where the small marks go first. */
+  var GL = { wreck: '\u2715', battle: '\u2694',
+             muster: '\u25a3', fleet: '\u25b8', city: '\u25cf', sacred: '\u25c7',
+             storm: '\u224b', horse: '\u265e', camp: '\u2302',
+             gold: '\u2b22', silver: '\u2b21', wheat: '\u03a8',
+             fire: '\ud83d\udd25' };
+  /* what each mark claims, for the key — one line, in the register's words */
+  var GN = { fire: 'burnt', wreck: 'wrecked', battle: 'battle',
+             muster: 'the army musters', fleet: 'the fleet', city: 'a city',
+             sacred: 'spared, or sacred', storm: 'the wind',
+             horse: 'the horses', camp: 'encamped',
+             gold: 'gold', silver: 'silver', wheat: 'grain' };
+  var GS = 1;
+  var GA = {
+    fire:   ['#ff7a3d', 12],
+    wreck:  ['#ff5a45', 15],
+    battle: ['#ffd166', 13],
+    muster: ['#c9d6a8', 13],
+    fleet:  ['#c9503f', 13],
+    city:   ['#e0913f', 13],
+    sacred: ['#7fd8f0', 13],
+    storm:  ['#8fb4c6', 15],
+    horse:  ['#c9a86a', 13],
+    camp:   ['#b8a06a', 13],
+    gold:   ['#f0c860', 11],
+    silver: ['#c8d4dc', 11],
+    wheat:  ['#b9c47a', 14]
+  };
+  function glyphCss() {
+    return Object.keys(GA).map(function (k) {
+      return '#amenti-prologue .ap-g-' + k + '{color:' + GA[k][0] +
+             ';font-size:' + (GA[k][1] * GS).toFixed(1) + 'px}';
+    }).join('\n');
+  }
+
   function rproj(lat, lon) {
     return { x: (lon - F.lo0) / (F.lo1 - F.lo0) * 100,
              y: (F.la1 - lat) / (F.la1 - F.la0) * 100,
@@ -376,6 +431,32 @@
       '#amenti-prologue .ap-incap{position:absolute;left:6px;bottom:4px;',
       '  color:#c3d3e6;font-size:8.5px;letter-spacing:.06em;',
       '  text-shadow:0 1px 3px rgba(0,0,0,.95);pointer-events:none}',
+      /* the far chart: the theatre inside the world it sits in */
+      '#amenti-prologue .ap-far{position:absolute;right:10px;',
+      '  top:calc(22px + var(--ap-band) - 118px);width:190px;height:106px;',
+      '  overflow:hidden;border-radius:3px;border:1px solid rgba(43,58,80,.7);',
+      '  background:#070d16;pointer-events:none}',
+      '#amenti-prologue .ap-far img{position:absolute;inset:0;width:100%;',
+      '  height:100%;opacity:.5}',
+      '#amenti-prologue .ap-far .ap-far-box{position:absolute;',
+      '  border:1px solid rgba(224,145,63,.9);border-radius:1px;',
+      '  background:rgba(224,145,63,.10)}',
+      '#amenti-prologue .ap-far .ap-far-mk{position:absolute;width:3px;',
+      '  height:3px;border-radius:50%;background:#5d6e84;',
+      '  transform:translate(-50%,-50%)}',
+      '#amenti-prologue .ap-far .ap-far-mk.on{background:#e0913f;width:4px;',
+      '  height:4px;box-shadow:0 0 0 2px rgba(224,145,63,.25)}',
+      '#amenti-prologue .ap-far .ap-far-mk s{position:absolute;left:6px;',
+      '  top:-5px;text-decoration:none;white-space:nowrap;color:#9db0c6;',
+      '  font-size:8px;letter-spacing:.06em;',
+      '  text-shadow:0 1px 3px rgba(0,0,0,.95)}',
+      '#amenti-prologue .ap-far .ap-far-mk.on s{color:#e0913f}',
+      '#amenti-prologue .ap-far u{position:absolute;left:5px;bottom:3px;',
+      '  right:5px;text-decoration:none;color:#5d6e84;font-size:7.5px;',
+      '  letter-spacing:.05em;line-height:1.3;',
+      '  text-shadow:0 1px 3px rgba(0,0,0,.95)}',
+      /* there is only a margin to put it in when the window is wide */
+      '@media (max-width:1180px){#amenti-prologue .ap-far{display:none}}',
       '#amenti-prologue .ap-rl{position:absolute;left:10px;top:8px;',
       '  color:#ffd166;font-size:9.5px;letter-spacing:.05em;',
       '  background:rgba(5,8,14,.74);padding:3px 9px;border-radius:2px;',
@@ -594,6 +675,56 @@
   }, { capture: true });
 
 
+  /* ── THE KING IS OFF THE FRAME · 12 Sep 2026 ─────────────────────────────
+     Susa is at 48 degrees east and the theatre stops at 37.5, so the man who
+     orders all of this has never been drawable. `Susa is off this map to the
+     east` was the honest answer and it is still true — but there is a wide
+     dark margin beside the map doing nothing, and a reader who has never
+     placed Susa learns more from seeing the distance than from being told it.
+
+     A SMALLER MAP, NOT A WIDER ONE. Widening the theatre would shrink Greece
+     to a corner to accommodate a place the campaign never reaches. This is a
+     separate chart at a separate scale: the whole Near East, the theatre drawn
+     as a box inside it, and the king where he actually sat.
+
+     It is the chart's furniture, like the rose and the bar — the same on every
+     slide, because the distance from Athens to Susa does not depend on which
+     chapter you are reading. RELIEF.jpg is the world image the atlas already
+     fetches, at its own full extent. */
+  var WLO0 = 19.0, WLO1 = 53.0, WLA0 = 26.0, WLA1 = 45.0;
+  function wproj(lat, lon) {
+    return { x: (lon - WLO0) / (WLO1 - WLO0) * 100,
+             y: (WLA1 - lat) / (WLA1 - WLA0) * 100 };
+  }
+  function bearings() {
+    var host = el && el.querySelector('.ap-far');
+    if (!host || host.getAttribute('data-built')) { return; }
+    host.setAttribute('data-built', '1');
+    var k = 360 / (WLO1 - WLO0);
+    var dx = (WLO0 + 180) / 360 * 100;
+    var dy = (90 - WLA1) / 180 * 100;
+    var out = ['<img alt="" src="' + RAW + 'RELIEF.jpg" style="' +
+      'transform-origin:0 0;transform:translate(' + (-dx * k).toFixed(3) + '%,' +
+      (-dy * (180 / (WLA1 - WLA0))).toFixed(3) + '%) scale(' + k.toFixed(4) +
+      ',' + (180 / (WLA1 - WLA0)).toFixed(4) + ')">'];
+
+    /* the theatre, as a box */
+    var a = wproj(RLA1, RLO0), b = wproj(RLA0, RLO1);
+    out.push('<i class="ap-far-box" style="left:' + a.x.toFixed(2) + '%;top:' +
+      a.y.toFixed(2) + '%;width:' + (b.x - a.x).toFixed(2) + '%;height:' +
+      (b.y - a.y).toFixed(2) + '%"></i>');
+
+    /* and the king, where he sat */
+    [['Susa', 32.19, 48.26, 1], ['Sardis', 38.49, 28.04, 0],
+     ['Athens', 37.98, 23.73, 0]].forEach(function (m) {
+      var q = wproj(m[1], m[2]);
+      out.push('<b class="ap-far-mk' + (m[3] ? ' on' : '') + '" style="left:' +
+        q.x.toFixed(2) + '%;top:' + q.y.toFixed(2) + '%"><s>' + m[0] + '</s></b>');
+    });
+    out.push('<u>the king, eleven degrees east of the frame</u>');
+    host.innerHTML = out.join('');
+  }
+
   function mount() {
     var host = document.getElementById('amenti-attica');
     if (!host || el) { return !!el; }
@@ -609,6 +740,7 @@
       '<path d="M12 9.6 L16.4 12 L12 23 L7.6 12 Z" fill="currentColor" opacity=".28"/>' +
       '</svg><b>N</b></div>' +
       '<div class="ap-scale"><i></i><s></s></div></div>' +
+      '<div class="ap-far"></div>' +
       '<div class="ap-key"></div><div class="ap-legend"></div>' +
       '<div class="ap-tx">' +
       '<div class="ap-hd"></div><div class="ap-ti"></div>' +
@@ -621,6 +753,7 @@
       '</div><div class="ap-dots"></div>';
     host.appendChild(el);
     fitScale();
+    bearings();
     el.addEventListener('click', function (e) {
       /* while bare, ANY click brings everything back — there is nothing else
          on the screen to click, and a reader should not have to find a target */
@@ -904,6 +1037,53 @@
       pa.setAttribute('vector-effect', 'non-scaling-stroke');
       pa.setAttribute('opacity', '.7');
       sv.appendChild(pa);
+
+      /* ── A HOST IS NOT A COUNT · 12 Sep 2026 ──────────────────────────
+         `the army musters` drawn as one mark says an army was AT A POINT. It
+         was not; it was spread over the plain, which is why the plain is the
+         thing Herodotus names.
+
+         So the ground inside the outline gets a scatter. IT MUST NOT LOOK
+         COUNTABLE — Herodotus gives six hundred ships and NO NUMBER OF MEN, and
+         a reader who counts dots and multiplies has been told something the
+         passage does not say. The dots are irregular, unlabelled, of varying
+         weight, and there are as many as the ground will hold rather than as
+         many as anybody was.
+
+         The placement is a hash of the index, so it is the same scatter every
+         time. A crowd that reshuffles on every redraw is an animation nobody
+         asked for. */
+      if (s.host) {
+        var xs = pts.map(function (p) { return p.x; });
+        var ys = pts.map(function (p) { return p.y; });
+        var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
+        var y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
+        function inPoly(px, py) {
+          var c = false;
+          for (var i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+            if (((pts[i].y > py) !== (pts[j].y > py)) &&
+                (px < (pts[j].x - pts[i].x) * (py - pts[i].y) /
+                      (pts[j].y - pts[i].y) + pts[i].x)) { c = !c; }
+          }
+          return c;
+        }
+        var seed = 1337, put = 0;
+        for (var n = 0; n < 900 && put < 150; n++) {
+          seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+          var rx = x0 + (seed / 0x7fffffff) * (x1 - x0);
+          seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+          var ry = y0 + (seed / 0x7fffffff) * (y1 - y0);
+          if (!inPoly(rx, ry)) { continue; }
+          var d = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          d.setAttribute('cx', rx.toFixed(2));
+          d.setAttribute('cy', ry.toFixed(2));
+          d.setAttribute('r', (0.22 + (n % 3) * 0.08).toFixed(2));
+          d.setAttribute('fill', '#c9503f');
+          d.setAttribute('opacity', (0.5 + (n % 4) * 0.12).toFixed(2));
+          sv.appendChild(d);
+          put++;
+        }
+      }
       host.insertBefore(sv, host.firstChild.nextSibling);
     }
     drawArea(s.area, rproj, box);
@@ -958,6 +1138,29 @@
         m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
                           : '<i></i>') + '<s>' + esc(nm) + '</s>';
         pane.appendChild(m);
+      });
+
+      /* ── THE PANE IS GROUND TOO · 12 Sep 2026 ───────────────────────
+         Ground labels drew on the main map only, so a name given a tight span
+         — the Gulf of Issos at 9 — had nowhere to appear: too close for the
+         theatre, and the pane was not asking. A pop-out that shows a plain and
+         cannot name the water it lies behind is a close-up with no bearings.
+
+         The pane gates on ITS OWN span, which is the whole point of the
+         column: at nine degrees the gulf is worth the room, at sixteen it is
+         not. */
+      var pspan = IN.lo1 - IN.lo0;
+      (ground || []).forEach(function (g) {
+        var sp = parseFloat(g.span);
+        if (!isNaN(sp) && pspan > sp) { return; }
+        var q = iproj(+g.lat, +g.lon);
+        if (!q.inside) { return; }
+        var d = document.createElement('div');
+        d.className = 'ap-gr ap-gr-' + (g.kind || 'land');
+        d.style.left = q.x.toFixed(2) + '%';
+        d.style.top = q.y.toFixed(2) + '%';
+        d.textContent = g.name || '';
+        pane.appendChild(d);
       });
 
       drawArea(s.area, iproj, pane);
