@@ -35,7 +35,7 @@ name,lat,lon,kind,note,span
 Aegean Sea,37.8000,25.2000,water,the sea the whole campaign crosses,99
 Icarian Sea,37.4000,26.4000,water,named at 6.95 for the crossing island to island,18
 Myrtoan Sea,37.0000,24.0000,water,,14
-Thracian Sea,40.2000,24.8000,water,,22
+Thracian Sea,40.2000,24.8000,water,,12
 Sea of Marmara,40.7000,28.0000,water,,14
 Hellespont,40.2000,26.4000,water,the crossing between the continents,22
 Euxine Sea,41.6000,30.5000,water,,99
@@ -59,11 +59,11 @@ Thrace,41.5000,25.5000,land,,22
 Macedonia,40.7000,22.3000,land,made to serve at 6.44,22
 Thessaly,39.6000,22.2000,land,,18
 Boiotia,38.4000,23.2000,land,,13
-Attica,38.0000,23.8000,land,,22
+Attica,38.0000,23.8000,land,,13
 Peloponnese,37.5000,22.3000,land,,22
 Euboia,38.5000,23.8000,land,,13
 Crete,35.2000,24.8000,land,,22
 Cyprus,35.0000,33.0000,land,,22
-Aleian Plain,36.9000,35.2000,plain,where they encamp at 6.95,18
+Aleian Plain,36.9000,35.2000,plain,where they encamp at 6.95,11
 Plain of Marathon,38.1500,23.9800,plain,,9
 Kaystrios Valley,38.1000,27.7000,plain,the road inland from Ephesos,9
