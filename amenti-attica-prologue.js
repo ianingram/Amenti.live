@@ -100,6 +100,102 @@
     return f;
   }
 
+  /* ── A SHIP DOES NOT CROSS A MOUNTAIN · 10 Sep 2026 ─────────────────────
+     REGION.jpg is the same cut of GROUND.jpg the campaign samples, so the
+     slide asks the ground the same way: read the pixel, and where a segment
+     crosses land, bend it out to sea.
+
+     IT IS NOT A COURSE AND MUST NOT LOOK LIKE ONE. The bend is the coarsest
+     thing that keeps the line wet — a midpoint pushed off the land, recursively
+     and no further. WHAT IS TRUE IS THE TWO ENDS AND THAT WATER WAS SAILED;
+     the shape between them belongs to this file. */
+  var SEA = (function () {
+    var c = document.createElement('canvas'), data = null, W = 0, H = 0;
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function () {
+      W = c.width = img.width; H = c.height = img.height;
+      try {
+        var x = c.getContext('2d', { willReadFrequently: true });
+        x.drawImage(img, 0, 0);
+        data = x.getImageData(0, 0, W, H).data;
+        if (slides && at >= 0) { show(at); }
+      } catch (e) { data = null; }   /* tainted canvas: no mask, no bending */
+    };
+    img.src = RAW + 'REGION.jpg';
+    return {
+      ready: function () { return !!data; },
+      at: function (px, py) {
+        if (!data) { return true; }
+        var a = Math.round(px / 100 * W), b = Math.round(py / 100 * H);
+        if (a < 0 || b < 0 || a >= W || b >= H) { return true; }
+        var i = (b * W + a) * 4;
+        return (data[i + 2] - data[i]) > 22;
+      }
+    };
+  })();
+
+  function wet(a, b, depth) {
+    if (!SEA.ready() || (depth || 0) > 3) { return [a, b]; }
+    var dry = false, t;
+    for (t = 0.12; t < 0.9; t += 0.08) {
+      var s1 = toImg({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
+      if (!SEA.at(s1.x, s1.y)) { dry = true; break; }
+    }
+    if (!dry) { return [a, b]; }
+    var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+    var dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1;
+    var nx = -dy / L, ny = dx / L;
+    for (var d = 1.5; d <= 26; d += 1.5) {
+      for (var sg = 0; sg < 2; sg++) {
+        var sn = sg ? -1 : 1;
+        var qx = mx + nx * d * sn, qy = my + ny * d * sn;
+        var s2 = toImg({ x: qx, y: qy });
+        if (!SEA.at(s2.x, s2.y)) { continue; }
+        var m = { x: qx, y: qy };
+        return wet(a, m, (depth || 0) + 1).concat(wet(m, b, (depth || 0) + 1).slice(1));
+      }
+    }
+    return [a, b];   /* nowhere wet within reach — leave it, do not pretend */
+  }
+
+  /* ── A MARK THAT MOVES · 11 Sep 2026 ────────────────────────────────────
+     A route is already a polyline of authored points. Walking it is a POSITION
+     AND NOT A CLOCK — p from 0 to 1 along the whole line. A mark driven by
+     elapsed time can only play; a mark that is a pure function of p can be
+     paused on, scrubbed backwards, and handed a value by whatever ends up
+     owning the sequence.
+
+     IT WAS CALLED `at` AND SO IS THE SLIDE INDEX · 12 Sep 2026. Two things of
+     the same name in one scope, and the var won — so the function was never
+     callable and the collision was silent. */
+  function along(pts, p) {
+    if (!pts || pts.length < 2) { return null; }
+    var seg = [], total = 0, i;
+    for (i = 0; i < pts.length - 1; i++) {
+      var d = Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+      seg.push(d); total += d;
+    }
+    if (!total) { return null; }
+    var want = Math.max(0, Math.min(1, p)) * total, run = 0;
+    for (i = 0; i < seg.length; i++) {
+      if (run + seg[i] >= want || i === seg.length - 1) {
+        var t = seg[i] ? (want - run) / seg[i] : 0;
+        var a = pts[i], b = pts[i + 1];
+        return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t,
+                 ang: Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI };
+      }
+      run += seg[i];
+    }
+    return null;
+  }
+
+  /* null means standing still, which is the default and the honest one */
+  var POS = null, RAF = 0;
+  /* which slides the reader has already opened the map on, so a scene
+     arriving late cannot countermand a click */
+  var shown = {};
+
   /* ── THE MARKS ───────────────────────────────────────────────────────────
      Thirteen. The first ten say WHAT HAPPENED TO A PLACE; gold, silver and
      grain say what a place PRODUCES, which is a different kind of claim and
@@ -1295,7 +1391,7 @@
 
       /* the mark, where the position says. No position, no mark. */
       if (POS !== null) {
-        var q = at(pts, POS);
+        var q = along(pts, POS);
         if (q) {
           var gk = kind === 'land' ? 'horse' : 'fleet';
           var mv = document.createElement('div');
