@@ -534,8 +534,21 @@
       '  transform:translateX(-50%);width:min(760px,88%);',
       '  border:1px solid rgba(43,58,80,.55);border-radius:3px;overflow:hidden;',
       '  background:#070d16}',
-      '#amenti-prologue .ap-map img{position:absolute;inset:0;width:100%;',
-      '  height:100%;object-fit:cover;opacity:.72;',
+      /* ── RESAMPLED TWICE · 13 Sep 2026 ───────────────────────────────────
+         The image was laid out at 100% of the box with `object-fit:cover` and
+         THEN transformed to the frame. Two resamples: once to fit the box,
+         once to zoom. The second was working on the first one's output rather
+         than on the file.
+
+         One transform now. `width/height:auto` with the natural size lets the
+         browser sample the source directly at the final scale, and
+         `image-rendering:high-quality` asks for the good filter rather than the
+         fast one. It conjures no pixels that are not there — REGION.jpg is
+         2,253 across and a 6-degree frame still upscales — but it stops
+         throwing away the ones that are. */
+      '#amenti-prologue .ap-map img{position:absolute;left:0;top:0;',
+      '  width:auto;height:auto;opacity:.72;',
+      '  image-rendering:high-quality;',
       '  transition:transform .5s cubic-bezier(.4,0,.2,1)}',
       '#amenti-prologue .ap-mk{position:absolute;transform:translate(-50%,-50%);',
       '  pointer-events:none}',
@@ -599,8 +612,7 @@
       '  aspect-ratio:1.94;overflow:hidden;border-radius:3px;',
       '  border:1px solid rgba(201,80,63,.75);background:#070d16;',
       '  box-shadow:0 4px 22px rgba(0,0,0,.75)}',
-      '#amenti-prologue .ap-inset img{position:absolute;inset:0;width:100%;',
-      '  height:100%;object-fit:cover;opacity:.86}',
+      '#amenti-prologue .ap-inset img{opacity:.86}',
       '#amenti-prologue .ap-inloc{position:absolute;pointer-events:none;',
       '  border:1px solid rgba(201,80,63,.85);border-radius:2px;',
       '  box-shadow:0 0 0 1px rgba(5,8,14,.6)}',
@@ -1171,6 +1183,29 @@
           'REGION.jpg did not load — the places are still named below';
       };
     }
+    /* ── THE FRAME WAS SET AFTER EVERYTHING WAS DRAWN · 13 Sep 2026 ───────
+       `F` is what rproj projects through, and it was assigned two hundred
+       lines below the loops that use it. So the ground, the places and the
+       routes were drawn in THE PREVIOUS SLIDE'S FRAME while the image and the
+       scale bar took the current one — a map showing the whole theatre with a
+       bar under it reading 50 km, and marks in positions that belonged to the
+       slide before.
+
+       IT IS THE FIRST THING THE FUNCTION DOES NOW. Nothing may be projected
+       before the projection is decided. */
+    F = frameFor(s.frame);
+    /* the box, the file, and one transform between them · 13 Sep 2026 */
+    var bw = box.clientWidth || 760, bh = box.clientHeight || 400;
+    var nw = img.naturalWidth || 2253, nh = img.naturalHeight || 1160;
+    /* cover the box at the theatre's full extent, then narrow to the frame */
+    var base = Math.max(bw / nw, bh / nh);
+    var fk = base * (RLO1 - RLO0) / (F.lo1 - F.lo0);
+    var fdx = (F.lo0 - RLO0) / (RLO1 - RLO0) * nw * fk;
+    var fdy = (RLA1 - F.la1) / (RLA1 - RLA0) * nh * fk;
+    img.style.transformOrigin = '0 0';
+    img.style.transform = 'translate(' + (-fdx).toFixed(2) + 'px,' +
+                          (-fdy).toFixed(2) + 'px) scale(' + fk.toFixed(5) + ')';
+
     /* ── CLEAR EVERYTHING THIS FUNCTION DRAWS · 10 Sep 2026 ────────────────
        The route caption was added on every slide and removed on none, so by
        the eighth there were SEVEN OLD DATES STACKED ACROSS THE MAP and the
@@ -1383,14 +1418,6 @@
        Same image, same marks, a closer frame. It is drawn last so it sits over
        the ground, and the box it magnifies is drawn on the ground so the two
        can be read together. */
-    F = frameFor(s.frame);
-    var fk = (RLO1 - RLO0) / (F.lo1 - F.lo0);
-    var fdx = (F.lo0 - RLO0) / (RLO1 - RLO0) * 100;
-    var fdy = (RLA1 - F.la1) / (RLA1 - RLA0) * 100;
-    img.style.transformOrigin = '0 0';
-    img.style.transform = 'translate(' + (-fdx * fk).toFixed(3) + '%,' +
-                          (-fdy * fk).toFixed(3) + '%) scale(' + fk.toFixed(4) + ')';
-
     var mass = {};
     (s.mass || '').split(';').forEach(function (m) {
       var q = m.split('='); if (q[0] && q[1]) { mass[q[0].trim()] = q[1].trim(); }
@@ -1415,9 +1442,17 @@
       var ik = (RLO1 - RLO0) / (IN.lo1 - IN.lo0);
       var idx = (IN.lo0 - RLO0) / (RLO1 - RLO0) * 100;
       var idy = (RLA1 - IN.la1) / (RLA1 - RLA0) * 100;
+      var pw = 242, ph = pw / 1.94;
+      var pbase = Math.max(pw / (img.naturalWidth || 2253),
+                           ph / (img.naturalHeight || 1160));
+      var pk = pbase * (RLO1 - RLO0) / (IN.lo1 - IN.lo0);
+      var pdx = (IN.lo0 - RLO0) / (RLO1 - RLO0) * (img.naturalWidth || 2253) * pk;
+      var pdy = (RLA1 - IN.la1) / (RLA1 - RLA0) * (img.naturalHeight || 1160) * pk;
       pane.innerHTML = '<img alt="" src="' + RAW + 'REGION.jpg" style="' +
-        'transform-origin:0 0;transform:translate(' + (-idx * ik).toFixed(3) +
-        '%,' + (-idy * ik).toFixed(3) + '%) scale(' + ik.toFixed(4) + ')">';
+        'position:absolute;left:0;top:0;width:auto;height:auto;' +
+        'image-rendering:high-quality;transform-origin:0 0;transform:translate(' +
+        (-pdx).toFixed(2) + 'px,' + (-pdy).toFixed(2) + 'px) scale(' +
+        pk.toFixed(5) + ')">';
 
       (s.places || '').split(';').forEach(function (p) {
         if (!p.trim()) { return; }
@@ -1799,8 +1834,15 @@
        laid on its side is the chart's own idiom for water and needs no key of
        its own — WHICH IS WHAT A KEY ENTRY SHOULD BE.
 
-       It is an IDIOM AND NOT A SAMPLE. The line on the map is still dashed;
-       this says what the line means rather than what it looks like. */
+       ── AND THEN THE LINE CAUGHT UP · 13 Sep 2026 ──────────────────────
+       This said, for a day, that the swatch was an idiom and not a sample —
+       that the line stayed dashed and the key described its meaning rather
+       than its shape. THAT WAS A COMMENT DESCRIBING BEHAVIOUR THAT HAD BEEN
+       CHANGED, which is the worst kind: it reads as current and is not.
+
+       The sea leg draws as a wave now, so the swatch IS a sample. Nothing here
+       needed changing when that happened — but this paragraph did, and it took
+       a reading of the served file to notice. */
     if (s.route) {
       kbits.push('<span><svg class="ap-k-wave" viewBox="0 0 26 8" ' +
         'aria-hidden="true"><path d="M1 4 q3 -3.4 6 0 t6 0 t6 0 t6 0" ' +
