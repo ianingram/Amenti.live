@@ -41,6 +41,29 @@
   'use strict';
 
   var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
+
+  /* ── WHICH GROUND IS SHOWING · 13 Sep 2026 ─────────────────────────────
+     The file name was typed in three places and the opacity in two more, so
+     changing the floor meant an edit in five and a hope that none was missed.
+     It is a value now.
+
+     A GROUND IS A PICTURE AND NOTHING ELSE. Bounds are RLO0..RLA1, water is
+     REGION-WATER.png, places are the registers. None of those move when this
+     does — which is the whole point of baking the mask, and the reason this
+     can be one line.
+
+     CRUST.jpg is GEBCO's 15 arc-second terrain, land and sea on one ramp
+     through zero, at the same 240 px per degree as the composite. It carries
+     far more structure than REGION.jpg and so wants more dimming: the marks
+     have to win against whatever is behind them.
+
+     The register will fill these from a row. Until it exists they are here,
+     in one place, which is the same shape one line earlier. */
+  var GROUND = {
+    file:    'CRUST.jpg',
+    dim:     0.46,     /* the composite ran at .72 — this has more to say */
+    paneDim: 0.62
+  };
   var SCENE = 'https://amenti-proxy.ingram-ian.workers.dev/scene/';
 
   var slides = null, err = null, el = null, at = -1, tried = {}, region = null, ground = null, figures = null;
@@ -564,7 +587,7 @@
          2,253 across and a 6-degree frame still upscales — but it stops
          throwing away the ones that are. */
       '#amenti-prologue .ap-map img{position:absolute;left:0;top:0;',
-      '  width:auto;height:auto;opacity:.72;',
+      '  width:auto;height:auto;opacity:' + GROUND.dim + ';',
       '  image-rendering:high-quality;',
       '  transition:transform .5s cubic-bezier(.4,0,.2,1)}',
       '#amenti-prologue .ap-mk{position:absolute;transform:translate(-50%,-50%);',
@@ -629,7 +652,7 @@
       '  aspect-ratio:1.94;overflow:hidden;border-radius:3px;',
       '  border:1px solid rgba(201,80,63,.75);background:#070d16;',
       '  box-shadow:0 4px 22px rgba(0,0,0,.75)}',
-      '#amenti-prologue .ap-inset img{opacity:.86}',
+      '#amenti-prologue .ap-inset img{opacity:' + GROUND.paneDim + '}',
       '#amenti-prologue .ap-inloc{position:absolute;pointer-events:none;',
       '  border:1px solid rgba(201,80,63,.85);border-radius:2px;',
       '  box-shadow:0 0 0 1px rgba(5,8,14,.6)}',
@@ -1197,12 +1220,12 @@
     var box = el.querySelector('.ap-map');
     var img = box.querySelector('img');
 
-    if (img.getAttribute('src') !== RAW + 'REGION.jpg') {
-      img.setAttribute('src', RAW + 'REGION.jpg');
+    if (img.getAttribute('src') !== RAW + GROUND.file) {
+      img.setAttribute('src', RAW + GROUND.file);
       img.onerror = function () {
         box.style.background = '#070d16';
         el.querySelector('.ap-off').textContent =
-          'REGION.jpg did not load — the places are still named below';
+          GROUND.file + ' did not load — the places are still named below';
       };
     }
     /* ── THE FRAME WAS SET AFTER EVERYTHING WAS DRAWN · 13 Sep 2026 ───────
@@ -1480,7 +1503,7 @@
       var pk = pbase * (RLO1 - RLO0) / (IN.lo1 - IN.lo0);
       var pdx = (IN.lo0 - RLO0) / (RLO1 - RLO0) * (img.naturalWidth || 2253) * pk;
       var pdy = (RLA1 - IN.la1) / (RLA1 - RLA0) * (img.naturalHeight || 1160) * pk;
-      pane.innerHTML = '<img alt="" src="' + RAW + 'REGION.jpg" style="' +
+      pane.innerHTML = '<img alt="" src="' + RAW + GROUND.file + '" style="' +
         'position:absolute;left:0;top:0;width:auto;height:auto;' +
         'image-rendering:high-quality;transform-origin:0 0;transform:translate(' +
         (-pdx).toFixed(2) + 'px,' + (-pdy).toFixed(2) + 'px) scale(' +
