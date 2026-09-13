@@ -453,7 +453,7 @@
       '#amenti-prologue.ap-bare .ap-legend,',
       '#amenti-prologue.ap-bare .ap-map,#amenti-prologue.ap-bare .ap-tx,',
       '#amenti-prologue.ap-bare .ap-nav,#amenti-prologue.ap-bare .ap-dots,',
-      '#amenti-prologue.ap-bare .ap-key,#amenti-prologue.ap-bare .ap-far,',
+      '#amenti-prologue.ap-bare .ap-key,#amenti-prologue.ap-bare .ap-rail,',
       '#amenti-prologue.ap-bare .ap-big,#amenti-prologue.ap-bare .ap-veil{',
       '  opacity:0;pointer-events:none}',
       /* ── AND THE MARGINS WERE DOING NOTHING · 12 Sep 2026 ────────────────
@@ -467,14 +467,34 @@
       '#amenti-prologue .ap-aside{position:absolute;top:0;bottom:0;',
       '  width:min(300px,21%);padding:26px 20px;box-sizing:border-box;',
       '  overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .45s;',
-      '  display:flex;flex-direction:column;justify-content:center}',
+      /* ── A CENTRED COLUMN CANNOT BE SCROLLED TO ITS TOP · 12 Sep 2026 ───
+         `justify-content:center` on an overflowing flex column pushes the
+         first line ABOVE the scroll origin, where no scrollbar can reach it.
+         The column looked centred and could not be read. Centred by margin
+         instead: middle when it fits, top when it does not. */
+      '  display:flex;flex-direction:column}',
+      '#amenti-prologue .ap-aside > :first-child{margin-top:auto}',
+      '#amenti-prologue .ap-aside > :last-child{margin-bottom:auto}',
+      '#amenti-prologue .ap-aside::-webkit-scrollbar{width:5px}',
+      '#amenti-prologue .ap-aside::-webkit-scrollbar-thumb{',
+      '  background:rgba(43,58,80,.85);border-radius:3px}',
       '#amenti-prologue.ap-bare .ap-aside{opacity:1;pointer-events:auto}',
+      /* the scene view had no title — the reader met a picture with no name
+         on it · 12 Sep 2026 */
+      '#amenti-prologue .ap-mast{position:absolute;left:20px;top:18px;',
+      '  color:#e0913f;font-size:12px;letter-spacing:.2em;',
+      '  text-transform:uppercase;opacity:0;pointer-events:none;',
+      '  transition:opacity .45s;text-shadow:0 1px 4px rgba(0,0,0,.9);z-index:9}',
+      '#amenti-prologue.ap-bare .ap-mast{opacity:.85}',
       '#amenti-prologue .ap-aside-l{left:0}',
       '#amenti-prologue .ap-aside-r{right:0}',
       '#amenti-prologue .ap-aside h4{margin:0 0 10px;color:#5d6e84;',
       '  font-size:9px;font-weight:400;letter-spacing:.16em;',
       '  text-transform:uppercase}',
-      '#amenti-prologue .ap-aside .ap-pr{font-size:12px;line-height:1.75}',
+      '#amenti-prologue .ap-apr{color:#c3d3e6;font-size:12px;line-height:1.75}',
+      '#amenti-prologue .ap-apr b{color:#dbe8f5;font-weight:400}',
+      '#amenti-prologue .ap-apr .ap-n{color:#7fd8f0;font-style:normal}',
+      '#amenti-prologue .ap-apr em{color:#9db0c6;font-style:italic}',
       '#amenti-prologue .ap-fig-nm{color:#e0913f;font-size:15px;',
       '  line-height:1.3;margin-bottom:2px}',
       '#amenti-prologue .ap-fig-ti{color:#9db0c6;font-size:10.5px;',
@@ -570,8 +590,8 @@
       '#amenti-prologue .ap-gr-land{color:#b9b3a4}',
       '#amenti-prologue .ap-gr-plain{color:#a8a291;font-size:9px;letter-spacing:.18em}',
       /* the pop-out and the box it magnifies */
-      '#amenti-prologue .ap-inset{position:absolute;right:9px;bottom:9px;',
-      '  width:34%;aspect-ratio:1.94;overflow:hidden;border-radius:3px;',
+      '#amenti-prologue .ap-inset{position:relative;width:100%;',
+      '  aspect-ratio:1.94;overflow:hidden;border-radius:3px;',
       '  border:1px solid rgba(201,80,63,.75);background:#070d16;',
       '  box-shadow:0 4px 22px rgba(0,0,0,.75)}',
       '#amenti-prologue .ap-inset img{position:absolute;inset:0;width:100%;',
@@ -583,8 +603,19 @@
       '  color:#c3d3e6;font-size:8.5px;letter-spacing:.06em;',
       '  text-shadow:0 1px 3px rgba(0,0,0,.95);pointer-events:none}',
       /* the far chart: the theatre inside the world it sits in */
-      '#amenti-prologue .ap-far{position:absolute;right:10px;',
-      '  top:calc(22px + var(--ap-band) - 118px);width:190px;height:106px;',
+      /* ── THE PANELS LEAVE THE CHART · 12 Sep 2026 ────────────────────────
+         The detail pane sat inside the map, over the ground it was magnifying,
+         and the far chart sat in the margin. TWO SMALL MAPS, TWO DIFFERENT
+         PLACES, one of them covering the thing it explains.
+
+         They are both supporting material and they both belong in the rail
+         beside the map. The chart carries the marks and nothing else; the rail
+         carries what helps read them. The locator box stays on the ground,
+         because that is a mark about the ground. */
+      '#amenti-prologue .ap-rail{position:absolute;right:10px;top:22px;',
+      '  width:210px;display:flex;flex-direction:column;gap:9px;',
+      '  transition:opacity .45s}',
+      '#amenti-prologue .ap-far{position:relative;width:100%;height:116px;',
       '  overflow:hidden;border-radius:3px;border:1px solid rgba(43,58,80,.7);',
       '  background:#070d16;pointer-events:none}',
       '#amenti-prologue .ap-far img{position:absolute;inset:0;width:100%;',
@@ -607,7 +638,7 @@
       '  letter-spacing:.05em;line-height:1.3;',
       '  text-shadow:0 1px 3px rgba(0,0,0,.95)}',
       /* there is only a margin to put it in when the window is wide */
-      '@media (max-width:1180px){#amenti-prologue .ap-far{display:none}}',
+      '@media (max-width:1180px){#amenti-prologue .ap-rail{display:none}}',
       '#amenti-prologue .ap-rl{position:absolute;left:10px;top:8px;',
       '  color:#ffd166;font-size:9.5px;letter-spacing:.05em;',
       '  background:rgba(5,8,14,.74);padding:3px 9px;border-radius:2px;',
@@ -822,7 +853,12 @@
        still something to stop. */
     e.stopPropagation();
     e.preventDefault();
-    if (el.classList.contains('ap-bare')) { return; }
+    if (el.classList.contains('ap-bare')) {
+      /* the scene's own columns scroll while the pane is hidden */
+      var col = e.target && e.target.closest && e.target.closest('.ap-aside');
+      if (col) { col.scrollTop += e.deltaY; }
+      return;
+    }
     var tx = el.querySelector('.ap-tx');
     if (tx) { tx.scrollTop += e.deltaY; }
   }, { capture: true, passive: false });
@@ -909,7 +945,9 @@
       '<path d="M12 9.6 L16.4 12 L12 23 L7.6 12 Z" fill="currentColor" opacity=".28"/>' +
       '</svg><b>N</b></div>' +
       '<div class="ap-scale"><i></i><s></s></div></div>' +
-      '<div class="ap-far"></div>' +
+      '<div class="ap-rail"><div class="ap-far"></div>' +
+      '<div class="ap-slot"></div></div>' +
+      '<div class="ap-mast">The Attica Campaign</div>' +
       '<div class="ap-aside ap-aside-l"></div>' +
       '<div class="ap-aside ap-aside-r"></div>' +
       '<div class="ap-key"></div><div class="ap-legend"></div>' +
@@ -1007,7 +1045,7 @@
       '  \u00b7  ' + (n + 1) + ' of ' + slides.length;
     el.querySelector('.ap-big').textContent = s.display || '';
     el.querySelector('.ap-ti').textContent = s.title;
-    el.querySelector('.ap-pr').innerHTML = render(s.prose);
+    el.querySelector('.ap-tx .ap-pr').innerHTML = render(s.prose);
     el.querySelector('.ap-ft').innerHTML =
       esc(s.source) + '  \u00b7  ' + esc(s.standing) + '  \u00b7  ' + esc(s.room) +
       (tried[s.scene] === false || tried[s.scene] === undefined
@@ -1029,8 +1067,18 @@
        shown only while bare — the map view owes them nothing. */
     var asL = el.querySelector('.ap-aside-l');
     var asR = el.querySelector('.ap-aside-r');
+    /* ── TWO ELEMENTS, ONE CLASS · 12 Sep 2026 ──────────────────────────
+       The aside's prose was given `ap-pr`, which is what the text pane under
+       the map already used. `querySelector` RETURNS THE FIRST MATCH IN THE DOM
+       and the aside is written earlier in the markup — so every slide's prose
+       went into the aside and the pane kept slide 1's for ever.
+
+       The title changed, the footer changed, the map changed, and the words
+       under it did not. Two things answering to one name is not a style
+       problem, and the pane's lookup is scoped now so nothing can shadow it
+       again. */
     asL.innerHTML = '<h4>' + esc(yr(s.year)) + '  \u00b7  Herodotus ' +
-      esc(s.chapter) + '</h4><div class="ap-pr">' + render(s.prose) + '</div>';
+      esc(s.chapter) + '</h4><div class="ap-apr">' + render(s.prose) + '</div>';
     var fig = (figures || []).filter(function (f) {
       return f.key && s.figure && f.key === s.figure.trim();
     })[0];
@@ -1206,7 +1254,7 @@
        THE OUTLINE IS DERIVED. Herodotus names the plain and gives no edges;
        these follow the coast and the foot of the Taurus, and the register says
        so on the row. */
-    function drawArea(spec, proj, host) {
+    function drawArea(spec, proj, host, dot) {
       if (!spec) { return; }
       var pts = spec.split('>').map(function (q) {
         var c = q.split('|'); return proj(parseFloat(c[0]), parseFloat(c[1]));
@@ -1269,7 +1317,12 @@
           var d = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
           d.setAttribute('cx', rx.toFixed(2));
           d.setAttribute('cy', ry.toFixed(2));
-          d.setAttribute('r', (0.22 + (n % 3) * 0.08).toFixed(2));
+          /* ── A HOST IS A TEXTURE, NOT A BLOT · 12 Sep 2026 ──────────
+             The dots were sized for the pane, where the plain is 160 km wide,
+             and drawn at the same radius on a map fourteen hundred kilometres
+             across — where they merged into one red mass over Adana. The mark
+             scales with the ground it is drawn on. */
+          d.setAttribute('r', ((0.22 + (n % 3) * 0.08) * (dot || 1)).toFixed(3));
           d.setAttribute('fill', '#c9503f');
           d.setAttribute('opacity', (0.5 + (n % 4) * 0.12).toFixed(2));
           sv.appendChild(d);
@@ -1278,7 +1331,7 @@
       }
       host.insertBefore(sv, host.firstChild.nextSibling);
     }
-    drawArea(s.area, rproj, box);
+    drawArea(s.area, rproj, box, 0.34);
 
     /* ── THE POP-OUT ──────────────────────────────────────────────────────
        Same image, same marks, a closer frame. It is drawn last so it sits over
@@ -1298,6 +1351,8 @@
     });
 
     IN = insetFor(s.inset);
+    var slotEl = el.querySelector('.ap-slot');
+    if (slotEl && !IN) { slotEl.innerHTML = ''; }
     if (IN) {
       var q0 = rproj(IN.la1, IN.lo0), q1 = rproj(IN.la0, IN.lo1);
       var lc = document.createElement('div');
@@ -1308,6 +1363,8 @@
       lc.style.height = (q1.y - q0.y).toFixed(2) + '%';
       box.appendChild(lc);
 
+      var slot = el.querySelector('.ap-slot');
+      slot.innerHTML = '';
       var pane = document.createElement('div');
       pane.className = 'ap-inset';
       var ik = (RLO1 - RLO0) / (IN.lo1 - IN.lo0);
@@ -1355,7 +1412,7 @@
         pane.appendChild(d);
       });
 
-      drawArea(s.area, iproj, pane);
+      drawArea(s.area, iproj, pane, 1);
       /* the leg, at fifteen times the scale, clipped by the pane itself */
       drawRoute(s.route, '', 'sea', mass.sea, iproj, pane, 1);
       (s.route_land || '').split(';').forEach(function (leg) {
@@ -1369,7 +1426,7 @@
       cap.textContent = (s.inset_label || '') +
         (s.inset_label ? '  \u00b7  ' : '') + Math.round(ikm) + ' km across';
       pane.appendChild(cap);
-      box.appendChild(pane);
+      slot.appendChild(pane);
     }
 
     /* ── THE ROUTE · 10 Sep 2026 ────────────────────────────────────────
