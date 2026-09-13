@@ -1,0 +1,30 @@
+name,kind,path,width_km,note
+# MASK-FIXES.csv  ->  Amenti.live/MASK-FIXES.csv
+#
+# HEADER ON LINE 1, COMMENTS AFTER.
+#
+# WHERE THE RASTER IS WRONG AND WE SAY SO.
+#
+# The water mask is read off REGION.jpg by the rule the surface has always
+# used: blue minus red greater than 22. At 240 pixels per degree that rule is
+# right nearly everywhere and WRONG IN THE NARROWS, because a channel two
+# pixels wide is a channel a JPEG will blur shut.
+#
+# This register names each place the raster disagrees with the world, says
+# which way, and says why. It is applied when the mask is baked, so the
+# correction is versioned and visible rather than hidden in a threshold that
+# somebody tuned once.
+#
+# kind      `open` forces water, `shut` forces land.
+# path      a polyline, lat|lon>lat|lon>..., the centre of the corridor.
+# width_km  how wide the corridor is, total, on the ground.
+#
+# EVERY ROW IS A CLAIM AGAINST A PRIMARY SOURCE and needs a reason in `note`.
+# A row without one is somebody making the map say what they wanted.
+#
+# WHAT IS NOT HERE MATTERS TOO. The Corinth isthmus was checked and is solid
+# in the raster — the Gulf of Corinth reaches the Saronic by sailing round the
+# Peloponnese, which is how it works, and no correction was needed. The first
+# test said otherwise and the test was wrong.
+#
+the Dardanelles,open,40.0300|26.1900>40.1500|26.3200>40.2400|26.4100,2.2,"The strait is 1.2 km at its narrowest and the raster resolves 0.37 km per pixel, so the south-west mouth blurs shut and the Sea of Marmara is unreachable by sea. Herodotus has fleets pass it repeatedly; Xerxes bridges it at 7.36."
