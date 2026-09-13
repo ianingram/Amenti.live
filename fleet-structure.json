@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-13T04:34:56.747Z",
+    "generated": "2026-09-13T04:37:28.904Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -471,19 +471,6 @@
       "type": "js",
       "declares": [
         "AmentiAtticaHall"
-      ],
-      "loads": [],
-      "calls": [],
-      "endpoints": [],
-      "tables": []
-    },
-    {
-      "file": "amenti-attica-prologue.js",
-      "bytes": 99704,
-      "sha256": "230b126cf6031db5",
-      "type": "js",
-      "declares": [
-        "AmentiPrologue"
       ],
       "loads": [],
       "calls": [],
@@ -1559,7 +1546,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53470,
-      "sha256": "26ac2dd014abaefa",
+      "sha256": "f7d4b6a3688c15d4",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -2372,14 +2359,6 @@
         "file": "amenti-attica-hall.js",
         "declares": [
           "AmentiAtticaHall"
-        ],
-        "loadedByAPage": false,
-        "note": "declares globals that nothing calls"
-      },
-      {
-        "file": "amenti-attica-prologue.js",
-        "declares": [
-          "AmentiPrologue"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
