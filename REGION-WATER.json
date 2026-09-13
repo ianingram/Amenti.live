@@ -1,5 +1,6 @@
 {
-  "ground": "REGION.jpg",
+  "source": "GEBCO_2020 15 arc-second grid via NOAA ERDDAP, elevation in metres",
+  "rule": "elevation < 0 m",
   "bounds": {
     "lo0": 21.0,
     "lo1": 37.5,
@@ -11,16 +12,8 @@
     "h": 748,
     "about_km": 1.0
   },
-  "rule": "blue - red > 22",
-  "water_fraction": 0.4099,
-  "fixes": [
-    {
-      "name": "the Dardanelles",
-      "kind": "open",
-      "cells": 139,
-      "note": "The strait is 1.2 km at its narrowest and the raster resolves 0.37 km per pixel, so the south-west mouth blurs shut and the Sea of Marmara is unreachable by sea. Herodotus has fleets pass it repeatedly; Xerxes bridges it at 7.36."
-    }
-  ],
-  "baked": "2026-09-13T21:47:33.310838+00:00",
-  "note": "White is water. Every skin reads this, not its own pixels."
+  "water_fraction": 0.4588,
+  "fixes": [],
+  "baked": "2026-09-13T23:01:04.267956+00:00",
+  "note": "White is water. Derived from measured depth, not from the colour of a satellite composite \u2014 so no strait needs an override and no skin can move the sea. Supersedes the JPEG-sampled mask of 13 Sep, which read 41.0% water against this 45.8% because shallow coastal water is brown in a composite."
 }
