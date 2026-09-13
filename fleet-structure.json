@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-13T22:02:50.264Z",
+    "generated": "2026-09-13T23:27:22.161Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -479,8 +479,8 @@
     },
     {
       "file": "amenti-attica-prologue.js",
-      "bytes": 112295,
-      "sha256": "ee291ca077044ac2",
+      "bytes": 113479,
+      "sha256": "6d7b9eabec875fc5",
       "type": "js",
       "declares": [
         "AmentiPrologue"
@@ -1559,7 +1559,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53470,
-      "sha256": "f42c638f2f88e6c2",
+      "sha256": "98b9128cf5faeb93",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1685,7 +1685,7 @@
     {
       "file": "hall.html",
       "bytes": 22137,
-      "sha256": "3d58f469dfae8a93",
+      "sha256": "e4a4767685368ccd",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1755,7 +1755,7 @@
           "line": 377
         },
         {
-          "file": "amenti-attica-prologue.js?v=f79e31b0",
+          "file": "amenti-attica-prologue.js?v=6f887428",
           "line": 378
         },
         {
