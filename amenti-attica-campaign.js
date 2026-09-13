@@ -812,11 +812,24 @@
          SEPTEMBER AND EVERY ONE WAS A FIXED PROPORTION USED WHERE THE SPACE
          HAD TO BE MEASURED. The floor is computed in place() from whatever is
          actually down there. */
-      '#amenti-campaign .ac-cap{position:absolute;left:50%;transform:translateX(-50%);',
-      '  width:min(560px,80%);pointer-events:auto;',
+      /* ── THE PANEL SAT ON THE GROUND IT DESCRIBED · 13 Sep 2026 ──────────
+         Centred, 560px wide, over the middle of the frame — which at 6.97 is
+         the Cyclades, and Delos is the subject of the sentence inside it. A
+         reader was told about a place the panel was covering.
+
+         THE MARGIN BESIDE THE GROUND IS EMPTY AND THE GROUND IS NOT. It takes
+         the lower right, above the floor place() already computes from the
+         guide, the clock and the control row — so it clears the furniture at
+         the bottom and the faculty rail at the top, which are the two edges
+         that were already spoken for.
+
+         Below 1180px there is no margin to take, and it goes back to the
+         centre rather than covering more by being narrower. */
+      '#amenti-campaign .ac-cap{position:absolute;left:14px;',
+      '  width:min(232px,19%);pointer-events:auto;',
       '  background:rgba(5,8,14,.92);border:1px solid rgba(43,58,80,.6);',
       '  border-radius:4px;padding:10px 13px;',
-      '  font:400 11px/1.5 ui-monospace,Menlo,monospace;color:#c3d3e6}',
+      '  font:400 11px/1.65 ui-monospace,Menlo,monospace;color:#c3d3e6}',
       '#amenti-campaign .ac-ch{color:#5d6e84;letter-spacing:.06em;font-size:9.5px;',
       '  margin-bottom:6px}',
       '#amenti-campaign .ac-ch b{color:#e0913f;font-weight:400}',
@@ -826,8 +839,24 @@
       '#amenti-campaign .ac-says{color:#7d8ea6;font-size:10px;margin-top:1px}',
       '#amenti-campaign .ac-step{color:#4d5c70;font-size:9px;margin-top:7px;',
       '  padding-top:5px;border-top:1px solid rgba(43,58,80,.4)}',
-      '#amenti-campaign .ac-nav{position:absolute;left:50%;transform:translateX(-50%);',
-      '  pointer-events:auto;display:flex;gap:6px}',
+      /* ── THE MARGIN IS TALL, NOT WIDE · 13 Sep 2026 ──────────────────────
+         The first move put a 380px panel in the margin, which is the same
+         mistake in a different place: the strip beside the ground is a TALL
+         NARROW BAND and a wide panel laid into it either overhangs the frame
+         or shrinks the type to fit.
+
+         So the panel takes the shape of the space — narrow, and as tall as it
+         needs. The buttons stack for the same reason: three of them in a row
+         is 230px of width the margin does not have. */
+      '#amenti-campaign .ac-nav{position:absolute;left:14px;',
+      '  pointer-events:auto;display:flex;flex-direction:column;gap:5px;',
+      '  width:min(232px,19%)}',
+      '#amenti-campaign .ac-nav button{width:100%;text-align:left}',
+      '@media (max-width:1180px){',
+      '  #amenti-campaign .ac-cap,#amenti-campaign .ac-nav{',
+      '    left:50%;transform:translateX(-50%);width:min(560px,80%)}',
+      '  #amenti-campaign .ac-nav{flex-direction:row;justify-content:center}',
+      '  #amenti-campaign .ac-nav button{width:auto}}',
       '#amenti-campaign .ac-nav button{background:rgba(5,8,14,.9);',
       '  border:1px solid rgba(43,58,80,.6);border-radius:3px;color:#7d8ea6;',
       '  padding:3px 11px;cursor:pointer;font:inherit;letter-spacing:.05em}',
