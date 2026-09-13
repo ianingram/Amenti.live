@@ -599,9 +599,11 @@
       '#amenti-prologue .ap-inloc{position:absolute;pointer-events:none;',
       '  border:1px solid rgba(201,80,63,.85);border-radius:2px;',
       '  box-shadow:0 0 0 1px rgba(5,8,14,.6)}',
-      '#amenti-prologue .ap-incap{position:absolute;left:6px;bottom:4px;',
-      '  color:#c3d3e6;font-size:8.5px;letter-spacing:.06em;',
-      '  text-shadow:0 1px 3px rgba(0,0,0,.95);pointer-events:none}',
+      /* a caption laid over the marks is two things in one space · 13 Sep */
+      '#amenti-prologue .ap-incap{position:absolute;left:0;right:0;bottom:0;',
+      '  padding:4px 7px 5px;color:#c3d3e6;font-size:9px;letter-spacing:.05em;',
+      '  line-height:1.4;pointer-events:none;',
+      '  background:linear-gradient(180deg,rgba(7,13,22,0),rgba(7,13,22,.92) 45%)}',
       /* the far chart: the theatre inside the world it sits in */
       /* ── THE PANELS LEAVE THE CHART · 12 Sep 2026 ────────────────────────
          The detail pane sat inside the map, over the ground it was magnifying,
@@ -612,10 +614,17 @@
          beside the map. The chart carries the marks and nothing else; the rail
          carries what helps read them. The locator box stays on the ground,
          because that is a mark about the ground. */
-      '#amenti-prologue .ap-rail{position:absolute;right:10px;top:22px;',
-      '  width:210px;display:flex;flex-direction:column;gap:9px;',
+      /* ── THE RAIL WAS UNDER THE CONTROL ROW · 13 Sep 2026 ────────────────
+         The ground's own buttons sit across the top right and the rail began
+         at 22px, so the far chart started behind them. It drops below the row.
+
+         And both panels were too small for what they carry — Susa's name, four
+         marks and a caption in 190px. Fifteen per cent wider, and the margin
+         still holds them. */
+      '#amenti-prologue .ap-rail{position:absolute;right:12px;top:104px;',
+      '  width:242px;display:flex;flex-direction:column;gap:10px;',
       '  transition:opacity .45s}',
-      '#amenti-prologue .ap-far{position:relative;width:100%;height:116px;',
+      '#amenti-prologue .ap-far{position:relative;width:100%;height:134px;',
       '  overflow:hidden;border-radius:3px;border:1px solid rgba(43,58,80,.7);',
       '  background:#070d16;pointer-events:none}',
       '#amenti-prologue .ap-far img{position:absolute;inset:0;width:100%;',
@@ -1206,6 +1215,22 @@
       var q = g.split('='); if (q[0] && q[1]) { glyphs[q[0].trim().toLowerCase()] = q[1].trim(); }
     });
 
+    /* ── THE PANE CARRIES THOSE NAMES · 13 Sep 2026 ─────────────────────
+       Four marks inside ninety kilometres, on a map fourteen hundred wide.
+       The declutter pushed their labels two hundred pixels south, into open
+       sea, with nothing tethering them — `Acanthos` floating over the Aegean
+       and `the north wind` sitting off Athens. A reader would have placed
+       every one of them in the wrong country.
+
+       A MARK INSIDE THE POP-OUT IS NOT LABELLED ON THE THEATRE. The box says
+       where to look and the pane says what is there, at nine times the scale,
+       with room for the words. The two panels stop repeating each other, and
+       the one that cannot do the job stops trying. */
+    IN = insetFor(s.inset);
+    function inPane(la, lo) {
+      return !!IN && lo >= IN.lo0 && lo <= IN.lo1 && la >= IN.la0 && la <= IN.la1;
+    }
+
     var legend = [], off = [], used_g = {};
     (s.places || '').split(';').forEach(function (p) {
       if (!p.trim()) { return; }
@@ -1234,7 +1259,8 @@
          sentence is a paragraph, and they do not belong in the same space. */
       var gk = glyphs[name.trim().toLowerCase()] || '';
       m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
-                        : '<i></i>') + '<s>' + esc(name) + '</s>';
+                        : '<i></i>') +
+                    (inPane(la, lo) ? '' : '<s>' + esc(name) + '</s>');
       if (gk) { m.classList.add('ap-hasg'); used_g[gk] = 1; }
       if (what) { m.title = name + ' \u2014 ' + what; legend.push([name, what, gk, lo]); }
       box.appendChild(m);
@@ -1350,7 +1376,6 @@
       var q = m.split('='); if (q[0] && q[1]) { mass[q[0].trim()] = q[1].trim(); }
     });
 
-    IN = insetFor(s.inset);
     var slotEl = el.querySelector('.ap-slot');
     if (slotEl && !IN) { slotEl.innerHTML = ''; }
     if (IN) {
@@ -1386,6 +1411,12 @@
         m.style.top = r.y.toFixed(2) + '%';
         m.innerHTML = (gk ? '<u class="ap-g ap-g-' + gk + '">' + GL[gk] + '</u>'
                           : '<i></i>') + '<s>' + esc(nm) + '</s>';
+        /* a name on the right of a small pane runs out of it · 13 Sep 2026 */
+        if (r.x > 58) {
+          var lb = m.querySelector('s');
+          lb.style.left = 'auto'; lb.style.right = '13px';
+          lb.style.textAlign = 'right';
+        }
         pane.appendChild(m);
       });
 
