@@ -109,6 +109,24 @@
      thing that keeps the line wet — a midpoint pushed off the land, recursively
      and no further. WHAT IS TRUE IS THE TWO ENDS AND THAT WATER WAS SAILED;
      the shape between them belongs to this file. */
+  /* ── WATER IS NOT A PROPERTY OF A PICTURE · 13 Sep 2026 ─────────────────
+     This read REGION.jpg and tested blue minus red. That works while the
+     ground IS the NASA composite and stops the moment a second skin exists —
+     a wireframe, a terminal green, a black-on-white — because the arithmetic
+     means nothing on those AND EVERY SEA ROUTE WOULD RUN THROUGH LAND
+     SILENTLY, which is the worst kind of wrong.
+
+     So the mask is baked once, out of the ground that can be trusted, and read
+     from REGION-WATER.png: white is water. A skin cannot now move the sea.
+
+     IT IS ALSO CORRECTED. At 0.37 km a pixel the Dardanelles blurs shut and
+     the Sea of Marmara was unreachable — a fleet could not have entered it and
+     nothing would have said so. MASK-FIXES.csv names that and why, and
+     tools/bake-mask.py applies it. The correction is versioned rather than
+     hidden in a threshold somebody tuned once.
+
+     AND IT IS 17 KB INSTEAD OF 1.1 MB. Nothing has to decode a photograph to
+     know where the sea is. */
   var SEA = (function () {
     var c = document.createElement('canvas'), data = null, W = 0, H = 0;
     var img = new Image();
@@ -122,15 +140,14 @@
         if (slides && at >= 0) { show(at); }
       } catch (e) { data = null; }   /* tainted canvas: no mask, no bending */
     };
-    img.src = RAW + 'REGION.jpg';
+    img.src = RAW + 'REGION-WATER.png';
     return {
       ready: function () { return !!data; },
       at: function (px, py) {
         if (!data) { return true; }
         var a = Math.round(px / 100 * W), b = Math.round(py / 100 * H);
         if (a < 0 || b < 0 || a >= W || b >= H) { return true; }
-        var i = (b * W + a) * 4;
-        return (data[i + 2] - data[i]) > 22;
+        return data[(b * W + a) * 4] > 127;   /* white is water */
       }
     };
   })();
