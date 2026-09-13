@@ -888,6 +888,24 @@
   /* THE FLOOR IS WHAT IS ALREADY DOWN THERE. The note, the clock and the
      period buttons all live at the bottom of this surface; the caption sits
      above the highest of them, measured from the host's own box. */
+  /* ── THE COLUMN BETWEEN THE MAP AND THE REGISTER · 13 Sep 2026 ──────────
+     The panel was centred, over the middle of the frame — which at 6.97 is the
+     Cyclades, and Delos is the subject of the sentence inside it. Two attempts
+     to move it failed because both PICKED A SIDE FROM A SCREENSHOT: the right
+     margin was too narrow at that zoom and the left holds the key and the
+     frames list, so the panel drew behind them and vanished.
+
+     A screenshot shows dark pixels and reads as free space. The DOM does not.
+     THE GAP IS MEASURED — between `.at-ground`, which is the map image, and
+     `.at-list`, which is the register — and both of those move with the zoom,
+     which is exactly why a hardcoded offset was wrong twice.
+
+     The vertical floor is the one place() already computed and it is unchanged:
+     the note, the clock and the control row, whatever is actually down there.
+
+     If the measured gap is too narrow to hold the panel, it goes back to the
+     centre. A panel over the ground is a fault; A PANEL NOBODY CAN SEE IS A
+     WORSE ONE, and that is how the second attempt failed. */
   function place() {
     if (!el) { return; }
     var host = document.getElementById('amenti-attica');
@@ -900,9 +918,51 @@
       if (b.height) { floor = Math.max(floor, hb.bottom - b.top + 10); }
     });
     var nav = el.querySelector('.ac-nav'), cap = el.querySelector('.ac-cap');
-    if (nav) { nav.style.bottom = floor + 'px'; }
+    if (!cap) { return; }
+
+    /* the column between the ground's right edge and whatever claims the
+       right-hand side — measured, both of them */
+    var g = host.querySelector('.at-ground');
+    var lst = host.querySelector('.at-list');
+    var gb = g && g.getBoundingClientRect();
+    var lb = lst && lst.getBoundingClientRect();
+    var left  = gb && gb.width ? gb.right - hb.left + 14 : null;
+    var right = lb && lb.width ? hb.right - lb.left + 14 : 14;
+    var gap   = left === null ? 0 : (hb.width - left - right);
+
+    if (gap >= 210) {
+      cap.style.left = left + 'px';
+      cap.style.right = right + 'px';
+      cap.style.width = 'auto';
+      cap.style.transform = 'none';
+      /* top-aligned with the ground, so the two read as one row */
+      cap.style.top = (gb.top - hb.top) + 'px';
+      cap.style.bottom = 'auto';
+      if (nav) {
+        nav.style.left = left + 'px';
+        nav.style.right = right + 'px';
+        nav.style.width = 'auto';
+        nav.style.transform = 'none';
+        nav.style.bottom = floor + 'px';
+        nav.style.justifyContent = 'flex-start';
+      }
+      return;
+    }
+
+    /* nothing free wide enough — the centre, as before */
+    cap.style.left = '50%'; cap.style.right = 'auto';
+    cap.style.transform = 'translateX(-50%)';
+    cap.style.width = 'min(560px,80%)';
+    cap.style.top = 'auto';
+    if (nav) {
+      nav.style.left = '50%'; nav.style.right = 'auto';
+      nav.style.transform = 'translateX(-50%)';
+      nav.style.width = 'auto';
+      nav.style.justifyContent = 'center';
+      nav.style.bottom = floor + 'px';
+    }
     var nh = nav ? nav.getBoundingClientRect().height : 24;
-    if (cap) { cap.style.bottom = (floor + nh + 8) + 'px'; }
+    cap.style.bottom = (floor + nh + 8) + 'px';
   }
 
   /* ── BORROW AND GIVE BACK ───────────────────────────────────────────────
