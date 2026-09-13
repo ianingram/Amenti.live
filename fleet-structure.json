@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-13T05:39:51.122Z",
+    "generated": "2026-09-13T05:50:16.985Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1559,7 +1559,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53470,
-      "sha256": "08c9f0f6d9878ca2",
+      "sha256": "f561540471a2b210",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1685,7 +1685,7 @@
     {
       "file": "hall.html",
       "bytes": 22137,
-      "sha256": "46c0ecbd694f6069",
+      "sha256": "1a25b0de62b6f44b",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1755,7 +1755,7 @@
           "line": 377
         },
         {
-          "file": "amenti-attica-prologue.js?v=c0efce7a",
+          "file": "amenti-attica-prologue.js?v=9c89c155",
           "line": 378
         },
         {
@@ -1924,7 +1924,7 @@
   "probes": {
     "dir": "probes/",
     "present": true,
-    "count": 60,
+    "count": 61,
     "files": [
       {
         "file": "attica-probe.js",
@@ -2033,6 +2033,12 @@
         "title": "THE PLACE REGISTER",
         "guards": null,
         "bytes": 42220
+      },
+      {
+        "file": "probe-ground.mjs",
+        "title": null,
+        "guards": null,
+        "bytes": 8843
       },
       {
         "file": "probe-hall-wall.mjs",
