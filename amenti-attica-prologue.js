@@ -963,9 +963,14 @@
     [['Susa', 32.19, 48.26, 1, 'Darius'], ['Sardis', 38.49, 28.04, 0, ''],
      ['Athens', 37.98, 23.73, 0, '']].forEach(function (m) {
       var q = wproj(m[1], m[2]);
+      /* a name at the right of a 242px panel runs out of it, and Susa is at
+         86% with `Darius` under it · 13 Sep 2026 */
+      var side = q.x > 62
+        ? 'right:7px;left:auto;text-align:right'
+        : 'left:7px';
       out.push('<b class="ap-far-mk' + (m[3] ? ' on' : '') + '" style="left:' +
-        q.x.toFixed(2) + '%;top:' + q.y.toFixed(2) + '%"><s>' + m[0] +
-        (m[4] ? '<em>' + m[4] + '</em>' : '') + '</s></b>');
+        q.x.toFixed(2) + '%;top:' + q.y.toFixed(2) + '%"><s style="' + side +
+        '">' + m[0] + (m[4] ? '<em>' + m[4] + '</em>' : '') + '</s></b>');
     });
     out.push('<u>2,200 km \u2014 the order and the ground it falls on</u>');
     host.innerHTML = out.join('');
@@ -1282,8 +1287,18 @@
        with room for the words. The two panels stop repeating each other, and
        the one that cannot do the job stops trying. */
     IN = insetFor(s.inset);
+    /* ── AND THEN THE FRAME OPENED BACK UP · 13 Sep 2026 ────────────────
+       Suppressing a name because the pane carries it was right when the pane
+       was the only place with room. At the full theatre there is room on both,
+       and a reader looking at the main map should be able to find Thasos and
+       the mountain without going to the pop-out to read them.
+
+       So the suppression is conditional on the frame being tight. It is a
+       crowding fix and it applies when the map is crowded. */
+    var tight = (F.lo1 - F.lo0) < (RLO1 - RLO0) * 0.55;
     function inPane(la, lo) {
-      return !!IN && lo >= IN.lo0 && lo <= IN.lo1 && la >= IN.la0 && la <= IN.la1;
+      return tight && !!IN && lo >= IN.lo0 && lo <= IN.lo1 &&
+             la >= IN.la0 && la <= IN.la1;
     }
 
     var legend = [], off = [], used_g = {};
