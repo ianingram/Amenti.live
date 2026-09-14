@@ -169,8 +169,7 @@
       el.classList.toggle('at-out-' + k, !!on);
     });
     syncTabs();
-    var b = el.querySelector('.at-full-btn');
-    if (b) { b.textContent = on ? 'bring it back' : 'to the edges'; }
+    drawFrames();
     /* the frame list and the key measure themselves against what is below
        them, and what is below them has just moved */
     if (typeof placeFrames === 'function') { placeFrames(); }
@@ -225,9 +224,12 @@
        when there is more than one pane — a frame with a single plate has no
        choice to offer and should not pretend otherwise. */
     var panes = skinsOf(FRAME || {});
-    var head = '';
+    var head = '<div class="at-full-row"><button type="button" ' +
+      'class="at-full-btn" title="press f">' +
+      (el && el.classList.contains('at-full') ? 'bring it back' : 'to the edges') +
+      '</button></div>';
     if (panes.length > 1) {
-      head = '<div class="at-skins"><div class="at-fhead">ground</div>' +
+      head += '<div class="at-skins"><div class="at-fhead">ground</div>' +
         '<div class="at-panes">' + panes.map(function (k) {
           return '<button type="button" data-skin="' + esc(k.file) + '"' +
                  (SKIN && SKIN.file === k.file ? ' aria-current="true"' : '') +
@@ -862,12 +864,26 @@
       '  writing-mode:vertical-rl}',
       '#amenti-attica .at-tab-b{left:50%;bottom:0;transform:translateX(-50%);',
       '  height:20px;width:190px;border-bottom:0;border-radius:3px 3px 0 0}',
-      '#amenti-attica .at-full-btn{position:absolute;right:24px;top:18px;',
-      '  z-index:9;background:rgba(8,12,20,.92);border:1px solid rgba(43,58,80,.8);',
-      '  border-radius:3px;color:#7d8ea6;font:inherit;font-size:11px;',
-      '  letter-spacing:.1em;padding:5px 12px;cursor:pointer;text-transform:lowercase}',
-      '#amenti-attica .at-full-btn:hover{color:#dbe8f5;border-color:#4b647d}',
-      '#amenti-attica.at-full .at-full-btn{background:rgba(8,12,20,.72)}',
+      /* ── IT WAS PUT IN A CORNER THAT WAS NOT EMPTY · 14 Sep 2026 ─────────
+         right:24 top:18, chosen without looking. THE FACULTY RAIL IS FIXED TO
+         THE VIEWPORT'S TOP-RIGHT and sits over it, so the control existed and
+         could not be pressed. Fourth time in one day that something was placed
+         at a hardcoded corner of a surface whose every edge is spoken for.
+
+         A CONTROL THAT CHANGES THE VIEW BELONGS WHERE THE VIEW CONTROLS ARE.
+         It goes in the frames panel beside `ground / survey · crust`, which is
+         the same kind of question: which ground, which pane, how much of the
+         screen. No corner, no measurement, nothing to collide with.
+
+         In full bleed that panel is away, so the mode keeps a way out that
+         does not depend on it: the `f` key, and the left tab which brings the
+         panel back. */
+      '#amenti-attica .at-full-row{margin-bottom:7px;padding-bottom:6px;',
+      '  border-bottom:1px solid rgba(43,58,80,.6)}',
+      '#amenti-attica .at-full-btn{background:none;border:0;color:#7d8ea6;',
+      '  font:inherit;padding:1px 0;cursor:pointer;white-space:nowrap}',
+      '#amenti-attica .at-full-btn:hover{color:#dbe8f5}',
+      '#amenti-attica.at-full .at-full-btn{color:#e0913f}',
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
       '  flex-direction:column;padding:20px 244px 152px 26px;gap:0;',
       '  align-items:center}',
@@ -1206,8 +1222,7 @@
     el = document.createElement('div');
     el.id = 'amenti-attica';
     el.innerHTML =
-      '<button type="button" class="at-full-btn" ' +
-        'title="the ground to the edges \u00b7 press f">to the edges</button>' +
+
       '<button type="button" class="at-tab at-tab-l" data-tab="l" ' +
         'aria-pressed="false" title="the key and the frames">frames</button>' +
       '<button type="button" class="at-tab at-tab-r" data-tab="r" ' +
@@ -2362,13 +2377,14 @@
 
        This is the lesson from the pane buttons an hour ago, which were wired
        beside an existing handler and never fired. */
-    var fullBtn = el.querySelector('.at-full-btn');
-    if (fullBtn) {
-      fullBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        full(!el.classList.contains('at-full'));
-      });
-    }
+    /* the frames panel is rebuilt on every draw, so a listener bound to the
+       button inside it would die with the element that carried it */
+    el.addEventListener('click', function (e) {
+      var fb2 = e.target.closest ? e.target.closest('.at-full-btn') : null;
+      if (!fb2) { return; }
+      e.stopPropagation();
+      full(!el.classList.contains('at-full'));
+    });
     /* ── THE BUTTON IS REWRITTEN ON EVERY DRAW · 14 Sep 2026 ─────────────
        `what these mean` lives inside .at-note, and the note's innerHTML is
        rebuilt every time the surface redraws. A listener on that button would
