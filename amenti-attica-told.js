@@ -486,7 +486,66 @@
     });
   }
 
+  /* ── ITS OWN WAY IN · 14 Sep 2026 ──────────────────────────────────────
+     The prologue drew its own button and waited for the ground to exist before
+     attaching it. This does the same, so that removing the prologue's script
+     tag removes the prologue's button with it and there is no third file to
+     edit for the changeover.
+
+     WHILE BOTH ARE LOADED THEY WOULD SIT ON TOP OF EACH OTHER. The prologue
+     takes left:26 top:14 — the one strip nothing else claims, by its own note
+     — so this drops below it while that button exists, and moves up to the
+     proper place the moment it does not. A changeover a reader can see is
+     better than one that hides a control under another. */
+  function join() {
+    var host = document.getElementById('amenti-attica');
+    if (!host || !host.querySelector('.at-ctl')) { return false; }
+    if (host.querySelector('.td-open')) { return true; }
+
+    var old = Array.prototype.filter.call(host.children, function (n) {
+      return n.tagName === 'BUTTON' &&
+             /Marathon campaign/.test(n.textContent || '');
+    }).length;
+
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'td-open';
+    b.style.cssText = 'position:absolute;left:26px;top:' + (old ? 56 : 14) +
+      'px;z-index:8;background:#e0913f;color:#0a0e15;border:0;border-radius:3px;' +
+      'padding:7px 20px;cursor:pointer;letter-spacing:.06em;' +
+      'font:400 12px/1.4 ui-monospace,Menlo,monospace;' +
+      'box-shadow:0 2px 18px rgba(224,145,63,.28)';
+    b.textContent = '\u25b6 the Marathon campaign';
+    b.title = 'Herodotus 5.105 to 6.95 \u2014 the back story, told on the ground';
+    b.addEventListener('mouseenter', function () { b.style.background = '#ffd166'; });
+    b.addEventListener('mouseleave', function () { b.style.background = '#e0913f'; });
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (window.AmentiCampaign && window.AmentiCampaign.stop) {
+        window.AmentiCampaign.stop();
+      }
+      if (window.AmentiPrologue && window.AmentiPrologue.stop) {
+        window.AmentiPrologue.stop();
+      }
+      start();
+    });
+    host.appendChild(b);
+    return true;
+  }
+
+  var tries = 0;
+  (function wait() {
+    if (join()) { return; }
+    if (++tries > 60) {
+      console.log('THE TOLD LAYER: no .at-ctl to join after 30 seconds. ' +
+                  'Open the ground and it will attach on the next look.');
+      tries = 0;
+    }
+    setTimeout(wait, 500);
+  })();
+
   window.AmentiTold = {
+    join: join,
     start: start,
     at: function (n) { show(n); return at; },
     stop: function () { document.body.classList.remove('td-showing'); clearCourse();
