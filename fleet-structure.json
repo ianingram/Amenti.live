@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-14T01:24:07.345Z",
+    "generated": "2026-09-14T02:52:02.330Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -484,6 +484,19 @@
       "type": "js",
       "declares": [
         "AmentiPrologue"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-attica-told.js",
+      "bytes": 17411,
+      "sha256": "f9757b5c58797a2a",
+      "type": "js",
+      "declares": [
+        "AmentiTold"
       ],
       "loads": [],
       "calls": [],
@@ -1559,7 +1572,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53470,
-      "sha256": "e7cbfb562a35e6f0",
+      "sha256": "bc7218a7113d1905",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1685,7 +1698,7 @@
     {
       "file": "hall.html",
       "bytes": 22137,
-      "sha256": "b108cd5e4bbcb30d",
+      "sha256": "5b973dbd89438914",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1755,7 +1768,7 @@
           "line": 377
         },
         {
-          "file": "amenti-attica-prologue.js?v=a42b15d9",
+          "file": "amenti-attica-prologue.js?v=897e9bd3",
           "line": 378
         },
         {
@@ -2386,6 +2399,14 @@
         "file": "amenti-attica-prologue.js",
         "declares": [
           "AmentiPrologue"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-attica-told.js",
+        "declares": [
+          "AmentiTold"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
