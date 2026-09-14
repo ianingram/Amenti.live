@@ -340,6 +340,7 @@
       '<button type="button" data-go="skip">to the campaign</button>' +
       '</div>';
     host.appendChild(el);
+    window.addEventListener('resize', place);
     el.querySelectorAll('.td-nav button').forEach(function (b) {
       b.addEventListener('click', function () {
         var g = b.getAttribute('data-go');
@@ -416,6 +417,46 @@
     show(at - 1, tried[prev && prev.scene] ? 'scene' : 'map');
   }
 
+  /* ── THE ALLEY BESIDE THE MAP · 14 Sep 2026 ────────────────────────────
+     On the map step the prose sat bottom-left, over the ground, in a box 34%
+     wide and capped at 62% height — so a passage scrolled in a letterbox while
+     A TALL BLACK COLUMN STOOD EMPTY to the right of the map.
+
+     The map is square and centred in a wrap that reserves the right-hand side
+     for the register, so on any wide window there is a real alley between the
+     two. It is MEASURED and not assumed: the campaign layer learned that the
+     hard way — three placements by eye, two of them behind furniture that was
+     already there.
+
+     If the alley is too narrow to read in, the panel stays where it was. A
+     column of prose 180px wide is worse than a panel over the map. */
+  function place() {
+    if (!el) { return; }
+    var tx = el.querySelector('.td-tx');
+    var host = document.getElementById('amenti-attica');
+    if (!tx || !host || el.classList.contains('td-scene')) { return; }
+    var hb = host.getBoundingClientRect();
+    var g = host.querySelector('.at-ground');
+    var lst = host.querySelector('.at-list');
+    var gb = g && g.getBoundingClientRect();
+    var lb = lst && lst.getBoundingClientRect();
+    if (!gb || !gb.width) { return; }
+    var left = gb.right - hb.left + 18;
+    var right = (lb && lb.width && lb.left > gb.right)
+      ? hb.right - lb.left + 16 : 20;
+    var gap = hb.width - left - right;
+    if (gap < 260) {                      /* no alley worth using */
+      tx.style.cssText = '';
+      return;
+    }
+    tx.style.left = left + 'px';
+    tx.style.right = right + 'px';
+    tx.style.width = 'auto';
+    tx.style.top = Math.max(16, gb.top - hb.top) + 'px';
+    tx.style.bottom = '58px';
+    tx.style.maxHeight = 'none';
+  }
+
   function show(n, want) {
     if (!slides || !slides.length) { return; }
     if (n < 0) { n = 0; }
@@ -433,6 +474,7 @@
     who(s);
     var tx = el.querySelector('.td-tx');
     if (tx) { tx.scrollTop = 0; }
+    place();
 
     /* the map is drawn either way — a reader stepping back from a scene
        should not wait for the ground to be set up again */
@@ -447,6 +489,9 @@
       box.style.backgroundImage = has ? 'url("' + url + '")' : '';
       el.classList.toggle('td-scene', wantScene);
       document.body.classList.toggle('td-showing', wantScene);
+      /* the scene owns the whole surface; the map step has an alley */
+      if (wantScene) { el.querySelector('.td-tx').style.cssText = ''; }
+      else { place(); }
       var nx = el.querySelector('[data-go="1"]');
       if (nx) {
         nx.textContent = wantScene ? 'to the map \u25b6' : 'next \u25b6';
