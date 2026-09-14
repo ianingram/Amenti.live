@@ -1757,32 +1757,35 @@
         fb.setAttribute('data-wired', '1');
         fb.addEventListener('click', function (e) {
           e.stopPropagation();
+          /* ── TWO LISTENERS AND THE FIRST ONE WON · 13 Sep 2026 ───────────
+             The pane buttons were given a SECOND listener on this element,
+             below. This one calls stopPropagation() as its FIRST STATEMENT,
+             before it has even looked at what was clicked — so every click on
+             a pane button died here and the second listener never saw it.
+
+             The buttons existed, the handler was attached, the code was
+             current, and nothing happened. Two listeners on one element is
+             the same fault as two elements with one class: it reads as
+             working and is not.
+
+             ONE LISTENER, TWO QUESTIONS. */
+          var sk = e.target.closest ? e.target.closest('[data-skin]') : null;
+          if (sk) {
+            var want = sk.getAttribute('data-skin');
+            var got = skinsOf(FRAME || {}).filter(function (k) {
+              return k.file === want; })[0];
+            if (!got || (SKIN && SKIN.file === got.file)) { return; }
+            SKIN = got;
+            setGround();
+            drawFrames();
+            draw();
+            return;
+          }
           var b = e.target.closest ? e.target.closest('[data-f]') : null;
           if (!b) { return; }
           var k = b.getAttribute('data-f');
           if (k === FKEY) { return; }
           window.AmentiAttica.frame(k);
-        });
-        /* ── AND THE PANE, WHICH CHANGES THE PICTURE AND NOTHING ELSE ──────
-           This was written against `fr`. THE ELEMENT IS CALLED `fb`, four
-           lines above. A ReferenceError inside the wiring block, so the skin
-           buttons did nothing AND the key handler below never attached —
-           one undefined name silently disabling two controls.
-
-           Rule 2 of BEFORE-YOU-EDIT, written this morning: grep the name
-           before you use it. */
-        fb.addEventListener('click', function (e) {
-          var b = e.target.closest ? e.target.closest('[data-skin]') : null;
-          if (!b) { return; }
-          e.stopPropagation();
-          var want = b.getAttribute('data-skin');
-          var got = skinsOf(FRAME || {}).filter(function (k) {
-            return k.file === want; })[0];
-          if (!got) { return; }
-          SKIN = got;
-          setGround();
-          drawFrames();
-          draw();
         });
       }
       key.addEventListener('click', function (e) {
