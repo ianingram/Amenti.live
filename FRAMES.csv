@@ -136,12 +136,29 @@ key,name,subtitle,lat,lon,radius_km,ground,skins,ground_px,m_per_px,detail,place
 # which is one reason to keep both panes rather than choose between them.
 #
 # `detail` is `reference`. No places harvested yet, nothing authored.
+#
+# -- AND THE PLACES, HARVESTED THE SAME WAY · 14 Sep 2026 ------------------
+# MACEDONIA.csv (2,328) and SUSA.csv (751) are cut from the Pleiades dump by
+# the rules READ OUT OF ATTICA.csv rather than invented for them:
+#
+#     tier   locationPrecision `precise` -> pin, `rough` or `related` -> wash
+#     km     distance from the frame's own centre, not an extent
+#     why    authored, and left blank
+#
+# Those rules reproduce Attica's own 1,567 pin and 179 wash exactly, which is
+# how they were confirmed. The 89 `related` in that split is the same 89 the
+# census line reports as `somewhere in an area`.
+#
+# `places` here counts what falls in the box. The surface will show fewer,
+# because it drops anything sitting on Pleiades' fallback grid — a place
+# with no geometry is held and not drawn, and a wash would claim bounds it
+# does not have.
 attica,Attica,a hundred miles from the Acropolis,37.9838,23.7275,160,ATTICA.jpg,ATTICA.jpg|survey|dark;ATTICA-CRUST.jpg|crust|bright,8192,39,full,1790,"The first surface. Marathon, Salamis, Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame."
 latium,Latium & Campania,the city and the bay,41.85,12.60,200,,,,,reference,2966,"Rome, Ostia, Praeneste, Capua, Cumae, Pompeii and Neapolis. The densest ground in the gazetteer."
 sicilia,Sicily & the Straits,the island between two seas,37.40,14.40,220,,,,,reference,750,"Syracuse, Akragas, Segesta and the Straits — where Greek, Punic and Roman ground meet."
 aegean-east,Ionia & the Asian shore,the far side of the Aegean,38.30,27.20,220,,,,,reference,1611,"Ephesos, Miletos, Smyrna, Sardis and Pergamon. The Attica surface's opposite bank."
 propontis,The Propontis,the two crossings,40.60,28.20,240,,,,,reference,1334,"Byzantion, Chalkedon, Kyzikos, and the Hellespont and Bosphorus that NARROWS.csv holds."
-macedonia,Macedonia & Thrace,the road north,41.00,23.50,300,MACEDONIA.jpg,MACEDONIA.jpg|survey|dark;MACEDONIA-CRUST.jpg|crust|bright,8192,73,reference,2327,"Athos, Thasos, Acanthos and the Hellespont — the whole northern campaign of 492. Ground cut 14 Sep 2026."
+macedonia,Macedonia & Thrace,the road north,41.00,23.50,300,MACEDONIA.jpg,MACEDONIA.jpg|survey|dark;MACEDONIA-CRUST.jpg|crust|bright,8192,73,reference,2328,"Athos, Thasos, Acanthos and the Hellespont — the whole northern campaign of 492. Ground cut 14 Sep 2026."
 creta,Crete & the southern sea,the island the register could not place,35.20,24.90,240,,,,,reference,865,"Knossos, Phaistos, Gortyn. NAMED BY 33 READING ROOMS AND HELD AND NOT DRAWN on the Attica surface, because Pleiades gives its province a 5-degree cell. Here it is the frame itself."
 levant,The Levant,the eastern shore,33.50,35.90,260,,,,,reference,1264,"Tyre, Sidon, Damascus, Jerusalem, Caesarea. Where the corpus goes when it leaves Greece."
 aegyptus,The Nile Delta,where the grain came from,30.90,31.20,260,,,,,reference,462,"Alexandria, Naukratis, Memphis, Pelusium. Thin in the gazetteer and heavy in the corpus."
@@ -151,4 +168,4 @@ gallia,Gaul & the Rhone,the corridor,45.00,4.50,400,,,,,reference,2617,"Massalia
 rhenus,The Rhine & upper Danube,the frontier,49.50,8.50,400,,,,,reference,1687,"Colonia, Mogontiacum, Augusta Vindelicorum. A limit that was garrisoned rather than drawn."
 britannia,Britannia,the last province,52.20,-1.50,400,,,,,reference,1631,"Londinium, Eboracum, Aquae Sulis, and the wall. The edge of the map for most of the corpus."
 pontus,The Black Sea shore,the grain route,44.00,33.00,500,,,,,reference,1914,"Olbia, Chersonesos, Sinope, Trapezous. Where Athens' wheat came from and where exile went."
-susa,Susa & the Two Rivers,where the order came from,32.5000,46.5000,400,SUSA.jpg,SUSA.jpg|survey|dark;SUSA-CRUST.jpg|crust|bright,8192,98,reference,,"Susa, Babylon, Ecbatana and Ur. The end of the king’s road and the only place in this campaign the other frames cannot show."
+susa,Susa & the Two Rivers,where the order came from,32.5000,46.5000,400,SUSA.jpg,SUSA.jpg|survey|dark;SUSA-CRUST.jpg|crust|bright,8192,98,reference,751,"Susa, Babylon, Ecbatana and Ur. The end of the king’s road and the only place in this campaign the other frames cannot show."
