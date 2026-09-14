@@ -280,6 +280,11 @@
       /* the words: a column over the ground, the way the campaign's panel is.
          The ground keeps its own furniture and this claims none of it. */
       '#amenti-told.td-scene .td-tx{overflow-y:auto}',
+      /* the register beneath, quieted rather than hidden: a reader who
+         glances at it should see it is still there and not being read */
+      '#amenti-attica.td-over-list .at-list,',
+      '#amenti-attica.td-over-list .at-listhead{opacity:.12;',
+      '  pointer-events:none;transition:opacity .3s}',
       '#amenti-told .td-tx{position:absolute;left:24px;bottom:96px;',
       '  width:min(430px,34%);max-height:62%;overflow-y:auto;pointer-events:auto;',
       '  background:rgba(5,8,14,.90);border:1px solid rgba(43,58,80,.6);',
@@ -454,14 +459,34 @@
     var gb = g && g.getBoundingClientRect();
     var lb = lst && lst.getBoundingClientRect();
     if (!gb || !gb.width) { return; }
+    /* ── THE ALLEY IS NARROWER THAN THE MARGIN · 14 Sep 2026 ────────────
+       Measured on the live surface: the map's right edge at 941, the register
+       at 1185, in a host 1454 wide. THE GAP BETWEEN THEM IS 210 PIXELS and it
+       moves with the frame, because a square map's width follows its own
+       aspect. 210px of prose is a bad column and place() was right to refuse
+       it.
+
+       So the panel takes the WHOLE right margin instead — 493px here — and
+       sits over the register, which is furniture a reader is not using while
+       a story is being told. The register comes back the moment the story
+       ends, and the tabs reach it in the meantime.
+
+       Backed off to the alley only when the register is genuinely somewhere
+       else, and abandoned entirely under 240px, where the map itself is the
+       better home for the words. */
     var left = gb.right - hb.left + 18;
-    var right = (lb && lb.width && lb.left > gb.right)
-      ? hb.right - lb.left + 16 : 20;
+    var right = 20;
     var gap = hb.width - left - right;
-    if (gap < 260) {                      /* no alley worth using */
+    if (gap < 240) {
       tx.style.cssText = '';
       return;
     }
+    if (lb && lb.width && lb.left > gb.right &&
+        (lb.left - gb.right) > 300) {     /* a real alley, use it and spare
+                                             the register */
+      right = hb.right - lb.left + 16;
+    }
+    host.classList.add('td-over-list');
     tx.style.left = left + 'px';
     tx.style.right = right + 'px';
     tx.style.width = 'auto';
@@ -522,6 +547,8 @@
   }
 
   function finish() {
+    var hst = document.getElementById('amenti-attica');
+    if (hst) { hst.classList.remove('td-over-list'); }
     document.body.classList.remove('td-showing');
     clearCourse();
     if (el && el.parentNode) { el.parentNode.removeChild(el); }
