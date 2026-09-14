@@ -153,6 +153,50 @@ key,name,subtitle,lat,lon,radius_km,ground,skins,ground_px,m_per_px,detail,place
 # because it drops anything sitting on Pleiades' fallback grid — a place
 # with no geometry is held and not drawn, and a wash would claim bounds it
 # does not have.
+#
+# -- THE TOP RUNG · 14 Sep 2026 --------------------------------------------
+# The regional frames are 160 to 400 km and the campaign's legs are 500 to
+# 1,400. Measured against the register: OF EIGHT PROLOGUE SLIDES, ONLY TWO HAD
+# A ROUTE THAT FITTED IN ANY FRAME. A story told at theatre scale had no
+# theatre to stand on.
+#
+# 700 km centred 38.0N 29.9E holds all 152 marks of it, from Athens at 22.4 E
+# to the Aleïan plain at 37.4, from Crete at 34.6 N to Thrace at 41.4.
+#
+# 171 m a pixel. Coarser than Attica's 39 and Macedonia's 73, and THREE TIMES
+# FINER THAN CRUST.jpg, which the prologue drew at 463. This is a rung on a
+# ladder and not a replacement for the rungs below it: a reader who wants
+# Salamis stands on Attica, and one who wants the campaign stands here.
+#
+# THE FRAMES DO NOT TILE INTO A LARGER MAP and were never going to. Fifteen
+# plates stitched is 120,000 px across, with a visible seam wherever the
+# resolution changes. A wider view is a coarser CUT of the same sources, which
+# is how an atlas has always worked.
+#
+# -- WHERE A READER STARTS · 14 Sep 2026 -----------------------------------
+# A story that opens on Attica assumes the reader knows where Attica is. Most
+# do not. The shape of the Aegean, that Greece is a peninsula with a thousand
+# islands, that Anatolia sits across a narrow water, that the whole sea has one
+# exit — none of it is obvious, and all of it is why the campaign went the
+# way it did. SO THE LADDER OPENS WIDE AND DESCENDS: Mediterranean, theatre,
+# region, Attica.
+#
+# 1,800 km at 439 m a pixel. SUSA FALLS OUTSIDE IT and that is kept rather than
+# fixed: the order came from beyond the map the Greeks knew, and a frame that
+# quietly included Persia would lose that.
+#
+# -- AND IT IS CUT FROM GEBCO, NOT COPERNICUS ------------------------------
+# Every other plate is Copernicus 30 m on land. At 439 m a pixel that would be
+# 1,400 tiles and 17 GB fetched to throw away 93 per cent of it. GEBCO's 15
+# arc-second grid IS 462 m and arrives in one request.
+#
+#     BELOW ABOUT 600 km RADIUS, CUT FROM COPERNICUS. ABOVE IT, FROM GEBCO.
+#
+# Which means this plate has no land/sea asymmetry: it is one terrain model at
+# one resolution, unlike the regional plates where the land is sixty times
+# finer than the water.
+mediterranean,The Mediterranean,an inland sea with one way out,38.5000,15.0000,1800,MEDITERRANEAN.jpg,MEDITERRANEAN.jpg|survey|dark;MEDITERRANEAN-CRUST.jpg|crust|bright,8192,439,reference,27225,"Where a reader starts. Gibraltar to the Hellespont, Rome, Carthage, Alexandria and Athens in one view."
+theatre,The Theatre,"Greece, the Aegean and the Asian shore in one frame",38.0000,29.9000,700,THEATRE.jpg,THEATRE.jpg|survey|dark;THEATRE-CRUST.jpg|crust|bright,8192,171,reference,8264,"The top rung. Every mark in the Marathon prologue falls inside it — Athens to the Aleïan plain, Crete to Thrace."
 attica,Attica,a hundred miles from the Acropolis,37.9838,23.7275,160,ATTICA.jpg,ATTICA.jpg|survey|dark;ATTICA-CRUST.jpg|crust|bright,8192,39,full,1790,"The first surface. Marathon, Salamis, Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame."
 latium,Latium & Campania,the city and the bay,41.85,12.60,200,,,,,reference,2966,"Rome, Ostia, Praeneste, Capua, Cumae, Pompeii and Neapolis. The densest ground in the gazetteer."
 sicilia,Sicily & the Straits,the island between two seas,37.40,14.40,220,,,,,reference,750,"Syracuse, Akragas, Segesta and the Straits — where Greek, Punic and Roman ground meet."
