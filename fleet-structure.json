@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-14T02:52:02.330Z",
+    "generated": "2026-09-14T03:14:22.807Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1571,8 +1571,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 53470,
-      "sha256": "bc7218a7113d1905",
+      "bytes": 53727,
+      "sha256": "3ff6b7450e72f54a",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1581,25 +1581,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1281,
+          "line": 1288,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1282,
+          "line": 1289,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1283,
+          "line": 1290,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1284,
+          "line": 1291,
           "when": "toplevel",
           "own": false
         }
@@ -1697,8 +1697,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 22137,
-      "sha256": "5b973dbd89438914",
+      "bytes": 22191,
+      "sha256": "8fb12af3216d023e",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1772,16 +1772,20 @@
           "line": 378
         },
         {
-          "file": "amenti-attica-campaign.js?v=99ee0ca4",
+          "file": "amenti-attica-told.js",
           "line": 379
         },
         {
-          "file": "amenti-attica-hall.js?v=78d647f0",
+          "file": "amenti-attica-campaign.js?v=99ee0ca4",
           "line": 380
         },
         {
-          "file": "amenti-qr.js?v=c016424e",
+          "file": "amenti-attica-hall.js?v=78d647f0",
           "line": 381
+        },
+        {
+          "file": "amenti-qr.js?v=c016424e",
+          "line": 382
         }
       ],
       "calls": [
@@ -2408,8 +2412,8 @@
         "declares": [
           "AmentiTold"
         ],
-        "loadedByAPage": false,
-        "note": "declares globals that nothing calls"
+        "loadedByAPage": true,
+        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
       },
       {
         "file": "amenti-attica-tours.js",
