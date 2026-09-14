@@ -1734,10 +1734,18 @@
           if (k === FKEY) { return; }
           window.AmentiAttica.frame(k);
         });
-        /* and the pane, which changes the picture and nothing else */
-        fr.addEventListener('click', function (e) {
+        /* ── AND THE PANE, WHICH CHANGES THE PICTURE AND NOTHING ELSE ──────
+           This was written against `fr`. THE ELEMENT IS CALLED `fb`, four
+           lines above. A ReferenceError inside the wiring block, so the skin
+           buttons did nothing AND the key handler below never attached —
+           one undefined name silently disabling two controls.
+
+           Rule 2 of BEFORE-YOU-EDIT, written this morning: grep the name
+           before you use it. */
+        fb.addEventListener('click', function (e) {
           var b = e.target.closest ? e.target.closest('[data-skin]') : null;
           if (!b) { return; }
+          e.stopPropagation();
           var want = b.getAttribute('data-skin');
           var got = skinsOf(FRAME || {}).filter(function (k) {
             return k.file === want; })[0];
