@@ -234,13 +234,32 @@
          `contain` leaves a broad dark band either side of the picture on any
          wide window. The scene and its sentence are one thing, so the column
          moves into that band instead of sitting on top of the image. */
-      '#amenti-told.td-scene .td-tx{left:24px;top:0;bottom:0;height:auto;',
-      '  max-height:none;width:min(330px,23%);background:none;border:0;',
+      /* ── THE BANDS EITHER SIDE, AND NOTHING CLEVERER · 13 Sep 2026 ──────
+         Three attempts and each one let something centre itself. `contain`
+         centres the picture inside whatever box it is given, so reserving a
+         margin does not reserve it — the picture simply sits in the middle of
+         the larger box and the band moves.
+
+         THE PICTURE GETS THE MIDDLE HALF AND THE COLUMNS GET THE QUARTERS.
+         Fixed shares, no fitting, nothing to compute. The picture is smaller
+         than it could be at some window shapes and that is the price of a
+         layout that cannot overlap. */
+      '#amenti-told.td-scene .td-sc{left:26%;right:26%}',
+      '#amenti-told.td-scene .td-fig{left:0;right:auto;top:0;bottom:auto;',
+      '  height:100%;width:24%;background:none;border:0;',
       '  display:flex;flex-direction:column;justify-content:center;',
-      '  padding:0 6px}',
-      '#amenti-told.td-scene .td-fig{right:24px;top:0;bottom:auto;',
-      '  height:100%;width:min(280px,21%);background:none;border:0;',
-      '  display:flex;flex-direction:column;justify-content:center;padding:0 6px}',
+      '  padding:0 18px 0 26px;overflow-y:auto}',
+      '#amenti-told.td-scene .td-tx{right:0;left:auto;top:0;bottom:0;',
+      '  height:auto;max-height:none;width:24%;',
+      '  background:none;border:0;overflow-y:auto;',
+      '  display:flex;flex-direction:column;justify-content:center;',
+      '  padding:0 26px 0 18px}',
+      '@media (max-width:1100px){',
+      '  #amenti-told.td-scene .td-sc{left:0;right:0}',
+      '  #amenti-told.td-scene .td-tx,#amenti-told.td-scene .td-fig{',
+      '    width:min(340px,42%);background:rgba(5,8,14,.90);',
+      '    border:1px solid rgba(43,58,80,.6);border-radius:4px;',
+      '    padding:12px 14px;height:auto;top:auto;bottom:96px}}',
       '#amenti-told.td-scene .td-mast{opacity:.85}',
       '#amenti-told .td-mast{position:absolute;left:24px;top:20px;',
       '  color:#e0913f;font-size:11.5px;letter-spacing:.2em;opacity:0;',
@@ -248,6 +267,7 @@
       '  text-shadow:0 1px 5px rgba(0,0,0,.95)}',
       /* the words: a column over the ground, the way the campaign's panel is.
          The ground keeps its own furniture and this claims none of it. */
+      '#amenti-told.td-scene .td-tx{overflow-y:auto}',
       '#amenti-told .td-tx{position:absolute;left:24px;bottom:96px;',
       '  width:min(430px,34%);max-height:62%;overflow-y:auto;pointer-events:auto;',
       '  background:rgba(5,8,14,.90);border:1px solid rgba(43,58,80,.6);',
