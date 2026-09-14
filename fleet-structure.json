@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-14T21:40:49.041Z",
+    "generated": "2026-09-14T21:59:27.532Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -992,8 +992,8 @@
     },
     {
       "file": "amenti-map.js",
-      "bytes": 171111,
-      "sha256": "9d89a996226bdfa5",
+      "bytes": 175072,
+      "sha256": "c5908ecd7d54d0f9",
       "type": "js",
       "declares": [
         "AmentiMap"
@@ -1572,7 +1572,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53727,
-      "sha256": "63975ff8a9ea30cd",
+      "sha256": "7a277014d96d8180",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1698,7 +1698,7 @@
     {
       "file": "hall.html",
       "bytes": 22202,
-      "sha256": "829f2fd0e0939507",
+      "sha256": "47d63f1401fe3e92",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1736,7 +1736,7 @@
           "line": 365
         },
         {
-          "file": "amenti-map.js?v=d9904d8d",
+          "file": "amenti-map.js?v=2e298d74",
           "line": 370
         },
         {
