@@ -97,12 +97,51 @@ key,name,subtitle,lat,lon,radius_km,ground,skins,ground_px,m_per_px,detail,place
 # and the water mask belong to the FRAME, not to the picture — which is why
 # the mask is baked out of measured depth and not read from the image. Swap
 # the pane and nothing but the rendering changes.
+#
+# -- MACEDONIA HAS A PLATE, AND IS STILL `reference` · 14 Sep 2026 ----------
+# MACEDONIA.jpg and MACEDONIA-CRUST.jpg are cut from the same Copernicus 30 m
+# and ETOPO 15" as Attica, by the same three lines of arithmetic, in one read
+# so the two panes cannot disagree. Athos, Thasos, Acanthos, Amphipolis and
+# the Hellespont are all inside.
+#
+# IT IS 73 m A PIXEL, NOT 39. A 300 km radius in the same 8192 px edge is
+# coarser than Attica and `m_per_px` says so, which is the whole reason that
+# column exists: the glass turns amber earlier here and it is right to.
+#
+# AND `detail` IS STILL `reference`. A PLATE IS NOT AUTHORSHIP. The places are
+# harvested, nothing has a why sentence, there are no events, no moves and no
+# cues. Cutting ground does not curate it, and a frame that claimed `full`
+# because it had become handsome would be lying about the only thing that
+# column is for.
+#
+# -- SUSA, BECAUSE THE ROAD HAS TO ARRIVE SOMEWHERE · 14 Sep 2026 ----------
+# The fifteen frames stopped at 35.9 E and Susa is at 48.3. So Mardonios's
+# return at 5.52 ran east off the edge of every surface this ship had, and
+# Darius — who gives the order the whole prologue turns on — was a dot on a
+# panel rather than a place anyone could stand.
+#
+# 400 km holds SUSA, BABYLON, ECBATANA AND UR, all on or near the king's road.
+# Persepolis falls outside and that is correct: Herodotus's road runs Sardis to
+# Susa and stops there.
+#
+# 98 m a pixel. Coarser than Attica's 39 and Macedonia's 73, because the radius
+# is larger and the image edge is not. `m_per_px` says so and the glass will
+# turn amber earlier here.
+#
+# -- AND THE CRUST PANE MAKES A DESERT LOOK GREEN -------------------------
+# Green is the hypsometric convention for LOW GROUND, not for vegetation. The
+# Mesopotamian plain reads the same colour as a forested lowland in Macedonia
+# because both are near sea level. THE RAMP IS A HEIGHT SCALE AND NOTHING
+# ELSE. The survey pane, which is a photograph, shows it as the desert it is —
+# which is one reason to keep both panes rather than choose between them.
+#
+# `detail` is `reference`. No places harvested yet, nothing authored.
 attica,Attica,a hundred miles from the Acropolis,37.9838,23.7275,160,ATTICA.jpg,ATTICA.jpg|survey|dark;ATTICA-CRUST.jpg|crust|bright,8192,39,full,1790,"The first surface. Marathon, Salamis, Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame."
 latium,Latium & Campania,the city and the bay,41.85,12.60,200,,,,,reference,2966,"Rome, Ostia, Praeneste, Capua, Cumae, Pompeii and Neapolis. The densest ground in the gazetteer."
 sicilia,Sicily & the Straits,the island between two seas,37.40,14.40,220,,,,,reference,750,"Syracuse, Akragas, Segesta and the Straits — where Greek, Punic and Roman ground meet."
 aegean-east,Ionia & the Asian shore,the far side of the Aegean,38.30,27.20,220,,,,,reference,1611,"Ephesos, Miletos, Smyrna, Sardis and Pergamon. The Attica surface's opposite bank."
 propontis,The Propontis,the two crossings,40.60,28.20,240,,,,,reference,1334,"Byzantion, Chalkedon, Kyzikos, and the Hellespont and Bosphorus that NARROWS.csv holds."
-macedonia,Macedonia & Thrace,the road north,41.00,23.50,300,,,,,reference,2327,"Pella, Amphipolis, Philippi, Thessalonike. The ground an army from the north crosses."
+macedonia,Macedonia & Thrace,the road north,41.00,23.50,300,MACEDONIA.jpg,MACEDONIA.jpg|survey|dark;MACEDONIA-CRUST.jpg|crust|bright,8192,73,reference,2327,"Athos, Thasos, Acanthos and the Hellespont — the whole northern campaign of 492. Ground cut 14 Sep 2026."
 creta,Crete & the southern sea,the island the register could not place,35.20,24.90,240,,,,,reference,865,"Knossos, Phaistos, Gortyn. NAMED BY 33 READING ROOMS AND HELD AND NOT DRAWN on the Attica surface, because Pleiades gives its province a 5-degree cell. Here it is the frame itself."
 levant,The Levant,the eastern shore,33.50,35.90,260,,,,,reference,1264,"Tyre, Sidon, Damascus, Jerusalem, Caesarea. Where the corpus goes when it leaves Greece."
 aegyptus,The Nile Delta,where the grain came from,30.90,31.20,260,,,,,reference,462,"Alexandria, Naukratis, Memphis, Pelusium. Thin in the gazetteer and heavy in the corpus."
@@ -112,3 +151,4 @@ gallia,Gaul & the Rhone,the corridor,45.00,4.50,400,,,,,reference,2617,"Massalia
 rhenus,The Rhine & upper Danube,the frontier,49.50,8.50,400,,,,,reference,1687,"Colonia, Mogontiacum, Augusta Vindelicorum. A limit that was garrisoned rather than drawn."
 britannia,Britannia,the last province,52.20,-1.50,400,,,,,reference,1631,"Londinium, Eboracum, Aquae Sulis, and the wall. The edge of the map for most of the corpus."
 pontus,The Black Sea shore,the grain route,44.00,33.00,500,,,,,reference,1914,"Olbia, Chersonesos, Sinope, Trapezous. Where Athens' wheat came from and where exile went."
+susa,Susa & the Two Rivers,where the order came from,32.5000,46.5000,400,SUSA.jpg,SUSA.jpg|survey|dark;SUSA-CRUST.jpg|crust|bright,8192,98,reference,,"Susa, Babylon, Ecbatana and Ur. The end of the king’s road and the only place in this campaign the other frames cannot show."
