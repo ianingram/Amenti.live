@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-14T07:08:43.815Z",
+    "generated": "2026-09-14T07:09:04.502Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -510,6 +510,19 @@
       "type": "js",
       "declares": [
         "AmentiAtticaTours"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "amenti-attica.js",
+      "bytes": 143082,
+      "sha256": "e08ef86a20e50ef4",
+      "type": "js",
+      "declares": [
+        "AmentiAttica"
       ],
       "loads": [],
       "calls": [],
@@ -1558,8 +1571,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 53727,
-      "sha256": "e155a5fafb0c0045",
+      "bytes": 53475,
+      "sha256": "b981b3d512758132",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1568,25 +1581,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1288,
+          "line": 1281,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1289,
+          "line": 1282,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1290,
+          "line": 1283,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1291,
+          "line": 1284,
           "when": "toplevel",
           "own": false
         }
@@ -2406,6 +2419,14 @@
         "file": "amenti-attica-tours.js",
         "declares": [
           "AmentiAtticaTours"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-attica.js",
+        "declares": [
+          "AmentiAttica"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
