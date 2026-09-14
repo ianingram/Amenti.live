@@ -721,6 +721,7 @@
       '#amenti-prologue .ap-far .ap-far-mk.on s{color:#e0913f}',
       '#amenti-prologue .ap-far .ap-far-mk s em{display:block;font-style:normal;',
       '  color:#ffd166;font-size:9.5px;letter-spacing:.1em;margin-top:1px}',
+      '#amenti-prologue .ap-far u i{display:block;font-style:normal}',
       '#amenti-prologue .ap-far-yd{position:absolute;transform:translate(-50%,-50%);',
       '  color:#c9d6a8;font-size:9px;line-height:1;pointer-events:none;',
       '  text-shadow:0 1px 3px rgba(0,0,0,1),0 0 5px rgba(0,0,0,.9)}',
@@ -1061,8 +1062,9 @@
         q.y.toFixed(2) + '%" title="' + y[0] +
         ' \u2014 ordered to build, 6.48">\u2693</b>');
     });
-    out.push('<u>2,200 km \u2014 the order and the ground it falls on<br>' +
-      '\u2693 the tributary coasts, ordered to build a year ahead \u00b7 6.48</u>');
+    out.push('<u><i class="ap-far-far">2,200 km \u2014 the order and the ground ' +
+      'it falls on</i><i class="ap-far-yc">\u2693 the tributary coasts, ordered ' +
+      'to build a year ahead \u00b7 6.48</i></u>');
     host.innerHTML = out.join('');
   }
 
@@ -1227,6 +1229,26 @@
         (fig.source ? '<div class="ap-fig-src">' + esc(fig.source) +
           (fig.room ? '  \u00b7  ' + esc(fig.room) : '') + '</div>' : '')
       : '';
+
+    /* ── FURNITURE CAN STILL BE ANACHRONISTIC · 13 Sep 2026 ─────────────
+       The far chart is built once at mount and never touched again, which is
+       right for the theatre box and for Susa — the distance from the king to
+       the ground does not depend on which chapter you are reading.
+
+       THE SHIPYARDS DO. The order at 6.48 falls in 491, and the chart was
+       showing it on slide 1 in 498 — seven years before Darius had heard of
+       the Athenians. A panel that is the same on every slide must only carry
+       things that are.
+
+       Gated on the slide's own year. If a future slide needs it otherwise
+       this becomes a register column; one date is not worth one yet. */
+    var yr0 = parseInt(s.year, 10);
+    var yards = !isNaN(yr0) && yr0 >= -491;
+    el.querySelectorAll('.ap-far-yd').forEach(function (n) {
+      n.style.display = yards ? '' : 'none';
+    });
+    var yc = el.querySelector('.ap-far-yc');
+    if (yc) { yc.style.display = yards ? '' : 'none'; }
 
     fitScale();
     var txb = el.querySelector('.ap-tx');
