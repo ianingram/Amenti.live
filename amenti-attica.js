@@ -145,6 +145,35 @@
      IT CARRIES THE PLACE COUNT AND MARKS THE AUTHORED FRAME. A reader choosing
      between fifteen names should see, before clicking, that one of them has
      been read and fourteen have only been harvested. */
+  /* ── THE PICTURE, WHEREVER THE CALL COMES FROM · 13 Sep 2026 ───────────
+     This was written inline in show(). Pressing a pane button sets SKIN and
+     calls draw() — WHICH NEVER TOUCHES THE IMAGE. So the marks redrew, the
+     ground did not, and the only thing a reader saw was a blink.
+
+     It is a function now and both callers use it. A swap that lives inside
+     one caller is a swap the other cannot make.
+
+     A missing image is not retried and not apologised for — it is reported
+     once, in the note, with the reason. */
+  function setGround() {
+    var img = el && el.querySelector('.at-ground');
+    if (!img) { return; }
+    var gname = SKIN ? SKIN.file : (FRAME ? (FRAME.ground || '') : 'ATTICA.jpg');
+    el.classList.toggle('at-ink-bright', !!(SKIN && SKIN.ink === 'bright'));
+    if (gname && img.getAttribute('data-g') !== gname) {
+      img.addEventListener('error', function () {
+        groundErr = gname + ' did not load';
+      });
+      img.setAttribute('data-g', gname);
+      img.setAttribute('href', RAW + gname);
+      groundErr = null;
+    } else if (!gname) {
+      img.removeAttribute('href');
+      img.removeAttribute('data-g');
+      groundErr = null;
+    }
+  }
+
   function drawFrames() {
     var box = el && el.querySelector('.at-frames');
     if (!box) { return; }
@@ -1751,6 +1780,7 @@
             return k.file === want; })[0];
           if (!got) { return; }
           SKIN = got;
+          setGround();
           drawFrames();
           draw();
         });
@@ -2131,24 +2161,7 @@
        CONSTELLATION, and either is better than a blank surface with no reason
        given. A missing image is not retried and not apologised for \u2014 it is
        reported once, in the note, with the reason. */
-    var img = el.querySelector('.at-ground');
-    /* the pane if one is chosen, the frame's own ground otherwise · 13 Sep */
-    var gname = SKIN ? SKIN.file : (FRAME ? (FRAME.ground || '') : 'ATTICA.jpg');
-    if (el) {
-      el.classList.toggle('at-ink-bright', !!(SKIN && SKIN.ink === 'bright'));
-    }
-    if (gname && img.getAttribute('data-g') !== gname) {
-      img.addEventListener('error', function () {
-        groundErr = gname + ' did not load';
-      });
-      img.setAttribute('data-g', gname);
-      img.setAttribute('href', RAW + gname);
-      groundErr = null;
-    } else if (!gname) {
-      img.removeAttribute('href');
-      img.removeAttribute('data-g');
-      groundErr = null;
-    }
+    setGround();
     if (whys === null && whysErr === null) {
       fetch(reg('-WHY.csv'))
         .then(function (r) { return r.ok ? r.text() : null; })
