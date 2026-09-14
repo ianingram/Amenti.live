@@ -399,7 +399,21 @@
       show(at + 1, 'scene'); return;
     }
     if (STAGE === 'map' && tried[s && s.scene]) { show(at, 'scene'); return; }
-    show(at - 1, 'map');
+    /* ── BACK COULD NOT REACH THE BEGINNING · 14 Sep 2026 ────────────────
+       From slide 1's map this asked for show(-1, 'map'). show() clamps a
+       negative index to 0 but KEEPS THE STAGE IT WAS GIVEN, so it landed on
+       slide 1's map again — the same place it started — and the opening scene
+       became unreachable the moment a reader left it.
+
+       A clamp that fixes the number and not the intent is the fault: it
+       cannot fail, so it says nothing, and the button just stops working. */
+    if (at <= 0) {
+      var first = slides[0];
+      if (tried[first && first.scene]) { show(0, 'scene'); }
+      return;
+    }
+    var prev = slides[at - 1];
+    show(at - 1, tried[prev && prev.scene] ? 'scene' : 'map');
   }
 
   function show(n, want) {
