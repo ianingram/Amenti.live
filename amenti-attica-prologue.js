@@ -1790,7 +1790,18 @@
       /* the departure carries a mark of its own — at Athens a fleet glyph —
          and the line started inside it, so the first crest of the wave, the
          glyph and the first waypoint were one knot · 13 Sep 2026 */
-      pts = trim(pts, 3.4, 2.6);
+      /* ── AND THE TRIM WAS A CONSTANT TOO · 13 Sep 2026 ───────────────
+         3.4 units off the head and 2.6 off the tail is a courtesy on a leg
+         that runs the width of the theatre and A QUARTER OF THE LINE on one
+         that crosses the Aegean. Slide 1 lost 23% of its course, and the
+         fleet came ashore six units short of Ephesos — further than its own
+         last segment. Proportional, and capped at what it was. */
+      var legLen = 0;
+      for (var li = 0; li < pts.length - 1; li++) {
+        legLen += Math.hypot(pts[li + 1].x - pts[li].x, pts[li + 1].y - pts[li].y);
+      }
+      pts = trim(pts, Math.min(3.4, legLen * 0.045),
+                      Math.min(2.6, legLen * 0.035));
       var draw = (kind === 'sea') ? wavy(pts) : pts;
       var pa = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       pa.setAttribute('d', draw.map(function (p, i) {
@@ -1848,16 +1859,31 @@
 
          Sea only. A road carries men, and a hull in a mountain pass is a lie. */
       if (kind === 'sea' && draw.length > 3) {
-        var end2 = draw[draw.length - 1], pen = draw[draw.length - 3];
-        var ax = end2.x - pen.x, ay = end2.y - pen.y;
+        var end2 = draw[draw.length - 1];
+        /* ── A ROSETTE, NOT A SQUADRON · 13 Sep 2026 ────────────────────
+           The approach was measured from the last two DRAWN points, which
+           after the wave is a wobble a fraction of a unit long pointing
+           anywhere. So `across the line` meant a different direction for each
+           hull and the five made a rosette, one of them facing back out to
+           sea. The bearing comes from further down the line, where the course
+           is actually going. */
+        var back = end2, want = Math.max(1.4, legLen * 0.06), ran = 0;
+        for (var bi = draw.length - 1; bi > 0; bi--) {
+          ran += Math.hypot(draw[bi].x - draw[bi - 1].x, draw[bi].y - draw[bi - 1].y);
+          if (ran >= want) { back = draw[bi - 1]; break; }
+        }
+        var ax = end2.x - back.x, ay = end2.y - back.y;
         var aL = Math.hypot(ax, ay) || 1;
         var ux = ax / aL, uy = ay / aL;          /* along the approach */
         var px = -uy, py = ux;                   /* across it */
         var ang = Math.atan2(ay, ax) * 180 / Math.PI;
+        /* and the group is sized to the leg, so it lies off the landing
+           instead of stretching back down the course */
+        var CL = Math.min(1, legLen / 62);
         [[-1.1, -1.5], [-2.4, 0.4], [-1.4, 1.7], [-3.9, -0.9], [-3.6, 1.4]]
           .forEach(function (o, i) {
-            var hx = end2.x + ux * o[0] + px * o[1];
-            var hy = end2.y + uy * o[0] + py * o[1];
+            var hx = end2.x + (ux * o[0] + px * o[1]) * CL;
+            var hy = end2.y + (uy * o[0] + py * o[1]) * CL;
             var sh = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             sh.setAttribute('d', thin ? 'M0,0 L-0.8,0.3 L-0.8,-0.3 Z'
                                       : 'M0,0 L-1.05,0.5 L-1.05,-0.5 Z');
