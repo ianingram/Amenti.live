@@ -935,8 +935,11 @@
       cap.style.right = right + 'px';
       cap.style.width = 'auto';
       cap.style.transform = 'none';
-      /* top-aligned with the ground, so the two read as one row */
-      cap.style.top = (gb.top - hb.top) + 'px';
+      /* Top-aligned with the ground, so the two read as one row — but the
+         ground's own top can sit ABOVE the host: measured at -9px, which put
+         the panel's first line off the surface. Clamped, and never under the
+         faculty rail either · 13 Sep 2026 */
+      cap.style.top = Math.max(12, gb.top - hb.top) + 'px';
       cap.style.bottom = 'auto';
       if (nav) {
         nav.style.left = left + 'px';
