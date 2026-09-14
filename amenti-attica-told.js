@@ -430,6 +430,19 @@
 
      If the alley is too narrow to read in, the panel stays where it was. A
      column of prose 180px wide is worse than a panel over the map. */
+  /* ── MEASURED BEFORE THE SURFACE HAD MOVED · 14 Sep 2026 ───────────────
+     place() ran in the same tick as drive(), and drive() changes the FRAME —
+     which makes the ground drop its registers, fetch new ones and redraw. So
+     the measurement was taken against the previous frame's geometry, or
+     against an element that had not been laid out yet, and the alley came out
+     too narrow to use. The panel then stayed where it was.
+
+     It showed on the last slide and nowhere else, because that is the one
+     slide whose frame does not change: nothing moved, so nothing was stale.
+
+     Measuring on the next frame is not a delay for its own sake. It is the
+     difference between asking the DOM what is there and asking it what was
+     there a moment ago. */
   function place() {
     if (!el) { return; }
     var tx = el.querySelector('.td-tx');
@@ -457,6 +470,15 @@
     tx.style.maxHeight = 'none';
   }
 
+  /* twice: once after layout, once after the ground has had a beat to load
+     the new frame's registers and settle its own size */
+  function placeSoon() {
+    requestAnimationFrame(function () {
+      place();
+      setTimeout(place, 260);
+    });
+  }
+
   function show(n, want) {
     if (!slides || !slides.length) { return; }
     if (n < 0) { n = 0; }
@@ -474,7 +496,7 @@
     who(s);
     var tx = el.querySelector('.td-tx');
     if (tx) { tx.scrollTop = 0; }
-    place();
+    placeSoon();
 
     /* the map is drawn either way — a reader stepping back from a scene
        should not wait for the ground to be set up again */
@@ -491,7 +513,7 @@
       document.body.classList.toggle('td-showing', wantScene);
       /* the scene owns the whole surface; the map step has an alley */
       if (wantScene) { el.querySelector('.td-tx').style.cssText = ''; }
-      else { place(); }
+      else { placeSoon(); }
       var nx = el.querySelector('[data-go="1"]');
       if (nx) {
         nx.textContent = wantScene ? 'to the map \u25b6' : 'next \u25b6';

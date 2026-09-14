@@ -880,7 +880,7 @@
         draw();
       });
     });
-    place();
+    placeSoon();
     window.addEventListener('resize', place);
     return true;
   }
@@ -906,6 +906,10 @@
      If the measured gap is too narrow to hold the panel, it goes back to the
      centre. A panel over the ground is a fault; A PANEL NOBODY CAN SEE IS A
      WORSE ONE, and that is how the second attempt failed. */
+  function placeSoon() {
+    requestAnimationFrame(function () { place(); setTimeout(place, 260); });
+  }
+
   function place() {
     if (!el) { return; }
     var host = document.getElementById('amenti-attica');
@@ -1024,7 +1028,12 @@
         if (A.period) { A.period('clas'); }
       }
       step = 0;
-      place();
+      /* ── AND THE SAME FAULT HERE · 14 Sep 2026 ────────────────────────
+         place() ran in the same tick as A.period('clas'), which makes the
+         ground redraw — so the gap it measured was the one that existed
+         before the surface moved. Measured on the next frame, and again
+         once the registers have settled. */
+      placeSoon();
       draw();
     });
   }
