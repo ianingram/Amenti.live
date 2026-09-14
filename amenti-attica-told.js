@@ -260,6 +260,18 @@
       '    width:min(340px,42%);background:rgba(5,8,14,.90);',
       '    border:1px solid rgba(43,58,80,.6);border-radius:4px;',
       '    padding:12px 14px;height:auto;top:auto;bottom:96px}}',
+      /* ── AND THE GROUND HAS TO GO DARK · 13 Sep 2026 ─────────────────────
+         The scene drew over the surface and the surface kept drawing: its
+         frames list, its register, its key and its census read straight
+         through both columns and the picture. UNREADABLE, and the fault was an
+         omission — the prologue turned the ground off with `ap-bare` and the
+         rewrite did not.
+
+         The whole surface dims rather than any listed part of it. A rule that
+         enumerates what to hide falls behind the first thing added after it,
+         which is a lesson this ship has already paid for twice. */
+      'body.td-showing #amenti-attica > *:not(#amenti-told){',
+      '  opacity:0;pointer-events:none;transition:opacity .4s}',
       '#amenti-told.td-scene .td-mast{opacity:.85}',
       '#amenti-told .td-mast{position:absolute;left:24px;top:20px;',
       '  color:#e0913f;font-size:11.5px;letter-spacing:.2em;opacity:0;',
@@ -420,6 +432,7 @@
       STAGE = wantScene ? 'scene' : 'map';
       box.style.backgroundImage = has ? 'url("' + url + '")' : '';
       el.classList.toggle('td-scene', wantScene);
+      document.body.classList.toggle('td-showing', wantScene);
       var nx = el.querySelector('[data-go="1"]');
       if (nx) {
         nx.textContent = wantScene ? 'to the map \u25b6' : 'next \u25b6';
@@ -428,6 +441,7 @@
   }
 
   function finish() {
+    document.body.classList.remove('td-showing');
     clearCourse();
     if (el && el.parentNode) { el.parentNode.removeChild(el); }
     el = null; at = -1;
@@ -461,7 +475,7 @@
   window.AmentiTold = {
     start: start,
     at: function (n) { show(n); return at; },
-    stop: function () { clearCourse();
+    stop: function () { document.body.classList.remove('td-showing'); clearCourse();
       if (el && el.parentNode) { el.parentNode.removeChild(el); } el = null; at = -1; },
     slides: function () { return slides; }
   };
