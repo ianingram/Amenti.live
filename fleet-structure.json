@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-14T03:14:22.807Z",
+    "generated": "2026-09-14T03:35:13.575Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -492,8 +492,8 @@
     },
     {
       "file": "amenti-attica-told.js",
-      "bytes": 17411,
-      "sha256": "f9757b5c58797a2a",
+      "bytes": 20861,
+      "sha256": "541a72a5f32bead4",
       "type": "js",
       "declares": [
         "AmentiTold"
@@ -1571,8 +1571,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 53727,
-      "sha256": "3ff6b7450e72f54a",
+      "bytes": 53748,
+      "sha256": "3ad3238d8e50db57",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1697,8 +1697,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 22191,
-      "sha256": "8fb12af3216d023e",
+      "bytes": 22202,
+      "sha256": "d71196e5cff4ac51",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1772,7 +1772,7 @@
           "line": 378
         },
         {
-          "file": "amenti-attica-told.js",
+          "file": "amenti-attica-told.js?v=1e0615e6",
           "line": 379
         },
         {
@@ -2412,8 +2412,8 @@
         "declares": [
           "AmentiTold"
         ],
-        "loadedByAPage": true,
-        "note": "LOADED BY A PAGE AND CALLED BY NOBODY — shipped weight, and it will mislead the next reader"
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
       },
       {
         "file": "amenti-attica-tours.js",
