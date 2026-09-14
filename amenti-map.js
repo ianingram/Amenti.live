@@ -526,6 +526,7 @@
       '  align-items:baseline;gap:10px 22px;margin-bottom:10px;flex-wrap:wrap;flex:0 0 auto}',
       '#amenti-map .mp-titlewrap{display:flex;align-items:center;gap:14px}',
       '#amenti-map .mp-title{color:#8fa2ba;font-size:13px;letter-spacing:.02em}',
+      '#amenti-map .mp-panes{display:inline-flex;gap:4px}',
       '#amenti-map .mp-atlas-btn{font:400 11.5px/1 ui-monospace,Menlo,monospace;',
       '  color:#7d8ea6;background:transparent;border:1px solid #23303f;border-radius:3px;',
       '  padding:5px 10px;cursor:pointer;letter-spacing:.06em}',
@@ -542,7 +543,8 @@
          was intercepting the gesture. Same for the sea rect and the coastline
          outline: none of them is a target, so none of them may behave like
          one. Only pins and washes answer the pointer. */
-      '#amenti-map .mp-relief,#amenti-map .mp-sea,#amenti-map .mp-land,',
+      '#amenti-map .mp-relief,#amenti-map .mp-crust,',
+      '#amenti-map .mp-sea,#amenti-map .mp-land,',
       '#amenti-map .mp-skygeo,#amenti-map .mp-sky,',
       '#amenti-map .mp-graticule{pointer-events:none}',
       /* water reads as water: a cool line, thin, under everything a reader
@@ -617,6 +619,15 @@
       '#amenti-map .mp-rivers,#amenti-map .mp-peaks{pointer-events:none}',
       '#amenti-map .mp-relief{display:none;opacity:.95}',
       '#amenti-map.mp-atlas .mp-relief{display:block}',
+      '#amenti-map .mp-crust{display:none;opacity:1}',
+      '#amenti-map.mp-crust-on .mp-crust{display:block}',
+      /* the sea rectangle would sit over the ocean floor, which is the one
+         thing this pane is for */
+      '#amenti-map.mp-crust-on .mp-sea{fill:none}',
+      '#amenti-map.mp-crust-on .mp-land{fill:none;stroke:#2b3a4e;',
+      '  stroke-opacity:.55}',
+      '#amenti-map.mp-crust-on .mp-coast{stroke:#16222f;stroke-opacity:.75}',
+      '#amenti-map.mp-crust-on .mp-graticule{opacity:.18}',
       '#amenti-map.mp-atlas .mp-land{fill:none;stroke:#31435c}',
       /* ── THE LEGEND MUST NOT RUN OFF THE PAGE · 4 Sep ─────────────────────
          SEEN LIVE: five entries on one line overflowed the right edge, and
@@ -707,7 +718,19 @@
                where it is and why the passes matter. It is the better picture
                and the worse instrument, so it is a CHOICE rather than the
                state a reader is dropped into. */
-            '<button type="button" class="mp-atlas-btn" aria-pressed="false">atlas</button>' +
+            /* ── THREE RENDERINGS, ONE LIT · 14 Sep 2026 ─────────────────────
+               This was a single toggle that said `atlas` and then `blueprint`,
+               which works for two and cannot say which of three you are on.
+               One row, the current one lit, the same reading as every other
+               switch on this ship. */
+            '<span class="mp-panes">' +
+              '<button type="button" class="mp-atlas-btn" data-pane="blue" ' +
+                'aria-pressed="true">blueprint</button>' +
+              '<button type="button" class="mp-atlas-btn" data-pane="atlas" ' +
+                'aria-pressed="false">atlas</button>' +
+              '<button type="button" class="mp-atlas-btn" data-pane="crust" ' +
+                'aria-pressed="false">crust</button>' +
+            '</span>' +
             /* ── THE SURFACE EXPLAINS ITSELF · 4 Sep ──────────────────────────
                Every mark here is deliberate and none of it was stated. A
                reader watching a seat stop saying "Constantinople · 124" and
@@ -760,6 +783,23 @@
                it is the line a real failure hides behind. */
             '<image class="mp-relief" x="0" y="0" width="1000" height="500" ' +
               'preserveAspectRatio="none" clip-path="url(#mp-landclip)"></image>' +
+            /* ── AND THE CRUST, WHICH IS NOT CLIPPED · 14 Sep 2026 ────────────
+               The relief above stops at the coastline on purpose: its own note
+               says an unclipped relief would put modelling on the ocean floor,
+               which is real but is not what the atlas is about.
+
+               THIS PANE MAKES THE OPPOSITE CLAIM. One surface through sea
+               level, ridges and trenches included — at world scale the
+               mid-Atlantic ridge, the continental shelves and the trenches are
+               the whole reason to look. So no clip, and it sits UNDER the land
+               path rather than over it, because the coastline still has to
+               read.
+
+               Same grid as the relief and as WORLD.json: plain equirectangular
+               over -180..180 and -90..90, which is what makes all three
+               register corner to corner with no fitting. */
+            '<image class="mp-crust" x="0" y="0" width="1000" height="500" ' +
+              'preserveAspectRatio="none"></image>' +
             '<path class="mp-land"></path><path class="mp-coast"></path>' +
             '<g class="mp-regions"></g><g class="mp-lakes"></g><g class="mp-sites"></g><g class="mp-journeys"></g>' +
             '<g class="mp-rivers"></g><g class="mp-peaks"></g><g class="mp-events"></g>' +
@@ -1066,6 +1106,14 @@
     el.querySelector('.mp-clip').setAttribute('d', world.path);
     /* THE BLUEPRINT PAYS NOTHING FOR THE ATLAS. The relief is 240 KB and the
        default view does not draw it, so the fetch waits until a reader asks. */
+    /* THE CRUST PAYS NOTHING UNTIL IT IS ASKED FOR, same as the relief: 3 MB
+       that the blueprint has no use for. And if it will not load, the pane is
+       simply empty over a chart that still works — no fallback, no apology. */
+    var crust = el.querySelector('.mp-crust');
+    if (crust && el.classList.contains('mp-crust-on') && !crust.getAttribute('href')) {
+      crust.setAttribute('href', RAW + 'WORLD-CRUST.jpg');
+      crust.addEventListener('error', function () { crust.remove(); });
+    }
     var relief = el.querySelector('.mp-relief');
     if (relief && el.classList.contains('mp-atlas') && !relief.getAttribute('href')) {
       relief.setAttribute('href', RAW + 'RELIEF.jpg');
@@ -2541,13 +2589,13 @@
           else if (e.key === 'End')        { setEdge(YEAR_MAX); e.preventDefault(); }
         });
 
-        var atlasBtn = el.querySelector('.mp-atlas-btn');
-        atlasBtn.addEventListener('click', function () {
-          var on = !el.classList.contains('mp-atlas');
-          el.classList.toggle('mp-atlas', on);
-          atlasBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-          atlasBtn.textContent = on ? 'blueprint' : 'atlas';
-          if (on) draw();          /* first press fetches the relief */
+        /* one listener for the row; pane() does the work so the buttons and
+           the driver below cannot disagree about what is showing */
+        el.querySelectorAll('.mp-atlas-btn').forEach(function (b) {
+          b.addEventListener('click', function (ev) {
+            ev.stopPropagation();
+            pane(b.getAttribute('data-pane'));
+          });
         });
 
         var chrono = el.querySelector('.mp-chrono'), scrubbing = false;
@@ -2825,20 +2873,31 @@
      so it is synced here rather than left saying the opposite of what is on
      screen — and the first switch to atlas draws, because that is what
      fetches RELIEF.jpg. */
-  function atlas(on) {
+  /* ── WHICH OF THE THREE · 14 Sep 2026 ──────────────────────────────────
+     `blue` is the coastline and the graticule and nothing else. `atlas` is
+     Natural Earth's shaded relief, clipped to the land. `crust` is one surface
+     through sea level with the ocean floor drawn, which is the claim the atlas
+     deliberately does not make.
+
+     They are exclusive: there is one floor. A pressed button lights, the
+     others do not, and the first press of a pane fetches its image. */
+  function pane(which) {
     var el = mounted;
-    if (!el) { return false; }
-    on = !!on;
-    var was = el.classList.contains('mp-atlas');
-    el.classList.toggle('mp-atlas', on);
-    var b = el.querySelector('.mp-atlas-btn');
-    if (b) {
-      b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      b.textContent = on ? 'blueprint' : 'atlas';
-    }
-    if (on !== was) { draw(); }
-    return on;
+    if (!el) { return null; }
+    if (which !== 'atlas' && which !== 'crust') { which = 'blue'; }
+    el.classList.toggle('mp-atlas', which === 'atlas');
+    el.classList.toggle('mp-crust-on', which === 'crust');
+    el.querySelectorAll('.mp-atlas-btn').forEach(function (b) {
+      b.setAttribute('aria-pressed',
+        b.getAttribute('data-pane') === which ? 'true' : 'false');
+    });
+    draw();
+    return which;
   }
+
+  /* kept because it was published, and because `atlas(true)` reads better
+     than `pane('atlas')` at a call site that only wants the relief */
+  function atlas(on) { return pane(on ? 'atlas' : 'blue') === 'atlas'; }
 
   /* point it. `k` is the same zoom the buttons and the wheel set, clamped to
      the same range, and the clamp that stops a reader dragging the world off
@@ -2870,13 +2929,17 @@
 
   window.AmentiMap = { open: open, close: close, place: place, trigger: trigger,
                        addFaculty: addFaculty, syncRail: syncRail,
-                       atlas: atlas, camera: camera, fit: fit,
+                       atlas: atlas, pane: pane, camera: camera, fit: fit,
                        proj: function (lat, lon) { var w = proj(+lat, +lon);
                                                    return { x: w[0], y: w[1] }; },
                        plane: plane,
-                       view: function () { return { k: K, tx: TX, ty: TY,
-                                                    atlas: !!(mounted &&
-                                     mounted.classList.contains('mp-atlas')) }; },
+                       view: function () {
+                         var m = mounted;
+                         return { k: K, tx: TX, ty: TY,
+                                  pane: !m ? null
+                                    : m.classList.contains('mp-crust-on') ? 'crust'
+                                    : m.classList.contains('mp-atlas') ? 'atlas'
+                                    : 'blue' }; },
                        isOpen: function () {
                          return document.body.classList.contains('scene-map'); } };
 })();
