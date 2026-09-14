@@ -683,7 +683,7 @@
       '#amenti-prologue .ap-rail{position:absolute;right:12px;top:104px;',
       '  width:242px;display:flex;flex-direction:column;gap:10px;',
       '  transition:opacity .45s}',
-      '#amenti-prologue .ap-far{position:relative;width:100%;height:134px;',
+      '#amenti-prologue .ap-far{position:relative;width:100%;height:150px;',
       '  overflow:hidden;border-radius:3px;border:1px solid rgba(43,58,80,.7);',
       '  background:#070d16;pointer-events:none}',
       /* ── IT WAS TOO DARK TO READ · 13 Sep 2026 ───────────────────────────
@@ -709,6 +709,9 @@
       '#amenti-prologue .ap-far .ap-far-mk.on s{color:#e0913f}',
       '#amenti-prologue .ap-far .ap-far-mk s em{display:block;font-style:normal;',
       '  color:#ffd166;font-size:9.5px;letter-spacing:.1em;margin-top:1px}',
+      '#amenti-prologue .ap-far-yd{position:absolute;transform:translate(-50%,-50%);',
+      '  color:#c9d6a8;font-size:9px;line-height:1;pointer-events:none;',
+      '  text-shadow:0 1px 3px rgba(0,0,0,1),0 0 5px rgba(0,0,0,.9)}',
       '#amenti-prologue .ap-far u{position:absolute;left:0;right:0;bottom:0;',
       '  padding:4px 7px 5px;text-decoration:none;color:#9db0c6;',
       '  font-size:8.5px;letter-spacing:.05em;line-height:1.35;',
@@ -1012,7 +1015,41 @@
         q.x.toFixed(2) + '%;top:' + q.y.toFixed(2) + '%"><s style="' + side +
         '">' + m[0] + (m[4] ? '<em>' + m[4] + '</em>' : '') + '</s></b>');
     });
-    out.push('<u>2,200 km \u2014 the order and the ground it falls on</u>');
+    /* ── AND THE SHIPS CAME FROM EVERYWHERE IT TOUCHED SALT WATER · 13 Sep ─
+       6.48: Darius orders HIS TRIBUTARY CITIES ON THE SEA-COAST to furnish
+       warships and horse-transports, a year before the fleet sails. He names
+       not one of them, and the surface must not either.
+
+       WHICH COASTS IS A SEPARATE PASSAGE. 3.89-97 is Darius's own tribute
+       assessment: Ionia in the first district, Kilikia the fourth, Phoenicia
+       with Syria and Cyprus the fifth, Egypt the sixth. Those are his maritime
+       tributaries by his own reckoning, and the order at 6.48 falls on them.
+
+       NOT the contingent list at 7.89 — that is Xerxes' fleet in 480, ten
+       years later and a different war. Importing it would be using one war's
+       evidence for another.
+
+       THEY GO ON THE FAR CHART AND ONLY ONE OF THEM HAS TO. Ionia, Kilikia,
+       Cyprus and Phoenicia are all inside the theatre; Egypt alone is off it.
+       They are together here anyway, because the claim is about the RIM and a
+       rim broken across two panels is not a rim — four marks on the ground and
+       a fifth somewhere else would read as four yards and an exception.
+
+       The order goes out from Susa and the ships come back from every coast
+       the empire touches. One fact, and the chart already holds half of it.
+
+       THE MARK IS NOT AN X. `\u2715` already means WRECKED on this surface, and
+       five crosses along the Levant would say the yards were destroyed. */
+    [['Ionia', 38.30, 26.90], ['Kilikia', 36.80, 34.60],
+     ['Cyprus', 35.05, 33.20], ['Phoenicia', 33.60, 35.30],
+     ['Egypt', 31.30, 30.20]].forEach(function (y) {
+      var q = wproj(y[1], y[2]);
+      out.push('<b class="ap-far-yd" style="left:' + q.x.toFixed(2) + '%;top:' +
+        q.y.toFixed(2) + '%" title="' + y[0] +
+        ' \u2014 ordered to build, 6.48">\u2693</b>');
+    });
+    out.push('<u>2,200 km \u2014 the order and the ground it falls on<br>' +
+      '\u2693 the tributary coasts, ordered to build a year ahead \u00b7 6.48</u>');
     host.innerHTML = out.join('');
   }
 
@@ -1665,18 +1702,34 @@
          a sine. The waypoints do not move — the wave is drawn BETWEEN them and
          asserts nothing the straight line did not. A road stays straight,
          because a road is not water. */
+      /* ── A WAVE IS A TEXTURE, NOT A SHAPE · 13 Sep 2026 ──────────────
+         The wavelength was fixed at 2.6 units whatever the leg, so a coastal
+         hop got four crests and read as water, and A NINE-HUNDRED-KILOMETRE
+         WITHDRAWAL GOT FORTY AND READ AS SCRIBBLE. Same rule, opposite result,
+         because the rule took no account of length.
+
+         Twelve crests, whatever the leg. A long line undulates slowly and a
+         short one ripples; both say water and neither says the ship went that
+         way. The amplitude is capped for the same reason — an oscillation
+         wide enough to see on a short leg is a detour on a long one. */
       function wavy(list) {
-        var out = [], i, WAVE = 2.6, AMP = 0.5, run = 0;
+        var out = [], i, run = 0, span = 0;
+        for (i = 0; i < list.length - 1; i++) {
+          span += Math.hypot(list[i + 1].x - list[i].x, list[i + 1].y - list[i].y);
+        }
+        var WAVE = Math.max(2.4, span / 12);
+        var AMP = Math.min(0.5, WAVE * 0.13);
         for (i = 0; i < list.length - 1; i++) {
           var a = list[i], b = list[i + 1];
           var dx = b.x - a.x, dy = b.y - a.y;
           var L = Math.hypot(dx, dy) || 1;
           var nx = -dy / L, ny = dx / L;
-          var steps = Math.max(2, Math.round(L / 0.6));
+          var steps = Math.max(2, Math.round(L / Math.max(0.6, WAVE / 8)));
           for (var k = 0; k < steps; k++) {
             var t = k / steps, d = run + L * t;
             /* eased in and out, so neither end begins on a crest */
-            var ease = Math.min(1, d / 3.2) * Math.min(1, (run + L - d) / 3.2);
+            var ramp = Math.min(3.2, span * 0.12);
+            var ease = Math.min(1, d / ramp) * Math.min(1, (run + L - d) / ramp);
             var o = Math.sin(d / WAVE * Math.PI * 2) * AMP * Math.max(0.25, ease);
             out.push({ x: a.x + dx * t + nx * o, y: a.y + dy * t + ny * o });
           }
@@ -1731,12 +1784,17 @@
         return (i ? 'L' : 'M') + p.x.toFixed(2) + ' ' + p.y.toFixed(2); }).join(' '));
       pa.setAttribute('fill', 'none');
       pa.setAttribute('stroke', hue);
-      pa.setAttribute('stroke-width', thin ? '0.7' : (kind === 'land' ? '1.1' : '1.4'));
+      /* ── NARROW IS NOT FAINT · 13 Sep 2026 ───────────────────────────
+         0.7 of a unit at .8 opacity vanished on the crust, which is far
+         brighter than the composite the weight was chosen against. A narrow
+         leg is ONE MAN AND NOT A WHISPER — it must read as clearly as a force
+         and only be thinner. */
+      pa.setAttribute('stroke-width', thin ? '1.0' : (kind === 'land' ? '1.3' : '1.5'));
       /* the dash is the MEDIUM and the weight is the MASS — long for water,
          fine for a road, and neither says anything about how many */
-      if (kind === 'land') { pa.setAttribute('stroke-dasharray', '1.5 2.6'); }
+      if (kind === 'land') { pa.setAttribute('stroke-dasharray', '2.2 2.0'); }
       pa.setAttribute('vector-effect', 'non-scaling-stroke');
-      pa.setAttribute('opacity', kind === 'land' ? '.8' : '.92');
+      pa.setAttribute('opacity', kind === 'land' ? '.95' : '.95');
       sv.appendChild(pa);
       /* ── TWO ARRIVALS IN ONE PLACE · 13 Sep 2026 ─────────────────────
          A sea leg ends in a cluster of hulls, and a big head on top of them
