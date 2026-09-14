@@ -155,6 +155,39 @@
 
      A missing image is not retried and not apologised for — it is reported
      once, in the note, with the reason. */
+  /* ── THE GROUND TO THE EDGES · 14 Sep 2026 ─────────────────────────────
+     One state, set in one place, so the button and the key agree. The label
+     says what pressing it will DO rather than what the surface currently is —
+     a control that reads `full bleed` while the surface is full bleed is
+     telling you where you are, which the screen already does. */
+  function full(on) {
+    if (!el) { return false; }
+    el.classList.toggle('at-full', !!on);
+    /* entering the mode puts all three groups away; leaving it must clear
+       them, or the next entry starts with whatever was last open */
+    ['l', 'r', 'b'].forEach(function (k) {
+      el.classList.toggle('at-out-' + k, !!on);
+    });
+    syncTabs();
+    var b = el.querySelector('.at-full-btn');
+    if (b) { b.textContent = on ? 'bring it back' : 'to the edges'; }
+    /* the frame list and the key measure themselves against what is below
+       them, and what is below them has just moved */
+    if (typeof placeFrames === 'function') { placeFrames(); }
+    return !!on;
+  }
+
+  /* a tab is lit when its group is OUT, which is when pressing it does
+     something — the same reading as the legend switches */
+  function syncTabs() {
+    if (!el) { return; }
+    el.querySelectorAll('.at-tab').forEach(function (t) {
+      var k = t.getAttribute('data-tab');
+      t.setAttribute('aria-pressed',
+        el.classList.contains('at-out-' + k) ? 'false' : 'true');
+    });
+  }
+
   function setGround() {
     var img = el && el.querySelector('.at-ground');
     if (!img) { return; }
@@ -194,11 +227,12 @@
     var panes = skinsOf(FRAME || {});
     var head = '';
     if (panes.length > 1) {
-      head = '<div class="at-skins">' + panes.map(function (k) {
-        return '<button type="button" data-skin="' + esc(k.file) + '"' +
-               (SKIN && SKIN.file === k.file ? ' aria-current="true"' : '') +
-               ' title="' + esc(k.file) + '">' + esc(k.label) + '</button>';
-      }).join('') + '</div>';
+      head = '<div class="at-skins"><div class="at-fhead">ground</div>' +
+        '<div class="at-panes">' + panes.map(function (k) {
+          return '<button type="button" data-skin="' + esc(k.file) + '"' +
+                 (SKIN && SKIN.file === k.file ? ' aria-current="true"' : '') +
+                 ' title="' + esc(k.file) + '">' + esc(k.label) + '</button>';
+        }).join('<s>\u00b7</s>') + '</div></div>';
     }
     box.innerHTML = head +
       '<div class="at-fhead">frames \u00b7 ' + frames.list.length + '</div>' +
@@ -760,6 +794,79 @@
          viewBox exactly — was being stretched with it.
          The svg keeps its aspect and the wrap centres it, so the ground is
          never wider or taller than the ground. */
+      /* ── THE GROUND, TO THE EDGES · 14 Sep 2026 ─────────────────────────
+         ATTICA.jpg is 8,192 px and ATTICA-CRUST.jpg is the same. The wrap
+         reserves 244 px on the right for the register and 152 at the bottom
+         for the clock, so on a 1,400 px window the map gets barely half the
+         screen. THE DETAIL IS THERE AND NOBODY CAN SEE IT.
+
+         The panels SLIDE rather than vanish, and a tab at each edge brings a
+         group back without leaving the mode. Tabs and not hover: the map is
+         the point of the mode, and a panel that reappears because a cursor
+         drifted while panning is worse than one that wants a click.
+
+         ── AND THE DEFAULT IS OFF THE LEFT ──────────────────────────────
+         Three groups sit at three edges and each needs its own direction, so
+         this rule has to name them — which is the enumeration this surface
+         has twice been bitten by. So it is written the other way round: the
+         DEFAULT is to slide off the left, and the right-hand and bottom
+         panels override that. A panel added later and never listed here still
+         gets out of the way. It leaves by the wrong edge, which is visible
+         and fixable in a line; it does not sit over the ground, which is the
+         fault that reads as working. */
+      '#amenti-attica.at-full .at-wrap{padding:10px}',
+      '#amenti-attica > *{transition:transform .34s cubic-bezier(.4,0,.2,1),',
+      '  opacity .3s}',
+      /* everything the mode moves, unless it is the map, the hover pane or a
+         control of the mode itself */
+      '#amenti-attica.at-full.at-out-l > *:not(.at-wrap):not(.at-hit)',
+      ':not(.at-full-btn):not(.at-tab){transform:translateX(calc(-100% - 40px))}',
+      /* the register keeps to its own side */
+      '#amenti-attica.at-full.at-out-r .at-list,',
+      '#amenti-attica.at-full.at-out-r .at-listhead{',
+      '  transform:translateX(calc(100% + 40px))}',
+      '#amenti-attica.at-full:not(.at-out-r) .at-list,',
+      '#amenti-attica.at-full:not(.at-out-r) .at-listhead{transform:none}',
+      /* and the clock, the note and the control row leave downward */
+      '#amenti-attica.at-full.at-out-b .at-ctl,',
+      '#amenti-attica.at-full.at-out-b .at-clock,',
+      '#amenti-attica.at-full.at-out-b .at-note{',
+      '  transform:translateY(calc(100% + 60px))}',
+      '#amenti-attica.at-full:not(.at-out-b) .at-ctl,',
+      '#amenti-attica.at-full:not(.at-out-b) .at-clock,',
+      '#amenti-attica.at-full:not(.at-out-b) .at-note{transform:none}',
+      /* the left group, when it is not out */
+      '#amenti-attica.at-full:not(.at-out-l) .at-key,',
+      '#amenti-attica.at-full:not(.at-out-l) .at-frames{transform:none}',
+
+      /* ── THE TABS ────────────────────────────────────────────────────
+         Thin, quiet, and only while the mode is on. Each says what is behind
+         it rather than which direction it moves, because a reader wants the
+         register and not an arrow. */
+      '#amenti-attica .at-tab{position:absolute;z-index:8;display:none;',
+      '  background:rgba(8,12,20,.88);border:1px solid rgba(43,58,80,.85);',
+      '  color:#6f8098;font:inherit;font-size:9.5px;letter-spacing:.14em;',
+      '  text-transform:uppercase;cursor:pointer;padding:0;',
+      '  transition:color .2s,border-color .2s,background .2s}',
+      '#amenti-attica.at-full .at-tab{display:block}',
+      '#amenti-attica .at-tab:hover{color:#dbe8f5;border-color:#4b647d;',
+      '  background:rgba(8,12,20,.96)}',
+      '#amenti-attica .at-tab[aria-pressed="true"]{color:#e0913f;',
+      '  border-color:rgba(224,145,63,.6)}',
+      '#amenti-attica .at-tab-l{left:0;top:50%;transform:translateY(-50%);',
+      '  width:22px;height:150px;border-left:0;border-radius:0 3px 3px 0;',
+      '  writing-mode:vertical-rl}',
+      '#amenti-attica .at-tab-r{right:0;top:50%;transform:translateY(-50%);',
+      '  width:22px;height:150px;border-right:0;border-radius:3px 0 0 3px;',
+      '  writing-mode:vertical-rl}',
+      '#amenti-attica .at-tab-b{left:50%;bottom:0;transform:translateX(-50%);',
+      '  height:20px;width:190px;border-bottom:0;border-radius:3px 3px 0 0}',
+      '#amenti-attica .at-full-btn{position:absolute;right:24px;top:18px;',
+      '  z-index:9;background:rgba(8,12,20,.92);border:1px solid rgba(43,58,80,.8);',
+      '  border-radius:3px;color:#7d8ea6;font:inherit;font-size:11px;',
+      '  letter-spacing:.1em;padding:5px 12px;cursor:pointer;text-transform:lowercase}',
+      '#amenti-attica .at-full-btn:hover{color:#dbe8f5;border-color:#4b647d}',
+      '#amenti-attica.at-full .at-full-btn{background:rgba(8,12,20,.72)}',
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
       '  flex-direction:column;padding:20px 244px 152px 26px;gap:0;',
       '  align-items:center}',
@@ -841,15 +948,28 @@
       '#amenti-attica.at-ink-bright .at-mv{paint-order:stroke;stroke-opacity:1}',
       /* the ground labels the surface writes on the chart itself */
       '#amenti-attica.at-ink-bright .at-gr{color:#22303c}',
-      '#amenti-attica .at-skins{display:flex;gap:4px;margin-bottom:8px;',
-      '  padding-bottom:8px;border-bottom:1px solid rgba(43,58,80,.55)}',
-      '#amenti-attica .at-skins button{flex:1;background:transparent;',
-      '  border:1px solid rgba(43,58,80,.8);border-radius:2px;color:#7d8ea6;',
-      '  font:inherit;font-size:10.5px;letter-spacing:.06em;padding:3px 6px;',
-      '  cursor:pointer;text-transform:lowercase}',
-      '#amenti-attica .at-skins button:hover{color:#dbe8f5;border-color:#4b647d}',
-      '#amenti-attica .at-skins button[aria-current="true"]{color:#0a0e15;',
-      '  background:#e0913f;border-color:#e0913f}',
+      /* ── THE PANES SPEAK THE FRAME LIST'S LANGUAGE · 14 Sep 2026 ─────────
+         The first version was a pair of bordered pills with the chosen one
+         filled amber. It sat directly above a list of BORDERLESS TEXT BUTTONS
+         that signal with colour alone, and it was louder than the list it
+         belonged to — a chrome style nothing else on this surface uses.
+
+         A control that introduces its own visual language is announcing that
+         it was added later. Same header treatment as `frames`, same three
+         colours, same weight: grey, brighter under the cursor, amber for the
+         one you are on. */
+      '#amenti-attica .at-skins{margin-bottom:7px;padding-bottom:6px;',
+      '  border-bottom:1px solid rgba(43,58,80,.6)}',
+      '#amenti-attica .at-skins .at-fhead{color:#5d6e84;padding-bottom:4px;',
+      '  letter-spacing:.08em}',
+      '#amenti-attica .at-skins .at-panes{display:flex;align-items:baseline;',
+      '  gap:9px}',
+      '#amenti-attica .at-skins button{background:none;border:0;color:#7d8ea6;',
+      '  font:inherit;padding:1px 0;cursor:pointer;white-space:nowrap}',
+      '#amenti-attica .at-skins button:hover{color:#dbe8f5}',
+      '#amenti-attica .at-skins button[aria-current="true"]{color:#e0913f}',
+      '#amenti-attica .at-skins s{text-decoration:none;color:#2b3a50;',
+      '  font-size:9px}',
       '#amenti-attica .at-name{fill:#eef4fb;text-anchor:middle;pointer-events:none;',
       '  opacity:0;paint-order:stroke;stroke:#05080e;stroke-opacity:.85;',
       '  stroke-linejoin:round;transition:opacity .3s ease}',
@@ -1053,6 +1173,14 @@
     el = document.createElement('div');
     el.id = 'amenti-attica';
     el.innerHTML =
+      '<button type="button" class="at-full-btn" ' +
+        'title="the ground to the edges \u00b7 press f">to the edges</button>' +
+      '<button type="button" class="at-tab at-tab-l" data-tab="l" ' +
+        'aria-pressed="false" title="the key and the frames">frames</button>' +
+      '<button type="button" class="at-tab at-tab-r" data-tab="r" ' +
+        'aria-pressed="false" title="the register">register</button>' +
+      '<button type="button" class="at-tab at-tab-b" data-tab="b" ' +
+        'aria-pressed="false" title="the clock and the controls">the clock</button>' +
       '<div class="at-wrap">' +
         '<div class="at-head">' +
           '<div class="at-title">' +
@@ -1643,19 +1771,38 @@
           ' place switches off \u2014 the counts below are the census, not the ' +
           'drawing.</span>';
 
+    /* ── THE SHORELINE CAVEAT MOVES TO THE TITLE · 14 Sep 2026 ────────────
+       It was the second line of the note on every draw, and it never changes:
+       a standing truth about the ground rather than a report on what is
+       currently showing. Three or four standing sentences above the census
+       push the numbers off the bottom of the panel and crowd the map.
+
+       IT IS NOT DELETED. A claim that quietly stops being made is the fault
+       this surface keeps naming — the register that 404'd for days, the mask
+       that read a photograph. It hangs on the frame title, where it is one
+       hover away and still frame-specific.
+
+       When there is a standing place for it — the reading panel, or a brief —
+       it belongs there and this becomes a pointer. For now it is out of the
+       way and still on the record.
+
+       THE LAW IS EVERY FRAME'S; THE EXAMPLE IS ATTICA'S. Thermopylae and the
+       silted harbours are measurements on this ground and would be a false
+       specific on the Rhine. The sentence that matters travels; the evidence
+       for it does not. */
+    var ti = el.querySelector('.at-title');
+    if (ti) {
+      ti.setAttribute('title',
+        'Every shoreline here is today\u2019s. ' +
+        (FKEY === 'attica'
+          ? 'Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, ' +
+            'Eleusis and Marathon are silted harbours.'
+          : 'The terrain is the baseline because it is complete and free, not ' +
+            'because it is contemporary with anything drawn on it.'));
+    }
+
     el.querySelector('.at-note').innerHTML =
       switchSay +
-      /* THE LAW IS EVERY FRAME'S; THE EXAMPLE IS ATTICA'S. Thermopylae and the
-         silted harbours are measurements on this ground and would be a false
-         specific on the Rhine. The sentence that matters travels; the evidence
-         for it does not. */
-      '<span class="at-warn at-first">Every shoreline here is TODAY\u2019S.' +
-      (FKEY === 'attica'
-        ? ' Thermopylae\u2019s has moved six kilometres since 480 BC; Piraeus, ' +
-          'Eleusis and Marathon are silted harbours.'
-        : ' The terrain is the baseline because it is complete and free, NOT ' +
-          'because it is contemporary with anything drawn on it.') +
-      '</span>' +
       (isReference()
         ? '<span class="at-warn at-first">THIS IS A REFERENCE FRAME. Its places ' +
           'are harvested from Pleiades and NOTHING HAS BEEN AUTHORED ON IT \u2014 no ' +
@@ -2102,10 +2249,42 @@
       el.addEventListener(t, function () { pan = false; svg.classList.remove('at-drag'); });
     });
     el.addEventListener('dblclick', function () { K = K_FIT; clamp(); draw(); });
+    /* ── THE BUTTON OWNS ITS OWN LISTENER · 14 Sep 2026 ──────────────────
+       The host stops click and pointerdown unconditionally, three lines below.
+       A control wired at host level has to be read in that light, and the
+       reliable answer is not to be at host level at all: the button's own
+       listener runs before the event reaches anything that might stop it.
+
+       This is the lesson from the pane buttons an hour ago, which were wired
+       beside an existing handler and never fired. */
+    var fullBtn = el.querySelector('.at-full-btn');
+    if (fullBtn) {
+      fullBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        full(!el.classList.contains('at-full'));
+      });
+    }
+    el.querySelectorAll('.at-tab').forEach(function (t) {
+      t.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var k = t.getAttribute('data-tab');
+        el.classList.toggle('at-out-' + k);
+        syncTabs();
+        if (k !== 'r' && typeof placeFrames === 'function') { placeFrames(); }
+      });
+    });
     ['click', 'pointerdown'].forEach(function (t) {
       el.addEventListener(t, function (e) { e.stopPropagation(); });
     });
     document.addEventListener('keydown', function (e) {
+      /* `f`, and only while the ground is open and nothing is being typed
+         into — the same two conditions Escape is already guarded by */
+      if ((e.key === 'f' || e.key === 'F') && open &&
+          !/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName || '')) {
+        e.stopPropagation();
+        full(!el.classList.contains('at-full'));
+        return;
+      }
       if (e.key === 'Escape' && document.body.classList.contains('scene-attica')) {
         e.stopPropagation();
         hide();
@@ -2323,6 +2502,8 @@
 
   window.AmentiAttica = {
     show: show, hide: hide, toggle: toggle,
+    /* the ground to the edges — a register state like any other */
+    full: full,
     isOpen: function () { return open; },
 
     /* ── THE PROJECTION, LENT OUT · 10 Sep 2026 ───────────────────────────
