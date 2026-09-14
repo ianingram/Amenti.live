@@ -77,6 +77,35 @@
      The projection below was already parameterised. What was not was WHICH
      FOUR NUMBERS IT PROJECTED, and that is all this changes. */
   var FRAME = null;                    /* the row from FRAMES.csv */
+
+  /* ── A FRAME MAY HAVE MORE THAN ONE PANE · 13 Sep 2026 ─────────────────
+     ATTICA.jpg and ATTICA-CRUST.jpg are THE SAME ELEVATION PAINTED TWICE:
+     same box, same 8,192 px, same 39 m a pixel, cut from the same Copernicus
+     and ETOPO by the same three lines of arithmetic. Measured against each
+     other they register at dx=0 dy=0 with 98.3% agreement on where land is,
+     and what disagrees is a fringe at the coast rather than a shift.
+
+     SO A SKIN IS A ROW, NOT A PROGRAM. The register names the panes; this
+     picks one. Nothing else moves — the bounds, the places, the marks and
+     the mask are the frame's, not the pane's, which is the whole reason the
+     mask was baked out of depth in the first place.
+
+     `skins` is  file|label|ink ; file|label|ink  and a frame with none falls
+     back to `ground`, which is every frame that has a plate today. */
+  var SKIN = null;
+  function skinsOf(f) {
+    var raw = (f && f.skins || '').trim();
+    if (!raw) {
+      return f && f.ground
+        ? [{ file: f.ground, label: 'the ground', ink: 'dark' }] : [];
+    }
+    return raw.split(';').map(function (s) {
+      var c = s.split('|');
+      return { file: (c[0] || '').trim(),
+               label: (c[1] || '').trim() || (c[0] || '').trim(),
+               ink: (c[2] || 'dark').trim() };
+    }).filter(function (s) { return s.file; });
+  }
   var groundErr = null;
   var frames = null, framesErr = null;
   var FKEY = 'attica';
@@ -100,6 +129,7 @@
   function useFrame(f) {
     FRAME = f;
     FKEY = f.key;
+    SKIN = skinsOf(f)[0] || null;
     var b = boxOf(f);
     LA0 = b.la0; LA1 = b.la1; LO0 = b.lo0; LO1 = b.lo1;
   }
@@ -127,7 +157,22 @@
       placeFrames();
       return;
     }
-    box.innerHTML = '<div class="at-fhead">frames \u00b7 ' + frames.list.length + '</div>' +
+    /* ── THE PANES OF THE FRAME YOU ARE STANDING ON · 13 Sep 2026 ────────
+       Above the frame list, because it answers a smaller question: the list
+       says WHICH GROUND and this says WHICH PANE OF IT. One row, drawn only
+       when there is more than one pane — a frame with a single plate has no
+       choice to offer and should not pretend otherwise. */
+    var panes = skinsOf(FRAME || {});
+    var head = '';
+    if (panes.length > 1) {
+      head = '<div class="at-skins">' + panes.map(function (k) {
+        return '<button type="button" data-skin="' + esc(k.file) + '"' +
+               (SKIN && SKIN.file === k.file ? ' aria-current="true"' : '') +
+               ' title="' + esc(k.file) + '">' + esc(k.label) + '</button>';
+      }).join('') + '</div>';
+    }
+    box.innerHTML = head +
+      '<div class="at-fhead">frames \u00b7 ' + frames.list.length + '</div>' +
       frames.list.map(function (f) {
         var auth = f.detail === 'full';
         return '<button type="button" data-f="' + esc(f.key) + '"' +
@@ -737,6 +782,45 @@
       '#amenti-attica .at-wash:hover{fill-opacity:.28}',
       /* brighter than the terrain at its palest, and the outline is a hint of
          separation rather than a box the letter sits inside */
+      /* ── INK BELONGS TO THE PANE · 13 Sep 2026 ──────────────────────────
+         The palette below was chosen against a dark satellite plate: near
+         white labels with a dark halo, cyan pins, amber events. On the crust
+         pane — pale green land, bright shelf — a white label on a dark halo
+         reads as a smudge and the cyan disappears into the water.
+
+         A SKIN THAT NEEDS CODE IS NOT A SKIN. So the pane names an ink set and
+         these override, keyed on a class on the host. Nothing above is
+         rewritten: the dark palette stays the default and stays correct, and
+         a pane that says nothing gets it.
+
+         The halo inverts with the ink, which is the part that matters most.
+         A label is readable because of the halo, not because of the fill. */
+      '#amenti-attica.at-ink-bright .at-name{fill:#101a24;',
+      '  stroke:#f2f7fc;stroke-opacity:.92}',
+      '#amenti-attica.at-ink-bright .at-cited .at-name{fill:#000000}',
+      '#amenti-attica.at-ink-bright .at-major .at-name{fill:#000000}',
+      '#amenti-attica.at-ink-bright .at-seat.at-lit .at-name{fill:#000000}',
+      '#amenti-attica.at-ink-bright .at-pin{fill:#0d4a63;stroke:#eef6fb}',
+      '#amenti-attica.at-ink-bright .at-seat.at-lit .at-pin{stroke:#00212e}',
+      '#amenti-attica.at-ink-bright .at-undated .at-pin{fill:#4a5b6b}',
+      '#amenti-attica.at-ink-bright .at-wash{fill:#12384f;fill-opacity:.16}',
+      '#amenti-attica.at-ink-bright .at-ev{stroke:#a8430f}',
+      '#amenti-attica.at-ink-bright .at-ev:hover{stroke:#d4610f}',
+      '#amenti-attica.at-ink-bright .at-mv,',
+      '#amenti-attica.at-ink-bright .at-rail{stroke:#8c2f14}',
+      '#amenti-attica.at-ink-bright .at-ev,',
+      '#amenti-attica.at-ink-bright .at-mv{paint-order:stroke;stroke-opacity:1}',
+      /* the ground labels the surface writes on the chart itself */
+      '#amenti-attica.at-ink-bright .at-gr{color:#22303c}',
+      '#amenti-attica .at-skins{display:flex;gap:4px;margin-bottom:8px;',
+      '  padding-bottom:8px;border-bottom:1px solid rgba(43,58,80,.55)}',
+      '#amenti-attica .at-skins button{flex:1;background:transparent;',
+      '  border:1px solid rgba(43,58,80,.8);border-radius:2px;color:#7d8ea6;',
+      '  font:inherit;font-size:10.5px;letter-spacing:.06em;padding:3px 6px;',
+      '  cursor:pointer;text-transform:lowercase}',
+      '#amenti-attica .at-skins button:hover{color:#dbe8f5;border-color:#4b647d}',
+      '#amenti-attica .at-skins button[aria-current="true"]{color:#0a0e15;',
+      '  background:#e0913f;border-color:#e0913f}',
       '#amenti-attica .at-name{fill:#eef4fb;text-anchor:middle;pointer-events:none;',
       '  opacity:0;paint-order:stroke;stroke:#05080e;stroke-opacity:.85;',
       '  stroke-linejoin:round;transition:opacity .3s ease}',
@@ -1650,6 +1734,18 @@
           if (k === FKEY) { return; }
           window.AmentiAttica.frame(k);
         });
+        /* and the pane, which changes the picture and nothing else */
+        fr.addEventListener('click', function (e) {
+          var b = e.target.closest ? e.target.closest('[data-skin]') : null;
+          if (!b) { return; }
+          var want = b.getAttribute('data-skin');
+          var got = skinsOf(FRAME || {}).filter(function (k) {
+            return k.file === want; })[0];
+          if (!got) { return; }
+          SKIN = got;
+          drawFrames();
+          draw();
+        });
       }
       key.addEventListener('click', function (e) {
         var d = e.target.closest ? e.target.closest('[data-m]') : null;
@@ -2028,7 +2124,11 @@
        given. A missing image is not retried and not apologised for \u2014 it is
        reported once, in the note, with the reason. */
     var img = el.querySelector('.at-ground');
-    var gname = FRAME ? (FRAME.ground || '') : 'ATTICA.jpg';
+    /* the pane if one is chosen, the frame's own ground otherwise · 13 Sep */
+    var gname = SKIN ? SKIN.file : (FRAME ? (FRAME.ground || '') : 'ATTICA.jpg');
+    if (el) {
+      el.classList.toggle('at-ink-bright', !!(SKIN && SKIN.ink === 'bright'));
+    }
     if (gname && img.getAttribute('data-g') !== gname) {
       img.addEventListener('error', function () {
         groundErr = gname + ' did not load';

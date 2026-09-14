@@ -1,4 +1,4 @@
-key,name,subtitle,lat,lon,radius_km,ground,ground_px,m_per_px,detail,places,note
+key,name,subtitle,lat,lon,radius_km,ground,skins,ground_px,m_per_px,detail,places,note
 # ============================================================================
 # FRAMES.csv  ->  Amenti.live/FRAMES.csv
 # FRAMES.csv · THE REGIONS THIS SHIP CAN STAND ON               SLIP #4 / #85
@@ -74,18 +74,41 @@ key,name,subtitle,lat,lon,radius_km,ground,ground_px,m_per_px,detail,places,note
 # places      how many Pleiades places fall inside, measured 9 Sep 2026
 # note        what the frame is FOR, in one line
 # ============================================================================
-attica,Attica,a hundred miles from the Acropolis,37.9838,23.7275,160,ATTICA.jpg,8192,39,full,1790,"The first surface. Marathon, Salamis, Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame."
-latium,Latium & Campania,the city and the bay,41.85,12.60,200,,,,reference,2966,"Rome, Ostia, Praeneste, Capua, Cumae, Pompeii and Neapolis. The densest ground in the gazetteer."
-sicilia,Sicily & the Straits,the island between two seas,37.40,14.40,220,,,,reference,750,"Syracuse, Akragas, Segesta and the Straits — where Greek, Punic and Roman ground meet."
-aegean-east,Ionia & the Asian shore,the far side of the Aegean,38.30,27.20,220,,,,reference,1611,"Ephesos, Miletos, Smyrna, Sardis and Pergamon. The Attica surface's opposite bank."
-propontis,The Propontis,the two crossings,40.60,28.20,240,,,,reference,1334,"Byzantion, Chalkedon, Kyzikos, and the Hellespont and Bosphorus that NARROWS.csv holds."
-macedonia,Macedonia & Thrace,the road north,41.00,23.50,300,,,,reference,2327,"Pella, Amphipolis, Philippi, Thessalonike. The ground an army from the north crosses."
-creta,Crete & the southern sea,the island the register could not place,35.20,24.90,240,,,,reference,865,"Knossos, Phaistos, Gortyn. NAMED BY 33 READING ROOMS AND HELD AND NOT DRAWN on the Attica surface, because Pleiades gives its province a 5-degree cell. Here it is the frame itself."
-levant,The Levant,the eastern shore,33.50,35.90,260,,,,reference,1264,"Tyre, Sidon, Damascus, Jerusalem, Caesarea. Where the corpus goes when it leaves Greece."
-aegyptus,The Nile Delta,where the grain came from,30.90,31.20,260,,,,reference,462,"Alexandria, Naukratis, Memphis, Pelusium. Thin in the gazetteer and heavy in the corpus."
-africa,Carthage & the African shore,the other city,36.60,10.20,260,,,,reference,2074,"Carthage, Utica, Hadrumetum, Thugga. Three wars and a province."
-hispania,Hispania,the far west,38.50,-4.00,400,,,,reference,1551,"Gades, Corduba, Tarraco, Saguntum. The silver and the long war."
-gallia,Gaul & the Rhone,the corridor,45.00,4.50,400,,,,reference,2617,"Massalia, Lugdunum, Narbo, Alesia. The route between the middle sea and the north."
-rhenus,The Rhine & upper Danube,the frontier,49.50,8.50,400,,,,reference,1687,"Colonia, Mogontiacum, Augusta Vindelicorum. A limit that was garrisoned rather than drawn."
-britannia,Britannia,the last province,52.20,-1.50,400,,,,reference,1631,"Londinium, Eboracum, Aquae Sulis, and the wall. The edge of the map for most of the corpus."
-pontus,The Black Sea shore,the grain route,44.00,33.00,500,,,,reference,1914,"Olbia, Chersonesos, Sinope, Trapezous. Where Athens' wheat came from and where exile went."
+#
+# -- AND A FRAME MAY HAVE MORE THAN ONE PANE · 13 Sep 2026 ------------------
+# `ground` names one image. ATTICA.jpg and ATTICA-CRUST.jpg are THE SAME
+# ELEVATION PAINTED TWICE — same box, same 8192 px, same 39 m a pixel, cut
+# from the same Copernicus 30 m and ETOPO 15" by the same three lines of
+# arithmetic. Measured against each other they register at dx=0 dy=0, agree
+# on 98.3% of cells about where land is, and what disagrees is a fringe at
+# the coast rather than a shift.
+#
+# `skins` is  file|label|ink ; file|label|ink  and the surface draws a picker
+# ONLY WHERE THERE IS MORE THAN ONE. A frame that leaves it blank falls back
+# to `ground`, which is every frame but Attica today.
+#
+# `ink` is `dark` or `bright`. It is not decoration. The palette was chosen
+# against a dark satellite plate — near-white labels on a dark halo, cyan
+# pins, amber events — and on the pale crust a white label reads as a smear
+# and the cyan vanishes into the water. A SKIN THAT NEEDS CODE IS NOT A SKIN,
+# so the pane names its ink and amenti-attica.js overrides accordingly.
+#
+# WHAT A PANE MUST NOT DO IS MOVE THE SEA. The bounds, the places, the marks
+# and the water mask belong to the FRAME, not to the picture — which is why
+# the mask is baked out of measured depth and not read from the image. Swap
+# the pane and nothing but the rendering changes.
+attica,Attica,a hundred miles from the Acropolis,37.9838,23.7275,160,ATTICA.jpg,ATTICA.jpg|survey|dark;ATTICA-CRUST.jpg|crust|bright,8192,39,full,1790,"The first surface. Marathon, Salamis, Thermopylae, Plataea, Delphi, Corinth, Sparta and Mycenae in one frame."
+latium,Latium & Campania,the city and the bay,41.85,12.60,200,,,,,reference,2966,"Rome, Ostia, Praeneste, Capua, Cumae, Pompeii and Neapolis. The densest ground in the gazetteer."
+sicilia,Sicily & the Straits,the island between two seas,37.40,14.40,220,,,,,reference,750,"Syracuse, Akragas, Segesta and the Straits — where Greek, Punic and Roman ground meet."
+aegean-east,Ionia & the Asian shore,the far side of the Aegean,38.30,27.20,220,,,,,reference,1611,"Ephesos, Miletos, Smyrna, Sardis and Pergamon. The Attica surface's opposite bank."
+propontis,The Propontis,the two crossings,40.60,28.20,240,,,,,reference,1334,"Byzantion, Chalkedon, Kyzikos, and the Hellespont and Bosphorus that NARROWS.csv holds."
+macedonia,Macedonia & Thrace,the road north,41.00,23.50,300,,,,,reference,2327,"Pella, Amphipolis, Philippi, Thessalonike. The ground an army from the north crosses."
+creta,Crete & the southern sea,the island the register could not place,35.20,24.90,240,,,,,reference,865,"Knossos, Phaistos, Gortyn. NAMED BY 33 READING ROOMS AND HELD AND NOT DRAWN on the Attica surface, because Pleiades gives its province a 5-degree cell. Here it is the frame itself."
+levant,The Levant,the eastern shore,33.50,35.90,260,,,,,reference,1264,"Tyre, Sidon, Damascus, Jerusalem, Caesarea. Where the corpus goes when it leaves Greece."
+aegyptus,The Nile Delta,where the grain came from,30.90,31.20,260,,,,,reference,462,"Alexandria, Naukratis, Memphis, Pelusium. Thin in the gazetteer and heavy in the corpus."
+africa,Carthage & the African shore,the other city,36.60,10.20,260,,,,,reference,2074,"Carthage, Utica, Hadrumetum, Thugga. Three wars and a province."
+hispania,Hispania,the far west,38.50,-4.00,400,,,,,reference,1551,"Gades, Corduba, Tarraco, Saguntum. The silver and the long war."
+gallia,Gaul & the Rhone,the corridor,45.00,4.50,400,,,,,reference,2617,"Massalia, Lugdunum, Narbo, Alesia. The route between the middle sea and the north."
+rhenus,The Rhine & upper Danube,the frontier,49.50,8.50,400,,,,,reference,1687,"Colonia, Mogontiacum, Augusta Vindelicorum. A limit that was garrisoned rather than drawn."
+britannia,Britannia,the last province,52.20,-1.50,400,,,,,reference,1631,"Londinium, Eboracum, Aquae Sulis, and the wall. The edge of the map for most of the corpus."
+pontus,The Black Sea shore,the grain route,44.00,33.00,500,,,,,reference,1914,"Olbia, Chersonesos, Sinope, Trapezous. Where Athens' wheat came from and where exile went."
