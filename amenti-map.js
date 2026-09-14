@@ -2807,6 +2807,76 @@
   /* addFaculty is exported so the GRAPH can join the rail when it is ready,
      without touching this file or hall.html:
          AmentiMap.addFaculty('fac-graph','who',svg,toggleFn,isOpenFn)  */
+  /* ── THE MAP BECOMES DRIVEABLE · 14 Sep 2026 ───────────────────────────
+     This surface has two renderings and a fourteen-times zoom, and until now
+     a reader could reach both and A STORY COULD REACH NEITHER. It published
+     open, close, place and trigger — enough to show it, nothing to aim it.
+
+     The ground published `frame`, `camera`, `period`, `year`, `marks`, `proj`
+     and `plane`, and that is the only reason a sequence can run on it. These
+     are the same courtesy: nothing new is drawn, nothing is computed twice.
+     EVERY ONE OF THEM DOES EXACTLY WHAT A READER CAN ALREADY DO BY HAND —
+     press atlas, drag, zoom — which is the test the ground's own header sets
+     for an interface like this. If a tour needs something that is not here,
+     it wants to say something this surface cannot show, and the tour is wrong
+     rather than the interface short. */
+
+  /* blueprint <-> atlas. The button carries its own label and pressed state,
+     so it is synced here rather than left saying the opposite of what is on
+     screen — and the first switch to atlas draws, because that is what
+     fetches RELIEF.jpg. */
+  function atlas(on) {
+    var el = mounted;
+    if (!el) { return false; }
+    on = !!on;
+    var was = el.classList.contains('mp-atlas');
+    el.classList.toggle('mp-atlas', on);
+    var b = el.querySelector('.mp-atlas-btn');
+    if (b) {
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.textContent = on ? 'blueprint' : 'atlas';
+    }
+    if (on !== was) { draw(); }
+    return on;
+  }
+
+  /* point it. `k` is the same zoom the buttons and the wheel set, clamped to
+     the same range, and the clamp that stops a reader dragging the world off
+     the edge applies here too — a driven camera must not reach anywhere a
+     hand cannot. */
+  function camera(lat, lon, k) {
+    if (!mounted) { return null; }
+    if (k != null) { K = Math.max(K_MIN, Math.min(K_MAX, +k)); }
+    var w = proj(+lat, +lon);
+    TX = VB_W / 2 - w[0] * K;
+    TY = VB_H / 2 - w[1] * K;
+    clampView();
+    draw();
+    return { k: K, tx: TX, ty: TY };
+  }
+
+  /* the whole world, which is where the default sits */
+  function fit() {
+    if (!mounted) { return null; }
+    K = 1; TX = 0; TY = 0; draw();
+    return { k: K, tx: TX, ty: TY };
+  }
+
+  /* THE GROUP THAT CARRIES THE CAMERA. Anything appended to it pans and zooms
+     with the map and needs no transform of its own — the same contract the
+     ground's plane() makes, so a course drawn on one can be drawn on the
+     other by changing which projection it asks. */
+  function plane() { return mounted && mounted.querySelector('.mp-view'); }
+
   window.AmentiMap = { open: open, close: close, place: place, trigger: trigger,
-                       addFaculty: addFaculty, syncRail: syncRail };
+                       addFaculty: addFaculty, syncRail: syncRail,
+                       atlas: atlas, camera: camera, fit: fit,
+                       proj: function (lat, lon) { var w = proj(+lat, +lon);
+                                                   return { x: w[0], y: w[1] }; },
+                       plane: plane,
+                       view: function () { return { k: K, tx: TX, ty: TY,
+                                                    atlas: !!(mounted &&
+                                     mounted.classList.contains('mp-atlas')) }; },
+                       isOpen: function () {
+                         return document.body.classList.contains('scene-map'); } };
 })();
