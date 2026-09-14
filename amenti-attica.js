@@ -820,7 +820,8 @@
       /* everything the mode moves, unless it is the map, the hover pane or a
          control of the mode itself */
       '#amenti-attica.at-full.at-out-l > *:not(.at-wrap):not(.at-hit)',
-      ':not(.at-full-btn):not(.at-tab){transform:translateX(calc(-100% - 40px))}',
+      ':not(.at-full-btn):not(.at-tab):not(.at-why){',
+      '  transform:translateX(calc(-100% - 40px))}',
       /* the register keeps to its own side */
       '#amenti-attica.at-full.at-out-r .at-list,',
       '#amenti-attica.at-full.at-out-r .at-listhead{',
@@ -993,6 +994,38 @@
       '  bottom:148px;color:#6f8098;font-size:11.5px;line-height:1.45;',
       '  max-height:52px;overflow-y:auto;z-index:5;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent}',
+      /* ── WHAT THESE NUMBERS MEAN · 14 Sep 2026 ──────────────────────────
+         Closed by default, over the map when open, because the thing it
+         explains is a line at the foot of the map and a reader should not
+         have to look elsewhere for it.
+
+         Exempt from the full-bleed slide for the same reason the hover pane
+         is: a reader who asks for it in that mode asked on purpose, and a
+         panel that leaves as it arrives cannot be read. */
+      '#amenti-attica .at-why{position:absolute;left:26px;bottom:148px;z-index:9;',
+      '  width:min(520px,54%);max-height:56%;overflow-y:auto;display:none;',
+      '  background:rgba(6,10,17,.97);border:1px solid rgba(43,58,80,.9);',
+      '  border-radius:4px;padding:14px 16px 12px;',
+      '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent;',
+      '  box-shadow:0 10px 40px rgba(0,0,0,.7)}',
+      '#amenti-attica.at-why-open .at-why{display:block}',
+      '#amenti-attica .at-why-head{color:#5d6e84;font-size:10px;',
+      '  letter-spacing:.14em;text-transform:uppercase;padding-bottom:8px;',
+      '  margin-bottom:10px;border-bottom:1px solid rgba(43,58,80,.6);',
+      '  display:flex;align-items:center}',
+      '#amenti-attica .at-why-x{margin-left:auto;background:none;border:0;',
+      '  color:#5d6e84;font:inherit;font-size:15px;line-height:1;cursor:pointer;',
+      '  padding:0 2px}',
+      '#amenti-attica .at-why-x:hover{color:#dbe8f5}',
+      '#amenti-attica .at-why-row{margin-bottom:9px;font-size:11.5px;',
+      '  line-height:1.5}',
+      '#amenti-attica .at-why-row b{display:block;color:#dbe4f0;',
+      '  font-weight:400;margin-bottom:1px}',
+      '#amenti-attica .at-why-row span{color:#7d8ea6}',
+      '#amenti-attica .at-why-btn{background:none;border:0;color:#5d6e84;',
+      '  font:inherit;font-size:11px;cursor:pointer;padding:0 0 0 2px;',
+      '  text-decoration:underline;text-underline-offset:2px}',
+      '#amenti-attica .at-why-btn:hover{color:#dbe8f5}',
       '#amenti-attica .at-warn{color:#c99a4e}',
       /* THE SHORELINE IS THE MOST IMPORTANT SENTENCE ON THIS SURFACE and it
          was reading third. It goes first, and it is the only thing in amber. */
@@ -1181,6 +1214,7 @@
         'aria-pressed="false" title="the register">register</button>' +
       '<button type="button" class="at-tab at-tab-b" data-tab="b" ' +
         'aria-pressed="false" title="the clock and the controls">the clock</button>' +
+      '<div class="at-why"></div>' +
       '<div class="at-wrap">' +
         '<div class="at-head">' +
           '<div class="at-title">' +
@@ -1816,54 +1850,125 @@
           'the places are drawn on nothing. A constellation rather than a chart, ' +
           'which is a state and not a fault.</span>'
         : '') +
-      shown.length + ' of ' + rows.length + ' places \u00b7 ' + pins.length + ' pinned \u00b7 ' +
-      wash.length + ' somewhere in an area \u00b7 ' +
-      /* NOTHING NAMED IS CORRECT AND LOOKS BROKEN. At x1 with the whole
-         register on, every one of 1,567 labels collides and the cull drops
-         them all \u2014 which is the right answer and reads as a fault. It says so. */
-      (named ? named + ' named' : '<b>nothing named at this zoom</b> \u2014 every ' +
-               'label collides; zoom past \u00d71.8') +
-      (named && dropped ? ', ' + dropped + ' with no room' : '') +
-      (undated ? ' \u00b7 <b>' + undated + ' with no ancient date</b>, drawn dim in ' +
-                 'every period \u2014 either Pleiades does not know when, or the only ' +
-                 'date on file is a MODERN SURVEY, and a survey year is not the ' +
-                 'age of a mountain' : '') +
-      (era.a === null
-        ? ' \u00b7 <b>all of it at once, which is a smear</b> \u2014 pick a period'
-        : ' \u00b7 <b>five periods, not years</b> \u2014 \u201cClassical\u201d is dated ' +
-          '550\u2013330 BC because a range needs a number, and most spans cross every ' +
-          'period, so this filters less than it looks like it should') +
-      (unplaced ? ' \u00b7 <b>' + unplaced + ' unplaced</b> \u2014 Pleiades holds no ' +
-                  'geometry for them and falls back to a grid point, so they are ' +
-                  'held and not drawn: a wash would claim bounds they do not have'
-                : '') +
-      (mentions
-        ? ' \u00b7 <b>' + shown.filter(function (x) { return mentions[x.key]; }).length +
-          ' named in the library</b>, of 603 texts and 35.9 M characters \u2014 ' +
-          'labels go to the corroborated first'
-        : (mentionsErr
-            ? ' \u00b7 ATTICA-MENTIONS.csv not read (' + esc(mentionsErr) + '), so nothing ' +
-              'here knows which places the corpus names'
-            : '')) +
-      (moves && mvn ? ' \u00b7 <b>' + mvn + ' recorded move' + (mvn === 1 ? '' : 's') +
-                      '</b>, drawn dashed: the ends are recorded and the route is not' : '') +
-      (events && !evn && era.a !== null
-        ? ' \u00b7 <b>no events in this period</b> \u2014 ATTICA-EVENTS.csv is authored ' +
-          'and 22 of its 26 entries are Classical, so the archaic and the late ' +
-          'antique are empty. THAT IS THE REGISTER, NOT THE CENTURY: things ' +
-          'happened here in both'
-        : '') +
-      (events && afn ? ' \u00b7 <b>' + afn + ' still holding</b> \u2014 ground that had ' +
-                       'not gone back to what it was, drawn dull because ' +
-                       'aftermath persists rather than happens' : '') +
-      (events && evn ? ' \u00b7 <b>' + evn + ' event' + (evn === 1 ? '' : 's') +
-                '</b> on the ground they happened on, authored' +
-                (scrub !== null
-                  ? ' \u00b7 <b>the year moves the events only</b> \u2014 a place here is ' +
-                    'dated to a PERIOD, so scrubbing cannot move it and pretending ' +
-                    'otherwise would animate a register that is standing still'
-                  : '') : '') +
-      ' \u00b7 Pleiades CC BY 3.0 \u00b7 land 30 m Copernicus, sea 462 m ETOPO.';
+      /* ── THE NUMBER STAYS, THE PARAGRAPH GOES TO THE HOVER · 14 Sep 2026 ──
+         Every figure carried its reason inline, so the census ran to eight
+         lines of prose across the foot of the surface and pushed the map up.
+         Read once it is excellent; read on every draw it is a wall.
+
+         NOTHING IS DROPPED. Each caveat hangs on the figure it belongs to and
+         is one hover away — the same move the shoreline sentence made. A
+         claim that quietly stops being made is the fault this ship keeps
+         paying for; a claim that is one cursor away is still on the record.
+
+         `why()` wraps a number in the sentence that explains it. */
+      (function () {
+        /* ── ONE SOURCE, TWO READINGS · 14 Sep 2026 ────────────────────────
+           The figures are LIVE STATE — they move with the zoom, the period and
+           the frame — so they stay on the surface. The sentences beside them
+           are standing prose that never changes, and read on every draw they
+           were a wall eight lines deep across the foot of the map.
+
+           NOTHING IS CUT AND NOTHING IS SHORTENED. Each figure and its reason
+           go into one list. The line renders the figures; the panel renders
+           both, in full, and opens only when asked.
+
+           Two renderings of one array, so they cannot drift apart — which is
+           the fault a second copy of anything on this ship always becomes. */
+        var census = [];
+        function why(txt, tip) {
+          census.push([txt, tip]);
+          return '<b title="' + esc(tip) + '">' + txt + '</b>';
+        }
+        var out = shown.length + ' of ' + rows.length + ' places \u00b7 ' +
+          pins.length + ' pinned \u00b7 ' + wash.length + ' somewhere in an area \u00b7 ';
+
+        /* NOTHING NAMED IS CORRECT AND LOOKS BROKEN. At x1 with the whole
+           register on, every one of 1,567 labels collides and the cull drops
+           them all — which is the right answer and reads as a fault. */
+        out += named
+          ? named + ' named' + (dropped ? ', ' + dropped + ' with no room' : '')
+          : why('nothing named at this zoom',
+                'Every label collides at this scale and the cull drops them ' +
+                'all, which is the right answer and reads as a fault. Zoom ' +
+                'past \u00d71.8.');
+
+        if (undated) {
+          out += ' \u00b7 ' + why(undated + ' with no ancient date',
+            'Drawn dim in every period. Either Pleiades does not know when, ' +
+            'or the only date on file is a modern survey \u2014 and a survey ' +
+            'year is not the age of a mountain.');
+        }
+        out += ' \u00b7 ' + (era.a === null
+          ? why('all of it at once', 'Every period drawn together, which is a ' +
+                'smear. Pick a period.')
+          : why('five periods, not years',
+                '\u201cClassical\u201d is dated 550\u2013330 BC because a range ' +
+                'needs a number, and most spans cross every period \u2014 so this ' +
+                'filters less than it looks like it should.'));
+
+        if (unplaced) {
+          out += ' \u00b7 ' + why(unplaced + ' unplaced',
+            'Pleiades holds no geometry for them and falls back to a grid ' +
+            'point, so they are held and not drawn: a wash would claim bounds ' +
+            'they do not have.');
+        }
+        if (mentions) {
+          out += ' \u00b7 ' + why(
+            shown.filter(function (x) { return mentions[x.key]; }).length +
+            ' named in the library',
+            'Of 603 texts and 35.9 M characters. Labels go to the ' +
+            'corroborated first.');
+        } else if (mentionsErr) {
+          out += ' \u00b7 ' + why('the library is not read',
+            'ATTICA-MENTIONS.csv: ' + mentionsErr + '. Nothing here knows ' +
+            'which places the corpus names.');
+        }
+        if (moves && mvn) {
+          out += ' \u00b7 ' + why(mvn + ' move' + (mvn === 1 ? '' : 's'),
+            'Drawn dashed: the ends are recorded and the route is not.');
+        }
+        if (events && !evn && era.a !== null) {
+          out += ' \u00b7 ' + why('no events in this period',
+            'ATTICA-EVENTS.csv is authored and 22 of its 26 entries are ' +
+            'Classical, so the archaic and the late antique are empty. That ' +
+            'is the register, not the century: things happened here in both.');
+        }
+        if (events && afn) {
+          out += ' \u00b7 ' + why(afn + ' still holding',
+            'Ground that had not gone back to what it was, drawn dull because ' +
+            'aftermath persists rather than happens.');
+        }
+        if (events && evn) {
+          out += ' \u00b7 ' + why(evn + ' event' + (evn === 1 ? '' : 's'),
+            'On the ground they happened on, authored.');
+          if (scrub !== null) {
+            out += ' \u00b7 ' + why('the year moves the events only',
+              'A place here is dated to a PERIOD, so scrubbing cannot move it ' +
+              '\u2014 and pretending otherwise would animate a register that is ' +
+              'standing still.');
+          }
+        }
+        out += ' \u00b7 ' + why('Pleiades CC BY 3.0',
+          'Places from Pleiades. Ground: land 30 m Copernicus, sea 462 m ' +
+          'ETOPO \u2014 the land is sixty times finer than the water.');
+
+        /* the panel, filled from the same list and left closed */
+        var panel = el.querySelector('.at-why');
+        if (panel) {
+          panel.innerHTML =
+            '<div class="at-why-head">what these numbers mean' +
+            '<button type="button" class="at-why-x" title="close">\u00d7</button>' +
+            '</div>' +
+            census.map(function (c) {
+              return '<div class="at-why-row"><b>' + c[0] + '</b>' +
+                     '<span>' + esc(c[1]) + '</span></div>';
+            }).join('');
+        }
+        return out +
+          ' <button type="button" class="at-why-btn" ' +
+          'title="the sentence behind each of these numbers">what these mean' +
+          '</button>';
+      })();
 
     haloAt(litKey);
 
@@ -2264,6 +2369,17 @@
         full(!el.classList.contains('at-full'));
       });
     }
+    /* ── THE BUTTON IS REWRITTEN ON EVERY DRAW · 14 Sep 2026 ─────────────
+       `what these mean` lives inside .at-note, and the note's innerHTML is
+       rebuilt every time the surface redraws. A listener on that button would
+       be thrown away with the element that carried it. So the host answers
+       for it, and the check runs before the host's own stopPropagation. */
+    el.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.at-why-btn') : null;
+      if (b) { el.classList.add('at-why-open'); return; }
+      var x = e.target.closest ? e.target.closest('.at-why-x') : null;
+      if (x) { el.classList.remove('at-why-open'); }
+    });
     el.querySelectorAll('.at-tab').forEach(function (t) {
       t.addEventListener('click', function (e) {
         e.stopPropagation();
