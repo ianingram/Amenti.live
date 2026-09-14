@@ -61,7 +61,20 @@
   var SCENE = 'https://amenti-proxy.ingram-ian.workers.dev/scene/';
 
   var slides = null, err = null, el = null, at = -1, tried = {}, figures = null;
-  var speeches = null, shown = {};
+  var speeches = null;
+
+  /* ── A SCENE IS A STEP, NOT A BACKDROP · 13 Sep 2026 ────────────────────
+     The first version drew the picture behind the words and put the map under
+     both, so a reader met three things at once and the scene was the one they
+     could see least of.
+
+     A scene is where the story is TOLD and the map is where it is SHOWN, and
+     those are two moments. So a slide with a picture has two steps: the scene
+     with its prose beside it, then the ground with the leg on it. `next` walks
+     both. A slide with no picture has one step and reads exactly as before —
+     six of the eight have none, and that is the honest default rather than a
+     grey box where a photograph should be. */
+  var STAGE = 'map';        /* 'scene' | 'map' */
 
   function A() { return window.AmentiAttica; }
 
@@ -214,8 +227,25 @@
       '  font:400 11px/1.5 ui-monospace,Menlo,monospace}',
       '#amenti-told .td-sc{position:absolute;inset:0;background-size:contain;',
       '  background-repeat:no-repeat;background-position:center;',
-      '  background-color:#05080e;opacity:0;transition:opacity .6s}',
-      '#amenti-told.td-bare .td-sc{opacity:1}',
+      '  background-color:#05080e;opacity:0;transition:opacity .6s;',
+      '  pointer-events:none}',
+      '#amenti-told.td-scene .td-sc{opacity:1}',
+      /* ── AND THE MARGINS BESIDE IT ARE WHERE THE WORDS GO ───────────────
+         `contain` leaves a broad dark band either side of the picture on any
+         wide window. The scene and its sentence are one thing, so the column
+         moves into that band instead of sitting on top of the image. */
+      '#amenti-told.td-scene .td-tx{left:24px;top:0;bottom:0;height:auto;',
+      '  max-height:none;width:min(330px,23%);background:none;border:0;',
+      '  display:flex;flex-direction:column;justify-content:center;',
+      '  padding:0 6px}',
+      '#amenti-told.td-scene .td-fig{right:24px;top:0;bottom:auto;',
+      '  height:100%;width:min(280px,21%);background:none;border:0;',
+      '  display:flex;flex-direction:column;justify-content:center;padding:0 6px}',
+      '#amenti-told.td-scene .td-mast{opacity:.85}',
+      '#amenti-told .td-mast{position:absolute;left:24px;top:20px;',
+      '  color:#e0913f;font-size:11.5px;letter-spacing:.2em;opacity:0;',
+      '  text-transform:uppercase;transition:opacity .5s;pointer-events:none;',
+      '  text-shadow:0 1px 5px rgba(0,0,0,.95)}',
       /* the words: a column over the ground, the way the campaign's panel is.
          The ground keeps its own furniture and this claims none of it. */
       '#amenti-told .td-tx{position:absolute;left:24px;bottom:96px;',
@@ -267,6 +297,7 @@
     el.id = 'amenti-told';
     el.innerHTML =
       '<div class="td-sc"></div>' +
+      '<div class="td-mast">The Attica Campaign</div>' +
       '<div class="td-tx"><div class="td-hd"></div><div class="td-ti"></div>' +
       '<div class="td-pr"></div><div class="td-said"></div>' +
       '<div class="td-ft"></div></div>' +
@@ -281,28 +312,23 @@
       b.addEventListener('click', function () {
         var g = b.getAttribute('data-go');
         if (g === 'skip') { finish(); return; }
-        show(at + (+g));
+        step(+g);
       });
     });
     return true;
   }
 
-  function scene(tag) {
-    var box = el.querySelector('.td-sc');
-    box.style.backgroundImage = '';
-    el.classList.remove('td-bare');
-    if (!tag || tried[tag] === false) { return; }
+  /* asked for once per tag and remembered; a tag with no picture is not
+     retried and the slide simply has one step instead of two */
+  function scene(tag, then) {
+    if (!tag) { then(false); return; }
+    if (tried[tag] === false) { then(false); return; }
+    if (tried[tag]) { then(true, tried[tag]); return; }
     var urls = [RAW + 'img/scene/' + tag + '.jpg', SCENE + tag + '.jpg'];
     (function attempt(i) {
-      if (i >= urls.length) { tried[tag] = false; return; }
+      if (i >= urls.length) { tried[tag] = false; then(false); return; }
       var img = new Image();
-      img.onload = function () {
-        tried[tag] = true;
-        if (slides[at] && slides[at].scene === tag && !shown[at]) {
-          box.style.backgroundImage = 'url("' + urls[i] + '")';
-          el.classList.add('td-bare');
-        }
-      };
+      img.onload = function () { tried[tag] = urls[i]; then(true, urls[i]); };
       img.onerror = function () { attempt(i + 1); };
       img.src = urls[i];
     })(0);
@@ -330,7 +356,21 @@
       '<div class="wh">' + render(f.what) + '</div>';
   }
 
-  function show(n) {
+  /* ── WALKING TWO STEPS PER SLIDE · 13 Sep 2026 ──────────────────────────
+     `next` from a scene goes to that slide's map; from a map it goes to the
+     next slide's scene, or to its map if it has none. Back walks the same
+     path in reverse, so a reader can return to a picture they have passed. */
+  function step(dir) {
+    var s = slides[at];
+    if (dir > 0) {
+      if (STAGE === 'scene') { show(at, 'map'); return; }
+      show(at + 1, 'scene'); return;
+    }
+    if (STAGE === 'map' && tried[s && s.scene]) { show(at, 'scene'); return; }
+    show(at - 1, 'map');
+  }
+
+  function show(n, want) {
     if (!slides || !slides.length) { return; }
     if (n < 0) { n = 0; }
     if (n >= slides.length) { finish(); return; }
@@ -345,10 +385,26 @@
       esc(s.source) + '  \u00b7  ' + esc(s.room);
     said(s);
     who(s);
-    drive(s);
-    scene(s.scene);
     var tx = el.querySelector('.td-tx');
     if (tx) { tx.scrollTop = 0; }
+
+    /* the map is drawn either way — a reader stepping back from a scene
+       should not wait for the ground to be set up again */
+    drive(s);
+
+    scene(s.scene, function (has, url) {
+      /* the slide may have moved on while the picture was loading */
+      if (!el || slides[at] !== s) { return; }
+      var box = el.querySelector('.td-sc');
+      var wantScene = has && want !== 'map';
+      STAGE = wantScene ? 'scene' : 'map';
+      box.style.backgroundImage = has ? 'url("' + url + '")' : '';
+      el.classList.toggle('td-scene', wantScene);
+      var nx = el.querySelector('[data-go="1"]');
+      if (nx) {
+        nx.textContent = wantScene ? 'to the map \u25b6' : 'next \u25b6';
+      }
+    });
   }
 
   function finish() {
@@ -376,7 +432,9 @@
       speeches = r[2] ? parse(r[2]) : [];
       harvest();
       if (!mount()) { return; }
-      show(0);
+      /* the story opens on the picture when there is one — the king at his
+         table before any ground is drawn · 13 Sep 2026 */
+      show(0, 'scene');
     });
   }
 
