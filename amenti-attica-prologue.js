@@ -62,7 +62,9 @@
   var GROUND = {
     file:    'CRUST.jpg',
     dim:     0.46,     /* the composite ran at .72 — this has more to say */
-    paneDim: 0.62
+    /* the pane is the same ground closer, so it takes the same dimming —
+       0.62 against a 0.46 floor read as a different map · 13 Sep 2026 */
+    paneDim: 0.50
   };
   var SCENE = 'https://amenti-proxy.ingram-ian.workers.dev/scene/';
 
@@ -611,8 +613,18 @@
       '#amenti-prologue .ap-mv{position:absolute;transform:translate(-50%,-50%);',
       '  pointer-events:none;filter:drop-shadow(0 0 6px rgba(0,0,0,.9))}',
       /* the key: what the marks on this slide claim */
+      /* ── THE KEY WAS INSIDE THE MAP · 13 Sep 2026 ────────────────────────
+         The map runs from 22px to 22px + band. The key was placed at
+         9px + band, WHICH IS THIRTEEN PIXELS ABOVE THE MAP'S OWN BOTTOM EDGE —
+         so it drew over the ground, and over the `edges` line that lives down
+         there. The collision looked like the edges line being too long; it was
+         the key being in the wrong place, and it has been since the key was
+         written.
+
+         Everything below the map shifts down with it: the key clears the
+         frame, the legend clears the key, the prose clears the legend. */
       '#amenti-prologue .ap-key{position:absolute;left:50%;',
-      '  top:calc(9px + var(--ap-band));transform:translateX(-50%);',
+      '  top:calc(30px + var(--ap-band));transform:translateX(-50%);',
       '  width:min(760px,88%);',
       'display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;',
       'font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;',
@@ -733,14 +745,15 @@
       '  border-color:#c9503f}',
       '#amenti-prologue .ap-rl-land span{border-top-style:dotted}',
       '#amenti-prologue .ap-legend{position:absolute;left:50%;',
-      '  top:calc(30px + var(--ap-band));',
+      '  top:calc(52px + var(--ap-band));',
       '  transform:translateX(-50%);width:min(760px,88%);',
       '  display:flex;flex-wrap:wrap;gap:2px 20px;pointer-events:none}',
       '#amenti-prologue .ap-legend div{color:#7d8ea6;font-size:9.5px;',
       '  line-height:1.5;white-space:nowrap}',
       '#amenti-prologue .ap-legend b{color:#dbe8f5;font-weight:400}',
       '#amenti-prologue .ap-off{position:absolute;right:8px;bottom:7px;',
-      '  color:#5d6e84;font-size:8.5px;text-align:right;line-height:1.5}',
+      '  max-width:62%;color:#5d6e84;font-size:8.5px;text-align:right;',
+      '  line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,.9)}',
       /* ── A NAME SET LARGE · 10 Sep 2026 ─────────────────────────────────
          Ornament, and nothing else. It carries no claim the prose does not
          already make and a surface that drops it loses nothing.
@@ -755,7 +768,7 @@
       '  font:200 clamp(38px,7.5vw,104px)/1 ui-monospace,Menlo,monospace;',
       '  letter-spacing:.24em;text-indent:.24em;white-space:nowrap;overflow:hidden}',
       '#amenti-prologue .ap-tx{position:absolute;left:50%;bottom:56px;',
-      '  top:calc(62px + var(--ap-band));transform:translateX(-50%);',
+      '  top:calc(86px + var(--ap-band));transform:translateX(-50%);',
       '  width:min(760px,88%);overflow-y:auto;padding-right:8px}',
       /* the column's own top edge, so a scrolled passage does not read as if
          it is running underneath the legend · 12 Sep 2026 */
