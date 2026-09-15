@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-09-12T07:03:06.487Z",
+  "generated": "2026-09-15T02:26:25.303Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -37,7 +37,7 @@
     "note": "a scene is a moment a figure was in. the figure need not be in the frame — ownership is editorial, not photographic. absence is never a gap. the owner is checkable; the tag is not."
   },
   "totals": {
-    "files": 170,
+    "files": 171,
     "plates": 162,
     "keys": 51,
     "rooms": 52,
@@ -95,6 +95,7 @@
       "darius-bow.jpg"
     ],
     "notPlates": [
+      "0_0.png",
       "0_2-22.png",
       "book-vol1-cover.jpg",
       "counsel-bg-a.webp",
