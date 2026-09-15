@@ -94,12 +94,49 @@
      overlay — which rides ABOVE both layers — darkens that band on every
      scene. Reduced-motion holds a single still, no fade. */
   #hero-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #06060e; }
+  /* NOTHING IS CROPPED AND NOTHING IS BARRED. The five scenes are three
+     different shapes — 4:3, 1.18:1 and two squares — so `cover` cut the
+     squares roughly in half and `contain` alone would have left dark margins
+     down both sides of them.
+     Two layers off one url: ::before fills the window with the same picture,
+     blown up, blurred and dimmed, so the margin is the image's own colour;
+     ::after sits on top at `contain`, whole and sharp. The script hands both
+     the url through --img rather than setting a background inline, which is
+     the only reason one assignment can feed two layers. */
   #hero-bg .frame {
-    position: absolute; inset: 0; background-size: cover;
-    background-position: center 22%; background-repeat: no-repeat;
+    position: absolute; inset: 0;
     opacity: 0; transition: opacity 2s ease-in-out;
   }
+  #hero-bg .frame::before, #hero-bg .frame::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: var(--img); background-repeat: no-repeat;
+  }
+  #hero-bg .frame::before {
+    background-size: cover; background-position: center;
+    filter: blur(42px) saturate(.72) brightness(.42);
+    transform: scale(1.12);
+  }
+  #hero-bg .frame::after {
+    background-size: contain; background-position: center;
+  }
   #hero-bg .frame.show { opacity: 1; }
+  #hero-dots {
+    position: fixed; top: 9px; left: 9px; z-index: 9997;
+    display: flex; gap: 4px; align-items: center;
+    font: 400 7px/1 ui-monospace, Menlo, monospace;
+  }
+  #hero-dots button {
+    width: 5px; height: 5px; padding: 0; border-radius: 50%; cursor: pointer;
+    background: rgba(5,8,14,.45); border: 1px solid rgba(160,180,205,.34);
+  }
+  #hero-dots button:hover { border-color: #dbe8f5; }
+  #hero-dots button[aria-pressed="true"] { background: #e0913f; border-color: #e0913f; }
+  #hero-dots button.auto {
+    width: auto; height: auto; border-radius: 2px; padding: 1px 4px;
+    color: #6b7a8e; letter-spacing: .08em; background: none; border-color: transparent;
+  }
+  #hero-dots button.auto:hover { color: #b8c4d8; }
+  #hero-dots button.auto[aria-pressed="true"] { background: none; color: #e0913f; }
   #hero-bg .veil {
     position: absolute; inset: 0; z-index: 1;
     background:
@@ -272,30 +309,79 @@
    the outgoing layer holds until the incoming has faded in over it.
    Reduced-motion: show the first and stop. */
 (function () {
-  var SCENES = ['img/thoth-terminal-2.jpg', 'img/thoth-terminal-3.jpg'];
+  var SCENES = ['img/thoth-terminal.jpg', 'img/thoth-terminal-2.jpg',
+                'img/thoth-terminal-3.jpg', 'img/thoth-terminal-4.jpg',
+                'img/thoth-terminal-5.jpg'];
   var HOLD = 60000;
   var a = document.getElementById('frameA'),
       b = document.getElementById('frameB');
   if (!a || !b || !SCENES.length) return;
 
-  a.style.backgroundImage = "url('" + SCENES[0] + "')";
+  /* --img, not backgroundImage: one assignment feeds both the blurred fill
+     and the sharp uncropped layer. See the .frame rules above. */
+  a.style.setProperty('--img', "url('" + SCENES[0] + "')");
   a.classList.add('show');
 
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || SCENES.length < 2) return;
 
-  var i = 0, front = a, back = b;
-  setInterval(function () {
-    i = (i + 1) % SCENES.length;
-    back.style.backgroundImage = "url('" + SCENES[i] + "')";
+  var i = 0, front = a, back = b, timer = null;
+
+  /* the fade, lifted out of the timer so the picker can call it too. Same
+     sequence it always ran: set the incoming layer, let the image decode,
+     then bring it up over the outgoing one and swap the handles. */
+  function to(n) {
+    if (n === i) { return; }
+    i = n;
+    back.style.setProperty('--img', "url('" + SCENES[i] + "')");
     /* let the image decode a beat before fading it up */
     var img = new Image(); img.src = SCENES[i];
     img.onload = img.onerror = function () {
       back.classList.add('show');
       front.classList.remove('show');
       var t = front; front = back; back = t;
+      mark();
     };
-  }, HOLD);
+  }
+
+  function run() { timer = setInterval(function () { to((i + 1) % SCENES.length); }, HOLD); }
+  function halt() { if (timer) { clearInterval(timer); timer = null; } }
+  run();
+
+  /* ── THE DOTS · a way to look at one scene on purpose ──────────────────
+     Five shapes across five files: picking through them on a sixty-second
+     timer is no way to judge a crop. Each dot holds a scene still so it can
+     be looked at; the rotation stops the moment one is pressed and starts
+     again when the set is released. Top left, small, and out of the way of
+     everything the page is actually for. */
+  var dots = document.createElement('div');
+  dots.id = 'hero-dots';
+  var html = '';
+  SCENES.forEach(function (src, n) {
+    html += '<button type="button" data-n="' + n + '" title="' +
+            src.split('/').pop() + '"></button>';
+  });
+  dots.innerHTML = html + '<button type="button" data-n="auto" class="auto" ' +
+                   'title="back to the rotation">auto</button>';
+  document.body.appendChild(dots);
+
+  function mark() {
+    [].forEach.call(dots.children, function (b) {
+      var n = b.getAttribute('data-n');
+      var on = (n === 'auto') ? !!timer : (+n === i);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  dots.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) { return; }
+    var n = b.getAttribute('data-n');
+    if (n === 'auto') { if (!timer) { run(); } }
+    else { halt(); to(+n); }
+    mark();
+  });
+  mark();
 })();
 </script>
 
