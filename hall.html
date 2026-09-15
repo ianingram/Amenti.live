@@ -1,0 +1,555 @@
+<!doctype html>
+<!-- ==========================================================================
+  hall.html · ASK AMENTI — THE HALL'S OWN DOOR
+  ---------------------------------------------------------------------------
+  A standalone surface in Amenti.live. Page1 is NOT touched: this page carries
+  its own proxy client (the same thirty lines, the same Worker, the same one
+  door) and loads the hall scripts itself.
+
+  Ruled 24 Aug: the hall lives with the ship, on its own page. It earns a link
+  from the flagship's nav by proving itself here first — a link is one line;
+  an injection is a graft.
+
+  Serves at:  https://ianingram.github.io/Amenti.live/hall.html
+
+  Needs, in this repo:
+    HALL.md                 the meaning (authored)
+    HALL-STATE.json         the counts (probes/probe-hall.mjs)
+    ROSTER-INDEX.json       the souls  (probes/probe-roster.mjs)
+    SOURCES.json            the catalogue (tools/sources.js — already live)
+    amenti-hall.js          the answer path
+    amenti-hall-box.js      the box
+=========================================================================== -->
+<html lang="en">
+<head>
+<!-- ── THE BLACK BOX · added 5 Sep ─────────────────────────────────────────
+     FIRST SCRIPT ON THE PAGE, deliberately, because it can only catch what
+     happens after it. A probe pasted into the console cannot see an error
+     thrown at load — the error is already gone by the time the paste runs,
+     and the only trace is a red dot in a toolbar that means "look somewhere
+     else". That is a bad instrument: it reports that something is wrong and
+     makes a person go hunting.
+
+     This records instead. Anything that throws, and any failed fetch, lands
+     in window.__amentiErrors, and probes/hall-probe.js reads it back. One
+     paste then answers the whole question.
+
+     It changes nothing and swallows nothing: every handler re-throws to the
+     console exactly as before. ── -->
+<script>
+(function () {
+  var E = window.__amentiErrors = [];
+  window.addEventListener('error', function (e) {
+    E.push({ at: new Date().toISOString(),
+             kind: e.filename ? 'error' : 'resource',
+             msg: e.message || 'failed to load',
+             /* an SVG <image> href is an SVGAnimatedString, not a string, and
+                stringifying it printed "[object SVGAnimatedString]" — a report
+                that names nothing. Take .baseVal where it exists. */
+             where: (function (t) {
+               if (e.filename) return e.filename;
+               if (!t) return '?';
+               /* an SVG <image> has BOTH: a src that is empty and an href that
+                  is an SVGAnimatedString. Reading src first found the empty one
+                  and reported the tag name instead of the URL. Unwrap first,
+                  then take whichever is actually set. */
+               var un = function (v) { return v && v.baseVal != null ? v.baseVal : v; };
+               var u = un(t.href) || un(t.src) || t.currentSrc || t.getAttribute && t.getAttribute('href');
+               return String(u || ('<' + (t.tagName || '?').toLowerCase() + '> with no url'));
+             })(e.target) +
+                    (e.lineno ? ':' + e.lineno : '') });
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    E.push({ at: new Date().toISOString(), kind: 'promise',
+             msg: String(e.reason && e.reason.message || e.reason).slice(0, 200), where: '\u2014' });
+  });
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ask Amenti · The Hall</title>
+<meta name="description" content="Speak to the hall. Search the library of Amenti, and ask the building itself.">
+<style>
+  /* THE SHIP'S TYPEFACE — Amenti Display, the same @font-face the flagship
+     uses (fonts/amenti-display-*.woff2). Relative path works because hall.html
+     sits at the repo root beside Page1. Georgia was a stand-in; this is the
+     ship's own letterform, so ASK AMENTI here matches ASK AMENTI in the nav. */
+  @font-face { font-family:'Amenti Display'; font-weight:400; font-display:swap; src:url('fonts/amenti-display-400.woff2') format('woff2'); }
+  @font-face { font-family:'Amenti Display'; font-weight:600; font-display:swap; src:url('fonts/amenti-display-600.woff2') format('woff2'); }
+  @font-face { font-family:'Amenti Display'; font-weight:700; font-display:swap; src:url('fonts/amenti-display-700.woff2') format('woff2'); }
+  :root { color-scheme: dark light; }
+  body {
+    margin: 0; min-height: 100vh;
+    color: #e8e4d8;
+    font: 16px/1.6 'Amenti Display', Georgia, 'Times New Roman', serif;
+    display: flex; flex-direction: column; align-items: center;
+    position: relative;
+  }
+  /* THE GATE — slow cross-fade through the terminal scenes (thoth-terminal-2,
+     -3): the planet risen behind the pyramid, framed by dark columns. Two
+     stacked layers fade between images on a timer (script below). REAL FILES
+     (img/), so they will not show in a detached preview — only live, beside
+     img/. If one goes missing the #06060e beneath shows rather than a broken
+     frame. Both images are bright at top-centre where ASK AMENTI sits, so the
+     overlay — which rides ABOVE both layers — darkens that band on every
+     scene. Reduced-motion holds a single still, no fade. */
+  #hero-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #06060e; }
+  /* The five scenes are three different shapes — 4:3, 1.18:1 and two squares —
+     against a window nearly twice as wide as it is tall, so something has to
+     give at the sides. The script hands the url through --img rather than
+     setting a background inline; see the ::after rule below for what is done
+     with it. */
+  #hero-bg .frame {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 2s ease-in-out;
+  }
+  /* THE MARGIN IS BLACK AND THE EDGE IS SOFT. A blurred copy of the picture
+     filling the sides read as a smear with a visible seam where the sharp
+     layer ended — worse than the black it replaced. The black was right; the
+     line was the fault. So the picture keeps its own shape, sits on the
+     page's own #06060e, and FADES OUT at the left and right rather than
+     stopping at an edge.
+     THE MASK HAS TO SIT ON THE PICTURE, NOT ON THE WINDOW. Masking the full
+     frame faded black into black — the picture occupies only the middle of
+     that box, so the soft edge fell out in the margin and the image's own
+     edge stayed hard. The layer is sized to the picture instead: the script
+     measures each scene as it loads and hands the width over as --iw.
+       --fill    how far past the fit it is pushed; higher is closer
+       --focus   which part survives vertically; higher keeps more of the foot
+       --feather how far the fade reaches in from each side */
+  #hero-bg .frame::after {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+    width: var(--iw, 100%);
+    transform: translateX(-50%) scale(var(--fill, 1.42));
+    background-image: var(--img); background-repeat: no-repeat;
+    background-size: cover; background-position: center var(--focus, 62%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0,
+      #000 var(--feather, 12%), #000 calc(100% - var(--feather, 12%)), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0,
+      #000 var(--feather, 12%), #000 calc(100% - var(--feather, 12%)), transparent 100%);
+  }
+  #hero-bg .frame.show { opacity: 1; }
+  #hero-dots {
+    position: fixed; top: 9px; left: 9px; z-index: 9997;
+    display: flex; gap: 4px; align-items: center;
+    font: 400 7px/1 ui-monospace, Menlo, monospace;
+  }
+  #hero-dots button {
+    width: 5px; height: 5px; padding: 0; border-radius: 50%; cursor: pointer;
+    background: rgba(5,8,14,.45); border: 1px solid rgba(160,180,205,.34);
+  }
+  #hero-dots button:hover { border-color: #dbe8f5; }
+  #hero-dots button[aria-pressed="true"] { background: #e0913f; border-color: #e0913f; }
+  #hero-dots button.auto {
+    width: auto; height: auto; border-radius: 2px; padding: 1px 4px;
+    color: #6b7a8e; letter-spacing: .08em; background: none; border-color: transparent;
+  }
+  #hero-dots button.auto:hover { color: #b8c4d8; }
+  #hero-dots button.auto[aria-pressed="true"] { background: none; color: #e0913f; }
+  #hero-bg .veil {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(to bottom,
+        rgba(6,6,14,.62) 0%, rgba(6,6,14,.30) 22%, rgba(6,6,14,.12) 45%,
+        rgba(6,6,14,.35) 78%, rgba(6,6,14,.70) 100%),
+      radial-gradient(ellipse at 50% 30%,
+        rgba(6,6,14,.30) 0%, transparent 55%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #hero-bg .frame { transition: none; }
+  }
+  header { text-align: center; padding: 4.5rem 1rem 0.5rem; text-shadow: 0 2px 24px rgba(0,0,0,.7); }
+  header h1 { font-family: 'Amenti Display', Georgia, serif; font-size: 2.1rem; font-weight: 700; letter-spacing: .14em; margin: 0; }
+  header p  { opacity: .6; font-size: .95rem; margin: .4rem 0 0; font-style: italic; }
+  /* main grows to fill the space between header and footer; the box sits at
+     the LOW end of it, dropped toward the bottom of the screen above the
+     footer links — not up under the title. */
+  main { width: 100%; flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 8vh; }
+  footer { margin-top: auto; padding: 2rem 1rem; opacity: .45; font-size: .8rem; text-align: center; }
+  footer .aa-links { display: flex; flex-direction: column; align-items: center; gap: .55rem; }
+  footer .aa-llc { margin-top: 1rem; }
+  footer a { color: inherit; }
+  /* the box styles itself; #roster is absent here by design — it mounts at top of main */
+  #ask-amenti { margin-top: 1rem; margin-bottom: 0; }
+  header, main, footer { position: relative; z-index: 1; }
+
+  /* TERMINAL BLUE — #57b6ff, the text colour amenti-chat.js speaks in. The hall
+     speaks through the same door, so its TITLE and its INPUT wear the terminal
+     voice. The ANSWER does not — see below. */
+  #ask-amenti input { color: #57b6ff; }
+  #ask-amenti input::placeholder { color: #57b6ff; opacity: .55; }
+  #ask-amenti .aa-box { border-color: rgba(87,182,255,.45); }
+  #ask-amenti .aa-seed { color: #57b6ff; border-color: rgba(87,182,255,.4); }
+  header h1 { color: #57b6ff; }
+
+  /* ── THE ANSWER ───────────────────────────────────────────────────────────
+     The answer was blue too, and it did not hold. The gate ROTATES, and its
+     frames are brightest — pale cloud — exactly where a long answer sits. Blue
+     read well over the pyramid's dark face and washed out over the sky, in the
+     same paragraph. No single text colour survives every scene, so the fix is
+     not a different blue: it is giving the answer A GROUND OF ITS OWN.
+
+     White, on a dark panel, legible on every frame the gate can show. Not pure
+     #fff — that glares on dark and reads like a system dialog; #f2f4f8 is white
+     to the eye and sits in the page.
+
+     The blue is not lost, it MOVES: it holds the left edge as a rule. The hall
+     still speaks in its colour; the answer just no longer has to carry it.
+
+     Selectors cover both containers because the box's own id belongs to
+     amenti-hall-box.js, not to this page. */
+  #ask-amenti .aa-answer,
+  #hall-main .aa-answer {
+    color: #f2f4f8;
+    background: rgba(6,6,14,.72);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    border-left: 2px solid rgba(87,182,255,.45);
+    border-radius: 10px;
+    padding: 1.1rem 1.35rem;
+    text-shadow: 0 1px 12px rgba(6,6,14,.9);
+  }
+
+
+  /* ── THE VIEW · CLICK THE SCENE TO CLEAR IT ───────────────────────────────
+     The hall stands in a room, and the room is a photograph. Every other
+     surface in this fleet puts its reading ON that photograph and never once
+     lets a person LOOK at it.
+
+     Click anywhere that is not a control and the reading fades out. Click
+     again and it returns. Nothing is destroyed and nothing is re-fetched —
+     the answer is still there, unchanged, behind a fade.
+
+     opacity + visibility rather than display:none, so the return is a fade
+     rather than a jump, and so a screen reader is told the text is gone
+     instead of finding it and reading it aloud invisibly. */
+  #hall-main, .hall-chrome {
+    transition: opacity .45s ease, visibility .45s;
+  }
+  body.scene-bare #hall-main,
+  body.scene-bare .hall-chrome {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* The one thing that stays: a line telling you how to get the reading back.
+     A view with no way out of it is a trap, not a feature. */
+  #scene-hint {
+    position: fixed; left: 0; right: 0; bottom: 26px;
+    text-align: center; z-index: 4;
+    font: 400 11px/1.6 ui-monospace, Menlo, monospace;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(210,225,245,.5);
+    text-shadow: 0 1px 10px rgba(6,6,14,.95);
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity .45s ease .15s, visibility .45s;
+  }
+  body.scene-bare #scene-hint { opacity: 1; visibility: visible; }
+
+  /* ── THE HAND-OVER ────────────────────────────────────────────────────────
+     A LINE, not a panel. The first version was a 200px plate with a heading,
+     a paragraph and two buttons, and it ate a page that is a title and a
+     question over a slow pyramid. A hand-over is reached for once, at the end.
+     It sits with the other footer links and looks like them until tapped.
+     The plate itself stays WHITE — not decoration: a code on #06060e with no
+     quiet zone is the commonest reason a phone will not read it. */
+  /* PINNED BOTTOM-LEFT. Out of the page's way entirely: the hall keeps its
+     centred column, and the hand-over waits in the corner until reached for.
+     Opens UPWARD (column-reverse) so the code never runs off the bottom edge.
+     z-index 2 clears the fixed gate (0) and the page column (1). */
+  #amenti-handover { position: fixed; left: 1.25rem; bottom: 1.25rem; z-index: 2; }
+  #amenti-handover .aqr-q { flex-direction: column-reverse; align-items: flex-start; }
+  #amenti-handover .aqr-drop { align-items: flex-start; margin-bottom: .5rem; }
+  #amenti-handover .aqr-toggle,
+  #amenti-handover .aqr-mini { color: #e8e4d8; font-family: inherit;
+    text-shadow: 0 1px 10px rgba(6,6,14,.9); }
+  #amenti-handover .aqr-toggle { font-size: .8rem; }
+  /* on a narrow screen the corner is where a thumb lives — keep it clear of
+     the footer text and shrink the code so it never fills the viewport */
+  @media (max-width: 560px) {
+    #amenti-handover { left: .9rem; bottom: .9rem; }
+    #amenti-handover .aqr-plate svg { width: 118px; height: 118px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div id="hero-bg" aria-hidden="true">
+  <div class="frame" id="frameA"></div>
+  <div class="frame" id="frameB"></div>
+  <div class="veil"></div>
+</div>
+
+<header>
+  <h1>ASK&nbsp;AMENTI</h1>
+</header>
+
+<main id="hall-main"></main>
+<div id="scene-hint" aria-hidden="true">click anywhere to bring the hall back</div>
+
+<div id="amenti-handover" data-label="hand over the hall" data-mode="quiet"></div>
+
+<footer>
+  <div class="aa-links">
+    <a href="Page1.html">enter the Living Library</a>
+    <!-- ABSOLUTE, and it has to be. This file lives in Amenti-Technical-Briefs,
+         which is a DIFFERENT Pages site. The link was written relative —
+         href="Amenti_Separation_of_Power.html" — which resolves against
+         whichever site is serving the hall, where no such file exists. It was
+         not a missing document; it was a link pointing at the wrong building.
+         Anything in the briefs repo linked from here needs the full URL. -->
+    <!-- 26 Aug: this was Brief XII, "The Separation of Power". Moved one step
+         deeper. XII is the four powers and their architecture — the right
+         document, at the wrong door, for a reader who has just asked what this
+         place is. THE THREE GATES answers that question and links XII first in
+         its own reading list, so nothing is lost and the footer stays a line
+         rather than a list. It is also the document the hall's own citation
+         points at when a visitor asks what Amenti is founded on. -->
+    <a href="https://ianingram.github.io/Amenti-Technical-Briefs/Amenti_Foundation_Sovereignty.html">The Three Gates</a>
+  </div>
+  <div class="aa-llc">© 2026 Ingram Manor LLC · All rights reserved</div>
+</footer>
+
+<script>
+/* THE GATE ROTATES. Cross-fade through the terminal scenes on a slow timer.
+   Two layers: one shown, one hidden and preloading the next; swap, fade, repeat.
+   ~60s hold, 2s fade (the CSS transition). A single scene never flashes empty —
+   the outgoing layer holds until the incoming has faded in over it.
+   Reduced-motion: show the first and stop. */
+(function () {
+  var SCENES = ['img/thoth-terminal.jpg', 'img/thoth-terminal-2.jpg',
+                'img/thoth-terminal-3.jpg', 'img/thoth-terminal-4.jpg',
+                'img/thoth-terminal-5.jpg'];
+  var HOLD = 60000;
+  var a = document.getElementById('frameA'),
+      b = document.getElementById('frameB');
+  if (!a || !b || !SCENES.length) return;
+
+  /* --img, not backgroundImage: one assignment feeds both the blurred fill
+     and the sharp uncropped layer. See the .frame rules above. */
+  a.style.setProperty('--img', "url('" + SCENES[0] + "')");
+  a.classList.add('show');
+  var first = new Image();
+  first.onload = function () { widen(a, first); };
+  first.src = SCENES[0];
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || SCENES.length < 2) return;
+
+  var i = 0, front = a, back = b, timer = null;
+
+  /* the fade, lifted out of the timer so the picker can call it too. Same
+     sequence it always ran: set the incoming layer, let the image decode,
+     then bring it up over the outgoing one and swap the handles. */
+  /* the displayed width of a scene: it is fitted to the height, so the width
+     follows from its own aspect. Measured, not assumed — the five files are
+     three different shapes. */
+  function widen(el, img) {
+    if (!img.naturalWidth || !img.naturalHeight) { return; }
+    var w = window.innerHeight * (img.naturalWidth / img.naturalHeight);
+    el.style.setProperty('--iw', Math.min(w, window.innerWidth) + 'px');
+  }
+
+  function to(n) {
+    if (n === i) { return; }
+    i = n;
+    back.style.setProperty('--img', "url('" + SCENES[i] + "')");
+    /* let the image decode a beat before fading it up */
+    var img = new Image(); img.src = SCENES[i];
+    img.onload = img.onerror = function () {
+      widen(back, img);
+      back.classList.add('show');
+      front.classList.remove('show');
+      var t = front; front = back; back = t;
+      mark();
+    };
+  }
+
+  function run() { timer = setInterval(function () { to((i + 1) % SCENES.length); }, HOLD); }
+  function halt() { if (timer) { clearInterval(timer); timer = null; } }
+  run();
+
+  /* ── THE DOTS · a way to look at one scene on purpose ──────────────────
+     Five shapes across five files: picking through them on a sixty-second
+     timer is no way to judge a crop. Each dot holds a scene still so it can
+     be looked at; the rotation stops the moment one is pressed and starts
+     again when the set is released. Top left, small, and out of the way of
+     everything the page is actually for. */
+  var dots = document.createElement('div');
+  dots.id = 'hero-dots';
+  var html = '';
+  SCENES.forEach(function (src, n) {
+    html += '<button type="button" data-n="' + n + '" title="' +
+            src.split('/').pop() + '"></button>';
+  });
+  dots.innerHTML = html + '<button type="button" data-n="auto" class="auto" ' +
+                   'title="back to the rotation">auto</button>';
+  document.body.appendChild(dots);
+
+  function mark() {
+    [].forEach.call(dots.children, function (b) {
+      var n = b.getAttribute('data-n');
+      var on = (n === 'auto') ? !!timer : (+n === i);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+
+  dots.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) { return; }
+    var n = b.getAttribute('data-n');
+    if (n === 'auto') { if (!timer) { run(); } }
+    else { halt(); to(+n); }
+    mark();
+  });
+  mark();
+})();
+</script>
+
+<script>
+/* The one door, carried by this page. Same Worker, same shape as Page1's
+   client — duplicated DELIBERATELY so this page depends on nothing Page1
+   loads. If the proxy contract changes, both clients change; that is the
+   accepted cost of the flagship staying untouched. */
+(function(){
+  var PROXY = 'https://amenti-proxy.ingram-ian.workers.dev';
+  var MODELS = ['claude-haiku-4-5-20251001','claude-sonnet-4-6'];
+  var MODEL  = 'claude-sonnet-4-6';
+    /* set() WAS A NO-OP AND EVERY MODEL COMPARISON RUN AGAINST IT WAS SONNET
+     AGAINST SONNET. Found 10 Sep by reading it rather than trusting it. It is
+     real now, so a model can be tried from the console without a commit —
+     which is the only way to test one honestly, because a change that needs a
+     deploy gets tested once and kept. */
+  window.AmentiModel = {
+    options: MODELS,
+    DEFAULT: MODEL,
+    ROUTER: 'claude-haiku-4-5-20251001',
+    get: function(){ return MODEL; },
+    set: function(m){
+      if (!m) { return MODEL; }
+      if (m === 'haiku')  { m = 'claude-haiku-4-5-20251001'; }
+      if (m === 'sonnet') { m = 'claude-sonnet-4-6'; }
+      MODEL = m;
+      console.log('the hall now answers on ' + MODEL);
+      return MODEL;
+    }
+  };
+  window.claude = {
+    complete: async function(opts){
+      opts = opts || {};
+      var res = await fetch(PROXY, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system: opts.system || '',
+          messages: opts.messages || [],
+          model: opts.model || MODEL
+        })
+      });
+      if (!res.ok) {
+        var t = await res.text().catch(function(){ return ''; });
+        throw new Error('proxy ' + res.status + (t ? ' \u00b7 ' + t.slice(0,140) : ''));
+      }
+      var data = await res.json();
+      if (data && data.usage) {
+        window.AmentiCost = window.AmentiCost || { turns:0, inputTokens:0, outputTokens:0, last:null };
+        window.AmentiCost.turns++;
+        window.AmentiCost.inputTokens  += (data.usage.input_tokens  || 0);
+        window.AmentiCost.outputTokens += (data.usage.output_tokens || 0);
+        window.AmentiCost.last = { model: data.model, usage: data.usage, at: Date.now() };
+      }
+      return (data && data.reply ? String(data.reply) : '').trim();
+    }
+  };
+})();
+</script>
+<script src="amenti-hall.js?v=bb22f3b5" defer></script>
+<script src="amenti-hall-box.js?v=cc79527c" defer></script>
+<script src="amenti-timeline.js?v=c083b110" defer></script>
+<script src="amenti-hall-ground.js?v=5817e69f" defer></script>  
+<script src="amenti-meter.js?v=e27fa5bf" defer></script>  
+<script src="amenti-guide.js?v=5699f2a9" defer></script>  
+<script src="amenti-alive.js?v=3a110d63" defer></script>
+<!-- THE MAP. The spatial twin of the timeline: WHERE, as the timeline is
+     WHEN. Mounts its own trigger and owns its own clicks, so nothing else
+     on this page changes. Reveals on body.scene-map and clears scene-bare
+     on the way in — the two instruments never share the screen. -->
+<script src="amenti-map.js?v=ab4db887" defer></script>
+<script src="amenti-glass.js?v=55dba669" defer></script>
+<script src="amenti-narrows.js?v=ac4a4751" defer></script>
+<script src="amenti-ground.js?v=beef867b" defer></script>
+<script src="amenti-attica.js?v=2fb24e77" defer></script>
+<script src="amenti-attica-glass.js?v=b06d7726" defer></script>
+<script src="amenti-attica-cues.js?v=e1c37d71" defer></script>
+<script src="amenti-attica-tours.js?v=e886de2f" defer></script>
+<script src="amenti-attica-told.js?v=7cd679b4" defer></script>  
+<script src="amenti-attica-campaign.js?v=56ffb952" defer></script>
+<script src="amenti-attica-hall.js?v=78d647f0" defer></script>
+<script src="amenti-qr.js?v=c016424e" defer></script>
+
+<!-- ── CLICK THE SCENE ──────────────────────────────────────────────────────
+     Click the photograph and the reading clears; click again and it returns.
+     Depends on nothing, breaks nothing if it fails, and touches no state that
+     is not its own body class. -->
+<script>
+(function () {
+  'use strict';
+
+  /* WHAT MUST NEVER TRIGGER IT. This is the whole of the work — a toggle that
+     fires on every click is not a feature, it is a page that will not let you
+     type. A click is "on the scene" only if it landed on nothing that does
+     anything: no input, no button, no link, no select, nothing a person is
+     part-way through using. */
+  var CONTROLS = 'input, textarea, select, button, a, [role="button"], [contenteditable], label, summary';
+
+  function isControl(node) {
+    for (var el = node; el && el !== document.body; el = el.parentElement) {
+      if (el.matches && el.matches(CONTROLS)) return true;
+      /* the hand-over widget draws its own controls and owns its clicks */
+      if (el.id === 'amenti-handover') return true;
+    }
+    return false;
+  }
+
+  /* A DRAG IS NOT A CLICK. Selecting a line of the answer to copy it ends in
+     a click event, and hiding the text the moment somebody finishes
+     highlighting it would be maddening. If anything is selected, or the
+     pointer travelled, it was not a click on the scene. */
+  var downX = 0, downY = 0;
+  document.addEventListener('pointerdown', function (e) { downX = e.clientX; downY = e.clientY; }, true);
+
+  function moved(e) {
+    return Math.abs(e.clientX - downX) > 4 || Math.abs(e.clientY - downY) > 4;
+  }
+  function selecting() {
+    var sel = window.getSelection && window.getSelection();
+    return !!(sel && String(sel).trim().length);
+  }
+
+  document.addEventListener('click', function (e) {
+    if (isControl(e.target)) return;
+    if (moved(e)) return;
+    if (selecting()) return;
+    document.body.classList.toggle('scene-bare');
+  });
+
+  /* ESCAPE ALWAYS RESTORES. A person who has hidden the reading and forgotten
+     how should not have to guess; the hint says click, and Escape agrees. */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('scene-bare')) {
+      document.body.classList.remove('scene-bare');
+    }
+  });
+
+  /* AND ASKING BRINGS IT BACK BY ITSELF. If the reading is hidden and a
+     question is sent, the answer would arrive into a pane nobody can see.
+     Any keystroke into a field restores the hall first. */
+  document.addEventListener('focusin', function (e) {
+    if (isControl(e.target)) document.body.classList.remove('scene-bare');
+  });
+})();
+</script>
+
+</body>
+</html>
