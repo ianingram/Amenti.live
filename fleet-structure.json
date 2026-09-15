@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-15T04:37:04.565Z",
+    "generated": "2026-09-15T04:37:41.328Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1584,8 +1584,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 53972,
-      "sha256": "f994c7c8b72849ca",
+      "bytes": 53727,
+      "sha256": "55ff47d5b1b8be91",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1594,25 +1594,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1295,
+          "line": 1288,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1296,
+          "line": 1289,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1297,
+          "line": 1290,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1298,
+          "line": 1291,
           "when": "toplevel",
           "own": false
         }
@@ -1705,6 +1705,106 @@
       "declares": [],
       "loads": [],
       "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
+      "file": "hall.html",
+      "bytes": 27437,
+      "sha256": "5a0202486056eca7",
+      "type": "html",
+      "declares": [
+        "AmentiCost",
+        "AmentiModel",
+        "__amentiErrors",
+        "claude"
+      ],
+      "loads": [
+        {
+          "file": "amenti-hall.js?v=bb22f3b5",
+          "line": 467
+        },
+        {
+          "file": "amenti-hall-box.js?v=cc79527c",
+          "line": 468
+        },
+        {
+          "file": "amenti-timeline.js?v=c083b110",
+          "line": 469
+        },
+        {
+          "file": "amenti-hall-ground.js?v=5817e69f",
+          "line": 470
+        },
+        {
+          "file": "amenti-meter.js?v=e27fa5bf",
+          "line": 471
+        },
+        {
+          "file": "amenti-guide.js?v=5699f2a9",
+          "line": 472
+        },
+        {
+          "file": "amenti-alive.js?v=3a110d63",
+          "line": 473
+        },
+        {
+          "file": "amenti-map.js?v=ab4db887",
+          "line": 478
+        },
+        {
+          "file": "amenti-glass.js?v=55dba669",
+          "line": 479
+        },
+        {
+          "file": "amenti-narrows.js?v=ac4a4751",
+          "line": 480
+        },
+        {
+          "file": "amenti-ground.js?v=beef867b",
+          "line": 481
+        },
+        {
+          "file": "amenti-attica.js?v=2fb24e77",
+          "line": 482
+        },
+        {
+          "file": "amenti-attica-glass.js?v=b06d7726",
+          "line": 483
+        },
+        {
+          "file": "amenti-attica-cues.js?v=e1c37d71",
+          "line": 484
+        },
+        {
+          "file": "amenti-attica-tours.js?v=e886de2f",
+          "line": 485
+        },
+        {
+          "file": "amenti-attica-told.js?v=7cd679b4",
+          "line": 486
+        },
+        {
+          "file": "amenti-attica-campaign.js?v=56ffb952",
+          "line": 487
+        },
+        {
+          "file": "amenti-attica-hall.js?v=78d647f0",
+          "line": 488
+        },
+        {
+          "file": "amenti-qr.js?v=c016424e",
+          "line": 489
+        }
+      ],
+      "calls": [
+        {
+          "global": "AmentiCost",
+          "line": 457,
+          "when": "function",
+          "own": true
+        }
+      ],
       "endpoints": [],
       "tables": []
     },
