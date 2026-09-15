@@ -244,11 +244,16 @@
          Fixed shares, no fitting, nothing to compute. The picture is smaller
          than it could be at some window shapes and that is the price of a
          layout that cannot overlap. */
-      '#amenti-told.td-scene .td-sc{left:26%;right:26%}',
-      '#amenti-told.td-scene .td-fig{left:0;right:auto;top:0;bottom:auto;',
-      '  height:100%;width:24%;background:none;border:0;',
-      '  display:flex;flex-direction:column;justify-content:center;',
-      '  padding:0 18px 0 26px;overflow-y:auto}',
+      '#amenti-told.td-scene .td-sc{left:0;right:26%}',
+      /* ── THE SAME PARAGRAPH TWICE · 14 Sep 2026 ──────────────────────────
+         The figure panel was drawn on BOTH steps of a slide — the left column
+         of the scene and the right-hand box on the map — so a reader met the
+         same paragraph one `next` apart, beside a passage that had just said
+         it. It belongs on one step, and the map is the one that needs it:
+         there the ground is doing the talking and the words are all there is
+         to say who this is. On the scene, the picture and the passage are
+         already the whole surface. */
+      '#amenti-told.td-scene .td-fig{display:none}',
       '#amenti-told.td-scene .td-tx{right:0;left:auto;top:0;bottom:0;',
       '  height:auto;max-height:none;width:24%;',
       '  background:none;border:0;overflow-y:auto;',
@@ -256,7 +261,7 @@
       '  padding:0 26px 0 18px}',
       '@media (max-width:1100px){',
       '  #amenti-told.td-scene .td-sc{left:0;right:0}',
-      '  #amenti-told.td-scene .td-tx,#amenti-told.td-scene .td-fig{',
+      '  #amenti-told.td-scene .td-tx{',
       '    width:min(340px,42%);background:rgba(5,8,14,.90);',
       '    border:1px solid rgba(43,58,80,.6);border-radius:4px;',
       '    padding:12px 14px;height:auto;top:auto;bottom:96px}}',
