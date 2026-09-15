@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-15T06:06:33.758Z",
+    "generated": "2026-09-15T06:07:37.011Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1585,7 +1585,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53972,
-      "sha256": "9473fcba6afe36dc",
+      "sha256": "c1c779cc38ee2626",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1705,106 +1705,6 @@
       "declares": [],
       "loads": [],
       "calls": [],
-      "endpoints": [],
-      "tables": []
-    },
-    {
-      "file": "hall.html",
-      "bytes": 29060,
-      "sha256": "77c6d7f9d0160a55",
-      "type": "html",
-      "declares": [
-        "AmentiCost",
-        "AmentiModel",
-        "__amentiErrors",
-        "claude"
-      ],
-      "loads": [
-        {
-          "file": "amenti-hall.js?v=bb22f3b5",
-          "line": 499
-        },
-        {
-          "file": "amenti-hall-box.js?v=cc79527c",
-          "line": 500
-        },
-        {
-          "file": "amenti-timeline.js?v=c083b110",
-          "line": 501
-        },
-        {
-          "file": "amenti-hall-ground.js?v=5817e69f",
-          "line": 502
-        },
-        {
-          "file": "amenti-meter.js?v=e27fa5bf",
-          "line": 503
-        },
-        {
-          "file": "amenti-guide.js?v=5699f2a9",
-          "line": 504
-        },
-        {
-          "file": "amenti-alive.js?v=3a110d63",
-          "line": 505
-        },
-        {
-          "file": "amenti-map.js?v=ab4db887",
-          "line": 510
-        },
-        {
-          "file": "amenti-glass.js?v=55dba669",
-          "line": 511
-        },
-        {
-          "file": "amenti-narrows.js?v=ac4a4751",
-          "line": 512
-        },
-        {
-          "file": "amenti-ground.js?v=beef867b",
-          "line": 513
-        },
-        {
-          "file": "amenti-attica.js?v=2fb24e77",
-          "line": 514
-        },
-        {
-          "file": "amenti-attica-glass.js?v=b06d7726",
-          "line": 515
-        },
-        {
-          "file": "amenti-attica-cues.js?v=e1c37d71",
-          "line": 516
-        },
-        {
-          "file": "amenti-attica-tours.js?v=e886de2f",
-          "line": 517
-        },
-        {
-          "file": "amenti-attica-told.js?v=7cd679b4",
-          "line": 518
-        },
-        {
-          "file": "amenti-attica-campaign.js?v=56ffb952",
-          "line": 519
-        },
-        {
-          "file": "amenti-attica-hall.js?v=78d647f0",
-          "line": 520
-        },
-        {
-          "file": "amenti-qr.js?v=c016424e",
-          "line": 521
-        }
-      ],
-      "calls": [
-        {
-          "global": "AmentiCost",
-          "line": 489,
-          "when": "function",
-          "own": true
-        }
-      ],
       "endpoints": [],
       "tables": []
     },
