@@ -100,7 +100,7 @@
      setting a background inline; see the ::after rule below for what is done
      with it. */
   #hero-bg .frame {
-    position: absolute; inset: 0;
+    position: absolute; inset: 0; isolation: isolate;
     opacity: 0; transition: opacity 2s ease-in-out;
   }
   /* THE MARGIN IS BLACK AND THE EDGE IS SOFT. A blurred copy of the picture
@@ -117,16 +117,27 @@
        --fill    how far past the fit it is pushed; higher is closer
        --focus   which part survives vertically; higher keeps more of the foot
        --feather how far the fade reaches in from each side */
+  /* ::after is the picture, cropped to a panel. ::before is the black,
+     painted OVER it at each side as a gradient that starts opaque at the
+     window edge and clears by the time it reaches the picture's middle — so
+     the band and the fade are one thing and there is no seam between them.
+     A mask was tried twice and drew a hard line both times; this paints in
+     the page's own #06060e instead of cutting a hole, which is the same
+     result by a route that renders. */
   #hero-bg .frame::after {
     content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
     width: var(--iw, 100%);
     transform: translateX(-50%) scale(var(--fill, 1.42));
     background-image: var(--img); background-repeat: no-repeat;
     background-size: cover; background-position: center var(--focus, 62%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0,
-      #000 var(--feather, 12%), #000 calc(100% - var(--feather, 12%)), transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0,
-      #000 var(--feather, 12%), #000 calc(100% - var(--feather, 12%)), transparent 100%);
+  }
+  #hero-bg .frame::before {
+    content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      linear-gradient(to right, #06060e 0,
+        #06060e var(--band, 15%), rgba(6,6,14,0) var(--fade, 30%)),
+      linear-gradient(to left, #06060e 0,
+        #06060e var(--band, 15%), rgba(6,6,14,0) var(--fade, 30%));
   }
   #hero-bg .frame.show { opacity: 1; }
   #hero-dots {
@@ -318,9 +329,30 @@
    the outgoing layer holds until the incoming has faded in over it.
    Reduced-motion: show the first and stop. */
 (function () {
-  var SCENES = ['img/thoth-terminal.jpg', 'img/thoth-terminal-2.jpg',
-                'img/thoth-terminal-3.jpg', 'img/thoth-terminal-4.jpg',
-                'img/thoth-terminal-5.jpg'];
+  /* Each scene carries its own crop and its own edge. The five files are three
+     different shapes — two 4:3, one 1.18:1, two square — so one setting was
+     never going to suit all of them; these were set by eye against each
+     picture.
+       band   how far the solid black reaches in from each side
+       fade   where that black has finished clearing
+       fill   how far past the fit the picture is pushed; higher is closer
+       focus  which part survives vertically; higher keeps more of the foot */
+  var SCENES = [
+    { src: 'img/thoth-terminal.jpg',   band:  0, fade:  7, fill: 1.00, focus: 88 },
+    { src: 'img/thoth-terminal-2.jpg', band:  0, fade: 13, fill: 1.18, focus:  0 },
+    { src: 'img/thoth-terminal-3.jpg', band:  4, fade: 25, fill: 1.35, focus: 75 },
+    { src: 'img/thoth-terminal-4.jpg', band:  0, fade: 17, fill: 1.15, focus: 59 },
+    { src: 'img/thoth-terminal-5.jpg', band:  4, fade:  7, fill: 1.51, focus: 63 }
+  ];
+
+  /* one place where a scene's four numbers are written onto a layer */
+  function dress(el, s) {
+    el.style.setProperty('--img', "url('" + s.src + "')");
+    el.style.setProperty('--band', s.band + '%');
+    el.style.setProperty('--fade', s.fade + '%');
+    el.style.setProperty('--fill', s.fill);
+    el.style.setProperty('--focus', s.focus + '%');
+  }
   var HOLD = 60000;
   var a = document.getElementById('frameA'),
       b = document.getElementById('frameB');
@@ -328,11 +360,11 @@
 
   /* --img, not backgroundImage: one assignment feeds both the blurred fill
      and the sharp uncropped layer. See the .frame rules above. */
-  a.style.setProperty('--img', "url('" + SCENES[0] + "')");
+  dress(a, SCENES[0]);
   a.classList.add('show');
   var first = new Image();
   first.onload = function () { widen(a, first); };
-  first.src = SCENES[0];
+  first.src = SCENES[0].src;
 
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce || SCENES.length < 2) return;
@@ -354,9 +386,9 @@
   function to(n) {
     if (n === i) { return; }
     i = n;
-    back.style.setProperty('--img', "url('" + SCENES[i] + "')");
+    dress(back, SCENES[i]);
     /* let the image decode a beat before fading it up */
-    var img = new Image(); img.src = SCENES[i];
+    var img = new Image(); img.src = SCENES[i].src;
     img.onload = img.onerror = function () {
       widen(back, img);
       back.classList.add('show');
@@ -379,9 +411,9 @@
   var dots = document.createElement('div');
   dots.id = 'hero-dots';
   var html = '';
-  SCENES.forEach(function (src, n) {
+  SCENES.forEach(function (s, n) {
     html += '<button type="button" data-n="' + n + '" title="' +
-            src.split('/').pop() + '"></button>';
+            s.src.split('/').pop() + '"></button>';
   });
   dots.innerHTML = html + '<button type="button" data-n="auto" class="auto" ' +
                    'title="back to the rotation">auto</button>';
