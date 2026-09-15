@@ -847,7 +847,21 @@
       '#amenti-campaign .ac-nav button{background:rgba(5,8,14,.9);',
       '  border:1px solid rgba(43,58,80,.6);border-radius:3px;color:#7d8ea6;',
       '  padding:3px 11px;cursor:pointer;font:inherit;letter-spacing:.05em}',
-      '#amenti-campaign .ac-nav button:hover{color:#dbe8f5;border-color:#4b647d}'
+      '#amenti-campaign .ac-nav button:hover{color:#dbe8f5;border-color:#4b647d}',
+      /* ── DRIVEN · 14 Sep 2026 ─────────────────────────────────────────────
+         This layer drew its own back and next, and so did the told layer above
+         it, and a reader met TWO SETS OF ARROWS FOR ONE STORY. Two programs
+         sharing a screen is not two stories.
+
+         ONE SEQUENCE, TWO RENDERERS. The told layer keeps the arrows; this
+         keeps everything it draws, which is the part that is actually its own
+         — four hundred fleet marks spread in ground units, moored in rows of
+         eight because 6.107 says moored. That is not something the other layer
+         can do and was never the duplication.
+
+         The nav goes when something else is steering. It stays when a reader
+         opens this on its own, which is still a legitimate way in. */
+      '#amenti-campaign.ac-driven .ac-nav{display:none}'
     ].join('\n');
     document.head.appendChild(s);
   }
@@ -1051,8 +1065,16 @@
     borrowed = null;
   }
 
+  /* the sequence says it is steering; this stops offering to steer */
+  function driven(on) {
+    var e = document.getElementById('amenti-campaign');
+    if (e) { e.classList.toggle('ac-driven', !!on); }
+    return !!on;
+  }
+
   window.AmentiCampaign = {
-    start: start, stop: stop,
+    start: start, stop: stop, driven: driven,
+    count: function () { return legs ? legs.length : 0; },
     replay: function () { travel(); },
     step: function (n) { if (legs) { step = Math.max(0, Math.min(legs.length - 1, n)); draw(); } return step; },
     legs: function () { return load().then(function () {

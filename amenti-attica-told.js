@@ -342,14 +342,14 @@
       '<div class="td-nav">' +
       '<button type="button" data-go="-1">\u25c0</button>' +
       '<button type="button" data-go="1">next \u25b6</button>' +
-      '<button type="button" data-go="skip">to the campaign</button>' +
+      '<button type="button" data-go="skip">skip to the campaign</button>' +
       '</div>';
     host.appendChild(el);
     window.addEventListener('resize', place);
     el.querySelectorAll('.td-nav button').forEach(function (b) {
       b.addEventListener('click', function () {
         var g = b.getAttribute('data-go');
-        if (g === 'skip') { finish(); return; }
+        if (g === 'skip') { toCampaign(0); return; }
         step(+g);
       });
     });
@@ -398,10 +398,71 @@
      `next` from a scene goes to that slide's map; from a map it goes to the
      next slide's scene, or to its map if it has none. Back walks the same
      path in reverse, so a reader can return to a picture they have passed. */
+  /* ── ONE SEQUENCE, TWO RENDERERS · 14 Sep 2026 ─────────────────────────
+     The story did not end at slide 8; it handed off to another program with
+     its own arrows, and a reader met TWO SETS OF CONTROLS for one story.
+
+     It is one walk now. Past the last slide the arrows step the campaign's
+     legs instead of these slides, and back from its first leg returns here.
+     The campaign keeps everything it DRAWS — the fleet spread in ground units,
+     the moorings, the pulse — and gives up only the steering.
+
+     CAMP is -1 while the slides are running and a leg index after that. It is
+     the only state the handoff needs, which is the test of whether the split
+     was in the right place. */
+  var CAMP = -1, CAMP_N = 0;
+
+  function toCampaign(i) {
+    var C = window.AmentiCampaign;
+    if (!C || !C.start) { finish(); return; }
+    if (el) { el.style.display = 'none'; }     /* its renderer, its panel */
+    document.body.classList.remove('td-showing');
+    clearCourse();
+    if (CAMP < 0) {
+      C.start();
+      if (C.driven) { C.driven(true); }
+      if (C.legs) {
+        C.legs().then(function (L) {
+          CAMP_N = (L && L.length) || (C.count ? C.count() : 0);
+        });
+      }
+    }
+    CAMP = i;
+    if (C.step) { C.step(i); }
+    navFor();
+  }
+
+  function fromCampaign() {
+    var C = window.AmentiCampaign;
+    if (C && C.stop) { C.stop(); }
+    if (C && C.driven) { C.driven(false); }
+    CAMP = -1;
+    if (el) { el.style.display = ''; }
+    show(slides.length - 1, 'map');
+  }
+
+  /* the arrows belong to the sequence, so they say where they are in it */
+  function navFor() {
+    if (!el) { return; }
+    var nx = el.querySelector('[data-go="1"]');
+    if (!nx) { return; }
+    nx.textContent = CAMP >= 0 ? 'next \u25b6'
+      : (STAGE === 'scene' ? 'to the map \u25b6' : 'next \u25b6');
+  }
+
   function step(dir) {
+    if (CAMP >= 0) {
+      if (dir > 0) {
+        if (CAMP + 1 >= CAMP_N && CAMP_N) { return; }
+        toCampaign(CAMP + 1); return;
+      }
+      if (CAMP === 0) { fromCampaign(); return; }
+      toCampaign(CAMP - 1); return;
+    }
     var s = slides[at];
     if (dir > 0) {
       if (STAGE === 'scene') { show(at, 'map'); return; }
+      if (at + 1 >= slides.length) { toCampaign(0); return; }
       show(at + 1, 'scene'); return;
     }
     if (STAGE === 'map' && tried[s && s.scene]) { show(at, 'scene'); return; }
@@ -507,7 +568,7 @@
   function show(n, want) {
     if (!slides || !slides.length) { return; }
     if (n < 0) { n = 0; }
-    if (n >= slides.length) { finish(); return; }
+    if (n >= slides.length) { toCampaign(0); return; }
     at = n;
     var s = slides[n];
     el.querySelector('.td-hd').textContent =
