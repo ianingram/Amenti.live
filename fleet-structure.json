@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-15T01:51:54.623Z",
+    "generated": "2026-09-15T02:07:11.195Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -816,6 +816,19 @@
       "tables": []
     },
     {
+      "file": "amenti-frame-card.js",
+      "bytes": 7942,
+      "sha256": "126ff0f22b7b2cb2",
+      "type": "js",
+      "declares": [
+        "AmentiFrameCard"
+      ],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": []
+    },
+    {
       "file": "amenti-glass.js",
       "bytes": 17964,
       "sha256": "d2949c68d258096f",
@@ -1572,7 +1585,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 53716,
-      "sha256": "8e874e698313c4b8",
+      "sha256": "845b3fc990a60b45",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1698,7 +1711,7 @@
     {
       "file": "hall.html",
       "bytes": 22135,
-      "sha256": "de39c8e5c5a9f1f4",
+      "sha256": "c3cebb17f9012ec0",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1768,7 +1781,7 @@
           "line": 377
         },
         {
-          "file": "amenti-attica-told.js?v=a4380c22",
+          "file": "amenti-attica-told.js?v=7cd679b4",
           "line": 378
         },
         {
@@ -2496,6 +2509,14 @@
         "file": "amenti-flourish.js",
         "declares": [
           "amentiFlourish"
+        ],
+        "loadedByAPage": false,
+        "note": "declares globals that nothing calls"
+      },
+      {
+        "file": "amenti-frame-card.js",
+        "declares": [
+          "AmentiFrameCard"
         ],
         "loadedByAPage": false,
         "note": "declares globals that nothing calls"
