@@ -216,14 +216,19 @@
     var s = document.createElement('style');
     s.id = 'ath-css';
     s.textContent = [
-      /* Under the reading list, on the right, because both answer WHO — the
-         list says which places the corpus names most, this says who named
-         this one. The bottom-left already carries four rows. */
+      /* ── IT SAT ON THE REGISTER · 15 Sep 2026 ─────────────────────────
+         `right:24px` is the register's own edge, so this opened on top of the
+         reading list — the names behind it still showing through, and the
+         panel running to the window edge with nowhere to go.
+         The surface already reserves 244px on the right for the register.
+         This sits to the LEFT of that reserve, in the column between the map
+         and the list, which is empty at every width. Nothing is covered and
+         the panel never reaches the edge. */
       /* Wider than the reading list, because a SENTENCE lives here and a
          sentence broken over four words a line is not read. Left-aligned for
          the same reason: the list on the right is a ranking and reads well
          ragged-left; prose does not. */
-      '#amenti-attica .ath{position:absolute;right:24px;bottom:16px;width:300px;',
+      '#amenti-attica .ath{position:absolute;right:268px;bottom:16px;width:300px;',
       '  z-index:7;font:400 11px/1.55 ui-monospace,Menlo,monospace;',
       '  color:#7d8ea6;background:rgba(5,8,14,.88);padding:11px 13px;',
       '  border:1px solid rgba(43,58,80,.5);border-radius:4px;',
