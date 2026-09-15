@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-09-15T02:46:48.701Z",
+  "generated": "2026-09-15T06:06:29.182Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -37,8 +37,8 @@
     "note": "a scene is a moment a figure was in. the figure need not be in the frame — ownership is editorial, not photographic. absence is never a gap. the owner is checkable; the tag is not."
   },
   "totals": {
-    "files": 171,
-    "plates": 163,
+    "files": 172,
+    "plates": 164,
     "keys": 51,
     "rooms": 52,
     "scenes": 1,
@@ -1468,6 +1468,10 @@
           {
             "file": "thoth-terminal-5.jpg",
             "n": 5
+          },
+          {
+            "file": "thoth-terminal-6.jpg",
+            "n": 6
           },
           {
             "file": "thoth-terminal.jpg",
@@ -3727,6 +3731,13 @@
       "surface_slug": "terminal",
       "file": "thoth-terminal-5.jpg",
       "bytes": 1459369,
+      "provenance": null
+    },
+    "thoth-terminal-6.jpg": {
+      "key": "thoth",
+      "surface_slug": "terminal",
+      "file": "thoth-terminal-6.jpg",
+      "bytes": 202652,
       "provenance": null
     },
     "thoth-terminal.jpg": {
