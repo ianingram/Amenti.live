@@ -884,8 +884,11 @@
       '  font:inherit;padding:1px 0;cursor:pointer;white-space:nowrap}',
       '#amenti-attica .at-full-btn:hover{color:#dbe8f5}',
       '#amenti-attica.at-full .at-full-btn{color:#e0913f}',
+      /* 152 at the foot left the map stopping well above the panels beside
+         it. 58 is measured, not guessed: the gap between the map's bottom and
+         the prose column's bottom was 34px at 92, so 58 puts the two level. */
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
-      '  flex-direction:column;padding:20px 244px 152px 26px;gap:0;',
+      '  flex-direction:column;padding:20px 244px 58px 26px;gap:0;',
       '  align-items:center}',
       /* `flex:1 1 auto` leaves the basis at auto, so the svg took its width
          from the row and aspect-ratio never got to decide anything — the
@@ -1160,8 +1163,15 @@
          budget set 90 and the pane rendered 110 — nine of padding and one of
          border on each side, twenty pixels the arithmetic never saw, and a
          6 px overlap with the note that the probe found and no eye would. */
+      /* THE SCROLLBAR GOES ON THE OUTSIDE EDGE. It sat between the list and
+         the map, a moving line in the middle of the surface. `direction:rtl`
+         puts it against the window edge instead; the children take `ltr`
+         back so the names and their counts read the way they always did.
+         And the box is capped so the map has the width. */
       '  box-sizing:border-box;overflow-y:auto;scrollbar-width:thin;',
+      '  max-width:210px;direction:rtl;',
       '  scrollbar-color:#2b3a50 transparent}',
+      '#amenti-attica .at-frames > *{direction:ltr}',
       '#amenti-attica .at-frames .at-fhead{color:#5d6e84;padding-bottom:5px;',
       '  margin-bottom:4px;border-bottom:1px solid rgba(43,58,80,.6);',
       '  letter-spacing:.08em}',
