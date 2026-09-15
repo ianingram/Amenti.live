@@ -1046,7 +1046,14 @@
       /* THE SHORELINE IS THE MOST IMPORTANT SENTENCE ON THIS SURFACE and it
          was reading third. It goes first, and it is the only thing in amber. */
       '#amenti-attica .at-first{display:block;margin-bottom:3px}',
-      '#amenti-attica .at-read{color:#f0f5fb;font-size:22px;letter-spacing:.01em;',
+      /* ── THE PERIOD GOES TO THE CORNER · 15 Sep 2026 ───────────────────
+         It sat in the header row, which lives inside the wrap's 244px right
+         padding — so it stopped well short of the edge and read as floating
+         beside the frame's own name rather than labelling the surface. It is
+         lifted out of the flow to the true top right, above the register's
+         head, where nothing else is. */
+      '#amenti-attica .at-read{position:absolute;right:24px;top:14px;z-index:7;',
+      '  color:#f0f5fb;font-size:18px;letter-spacing:.01em;text-align:right;',
       '  font-variant-numeric:tabular-nums;white-space:nowrap}',
       '#amenti-attica .at-listhead{position:absolute;right:24px;top:56px;',
       '  z-index:7;font-size:10.5px;letter-spacing:.06em;color:#6f8098;',
