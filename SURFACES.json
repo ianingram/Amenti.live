@@ -4,14 +4,14 @@
   "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
   "_reaches": "The four booleans are why this register exists. On 27 Aug 2026 each was an argument, six times in one day, because nothing could be looked up.",
   "_honesty": "null in `reaches` means NOT CHECKED. It is not false. False is a claim.",
-  "generated": "2026-09-15T06:07:51.989Z",
+  "generated": "2026-09-15T06:19:20.226Z",
   "generator": "probes/probe-surfaces.mjs",
   "counts": {
     "authored": 38,
     "walkedControls": 140,
-    "confirmed": 24,
+    "confirmed": 25,
     "offWalk": 13,
-    "adrift": 1,
+    "adrift": 0,
     "undeclared": 82,
     "unresolved": 1,
     "duplicate": 34
@@ -51,12 +51,6 @@
     "Whether any Attica surface is counted, reaches memory, or fires the dial. Written as null rather than false: false is a claim and nobody has checked."
   ],
   "drift": [
-    {
-      "stamp": "ADRIFT",
-      "id": "qr-handover",
-      "claim": "the hand-over code",
-      "reading": "declares #amenti-handover and no element carries that id"
-    },
     {
       "stamp": "DUPLICATE",
       "id": "quiz-close",
@@ -1210,7 +1204,13 @@
       },
       "note": "THE ONLY INTERACTION POINT THAT BEGINS OFF THE SYSTEM — a person points a camera and arrives, and no code walk can ever find it. It encodes location.href AT DRAW TIME, so it hands over whichever tab, figure or reading room the reader is on; there is no fixed printed URL. Tagged ?via=qr on 28 Aug, while nothing was printed, so a scan is countable from the first one.",
       "id": "qr-handover",
-      "stamp": "ADRIFT"
+      "stamp": "CONFIRMED",
+      "walked": [
+        {
+          "file": "Amenti.live/hall.html",
+          "kind": "mount"
+        }
+      ]
     },
     {
       "name": "THE DOORS",
