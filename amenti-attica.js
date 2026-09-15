@@ -348,7 +348,16 @@
      hundred-mile square sits inside the frame with sea around it, and the
      opening view is that rather than the tightest possible crop. */
   var K_FIT = 0.86;
-  var K = K_FIT, TX = 0, TY = 0, K_MIN = 0.7, K_MAX = 12;
+  /* ── THE OPENING VIEW IS THE ONE `fit` GIVES · 15 Sep 2026 ──────────────
+     K opened at K_FIT but TX and TY opened at 0, and the two do not agree:
+     clamp() puts a view below 1 at (VB - VB*K)/2 on both axes — centred —
+     while 0,0 anchors it to the top left and leaves the whole 14% slack at
+     the right and the bottom. So the ground opened smaller and off-centre,
+     and pressing `fit` — which is K = K_FIT then clamp() — appeared to
+     expand it. It was only ever centring what was already there.
+     The camera now opens where clamp would put it. */
+  var K = K_FIT, K_MIN = 0.7, K_MAX = 12;
+  var TX = (VB - VB * K_FIT) / 2, TY = TX;
 
   /* ── THE REGISTER KNOWS PERIODS, NOT YEARS · measured 7 Sep ──────────────
      The first version of this surface offered year buttons — 480 BC, 430 BC,
