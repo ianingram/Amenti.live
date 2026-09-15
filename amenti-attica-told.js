@@ -298,10 +298,15 @@
          — and a reader arriving at slide 1 has no way to know whose room they
          are standing in. This says it once, above everything, from the slide's
          own room and figure. */
-      '#amenti-told .td-where{color:#e0913f;font-size:12px;letter-spacing:.08em;',
-      '  margin-bottom:7px;text-transform:uppercase}',
-      '#amenti-told .td-where span{color:#9db0c6;text-transform:none;',
-      '  letter-spacing:.02em}',
+      /* WHOSE PAGE THIS IS. The picture is a king in his own hall; the name
+         is the title of the page and is set like one. The rank runs under it,
+         quieter and on its own line — a subtitle, not a continuation. */
+      '#amenti-told .td-where{color:#e0913f;font-size:30px;line-height:1.08;',
+      '  letter-spacing:.06em;margin-bottom:12px;text-transform:uppercase}',
+      '#amenti-told .td-where span{display:block;color:#9db0c6;font-size:12px;',
+      '  text-transform:none;letter-spacing:.04em;margin-top:5px}',
+      '@media (max-width:1100px){',
+      '  #amenti-told .td-where{font-size:22px}}',
       '#amenti-told .td-hd{color:#5d6e84;letter-spacing:.1em;font-size:9.5px;',
       '  margin-bottom:9px;text-transform:uppercase}',
       '#amenti-told .td-ti{color:#e0913f;font-size:17px;line-height:1.3;',
@@ -589,7 +594,7 @@
        `host` and `area` are empty on every row, so there is no location in
        this data to print. The figure is what there is. */
     where.innerHTML = (f && f.name)
-      ? esc(f.name) + (f.title ? '<span>, ' + esc(f.title) + '</span>' : '')
+      ? esc(f.name) + (f.title ? '<span>' + esc(f.title) + '</span>' : '')
       : '';
     where.style.display = (f && f.name) ? '' : 'none';
     el.querySelector('.td-ti').textContent = s.title;
