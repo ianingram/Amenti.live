@@ -244,17 +244,26 @@
          Fixed shares, no fitting, nothing to compute. The picture is smaller
          than it could be at some window shapes and that is the price of a
          layout that cannot overlap. */
-      '#amenti-told.td-scene .td-sc{left:0;right:26%}',
+      '#amenti-told.td-scene .td-sc{left:4%;right:24%}',
       /* The figure panel was drawn on BOTH steps of a slide, so a reader met
          the same paragraph one `next` apart, beside a passage that had just
          said it. It stays on the map, where the words are all there is to say
          who this is; on the scene the picture and the passage are the surface. */
-      '#amenti-told.td-scene .td-fig{display:none}',
+      /* ── THE FIGURE PANEL IS OFF · 15 Sep 2026 ─────────────────────────
+         It carried a bio of the slide's figure, which on the slides that have
+         one retold the passage beside it — the same paragraph twice, on both
+         steps. The passage says who these people are; a box repeating it in
+         other words was not a second thing to read, it was the same thing
+         again, over the register.
+         who() and the markup are left in place: the panel is one rule away
+         from coming back if it is ever given something the prose does not
+         already say. */
+      '#amenti-told .td-fig{display:none}',
       '#amenti-told.td-scene .td-tx{right:0;left:auto;top:0;bottom:0;',
       '  height:auto;max-height:none;width:24%;',
       '  background:none;border:0;overflow-y:auto;',
       '  display:flex;flex-direction:column;justify-content:center;',
-      '  padding:0 26px 0 18px}',
+      '  padding:9vh 26px 0 18px}',
       '@media (max-width:1100px){',
       '  #amenti-told.td-scene .td-sc{left:0;right:0}',
       '  #amenti-told.td-scene .td-tx{',
@@ -274,7 +283,7 @@
       'body.td-showing #amenti-attica > *:not(#amenti-told){',
       '  opacity:0;pointer-events:none;transition:opacity .4s}',
       '#amenti-told.td-scene .td-mast{opacity:.85}',
-      '#amenti-told .td-mast{position:absolute;left:24px;top:20px;',
+      '#amenti-told .td-mast{position:absolute;left:38px;top:34px;',
       '  color:#e0913f;font-size:11.5px;letter-spacing:.2em;opacity:0;',
       '  text-transform:uppercase;transition:opacity .5s;pointer-events:none;',
       '  text-shadow:0 1px 5px rgba(0,0,0,.95)}',
@@ -285,6 +294,14 @@
       '  width:min(430px,34%);max-height:62%;overflow-y:auto;pointer-events:auto;',
       '  background:rgba(5,8,14,.90);border:1px solid rgba(43,58,80,.6);',
       '  border-radius:4px;padding:14px 16px}',
+      /* WHERE, AND WHO. The passage opens mid-scene — a king is told something
+         — and a reader arriving at slide 1 has no way to know whose room they
+         are standing in. This says it once, above everything, from the slide's
+         own room and figure. */
+      '#amenti-told .td-where{color:#e0913f;font-size:12px;letter-spacing:.08em;',
+      '  margin-bottom:7px;text-transform:uppercase}',
+      '#amenti-told .td-where span{color:#9db0c6;text-transform:none;',
+      '  letter-spacing:.02em}',
       '#amenti-told .td-hd{color:#5d6e84;letter-spacing:.1em;font-size:9.5px;',
       '  margin-bottom:9px;text-transform:uppercase}',
       '#amenti-told .td-ti{color:#e0913f;font-size:17px;line-height:1.3;',
@@ -331,7 +348,8 @@
     el.innerHTML =
       '<div class="td-sc"></div>' +
       '<div class="td-mast">The Attica Campaign</div>' +
-      '<div class="td-tx"><div class="td-hd"></div><div class="td-ti"></div>' +
+      '<div class="td-tx"><div class="td-where"></div>' +
+      '<div class="td-hd"></div><div class="td-ti"></div>' +
       '<div class="td-pr"></div><div class="td-said"></div>' +
       '<div class="td-ft"></div></div>' +
       '<div class="td-fig"></div>' +
@@ -563,6 +581,17 @@
     el.querySelector('.td-hd').textContent =
       yr(s.year) + '  \u00b7  HERODOTUS ' + s.chapter +
       '  \u00b7  ' + (n + 1) + ' of ' + slides.length;
+    var where = el.querySelector('.td-where');
+    var f = (figures || []).filter(function (x) {
+      return x.key && s.figure && x.key === s.figure.trim();
+    })[0];
+    /* `room` is a source path — herodotus/12-sardis.md — not a place, and
+       `host` and `area` are empty on every row, so there is no location in
+       this data to print. The figure is what there is. */
+    where.innerHTML = (f && f.name)
+      ? esc(f.name) + (f.title ? '<span>, ' + esc(f.title) + '</span>' : '')
+      : '';
+    where.style.display = (f && f.name) ? '' : 'none';
     el.querySelector('.td-ti').textContent = s.title;
     el.querySelector('.td-pr').innerHTML = render(s.prose);
     el.querySelector('.td-ft').innerHTML =
