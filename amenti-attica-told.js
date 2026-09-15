@@ -305,15 +305,23 @@
       '#amenti-told .td-ft{color:#4d5c70;font-size:9px;margin-top:13px;',
       '  padding-top:8px;border-top:1px solid rgba(43,58,80,.5);line-height:1.6}',
       /* who this is — the one panel the ground has no place for */
-      '#amenti-told .td-fig{position:absolute;right:24px;bottom:96px;',
-      '  width:min(250px,20%);pointer-events:auto;',
+      /* ── THE PANEL IS A PLACE TO WRITE · 15 Sep 2026 ──────────────────
+         It used to carry a bio of the slide's figure, which on most slides
+         retold the passage sitting beside it — the same paragraph twice, one
+         `next` apart. It also floated at a hardcoded corner above whatever
+         was underneath.
+         It is a notes box now: same alley as the prose, same left and right
+         edges, sat under it rather than over anything. place() gives it its
+         box; nothing here guesses at one. */
+      '#amenti-told .td-fig{position:absolute;pointer-events:auto;',
       '  background:rgba(5,8,14,.90);border:1px solid rgba(43,58,80,.6);',
-      '  border-radius:4px;padding:12px 14px}',
-      '#amenti-told .td-fig h4{margin:0 0 8px;color:#5d6e84;font-size:8.5px;',
+      '  border-radius:4px;padding:9px 11px;display:flex;flex-direction:column}',
+      '#amenti-told .td-fig h4{margin:0 0 6px;color:#5d6e84;font-size:8.5px;',
       '  font-weight:400;letter-spacing:.16em;text-transform:uppercase}',
-      '#amenti-told .td-fig .nm{color:#e0913f;font-size:14px;line-height:1.3}',
-      '#amenti-told .td-fig .ti{color:#9db0c6;font-size:10px;margin:2px 0 9px}',
-      '#amenti-told .td-fig .wh{color:#c3d3e6;font-size:11px;line-height:1.65}',
+      '#amenti-told .td-note{flex:1 1 auto;min-height:0;width:100%;resize:none;',
+      '  background:none;border:0;outline:none;color:#c3d3e6;font:inherit;',
+      '  font-size:11.5px;line-height:1.65;overflow-y:auto;padding:0}',
+      '#amenti-told .td-note::placeholder{color:#3d4a5c}',
       '#amenti-told .td-nav{position:absolute;left:24px;bottom:52px;',
       '  display:flex;gap:6px;pointer-events:auto}',
       '#amenti-told .td-nav button{background:rgba(5,8,14,.92);',
@@ -382,16 +390,19 @@
     }).join('');
   }
 
-  function who(s) {
+  /* what the reader has written, kept for the session so walking the slides
+     does not empty the box */
+  var NOTES = '';
+
+  function who() {
     var box = el.querySelector('.td-fig');
-    var f = (figures || []).filter(function (x) {
-      return x.key && s.figure && x.key === s.figure.trim();
-    })[0];
-    box.style.display = f ? '' : 'none';
-    if (!f) { box.innerHTML = ''; return; }
-    box.innerHTML = '<h4>who this is</h4><div class="nm">' + esc(f.name) +
-      '</div>' + (f.title ? '<div class="ti">' + esc(f.title) + '</div>' : '') +
-      '<div class="wh">' + render(f.what) + '</div>';
+    if (box.querySelector('.td-note')) { return; }
+    box.innerHTML = '<h4>notes</h4>' +
+      '<textarea class="td-note" spellcheck="false" ' +
+      'placeholder="\u2026"></textarea>';
+    var ta = box.querySelector('.td-note');
+    ta.value = NOTES;
+    ta.addEventListener('input', function () { NOTES = ta.value; });
   }
 
   /* ── WALKING TWO STEPS PER SLIDE · 13 Sep 2026 ──────────────────────────
@@ -553,6 +564,24 @@
     tx.style.bottom = '58px';
     tx.style.maxHeight = 'none';
     tx.style.overflowY = 'auto';
+
+    /* the notes box takes the same column, under the prose. The prose keeps
+       the top two thirds and the notes the rest, with a gap between — both
+       measured off the same alley rather than placed at a corner. */
+    var fig = el.querySelector('.td-fig');
+    if (fig) {
+      var top = Math.max(16, gb.top - hb.top);
+      var avail = (hb.height - 58) - top;
+      var notes = Math.max(84, Math.round(avail * 0.30));
+      tx.style.bottom = (58 + notes + 12) + 'px';
+      fig.style.left = left + 'px';
+      fig.style.right = right + 'px';
+      fig.style.width = 'auto';
+      fig.style.top = 'auto';
+      fig.style.bottom = '58px';
+      fig.style.height = notes + 'px';
+      fig.style.display = '';
+    }
   }
 
   /* twice: once after layout, once after the ground has had a beat to load
@@ -578,7 +607,7 @@
     el.querySelector('.td-ft').innerHTML =
       esc(s.source) + '  \u00b7  ' + esc(s.room);
     said(s);
-    who(s);
+    who();
     var tx = el.querySelector('.td-tx');
     if (tx) { tx.scrollTop = 0; }
     placeSoon();
