@@ -515,7 +515,17 @@
     var host = document.getElementById('amenti-attica');
     if (!tx || !host || el.classList.contains('td-scene')) { return; }
     var hb = host.getBoundingClientRect();
-    var g = host.querySelector('.at-ground');
+    /* ── THE IMAGE IS NOT THE MAP · 14 Sep 2026 ──────────────────────────
+       This measured `.at-ground`, which is the <image> INSIDE `g.at-view` —
+       the group carrying the camera transform. Its rect is the picture after
+       pan and zoom, clipped by the svg, so its right edge is a camera
+       position and not a layout edge. It read 941 on one slide, 589 on
+       another and 542 on a third, and the panel moved with the zoom.
+
+       The svg IS the map: square, full height of the row, centred in a wrap
+       that reserves the register's column. That edge is the one the alley
+       starts at. */
+    var g = host.querySelector('svg');
     var lst = host.querySelector('.at-list');
     var gb = g && g.getBoundingClientRect();
     var lb = lst && lst.getBoundingClientRect();
