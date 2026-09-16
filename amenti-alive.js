@@ -105,20 +105,25 @@
     var s = document.createElement('style');
     s.id = 'alive-css';
     s.textContent = [
-      /* ── IT STANDS ABOVE THE WAY INTO THE STORY · 15 Sep 2026 ─────────
-         The campaign button moved down to the bottom left, in line with the
-         control row, because every other place put it on top of something.
-         This sat on that line first, so it steps up: the two make a column
-         at the same left edge rather than two things at one corner. */
-      '#amenti-alive{position:fixed;left:14px;bottom:56px;z-index:9997;',
+      /* ── OUT OF THE BOTTOM LEFT ALTOGETHER · 15 Sep 2026 ──────────────
+         The bottom left is crowded: the control row at 16, the story's nav at
+         52, the campaign button beside them. This was moved twice down there
+         and landed on something both times.
+         The top left has one thing in it — the scene dots — and the key panel
+         begins below at 52. So this sits between them, on the key's own left
+         edge, and its body opens DOWNWARD over the key rather than upward off
+         the top of the window. */
+      '#amenti-alive{position:fixed;left:26px;top:16px;z-index:9997;',
+      '  display:flex;flex-direction:column-reverse;align-items:flex-start;',
       '  font:400 11px/1.5 ui-monospace,Menlo,monospace;color:#7d8ea6}',
       '#amenti-alive .al-tab{background:rgba(5,8,14,.86);border:1px solid rgba(43,58,80,.6);',
       '  border-radius:3px;padding:3px 9px;cursor:pointer;color:#5d6e84;',
       '  letter-spacing:.05em;font:inherit}',
       '#amenti-alive .al-tab:hover{color:#dbe8f5;border-color:#4b647d}',
       '#amenti-alive .al-tab b{color:#7fd8f0;font-weight:400}',
+      /* the tab is above the body now, so the gap moves to the top of it */
       '#amenti-alive .al-body{background:rgba(5,8,14,.94);border:1px solid rgba(43,58,80,.6);',
-      '  border-radius:4px;padding:10px 12px;margin-bottom:6px;width:250px;',
+      '  border-radius:4px;padding:10px 12px;margin-top:6px;width:250px;',
       '  max-height:52vh;overflow:auto;box-sizing:border-box}',
       '#amenti-alive .al-h{color:#5d6e84;letter-spacing:.08em;font-size:9.5px;',
       '  padding-bottom:5px;margin-bottom:6px;border-bottom:1px solid rgba(43,58,80,.6)}',
