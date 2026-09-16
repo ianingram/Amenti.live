@@ -306,7 +306,9 @@
       '#amenti-told.td-scene .td-tx{overflow-y:auto}',
       '#amenti-told .td-tx{position:absolute;left:24px;bottom:96px;',
       '  width:min(430px,34%);max-height:62%;overflow-y:auto;pointer-events:auto;',
-      '  background:rgba(5,8,14,.90);border:1px solid rgba(43,58,80,.6);',
+      /* opaque: it stands over the register and over the hall's panel, and
+         type read through type is unreadable both ways · 15 Sep 2026 */
+      '  background:#070b12;border:1px solid rgba(43,58,80,.6);',
       '  border-radius:4px;padding:14px 16px}',
       /* WHERE, AND WHO. The passage opens mid-scene — a king is told something
          — and a reader arriving at slide 1 has no way to know whose room they

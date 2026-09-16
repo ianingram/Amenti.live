@@ -787,7 +787,13 @@
     var s = document.createElement('style');
     s.id = 'campaign-css';
     s.textContent = [
-      '#amenti-campaign{position:absolute;inset:0;pointer-events:none;z-index:6}',
+      /* ── PROSE IS THE TOP LAYER · 15 Sep 2026 ──────────────────────────
+         The right column is where words go, and more than one thing can want
+         it at once: this caption, the hall's place panel at 7, the register
+         under both. Rather than a rule about who may open when, the prose
+         simply sits ON TOP and covers what is under it — the reader chooses
+         by opening or closing, and nothing has to negotiate. */
+      '#amenti-campaign{position:absolute;inset:0;pointer-events:none;z-index:10}',
       '@keyframes ac-beat{0%,100%{opacity:.85}50%{opacity:.16}}',
       '@keyframes ac-beat2{0%{opacity:.5;transform:scale(.55)}',
       '  70%{opacity:0;transform:scale(1.25)}100%{opacity:0;transform:scale(1.25)}}',
