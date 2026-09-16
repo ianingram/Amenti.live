@@ -893,11 +893,16 @@
       '  font:inherit;padding:1px 0;cursor:pointer;white-space:nowrap}',
       '#amenti-attica .at-full-btn:hover{color:#dbe8f5}',
       '#amenti-attica.at-full .at-full-btn{color:#e0913f}',
-      /* 152 at the foot left the map stopping well above the panels beside
-         it. 58 is measured, not guessed: the gap between the map's bottom and
-         the prose column's bottom was 34px at 92, so 58 puts the two level. */
+      /* ── THE PADDING WAS THE CEILING · 15 Sep 2026 ─────────────────────
+         The map is square, so it takes the SMALLER of the two axes, and on a
+         wide window that is always the height. Every pixel of top and bottom
+         padding therefore came straight off the map on both sides at once,
+         while the spare width beside it went unused.
+         152 at the foot, then 58, left it at 655 in a 777 window. 8 and 16
+         leave 719 — the same square, sixty-four pixels wider, and the only
+         cost is a tighter gap above the control row. */
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
-      '  flex-direction:column;padding:20px 244px 58px 26px;gap:0;',
+      '  flex-direction:column;padding:8px 244px 16px 26px;gap:0;',
       '  align-items:center}',
       /* `flex:1 1 auto` leaves the basis at auto, so the svg took its width
          from the row and aspect-ratio never got to decide anything — the
@@ -1138,8 +1143,15 @@
       '#amenti-attica .at-liwash i{font-style:normal;color:#5b7794;',
       '  font-size:9px;padding-left:2px}',
       '#amenti-attica .at-licited span{color:#5fd0e8}',
-      '#amenti-attica .at-ctl{position:absolute;left:26px;right:26px;bottom:16px;',
+      /* ── UNDER THE MAP, NOT UNDER THE WINDOW · 15 Sep 2026 ─────────────
+         The row ran the full width and packed itself hard left, so the
+         controls sat under the frames panel while the map above them was
+         centred in its own column. The right edge stops at the register's
+         reserve and the buttons centre in what is left, which is the map's
+         own axis. */
+      '#amenti-attica .at-ctl{position:absolute;left:26px;right:244px;bottom:16px;',
       '  z-index:6;display:flex;gap:8px;align-items:center;flex-wrap:wrap;',
+      '  justify-content:center;',
       '  background:linear-gradient(0deg,rgba(5,8,14,.96) 60%,rgba(5,8,14,0));',
       '  padding-top:10px}',
       '#amenti-attica button{background:transparent;color:#8fa2ba;font:inherit;',
@@ -1549,8 +1561,14 @@
       cr.textContent = scrub === null ? 'the whole period \u00b7 whole lives'
                                       : yr(scrub) + ' \u00b7 that year only';
     }
+    /* ── THE UNFILTERED STATE SAYS NOTHING · 15 Sep 2026 ────────────────
+       This line is the period readout — `classical · 550-330 BC`. With no
+       period on it printed `the whole register`, which named the default
+       rather than a choice, in the same weight as a real label and across
+       the top of the surface. Unfiltered is the resting state and does not
+       need announcing; the line returns the moment a period is picked. */
     el.querySelector('.at-read').textContent =
-      era.a === null ? 'the whole register' : era.label + '  \u00b7  ' + era.when;
+      era.a === null ? '' : era.label + '  \u00b7  ' + era.when;
 
     /* ── THE MOVES, DRAWN BETWEEN RECORDED ENDS ──────────────────────────
        Bowed by a fixed fraction of the chord so two legs between the same pair
