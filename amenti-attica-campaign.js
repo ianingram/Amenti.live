@@ -910,9 +910,10 @@
      frames list, so the panel drew behind them and vanished.
 
      A screenshot shows dark pixels and reads as free space. The DOM does not.
-     THE GAP IS MEASURED — between `.at-ground`, which is the map image, and
-     `.at-list`, which is the register — and both of those move with the zoom,
-     which is exactly why a hardcoded offset was wrong twice.
+     THE GAP IS MEASURED — between the svg, which is the map's own box, and
+     `.at-list`, which is the register. It was measured off `.at-ground` until
+     15 Sep, and that is the image INSIDE the camera transform: an edge that
+     moves with pan and zoom rather than with the layout.
 
      The vertical floor is the one place() already computed and it is unchanged:
      the note, the clock and the control row, whatever is actually down there.
@@ -940,7 +941,14 @@
 
     /* the column between the ground's right edge and whatever claims the
        right-hand side — measured, both of them */
-    var g = host.querySelector('.at-ground');
+    /* ── THE IMAGE IS NOT THE MAP · 15 Sep 2026 ──────────────────────────
+       `.at-ground` is the <image> INSIDE g.at-view, the group that carries
+       the camera transform, so its right edge moves with pan and zoom and is
+       not a layout edge at all. The gap measured from it came out under the
+       210 floor and this fell back to the centre — over the terrain — on
+       frames where the alley was plainly wide enough.
+       The svg IS the map. The told layer was corrected the same way. */
+    var g = host.querySelector('.at-wrap > svg') || host.querySelector('svg');
     var lst = host.querySelector('.at-list');
     var gb = g && g.getBoundingClientRect();
     var lb = lst && lst.getBoundingClientRect();
