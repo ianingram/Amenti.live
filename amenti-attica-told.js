@@ -762,7 +762,7 @@
        colliding with something. The bottom left already carries the doors —
        `who else`, and the manual and the meter along the same line — and a
        way into the story is that kind of thing, not a banner. */
-    b.style.cssText = 'position:absolute;left:26px;bottom:' + (old ? 92 : 56) +
+    b.style.cssText = 'position:absolute;left:26px;bottom:' + (old ? 52 : 16) +
       'px;z-index:8;background:#e0913f;color:#0a0e15;border:0;border-radius:3px;' +
       'padding:5px 20px;cursor:pointer;letter-spacing:.06em;white-space:nowrap;' +
       'font:400 12px/1.4 ui-monospace,Menlo,monospace;' +

@@ -105,7 +105,12 @@
     var s = document.createElement('style');
     s.id = 'alive-css';
     s.textContent = [
-      '#amenti-alive{position:fixed;left:14px;bottom:14px;z-index:9997;',
+      /* ── IT STANDS ABOVE THE WAY INTO THE STORY · 15 Sep 2026 ─────────
+         The campaign button moved down to the bottom left, in line with the
+         control row, because every other place put it on top of something.
+         This sat on that line first, so it steps up: the two make a column
+         at the same left edge rather than two things at one corner. */
+      '#amenti-alive{position:fixed;left:14px;bottom:56px;z-index:9997;',
       '  font:400 11px/1.5 ui-monospace,Menlo,monospace;color:#7d8ea6}',
       '#amenti-alive .al-tab{background:rgba(5,8,14,.86);border:1px solid rgba(43,58,80,.6);',
       '  border-radius:3px;padding:3px 9px;cursor:pointer;color:#5d6e84;',
