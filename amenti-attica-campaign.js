@@ -954,9 +954,27 @@
     var lb = lst && lst.getBoundingClientRect();
     var left  = gb && gb.width ? gb.right - hb.left + 14 : null;
     var right = lb && lb.width ? hb.right - lb.left + 14 : 14;
-    var gap   = left === null ? 0 : (hb.width - left - right);
 
-    if (gap >= 210) {
+    /* ── THE ALLEY IS 24px WIDE, AND THAT IS NOT A REASON TO SIT ON THE MAP
+       · 15 Sep 2026 ─────────────────────────────────────────────────────
+       This asked for 210px between the map and the register and took the
+       centre of the surface when it could not have them. The map is square
+       and takes the whole height, so on an ordinary window that column is a
+       couple of dozen pixels and the caption landed over the terrain every
+       single time — the one place on this surface nothing should cover.
+
+       The register is a ranked list and can be read again in a moment; the
+       ground cannot be read through a panel. So the caption stands on the
+       map's right edge and runs OVER the register when the alley alone is
+       too narrow, which is what the told layer's prose column already does. */
+    var MIN = 210;
+    var gap = left === null ? 0 : (hb.width - left - right);
+    if (left !== null && gap < MIN && hb.width - left - 14 >= MIN) {
+      right = 14;
+      gap = hb.width - left - right;
+    }
+
+    if (gap >= MIN) {
       cap.style.left = left + 'px';
       cap.style.right = right + 'px';
       cap.style.width = 'auto';
