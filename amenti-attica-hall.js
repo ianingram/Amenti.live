@@ -236,12 +236,19 @@
          The register only gives up the space while this is open — see
          `.ath-on` below — so nothing is reserved for a panel that is not
          there. */
+      /* THE TWO READ AS ONE COLUMN OR AS TWO BOXES, and the difference is
+         four numbers. The register is 232 wide at right:0, inset 24 on the
+         right and 12 on the left, with a left border and no corners. This
+         takes the same width, the same insets and the same single border, so
+         the two text edges stand on one line and the column has one outline
+         down its side rather than a rounded box sitting under a panel. */
       '#amenti-attica .ath{position:absolute;right:0;left:auto;bottom:16px;',
       '  top:57%;width:232px;',
       '  z-index:7;font:400 11px/1.55 ui-monospace,Menlo,monospace;',
-      '  color:#7d8ea6;background:rgba(5,8,14,.88);padding:11px 13px;',
-      '  border:1px solid rgba(43,58,80,.5);border-radius:4px;',
-      '  border-left:1px solid rgba(43,58,80,.5);',
+      '  color:#7d8ea6;padding:10px 24px 12px 12px;',
+      '  background:linear-gradient(270deg,rgba(5,8,14,.94),rgba(5,8,14,.72));',
+      '  border:0;border-left:1px solid rgba(43,58,80,.5);',
+      '  border-top:1px solid rgba(43,58,80,.5);border-radius:0;',
       '  text-align:left;overflow-y:auto;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent;',
       '  box-sizing:border-box}',
