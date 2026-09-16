@@ -311,10 +311,19 @@
       '  #amenti-told .td-where{font-size:22px}}',
       /* the handle: the column's own left edge, wide enough to catch and
          quiet enough to ignore until it is wanted */
-      '#amenti-told .td-grip{position:absolute;right:0;top:0;bottom:0;width:10px;',
-      '  cursor:ew-resize;background:none;z-index:3}',
-      '#amenti-told .td-grip:hover{background:linear-gradient(270deg,',
-      '  rgba(224,145,63,.5),rgba(224,145,63,0))}',
+      '#amenti-told .td-grip{position:absolute;right:0;top:0;bottom:0;width:11px;',
+      '  cursor:ew-resize;z-index:3;',
+      '  border-left:1px solid rgba(43,58,80,.75)}',
+      /* three marks at the middle of the edge — enough to say it is a handle
+         without drawing a bar down the side of the prose */
+      '#amenti-told .td-grip::after{content:"";position:absolute;right:3px;',
+      '  top:50%;width:3px;height:26px;margin-top:-13px;border-radius:2px;',
+      '  background:repeating-linear-gradient(180deg,rgba(224,145,63,.72) 0 3px,',
+      '  transparent 3px 6px)}',
+      '#amenti-told .td-grip:hover{border-left-color:#ffd166}',
+      '#amenti-told .td-grip:hover::after{background:repeating-linear-gradient(',
+      '  180deg,#ffd166 0 3px,transparent 3px 6px);',
+      '  box-shadow:0 0 8px rgba(255,209,102,.55)}',
       '#amenti-told.td-scene .td-grip{display:none}',
       '#amenti-told .td-hd{color:#5d6e84;letter-spacing:.1em;font-size:9.5px;',
       '  margin-bottom:9px;text-transform:uppercase}',
@@ -747,9 +756,19 @@
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'td-open';
+    /* ── IT STANDS ON THE KEY'S COLUMN · 15 Sep 2026 ─────────────────────
+       The button was as wide as its own words and no wider, so it overhung
+       the key panel directly beneath it by a different amount at every text
+       length. The key owns that column; this takes ITS width, measured off
+       the element rather than typed here, and a tenth off the height so the
+       band reads as a label above a panel instead of a slab. */
+    var keyBox = document.getElementById('amenti-attica');
+    keyBox = keyBox && keyBox.querySelector('.at-key');
+    var kw = keyBox ? Math.round(keyBox.getBoundingClientRect().width) : 0;
     b.style.cssText = 'position:absolute;left:26px;top:' + (old ? 56 : 14) +
       'px;z-index:8;background:#e0913f;color:#0a0e15;border:0;border-radius:3px;' +
-      'padding:7px 20px;cursor:pointer;letter-spacing:.06em;' +
+      (kw ? 'width:' + kw + 'px;box-sizing:border-box;text-align:left;' : '') +
+      'padding:5px 14px;cursor:pointer;letter-spacing:.06em;' +
       'font:400 12px/1.4 ui-monospace,Menlo,monospace;' +
       'box-shadow:0 2px 18px rgba(224,145,63,.28)';
     b.textContent = '\u25b6 the Marathon campaign';
