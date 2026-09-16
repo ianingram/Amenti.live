@@ -334,6 +334,21 @@
     var r = rows && rows[k];
     var w = whys && whys[k];
     var host = document.getElementById('amenti-attica');
+    /* ── A FRAME WITH NO FILES SAYS SO · 15 Sep 2026 ─────────────────────
+       Only Attica has its four CSVs cut. On every other frame the panel had
+       nothing to show and hid itself, which reads as a panel that does not
+       work rather than a frame that has not been written yet. The same rule
+       the surface already keeps for a reference frame: ANYTHING THAT CANNOT
+       BE READ MUST SAY IT COULD NOT BE READ. */
+    if (!r && !w && loadErr) {
+      pane.style.display = '';
+      if (host) { host.classList.add('ath-on'); }
+      pane.innerHTML = '<div class="ath-head">nothing joined on this frame</div>' +
+        '<div class="ath-none">' + FKEY.toUpperCase() + '-MENTIONS.csv is not ' +
+        'in the repo yet, so no reading room is named for anything here. ' +
+        'Upload it and this fills.</div>';
+      return;
+    }
     if (!r && !w) {
       pane.style.display = 'none';
       if (host) { host.classList.remove('ath-on'); }
