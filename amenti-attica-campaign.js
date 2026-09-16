@@ -832,7 +832,7 @@
          measurement of what is actually free at each zoom rather than another
          guess at a margin. */
       '#amenti-campaign .ac-cap{position:absolute;left:50%;transform:translateX(-50%);',
-      '  width:min(560px,80%);pointer-events:auto;',
+      '  width:min(560px,80%);pointer-events:auto;box-sizing:border-box;',
       /* OPAQUE, BECAUSE IT NOW STANDS OVER TYPE. At .92 this was fine over
          terrain; over the register the names read straight through it and
          neither could be read · 15 Sep 2026 */
@@ -984,12 +984,22 @@
     if (WIDE === null) { WIDE = Math.min(most, 420); }
     WIDE = Math.max(150, Math.min(most, WIDE));
 
+    /* ── IT IS A COLUMN, SO IT READS DOWN IT · 15 Sep 2026 ───────────────
+       The caption sat as a short wide box at the top of the column and the
+       nav stayed pinned at the surface floor, which left the register showing
+       through the whole middle and the two controls a screen away from the
+       words they belong to. A column is read top to bottom: the prose takes
+       its height, and back / next / close sit directly under the prose. */
+    var top = Math.max(12, gb.top - hb.top);
+    var navH = 30;
     cap.style.left = left + 'px';
     cap.style.right = 'auto';
     cap.style.width = WIDE + 'px';
     cap.style.transform = 'none';
-    cap.style.top = Math.max(12, gb.top - hb.top) + 'px';
-    cap.style.bottom = 'auto';
+    cap.style.top = top + 'px';
+    cap.style.bottom = (floor + navH) + 'px';
+    cap.style.height = 'auto';
+    cap.style.overflowY = 'auto';
     grip(cap, left);
 
     if (nav) {
