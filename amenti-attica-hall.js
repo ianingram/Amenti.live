@@ -489,7 +489,19 @@
     });
     /* leaving the surface clears it; leaving one mark for another does not,
        because a pane that blinks between neighbours cannot be read */
-    host.addEventListener('pointerleave', hide);
+    /* ── A LEAVE THAT DID NOT LEAVE · 15 Sep 2026 ───────────────────────
+       `pointerleave` fired on the host while the pointer was still inside it
+       — relatedTarget came back as `at-li`, `at-wrap`, `at-list`, every one a
+       child of this element. The panel opened on hover and closed again in
+       the same breath, which read as a flash and nothing more.
+       A leave only counts when the pointer has gone somewhere that is not
+       part of this surface. relatedTarget null is a real exit (out of the
+       window); anything the host still contains is not. */
+    host.addEventListener('pointerleave', function (e) {
+      var to = e.relatedTarget;
+      if (to && host.contains(to)) { return; }
+      hide();
+    });
     return true;
   }
 
