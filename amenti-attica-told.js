@@ -61,6 +61,8 @@
   var SCENE = 'https://amenti-proxy.ingram-ian.workers.dev/scene/';
 
   var slides = null, err = null, el = null, at = -1, tried = {}, figures = null;
+  /* the reader's column width, once they have set it */
+  var WIDE = null;
   var speeches = null;
 
   /* ── A SCENE IS A STEP, NOT A BACKDROP · 13 Sep 2026 ────────────────────
@@ -307,6 +309,13 @@
       '  text-transform:none;letter-spacing:.04em;margin-top:5px}',
       '@media (max-width:1100px){',
       '  #amenti-told .td-where{font-size:22px}}',
+      /* the handle: the column's own left edge, wide enough to catch and
+         quiet enough to ignore until it is wanted */
+      '#amenti-told .td-grip{position:absolute;right:0;top:0;bottom:0;width:10px;',
+      '  cursor:ew-resize;background:none;z-index:3}',
+      '#amenti-told .td-grip:hover{background:linear-gradient(270deg,',
+      '  rgba(224,145,63,.5),rgba(224,145,63,0))}',
+      '#amenti-told.td-scene .td-grip{display:none}',
       '#amenti-told .td-hd{color:#5d6e84;letter-spacing:.1em;font-size:9.5px;',
       '  margin-bottom:9px;text-transform:uppercase}',
       '#amenti-told .td-ti{color:#e0913f;font-size:17px;line-height:1.3;',
@@ -555,17 +564,68 @@
 
        Nothing is drawn over the register, and nothing else on the surface
        moves to make room. */
+    /* ── THE COLUMN IS THE READER'S TO SET · 15 Sep 2026 ─────────────────
+       The alley between the map and the register is whatever the frame leaves
+       it, and on a narrow window that is four words to a line. The wrong fix
+       was to move the map: the map is the fixed thing on this surface and a
+       passage is not a reason to shift it.
+       So the column grows RIGHT instead, over the register, which is a
+       ranked list and can be covered while a passage is being read. Its left
+       edge still stands on the map's right edge, and a handle on that edge
+       widens or narrows it. WIDTH is remembered for the session, so it is set
+       once and every slide after it opens the same width. */
     var left = gb.right - hb.left + 16;
-    var right = (lb && lb.width && lb.left > gb.right)
+    var alley = (lb && lb.width && lb.left > gb.right)
       ? hb.right - lb.left + 14 : 18;
-    if (hb.width - left - right < 150) { tx.style.cssText = ''; return; }
+    var most = hb.width - left - 18;
+    if (most < 150) { tx.style.cssText = ''; return; }
+    if (WIDE === null) { WIDE = Math.max(150, hb.width - left - alley); }
+    WIDE = Math.max(150, Math.min(most, WIDE));
+
     tx.style.left = left + 'px';
-    tx.style.right = right + 'px';
-    tx.style.width = 'auto';
+    tx.style.right = 'auto';
+    tx.style.width = WIDE + 'px';
     tx.style.top = Math.max(16, gb.top - hb.top) + 'px';
     tx.style.bottom = '58px';
     tx.style.maxHeight = 'none';
     tx.style.overflowY = 'auto';
+    grip(tx, left, most);
+  }
+
+  /* the handle on the column's left edge. One element, made once, and it
+     carries the drag: the pointer's distance from the map's right edge IS the
+     width, so there is no offset to keep in step with anything. */
+  function grip(tx, left, most) {
+    var g = tx.querySelector('.td-grip');
+    if (!g) {
+      g = document.createElement('div');
+      g.className = 'td-grip';
+      g.title = 'drag right to widen the column, left to narrow it';
+      tx.appendChild(g);
+      var dragging = false;
+      g.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        g.setPointerCapture(e.pointerId);
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      g.addEventListener('pointermove', function (e) {
+        if (!dragging) { return; }
+        var host = document.getElementById('amenti-attica');
+        var hb2 = host.getBoundingClientRect();
+        var l = tx.getBoundingClientRect().left;
+        /* the pointer sets the RIGHT edge; the left edge does not move, so the
+           width is simply the distance from it to the pointer */
+        var w = e.clientX - l;
+        var cap = hb2.right - 18 - l;
+        WIDE = Math.max(150, Math.min(cap, w));
+        tx.style.width = WIDE + 'px';
+      });
+      ['pointerup', 'pointercancel'].forEach(function (t) {
+        g.addEventListener(t, function () { dragging = false; });
+      });
+    }
+    g.style.display = '';
   }
 
   /* twice: once after layout, once after the ground has had a beat to load
