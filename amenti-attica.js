@@ -2278,9 +2278,17 @@
       }
     });
     el.addEventListener('pointerleave', function () { light(null); });
+    /* ── THE PLACE PANEL MOVED UP A LAYER · 15 Sep 2026 ──────────────────
+       This listener filled `.at-hit` for a PLACE, and the hall's `.ath` filled
+       itself from the same hover — two panels, one cursor, overlapping text.
+       The reading is published now (see AmentiAttica.reading) and the hall
+       draws it in the wider box, so this one stands down for places.
+       It still answers for MOVES and EVENTS, which have no panel above them:
+       that is the listener four lines up, and it is untouched. */
     el.addEventListener('pointerover', function (e) {
       var n = e.target.closest ? e.target.closest('[data-k]') : null;
       if (!n) { hit.style.opacity = 0; return; }
+      if (window.AmentiAtticaHall) { hit.style.opacity = 0; return; }
       var r = rows && rows.filter(function (x) { return x.key === n.getAttribute('data-k'); })[0];
       if (!r) { return; }
       /* ── A READING, NOT A ROW ─────────────────────────────────────────
@@ -2671,6 +2679,19 @@
 
   window.AmentiAttica = {
     show: show, hide: hide, toggle: toggle,
+
+    /* ── THE READING, LENT OUT · 15 Sep 2026 ──────────────────────────────
+       Two panels opened on the same hover and said much the same thing: this
+       file's `.at-hit`, which followed the cursor and ran off the right edge,
+       and the hall's `.ath`, which is wider and set for prose. The arithmetic
+       behind the reading is here and stays here — kind, dates, the sentence,
+       the nearest four, the events in the window — but the DRAWING of it
+       belongs to whichever panel a reader is actually looking at.
+       On the same terms as proj(): borrowed, not copied. */
+    reading: function (k) {
+      var r = rows && rows.filter(function (x) { return x.key === k; })[0];
+      return r ? reading(r) : null;
+    },
     /* the ground to the edges — a register state like any other */
     full: full,
     isOpen: function () { return open; },

@@ -239,6 +239,10 @@
       '  margin-bottom:6px}',
       /* THE SENTENCE IS THE PANE. Everything else is smaller than it. */
       '#amenti-attica .ath-why{color:#c3d3e6;line-height:1.6}',
+      /* the ground's reading: its own lines, kept as written, set at the
+         panel's width rather than in a column four words wide */
+      '#amenti-attica .ath-read{white-space:pre-wrap;color:#8fa0b6;',
+      '  font-size:10.5px;line-height:1.7;margin-top:3px}',
       '#amenti-attica .ath-draft{color:#5d6e84;font-size:9.5px;margin-top:5px;',
       '  letter-spacing:.02em}',
       '#amenti-attica .ath-none{color:#5d6e84;font-style:italic}',
@@ -393,7 +397,29 @@
           (r.souls.length > list.length
             ? '<span><b>and ' + (r.souls.length - list.length) + ' more</b></span>' : '') +
           '</div>'
-        : (rows ? '<div class="ath-head">named by nothing in the library</div>' : ''));
+        : (rows ? '<div class="ath-head">named by nothing in the library</div>' : '')) +
+
+      /* ── THE GROUND'S OWN READING, DRAWN HERE · 15 Sep 2026 ─────────────
+         The ground used to open a second panel on the same hover — `.at-hit`,
+         which followed the cursor and ran off the right edge of the window —
+         saying much what this one says and repeating the sentence outright.
+         The arithmetic stays where it belongs, below; only the drawing moves
+         up here, where the box is wide enough to set a line of prose.
+         If the ground is an older build without `reading`, nothing is added
+         and this panel is exactly what it was. */
+      (function () {
+        var A = window.AmentiAttica;
+        if (!A || typeof A.reading !== 'function') { return ''; }
+        var t = A.reading(k);
+        if (!t) { return ''; }
+        /* the sentence is already above, under its own head — drop it rather
+           than print it twice in one panel */
+        if (w) { t = t.split(w).join('').replace(/\n{3,}/g, '\n\n'); }
+        t = t.replace(/^\s+|\s+$/g, '');
+        if (!t) { return ''; }
+        return '<div class="ath-head">on the ground</div>' +
+               '<div class="ath-read">' + esc(t) + '</div>';
+      })();
   }
 
   function hide() { if (pane) { pane.style.display = 'none'; } key = null; }
