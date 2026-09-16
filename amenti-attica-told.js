@@ -211,7 +211,19 @@
     if (!a) { return; }
     if (s.frame_key && a.frame) { a.frame(s.frame_key.trim()); }
     if (s.period && a.period) { a.period(s.period.trim()); }
-    if (a.year) { a.year(s.year_at === '' || s.year_at == null ? null : +s.year_at); }
+    /* ── year_at, AND FAILING THAT year · 15 Sep 2026 ────────────────────
+       `year_at` was added to the CSV to hold the year a slide stands in and
+       is empty on all eight rows, so this turned the clock off on every
+       slide — and anything reading the clock (`who else` asks it directly)
+       was told to set a year the story had already chosen.
+       `year` is filled on every row: -498, -492, -491, -490. It is the same
+       answer. So year_at wins where someone has written one, and the slide's
+       own year answers where nobody has. */
+    if (a.year) {
+      var yAt = (s.year_at === '' || s.year_at == null) ? null : +s.year_at;
+      if (yAt === null && s.year !== '' && s.year != null) { yAt = +s.year; }
+      a.year(isNaN(yAt) ? null : yAt);
+    }
     if (s.marks && a.marks) { a.marks(s.marks.trim()); }
     if (s.camera && a.camera) {
       var c = s.camera.split('|');
