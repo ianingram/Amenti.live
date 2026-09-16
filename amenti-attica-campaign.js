@@ -45,6 +45,9 @@
 (function () {
   'use strict';
 
+  /* the reader's column width, once the handle has been used */
+  var WIDE = null;
+
   var RAW = 'https://raw.githubusercontent.com/ianingram/Amenti.live/main/';
   var legs = null, err = null;
   var el = null, svg = null, step = -1, borrowed = null;
@@ -830,9 +833,23 @@
          guess at a margin. */
       '#amenti-campaign .ac-cap{position:absolute;left:50%;transform:translateX(-50%);',
       '  width:min(560px,80%);pointer-events:auto;',
-      '  background:rgba(5,8,14,.92);border:1px solid rgba(43,58,80,.6);',
+      /* OPAQUE, BECAUSE IT NOW STANDS OVER TYPE. At .92 this was fine over
+         terrain; over the register the names read straight through it and
+         neither could be read · 15 Sep 2026 */
+      '  background:#070b12;border:1px solid rgba(43,58,80,.6);',
       '  border-radius:4px;padding:10px 13px;',
       '  font:400 11px/1.6 ui-monospace,Menlo,monospace;color:#c3d3e6}',
+      '#amenti-campaign .ac-grip{position:absolute;right:0;top:0;bottom:0;',
+      '  width:11px;cursor:ew-resize;z-index:3;',
+      '  border-left:1px solid rgba(43,58,80,.75)}',
+      '#amenti-campaign .ac-grip::after{content:"";position:absolute;right:3px;',
+      '  top:50%;width:3px;height:26px;margin-top:-13px;border-radius:2px;',
+      '  background:repeating-linear-gradient(180deg,rgba(224,145,63,.72) 0 3px,',
+      '  transparent 3px 6px)}',
+      '#amenti-campaign .ac-grip:hover{border-left-color:#ffd166}',
+      '#amenti-campaign .ac-grip:hover::after{background:repeating-linear-gradient(',
+      '  180deg,#ffd166 0 3px,transparent 3px 6px);',
+      '  box-shadow:0 0 8px rgba(255,209,102,.55)}',
       '#amenti-campaign .ac-ch{color:#5d6e84;letter-spacing:.06em;font-size:9.5px;',
       '  margin-bottom:6px}',
       '#amenti-campaign .ac-ch b{color:#e0913f;font-weight:400}',
@@ -941,75 +958,78 @@
 
     /* the column between the ground's right edge and whatever claims the
        right-hand side — measured, both of them */
-    /* ── THE IMAGE IS NOT THE MAP · 15 Sep 2026 ──────────────────────────
-       `.at-ground` is the <image> INSIDE g.at-view, the group that carries
-       the camera transform, so its right edge moves with pan and zoom and is
-       not a layout edge at all. The gap measured from it came out under the
-       210 floor and this fell back to the centre — over the terrain — on
-       frames where the alley was plainly wide enough.
-       The svg IS the map. The told layer was corrected the same way. */
+    /* ── THE READING COLUMN · 15 Sep 2026 ────────────────────────────────
+       There is one column on this surface where words go: the right, beside
+       the map. The told layer's passage already lives there and already
+       carries a handle to set its width, and this is the same thing — prose,
+       in the same place, for the same reader. It was doing its own version:
+       measure a 210px alley, and take the CENTRE OF THE MAP when it could
+       not have one, which on an ordinary window was every time.
+
+       The map is square and takes the height, so that alley is a couple of
+       dozen pixels. The column therefore starts at the map's right edge and
+       runs to the window's, over the register — a ranked list, readable
+       again in a moment — and never over the terrain, which is the one thing
+       here that cannot be read through anything.
+
+       WIDE is the reader's, set by the handle and kept for the session, so
+       the caption and the passage open at the same width. */
     var g = host.querySelector('.at-wrap > svg') || host.querySelector('svg');
-    var lst = host.querySelector('.at-list');
     var gb = g && g.getBoundingClientRect();
-    var lb = lst && lst.getBoundingClientRect();
-    var left  = gb && gb.width ? gb.right - hb.left + 14 : null;
-    var right = lb && lb.width ? hb.right - lb.left + 14 : 14;
+    if (!gb || !gb.width) { return; }
 
-    /* ── THE ALLEY IS 24px WIDE, AND THAT IS NOT A REASON TO SIT ON THE MAP
-       · 15 Sep 2026 ─────────────────────────────────────────────────────
-       This asked for 210px between the map and the register and took the
-       centre of the surface when it could not have them. The map is square
-       and takes the whole height, so on an ordinary window that column is a
-       couple of dozen pixels and the caption landed over the terrain every
-       single time — the one place on this surface nothing should cover.
+    var left = gb.right - hb.left + 14;
+    var most = hb.width - left - 14;
+    if (most < 150) { return; }
+    if (WIDE === null) { WIDE = Math.min(most, 420); }
+    WIDE = Math.max(150, Math.min(most, WIDE));
 
-       The register is a ranked list and can be read again in a moment; the
-       ground cannot be read through a panel. So the caption stands on the
-       map's right edge and runs OVER the register when the alley alone is
-       too narrow, which is what the told layer's prose column already does. */
-    var MIN = 210;
-    var gap = left === null ? 0 : (hb.width - left - right);
-    if (left !== null && gap < MIN && hb.width - left - 14 >= MIN) {
-      right = 14;
-      gap = hb.width - left - right;
-    }
+    cap.style.left = left + 'px';
+    cap.style.right = 'auto';
+    cap.style.width = WIDE + 'px';
+    cap.style.transform = 'none';
+    cap.style.top = Math.max(12, gb.top - hb.top) + 'px';
+    cap.style.bottom = 'auto';
+    grip(cap, left);
 
-    if (gap >= MIN) {
-      cap.style.left = left + 'px';
-      cap.style.right = right + 'px';
-      cap.style.width = 'auto';
-      cap.style.transform = 'none';
-      /* Top-aligned with the ground, so the two read as one row — but the
-         ground's own top can sit ABOVE the host: measured at -9px, which put
-         the panel's first line off the surface. Clamped, and never under the
-         faculty rail either · 13 Sep 2026 */
-      cap.style.top = Math.max(12, gb.top - hb.top) + 'px';
-      cap.style.bottom = 'auto';
-      if (nav) {
-        nav.style.left = left + 'px';
-        nav.style.right = right + 'px';
-        nav.style.width = 'auto';
-        nav.style.transform = 'none';
-        nav.style.bottom = floor + 'px';
-        nav.style.justifyContent = 'flex-start';
-      }
-      return;
-    }
-
-    /* nothing free wide enough — the centre, as before */
-    cap.style.left = '50%'; cap.style.right = 'auto';
-    cap.style.transform = 'translateX(-50%)';
-    cap.style.width = 'min(560px,80%)';
-    cap.style.top = 'auto';
     if (nav) {
-      nav.style.left = '50%'; nav.style.right = 'auto';
-      nav.style.transform = 'translateX(-50%)';
-      nav.style.width = 'auto';
-      nav.style.justifyContent = 'center';
+      nav.style.left = left + 'px';
+      nav.style.right = 'auto';
+      nav.style.width = WIDE + 'px';
+      nav.style.transform = 'none';
       nav.style.bottom = floor + 'px';
+      nav.style.justifyContent = 'flex-start';
     }
-    var nh = nav ? nav.getBoundingClientRect().height : 24;
-    cap.style.bottom = (floor + nh + 8) + 'px';
+  }
+
+  /* the same handle the told layer's column has: the right edge is the one
+     that moves, the left stands on the map */
+  function grip(cap, left) {
+    var g = cap.querySelector('.ac-grip');
+    if (!g) {
+      g = document.createElement('div');
+      g.className = 'ac-grip';
+      g.title = 'drag right to widen the column, left to narrow it';
+      cap.appendChild(g);
+      var dragging = false;
+      g.addEventListener('pointerdown', function (e) {
+        dragging = true; g.setPointerCapture(e.pointerId);
+        e.preventDefault(); e.stopPropagation();
+      });
+      g.addEventListener('pointermove', function (e) {
+        if (!dragging) { return; }
+        var host = document.getElementById('amenti-attica');
+        var hb2 = host.getBoundingClientRect();
+        var l = cap.getBoundingClientRect().left;
+        WIDE = Math.max(150, Math.min(hb2.right - 14 - l, e.clientX - l));
+        cap.style.width = WIDE + 'px';
+        var nv = cap.parentNode && cap.parentNode.querySelector('.ac-nav');
+        if (nv) { nv.style.width = WIDE + 'px'; }
+      });
+      ['pointerup', 'pointercancel'].forEach(function (t) {
+        g.addEventListener(t, function () { dragging = false; });
+      });
+    }
   }
 
   /* ── BORROW AND GIVE BACK ───────────────────────────────────────────────
