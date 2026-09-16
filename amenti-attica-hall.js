@@ -228,13 +228,26 @@
          sentence broken over four words a line is not read. Left-aligned for
          the same reason: the list on the right is a ranking and reads well
          ragged-left; prose does not. */
-      '#amenti-attica .ath{position:absolute;right:268px;bottom:16px;width:300px;',
+      /* ── UNDER THE REGISTER, IN ITS OWN COLUMN · 15 Sep 2026 ───────────
+         It floated over the map, then over the names, and both read as a box
+         dropped on the surface rather than part of it. The right column is
+         already the column that answers WHO, and it is 232px wide: the
+         register takes the upper part of it and this takes the lower.
+         The register only gives up the space while this is open — see
+         `.ath-on` below — so nothing is reserved for a panel that is not
+         there. */
+      '#amenti-attica .ath{position:absolute;right:0;left:auto;bottom:16px;',
+      '  top:57%;width:232px;',
       '  z-index:7;font:400 11px/1.55 ui-monospace,Menlo,monospace;',
       '  color:#7d8ea6;background:rgba(5,8,14,.88);padding:11px 13px;',
       '  border:1px solid rgba(43,58,80,.5);border-radius:4px;',
-      '  text-align:left;max-height:42vh;overflow-y:auto;',
+      '  border-left:1px solid rgba(43,58,80,.5);',
+      '  text-align:left;overflow-y:auto;',
       '  scrollbar-width:thin;scrollbar-color:#2b3a50 transparent;',
       '  box-sizing:border-box}',
+      /* the register stands down to make room, and only while there is
+         something to make room for */
+      '#amenti-attica.ath-on .at-list{bottom:45%}',
       '#amenti-attica .ath-who{color:#e0913f;font-size:12px;letter-spacing:.03em;',
       '  margin-bottom:6px}',
       /* THE SENTENCE IS THE PANE. Everything else is smaller than it. */
@@ -309,8 +322,14 @@
     key = k;
     var r = rows && rows[k];
     var w = whys && whys[k];
-    if (!r && !w) { pane.style.display = 'none'; return; }
+    var host = document.getElementById('amenti-attica');
+    if (!r && !w) {
+      pane.style.display = 'none';
+      if (host) { host.classList.remove('ath-on'); }
+      return;
+    }
     pane.style.display = '';
+    if (host) { host.classList.add('ath-on'); }
 
     var name = (r && r.name) || '';
     var list = r ? r.souls.slice(0, 6) : [];
@@ -422,7 +441,12 @@
       })();
   }
 
-  function hide() { if (pane) { pane.style.display = 'none'; } key = null; }
+  function hide() {
+    if (pane) { pane.style.display = 'none'; }
+    var host = document.getElementById('amenti-attica');
+    if (host) { host.classList.remove('ath-on'); }
+    key = null;
+  }
 
   /* ── THERE IS NO HANDOVER, AND THAT IS THE CORRECTION ──────────────────
      The first version of this file ended here with a function that closed
