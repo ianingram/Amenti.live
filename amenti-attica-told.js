@@ -348,6 +348,15 @@
     var host = document.getElementById('amenti-attica');
     if (!host || el) { return !!el; }
     style();
+    /* ── THE STORY NEEDS THE COLUMN, THE GROUND ALONE DOES NOT · 15 Sep ──
+       The map is square, so it takes the whole height and as much width as
+       that gives it — which at a normal window leaves no room beside it for a
+       passage. Reading the ground on its own, that is right. Reading the
+       story, the prose is the point and four words to a line is not reading.
+       This marks the body while the told layer is mounted; the ground's own
+       stylesheet widens its right reserve against it, and takes the width
+       back the moment the layer is gone. */
+    document.body.classList.add('td-live');
     el = document.createElement('div');
     el.id = 'amenti-told';
     el.innerHTML =
@@ -725,7 +734,7 @@
     join: join,
     start: start,
     at: function (n) { show(n); return at; },
-    stop: function () { document.body.classList.remove('td-showing'); clearCourse();
+    stop: function () { document.body.classList.remove('td-showing', 'td-live'); clearCourse();
       if (el && el.parentNode) { el.parentNode.removeChild(el); } el = null; at = -1; },
     slides: function () { return slides; }
   };

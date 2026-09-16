@@ -904,6 +904,16 @@
       '#amenti-attica .at-wrap{position:absolute;inset:0;display:flex;',
       '  flex-direction:column;padding:8px 244px 16px 26px;gap:0;',
       '  align-items:center}',
+      /* ── THE STORY IS OWED A COLUMN · 15 Sep 2026 ──────────────────────
+         244 reserves the register and nothing else, which is right when the
+         ground is read on its own: the square then takes every pixel of
+         height and the width that follows from it.
+         While the told layer is mounted (`body.td-live`, set by that file),
+         a passage has to be read beside the map, and a column of prose four
+         words wide is not read. 560 reserves the register AND that column;
+         the map gives up about 160px of square and the story becomes
+         legible. The ground takes it straight back when the layer stops. */
+      'body.td-live #amenti-attica .at-wrap{padding:8px 560px 16px 26px}',
       /* `flex:1 1 auto` leaves the basis at auto, so the svg took its width
          from the row and aspect-ratio never got to decide anything — the
          region drew half as tall as it is. Basis zero, height from the row,
