@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-16T01:09:49.698Z",
+    "generated": "2026-09-16T01:21:28.557Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -466,8 +466,8 @@
     },
     {
       "file": "amenti-attica-hall.js",
-      "bytes": 27168,
-      "sha256": "bc871d7f99f8c91d",
+      "bytes": 28253,
+      "sha256": "91b8d3aa5fbb1399",
       "type": "js",
       "declares": [
         "AmentiAtticaHall"
@@ -1584,8 +1584,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 53972,
-      "sha256": "88d6eacb6e3c94f3",
+      "bytes": 53996,
+      "sha256": "ba70d2b1fff25860",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1594,25 +1594,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1295,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Amenti.listen",
           "line": 1296,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.voice",
+          "global": "Amenti.listen",
           "line": 1297,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.doctrine",
+          "global": "Amenti.voice",
           "line": 1298,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 1299,
           "when": "toplevel",
           "own": false
         }
@@ -1711,7 +1711,7 @@
     {
       "file": "hall.html",
       "bytes": 29275,
-      "sha256": "9b0e88deab33c63e",
+      "sha256": "e330240f4cda965a",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1769,7 +1769,7 @@
           "line": 516
         },
         {
-          "file": "amenti-attica.js?v=d0247b06",
+          "file": "amenti-attica.js?v=5db172c9",
           "line": 517
         },
         {
@@ -1793,7 +1793,7 @@
           "line": 522
         },
         {
-          "file": "amenti-attica-hall.js?v=c6f0ce8a",
+          "file": "amenti-attica-hall.js?v=d5345b86",
           "line": 523
         },
         {
