@@ -2806,12 +2806,21 @@
     },
 
     /* the year, or null for the whole period with the clock off */
+    /* ── THE CLOCK BUTTON HAS TO AGREE WITH THE CLOCK · 15 Sep 2026 ──────
+       This set `scrub` and moved the slider but left `.at-clockoff` pressed,
+       so the surface held a year while the control said the clock was off.
+       Anything reading the clock through its controls — `who else` does, and
+       says so in its own header — asked for a year that was already set and
+       was told there wasn't one. The story sets a year on every slide it
+       walks; the button now says so. */
     year: function (y) {
       scrub = (y === null || y === undefined || y === '') ? null : +y;
       var sc = el && el.querySelector('.at-scrub');
       if (sc && scrub !== null) {
         sc.value = String(Math.max(+sc.min, Math.min(+sc.max, scrub)));
       }
+      var off = el && el.querySelector('.at-clockoff');
+      if (off) { off.setAttribute('aria-pressed', scrub === null ? 'true' : 'false'); }
       draw();
       return scrub;
     },
