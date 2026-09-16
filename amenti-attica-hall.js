@@ -243,7 +243,11 @@
          the two text edges stand on one line and the column has one outline
          down its side rather than a rounded box sitting under a panel. */
       '#amenti-attica .ath{position:absolute;right:0;left:auto;bottom:16px;',
-      '  top:57%;width:232px;',
+      /* 268, NOT 232. The register says `width:232px` with 24 and 12 of
+         padding and NO box-sizing, so its content box is 232 and its border
+         box is 268. This panel is border-box, so the same number made it 36px
+         narrower and the two left edges missed each other by exactly that. */
+      '  top:57%;width:268px;',
       '  z-index:7;font:400 11px/1.55 ui-monospace,Menlo,monospace;',
       '  color:#7d8ea6;padding:10px 24px 12px 12px;',
       '  background:linear-gradient(270deg,rgba(5,8,14,.94),rgba(5,8,14,.72));',
