@@ -756,19 +756,15 @@
     var b = document.createElement('button');
     b.type = 'button';
     b.className = 'td-open';
-    /* ── IT STANDS ON THE KEY'S COLUMN · 15 Sep 2026 ─────────────────────
-       The button was as wide as its own words and no wider, so it overhung
-       the key panel directly beneath it by a different amount at every text
-       length. The key owns that column; this takes ITS width, measured off
-       the element rather than typed here, and a tenth off the height so the
-       band reads as a label above a panel instead of a slab. */
-    var keyBox = document.getElementById('amenti-attica');
-    keyBox = keyBox && keyBox.querySelector('.at-key');
-    var kw = keyBox ? Math.round(keyBox.getBoundingClientRect().width) : 0;
-    b.style.cssText = 'position:absolute;left:26px;top:' + (old ? 56 : 14) +
+    /* ── DOWN WITH THE OTHER WAYS IN · 15 Sep 2026 ───────────────────────
+       It sat top left, over the frame's own title and on the key panel below
+       it, and every attempt to size it there was an attempt to stop it
+       colliding with something. The bottom left already carries the doors —
+       `who else`, and the manual and the meter along the same line — and a
+       way into the story is that kind of thing, not a banner. */
+    b.style.cssText = 'position:absolute;left:26px;bottom:' + (old ? 92 : 56) +
       'px;z-index:8;background:#e0913f;color:#0a0e15;border:0;border-radius:3px;' +
-      (kw ? 'width:' + kw + 'px;box-sizing:border-box;text-align:left;' : '') +
-      'padding:5px 14px;cursor:pointer;letter-spacing:.06em;' +
+      'padding:5px 20px;cursor:pointer;letter-spacing:.06em;white-space:nowrap;' +
       'font:400 12px/1.4 ui-monospace,Menlo,monospace;' +
       'box-shadow:0 2px 18px rgba(224,145,63,.28)';
     b.textContent = '\u25b6 the Marathon campaign';
