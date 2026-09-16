@@ -2680,6 +2680,15 @@
   window.AmentiAttica = {
     show: show, hide: hide, toggle: toggle,
 
+    /* ── WHICH FRAME IS STANDING · 15 Sep 2026 ────────────────────────────
+       `frame(k)` sets the frame and returns what it set. Nothing asked WHICH
+       ONE IS STANDING, so a layer above had to assume — and the hall layer
+       assumed `attica`, loaded Attica's mentions against whatever register
+       was on screen, and matched nothing. Fifteen frames, and the join only
+       ever worked on one of them.
+       Called with no argument, this answers rather than sets. */
+    standing: function () { return FRAME ? FRAME.key : null; },
+
     /* ── THE READING, LENT OUT · 15 Sep 2026 ──────────────────────────────
        Two panels opened on the same hover and said much the same thing: this
        file's `.at-hit`, which followed the cursor and ran off the right edge,

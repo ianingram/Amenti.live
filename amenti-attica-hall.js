@@ -505,8 +505,13 @@
     return true;
   }
 
+  /* set the moment the join succeeds, so the observer below does not start a
+     second one over the top of it */
+  var joined = false;
+
   function arrive(n) {
     if (wire()) {
+      joined = true;
       loadPair(function () {
       loadWhy(function () {
         load(function () {
@@ -541,12 +546,57 @@
   }
 
   /* the frame changed, so the join did too */
+  /* ── TEN SECONDS WAS NOT LONG ENOUGH · 15 Sep 2026 ─────────────────────
+     `arrive` looked for #amenti-attica forty times at 250ms and then stopped
+     looking FOR GOOD. The ground is built when a reader opens it, which is
+     almost never inside ten seconds of the page loading, so the join gave up
+     before the surface existed — and with it went the CSV loads it triggers.
+     The panel then opened on hover with nothing in it and hid itself again,
+     which reads as a feature that does not work rather than one that was
+     never started. `reach()` said it plainly: null, with no error, because
+     nothing had been asked for.
+
+     This observer already knows the moment the surface arrives — it is
+     watching body.class for exactly that. So it starts the join then, rather
+     than a timer racing a reader. */
   new MutationObserver(function () {
     if (!document.body.classList.contains('scene-attica')) { hide(); return; }
-    var f = window.AmentiAttica && window.AmentiAttica.count ? FKEY : FKEY;
-    if (f !== FKEY) { FKEY = f; rows = null; loadErr = null; whys = null; whyErr = null;
-                      loadWhy(function () { load(function () {}); }); }
+    if (!joined && document.getElementById('amenti-attica')) {
+      joined = true;
+      arrive(0);
+    }
   }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  /* ── IT FOLLOWS THE FRAME · 15 Sep 2026 ────────────────────────────────
+     FKEY was set once, to `attica`, and never moved. The campaign stands on
+     several frames and every one of them is a map; on any frame but the
+     first this held Attica's rows against another register's keys and
+     matched nothing at all — 0 of 90 names on screen, which reads as a panel
+     that does not work rather than one looking in the wrong file.
+
+     The ground publishes the standing frame now (AmentiAttica.standing), so
+     this asks rather than assumes. When the answer changes, everything keyed
+     to the old frame is dropped and the new frame's files are read: one
+     panel, fifteen frames, and no second copy of it per frame. */
+  function follow() {
+    var A = window.AmentiAttica;
+    if (!A || typeof A.standing !== 'function') { return; }
+    var k = A.standing();
+    if (!k || k === FKEY) { return; }
+    FKEY = k;
+    rows = null; loadErr = null;
+    whys = null; whyErr = null;
+    lives = null; livesErr = null;
+    told = null; toldErr = null;
+    key = null;
+    hide();
+    loadPair(function () { loadWhy(function () { load(function () {}); }); });
+  }
+  /* the ground fires no event for a frame change, so this looks — cheaply,
+     and only while the surface is open */
+  setInterval(function () {
+    if (document.body.classList.contains('scene-attica')) { follow(); }
+  }, 600);
 
   window.AmentiAtticaHall = {
     show: show, hide: hide,
