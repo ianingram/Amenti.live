@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-22T12:37:52.587Z",
+  "at": "2026-09-22T18:34:11.999Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 160,
+    "count": 161,
     "prefixes": {
-      "atlantica:": 91,
+      "atlantica:": 92,
       "dailyplanet:": 20,
       "watch:": 43,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 78,
+      "fired": 79,
       "last": {
-        "date": "2026-09-21",
-        "figure": "mark-twain"
+        "date": "2026-09-22",
+        "figure": "aaron"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19",
         "2026-09-17",
@@ -37,6 +37,11 @@
         "2026-09-08"
       ],
       "recent": [
+        {
+          "figure": "aaron",
+          "date": "2026-09-22",
+          "key": "atlantica:aaron:2026-09-22"
+        },
         {
           "figure": "mark-twain",
           "date": "2026-09-21",
@@ -101,14 +106,9 @@
           "figure": "ingram",
           "date": "2026-08-28",
           "key": "atlantica:ingram:2026-08-28"
-        },
-        {
-          "figure": "john-milton",
-          "date": "2026-08-27",
-          "key": "atlantica:john-milton:2026-08-27"
         }
       ],
-      "note": "78 dispatch(es) in the hold · last 2026-09-21 (mark-twain) · MISSED 10 of the last 14 days"
+      "note": "79 dispatch(es) in the hold · last 2026-09-22 (aaron) · MISSED 10 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
