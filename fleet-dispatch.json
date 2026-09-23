@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-23T12:38:47.696Z",
+  "at": "2026-09-23T18:32:56.747Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 162,
+    "count": 164,
     "prefixes": {
-      "atlantica:": 92,
+      "atlantica:": 94,
       "dailyplanet:": 20,
       "watch:": 44,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 79,
+      "fired": 81,
       "last": {
-        "date": "2026-09-22",
-        "figure": "aaron"
+        "date": "2026-09-23",
+        "figure": "charles-martel"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19",
         "2026-09-17",
@@ -36,6 +36,16 @@
         "2026-09-09"
       ],
       "recent": [
+        {
+          "figure": "charles-martel",
+          "date": "2026-09-23",
+          "key": "atlantica:charles-martel:2026-09-23"
+        },
+        {
+          "figure": "leif-erikson",
+          "date": "2026-09-23",
+          "key": "atlantica:leif-erikson:2026-09-23"
+        },
         {
           "figure": "aaron",
           "date": "2026-09-22",
@@ -95,19 +105,9 @@
           "figure": "ingram",
           "date": "2026-08-29",
           "key": "atlantica:ingram:2026-08-29"
-        },
-        {
-          "figure": "akhenaten",
-          "date": "2026-08-28",
-          "key": "atlantica:akhenaten:2026-08-28"
-        },
-        {
-          "figure": "ingram",
-          "date": "2026-08-28",
-          "key": "atlantica:ingram:2026-08-28"
         }
       ],
-      "note": "79 dispatch(es) in the hold · last 2026-09-22 (aaron) · MISSED 9 of the last 14 days"
+      "note": "81 dispatch(es) in the hold · last 2026-09-23 (charles-martel) · MISSED 9 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
