@@ -4,15 +4,15 @@
   "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
   "_reaches": "The four booleans are why this register exists. On 27 Aug 2026 each was an argument, six times in one day, because nothing could be looked up.",
   "_honesty": "null in `reaches` means NOT CHECKED. It is not false. False is a claim.",
-  "generated": "2026-09-25T01:10:41.773Z",
+  "generated": "2026-09-25T02:12:35.098Z",
   "generator": "probes/probe-surfaces.mjs",
   "counts": {
     "authored": 38,
-    "walkedControls": 140,
+    "walkedControls": 160,
     "confirmed": 25,
     "offWalk": 13,
     "adrift": 0,
-    "undeclared": 82,
+    "undeclared": 102,
     "unresolved": 1,
     "duplicate": 34
   },
@@ -267,6 +267,126 @@
       "id": "b_clear",
       "claim": "— nothing claims it —",
       "reading": "Amenti.live/campaign-bench.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "tab1",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "tab2",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "tab3",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "tab4",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "tab5",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "tab6",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "tab7",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "replay",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "play",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "t",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "t3refit",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "t3play",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "t3rewind",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "t3scrub",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "akq",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "akgo",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "symq",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "symgo",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "copyjson",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "dljson",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/desk.html"
     },
     {
       "stamp": "UNDECLARED",
