@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-25T06:44:29.014Z",
+  "at": "2026-09-25T12:39:05.786Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 169,
+    "count": 170,
     "prefixes": {
-      "atlantica:": 97,
+      "atlantica:": 98,
       "dailyplanet:": 20,
       "watch:": 46,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 84,
+      "fired": 85,
       "last": {
-        "date": "2026-09-24",
-        "figure": "hammurabi"
+        "date": "2026-09-25",
+        "figure": "bram-stoker"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19",
         "2026-09-17",
@@ -34,6 +34,11 @@
         "2026-09-11"
       ],
       "recent": [
+        {
+          "figure": "bram-stoker",
+          "date": "2026-09-25",
+          "key": "atlantica:bram-stoker:2026-09-25"
+        },
         {
           "figure": "hammurabi",
           "date": "2026-09-24",
@@ -98,14 +103,9 @@
           "figure": "odysseus",
           "date": "2026-09-02",
           "key": "atlantica:odysseus:2026-09-02"
-        },
-        {
-          "figure": "odysseus",
-          "date": "2026-09-01",
-          "key": "atlantica:odysseus:2026-09-01"
         }
       ],
-      "note": "84 dispatch(es) in the hold · last 2026-09-24 (hammurabi) · MISSED 7 of the last 14 days"
+      "note": "85 dispatch(es) in the hold · last 2026-09-25 (bram-stoker) · MISSED 7 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
