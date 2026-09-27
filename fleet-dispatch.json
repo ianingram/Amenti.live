@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-27T12:36:57.355Z",
+  "at": "2026-09-27T18:31:40.354Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 173,
+    "count": 174,
     "prefixes": {
-      "atlantica:": 99,
+      "atlantica:": 100,
       "dailyplanet:": 20,
       "watch:": 48,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 86,
+      "fired": 87,
       "last": {
-        "date": "2026-09-26",
-        "figure": "plato"
+        "date": "2026-09-27",
+        "figure": "seneca"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19",
         "2026-09-17",
@@ -32,6 +32,11 @@
         "2026-09-13"
       ],
       "recent": [
+        {
+          "figure": "seneca",
+          "date": "2026-09-27",
+          "key": "atlantica:seneca:2026-09-27"
+        },
         {
           "figure": "plato",
           "date": "2026-09-26",
@@ -96,14 +101,9 @@
           "figure": "moses",
           "date": "2026-09-14",
           "key": "atlantica:moses:2026-09-14"
-        },
-        {
-          "figure": "gilgamesh",
-          "date": "2026-09-03",
-          "key": "atlantica:gilgamesh:2026-09-03"
         }
       ],
-      "note": "86 dispatch(es) in the hold · last 2026-09-26 (plato) · MISSED 5 of the last 14 days"
+      "note": "87 dispatch(es) in the hold · last 2026-09-27 (seneca) · MISSED 5 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
