@@ -1,16 +1,16 @@
 {
-  "at": "2026-09-27T18:31:40.354Z",
+  "at": "2026-09-28T01:09:53.133Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 174,
+    "count": 176,
     "prefixes": {
-      "atlantica:": 100,
+      "atlantica:": 101,
       "dailyplanet:": 20,
-      "watch:": 48,
+      "watch:": 49,
       "week:": 6
     }
   },
-  "today": "2026-09-27",
+  "today": "2026-09-28",
   "thisWeek": "2026-09-27",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -18,20 +18,24 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 87,
+      "fired": 88,
       "last": {
-        "date": "2026-09-27",
-        "figure": "seneca"
+        "date": "2026-09-28",
+        "figure": "confucius"
       },
       "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19",
         "2026-09-17",
         "2026-09-16",
-        "2026-09-15",
-        "2026-09-13"
+        "2026-09-15"
       ],
       "recent": [
+        {
+          "figure": "confucius",
+          "date": "2026-09-28",
+          "key": "atlantica:confucius:2026-09-28"
+        },
         {
           "figure": "seneca",
           "date": "2026-09-27",
@@ -96,14 +100,9 @@
           "figure": "sun-tzu",
           "date": "2026-09-18",
           "key": "atlantica:sun-tzu:2026-09-18"
-        },
-        {
-          "figure": "moses",
-          "date": "2026-09-14",
-          "key": "atlantica:moses:2026-09-14"
         }
       ],
-      "note": "87 dispatch(es) in the hold · last 2026-09-27 (seneca) · MISSED 5 of the last 14 days"
+      "note": "88 dispatch(es) in the hold · last 2026-09-28 (confucius) · MISSED 4 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -146,7 +145,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -42,
+      "lastAgeDays": -41,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
