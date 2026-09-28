@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-28T06:58:54.662Z",
+  "at": "2026-09-28T12:44:22.954Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 176,
+    "count": 177,
     "prefixes": {
-      "atlantica:": 101,
+      "atlantica:": 102,
       "dailyplanet:": 20,
       "watch:": 49,
       "week:": 6
@@ -18,7 +18,7 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 88,
+      "fired": 89,
       "last": {
         "date": "2026-09-28",
         "figure": "confucius"
@@ -35,6 +35,11 @@
           "figure": "confucius",
           "date": "2026-09-28",
           "key": "atlantica:confucius:2026-09-28"
+        },
+        {
+          "figure": "morgan-freeman",
+          "date": "2026-09-28",
+          "key": "atlantica:morgan-freeman:2026-09-28"
         },
         {
           "figure": "seneca",
@@ -95,14 +100,9 @@
           "figure": "marcus-aurelius",
           "date": "2026-09-20",
           "key": "atlantica:marcus-aurelius:2026-09-20"
-        },
-        {
-          "figure": "sun-tzu",
-          "date": "2026-09-18",
-          "key": "atlantica:sun-tzu:2026-09-18"
         }
       ],
-      "note": "88 dispatch(es) in the hold · last 2026-09-28 (confucius) · MISSED 4 of the last 14 days"
+      "note": "89 dispatch(es) in the hold · last 2026-09-28 (confucius) · MISSED 4 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
