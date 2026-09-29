@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-29T06:46:34.890Z",
+  "at": "2026-09-29T12:42:58.938Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 178,
+    "count": 179,
     "prefixes": {
-      "atlantica:": 102,
+      "atlantica:": 103,
       "dailyplanet:": 20,
       "watch:": 50,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 89,
+      "fired": 90,
       "last": {
-        "date": "2026-09-28",
-        "figure": "confucius"
+        "date": "2026-09-29",
+        "figure": "tom-hanks"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19",
         "2026-09-17",
@@ -31,6 +31,11 @@
         "2026-09-15"
       ],
       "recent": [
+        {
+          "figure": "tom-hanks",
+          "date": "2026-09-29",
+          "key": "atlantica:tom-hanks:2026-09-29"
+        },
         {
           "figure": "confucius",
           "date": "2026-09-28",
@@ -95,14 +100,9 @@
           "figure": "tacitus",
           "date": "2026-09-21",
           "key": "atlantica:tacitus:2026-09-21"
-        },
-        {
-          "figure": "marcus-aurelius",
-          "date": "2026-09-20",
-          "key": "atlantica:marcus-aurelius:2026-09-20"
         }
       ],
-      "note": "89 dispatch(es) in the hold · last 2026-09-28 (confucius) · MISSED 4 of the last 14 days"
+      "note": "90 dispatch(es) in the hold · last 2026-09-29 (tom-hanks) · MISSED 4 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
