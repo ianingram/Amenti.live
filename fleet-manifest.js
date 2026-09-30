@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-09-25T02:12:23.767Z",
-    "reading": "2026-09-25T02:12:23.627Z",
+    "merged": "2026-09-30T20:41:14.587Z",
+    "reading": "2026-09-30T20:41:14.457Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -17,7 +17,7 @@ window.FLEET_MANIFEST = {
   "health": {
     "contradicted": 3,
     "unproven": 4,
-    "undeclared": 58,
+    "undeclared": 59,
     "adrift": 0,
     "clean": false
   },
@@ -402,6 +402,13 @@ window.FLEET_MANIFEST = {
     },
     {
       "stamp": "UNDECLARED",
+      "subject": "index.html",
+      "claim": "— nothing claims it —",
+      "reading": "in the repo",
+      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
+    },
+    {
+      "stamp": "UNDECLARED",
       "subject": "merge.js",
       "claim": "— nothing claims it —",
       "reading": "in the repo",
@@ -460,7 +467,7 @@ window.FLEET_MANIFEST = {
       "stamp": "UNPROVEN",
       "subject": "ATLANTICA",
       "claim": "fires daily",
-      "reading": "MISSED 7 of the last 14 days",
+      "reading": "MISSED 3 of the last 14 days",
       "note": "The tube is loaded and the schedule is set. It simply did not fire."
     },
     {
@@ -479,41 +486,77 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-09-25T01:01:10.035Z",
+    "at": "2026-09-30T18:34:55.901Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 169,
+      "count": 182,
       "prefixes": {
-        "atlantica:": 97,
+        "atlantica:": 105,
         "dailyplanet:": 20,
-        "watch:": 46,
+        "watch:": 51,
         "week:": 6
       }
     },
-    "today": "2026-09-25",
-    "thisWeek": "2026-09-20",
+    "today": "2026-09-30",
+    "thisWeek": "2026-09-27",
     "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
     "tubes": {
       "ATLANTICA": {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 84,
+        "fired": 92,
         "last": {
-          "date": "2026-09-24",
-          "figure": "hammurabi"
+          "date": "2026-09-30",
+          "figure": "meryl-streep"
         },
-        "lastAgeDays": 1,
+        "lastAgeDays": 0,
         "missedLast14": [
           "2026-09-19",
           "2026-09-17",
-          "2026-09-16",
-          "2026-09-15",
-          "2026-09-13",
-          "2026-09-12",
-          "2026-09-11"
+          "2026-09-16"
         ],
         "recent": [
+          {
+            "figure": "meryl-streep",
+            "date": "2026-09-30",
+            "key": "atlantica:meryl-streep:2026-09-30"
+          },
+          {
+            "figure": "frederick-douglass",
+            "date": "2026-09-29",
+            "key": "atlantica:frederick-douglass:2026-09-29"
+          },
+          {
+            "figure": "tom-hanks",
+            "date": "2026-09-29",
+            "key": "atlantica:tom-hanks:2026-09-29"
+          },
+          {
+            "figure": "confucius",
+            "date": "2026-09-28",
+            "key": "atlantica:confucius:2026-09-28"
+          },
+          {
+            "figure": "morgan-freeman",
+            "date": "2026-09-28",
+            "key": "atlantica:morgan-freeman:2026-09-28"
+          },
+          {
+            "figure": "seneca",
+            "date": "2026-09-27",
+            "key": "atlantica:seneca:2026-09-27"
+          },
+          {
+            "figure": "plato",
+            "date": "2026-09-26",
+            "key": "atlantica:plato:2026-09-26"
+          },
+          {
+            "figure": "bram-stoker",
+            "date": "2026-09-25",
+            "key": "atlantica:bram-stoker:2026-09-25"
+          },
           {
             "figure": "hammurabi",
             "date": "2026-09-24",
@@ -543,49 +586,9 @@ window.FLEET_MANIFEST = {
             "figure": "aaron",
             "date": "2026-09-22",
             "key": "atlantica:aaron:2026-09-22"
-          },
-          {
-            "figure": "mark-twain",
-            "date": "2026-09-21",
-            "key": "atlantica:mark-twain:2026-09-21"
-          },
-          {
-            "figure": "tacitus",
-            "date": "2026-09-21",
-            "key": "atlantica:tacitus:2026-09-21"
-          },
-          {
-            "figure": "marcus-aurelius",
-            "date": "2026-09-20",
-            "key": "atlantica:marcus-aurelius:2026-09-20"
-          },
-          {
-            "figure": "sun-tzu",
-            "date": "2026-09-18",
-            "key": "atlantica:sun-tzu:2026-09-18"
-          },
-          {
-            "figure": "moses",
-            "date": "2026-09-14",
-            "key": "atlantica:moses:2026-09-14"
-          },
-          {
-            "figure": "gilgamesh",
-            "date": "2026-09-03",
-            "key": "atlantica:gilgamesh:2026-09-03"
-          },
-          {
-            "figure": "odysseus",
-            "date": "2026-09-02",
-            "key": "atlantica:odysseus:2026-09-02"
-          },
-          {
-            "figure": "odysseus",
-            "date": "2026-09-01",
-            "key": "atlantica:odysseus:2026-09-01"
           }
         ],
-        "note": "84 dispatch(es) in the hold · last 2026-09-24 (hammurabi) · MISSED 7 of the last 14 days"
+        "note": "92 dispatch(es) in the hold · last 2026-09-30 (meryl-streep) · MISSED 3 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -599,7 +602,7 @@ window.FLEET_MANIFEST = {
           "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
         },
         "fired": 0,
-        "thisWeek": "2026-09-20",
+        "thisWeek": "2026-09-27",
         "assembled": false,
         "delivered": false,
         "schedule": {
@@ -610,14 +613,14 @@ window.FLEET_MANIFEST = {
         "lastDelivery": null,
         "recent": [],
         "missedLast8": [
+          "2026-09-20",
           "2026-09-13",
           "2026-09-06",
           "2026-08-30",
           "2026-08-23",
           "2026-08-16",
           "2026-08-09",
-          "2026-08-02",
-          "2026-07-26"
+          "2026-08-02"
         ],
         "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 2 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
       },
@@ -628,7 +631,7 @@ window.FLEET_MANIFEST = {
         "status": "OK",
         "fired": 20,
         "last": "2026-11-08",
-        "lastAgeDays": -44,
+        "lastAgeDays": -39,
         "recent": [
           "dailyplanet:anubis:2026-11-08",
           "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
@@ -1178,7 +1181,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-25T01:01:08.686Z",
+        "at": "2026-09-30T18:34:54.032Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -1196,7 +1199,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-25T01:01:08.686Z",
+        "at": "2026-09-30T18:34:54.032Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -1214,7 +1217,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-25T01:01:08.686Z",
+        "at": "2026-09-30T18:34:54.032Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -1245,7 +1248,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-09-25T01:01:08.686Z",
+        "at": "2026-09-30T18:34:54.032Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
