@@ -1,10 +1,10 @@
 {
-  "at": "2026-09-30T12:45:22.231Z",
+  "at": "2026-09-30T18:34:55.901Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 181,
+    "count": 182,
     "prefixes": {
-      "atlantica:": 104,
+      "atlantica:": 105,
       "dailyplanet:": 20,
       "watch:": 51,
       "week:": 6
@@ -18,18 +18,23 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 91,
+      "fired": 92,
       "last": {
-        "date": "2026-09-29",
-        "figure": "frederick-douglass"
+        "date": "2026-09-30",
+        "figure": "meryl-streep"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19",
         "2026-09-17",
         "2026-09-16"
       ],
       "recent": [
+        {
+          "figure": "meryl-streep",
+          "date": "2026-09-30",
+          "key": "atlantica:meryl-streep:2026-09-30"
+        },
         {
           "figure": "frederick-douglass",
           "date": "2026-09-29",
@@ -94,14 +99,9 @@
           "figure": "aaron",
           "date": "2026-09-22",
           "key": "atlantica:aaron:2026-09-22"
-        },
-        {
-          "figure": "mark-twain",
-          "date": "2026-09-21",
-          "key": "atlantica:mark-twain:2026-09-21"
         }
       ],
-      "note": "91 dispatch(es) in the hold · last 2026-09-29 (frederick-douglass) · MISSED 3 of the last 14 days"
+      "note": "92 dispatch(es) in the hold · last 2026-09-30 (meryl-streep) · MISSED 3 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
