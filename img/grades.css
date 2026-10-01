@@ -19,6 +19,9 @@
 .rc-img[data-fig="caesar"],.nc-thumb[data-fig="caesar"],.mkt-thumb[data-fig="caesar"],.cdx-art[data-fig="caesar"][data-art-photo="card"]{filter:saturate(0.341);}
 .cdx-art[data-fig="caesar"][data-art-photo="terminal"]{filter:saturate(0.329);}
 .term-main[data-fig="caesar"] .plate-stack{--plate-sat:0.329;}
+.rc-img[data-fig="charles-dickens"],.nc-thumb[data-fig="charles-dickens"],.mkt-thumb[data-fig="charles-dickens"],.cdx-art[data-fig="charles-dickens"][data-art-photo="card"]{filter:saturate(0.306);}
+.cdx-art[data-fig="charles-dickens"][data-art-photo="terminal"]{filter:saturate(0.201);}
+.term-main[data-fig="charles-dickens"] .plate-stack{--plate-sat:0.201;}
 .cdx-art[data-fig="charles-martel"][data-art-photo="terminal"]{filter:saturate(0.414);}
 .term-main[data-fig="charles-martel"] .plate-stack{--plate-sat:0.414;}
 .rc-img[data-fig="confucius"],.nc-thumb[data-fig="confucius"],.mkt-thumb[data-fig="confucius"],.cdx-art[data-fig="confucius"][data-art-photo="card"]{filter:saturate(0.43);}
@@ -33,35 +36,35 @@
 .cdx-art[data-fig="flavius-josephus"][data-art-photo="terminal"]{filter:saturate(0.232);}
 .term-main[data-fig="flavius-josephus"] .plate-stack{--plate-sat:0.232;}
 .rc-img[data-fig="frederick-douglass"],.nc-thumb[data-fig="frederick-douglass"],.mkt-thumb[data-fig="frederick-douglass"],.cdx-art[data-fig="frederick-douglass"][data-art-photo="card"]{filter:saturate(0.48);}
-.cdx-art[data-fig="frederick-douglass"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="frederick-douglass"] .plate-stack{--plate-sat:1.0;}
-.rc-img[data-fig="gandhi"],.nc-thumb[data-fig="gandhi"],.mkt-thumb[data-fig="gandhi"],.cdx-art[data-fig="gandhi"][data-art-photo="card"]{filter:saturate(0.558);}
-.cdx-art[data-fig="gandhi"][data-art-photo="terminal"]{filter:saturate(0.773);}
-.term-main[data-fig="gandhi"] .plate-stack{--plate-sat:0.773;}
+.cdx-art[data-fig="frederick-douglass"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="frederick-douglass"] .plate-stack{--plate-sat:1;}
 .rc-img[data-fig="hannibal"],.nc-thumb[data-fig="hannibal"],.mkt-thumb[data-fig="hannibal"],.cdx-art[data-fig="hannibal"][data-art-photo="card"]{filter:saturate(0.371);}
-.cdx-art[data-fig="hannibal"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="hannibal"] .plate-stack{--plate-sat:1.0;}
+.cdx-art[data-fig="hannibal"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="hannibal"] .plate-stack{--plate-sat:1;}
 .rc-img[data-fig="isaac-newton"],.nc-thumb[data-fig="isaac-newton"],.mkt-thumb[data-fig="isaac-newton"],.cdx-art[data-fig="isaac-newton"][data-art-photo="card"]{filter:saturate(0.244);}
-.cdx-art[data-fig="isaac-newton"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="isaac-newton"] .plate-stack{--plate-sat:1.0;}
+.cdx-art[data-fig="isaac-newton"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="isaac-newton"] .plate-stack{--plate-sat:1;}
 .rc-img[data-fig="john-milton"],.nc-thumb[data-fig="john-milton"],.mkt-thumb[data-fig="john-milton"],.cdx-art[data-fig="john-milton"][data-art-photo="card"]{filter:saturate(0.536);}
 .cdx-art[data-fig="john-milton"][data-art-photo="terminal"]{filter:saturate(0.436);}
 .term-main[data-fig="john-milton"] .plate-stack{--plate-sat:0.436;}
-.rc-img[data-fig="lincoln"],.nc-thumb[data-fig="lincoln"],.mkt-thumb[data-fig="lincoln"],.cdx-art[data-fig="lincoln"][data-art-photo="card"]{filter:saturate(1.0);}
-.cdx-art[data-fig="lincoln"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="lincoln"] .plate-stack{--plate-sat:1.0;}
+.rc-img[data-fig="lincoln"],.nc-thumb[data-fig="lincoln"],.mkt-thumb[data-fig="lincoln"],.cdx-art[data-fig="lincoln"][data-art-photo="card"]{filter:saturate(1);}
+.cdx-art[data-fig="lincoln"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="lincoln"] .plate-stack{--plate-sat:1;}
+.rc-img[data-fig="mahatma-gandhi"],.nc-thumb[data-fig="mahatma-gandhi"],.mkt-thumb[data-fig="mahatma-gandhi"],.cdx-art[data-fig="mahatma-gandhi"][data-art-photo="card"]{filter:saturate(0.558);}
+.cdx-art[data-fig="mahatma-gandhi"][data-art-photo="terminal"]{filter:saturate(0.773);}
+.term-main[data-fig="mahatma-gandhi"] .plate-stack{--plate-sat:0.773;}
 .rc-img[data-fig="marcus-aurelius"],.nc-thumb[data-fig="marcus-aurelius"],.mkt-thumb[data-fig="marcus-aurelius"],.cdx-art[data-fig="marcus-aurelius"][data-art-photo="card"]{filter:saturate(0.312);}
 .cdx-art[data-fig="marcus-aurelius"][data-art-photo="terminal"]{filter:saturate(0.373);}
 .term-main[data-fig="marcus-aurelius"] .plate-stack{--plate-sat:0.373;}
 .rc-img[data-fig="moses"],.nc-thumb[data-fig="moses"],.mkt-thumb[data-fig="moses"],.cdx-art[data-fig="moses"][data-art-photo="card"]{filter:saturate(0.75);}
-.cdx-art[data-fig="moses"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="moses"] .plate-stack{--plate-sat:1.0;}
-.rc-img[data-fig="musashi"],.nc-thumb[data-fig="musashi"],.mkt-thumb[data-fig="musashi"],.cdx-art[data-fig="musashi"][data-art-photo="card"]{filter:saturate(1.0);}
-.cdx-art[data-fig="musashi"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="musashi"] .plate-stack{--plate-sat:1.0;}
+.cdx-art[data-fig="moses"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="moses"] .plate-stack{--plate-sat:1;}
+.rc-img[data-fig="musashi"],.nc-thumb[data-fig="musashi"],.mkt-thumb[data-fig="musashi"],.cdx-art[data-fig="musashi"][data-art-photo="card"]{filter:saturate(1);}
+.cdx-art[data-fig="musashi"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="musashi"] .plate-stack{--plate-sat:1;}
 .rc-img[data-fig="oliver-cromwell"],.nc-thumb[data-fig="oliver-cromwell"],.mkt-thumb[data-fig="oliver-cromwell"],.cdx-art[data-fig="oliver-cromwell"][data-art-photo="card"]{filter:saturate(0.901);}
-.cdx-art[data-fig="oliver-cromwell"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="oliver-cromwell"] .plate-stack{--plate-sat:1.0;}
+.cdx-art[data-fig="oliver-cromwell"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="oliver-cromwell"] .plate-stack{--plate-sat:1;}
 .rc-img[data-fig="plato"],.nc-thumb[data-fig="plato"],.mkt-thumb[data-fig="plato"],.cdx-art[data-fig="plato"][data-art-photo="card"]{filter:saturate(0.369);}
 .cdx-art[data-fig="plato"][data-art-photo="terminal"]{filter:saturate(0.571);}
 .term-main[data-fig="plato"] .plate-stack{--plate-sat:0.571;}
@@ -70,9 +73,9 @@
 .term-main[data-fig="seneca"] .plate-stack{--plate-sat:0.211;}
 .rc-img[data-fig="shaka"],.nc-thumb[data-fig="shaka"],.mkt-thumb[data-fig="shaka"],.cdx-art[data-fig="shaka"][data-art-photo="card"]{filter:saturate(0.315);}
 .term-main[data-fig="shaka"] .plate-stack{--plate-sat:0.315;}
-.rc-img[data-fig="sun-tzu"],.nc-thumb[data-fig="sun-tzu"],.mkt-thumb[data-fig="sun-tzu"],.cdx-art[data-fig="sun-tzu"][data-art-photo="card"]{filter:saturate(1.0);}
-.cdx-art[data-fig="sun-tzu"][data-art-photo="terminal"]{filter:saturate(1.0);}
-.term-main[data-fig="sun-tzu"] .plate-stack{--plate-sat:1.0;}
+.rc-img[data-fig="sun-tzu"],.nc-thumb[data-fig="sun-tzu"],.mkt-thumb[data-fig="sun-tzu"],.cdx-art[data-fig="sun-tzu"][data-art-photo="card"]{filter:saturate(1);}
+.cdx-art[data-fig="sun-tzu"][data-art-photo="terminal"]{filter:saturate(1);}
+.term-main[data-fig="sun-tzu"] .plate-stack{--plate-sat:1;}
 .rc-img[data-fig="tacitus"],.nc-thumb[data-fig="tacitus"],.mkt-thumb[data-fig="tacitus"],.cdx-art[data-fig="tacitus"][data-art-photo="card"]{filter:saturate(0.405);}
 .cdx-art[data-fig="tacitus"][data-art-photo="terminal"]{filter:saturate(0.539);}
 .term-main[data-fig="tacitus"] .plate-stack{--plate-sat:0.539;}
