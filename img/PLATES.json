@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-10-01T00:25:41.585Z",
+  "generated": "2026-10-01T01:02:07.189Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -37,9 +37,9 @@
     "note": "a scene is a moment a figure was in. the figure need not be in the frame — ownership is editorial, not photographic. absence is never a gap. the owner is checkable; the tag is not."
   },
   "totals": {
-    "files": 172,
-    "plates": 164,
-    "keys": 51,
+    "files": 173,
+    "plates": 165,
+    "keys": 52,
     "rooms": 53,
     "scenes": 1,
     "sceneFiles": 2,
@@ -48,7 +48,7 @@
     "rosterColumn": "full name",
     "scenesResolvedByRosterAlone": 0,
     "byVariant": {
-      "card": 51,
+      "card": 52,
       "thumb": 51,
       "terminal": 50,
       "chat": 2
@@ -59,11 +59,14 @@
   "gaps": {
     "missingByVariant": {
       "terminal": [
-        "albert-einstein"
+        "albert-einstein",
+        "charles-dickens"
+      ],
+      "thumb": [
+        "charles-dickens"
       ]
     },
     "roomsWithoutPlates": [
-      "charles-dickens",
       "einstein-albert",
       "ingram"
     ],
@@ -90,9 +93,7 @@
         "note": "the captain. A room and no portrait, by choice."
       }
     ],
-    "unaccepted": [
-      "charles-dickens"
-    ],
+    "unaccepted": [],
     "scenesWithoutFigure": [],
     "scenesMalformed": [
       "darius-bow.jpg"
@@ -275,6 +276,24 @@
       "room": true,
       "complete": true,
       "missing": []
+    },
+    "charles-dickens": {
+      "key": "charles-dickens",
+      "variants": {
+        "card": [
+          {
+            "file": "charles-dickens-card.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "scenes": [],
+      "room": true,
+      "complete": false,
+      "missing": [
+        "thumb",
+        "terminal"
+      ]
     },
     "charles-martel": {
       "key": "charles-martel",
@@ -1778,6 +1797,13 @@
       "surface_slug": "thumb",
       "file": "brutus-thumb.jpg",
       "bytes": 36823,
+      "provenance": null
+    },
+    "charles-dickens-card.jpg": {
+      "key": "charles-dickens",
+      "surface_slug": "card",
+      "file": "charles-dickens-card.jpg",
+      "bytes": 130009,
       "provenance": null
     },
     "charles-martel-card.jpg": {
