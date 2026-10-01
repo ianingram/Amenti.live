@@ -8802,5 +8802,32 @@ window.AMENTI_VOICE = {
     .catch(function(){ /* empty glass: leave the hardcoded fallback showing */ });
 })();
 </script>
+<!-- ─── AMENTI READINGS ─────────────────────────────────────────────────────
+     Staged readings of public-domain works, cast from the ledger.
+     Scripts live in the Amenti-Readings repo; THE VOICE LIVES HERE.
+
+     reader.js walks a cue sheet and hands each cue to Amenti.throttle.speak —
+     the same engine, the same chunker, the same R2 cache. It carries no voice
+     of its own and must never grow one: the cache key is
+     TTS_MODEL + voice + style + text, so a second chunker would re-render the
+     whole archive, silently.
+
+     ORDER MATTERS. amenti-core.bundle.js publishes Amenti.throttle and loads
+     BLOCKING near the head, so the engine is present by the time this runs. If
+     it ever is not, the reader refuses to start and says so in the console
+     rather than appearing to work — being loaded is not being used.
+
+       Amenti.reading.load('dracula/ep01.json')
+         .then(function(){ return Amenti.reading.preflight(); })   // check the cast
+         .then(function(){ Amenti.reading.play(); });
+
+     preflight() resolves every cast name against the live ledger FIRST.
+     resolveVoice falls back to a neutral voice for a name it does not know
+     rather than failing, so a mis-cast reading sounds plausible and is wrong.
+     Check before paying for audio, not after.
+
+     Bump the ?v= when the reader changes, as every other script here does.
+     ───────────────────────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/reader.js?v=1"></script>
 </body>
 </html>
