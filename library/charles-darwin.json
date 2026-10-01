@@ -1,0 +1,92 @@
+{
+  "key": "charles-darwin",
+  "name": "Charles Darwin",
+  "note": "Everything here is Darwin's own English. Unlike Musashi, whose translations are all modern and in copyright, and unlike Leeuwenhoek, whose letters were written in Dutch and whose best English versions are Dobell's from 1932, Darwin needs no translation layer at all — the Journal of 1839 and the Autobiography of 1887 are both long out of copyright and both in his own hand.\n\nTHE ROOM IS ABOUT A MAN WHO WAITED. He saw the thing in the Galapagos at twenty-six, read Malthus two years later and had the mechanism, wrote a sketch in 1842 and enlarged it in 1844 — and then said nothing for fourteen more years. He left instructions and money for his wife to publish it if he died. What finally moved him was a letter from a stranger in the Malay archipelago who had reached the same conclusion. The order below is that order.",
+  "works": [
+    {
+      "id": "01-the-galapagos",
+      "section": "The Voyage of the Beagle (1839)",
+      "title": "The Tameness of the Birds",
+      "mode": "stored",
+      "source": "Charles Darwin, Journal of Researches (The Voyage of the Beagle), 1839 · Project Gutenberg #944 · public domain.",
+      "note": "The close of his account of the Galapagos. He is writing about how unafraid the birds are — a mocking-thrush lands on the edge of a tortoise-shell pitcher he is holding and drinks from it. Then he works out why: no predators, no instinct, and the tameness is inherited rather than learned. It is a small observation and it is the method entire.",
+      "file": "charles-darwin/01-the-galapagos.md"
+    },
+    {
+      "id": "02-the-voyage",
+      "section": "The Autobiography (1887)",
+      "title": "The Most Important Event",
+      "mode": "stored",
+      "source": "Charles Darwin, The Autobiography of Charles Darwin, written 1876-1881, published 1887 · Project Gutenberg #2010 · public domain.",
+      "note": "Written at the end of his life, looking back: the voyage of the Beagle was by far the most important event in it, and determined his whole career. He is also unsparing about the young man who went aboard — the habits of industry he had to acquire, the loss of all taste for poetry and music, and the mind he says became a machine for grinding general laws out of large collections of facts.",
+      "file": "charles-darwin/02-the-voyage.md"
+    },
+    {
+      "id": "03-malthus-and-the-sketch",
+      "section": "The Autobiography (1887)",
+      "title": "Malthus, and the Sketch in Pencil",
+      "mode": "stored",
+      "source": "Charles Darwin, The Autobiography of Charles Darwin, written 1876-1881, published 1887 · Project Gutenberg #2010 · public domain.",
+      "note": "October 1838, fifteen months into the enquiry, he reads Malthus on Population for amusement and the mechanism arrives at once. He then waits. In June 1842 he allows himself a 35-page abstract in pencil; in 1844 he enlarges it to 230 pages, has it fair-copied, and leaves instructions for his wife to publish it if he dies. And then he does nothing with it for fourteen years.",
+      "file": "charles-darwin/03-malthus-and-the-sketch.md"
+    },
+    {
+      "id": "04-wallaces-letter",
+      "section": "The Autobiography (1887)",
+      "title": "Wallace's Letter",
+      "mode": "stored",
+      "source": "Charles Darwin, The Autobiography of Charles Darwin, written 1876-1881, published 1887 · Project Gutenberg #2010 · public domain.",
+      "note": "Summer 1858. A letter arrives from Alfred Russel Wallace in the Malay archipelago containing the same theory, and asking Darwin to forward it. Lyell and Hooker arrange a joint reading at the Linnean Society. Darwin notes, drily, that it excited very little attention — and that the one published notice of it concluded all that was new in it was false, and all that was true was old.",
+      "file": "charles-darwin/04-wallaces-letter.md"
+    },
+    {
+      "id": "beagle",
+      "section": "The Complete Record",
+      "title": "The Voyage of the Beagle",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/944"
+    },
+    {
+      "id": "autobiography",
+      "section": "The Complete Record",
+      "title": "The Autobiography of Charles Darwin",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/2010"
+    },
+    {
+      "id": "origin",
+      "section": "The Complete Record",
+      "title": "On the Origin of Species (first edition, 1859)",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/1228"
+    },
+    {
+      "id": "descent",
+      "section": "The Complete Record",
+      "title": "The Descent of Man",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/2300"
+    },
+    {
+      "id": "expression",
+      "section": "The Complete Record",
+      "title": "The Expression of the Emotions in Man and Animals",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/1227"
+    },
+    {
+      "id": "letters",
+      "section": "The Complete Record",
+      "title": "The Life and Letters of Charles Darwin",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/2087"
+    },
+    {
+      "id": "coral",
+      "section": "The Complete Record",
+      "title": "The Structure and Distribution of Coral Reefs",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/2690"
+    }
+  ]
+}
