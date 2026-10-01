@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-10-01T04:58:49.116Z",
+  "generated": "2026-10-01T05:59:02.057Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -29,7 +29,7 @@
       "file": "Page1.html",
       "bytes": 547969,
       "lines": 8834,
-      "sha256": "9e912ceb800257c4",
+      "sha256": "f0f33140fdc94c1f",
       "scripts": [
         {
           "src": "amenti-core.bundle.js?v=e349cab1",
@@ -158,7 +158,7 @@
           "remote": false
         },
         {
-          "src": "amenti-art-photo.js?v=2806daac",
+          "src": "amenti-art-photo.js?v=1144e9af",
           "line": 8335,
           "loading": "defer",
           "remote": false
@@ -1275,7 +1275,7 @@
         "reason": "not on disk at probe time"
       },
       {
-        "src": "amenti-art-photo.js?v=2806daac",
+        "src": "amenti-art-photo.js?v=1144e9af",
         "requestedBy": [
           {
             "surface": "Page1.html",
@@ -1542,7 +1542,7 @@
       "reason": "not on disk at probe time"
     },
     {
-      "src": "amenti-art-photo.js?v=2806daac",
+      "src": "amenti-art-photo.js?v=1144e9af",
       "requestedBy": [
         {
           "surface": "Page1.html",
@@ -1786,7 +1786,7 @@
     {
       "id": "unread",
       "severity": "blocking",
-      "detail": "24 referenced file(s) could not be opened: amenti-core.bundle.js?v=e349cab1, amenti-dial.js?v=ad24f23f, amenti-memory.js?v=8a3ebb27, amenti-svg-library.js?v=7b34f8ea, amenti-doctrine.js?v=976c6275, library.js?v=fe8cc091, amenti-canonical.js?v=43cdd39f, amenti-auth.js?v=9911c691, amenti-quiz.js?v=ef4a2536, amenti-roster.js?v=b0f5ca91, amenti-roster-view.js?v=2dc9f768, amenti-bay.js?v=e57e5f85, amenti-motion.js?v=d9c60056, amenti-art-2.js?v=ec74203b, amenti-leaderboard.js?v=3bd469b9, amenti-readaloud.js?v=e97258f9, amenti-vallhalla-signup.js?v=9aea018b, amenti-flourish.js?v=285c68c5, amenti-mascot.js?v=d141d87a, amenti-profile.js?v=0f18021a, amenti-art-photo.js?v=2806daac, amenti-art-3.js?v=40425d02, amenti-dispatch-art.js?v=944e432e, config.js?v=38b1e896. No verdict above covers them.",
+      "detail": "24 referenced file(s) could not be opened: amenti-core.bundle.js?v=e349cab1, amenti-dial.js?v=ad24f23f, amenti-memory.js?v=8a3ebb27, amenti-svg-library.js?v=7b34f8ea, amenti-doctrine.js?v=976c6275, library.js?v=fe8cc091, amenti-canonical.js?v=43cdd39f, amenti-auth.js?v=9911c691, amenti-quiz.js?v=ef4a2536, amenti-roster.js?v=b0f5ca91, amenti-roster-view.js?v=2dc9f768, amenti-bay.js?v=e57e5f85, amenti-motion.js?v=d9c60056, amenti-art-2.js?v=ec74203b, amenti-leaderboard.js?v=3bd469b9, amenti-readaloud.js?v=e97258f9, amenti-vallhalla-signup.js?v=9aea018b, amenti-flourish.js?v=285c68c5, amenti-mascot.js?v=d141d87a, amenti-profile.js?v=0f18021a, amenti-art-photo.js?v=1144e9af, amenti-art-3.js?v=40425d02, amenti-dispatch-art.js?v=944e432e, config.js?v=38b1e896. No verdict above covers them.",
       "test": "existsSync on every local <script src>"
     }
   ],
