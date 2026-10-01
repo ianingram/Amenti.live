@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-10-01T08:16:39.102Z",
+  "generated": "2026-10-01T08:38:38.550Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -37,9 +37,9 @@
     "note": "a scene is a moment a figure was in. the figure need not be in the frame — ownership is editorial, not photographic. absence is never a gap. the owner is checkable; the tag is not."
   },
   "totals": {
-    "files": 174,
-    "plates": 166,
-    "keys": 52,
+    "files": 177,
+    "plates": 169,
+    "keys": 53,
     "rooms": 54,
     "scenes": 1,
     "sceneFiles": 2,
@@ -48,12 +48,12 @@
     "rosterColumn": "full name",
     "scenesResolvedByRosterAlone": 0,
     "byVariant": {
-      "card": 52,
-      "thumb": 51,
-      "terminal": 51,
+      "card": 53,
+      "thumb": 52,
+      "terminal": 52,
       "chat": 2
     },
-    "complete": 50,
+    "complete": 51,
     "provenanced": 145
   },
   "gaps": {
@@ -66,7 +66,6 @@
       ]
     },
     "roomsWithoutPlates": [
-      "charles-darwin",
       "einstein-albert",
       "ingram"
     ],
@@ -93,9 +92,7 @@
         "note": "the captain. A room and no portrait, by choice."
       }
     ],
-    "unaccepted": [
-      "charles-darwin"
-    ],
+    "unaccepted": [],
     "scenesWithoutFigure": [],
     "scenesMalformed": [
       "darius-bow.jpg"
@@ -270,6 +267,33 @@
         "thumb": [
           {
             "file": "brutus-thumb.jpg",
+            "n": 1
+          }
+        ]
+      },
+      "scenes": [],
+      "room": true,
+      "complete": true,
+      "missing": []
+    },
+    "charles-darwin": {
+      "key": "charles-darwin",
+      "variants": {
+        "card": [
+          {
+            "file": "charles-darwin-card.jpg",
+            "n": 1
+          }
+        ],
+        "terminal": [
+          {
+            "file": "charles-darwin-terminal.jpg",
+            "n": 1
+          }
+        ],
+        "thumb": [
+          {
+            "file": "charles-darwin-thumb.jpg",
             "n": 1
           }
         ]
@@ -2221,6 +2245,27 @@
       "prompt_file": null,
       "backfilled": true,
       "bytes": 36823
+    },
+    "charles-darwin-card.jpg": {
+      "key": "charles-darwin",
+      "surface_slug": "card",
+      "file": "charles-darwin-card.jpg",
+      "bytes": 136453,
+      "provenance": null
+    },
+    "charles-darwin-terminal.jpg": {
+      "key": "charles-darwin",
+      "surface_slug": "terminal",
+      "file": "charles-darwin-terminal.jpg",
+      "bytes": 75502,
+      "provenance": null
+    },
+    "charles-darwin-thumb.jpg": {
+      "key": "charles-darwin",
+      "surface_slug": "thumb",
+      "file": "charles-darwin-thumb.jpg",
+      "bytes": 40858,
+      "provenance": null
     },
     "charles-dickens-card.jpg": {
       "figure": "Charles Dickens",
