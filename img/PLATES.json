@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-10-01T01:05:47.650Z",
+  "generated": "2026-10-01T01:09:22.075Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -54,7 +54,7 @@
       "chat": 2
     },
     "complete": 50,
-    "provenanced": 44
+    "provenanced": 46
   },
   "gaps": {
     "missingByVariant": {
@@ -1804,18 +1804,80 @@
       "provenance": null
     },
     "charles-dickens-card.jpg": {
+      "figure": "Charles Dickens",
       "key": "charles-dickens",
-      "surface_slug": "card",
       "file": "charles-dickens-card.jpg",
-      "bytes": 130009,
-      "provenance": null
+      "surface_slug": "card",
+      "surface": "hero/arena",
+      "grammar": "presented",
+      "source": "dickens-C.png",
+      "crop": "trimmed 0px of height to 0.571 | source 816x1428, downsampled to 1120 tall",
+      "seed": null,
+      "note": "A London street at night, 1843, aged thirty-one - stopped mid-stride on wet cobbles under a gas lamp, half-turned, looking at something off to one side. He walked fifteen and twenty miles a night through the city and took everything down; the figure half-seen in the fog down the street is what the walking was for. THE AGE GUARD HELD, WHICH WAS THE WHOLE RISK: clean-shaven, thick dark hair long to the collar, a young sharp face. The bearded patriarch everyone pictures is 1858 onward, fifteen years later, and it is the only Dickens the model knows. Figured waistcoat, cravat, rings, cane - he was a dandy and was mocked for it. BEST LIGHTING IN THE DECK: span 235.3, 59% of frame under 40/255 which is the second deepest of any card, radial key 0.323 from the left as specified, almost nothing blown. FIRST MIDJOURNEY PLATE IN THE DECK. The FLUX prompts do not transfer - Midjourney weights early tokens and drops detail past roughly 60-80 words, and it largely ignores negation and can summon what you name, so the guards moved out of the prose and into --no. See PROMPT_charles-dickens_MIDJOURNEY.txt. THREE DEFECTS ACCEPTED: it is TRUE MONOCHROME with a warm sepia cast rather than the deck's near-monochrome with one warm accent on metal, so accent 0.347 measures the cast and not a colour accent - with more Midjourney plates this becomes a visible split in the deck; generated at 816x1456, sub-spec, so UPSAMPLED to 1120 where the standard is 2048 downsampled; and the figure sits further from camera than the card brief asked, though it reads at thumbnail size. CROPPED BEFORE INGEST: 28px taken off the TOP rather than the bottom, at the proprietor's direction, to keep the ground and bring the ratio to exactly 0.571 - ingest only ever trims from the bottom, so a tighter frame has to be taken off the top before it.",
+      "model": "midjourney-v7",
+      "service": "Midjourney",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-10-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.267,
+        "key_radial": 0.325,
+        "key_side": "LEFT",
+        "value_span": 235,
+        "accent_sat": 0.343,
+        "tile_contrast": 63.3,
+        "shadow_frac": 0.588,
+        "blown_frac": 0.0053,
+        "head_room": 0,
+        "mean_lum": 48.4
+      },
+      "art_sat": 0.306,
+      "stored_saturation": 0.343,
+      "prompt_file": "PROMPT_charles-dickens_MIDJOURNEY.txt#CARD",
+      "bytes": 130009
     },
     "charles-dickens-terminal.jpg": {
+      "figure": "Charles Dickens",
       "key": "charles-dickens",
-      "surface_slug": "terminal",
       "file": "charles-dickens-terminal.jpg",
-      "bytes": 100749,
-      "provenance": null
+      "surface_slug": "terminal",
+      "surface": "terminal",
+      "grammar": "absorbed",
+      "source": "0_3-4.png",
+      "crop": "trimmed 28px of height to 0.571 | source 816x1456, downsampled to 1120 tall",
+      "seed": null,
+      "note": "The desk at Devonshire Terrace, autumn 1843, writing A Christmas Carol. He read the Second Report on child labour, planned a pamphlet called An Appeal to the People of England on behalf of the Poor Man's Child, abandoned it, and wrote this instead in six weeks - telling Dr Southwood Smith a story would come down with twenty thousand times the force. DEEPEST SHADOW IN THE DECK: 74.2% of frame under 40/255, taking that record from isaac-newton-terminal at 70.5%. Span 237.0, radial key 0.289 from the right as specified, nothing blown. Thirty-one and clean-shaven, hair long to the collar - the age guard held again. Hunched close, writing fast with a goose quill, manuscript sheets spilling off the desk edge onto the floor, shelved books going up into blackness, shuttered window, fire burned low in the grate, a brass oil lamp as the only real source. THE TWO BRONZE DESK ORNAMENTS ARE PRESENT - the duelling toads and the dog-fancier with puppies, which he carried everywhere and could not write without - and so is the geranium and the bottle of blue ink. MIDJOURNEY, like the card. See PROMPT_charles-dickens_MIDJOURNEY.txt for why the FLUX prompts do not transfer. TWO DEFECTS ACCEPTED: accent 0.511 is the HIGHEST SATURATION IN THE DECK, taking that record from flavius-josephus-card at 0.521 in the other direction - it is the lamp's warm cast across a wide area rather than a colour accent, so the CSS grade pulls it hard to 0.205; and it generated at 816x1456, sub-spec, so UPSAMPLED to 1120 where the deck standard is 2048 downsampled.",
+      "model": "midjourney-v7",
+      "service": "Midjourney",
+      "aspect": "9:16",
+      "resolution": "1K — SUB-SPEC",
+      "polish": true,
+      "date": "2026-10-01",
+      "colour_note": "stored at full colour; graded in CSS via --art-sat",
+      "audit": {
+        "width": 640,
+        "height": 1120,
+        "aspect": 0.571,
+        "key_strength": 0.211,
+        "key_radial": 0.309,
+        "key_side": "RIGHT",
+        "value_span": 237.333,
+        "accent_sat": 0.523,
+        "tile_contrast": 54.131,
+        "shadow_frac": 0.75,
+        "blown_frac": 0.0002,
+        "head_room": 0,
+        "mean_lum": 33.5
+      },
+      "art_sat": 0.201,
+      "stored_saturation": 0.523,
+      "prompt_file": "PROMPT_charles-dickens_MIDJOURNEY.txt#TERMINAL",
+      "bytes": 100749
     },
     "charles-martel-card.jpg": {
       "key": "charles-martel",
