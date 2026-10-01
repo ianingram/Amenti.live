@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-10-01T04:01:05.292Z",
+  "generated": "2026-10-01T04:20:15.978Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -27,9 +27,9 @@
   "surfaces": [
     {
       "file": "Page1.html",
-      "bytes": 546146,
-      "lines": 8807,
-      "sha256": "3c912189102fd875",
+      "bytes": 547969,
+      "lines": 8834,
+      "sha256": "9e912ceb800257c4",
       "scripts": [
         {
           "src": "amenti-core.bundle.js?v=e349cab1",
@@ -174,6 +174,12 @@
           "line": 8783,
           "loading": "defer",
           "remote": false
+        },
+        {
+          "src": "https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/reader.js?v=1",
+          "line": 8831,
+          "loading": "blocking",
+          "remote": true
         }
       ],
       "inlineBlocks": 28,
