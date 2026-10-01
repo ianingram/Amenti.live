@@ -17,6 +17,7 @@
    that is actually on screen wrong. Where a thumb exists it supplies the factor.
 
 
+
 .rc-img[data-fig="akhenaten"],.nc-thumb[data-fig="akhenaten"],.mkt-thumb[data-fig="akhenaten"]{filter:saturate(0.359);}
 .cdx-art[data-fig="akhenaten"][data-art-photo="card"]{filter:saturate(0.379);}
 .cdx-art[data-fig="akhenaten"][data-art-photo="terminal"]{filter:saturate(0.181);}
@@ -40,8 +41,8 @@
 .cdx-art[data-fig="brutus"][data-art-photo="card"]{filter:saturate(0.335);}
 .cdx-art[data-fig="brutus"][data-art-photo="terminal"]{filter:saturate(0.548);}
 .term-main[data-fig="brutus"] .plate-stack{--plate-sat:0.548;}
-.rc-img[data-fig="caesar"],.nc-thumb[data-fig="caesar"],.mkt-thumb[data-fig="caesar"]{filter:saturate(0.341);}
-.cdx-art[data-fig="caesar"][data-art-photo="card"]{filter:saturate(0.341);}
+.rc-img[data-fig="caesar"],.nc-thumb[data-fig="caesar"],.mkt-thumb[data-fig="caesar"]{filter:saturate(0.335);}
+.cdx-art[data-fig="caesar"][data-art-photo="card"]{filter:saturate(0.328);}
 .cdx-art[data-fig="caesar"][data-art-photo="terminal"]{filter:saturate(0.329);}
 .term-main[data-fig="caesar"] .plate-stack{--plate-sat:0.329;}
 .rc-img[data-fig="charles-dickens"],.nc-thumb[data-fig="charles-dickens"],.mkt-thumb[data-fig="charles-dickens"]{filter:saturate(0.306);}
@@ -116,10 +117,6 @@
 .cdx-art[data-fig="john-milton"][data-art-photo="card"]{filter:saturate(0.536);}
 .cdx-art[data-fig="john-milton"][data-art-photo="terminal"]{filter:saturate(0.436);}
 .term-main[data-fig="john-milton"] .plate-stack{--plate-sat:0.436;}
-.rc-img[data-fig="julius-caesar"],.nc-thumb[data-fig="julius-caesar"],.mkt-thumb[data-fig="julius-caesar"]{filter:saturate(0.335);}
-.cdx-art[data-fig="julius-caesar"][data-art-photo="card"]{filter:saturate(0.328);}
-.cdx-art[data-fig="julius-caesar"][data-art-photo="terminal"]{filter:saturate(0.329);}
-.term-main[data-fig="julius-caesar"] .plate-stack{--plate-sat:0.329;}
 .rc-img[data-fig="king-arthur"],.nc-thumb[data-fig="king-arthur"],.mkt-thumb[data-fig="king-arthur"]{filter:saturate(0.276);}
 .cdx-art[data-fig="king-arthur"][data-art-photo="card"]{filter:saturate(0.247);}
 .cdx-art[data-fig="king-arthur"][data-art-photo="terminal"]{filter:saturate(0.298);}
