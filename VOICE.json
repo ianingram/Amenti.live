@@ -1,7 +1,7 @@
 {
   "probe": "probe-voice.mjs",
   "version": "1.0.0",
-  "generated": "2026-10-01T05:59:02.057Z",
+  "generated": "2026-10-01T06:02:10.161Z",
   "root": "Amenti.live",
   "profiles": {
     "profiles": {
@@ -27,9 +27,9 @@
   "surfaces": [
     {
       "file": "Page1.html",
-      "bytes": 547969,
-      "lines": 8834,
-      "sha256": "f0f33140fdc94c1f",
+      "bytes": 548415,
+      "lines": 8839,
+      "sha256": "6549d4366d6865f7",
       "scripts": [
         {
           "src": "amenti-core.bundle.js?v=e349cab1",
@@ -178,6 +178,18 @@
         {
           "src": "https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/reader.js?v=1",
           "line": 8831,
+          "loading": "blocking",
+          "remote": true
+        },
+        {
+          "src": "https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/casting.js?v=1",
+          "line": 8832,
+          "loading": "blocking",
+          "remote": true
+        },
+        {
+          "src": "https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/playbill.js?v=1",
+          "line": 8833,
           "loading": "blocking",
           "remote": true
         }
