@@ -8829,5 +8829,10 @@ window.AMENTI_VOICE = {
      Bump the ?v= when the reader changes, as every other script here does.
      ───────────────────────────────────────────────────────────────────── -->
 <script src="https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/reader.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/casting.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/gh/ianingram/Amenti-Readings@main/player/playbill.js?v=1"></script>
+<!-- ORDER IS LOAD-BEARING: reader publishes Amenti.reading; casting wraps its
+     nameFor() so an override wins; playbill draws both and needs them present.
+     Each refuses to start and says so if the one before it is missing. -->
 </body>
 </html>
