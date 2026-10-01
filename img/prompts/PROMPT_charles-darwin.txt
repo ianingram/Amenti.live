@@ -1,0 +1,63 @@
+PROMPT_charles-darwin.txt   —   CHARLES DARWIN
+==============================================================================
+
+Midjourney v7  ·  --ar 9:16  ·  2K
+
+THE PRIOR IS DATED FROM THE ROOM, which is the practice that has landed plates
+first-roll all session. library/charles-darwin.json holds four passages and they
+run in one order: the Galapagos at twenty-six, what the voyage did to him, Malthus
+and the sketch in pencil, and Wallace's letter. The room is about A MAN WHO WAITED.
+
+  CARD      the Galapagos shore, 1835, aged 26 — the observation
+  TERMINAL  the desk at night, 1844, aged 35 — the fourteen years of silence
+
+THE AGE GUARD IS THE WHOLE RISK, AND IT IS THE THIRD TIME THIS SESSION.
+Einstein came back right at 26 and not 76. Dickens came back right at 31 and not 60.
+Darwin is the same shape and the strongest case of the three: the white-bearded
+patriarch is the ONLY Darwin anyone pictures, and that beard does not arrive until
+the 1860s, after illness, thirty years after the Beagle. At twenty-six he is
+CLEAN-SHAVEN with reddish-brown hair and side-whiskers.
+
+Age is arithmetic, not preference: born 1809, Galapagos 1835, the sketch 1844.
+
+THE CARD IS THE PASSAGE ITSELF. The stored Galapagos text is about how unafraid the
+birds are — a mocking-thrush lands on the rim of a tortoise-shell pitcher he is
+holding and drinks from it. That bird is in the frame, and so is a dead one on the
+rock beside him, because he was collecting and observing in the same motion.
+
+THE TERMINAL IS THE WAITING. In 1844 he enlarged the sketch to 230 pages, had it
+fair-copied, and left instructions and money for his wife to publish it if he died.
+Then he said nothing for fourteen years. So he is NOT writing: one hand flat on the
+finished manuscript, the other holding a letter, and the barnacles he buried himself
+in for eight years instead are on the desk beside him.
+
+WHAT TO REJECT ON SIGHT. The beard. Any monkey, ape, skeleton or evolution diagram —
+that iconography is other people's and it is a century of cartoons. A bright room.
+
+==============================================================================
+
+### CHARLES DARWIN — CARD
+
+Charles Darwin aged 26 in 1835, CLEAN-SHAVEN with thick reddish-brown hair and long side-whiskers, a young open face, heavy brows, alert grey eyes. Plain dark frock coat, waistcoat, high collar and loose dark neckcloth, sleeves pushed back, hands marked by field work. Crouched on black volcanic rock on a Galapagos shore at low sun, a dead mocking-thrush laid on the stone beside him and a second live one perched fearlessly on the rim of a tortoise-shell pitcher at his elbow. An open field notebook weighted with a pebble, a pencil, a specimen bag, a geological hammer. Barren lava, cactus, the sea beyond. Hard low raking sunlight from the left across the rock and one side of his face, deep shadow, salt haze in the beam. Photorealistic, cinematic, near monochrome with one warm accent, deep blacks, full tonal range, shallow depth of field, 50mm, chest height --ar 9:16 --style raw --s 100 --no beard, full beard, white beard, bald, old man, elderly, grey hair, top hat, Victorian study, monkey, ape, evolution diagram, text, letters, watermark, signature, illustration, painting, engraving, cartoon, CGI, 3d render, flat lighting, bright overcast
+
+------------------------------------------------------------------------------
+
+### CHARLES DARWIN — TERMINAL
+
+Charles Darwin aged 35 in 1844 at his desk at night, CLEAN-SHAVEN with reddish-brown hair receding at the temples and long side-whiskers, a drawn tired face. Dark coat over a waistcoat, seated in a worn leather chair, a board laid across the arms as a writing surface. He is NOT writing. One hand rests flat on a thick stack of manuscript pages tied with tape; the other holds a sealed letter. On the desk a brass microscope, barnacle specimens in glass dishes, a pencil, loose sheets covered in a cramped hand, a candle burned low. Behind him shelves of books and specimen boxes going up into darkness, a shuttered window, a cold fireplace. Single candle and one oil lamp from the right, falling off fast, the far wall true black. Photorealistic, cinematic, near monochrome with one warm accent, deep blacks, full tonal range, 35mm, desk height --ar 9:16 --style raw --s 100 --no beard, full beard, white beard, old man, elderly, bald, monkey, ape, skeleton, evolution diagram, finch illustration, bright room, even lighting, text, letters, watermark, illustration, painting, engraving, cartoon, CGI, modern furniture, electric light
+
+------------------------------------------------------------------------------
+
+IF IT COMES BACK WRONG
+  Bearded anyway       add 'young man, smooth shaven face' at the FRONT and repeat
+                       the negative: --no beard, beards, bearded, facial hair, stubble
+  Looks like a portrait the card is a man AT WORK on a shore, not posed; add
+                       'crouching, working, absorbed, not looking at camera'
+  Bird looks stuffed   add 'live bird, alert, mid-movement'
+  Terminal too busy    the desk is crowded on purpose but he must read first; add
+                       'figure large in frame, desk objects secondary'
+
+FILENAMES. The ledger reads 'Charles Darwin', which the loader slugs to
+charles-darwin, so the plates are charles-darwin-card.jpg and -terminal.jpg.
+A -thumb.jpg is the roster face and the loader tries it first; amenti.py can cut it
+from the card.
