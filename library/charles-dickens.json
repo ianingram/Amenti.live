@@ -1,0 +1,141 @@
+{
+  "key": "charles-dickens",
+  "name": "Charles Dickens",
+  "note": "A room with an argument running through it, in this order: what was done to him, what he saw, why he chose fiction, and what the fiction did. In 1843 he read the Second Report of the Children's Employment Commission and planned a political pamphlet, An Appeal to the People of England on behalf of the Poor Man's Child. He put it aside and wrote A Christmas Carol instead, telling Dr Southwood Smith that a story would come down with twenty thousand times the force of the pamphlet. The Carol is held here COMPLETE for that reason - it is not an excerpt of a reform argument, it IS the reform argument. Everything in this room is public domain. ONE ABSENCE WORTH NAMING: the letter in which he told Southwood Smith the story would strike a sledge-hammer blow twenty thousand times the force of the pamphlet is NOT here. Forster never printed it; it survives only in the modern Pilgrim edition of the letters, which is in copyright. The fact is recorded; the text cannot be.",
+  "works": [
+    {
+      "id": "01-a-christmas-carol",
+      "section": "A Christmas Carol (1843)",
+      "title": "A Christmas Carol — complete",
+      "mode": "stored",
+      "source": "Charles Dickens, A Christmas Carol in Prose, Being a Ghost Story of Christmas (1843) · Project Gutenberg #46 · public domain",
+      "note": "The whole novella, all five staves, written in six weeks in the autumn of 1843 as a deliberate substitute for a pamphlet on child labour. Under the Ghost of Christmas Present's robe are two children, a boy and a girl, wretched and abject: 'This boy is Ignorance. This girl is Want.' That is the blue-book report turned into an image, and it is why he abandoned the pamphlet.",
+      "file": "charles-dickens/01-a-christmas-carol.md"
+    },
+    {
+      "id": "02-the-blacking-warehouse",
+      "section": "The Autobiographical Fragment (c. 1847)",
+      "title": "The Blacking-Warehouse",
+      "mode": "stored",
+      "source": "Charles Dickens's autobiographical fragment, preserved in John Forster, The Life of Charles Dickens (1872-74), vol. I ch. II · Project Gutenberg #25851 · public domain",
+      "note": "He gave this to Forster and to no one else, and never published a word of it in his lifetime; his own children learned of it only after he died. At twelve he was sent to Warren's blacking-warehouse at Hungerford Stairs to tie and label pots of shoe-blacking for six shillings a week while his father sat in the Marshalsea. One of the boys who taught him the knot was called Bob Fagin, and he took the name. 'No words can express the secret agony of my soul as I sunk into this companionship.' Everything else in this room comes out of this.",
+      "file": "charles-dickens/02-the-blacking-warehouse.md"
+    },
+    {
+      "id": "03-coketown",
+      "section": "Hard Times (1854)",
+      "title": "Coketown",
+      "mode": "stored",
+      "source": "Charles Dickens, Hard Times for These Times (1854), Book I ch. V · Project Gutenberg #786 · public domain",
+      "note": "The keynote chapter, complete. A town of unnatural red and black like the painted face of a savage; a canal black, a river purple with ill-smelling dye, and every day the same as yesterday and tomorrow. Written after he went to Preston during the weavers' strike. Ruskin thought it the most valuable thing Dickens wrote.",
+      "file": "charles-dickens/03-coketown.md"
+    },
+    {
+      "id": "04-the-solitary-prison",
+      "section": "American Notes (1842)",
+      "title": "The Solitary Prison",
+      "mode": "stored",
+      "source": "Charles Dickens, American Notes for General Circulation (1842), chapter VII · Project Gutenberg #675 · public domain",
+      "note": "He went into the cells at the Eastern Penitentiary in Philadelphia, where the system was rigid, strict and hopeless solitary confinement, and came out with a judgment: I hold this slow and daily tampering with the mysteries of the brain to be immeasurably worse than any torture of the body. He then walks the reader cell by cell. The men he describes had served two years, eleven years, and more.",
+      "file": "charles-dickens/04-the-solitary-prison.md"
+    },
+    {
+      "id": "carol",
+      "section": "The Complete Record",
+      "title": "A Christmas Carol",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/46"
+    },
+    {
+      "id": "american-notes",
+      "section": "The Complete Record",
+      "title": "American Notes for General Circulation",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/675"
+    },
+    {
+      "id": "oliver",
+      "section": "The Complete Record",
+      "title": "Oliver Twist",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/730"
+    },
+    {
+      "id": "copperfield",
+      "section": "The Complete Record",
+      "title": "David Copperfield",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/766"
+    },
+    {
+      "id": "hard-times",
+      "section": "The Complete Record",
+      "title": "Hard Times",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/786"
+    },
+    {
+      "id": "bleak-house",
+      "section": "The Complete Record",
+      "title": "Bleak House",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/1023"
+    },
+    {
+      "id": "two-cities",
+      "section": "The Complete Record",
+      "title": "A Tale of Two Cities",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/98"
+    },
+    {
+      "id": "great-expectations",
+      "section": "The Complete Record",
+      "title": "Great Expectations",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/1400"
+    },
+    {
+      "id": "little-dorrit",
+      "section": "The Complete Record",
+      "title": "Little Dorrit",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/963"
+    },
+    {
+      "id": "our-mutual-friend",
+      "section": "The Complete Record",
+      "title": "Our Mutual Friend",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/883"
+    },
+    {
+      "id": "pickwick",
+      "section": "The Complete Record",
+      "title": "The Pickwick Papers",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/580"
+    },
+    {
+      "id": "nickleby",
+      "section": "The Complete Record",
+      "title": "Nicholas Nickleby",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/967"
+    },
+    {
+      "id": "old-curiosity",
+      "section": "The Complete Record",
+      "title": "The Old Curiosity Shop",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/700"
+    },
+    {
+      "id": "forster",
+      "section": "The Complete Record",
+      "title": "John Forster, The Life of Charles Dickens — carries the blacking-warehouse fragment and the Southwood Smith letter",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/25851"
+    }
+  ]
+}
