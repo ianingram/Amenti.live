@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-01T07:06:21.723Z",
+  "generated": "2026-10-01T08:16:39.168Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-10-01T07:06:21.670Z",
+  "libraryGenerated": "2026-10-01T08:16:39.121Z",
   "totals": {
-    "works": 571,
-    "CITED": 516,
+    "works": 575,
+    "CITED": 520,
     "DATED": 7,
     "THIN": 39,
     "EMPTY": 0,
@@ -50,6 +50,15 @@
     "brutus": {
       "works": 5,
       "CITED": 5,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "charles-darwin": {
+      "works": 4,
+      "CITED": 4,
       "DATED": 0,
       "THIN": 0,
       "EMPTY": 0,
