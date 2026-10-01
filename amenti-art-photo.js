@@ -119,8 +119,33 @@
      The plate is kept as the fallback, so a figure with no thumbnail yet
      still paints exactly as before. Nothing regresses if the thumbs are only
      half generated. */
-  function cardSrc(key) { return BASE + key + '-thumb.jpg'; }
-  function cardFallback(key) { return BASE + key + '-card.jpg'; }
+  /* ── THE FILE NAME AND THE KEY CAN DISAGREE ───────────────────────────
+     Every path on this page is built as BASE + key + '-' + surface. That is
+     correct and it is also the whole failure: if the FILES are ever renamed
+     and the key is not, this loader asks for something that is not there,
+     the probe 404s, onerror does nothing by design, and amenti-art-3.js
+     paints worker SVG over the hole. It fails silently, permanently, and
+     invisibly — which is exactly what happened to Caesar.
+
+     His roster record is key:'caesar'. amenti-resolve.js holds
+     SAME_PERSON {'julius-caesar':'caesar'} and lists julius-caesar among
+     caesar's aliases, so 'caesar' is canonical in every piece of code on
+     this page. The IMAGES were renamed to julius-caesar-* last month and
+     the four other places that carry the key were not updated. His plates
+     have been on disk and unreachable ever since.
+
+     THE FIX IS AN ALIAS, NOT A RENAME. The files keep the names they have;
+     this table says which file name a canonical key is stored under. One
+     line per rename, and the rename stops being a silent outage.
+
+     If a key is absent here the behaviour is exactly as before. */
+  var FILE_ALIAS = {
+    'caesar': 'julius-caesar'
+  };
+  function fileKey(key) { return FILE_ALIAS[key] || key; }
+
+  function cardSrc(key) { return BASE + fileKey(key) + '-thumb.jpg'; }
+  function cardFallback(key) { return BASE + fileKey(key) + '-card.jpg'; }
 
   function decorate(el, key) {
     var host = el.querySelector('.rc-img, .nc-thumb, .mkt-thumb');
@@ -226,7 +251,7 @@
   function paintCodex(key, surface) {
     var art = document.querySelector('.cdx-art');
     if (!art) return;
-    var slot = key + '-' + surface;
+    var slot = fileKey(key) + '-' + surface;
     if (plate[slot] === false) {
       if (surface === 'terminal') paintCodex(key, 'card');
       return;
@@ -339,7 +364,7 @@
   }
 
   function slotName(key, i) {
-    return key + '-terminal' + (i === 0 ? '' : '-' + (i + 1));
+    return fileKey(key) + '-terminal' + (i === 0 ? '' : '-' + (i + 1));
   }
 
   /* Probe {key}-terminal, -2, -3 ... until one is missing, then choose. */
