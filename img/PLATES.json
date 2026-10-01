@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-10-01T00:25:00.847Z",
+  "generated": "2026-10-01T00:25:41.585Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -40,7 +40,7 @@
     "files": 172,
     "plates": 164,
     "keys": 51,
-    "rooms": 52,
+    "rooms": 53,
     "scenes": 1,
     "sceneFiles": 2,
     "figuresWithScenes": 1,
@@ -63,6 +63,7 @@
       ]
     },
     "roomsWithoutPlates": [
+      "charles-dickens",
       "einstein-albert",
       "ingram"
     ],
@@ -89,7 +90,9 @@
         "note": "the captain. A room and no portrait, by choice."
       }
     ],
-    "unaccepted": [],
+    "unaccepted": [
+      "charles-dickens"
+    ],
     "scenesWithoutFigure": [],
     "scenesMalformed": [
       "darius-bow.jpg"
