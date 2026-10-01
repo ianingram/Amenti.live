@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-01T12:42:26.698Z",
+  "at": "2026-10-01T18:36:33.041Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 184,
+    "count": 185,
     "prefixes": {
-      "atlantica:": 106,
+      "atlantica:": 107,
       "dailyplanet:": 20,
       "watch:": 52,
       "week:": 6
@@ -18,10 +18,10 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 93,
+      "fired": 94,
       "last": {
         "date": "2026-10-01",
-        "figure": "musashi"
+        "figure": "akhenaten"
       },
       "lastAgeDays": 0,
       "missedLast14": [
@@ -29,6 +29,11 @@
         "2026-09-17"
       ],
       "recent": [
+        {
+          "figure": "akhenaten",
+          "date": "2026-10-01",
+          "key": "atlantica:akhenaten:2026-10-01"
+        },
         {
           "figure": "musashi",
           "date": "2026-10-01",
@@ -93,14 +98,9 @@
           "figure": "charles-martel",
           "date": "2026-09-23",
           "key": "atlantica:charles-martel:2026-09-23"
-        },
-        {
-          "figure": "leif-erikson",
-          "date": "2026-09-23",
-          "key": "atlantica:leif-erikson:2026-09-23"
         }
       ],
-      "note": "93 dispatch(es) in the hold · last 2026-10-01 (musashi) · MISSED 2 of the last 14 days"
+      "note": "94 dispatch(es) in the hold · last 2026-10-01 (akhenaten) · MISSED 2 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
