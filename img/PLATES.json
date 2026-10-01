@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-10-01T01:02:07.189Z",
+  "generated": "2026-10-01T01:05:47.650Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -37,8 +37,8 @@
     "note": "a scene is a moment a figure was in. the figure need not be in the frame — ownership is editorial, not photographic. absence is never a gap. the owner is checkable; the tag is not."
   },
   "totals": {
-    "files": 173,
-    "plates": 165,
+    "files": 174,
+    "plates": 166,
     "keys": 52,
     "rooms": 53,
     "scenes": 1,
@@ -50,7 +50,7 @@
     "byVariant": {
       "card": 52,
       "thumb": 51,
-      "terminal": 50,
+      "terminal": 51,
       "chat": 2
     },
     "complete": 50,
@@ -59,8 +59,7 @@
   "gaps": {
     "missingByVariant": {
       "terminal": [
-        "albert-einstein",
-        "charles-dickens"
+        "albert-einstein"
       ],
       "thumb": [
         "charles-dickens"
@@ -285,14 +284,19 @@
             "file": "charles-dickens-card.jpg",
             "n": 1
           }
+        ],
+        "terminal": [
+          {
+            "file": "charles-dickens-terminal.jpg",
+            "n": 1
+          }
         ]
       },
       "scenes": [],
       "room": true,
       "complete": false,
       "missing": [
-        "thumb",
-        "terminal"
+        "thumb"
       ]
     },
     "charles-martel": {
@@ -1804,6 +1808,13 @@
       "surface_slug": "card",
       "file": "charles-dickens-card.jpg",
       "bytes": 130009,
+      "provenance": null
+    },
+    "charles-dickens-terminal.jpg": {
+      "key": "charles-dickens",
+      "surface_slug": "terminal",
+      "file": "charles-dickens-terminal.jpg",
+      "bytes": 100749,
       "provenance": null
     },
     "charles-martel-card.jpg": {
