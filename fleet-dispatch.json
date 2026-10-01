@@ -1,16 +1,16 @@
 {
-  "at": "2026-09-30T18:34:55.901Z",
+  "at": "2026-10-01T01:15:58.084Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 182,
+    "count": 183,
     "prefixes": {
       "atlantica:": 105,
       "dailyplanet:": 20,
-      "watch:": 51,
+      "watch:": 52,
       "week:": 6
     }
   },
-  "today": "2026-09-30",
+  "today": "2026-10-01",
   "thisWeek": "2026-09-27",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -23,11 +23,10 @@
         "date": "2026-09-30",
         "figure": "meryl-streep"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-09-19",
-        "2026-09-17",
-        "2026-09-16"
+        "2026-09-17"
       ],
       "recent": [
         {
@@ -101,7 +100,7 @@
           "key": "atlantica:aaron:2026-09-22"
         }
       ],
-      "note": "92 dispatch(es) in the hold · last 2026-09-30 (meryl-streep) · MISSED 3 of the last 14 days"
+      "note": "92 dispatch(es) in the hold · last 2026-09-30 (meryl-streep) · MISSED 2 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -144,7 +143,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -39,
+      "lastAgeDays": -38,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
