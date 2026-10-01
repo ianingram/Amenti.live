@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-01T00:23:41.979Z",
+  "generated": "2026-10-01T01:28:04.915Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-10-01T00:23:41.923Z",
+  "libraryGenerated": "2026-10-01T01:28:04.866Z",
   "totals": {
-    "works": 567,
-    "CITED": 512,
+    "works": 571,
+    "CITED": 516,
     "DATED": 7,
     "THIN": 39,
     "EMPTY": 0,
@@ -50,6 +50,15 @@
     "brutus": {
       "works": 5,
       "CITED": 5,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "charles-dickens": {
+      "works": 4,
+      "CITED": 4,
       "DATED": 0,
       "THIN": 0,
       "EMPTY": 0,
