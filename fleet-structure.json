@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-02T06:49:17.532Z",
+    "generated": "2026-10-02T06:52:06.230Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -644,8 +644,8 @@
     },
     {
       "file": "amenti-core.bundle.js",
-      "bytes": 210445,
-      "sha256": "aefb98e6f3fc35e5",
+      "bytes": 214997,
+      "sha256": "7988d275e428a7c8",
       "type": "js",
       "declares": [
         "AMENTI_CONFIG",
@@ -673,31 +673,31 @@
         },
         {
           "global": "Amenti.voice",
-          "line": 630,
+          "line": 676,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.throttle",
-          "line": 1381,
+          "line": 1446,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1417,
+          "line": 1482,
           "when": "function",
           "own": false
         },
         {
           "global": "Sovereign.Angels",
-          "line": 2543,
+          "line": 2608,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 2885,
+          "line": 2950,
           "when": "function",
           "own": true
         }
@@ -1598,7 +1598,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 54298,
-      "sha256": "5755554f20bb3ab2",
+      "sha256": "69a4a09c178d97d2",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1935,7 +1935,7 @@
     {
       "file": "weighing.html",
       "bytes": 102157,
-      "sha256": "ed587325877f5628",
+      "sha256": "d615efae0a19dc91",
       "type": "html",
       "declares": [],
       "loads": [
@@ -1948,7 +1948,7 @@
           "line": 259
         },
         {
-          "file": "amenti-voice.js?v=c536433f",
+          "file": "amenti-voice.js?v=a4ac613a",
           "line": 271
         }
       ],
