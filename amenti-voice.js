@@ -1,3 +1,4 @@
+/* Amenti.live/amenti-voice.js · 2026-10-02 05:24 UTC */
 /* ████████████████████████████████████████████████████████████████████████████
    ██                                                                        ██
    ██   WATCHED FILE — amenti-voice.js                                       ██
@@ -150,6 +151,8 @@
   var voicePlayer = null;
   var audioCtx = null;
 
+  var voiceGain = null;
+
   function getAudioCtx() {
     if (!audioCtx) {
       var Ctx = window.AudioContext || window.webkitAudioContext;
@@ -157,6 +160,29 @@
     }
     if (audioCtx.state === 'suspended') { try { audioCtx.resume(); } catch (e) {} }
     return audioCtx;
+  }
+
+  /* ---- THE VOICE BUS --------------------------------------------------------
+     Every voice source used to connect straight to ctx.destination, which meant
+     there was no single place to hold the speech and therefore NOTHING FOR A
+     SCORE OR A BED TO DUCK AGAINST. Anything playing underneath would have had
+     to compete rather than yield.
+
+     One gain node now sits between the sources and the destination. It stays at
+     1 forever unless something asks otherwise, so with nothing else playing the
+     audio path is identical to what it was.
+
+     ADDITIVE AND INERT. No symbol removed, no cache key touched, no chunk
+     boundary moved. getVoiceBus() is exposed so a sound layer can read the
+     context and duck the bus; if nobody calls it, nothing changes. */
+  function getVoiceBus() {
+    var ctx = getAudioCtx();
+    if (!voiceGain) {
+      voiceGain = ctx.createGain();
+      voiceGain.gain.value = 1;
+      voiceGain.connect(ctx.destination);
+    }
+    return voiceGain;
   }
 
   /* ---- Embodiment: resolve a figure's voice from the published roster ------ */
@@ -596,7 +622,7 @@
       var src = ctx.createBufferSource();
       src.buffer = buf;
       try { src.playbackRate.value = useRate; } catch (e) {}
-      src.connect(ctx.destination);
+      src.connect(getVoiceBus());
       var at = Math.max(player.nextStart, ctx.currentTime + 0.05);
       src.start(at);
       var played = buf.duration / (useRate || 1);
@@ -762,7 +788,11 @@
     chunk: function (t) { return chunkText(plainText(t), CHUNK_MAX); },
     plainText: plainText,
     resolveVoice: resolveVoice,
-    CHUNK_MAX: CHUNK_MAX
+    CHUNK_MAX: CHUNK_MAX,
+    /* for a sound layer: the shared context, and the bus the voice runs on.
+       Duck the bus, never the destination. */
+    audioContext: function () { return getAudioCtx(); },
+    voiceBus: function () { return getVoiceBus(); }
   };
 
   /* The counsel's speaker. Was an inline half-copy in Page1 with no chunking and
