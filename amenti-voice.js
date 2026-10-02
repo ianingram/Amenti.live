@@ -1,4 +1,4 @@
-/* Amenti.live/amenti-voice.js · 2026-10-02 05:24 UTC */
+/* Amenti.live/amenti-voice.js · 2026-10-02 06:45 UTC */
 /* ████████████████████████████████████████████████████████████████████████████
    ██                                                                        ██
    ██   WATCHED FILE — amenti-voice.js                                       ██
@@ -186,7 +186,8 @@
   }
 
   /* ---- Embodiment: resolve a figure's voice from the published roster ------ */
-  var LEDGER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
+  /* THE SHEET IS NOT READ AT RUNTIME (2 Oct 2026). It is where the ledger is
+     edited; names.csv is what ships. See loadRoster. */
   var rosterPromise = null;
 
   /* ── AN UNRESOLVED FIGURE MUST NOT SOUND LIKE A DECISION ─────────────────
@@ -319,10 +320,27 @@
      TWO REGISTERS OF ONE THING, AND ONLY ONE OF THEM KNEW HOW TO SURVIVE.
 
      The local file is committed beside the code, so it cannot fail for a
-     network reason. The sheet still wins when it answers, because it is the
-     ledger the captain actually edits — but its failure can no longer take
-     the roster down with it. */
-  var LOCAL_CSV = './names.csv';
+     network reason. (The sheet upgrade described here was REMOVED on 2 Oct
+     2026 — names.csv is now the only runtime source. See loadRoster.) */
+  /* ── BESIDE THE ENGINE, NOT BESIDE THE PAGE · FOUND 2 OCT 2026 ──────────
+     './names.csv' resolved against the PAGE. On Page1 that is the same
+     folder as the engine, so it worked. On Amenti-Studios/dracula/ it is a
+     404 — and on the same day the published sheet stopped answering, so BOTH
+     sources failed and Darwin and the Count read episode one in Kore.
+     Episode one's first hearing was the Lincoln failure again, on a new page.
+
+     The roster is the engine's data, so it resolves against the ENGINE'S OWN
+     URL: document.currentScript while this file executes (it is the bundle
+     when bundled). On Page1 that is the identical file as before. Anywhere
+     else that loads the engine, it is the same names.csv Page1 reads.
+     No voice, no style, no cache key moves — only where the CSV is fetched. */
+  var LOCAL_CSV = (function () {
+    try {
+      var s = document.currentScript;
+      if (s && s.src) return new URL('names.csv', s.src).href;
+    } catch (e) {}
+    return './names.csv';
+  })();
 
   function fromCsv(text) {
     var map = {};
@@ -341,39 +359,29 @@
     });
   }
 
+  /* ── ONE RUNTIME SOURCE: names.csv · 2 OCT 2026 ─────────────────────────
+     The Google Sheet is the production copy — where the ledger is edited —
+     and names.csv is what the site reads. This used to read names.csv and
+     then let the sheet OVERWRITE it whenever the sheet answered, so the
+     roster depended on Google after all, and the two could disagree mid-
+     session. On 2 Oct the published sheet returned a login page instead of
+     CSV. It is no longer fetched here. Edit the sheet, export names.csv,
+     commit it; that commit is the release.
+
+     If names.csv does not load, EVERY figure loses their voice at once, so
+     that is said as loudly as this file can say anything. */
   function loadRoster() {
     if (rosterPromise) return rosterPromise;
-
     rosterPromise = fetchCsv(LOCAL_CSV).then(function (local) {
       console.log('amenti-voice: roster ' + Object.keys(local).length +
-                  ' figures via ' + LOCAL_CSV + ' (local, first)');
-      /* The ledger is tried too, but its failure NEVER takes the local roster
-         down — that is the entire reason this fallback exists. */
-      fetchCsv(LEDGER_CSV_URL).then(function (sheet) {
-        for (var k in sheet) local[k] = sheet[k];
-        console.log('amenti-voice: roster upgraded to ' + Object.keys(sheet).length +
-                    ' figures via the sheet (authoritative)');
-      })['catch'](function (e) {
-        console.warn('amenti-voice: the sheet did not answer (' + (e && e.message) +
-                     ') — the local roster stands.');
-      });
+                  ' figures via ' + LOCAL_CSV);
       return local;
-
-    })['catch'](function (e1) {
-      console.warn('amenti-voice: ' + LOCAL_CSV + ' unavailable (' + (e1 && e1.message) +
-                   ') — trying the sheet alone.');
-      return fetchCsv(LEDGER_CSV_URL)['catch'](function (e2) {
-        /* LOUD. This whispered, and the whole cast quietly became one voice.
-           BOTH sources have now failed, which is EVERY FIGURE LOSING THEIR
-           VOICE AT ONCE. */
-        console.error('amenti-voice: THE ROSTER DID NOT LOAD — neither ' + LOCAL_CSV +
-                      ' nor the sheet. ' + (e2 && e2.message) +
-                      '\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' +
-                      VOICE_NAME_DEFAULT + '). This is not a style; it is a failure.');
-        return {};
-      });
+    })['catch'](function (e) {
+      console.error('amenti-voice: THE ROSTER DID NOT LOAD — ' + LOCAL_CSV + ' (' +
+                    (e && e.message) + ').\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' +
+                    VOICE_NAME_DEFAULT + '). This is not a style; it is a failure.');
+      return {};
     });
-
     return rosterPromise;
   }
 
@@ -792,7 +800,8 @@
     /* for a sound layer: the shared context, and the bus the voice runs on.
        Duck the bus, never the destination. */
     audioContext: function () { return getAudioCtx(); },
-    voiceBus: function () { return getVoiceBus(); }
+    voiceBus: function () { return getVoiceBus(); },
+    rosterUrl: LOCAL_CSV           /* casting.js reads the same file */
   };
 
   /* The counsel's speaker. Was an inline half-copy in Page1 with no chunking and
