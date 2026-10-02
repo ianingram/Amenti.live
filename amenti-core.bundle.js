@@ -1,4 +1,4 @@
-/* Amenti.live/amenti-core.bundle.js · 2026-10-02 05:24 UTC */
+/* Amenti.live/amenti-core.bundle.js · 2026-10-02 06:45 UTC *
 /* ============================================================================
    amenti-core.bundle.js  ·  Ingram Manor LLC
    ----------------------------------------------------------------------------
@@ -580,7 +580,53 @@ try {
 
 /* ==== amenti-voice.js ================================================= */
 try {
-/* ============================================================================
+/* Amenti.live/amenti-voice.js · 2026-10-02 06:45 UTC */
+/* ████████████████████████████████████████████████████████████████████████████
+   ██                                                                        ██
+   ██   WATCHED FILE — amenti-voice.js                                       ██
+   ██   THIS IS THE VOICE PLATFORM. PAGE1 SPEAKS THROUGH IT.                 ██
+   ██                                                                        ██
+   ████████████████████████████████████████████████████████████████████████████
+
+   YOU MAY EDIT THIS FILE. That is not what this notice is about.
+
+   On 20 August 2026 this file was REPLACED, in full, with the contents of
+   VOICE.json. 644 lines of engine became 1,624 lines of JSON. The commit was
+   signed and Verified and its message read "Update print statement from
+   'Hello' to 'Goodbye'". Nothing complained. It was found forty minutes later
+   by somebody opening the file.
+
+   Every line of the header below was overwritten too. A warning only works on
+   somebody who is reading, so the real guard is not this banner:
+
+       probes/probe-engine.mjs   ·   .github/workflows/guard.yml
+
+   It runs on every push that touches this file and hourly at :12. It fails the
+   build — loudly, within about a minute — if this file stops being itself:
+
+       · stops parsing as JavaScript
+       · loses  PROFILES        the chunk profiles ARE the cache namespace
+       · loses  stopReading     the brake; all three facades hang off it
+       · loses  composeStyle    STYLE is an input to the /speak cache key
+       · loses  speak()         the one entry point every facade calls
+       · loses  Amenti.throttle / Amenti.conversation   the facades
+       · falls below 400 lines  a real edit does not halve a file; a paste does
+
+   IF THE GUARD GOES RED, DO NOT RETYPE THIS FILE. Recover it:
+       History → the last good commit → the BLOB view, NOT the diff view
+       → Raw → select all → paste over the current contents.
+   A diff view cannot produce a usable file. Two pastes failed that way on the
+   night this notice was written.
+
+   AND REBUILD THE BUNDLE. Page1 loads amenti-core.bundle.js, not this file.
+   Repairing the source and leaving the bundle stale changes nothing on the
+   surface, and the guard checks both for exactly that reason.
+
+   ────────────────────────────────────────────────────────────────────────────
+   The file's own header begins below. It is older than this notice and it
+   explains WHY the engine is shaped as it is; this notice only explains what
+   happens if it stops being shaped that way.
+   ══════════════════════════════════════════════════════════════════════════ *//* ============================================================================
    amenti-voice.js  ·  Ingram Manor LLC
    THE VOICE PLATFORM — one TTS engine, one chunker, one cache key.
    ----------------------------------------------------------------------------
@@ -689,6 +735,15 @@ try {
 
   var voiceGain = null;
 
+  function getAudioCtx() {
+    if (!audioCtx) {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new Ctx();
+    }
+    if (audioCtx.state === 'suspended') { try { audioCtx.resume(); } catch (e) {} }
+    return audioCtx;
+  }
+
   /* ---- THE VOICE BUS --------------------------------------------------------
      Every voice source used to connect straight to ctx.destination, which meant
      there was no single place to hold the speech and therefore NOTHING FOR A
@@ -700,45 +755,47 @@ try {
      audio path is identical to what it was.
 
      ADDITIVE AND INERT. No symbol removed, no cache key touched, no chunk
-     boundary moved. audioContext() and voiceBus() are exposed on the throttle
-     so a sound layer can duck the bus; if nobody calls them, nothing changes. */
+     boundary moved. getVoiceBus() is exposed so a sound layer can read the
+     context and duck the bus; if nobody calls it, nothing changes. */
   function getVoiceBus() {
-    var c = getAudioCtx();
+    var ctx = getAudioCtx();
     if (!voiceGain) {
-      voiceGain = c.createGain();
+      voiceGain = ctx.createGain();
       voiceGain.gain.value = 1;
-      voiceGain.connect(c.destination);
+      voiceGain.connect(ctx.destination);
     }
     return voiceGain;
   }
 
-  function getAudioCtx() {
-    if (!audioCtx) {
-      var Ctx = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new Ctx();
-    }
-    if (audioCtx.state === 'suspended') { try { audioCtx.resume(); } catch (e) {} }
-    return audioCtx;
-  }
-
   /* ---- Embodiment: resolve a figure's voice from the published roster ------ */
-  var LEDGER_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSN9sBzULLi1dZrhxuoNISIz8hSniWKyLqeYRnAGZEwfp4SaUXu5mo0SHoQlQYi7M3zDzwbAjLWh1Gs/pub?gid=1225210076&single=true&output=csv';
+  /* THE SHEET IS NOT READ AT RUNTIME (2 Oct 2026). It is where the ledger is
+     edited; names.csv is what ships. See loadRoster. */
   var rosterPromise = null;
 
-  /* AN UNRESOLVED FIGURE MUST NOT SOUND LIKE A DECISION. This returned
-     VOICE_NAME_DEFAULT — 'Kore', a FEMALE voice — for anything it could not
-     resolve, so a roster that failed to load sounded exactly like a roster
-     that said every figure was a woman. ABRAHAM LINCOLN SPOKE IN A WOMAN'S
-     VOICE and the only trace was a console.warn nobody watched. */
+  /* ── AN UNRESOLVED FIGURE MUST NOT SOUND LIKE A DECISION ─────────────────
+     This returned VOICE_NAME_DEFAULT — 'Kore', a FEMALE voice — for anything
+     it could not resolve. So a roster that failed to load sounded exactly like
+     a roster that had loaded and said every figure was a woman.
+
+     ABRAHAM LINCOLN SPOKE IN A WOMAN'S VOICE and nothing anywhere said why:
+     the only trace was a console.warn nobody was watching, and the product
+     carried on sounding deliberate.
+
+     A FALLBACK THAT LOOKS LIKE A CHOICE IS THE SILENT SIGNATURE. It is the
+     same shape as `sealed: 1`, as the cron set to Sunday, as a green tick with
+     no probe behind it.
+
+     It still has to say SOMETHING — going mute would be worse — but it now
+     says so out loud, once per figure, naming who could not be resolved. */
   var warnedVoice = {};
   function baseVoiceFor(gender, who) {
     var g = String(gender || '').toLowerCase();
     if (g.charAt(0) === 'm') return 'Charon';
     if (g.charAt(0) === 'f') return 'Kore';
-    var nm = String(who || '').trim();
-    if (nm && !warnedVoice[nm]) {
-      warnedVoice[nm] = true;
-      console.warn('amenti-voice: NO GENDER RESOLVED for "' + nm + '" — falling back to ' +
+    var name = String(who || '').trim();
+    if (name && !warnedVoice[name]) {
+      warnedVoice[name] = true;
+      console.warn('amenti-voice: NO GENDER RESOLVED for "' + name + '" — falling back to ' +
                    VOICE_NAME_DEFAULT + '. Either the roster did not load, or that row has no ' +
                    'Gender. The figure will not sound like themselves until it does.');
     }
@@ -845,10 +902,27 @@ try {
      TWO REGISTERS OF ONE THING, AND ONLY ONE OF THEM KNEW HOW TO SURVIVE.
 
      The local file is committed beside the code, so it cannot fail for a
-     network reason. The sheet still wins when it answers, because it is the
-     ledger the captain actually edits — but its failure can no longer take
-     the roster down with it. */
-  var LOCAL_CSV = './names.csv';
+     network reason. (The sheet upgrade described here was REMOVED on 2 Oct
+     2026 — names.csv is now the only runtime source. See loadRoster.) */
+  /* ── BESIDE THE ENGINE, NOT BESIDE THE PAGE · FOUND 2 OCT 2026 ──────────
+     './names.csv' resolved against the PAGE. On Page1 that is the same
+     folder as the engine, so it worked. On Amenti-Studios/dracula/ it is a
+     404 — and on the same day the published sheet stopped answering, so BOTH
+     sources failed and Darwin and the Count read episode one in Kore.
+     Episode one's first hearing was the Lincoln failure again, on a new page.
+
+     The roster is the engine's data, so it resolves against the ENGINE'S OWN
+     URL: document.currentScript while this file executes (it is the bundle
+     when bundled). On Page1 that is the identical file as before. Anywhere
+     else that loads the engine, it is the same names.csv Page1 reads.
+     No voice, no style, no cache key moves — only where the CSV is fetched. */
+  var LOCAL_CSV = (function () {
+    try {
+      var s = document.currentScript;
+      if (s && s.src) return new URL('names.csv', s.src).href;
+    } catch (e) {}
+    return './names.csv';
+  })();
 
   function fromCsv(text) {
     var map = {};
@@ -867,39 +941,29 @@ try {
     });
   }
 
+  /* ── ONE RUNTIME SOURCE: names.csv · 2 OCT 2026 ─────────────────────────
+     The Google Sheet is the production copy — where the ledger is edited —
+     and names.csv is what the site reads. This used to read names.csv and
+     then let the sheet OVERWRITE it whenever the sheet answered, so the
+     roster depended on Google after all, and the two could disagree mid-
+     session. On 2 Oct the published sheet returned a login page instead of
+     CSV. It is no longer fetched here. Edit the sheet, export names.csv,
+     commit it; that commit is the release.
+
+     If names.csv does not load, EVERY figure loses their voice at once, so
+     that is said as loudly as this file can say anything. */
   function loadRoster() {
     if (rosterPromise) return rosterPromise;
-
     rosterPromise = fetchCsv(LOCAL_CSV).then(function (local) {
       console.log('amenti-voice: roster ' + Object.keys(local).length +
-                  ' figures via ' + LOCAL_CSV + ' (local, first)');
-      /* The ledger is tried too, but its failure NEVER takes the local roster
-         down — that is the entire reason this fallback exists. */
-      fetchCsv(LEDGER_CSV_URL).then(function (sheet) {
-        for (var k in sheet) local[k] = sheet[k];
-        console.log('amenti-voice: roster upgraded to ' + Object.keys(sheet).length +
-                    ' figures via the sheet (authoritative)');
-      })['catch'](function (e) {
-        console.warn('amenti-voice: the sheet did not answer (' + (e && e.message) +
-                     ') — the local roster stands.');
-      });
+                  ' figures via ' + LOCAL_CSV);
       return local;
-
-    })['catch'](function (e1) {
-      console.warn('amenti-voice: ' + LOCAL_CSV + ' unavailable (' + (e1 && e1.message) +
-                   ') — trying the sheet alone.');
-      return fetchCsv(LEDGER_CSV_URL)['catch'](function (e2) {
-        /* LOUD. This whispered, and the whole cast quietly became one voice.
-           BOTH sources have now failed, which is EVERY FIGURE LOSING THEIR
-           VOICE AT ONCE. */
-        console.error('amenti-voice: THE ROSTER DID NOT LOAD — neither ' + LOCAL_CSV +
-                      ' nor the sheet. ' + (e2 && e2.message) +
-                      '\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' +
-                      VOICE_NAME_DEFAULT + '). This is not a style; it is a failure.');
-        return {};
-      });
+    })['catch'](function (e) {
+      console.error('amenti-voice: THE ROSTER DID NOT LOAD — ' + LOCAL_CSV + ' (' +
+                    (e && e.message) + ').\nEVERY FIGURE WILL NOW SPEAK IN THE DEFAULT VOICE (' +
+                    VOICE_NAME_DEFAULT + '). This is not a style; it is a failure.');
+      return {};
     });
-
     return rosterPromise;
   }
 
@@ -1318,7 +1382,8 @@ try {
     /* for a sound layer: the shared context, and the bus the voice runs on.
        Duck the bus, never the destination. */
     audioContext: function () { return getAudioCtx(); },
-    voiceBus: function () { return getVoiceBus(); }
+    voiceBus: function () { return getVoiceBus(); },
+    rosterUrl: LOCAL_CSV           /* casting.js reads the same file */
   };
 
   /* The counsel's speaker. Was an inline half-copy in Page1 with no chunking and
