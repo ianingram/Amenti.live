@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-02T12:41:38.145Z",
+  "at": "2026-10-02T18:35:23.088Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 188,
+    "count": 189,
     "prefixes": {
-      "atlantica:": 108,
+      "atlantica:": 109,
       "dailyplanet:": 20,
       "watch:": 54,
       "week:": 6
@@ -18,16 +18,21 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 95,
+      "fired": 96,
       "last": {
-        "date": "2026-10-01",
-        "figure": "akhenaten"
+        "date": "2026-10-02",
+        "figure": "ingram"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-09-19"
       ],
       "recent": [
+        {
+          "figure": "ingram",
+          "date": "2026-10-02",
+          "key": "atlantica:ingram:2026-10-02"
+        },
         {
           "figure": "akhenaten",
           "date": "2026-10-01",
@@ -92,14 +97,9 @@
           "figure": "leonardo-dicaprio",
           "date": "2026-09-24",
           "key": "atlantica:leonardo-dicaprio:2026-09-24"
-        },
-        {
-          "figure": "lincoln",
-          "date": "2026-09-24",
-          "key": "atlantica:lincoln:2026-09-24"
         }
       ],
-      "note": "95 dispatch(es) in the hold · last 2026-10-01 (akhenaten) · MISSED 1 of the last 14 days"
+      "note": "96 dispatch(es) in the hold · last 2026-10-02 (ingram) · MISSED 1 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
