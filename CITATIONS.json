@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-02T03:32:51.684Z",
+  "generated": "2026-10-02T03:35:08.868Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-10-02T03:32:51.628Z",
+  "libraryGenerated": "2026-10-02T03:35:08.803Z",
   "totals": {
-    "works": 575,
-    "CITED": 520,
+    "works": 602,
+    "CITED": 547,
     "DATED": 7,
     "THIN": 39,
     "EMPTY": 0,
@@ -39,8 +39,8 @@
       "needs": ""
     },
     "bram-stoker": {
-      "works": 7,
-      "CITED": 7,
+      "works": 34,
+      "CITED": 34,
       "DATED": 0,
       "THIN": 0,
       "EMPTY": 0,
