@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-02T03:35:10.765Z",
+    "generated": "2026-10-02T05:38:16.476Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -644,8 +644,8 @@
     },
     {
       "file": "amenti-core.bundle.js",
-      "bytes": 209109,
-      "sha256": "3fc5a04cd40115c3",
+      "bytes": 210445,
+      "sha256": "aefb98e6f3fc35e5",
       "type": "js",
       "declares": [
         "AMENTI_CONFIG",
@@ -661,43 +661,43 @@
       "calls": [
         {
           "global": "AMENTI_CONFIG",
-          "line": 423,
+          "line": 424,
           "when": "function",
           "own": true
         },
         {
           "global": "AMENTI_CHARS",
-          "line": 564,
+          "line": 565,
           "when": "iife",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 629,
+          "line": 630,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.throttle",
-          "line": 1351,
+          "line": 1381,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1387,
+          "line": 1417,
           "when": "function",
           "own": false
         },
         {
           "global": "Sovereign.Angels",
-          "line": 2513,
+          "line": 2543,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 2855,
+          "line": 2885,
           "when": "function",
           "own": true
         }
@@ -1464,8 +1464,8 @@
     },
     {
       "file": "amenti-voice.js",
-      "bytes": 37120,
-      "sha256": "f91554e70337ea66",
+      "bytes": 38442,
+      "sha256": "e9fe5b988b8bc6e2",
       "type": "js",
       "declares": [
         "Amenti",
@@ -1477,7 +1477,7 @@
       "calls": [
         {
           "global": "Amenti.voice",
-          "line": 93,
+          "line": 94,
           "when": "iife",
           "own": true
         }
@@ -1598,7 +1598,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 54298,
-      "sha256": "b250ac762ccfb4ed",
+      "sha256": "1522a3ce8c5fc27b",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
