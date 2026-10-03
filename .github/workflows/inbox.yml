@@ -1,0 +1,168 @@
+# .github/workflows/inbox.yml
+#
+# THE INBOX. Upload ONE zip into inbox/ and this unpacks it into the repo,
+# every file at the path it carries, then removes the zip — one commit.
+#
+# The zip is built with paths relative to the REPO ROOT, e.g.
+#   player/sound.js
+#   dracula/ep01.json
+#   dracula/sound/door_heavy.mp3
+#
+# REFUSES, and changes nothing, if any path in the zip is absolute, climbs out
+# with "..", or reaches into .github/ or inbox/ — a zip can deliver content,
+# never change the machinery. macOS clutter (__MACOSX, .DS_Store) is skipped,
+# and a zip made by compressing a FOLDER in Finder has that wrapper stripped.
+#
+# The run's log lists every file it placed. A failed run leaves the repo
+# exactly as it was, zip included, so nothing is half-delivered.
+#
+# v2 — TWO THINGS A BUSY REPO NEEDS (3 Oct 2026):
+#  1. THE PUSH RETRIES. Other workflows commit too (stamp, scan, plates…);
+#     a plain `git push` loses that race. Rebase and retry, five times.
+#  2. THE FOLLOW-ON WORKFLOWS ARE WOKEN. GitHub does not let a commit made by
+#     a workflow start other workflows, so a delivery would silently skip the
+#     stamp, the guards and the probes a hand commit triggers. This reads every
+#     workflow's push paths, and runs (workflow_dispatch) each one the delivered
+#     files would have triggered. The log names each one and why. Steps inside
+#     those workflows that test `github.event_name == 'push'` still skip; add
+#     an INBOX_TOKEN secret (see the job's env) and the inbox pushes as a real
+#     push instead, so nothing at all is skipped.
+name: inbox
+
+on:
+  push:
+    branches: [main]
+    paths: ['inbox/*.zip']
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: inbox
+  cancel-in-progress: false
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    env:
+      # OPTIONAL: a fine-grained token in the INBOX_TOKEN secret (Contents:
+      # read & write on this repo). A push made with it counts as a real push,
+      # so every follow-on workflow fires exactly as for a hand commit —
+      # including steps that only run on push — and the wake step is skipped.
+      HAS_PAT: ${{ secrets.INBOX_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.INBOX_TOKEN || github.token }}
+      - name: Check every zip before touching anything
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          zips=(inbox/*.zip)
+          if [ ${#zips[@]} -eq 0 ]; then echo "No zip in inbox/ — nothing to do."; exit 0; fi
+          for z in "${zips[@]}"; do
+            echo "── $z"
+            unzip -Z1 "$z" | grep -v -E '(^|/)__MACOSX/|(^|/)\.DS_Store$|/$' > "$z.list" || true
+            # A zip made by right-clicking a FOLDER in Finder wraps everything in
+            # that folder's name. If every file sits under one top folder that is
+            # not a real folder in this repo, that wrapper is stripped.
+            top=$(cut -d/ -f1 "$z.list" | sort -u)
+            prefix=""
+            if [ "$(echo "$top" | wc -l)" -eq 1 ] && grep -q / "$z.list" && [ ! -e "$top" ]; then
+              prefix="$top/"
+              echo "   (stripping wrapper folder: $prefix)"
+              sed -i "s#^$prefix##" "$z.list"
+            fi
+            echo "$prefix" > "$z.prefix"
+            if grep -n -E '^/|(^|/)\.\.(/|$)|^\.github/|^inbox/' "$z.list"; then
+              echo "::error::$z contains a path outside what the inbox may write. Nothing was changed."
+              exit 1
+            fi
+            sed 's/^/   will place: /' "$z.list"
+          done
+
+      - name: Unpack and remove the zips
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          names=""
+          for z in inbox/*.zip; do
+            prefix=$(cat "$z.prefix")
+            tmp=$(mktemp -d)
+            unzip -o -qq "$z" -d "$tmp"
+            find "$tmp" -name __MACOSX -prune -exec rm -rf {} +; find "$tmp" -name .DS_Store -delete
+            cp -a "$tmp/${prefix}." ./
+            rm -rf "$tmp"
+            echo "placed $(wc -l < "$z.list") files from $z"
+            names="$names $(basename "$z")"
+            rm -f "$z.list" "$z.prefix"
+            git rm -q "$z"
+          done
+          echo "NAMES=${names# }" >> "$GITHUB_ENV"
+
+      - name: Commit, and win the race with the other workflows
+        run: |
+          set -euo pipefail
+          git config user.name  "inbox"
+          git config user.email "inbox@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "Nothing changed."; echo "CHANGED=0" >> "$GITHUB_ENV"; exit 0; fi
+          git diff --cached --name-only -- . ':(exclude)inbox/' > /tmp/changed.txt
+          git diff --cached --stat
+          # [skip ci] on the token path, where GitHub would not start other
+          # workflows anyway (the wake step does that instead) — it also keeps
+          # probe-workflows' rule. With INBOX_TOKEN the commit is meant to
+          # trigger everything a hand commit would, so the tag is left off.
+          tag=""; [ "${HAS_PAT}" = "true" ] || tag=" [skip ci]"
+          git commit -q -m "inbox: unpack ${NAMES}${tag}"
+          for i in 1 2 3 4 5; do
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then echo "CHANGED=1" >> "$GITHUB_ENV"; exit 0; fi
+            echo "push lost a race (try $i) — rebasing on what landed and trying again"
+            sleep $((i * 3))
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          done
+          echo "::error::Could not push after five tries. Nothing was delivered; the zip is still in inbox/."
+          exit 1
+
+      - name: Wake the workflows these files would have triggered
+        if: env.CHANGED == '1' && env.HAS_PAT != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -c "import yaml" 2>/dev/null || pip install -q pyyaml
+          cat > /tmp/dispatch.py <<'PY'
+          import fnmatch, glob, json, os, subprocess, sys, yaml
+          changed = [l.strip() for l in open(sys.argv[1]) if l.strip()]
+          picked = []
+          for f in sorted(glob.glob('.github/workflows/*.yml') + glob.glob('.github/workflows/*.yaml')):
+              name = os.path.basename(f)
+              if name.startswith('inbox.'): continue
+              try: d = yaml.safe_load(open(f))
+              except Exception as e: print(f'  skip {name}: does not parse ({e})'); continue
+              on = d.get(True, d.get('on')) or {}
+              if isinstance(on, str): on = {on: None}
+              if isinstance(on, list): on = {k: None for k in on}
+              if 'push' not in on or 'workflow_dispatch' not in on: continue
+              push = on.get('push') or {}
+              br = push.get('branches')
+              if br and not any(fnmatch.fnmatch('main', b) for b in br): continue
+              paths, ign = push.get('paths'), push.get('paths-ignore')
+              def hit(p, pats): return any(fnmatch.fnmatch(p, g) or fnmatch.fnmatch(p, g.replace('**/', '')) for g in pats)
+              if paths: match = [p for p in changed if hit(p, paths)]
+              elif ign: match = [p for p in changed if not hit(p, ign)]
+              else: match = list(changed)
+              if not match: continue
+              inputs = ((on.get('workflow_dispatch') or {}).get('inputs') or {})
+              need = [k for k, v in inputs.items() if (v or {}).get('required') and 'default' not in (v or {})]
+              if need: print(f'  skip {name}: needs inputs {need}'); continue
+              picked.append((name, match[:3]))
+          for name, m in picked:
+              print(f'  wake {name}  (because: {", ".join(m)}{" …" if len(m)==3 else ""})')
+          print(json.dumps([n for n, _ in picked]), file=open(sys.argv[2], 'w'))
+          PY
+          python3 /tmp/dispatch.py /tmp/changed.txt /tmp/wake.json
+          for w in $(python3 -c "import json;print(' '.join(json.load(open('/tmp/wake.json'))))"); do
+            gh workflow run "$w" --ref "${GITHUB_REF_NAME}" || echo "::warning::could not start $w"
+          done
