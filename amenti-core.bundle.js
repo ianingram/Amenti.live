@@ -1,4 +1,4 @@
-/* Amenti.live/amenti-core.bundle.js · 2026-10-02 06:45 UTC *
+/* Amenti.live/amenti-core.bundle.js · 2026-10-03 04:00 UTC */
 /* ============================================================================
    amenti-core.bundle.js  ·  Ingram Manor LLC
    ----------------------------------------------------------------------------
@@ -580,7 +580,7 @@ try {
 
 /* ==== amenti-voice.js ================================================= */
 try {
-/* Amenti.live/amenti-voice.js · 2026-10-02 06:45 UTC */
+/* Amenti.live/amenti-voice.js · 2026-10-03 04:00 UTC */
 /* ████████████████████████████████████████████████████████████████████████████
    ██                                                                        ██
    ██   WATCHED FILE — amenti-voice.js                                       ██
@@ -1095,7 +1095,41 @@ try {
   }
 
   /* ---- engine: fetch, schedule, watchdog (verbatim) ------------------------ */
+  /* ── THE WARM SHELF · 3 OCT 2026 ─────────────────────────────────────────
+     A reading used to ask for its next line only when the last one had
+     finished, so every cue started with a full render wait — 6 to 12 seconds
+     of silence between lines on a first play. warm() lets a caller fetch the
+     NEXT text while the current one plays; the bytes wait here and the real
+     speak() takes them instead of fetching again.
+
+     THE KEY IS UNTOUCHED. Nothing here changes what is sent to /speak — warm()
+     sends the identical text, style and voice speak() would, so the Worker
+     stores the identical R2 entry. The shelf is only a short-lived copy in
+     memory, keyed the same way, so the second request never happens.
+     Bounded: SHELF_MAX entries, oldest dropped. A failed warm leaves nothing
+     on the shelf, so the real request simply fetches as it always did. */
+  var SHELF_MAX = 12;
+  var shelf = {}, shelfOrder = [];
+  function shelfKey(chunk, style, voice) {
+    return voice + '\n' + style + '\n' + ((chunk && chunk.text != null) ? chunk.text : chunk);
+  }
+  function shelfPut(k, p) {
+    shelf[k] = p; shelfOrder.push(k);
+    while (shelfOrder.length > SHELF_MAX) { delete shelf[shelfOrder.shift()]; }
+    p.then(null, function () { if (shelf[k] === p) delete shelf[k]; });
+  }
+
   function fetchChunkBytes(chunk, style, voice, signal) {
+    var k = shelfKey(chunk, style, voice);
+    if (shelf[k]) {
+      /* decodeAudioData detaches the buffer it is given, so hand out a copy
+         and keep the original on the shelf for a replay. */
+      return shelf[k].then(function (buf) { return buf.slice(0); });
+    }
+    return fetchChunkBytesLive(chunk, style, voice, signal);
+  }
+
+  function fetchChunkBytesLive(chunk, style, voice, signal) {
     var attempts = 0;
     function go() {
       var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
@@ -1159,15 +1193,24 @@ try {
     p.sources = [];
     if (voicePlayer === p) voicePlayer = null;
     if (p.btn) { p.btn.textContent = READ_RETRY; p.btn.disabled = false; }
+    if (p.onFail) { try { p.onFail('no audio after ' + START_TIMEOUT + 'ms'); } catch (e) {} }
   }
 
-  function startReading(text, btn, style, voice, onDone, max, firstMax) {
+  /* ── onFail · 3 OCT 2026 ───────────────────────────────────────────────────
+     onDone fires only on a NATURAL finish. A line that failed to render used
+     to end in silence with no callback at all, so anything waiting on it —
+     a cue sheet, a play-all — waited forever with nothing on screen. That is
+     how Dracula episode one stopped after its first cue. onFail is the other
+     half: the caller is now told, and can retry or say so. Optional and
+     additive; a caller that passes nothing behaves exactly as before. */
+  function startReading(text, btn, style, voice, onDone, max, firstMax, onFail) {
     max = max || CHUNK_MAX;      // the surface's chunk PROFILE — part of its cache key
     var ctx;
     try { ctx = getAudioCtx(); }
     catch (e) {
       console.error('Throttle: audio unavailable:', e && e.message);
       if (btn) { btn.textContent = READ_RETRY; btn.disabled = false; }
+      if (typeof onFail === 'function') { try { onFail('audio unavailable'); } catch (e2) {} }
       return;
     }
     /* firstMax is set ONLY on the conversational path. The recital path calls the
@@ -1176,7 +1219,12 @@ try {
     var chunks = firstMax
       ? chunkConversational(plainText(text), max, firstMax)
       : chunkText(plainText(text), max);
-    if (!chunks.length) { if (btn) { btn.textContent = READ_ALOUD; btn.disabled = false; } return; }
+    if (!chunks.length) {
+      if (btn) { btn.textContent = READ_ALOUD; btn.disabled = false; }
+      /* Nothing to say is a finished line, not a hung one. */
+      if (typeof onDone === 'function') { try { onDone(); } catch (e) {} }
+      return;
+    }
 
     var useStyle = style || composeStyle(null);
     var useVoice = voice || VOICE_NAME_DEFAULT;
@@ -1186,7 +1234,8 @@ try {
       abort: (typeof AbortController !== 'undefined') ? new AbortController() : null,
       sources: [], nextStart: 0, ready: {}, toSchedule: 0,
       scheduled: 0, total: chunks.length, producerDone: false, started: false,
-      btn: btn, watchdog: null, onDone: (typeof onDone === 'function' ? onDone : null)
+      btn: btn, watchdog: null, onDone: (typeof onDone === 'function' ? onDone : null),
+      onFail: (typeof onFail === 'function' ? onFail : null)
     };
     voicePlayer = player;
 
@@ -1204,6 +1253,8 @@ try {
         if (voicePlayer === player) voicePlayer = null;
         // Natural completion only (a Stop sets cancelled=true and returns above).
         if (player.started && player.onDone) { try { player.onDone(); } catch (e) {} }
+        /* Every measure failed and nothing was ever heard: say so. */
+        else if (!player.started && player.onFail) { try { player.onFail('every measure failed'); } catch (e) {} }
       }
     }
     function scheduleBuf(buf, rest, rate) {
@@ -1332,16 +1383,39 @@ try {
         var style = conversational
           ? composeConversational(v && v.figure, opts.move)     // varies freely — never cached
           : (v && v.style);                                     // LOCKED — the archive
-        startReading(text, btn, style, (v && v.voice) || VOICE_NAME_DEFAULT, opts.onDone, max, firstMax);
+        startReading(text, btn, style, (v && v.voice) || VOICE_NAME_DEFAULT, opts.onDone, max, firstMax, opts.onFail);
       }, function () {
         var style = conversational ? composeConversational(null, opts.move) : composeStyle(null);
-        startReading(text, btn, style, VOICE_NAME_DEFAULT, opts.onDone, max, firstMax);
+        startReading(text, btn, style, VOICE_NAME_DEFAULT, opts.onDone, max, firstMax, opts.onFail);
       });
     } catch (e) {
       console.error('Voice start failed:', e && e.message);
       if (btn) { btn.textContent = READ_RETRY; btn.disabled = false; }
       if (typeof opts.onDone === 'function') { try { opts.onDone(); } catch (e2) {} }
     }
+  }
+
+  /* warm(text, figureName) — fetch a RECITAL text ahead of time, exactly as
+     speak(text, { figure, register: 'recital' }) would, so it plays without a
+     render wait. Same chunker, same style, same voice, same fallback when the
+     figure is unknown — that sameness is the whole contract, because a warm
+     that differed by one byte would fetch and pay for a clip nothing plays.
+     Returns a Promise that resolves when every measure is on the shelf or has
+     failed (it never rejects). */
+  function warm(text, figureName) {
+    return resolveVoice(figureName).then(function (v) {
+      return { style: v && v.style, voice: (v && v.voice) || VOICE_NAME_DEFAULT };
+    }, function () {
+      return { style: composeStyle(null), voice: VOICE_NAME_DEFAULT };
+    }).then(function (sv) {
+      var style = sv.style || composeStyle(null);
+      var chunks = chunkText(plainText(text), CHUNK_MAX);
+      return Promise.all(chunks.map(function (c) {
+        var k = shelfKey(c, style, sv.voice);
+        if (!shelf[k]) shelfPut(k, fetchChunkBytesLive(c, style, sv.voice, null));
+        return shelf[k] ? shelf[k].then(function () { return true; }, function () { return false; }) : false;
+      }));
+    });
   }
 
   Amenti.voice = {
@@ -1370,9 +1444,10 @@ try {
   Amenti.throttle = {
     __v: 1,
     attach: attach,
-    speak: function (text, btn, figureName, onDone) {
-      return speak(text, { btn: btn, figure: figureName, onDone: onDone, register: 'recital' });
+    speak: function (text, btn, figureName, onDone, onFail) {
+      return speak(text, { btn: btn, figure: figureName, onDone: onDone, onFail: onFail, register: 'recital' });
     },
+    warm: warm,
     stop: stopReading,
     isReading: function () { return !!voicePlayer; },
     chunk: function (t) { return chunkText(plainText(t), CHUNK_MAX); },
