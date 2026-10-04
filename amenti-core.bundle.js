@@ -1,4 +1,4 @@
-/* Amenti.live/amenti-core.bundle.js · 2026-10-03 04:00 UTC */
+/* Amenti.live/amenti-core.bundle.js · 2026-10-04 03:30 UTC */
 /* ============================================================================
    amenti-core.bundle.js  ·  Ingram Manor LLC
    ----------------------------------------------------------------------------
@@ -580,7 +580,7 @@ try {
 
 /* ==== amenti-voice.js ================================================= */
 try {
-/* Amenti.live/amenti-voice.js · 2026-10-03 04:00 UTC */
+/* Amenti.live/amenti-voice.js · 2026-10-04 03:30 UTC */
 /* ████████████████████████████████████████████████████████████████████████████
    ██                                                                        ██
    ██   WATCHED FILE — amenti-voice.js                                       ██
@@ -1257,7 +1257,7 @@ try {
         else if (!player.started && player.onFail) { try { player.onFail('every measure failed'); } catch (e) {} }
       }
     }
-    function scheduleBuf(buf, rest, rate) {
+    function scheduleBuf(buf, rest, rate, idx) {
       if (player.cancelled) return;
       var useRate = rate || RATE_FAST;
       var src = ctx.createBufferSource();
@@ -1268,6 +1268,19 @@ try {
       src.start(at);
       var played = buf.duration / (useRate || 1);
       player.nextStart = at + played + (rest || 0);
+      /* EACH MEASURE ANNOUNCED — added 4 Oct for sound.js. Its text, the
+         moment it will sound and how long it lasts, read off the decoded
+         buffer itself. A sound placed on a phrase can then land within a
+         fraction of a second, instead of being estimated from reading pace
+         across a whole paragraph. Additive and inert like voice-started: no
+         symbol removed, no cache key touched, no chunk boundary moved. */
+      try {
+        var ch = (typeof idx === 'number' && chunks[idx]) ? chunks[idx] : null;
+        window.dispatchEvent(new CustomEvent('amenti:measure', { detail: {
+          index: idx, at: at, duration: played,
+          text: ch ? (ch.text != null ? ch.text : String(ch)) : ''
+        } }));
+      } catch (e) {}
       player.scheduled++;
       player.sources.push(src);
       if (!player.started) {
@@ -1295,7 +1308,7 @@ try {
         var entry = player.ready[player.toSchedule];
         delete player.ready[player.toSchedule];
         player.toSchedule++;
-        if (entry && entry.buf) scheduleBuf(entry.buf, entry.rest, entry.rate);
+        if (entry && entry.buf) scheduleBuf(entry.buf, entry.rest, entry.rate, player.toSchedule - 1);
         else { player.scheduled++; finish(); }
       }
     }
