@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-04T14:35:52.838Z",
+  "generated": "2026-10-04T19:48:37.881Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-10-04T14:35:52.786Z",
+  "libraryGenerated": "2026-10-04T19:48:37.838Z",
   "totals": {
-    "works": 602,
-    "CITED": 547,
+    "works": 639,
+    "CITED": 584,
     "DATED": 7,
     "THIN": 39,
     "EMPTY": 0,
@@ -374,6 +374,15 @@
     "plutarch": {
       "works": 10,
       "CITED": 10,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "robert-louis-stevenson": {
+      "works": 37,
+      "CITED": 37,
       "DATED": 0,
       "THIN": 0,
       "EMPTY": 0,
