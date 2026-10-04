@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-04T14:13:22.885Z",
+  "at": "2026-10-04T19:26:25.823Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 194,
+    "count": 195,
     "prefixes": {
-      "atlantica:": 111,
+      "atlantica:": 112,
       "dailyplanet:": 20,
       "watch:": 57,
       "week:": 6
@@ -18,14 +18,19 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 98,
+      "fired": 99,
       "last": {
         "date": "2026-10-04",
-        "figure": "king-arthur"
+        "figure": "cate-blanchett"
       },
       "lastAgeDays": 0,
       "missedLast14": [],
       "recent": [
+        {
+          "figure": "cate-blanchett",
+          "date": "2026-10-04",
+          "key": "atlantica:cate-blanchett:2026-10-04"
+        },
         {
           "figure": "king-arthur",
           "date": "2026-10-04",
@@ -90,14 +95,9 @@
           "figure": "plato",
           "date": "2026-09-26",
           "key": "atlantica:plato:2026-09-26"
-        },
-        {
-          "figure": "bram-stoker",
-          "date": "2026-09-25",
-          "key": "atlantica:bram-stoker:2026-09-25"
         }
       ],
-      "note": "98 dispatch(es) in the hold · last 2026-10-04 (king-arthur) · no gaps in 14 days"
+      "note": "99 dispatch(es) in the hold · last 2026-10-04 (cate-blanchett) · no gaps in 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
