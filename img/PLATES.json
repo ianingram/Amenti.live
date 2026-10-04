@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-10-04T03:42:16.030Z",
+  "generated": "2026-10-04T19:05:26.524Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -40,11 +40,11 @@
     "files": 177,
     "plates": 169,
     "keys": 53,
-    "rooms": 54,
+    "rooms": 55,
     "scenes": 1,
     "sceneFiles": 2,
     "figuresWithScenes": 1,
-    "rosterKnown": 2043,
+    "rosterKnown": 2044,
     "rosterColumn": "full name",
     "scenesResolvedByRosterAlone": 0,
     "byVariant": {
@@ -67,7 +67,8 @@
     },
     "roomsWithoutPlates": [
       "einstein-albert",
-      "ingram"
+      "ingram",
+      "robert-louis-stevenson"
     ],
     "platesWithoutRooms": [
       "albert-einstein"
@@ -92,7 +93,9 @@
         "note": "the captain. A room and no portrait, by choice."
       }
     ],
-    "unaccepted": [],
+    "unaccepted": [
+      "robert-louis-stevenson"
+    ],
     "scenesWithoutFigure": [],
     "scenesMalformed": [
       "darius-bow.jpg"
