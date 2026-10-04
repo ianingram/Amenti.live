@@ -1,0 +1,340 @@
+{
+ "key": "robert-louis-stevenson",
+ "name": "Robert Louis Stevenson",
+ "note": "THE ROOM HOLDS TREASURE ISLAND ENTIRE, AND THE MAP IT CAME FROM. In the late summer of 1881, kept indoors by rain at Braemar, Stevenson drew and coloured a map of an island to amuse his schoolboy stepson, Lloyd Osbourne, and wrote 'Treasure Island' in the corner. The story grew out of the map, a chapter a day read aloud to the family after lunch. The way in is his own account of that, 'My First Book', written the year he died; then the verses he set before the novel; then the thirty-four chapters, split by chapter and unedited — they are also what the Amenti Studios cutter reads. One other passage stands beside them: Henry Jekyll's full statement, the other face of the same writer, the one who could not stop at boys' adventure. Everything in this room is public domain.",
+ "works": [
+  {
+   "id": "01-my-first-book",
+   "section": "Essays in the Art of Writing (1905)",
+   "title": "My First Book: Treasure Island",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, “My First Book: Treasure Island”, The Idler, August 1894; collected in Essays in the Art of Writing (1905) · Project Gutenberg #492 · public domain",
+   "note": "The map, the rain at Braemar, the schoolboy stepson it was drawn for, the chapters read aloud day by day after lunch, his father joining in to draw up the inventory of Billy Bones's chest — and the map itself lost on the way to the publishers, so that he had to draw it again from the finished book, working out the island from the story instead of the story from the island. Written in Samoa in the last year of his life.",
+   "file": "robert-louis-stevenson/01-my-first-book.md"
+  },
+  {
+   "id": "00-to-the-hesitating-purchaser",
+   "section": "Treasure Island (1883)",
+   "title": "To the Hesitating Purchaser",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The verses and the dedication he set before the novel: 'If sailor tales to sailor tunes, / Storm and adventure, heat and cold…' — and the book dedicated to S.L.O., Samuel Lloyd Osbourne, 'an American gentleman in accordance with whose classic taste the following narrative has been designed.'",
+   "file": "robert-louis-stevenson/00-to-the-hesitating-purchaser.md"
+  },
+  {
+   "id": "ch01",
+   "section": "Treasure Island (1883) · The Old Buccaneer",
+   "title": "Chapter I: The Old Sea-dog at the Admiral Benbow",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch01.md"
+  },
+  {
+   "id": "ch02",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter II: Black Dog Appears and Disappears",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch02.md"
+  },
+  {
+   "id": "ch03",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter III: The Black Spot",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch03.md"
+  },
+  {
+   "id": "ch04",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter IV: The Sea-chest",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch04.md"
+  },
+  {
+   "id": "ch05",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter V: The Last of the Blind Man",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch05.md"
+  },
+  {
+   "id": "ch06",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter VI: The Captain’s Papers",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch06.md"
+  },
+  {
+   "id": "ch07",
+   "section": "Treasure Island (1883) · The Sea-cook",
+   "title": "Chapter VII: I Go to Bristol",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch07.md"
+  },
+  {
+   "id": "ch08",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter VIII: At the Sign of the Spy-glass",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch08.md"
+  },
+  {
+   "id": "ch09",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter IX: Powder and Arms",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch09.md"
+  },
+  {
+   "id": "ch10",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter X: The Voyage",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch10.md"
+  },
+  {
+   "id": "ch11",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XI: What I Heard in the Apple-Barrel",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch11.md"
+  },
+  {
+   "id": "ch12",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XII: Council of War",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch12.md"
+  },
+  {
+   "id": "ch13",
+   "section": "Treasure Island (1883) · My Shore Adventure",
+   "title": "Chapter XIII: How I Began My Shore Adventure",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch13.md"
+  },
+  {
+   "id": "ch14",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XIV: The First Blow",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch14.md"
+  },
+  {
+   "id": "ch15",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XV: The Man of the Island",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch15.md"
+  },
+  {
+   "id": "ch16",
+   "section": "Treasure Island (1883) · The Stockade",
+   "title": "Chapter XVI: Narrative Continued by the Doctor: How the Ship Was Abandoned",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch16.md"
+  },
+  {
+   "id": "ch17",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXVII: Narrative Continued by the Doctor: The Jolly-boat’s Last Trip",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch17.md"
+  },
+  {
+   "id": "ch18",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XVIII: Narrative Continued by the Doctor: End of the First Day’s Fighting",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch18.md"
+  },
+  {
+   "id": "ch19",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XIX: Narrative Resumed by Jim Hawkins: The Garrison in the Stockade",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch19.md"
+  },
+  {
+   "id": "ch20",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XX: Silver’s Embassy",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch20.md"
+  },
+  {
+   "id": "ch21",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXI: The Attack",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch21.md"
+  },
+  {
+   "id": "ch22",
+   "section": "Treasure Island (1883) · My Sea Adventure",
+   "title": "Chapter XXII: How I Began My Sea Adventure",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch22.md"
+  },
+  {
+   "id": "ch23",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXIII: The Ebb-tide Runs",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch23.md"
+  },
+  {
+   "id": "ch24",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXIV: The Cruise of the Coracle",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch24.md"
+  },
+  {
+   "id": "ch25",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXV: I Strike the Jolly Roger",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch25.md"
+  },
+  {
+   "id": "ch26",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXVI: Israel Hands",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch26.md"
+  },
+  {
+   "id": "ch27",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXVII: “Pieces of Eight”",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch27.md"
+  },
+  {
+   "id": "ch28",
+   "section": "Treasure Island (1883) · Captain Silver",
+   "title": "Chapter XXVIII: In the Enemy’s Camp",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch28.md"
+  },
+  {
+   "id": "ch29",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXIX: The Black Spot Again",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch29.md"
+  },
+  {
+   "id": "ch30",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXX: On Parole",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch30.md"
+  },
+  {
+   "id": "ch31",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXXI: The Treasure-hunt--Flint’s Pointer",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch31.md"
+  },
+  {
+   "id": "ch32",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXXII: The Treasure-hunt--The Voice Among the Trees",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch32.md"
+  },
+  {
+   "id": "ch33",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXXIII: The Fall of a Chieftain",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch33.md"
+  },
+  {
+   "id": "ch34",
+   "section": "Treasure Island (1883)",
+   "title": "Chapter XXXIV: And Last",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Treasure Island (1883) · Project Gutenberg #120 · public domain",
+   "note": "The novel, chapter by chapter, unedited.",
+   "file": "robert-louis-stevenson/ch34.md"
+  },
+  {
+   "id": "02-jekylls-full-statement",
+   "section": "Strange Case of Dr Jekyll and Mr Hyde (1886)",
+   "title": "Henry Jekyll's Full Statement of the Case",
+   "mode": "stored",
+   "source": "Robert Louis Stevenson, Strange Case of Dr Jekyll and Mr Hyde (1886), final chapter · Project Gutenberg #43 · public domain",
+   "note": "The closing chapter, complete: Jekyll's own account of the drug, the first transformation, and the night he woke to find the hand on the sheet was Hyde's. Written three years after Treasure Island, by the same man.",
+   "file": "robert-louis-stevenson/02-jekylls-full-statement.md"
+  }
+ ]
+}
