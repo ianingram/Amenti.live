@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-04T01:34:33.704Z",
+  "at": "2026-10-04T08:22:48.463Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 193,
+    "count": 194,
     "prefixes": {
-      "atlantica:": 110,
+      "atlantica:": 111,
       "dailyplanet:": 20,
       "watch:": 57,
       "week:": 6
@@ -18,14 +18,19 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 97,
+      "fired": 98,
       "last": {
-        "date": "2026-10-03",
-        "figure": "prometheus"
+        "date": "2026-10-04",
+        "figure": "king-arthur"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [],
       "recent": [
+        {
+          "figure": "king-arthur",
+          "date": "2026-10-04",
+          "key": "atlantica:king-arthur:2026-10-04"
+        },
         {
           "figure": "prometheus",
           "date": "2026-10-03",
@@ -90,14 +95,9 @@
           "figure": "bram-stoker",
           "date": "2026-09-25",
           "key": "atlantica:bram-stoker:2026-09-25"
-        },
-        {
-          "figure": "hammurabi",
-          "date": "2026-09-24",
-          "key": "atlantica:hammurabi:2026-09-24"
         }
       ],
-      "note": "97 dispatch(es) in the hold · last 2026-10-03 (prometheus) · no gaps in 14 days"
+      "note": "98 dispatch(es) in the hold · last 2026-10-04 (king-arthur) · no gaps in 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
