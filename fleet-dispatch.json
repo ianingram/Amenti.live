@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-05T07:04:02.821Z",
+  "at": "2026-10-05T12:44:12.855Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 198,
+    "count": 199,
     "prefixes": {
-      "atlantica:": 112,
+      "atlantica:": 113,
       "dailyplanet:": 20,
       "watch:": 60,
       "week:": 6
@@ -18,14 +18,19 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 99,
+      "fired": 100,
       "last": {
-        "date": "2026-10-04",
-        "figure": "cate-blanchett"
+        "date": "2026-10-05",
+        "figure": "brigitte-bardot"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [],
       "recent": [
+        {
+          "figure": "brigitte-bardot",
+          "date": "2026-10-05",
+          "key": "atlantica:brigitte-bardot:2026-10-05"
+        },
         {
           "figure": "cate-blanchett",
           "date": "2026-10-04",
@@ -90,14 +95,9 @@
           "figure": "seneca",
           "date": "2026-09-27",
           "key": "atlantica:seneca:2026-09-27"
-        },
-        {
-          "figure": "plato",
-          "date": "2026-09-26",
-          "key": "atlantica:plato:2026-09-26"
         }
       ],
-      "note": "99 dispatch(es) in the hold · last 2026-10-04 (cate-blanchett) · no gaps in 14 days"
+      "note": "100 dispatch(es) in the hold · last 2026-10-05 (brigitte-bardot) · no gaps in 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
