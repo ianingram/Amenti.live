@@ -1,10 +1,10 @@
 {
-  "generated": "2026-10-05T01:24:20.287Z",
+  "generated": "2026-10-05T03:42:34.719Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-10-05T01:24:20.242Z",
+  "libraryGenerated": "2026-10-05T03:42:34.662Z",
   "totals": {
-    "works": 639,
-    "CITED": 584,
+    "works": 712,
+    "CITED": 657,
     "DATED": 7,
     "THIN": 39,
     "EMPTY": 0,
@@ -212,6 +212,15 @@
     "helen-keller": {
       "works": 10,
       "CITED": 10,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
+    },
+    "henryk-sienkiewicz": {
+      "works": 73,
+      "CITED": 73,
       "DATED": 0,
       "THIN": 0,
       "EMPTY": 0,
