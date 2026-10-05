@@ -1,16 +1,17 @@
 {
-  "at": "2026-10-04T19:26:25.823Z",
+  "at": "2026-10-05T01:11:14.925Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 195,
+    "count": 202,
     "prefixes": {
       "atlantica:": 112,
       "dailyplanet:": 20,
-      "watch:": 57,
+      "rate:": 4,
+      "watch:": 60,
       "week:": 6
     }
   },
-  "today": "2026-10-04",
+  "today": "2026-10-05",
   "thisWeek": "2026-10-04",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -23,7 +24,7 @@
         "date": "2026-10-04",
         "figure": "cate-blanchett"
       },
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "missedLast14": [],
       "recent": [
         {
@@ -140,7 +141,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -35,
+      "lastAgeDays": -34,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
