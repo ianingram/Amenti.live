@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-06T06:47:10.786Z",
+  "at": "2026-10-06T12:41:14.736Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 202,
+    "count": 203,
     "prefixes": {
-      "atlantica:": 114,
+      "atlantica:": 115,
       "dailyplanet:": 20,
       "watch:": 62,
       "week:": 6
@@ -18,14 +18,19 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 101,
+      "fired": 102,
       "last": {
-        "date": "2026-10-05",
-        "figure": "ayn-rand"
+        "date": "2026-10-06",
+        "figure": "leif-erikson"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [],
       "recent": [
+        {
+          "figure": "leif-erikson",
+          "date": "2026-10-06",
+          "key": "atlantica:leif-erikson:2026-10-06"
+        },
         {
           "figure": "ayn-rand",
           "date": "2026-10-05",
@@ -90,14 +95,9 @@
           "figure": "confucius",
           "date": "2026-09-28",
           "key": "atlantica:confucius:2026-09-28"
-        },
-        {
-          "figure": "morgan-freeman",
-          "date": "2026-09-28",
-          "key": "atlantica:morgan-freeman:2026-09-28"
         }
       ],
-      "note": "101 dispatch(es) in the hold · last 2026-10-05 (ayn-rand) · no gaps in 14 days"
+      "note": "102 dispatch(es) in the hold · last 2026-10-06 (leif-erikson) · no gaps in 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
