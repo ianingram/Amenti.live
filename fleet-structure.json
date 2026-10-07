@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-05T03:42:24.418Z",
+    "generated": "2026-10-07T08:33:04.612Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -30,8 +30,8 @@
     },
     {
       "file": "Page1.html",
-      "bytes": 549435,
-      "sha256": "f2e27bcbb625538a",
+      "bytes": 550418,
+      "sha256": "de6e5584f23ffbd2",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -73,83 +73,83 @@
         },
         {
           "file": "amenti-svg-library.js?v=7b34f8ea",
-          "line": 5697
+          "line": 5704
         },
         {
           "file": "amenti-doctrine.js?v=976c6275",
-          "line": 6030
+          "line": 6037
         },
         {
           "file": "library.js?v=fe8cc091",
-          "line": 7297
+          "line": 7304
         },
         {
           "file": "amenti-canonical.js?v=43cdd39f",
-          "line": 7308
+          "line": 7315
         },
         {
           "file": "amenti-auth.js?v=9911c691",
-          "line": 8314
-        },
-        {
-          "file": "amenti-quiz.js?v=ef4a2536",
           "line": 8321
         },
         {
-          "file": "amenti-roster.js?v=b0f5ca91",
-          "line": 8322
-        },
-        {
-          "file": "amenti-roster-view.js?v=2dc9f768",
-          "line": 8323
-        },
-        {
-          "file": "amenti-bay.js?v=e57e5f85",
-          "line": 8324
-        },
-        {
-          "file": "amenti-motion.js?v=d9c60056",
-          "line": 8325
-        },
-        {
-          "file": "amenti-art-2.js?v=ec74203b",
-          "line": 8326
-        },
-        {
-          "file": "amenti-leaderboard.js?v=3bd469b9",
-          "line": 8327
-        },
-        {
-          "file": "amenti-readaloud.js?v=e97258f9",
+          "file": "amenti-quiz.js?v=ef4a2536",
           "line": 8328
         },
         {
-          "file": "amenti-vallhalla-signup.js?v=9aea018b",
+          "file": "amenti-roster.js?v=b0f5ca91",
+          "line": 8329
+        },
+        {
+          "file": "amenti-roster-view.js?v=2dc9f768",
+          "line": 8330
+        },
+        {
+          "file": "amenti-bay.js?v=e57e5f85",
           "line": 8331
         },
         {
-          "file": "amenti-flourish.js?v=285c68c5",
+          "file": "amenti-motion.js?v=d9c60056",
           "line": 8332
         },
         {
-          "file": "amenti-mascot.js?v=d141d87a",
+          "file": "amenti-art-2.js?v=ec74203b",
           "line": 8333
         },
         {
-          "file": "amenti-profile.js?v=0f18021a",
+          "file": "amenti-leaderboard.js?v=3bd469b9",
           "line": 8334
         },
         {
+          "file": "amenti-readaloud.js?v=e97258f9",
+          "line": 8335
+        },
+        {
+          "file": "amenti-vallhalla-signup.js?v=9aea018b",
+          "line": 8338
+        },
+        {
+          "file": "amenti-flourish.js?v=285c68c5",
+          "line": 8339
+        },
+        {
+          "file": "amenti-mascot.js?v=d141d87a",
+          "line": 8340
+        },
+        {
+          "file": "amenti-profile.js?v=0f18021a",
+          "line": 8341
+        },
+        {
           "file": "amenti-art-photo.js?v=1144e9af",
-          "line": 8342
+          "line": 8349
         },
         {
           "file": "amenti-art-3.js?v=40425d02",
-          "line": 8356
+          "line": 8363
         },
         {
           "file": "amenti-dispatch-art.js?v=944e432e",
-          "line": 8790
+          "line": 8797
         }
       ],
       "calls": [
@@ -185,49 +185,49 @@
         },
         {
           "global": "AMENTI_CHARS",
-          "line": 5795,
+          "line": 5802,
           "when": "iife",
           "own": true
         },
         {
           "global": "AMENTI_ERAS",
-          "line": 5898,
+          "line": 5905,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.chat",
-          "line": 6222,
+          "line": 6229,
           "when": "iife",
           "own": false
         },
         {
           "global": "Amenti.micLamp",
-          "line": 6359,
+          "line": 6366,
           "when": "function",
           "own": true
         },
         {
           "global": "AMENTI_VOICE",
-          "line": 6553,
+          "line": 6560,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.listen",
-          "line": 7505,
+          "line": 7512,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.silence",
-          "line": 7875,
+          "line": 7882,
           "when": "function",
           "own": true
         },
         {
           "global": "Amenti.voice",
-          "line": 7900,
+          "line": 7907,
           "when": "function",
           "own": false
         }
@@ -1597,8 +1597,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 54027,
-      "sha256": "5b83e3e048be24fa",
+      "bytes": 54047,
+      "sha256": "7c4e6db765efb739",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1607,25 +1607,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1291,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Amenti.listen",
           "line": 1292,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.voice",
+          "global": "Amenti.listen",
           "line": 1293,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.doctrine",
+          "global": "Amenti.voice",
           "line": 1294,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 1295,
           "when": "toplevel",
           "own": false
         }
