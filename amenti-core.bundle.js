@@ -1395,10 +1395,10 @@ try {
         if (btn && btn.disabled === false) return;
         var style = conversational
           ? composeConversational(v && v.figure, opts.move)     // varies freely — never cached
-          : (v && v.style);                                     // LOCKED — the archive
+          : withDirection(v && v.style, opts.direction);        // LOCKED — the archive (+ the line's direction, if any)
         startReading(text, btn, style, (v && v.voice) || VOICE_NAME_DEFAULT, opts.onDone, max, firstMax, opts.onFail);
       }, function () {
-        var style = conversational ? composeConversational(null, opts.move) : composeStyle(null);
+        var style = conversational ? composeConversational(null, opts.move) : withDirection(composeStyle(null), opts.direction);
         startReading(text, btn, style, VOICE_NAME_DEFAULT, opts.onDone, max, firstMax, opts.onFail);
       });
     } catch (e) {
@@ -1415,13 +1415,28 @@ try {
      that differed by one byte would fetch and pay for a clip nothing plays.
      Returns a Promise that resolves when every measure is on the shelf or has
      failed (it never rejects). */
-  function warm(text, figureName) {
+  /* THE LINE'S DIRECTION · 9 Oct 2026 (Ian: Marullus "still seems to be in a parlor
+     setting"). A reading may pass a direction for one line — where the scene is and how
+     the line is played — and it is added AFTER the figure's ledger style. No direction,
+     no change: the style, and so the cache key, are byte-identical to before. With one,
+     the line has its own key and is recorded once with it. The Worker caps style at
+     600 characters, so the direction is trimmed to fit, never the ledger style. */
+  function withDirection(style, direction) {
+    var d = direction ? String(direction).replace(/\s+/g, ' ').trim() : '';
+    if (!d) return style;
+    var base = style || composeStyle(null);
+    var room = 590 - base.length - 2;
+    if (room < 20) return base;
+    return base + '. ' + d.slice(0, room);
+  }
+
+  function warm(text, figureName, direction) {
     return resolveVoice(figureName).then(function (v) {
       return { style: v && v.style, voice: (v && v.voice) || VOICE_NAME_DEFAULT };
     }, function () {
       return { style: composeStyle(null), voice: VOICE_NAME_DEFAULT };
     }).then(function (sv) {
-      var style = sv.style || composeStyle(null);
+      var style = withDirection(sv.style || composeStyle(null), direction);
       var chunks = chunkText(plainText(text), CHUNK_MAX);
       return Promise.all(chunks.map(function (c) {
         var k = shelfKey(c, style, sv.voice);
@@ -1457,8 +1472,8 @@ try {
   Amenti.throttle = {
     __v: 1,
     attach: attach,
-    speak: function (text, btn, figureName, onDone, onFail) {
-      return speak(text, { btn: btn, figure: figureName, onDone: onDone, onFail: onFail, register: 'recital' });
+    speak: function (text, btn, figureName, onDone, onFail, direction) {
+      return speak(text, { btn: btn, figure: figureName, onDone: onDone, onFail: onFail, register: 'recital', direction: direction });
     },
     warm: warm,
     stop: stopReading,
