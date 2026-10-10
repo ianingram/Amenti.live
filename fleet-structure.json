@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-10T00:26:45.188Z",
+    "generated": "2026-10-10T16:55:54.285Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -31,7 +31,7 @@
     {
       "file": "Page1.html",
       "bytes": 550418,
-      "sha256": "b5b0f27ef06f70ac",
+      "sha256": "e58877324807223d",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -60,7 +60,7 @@
       ],
       "loads": [
         {
-          "file": "amenti-core.bundle.js?v=77031090",
+          "file": "amenti-core.bundle.js?v=d14bfac5",
           "line": 893
         },
         {
@@ -644,8 +644,8 @@
     },
     {
       "file": "amenti-core.bundle.js",
-      "bytes": 222169,
-      "sha256": "c0223e25c240dddc",
+      "bytes": 222682,
+      "sha256": "681fd845b912fb6a",
       "type": "js",
       "declares": [
         "AMENTI_CONFIG",
@@ -679,25 +679,25 @@
         },
         {
           "global": "Amenti.throttle",
-          "line": 1565,
+          "line": 1571,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1601,
+          "line": 1607,
           "when": "function",
           "own": false
         },
         {
           "global": "Sovereign.Angels",
-          "line": 2727,
+          "line": 2733,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 3069,
+          "line": 3075,
           "when": "function",
           "own": true
         }
@@ -1464,8 +1464,8 @@
     },
     {
       "file": "amenti-voice.js",
-      "bytes": 46323,
-      "sha256": "79fad29a6a8593ca",
+      "bytes": 46836,
+      "sha256": "f14828ed7d2a0f78",
       "type": "js",
       "declares": [
         "Amenti",
@@ -1598,7 +1598,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 54366,
-      "sha256": "96ac4cc1b26e8d52",
+      "sha256": "688437dd6e06101e",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1935,7 +1935,7 @@
     {
       "file": "weighing.html",
       "bytes": 102157,
-      "sha256": "01837b3aa89ae3ca",
+      "sha256": "f68ddd02c7883d84",
       "type": "html",
       "declares": [],
       "loads": [
@@ -1948,7 +1948,7 @@
           "line": 259
         },
         {
-          "file": "amenti-voice.js?v=7ad615e8",
+          "file": "amenti-voice.js?v=fc26a788",
           "line": 271
         }
       ],
