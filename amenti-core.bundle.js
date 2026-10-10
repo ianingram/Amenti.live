@@ -1441,9 +1441,15 @@ try {
     var d = direction ? String(direction).replace(/\s+/g, ' ').trim() : '';
     if (!d) return style;
     var base = style || composeStyle(null);
-    var room = 590 - base.length - 2;
+    /* SETTING-LED · 9 Oct 2026 (Ian: lines "sound like a measured speech"). When a line
+       has a direction, the scene leads and the reading-aloud frame goes: the register
+       ("Read clearly, in a measured, dignified tone") and the pace sentence are dropped,
+       the figure's accent and character stay. No direction: unchanged, byte for byte. */
+    var who = base.split(VOICE_REGISTER).join('').split(PACE_DIRECTION).join('')
+                  .replace(/^[\s.]+|[\s.]+$/g, '').replace(/\.\s*\./g, '.');
+    var room = 590 - who.length - 2;
     if (room < 20) return base;
-    return base + '. ' + d.slice(0, room);
+    return d.slice(0, room) + '. ' + who;
   }
 
   function warm(text, figureName, direction) {
