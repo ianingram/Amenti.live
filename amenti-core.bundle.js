@@ -788,6 +788,21 @@ try {
      It still has to say SOMETHING — going mute would be worse — but it now
      says so out loud, once per figure, naming who could not be resolved. */
   var warnedVoice = {};
+  /* A FIGURE'S OWN VOICE · 9 Oct 2026. names.csv may name a figure's Gemini voice in
+     "Base Voice". Blank → Charon/Kore by gender, exactly as before, so every figure
+     without one keeps its voice and its archive. A name that is not one of the 30
+     prebuilt voices is ignored, loudly — a typo must never become a silent recast. */
+  var GEMINI_VOICES = ['Zephyr','Puck','Charon','Kore','Fenrir','Leda','Orus','Aoede','Callirrhoe','Autonoe',
+    'Enceladus','Iapetus','Umbriel','Algieba','Despina','Erinome','Algenib','Rasalgethi','Laomedeia','Achernar',
+    'Alnilam','Schedar','Gacrux','Pulcherrima','Achird','Zubenelgenubi','Vindemiatrix','Sadachbia','Sadaltager','Sulafat'];
+  function voiceFor(fig, who) {
+    var bv = fig && String(fig.baseVoice || '').trim();
+    if (bv) {
+      if (GEMINI_VOICES.indexOf(bv) >= 0) return bv;
+      console.warn('amenti-voice: "' + bv + '" for "' + who + '" is not a Gemini voice — using the default for its gender.');
+    }
+    return baseVoiceFor(fig && fig.gender, who);
+  }
   function baseVoiceFor(gender, who) {
     var g = String(gender || '').toLowerCase();
     if (g.charAt(0) === 'm') return 'Charon';
@@ -884,7 +899,8 @@ try {
       name: name,
       gender: row['Gender'] || '',
       dialect: row['Dialect'] || '',
-      voice: row['Voice'] || ''
+      voice: row['Voice'] || '',
+      baseVoice: row['Base Voice'] || ''
     };
   }
   /* ── LOCAL FIRST, THE SHEET SECOND · FOUND ON GLASS 28 AUG 2026 ──────────
@@ -977,7 +993,7 @@ try {
          the full name. The warning below names the failure; when a real
          mismatch is found, THEN change this, knowing what it costs. */
       var fig = map[String(name || '').toLowerCase().trim()];
-      return { voice: baseVoiceFor(fig && fig.gender, name), style: composeStyle(fig), figure: fig || null };
+      return { voice: voiceFor(fig, name), style: composeStyle(fig), figure: fig || null };
     });
   }
 
