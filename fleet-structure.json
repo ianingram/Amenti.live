@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-14T05:37:24.676Z",
+    "generated": "2026-10-14T23:46:24.662Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -31,7 +31,7 @@
     {
       "file": "Page1.html",
       "bytes": 550418,
-      "sha256": "e58877324807223d",
+      "sha256": "2059af2c89a5d06c",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -60,7 +60,7 @@
       ],
       "loads": [
         {
-          "file": "amenti-core.bundle.js?v=d14bfac5",
+          "file": "amenti-core.bundle.js?v=a686c968",
           "line": 893
         },
         {
@@ -644,8 +644,8 @@
     },
     {
       "file": "amenti-core.bundle.js",
-      "bytes": 222682,
-      "sha256": "681fd845b912fb6a",
+      "bytes": 223643,
+      "sha256": "8107f9165cbcefdc",
       "type": "js",
       "declares": [
         "AMENTI_CONFIG",
@@ -679,25 +679,25 @@
         },
         {
           "global": "Amenti.throttle",
-          "line": 1571,
+          "line": 1582,
           "when": "iife",
           "own": true
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1607,
+          "line": 1618,
           "when": "function",
           "own": false
         },
         {
           "global": "Sovereign.Angels",
-          "line": 2733,
+          "line": 2744,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 3075,
+          "line": 3086,
           "when": "function",
           "own": true
         }
@@ -1464,8 +1464,8 @@
     },
     {
       "file": "amenti-voice.js",
-      "bytes": 46836,
-      "sha256": "f14828ed7d2a0f78",
+      "bytes": 47797,
+      "sha256": "4d199051c462a3d3",
       "type": "js",
       "declares": [
         "Amenti",
@@ -1597,8 +1597,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 54416,
-      "sha256": "1852976e542a1c5a",
+      "bytes": 54452,
+      "sha256": "bd56835f8fe9edf1",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1607,25 +1607,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1302,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Amenti.listen",
-          "line": 1303,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Amenti.voice",
           "line": 1304,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.doctrine",
+          "global": "Amenti.listen",
           "line": 1305,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.voice",
+          "line": 1306,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 1307,
           "when": "toplevel",
           "own": false
         }
@@ -1935,7 +1935,7 @@
     {
       "file": "weighing.html",
       "bytes": 102157,
-      "sha256": "f68ddd02c7883d84",
+      "sha256": "fffd7f8fd37f1ab7",
       "type": "html",
       "declares": [],
       "loads": [
@@ -1948,7 +1948,7 @@
           "line": 259
         },
         {
-          "file": "amenti-voice.js?v=fc26a788",
+          "file": "amenti-voice.js?v=3c5b568f",
           "line": 271
         }
       ],
