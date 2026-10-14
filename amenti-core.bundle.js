@@ -677,6 +677,11 @@ try {
 
   /* ---- config / constants (LOCKED — identical to deployed reading room) ---- */
   var VOICE_WORKER       = 'https://amenti-proxy.ingram-ian.workers.dev/speak';
+  /* [FLASH-QV] 14 Oct 2026. A work may ask for another voice model by name (Quo Vadis:
+     "gemini-2.5-flash-tts"). Set through Amenti.throttle.setModel by the Studios player.
+     null — the default, and every other page — sends exactly the body it always did,
+     so no existing cache key moves. The Worker checks the name against its own list. */
+  var voiceModel = null;
   var VOICE_REGISTER     = 'Read clearly, in a measured, dignified tone';
   var VOICE_NAME_DEFAULT = 'Kore';
   var CHUNK_MAX       = 320;   // LOCKED — the reading room + Page1. Do not change.
@@ -1127,7 +1132,8 @@ try {
   var SHELF_MAX = 12;
   var shelf = {}, shelfOrder = [];
   function shelfKey(chunk, style, voice) {
-    return voice + '\n' + style + '\n' + ((chunk && chunk.text != null) ? chunk.text : chunk);
+    return (voiceModel ? voiceModel + '\n' : '') +          /* [FLASH-QV] no model: the key is unchanged */
+           voice + '\n' + style + '\n' + ((chunk && chunk.text != null) ? chunk.text : chunk);
   }
   function shelfPut(k, p) {
     shelf[k] = p; shelfOrder.push(k);
@@ -1164,7 +1170,9 @@ try {
       return fetch(VOICE_WORKER, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: (chunk && chunk.text != null) ? chunk.text : chunk, style: style, voice: voice }),
+        body: JSON.stringify(voiceModel                     /* [FLASH-QV] no model: byte-identical body */
+          ? { text: (chunk && chunk.text != null) ? chunk.text : chunk, style: style, voice: voice, model: voiceModel }
+          : { text: (chunk && chunk.text != null) ? chunk.text : chunk, style: style, voice: voice }),
         signal: ctrl ? ctrl.signal : signal
       }).then(function (r) {
         if (r.ok) return r.arrayBuffer();
@@ -1508,7 +1516,10 @@ try {
        Duck the bus, never the destination. */
     audioContext: function () { return getAudioCtx(); },
     voiceBus: function () { return getVoiceBus(); },
-    rosterUrl: LOCAL_CSV           /* casting.js reads the same file */
+    rosterUrl: LOCAL_CSV,          /* casting.js reads the same file */
+    /* [FLASH-QV] the voice model for what follows; null = the Worker's default (every page but Quo Vadis) */
+    setModel: function (m) { voiceModel = (typeof m === 'string' && m) ? m : null; return voiceModel; },
+    model: function () { return voiceModel; }
   };
 
   /* The counsel's speaker. Was an inline half-copy in Page1 with no chunking and
