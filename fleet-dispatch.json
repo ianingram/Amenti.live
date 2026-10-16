@@ -1,16 +1,16 @@
 {
-  "at": "2026-10-15T18:33:37.675Z",
+  "at": "2026-10-16T00:56:05.038Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 222,
+    "count": 225,
     "prefixes": {
-      "atlantica:": 117,
+      "atlantica:": 118,
       "dailyplanet:": 20,
-      "watch:": 79,
+      "watch:": 81,
       "week:": 6
     }
   },
-  "today": "2026-10-15",
+  "today": "2026-10-16",
   "thisWeek": "2026-10-11",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -18,13 +18,14 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 104,
+      "fired": 105,
       "last": {
-        "date": "2026-10-13",
-        "figure": "harrison-ford"
+        "date": "2026-10-16",
+        "figure": "sandro-botticelli"
       },
-      "lastAgeDays": 2,
+      "lastAgeDays": 0,
       "missedLast14": [
+        "2026-10-15",
         "2026-10-14",
         "2026-10-12",
         "2026-10-11",
@@ -33,6 +34,11 @@
         "2026-10-07"
       ],
       "recent": [
+        {
+          "figure": "sandro-botticelli",
+          "date": "2026-10-16",
+          "key": "atlantica:sandro-botticelli:2026-10-16"
+        },
         {
           "figure": "harrison-ford",
           "date": "2026-10-13",
@@ -97,14 +103,9 @@
           "figure": "meryl-streep",
           "date": "2026-09-30",
           "key": "atlantica:meryl-streep:2026-09-30"
-        },
-        {
-          "figure": "frederick-douglass",
-          "date": "2026-09-29",
-          "key": "atlantica:frederick-douglass:2026-09-29"
         }
       ],
-      "note": "104 dispatch(es) in the hold · last 2026-10-13 (harrison-ford) · MISSED 6 of the last 14 days"
+      "note": "105 dispatch(es) in the hold · last 2026-10-16 (sandro-botticelli) · MISSED 7 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -147,7 +148,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -24,
+      "lastAgeDays": -23,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
