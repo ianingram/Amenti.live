@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-10-14T23:46:25.074Z",
-    "reading": "2026-10-14T23:46:24.662Z",
+    "merged": "2026-10-16T06:05:09.760Z",
+    "reading": "2026-10-16T06:05:09.618Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -467,7 +467,7 @@ window.FLEET_MANIFEST = {
       "stamp": "UNPROVEN",
       "subject": "ATLANTICA",
       "claim": "fires daily",
-      "reading": "MISSED 5 of the last 14 days",
+      "reading": "MISSED 7 of the last 14 days",
       "note": "The tube is loaded and the schedule is set. It simply did not fire."
     },
     {
@@ -486,18 +486,18 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-10-14T18:35:20.766Z",
+    "at": "2026-10-16T00:56:05.038Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 220,
+      "count": 225,
       "prefixes": {
-        "atlantica:": 117,
+        "atlantica:": 118,
         "dailyplanet:": 20,
-        "watch:": 77,
+        "watch:": 81,
         "week:": 6
       }
     },
-    "today": "2026-10-14",
+    "today": "2026-10-16",
     "thisWeek": "2026-10-11",
     "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
     "tubes": {
@@ -505,13 +505,15 @@ window.FLEET_MANIFEST = {
         "id": "ATLANTICA",
         "cadence": "daily",
         "status": "OK",
-        "fired": 104,
+        "fired": 105,
         "last": {
-          "date": "2026-10-13",
-          "figure": "harrison-ford"
+          "date": "2026-10-16",
+          "figure": "sandro-botticelli"
         },
-        "lastAgeDays": 1,
+        "lastAgeDays": 0,
         "missedLast14": [
+          "2026-10-15",
+          "2026-10-14",
           "2026-10-12",
           "2026-10-11",
           "2026-10-10",
@@ -519,6 +521,11 @@ window.FLEET_MANIFEST = {
           "2026-10-07"
         ],
         "recent": [
+          {
+            "figure": "sandro-botticelli",
+            "date": "2026-10-16",
+            "key": "atlantica:sandro-botticelli:2026-10-16"
+          },
           {
             "figure": "harrison-ford",
             "date": "2026-10-13",
@@ -583,14 +590,9 @@ window.FLEET_MANIFEST = {
             "figure": "meryl-streep",
             "date": "2026-09-30",
             "key": "atlantica:meryl-streep:2026-09-30"
-          },
-          {
-            "figure": "frederick-douglass",
-            "date": "2026-09-29",
-            "key": "atlantica:frederick-douglass:2026-09-29"
           }
         ],
-        "note": "104 dispatch(es) in the hold · last 2026-10-13 (harrison-ford) · MISSED 5 of the last 14 days"
+        "note": "105 dispatch(es) in the hold · last 2026-10-16 (sandro-botticelli) · MISSED 7 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -633,7 +635,7 @@ window.FLEET_MANIFEST = {
         "status": "OK",
         "fired": 20,
         "last": "2026-11-08",
-        "lastAgeDays": -25,
+        "lastAgeDays": -23,
         "recent": [
           "dailyplanet:anubis:2026-11-08",
           "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
@@ -1183,7 +1185,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-10-14T18:35:18.949Z",
+        "at": "2026-10-16T00:56:03.272Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -1201,7 +1203,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-10-14T18:35:18.949Z",
+        "at": "2026-10-16T00:56:03.272Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -1219,7 +1221,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-10-14T18:35:18.949Z",
+        "at": "2026-10-16T00:56:03.272Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -1250,7 +1252,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-10-14T18:35:18.949Z",
+        "at": "2026-10-16T00:56:03.272Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
