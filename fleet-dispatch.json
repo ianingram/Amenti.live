@@ -1,27 +1,27 @@
 {
-  "at": "2026-10-17T18:28:51.593Z",
+  "at": "2026-10-18T01:02:45.429Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 228,
+    "count": 231,
     "prefixes": {
-      "atlantica:": 118,
+      "atlantica:": 119,
       "dailyplanet:": 20,
-      "watch:": 84,
+      "watch:": 86,
       "week:": 6
     }
   },
-  "today": "2026-10-17",
-  "thisWeek": "2026-10-11",
+  "today": "2026-10-18",
+  "thisWeek": "2026-10-18",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
     "ATLANTICA": {
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 105,
+      "fired": 106,
       "last": {
-        "date": "2026-10-16",
-        "figure": "sandro-botticelli"
+        "date": "2026-10-17",
+        "figure": "franz-liszt"
       },
       "lastAgeDays": 1,
       "missedLast14": [
@@ -34,6 +34,11 @@
         "2026-10-07"
       ],
       "recent": [
+        {
+          "figure": "franz-liszt",
+          "date": "2026-10-17",
+          "key": "atlantica:franz-liszt:2026-10-17"
+        },
         {
           "figure": "sandro-botticelli",
           "date": "2026-10-16",
@@ -98,14 +103,9 @@
           "figure": "musashi",
           "date": "2026-10-01",
           "key": "atlantica:musashi:2026-10-01"
-        },
-        {
-          "figure": "meryl-streep",
-          "date": "2026-09-30",
-          "key": "atlantica:meryl-streep:2026-09-30"
         }
       ],
-      "note": "105 dispatch(es) in the hold · last 2026-10-16 (sandro-botticelli) · MISSED 7 of the last 14 days"
+      "note": "106 dispatch(es) in the hold · last 2026-10-17 (franz-liszt) · MISSED 7 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -119,7 +119,7 @@
         "privacy": "COUNTS ONLY. The load is taken by HEAD + count=exact — the request returns a number and NO ROWS. No address can reach this file, and this file is PUBLIC. A tube reports its load and its rounds fired. It does not read the names off the shells."
       },
       "fired": 0,
-      "thisWeek": "2026-10-11",
+      "thisWeek": "2026-10-18",
       "assembled": false,
       "delivered": false,
       "schedule": {
@@ -130,14 +130,14 @@
       "lastDelivery": null,
       "recent": [],
       "missedLast8": [
+        "2026-10-11",
         "2026-10-04",
         "2026-09-27",
         "2026-09-20",
         "2026-09-13",
         "2026-09-06",
         "2026-08-30",
-        "2026-08-23",
-        "2026-08-16"
+        "2026-08-23"
       ],
       "note": "NOTHING HAS EVER BEEN DELIVERED FROM THIS TUBE. 2 inbox(es) LOADED AND WAITING. THE CRON IS COMMENTED OUT — IT WILL NOT FIRE."
     },
@@ -148,7 +148,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": -22,
+      "lastAgeDays": -21,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
