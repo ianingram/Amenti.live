@@ -1,12 +1,12 @@
 {
   "_": "The third tier, read. Written by tools/db-dump.sh. A register is a reading, not a memory — regenerate it, never edit it.",
-  "generated": "2026-08-27T22:12:44Z",
-  "tool": "/usr/lib/postgresql/17/bin/pg_dump",
+  "generated": "2026-10-23T01:14:16Z",
+  "tool": "/usr/lib/postgresql/18/bin/pg_dump",
   "schemas_requested": "public",
   "schemas_found": "public",
   "dump": {
     "path": "db/schema.sql",
-    "bytes": 55200,
+    "bytes": 55198,
     "drift_since_last": "CHANGED"
   },
   "counts": {
