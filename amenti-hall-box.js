@@ -822,4 +822,39 @@
       done();
     });
   }
+  /* ── ARRIVING FROM A READING · 25 Oct 2026 ──────────────────────────────
+     A link may carry where its reader is standing:
+       ?context=<text>   e.g. "Dracula · Chapter XXI (What They Found in Mina's
+                         Room) · Tuesday 3 October 1893 · Purfleet · Dr. Seward's
+                         Diary" — sent by the Dracula Chronometer
+       ?ask=<text>       pre-fills the box
+     The context is shown above the box and goes in front of the question when
+     the visitor asks, so the hall answers about that moment of that book.
+
+     NOTHING IS ASKED BY ITSELF. The rulings stand: a question spends only on
+     Enter (or a click), never on arrival. The chip can be dismissed with ×. */
+  (function () {
+    var p; try { p = new URLSearchParams(location.search); } catch (e) { return; }
+    var ctx = (p.get('context') || '').replace(/\s+/g, ' ').trim().slice(0, 240);
+    var pre = (p.get('ask') || '').trim().slice(0, 300);
+    if (pre) input.value = pre;
+    if (!ctx) { if (pre) input.focus(); return; }
+    var st = document.createElement('style');
+    st.textContent = '#ask-amenti .aa-context{display:flex;align-items:baseline;gap:.6rem;margin:0 0 .5rem;'
+      + 'font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.5;color:#c9a46a}'
+      + '#ask-amenti .aa-context b{font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:#e0a53c;white-space:nowrap}'
+      + '#ask-amenti .aa-context button{margin-left:auto;background:none;border:0;color:inherit;cursor:pointer;font:inherit;opacity:.7}';
+    document.head.appendChild(st);
+    var chip = el('div', 'aa-context');
+    chip.appendChild(el('b', null, 'Reading'));
+    chip.appendChild(el('span', null, ctx));
+    var x = el('button', null, '×'); x.type = 'button'; x.setAttribute('aria-label', 'Ask without the reading');
+    chip.appendChild(x);
+    root.insertBefore(chip, box);
+    input.placeholder = 'Ask about this moment in the book…';
+    var plain = ask, on = true;
+    x.addEventListener('click', function () { on = false; chip.parentNode && chip.parentNode.removeChild(chip); input.placeholder = 'Ask Amenti…'; });
+    ask = function (q) { return plain(on ? '[Reading: ' + ctx + '] ' + q : q); };
+    input.focus();
+  })();
 })();
