@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-26T14:06:19.573Z",
+  "at": "2026-10-26T18:42:43.853Z",
   "by": "probes/probe-watches.mjs",
   "note": "THE READING for the watches. merge.js reads this. If it is stale or absent, the watch is UNPROVEN — amber — no matter that the probe file exists. A probe that has never run is a prayer.",
   "watches": {
@@ -39,13 +39,11 @@
     },
     "ARCHIVE WATCH": {
       "id": "ARCHIVE WATCH",
-      "status": "WARN",
-      "ok": 1,
-      "warn": [
-        "/speak unreachable: fetch failed"
-      ],
+      "status": "OK",
+      "ok": 6,
+      "warn": [],
       "fail": [],
-      "note": "COULD NOT PROVE IT: 1/6 hit — /speak unreachable: fetch failed. Amber, honestly."
+      "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
     }
   }
 }
