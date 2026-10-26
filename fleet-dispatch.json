@@ -1,10 +1,10 @@
 {
-  "at": "2026-10-26T01:02:17.551Z",
+  "at": "2026-10-26T06:57:08.666Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 244,
+    "count": 245,
     "prefixes": {
-      "atlantica:": 122,
+      "atlantica:": 123,
       "dailyplanet:": 20,
       "watch:": 96,
       "week:": 6
@@ -17,13 +17,13 @@
     "ATLANTICA": {
       "id": "ATLANTICA",
       "cadence": "daily",
-      "status": "WARN",
-      "fired": 109,
+      "status": "OK",
+      "fired": 110,
       "last": {
-        "date": "2026-10-20",
-        "figure": "marcus-aurelius"
+        "date": "2026-10-26",
+        "figure": "friedrich-engels"
       },
-      "lastAgeDays": 6,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-10-25",
         "2026-10-24",
@@ -36,6 +36,11 @@
         "2026-10-12"
       ],
       "recent": [
+        {
+          "figure": "friedrich-engels",
+          "date": "2026-10-26",
+          "key": "atlantica:friedrich-engels:2026-10-26"
+        },
         {
           "figure": "marcus-aurelius",
           "date": "2026-10-20",
@@ -100,14 +105,9 @@
           "figure": "prometheus",
           "date": "2026-10-03",
           "key": "atlantica:prometheus:2026-10-03"
-        },
-        {
-          "figure": "ingram",
-          "date": "2026-10-02",
-          "key": "atlantica:ingram:2026-10-02"
         }
       ],
-      "note": "109 dispatch(es) in the hold · last 2026-10-20 (marcus-aurelius) · MISSED 9 of the last 14 days"
+      "note": "110 dispatch(es) in the hold · last 2026-10-26 (friedrich-engels) · MISSED 9 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
