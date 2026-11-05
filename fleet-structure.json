@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-25T21:56:47.232Z",
+    "generated": "2026-11-05T02:16:54.206Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -869,8 +869,8 @@
     },
     {
       "file": "amenti-hall-box.js",
-      "bytes": 44288,
-      "sha256": "b15757409e715a64",
+      "bytes": 46615,
+      "sha256": "3863d0e2453bb71d",
       "type": "js",
       "declares": [
         "AmentiCodexOpen"
@@ -1597,8 +1597,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 54508,
-      "sha256": "4cf1449a2ad9532d",
+      "bytes": 54568,
+      "sha256": "a4a214fc39dd9238",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1607,25 +1607,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1307,
-          "when": "toplevel",
-          "own": false
-        },
-        {
-          "global": "Amenti.listen",
           "line": 1308,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.voice",
+          "global": "Amenti.listen",
           "line": 1309,
           "when": "toplevel",
           "own": false
         },
         {
-          "global": "Amenti.doctrine",
+          "global": "Amenti.voice",
           "line": 1310,
+          "when": "toplevel",
+          "own": false
+        },
+        {
+          "global": "Amenti.doctrine",
+          "line": 1311,
           "when": "toplevel",
           "own": false
         }
@@ -1724,7 +1724,7 @@
     {
       "file": "hall.html",
       "bytes": 29275,
-      "sha256": "aca2a805140b1b13",
+      "sha256": "a4375eac219e6ffd",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1738,7 +1738,7 @@
           "line": 500
         },
         {
-          "file": "amenti-hall-box.js?v=cc79527c",
+          "file": "amenti-hall-box.js?v=5b9cb350",
           "line": 501
         },
         {
