@@ -1,16 +1,16 @@
 {
-  "at": "2026-11-08T22:09:07.036Z",
+  "at": "2026-11-09T06:37:57.787Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 258,
+    "count": 259,
     "prefixes": {
       "atlantica:": 123,
       "dailyplanet:": 20,
-      "watch:": 109,
+      "watch:": 110,
       "week:": 6
     }
   },
-  "today": "2026-11-08",
+  "today": "2026-11-09",
   "thisWeek": "2026-11-08",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
@@ -23,8 +23,9 @@
         "date": "2026-10-26",
         "figure": "friedrich-engels"
       },
-      "lastAgeDays": 13,
+      "lastAgeDays": 14,
       "missedLast14": [
+        "2026-11-08",
         "2026-11-07",
         "2026-11-06",
         "2026-11-05",
@@ -36,8 +37,7 @@
         "2026-10-30",
         "2026-10-29",
         "2026-10-28",
-        "2026-10-27",
-        "2026-10-25"
+        "2026-10-27"
       ],
       "recent": [
         {
@@ -154,7 +154,7 @@
       "status": "OK",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": 0,
+      "lastAgeDays": 1,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
