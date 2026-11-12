@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-11-12T04:02:53.041Z",
+    "generated": "2026-11-12T20:05:31.708Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1598,7 +1598,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 54694,
-      "sha256": "5a4a2c9d988fec93",
+      "sha256": "4ac938d42a8456f9",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1724,7 +1724,7 @@
     {
       "file": "hall.html",
       "bytes": 29255,
-      "sha256": "2e5464c334dbe93a",
+      "sha256": "d724cd5da1e8b446",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1738,7 +1738,7 @@
           "line": 500
         },
         {
-          "file": "amenti-hall-box.js?v=5b9cb350",
+          "file": "amenti-hall-box.js?v=eb07ff06",
           "line": 501
         },
         {
@@ -1907,6 +1907,19 @@
       "calls": [],
       "endpoints": [],
       "tables": []
+    },
+    {
+      "file": "unsub.html",
+      "bytes": 5039,
+      "sha256": "4a8baf00d2c23aa0",
+      "type": "html",
+      "declares": [],
+      "loads": [],
+      "calls": [],
+      "endpoints": [],
+      "tables": [
+        "rpc"
+      ]
     },
     {
       "file": "voiceprofiles.js",

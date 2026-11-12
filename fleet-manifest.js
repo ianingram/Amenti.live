@@ -8,8 +8,8 @@ window.FLEET_MANIFEST = {
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",
-    "merged": "2026-11-12T04:02:53.171Z",
-    "reading": "2026-11-12T04:02:53.041Z",
+    "merged": "2026-11-12T20:05:31.815Z",
+    "reading": "2026-11-12T20:05:31.708Z",
     "scanner": "tools/scan.js",
     "semantics": "2026.07",
     "note": "THE RECONCILIATION. Claims from fleet-semantics.js, reading from fleet-structure.json. NOTHING HERE WAS TYPED BY HAND. If a pane disagrees with this file, the pane is broken."
@@ -17,7 +17,7 @@ window.FLEET_MANIFEST = {
   "health": {
     "contradicted": 3,
     "unproven": 4,
-    "undeclared": 59,
+    "undeclared": 60,
     "adrift": 0,
     "clean": false
   },
@@ -430,6 +430,13 @@ window.FLEET_MANIFEST = {
     },
     {
       "stamp": "UNDECLARED",
+      "subject": "unsub.html",
+      "claim": "— nothing claims it —",
+      "reading": "in the repo",
+      "note": "A file aboard that no manifest names. Six of these were invisible to every view."
+    },
+    {
+      "stamp": "UNDECLARED",
       "subject": "watch.html",
       "claim": "— nothing claims it —",
       "reading": "in the repo",
@@ -467,7 +474,7 @@ window.FLEET_MANIFEST = {
       "stamp": "UNPROVEN",
       "subject": "ATLANTICA",
       "claim": "fires daily",
-      "reading": "MISSED 14 of the last 14 days",
+      "reading": "MISSED 13 of the last 14 days",
       "note": "The tube is loaded and the schedule is set. It simply did not fire."
     },
     {
@@ -486,31 +493,31 @@ window.FLEET_MANIFEST = {
     }
   ],
   "dispatch": {
-    "at": "2026-11-11T19:38:11.412Z",
+    "at": "2026-11-12T19:57:13.065Z",
     "by": "probes/probe-ordnance.mjs",
     "hold": {
-      "count": 261,
+      "count": 264,
       "prefixes": {
-        "atlantica:": 123,
+        "atlantica:": 125,
         "dailyplanet:": 20,
-        "watch:": 112,
+        "watch:": 113,
         "week:": 6
       }
     },
-    "today": "2026-11-11",
+    "today": "2026-11-12",
     "thisWeek": "2026-11-08",
     "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
     "tubes": {
       "ATLANTICA": {
         "id": "ATLANTICA",
         "cadence": "daily",
-        "status": "WARN",
-        "fired": 110,
+        "status": "OK",
+        "fired": 112,
         "last": {
-          "date": "2026-10-26",
-          "figure": "friedrich-engels"
+          "date": "2026-11-11",
+          "figure": "empress-elisabeth-of-austria"
         },
-        "lastAgeDays": 16,
+        "lastAgeDays": 1,
         "missedLast14": [
           "2026-11-10",
           "2026-11-09",
@@ -524,10 +531,19 @@ window.FLEET_MANIFEST = {
           "2026-11-01",
           "2026-10-31",
           "2026-10-30",
-          "2026-10-29",
-          "2026-10-28"
+          "2026-10-29"
         ],
         "recent": [
+          {
+            "figure": "empress-elisabeth-of-austria",
+            "date": "2026-11-11",
+            "key": "atlantica:empress-elisabeth-of-austria:2026-11-11"
+          },
+          {
+            "figure": "shaka",
+            "date": "2026-11-11",
+            "key": "atlantica:shaka:2026-11-11"
+          },
           {
             "figure": "friedrich-engels",
             "date": "2026-10-26",
@@ -587,19 +603,9 @@ window.FLEET_MANIFEST = {
             "figure": "cate-blanchett",
             "date": "2026-10-04",
             "key": "atlantica:cate-blanchett:2026-10-04"
-          },
-          {
-            "figure": "king-arthur",
-            "date": "2026-10-04",
-            "key": "atlantica:king-arthur:2026-10-04"
-          },
-          {
-            "figure": "prometheus",
-            "date": "2026-10-03",
-            "key": "atlantica:prometheus:2026-10-03"
           }
         ],
-        "note": "110 dispatch(es) in the hold · last 2026-10-26 (friedrich-engels) · MISSED 14 of the last 14 days"
+        "note": "112 dispatch(es) in the hold · last 2026-11-11 (empress-elisabeth-of-austria) · MISSED 13 of the last 14 days"
       },
       "THE WEEK": {
         "id": "THE WEEK",
@@ -642,7 +648,7 @@ window.FLEET_MANIFEST = {
         "status": "WARN",
         "fired": 20,
         "last": "2026-11-08",
-        "lastAgeDays": 3,
+        "lastAgeDays": 4,
         "recent": [
           "dailyplanet:anubis:2026-11-08",
           "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
@@ -1192,7 +1198,7 @@ window.FLEET_MANIFEST = {
       "note": "Hard caps, a spend meter and a rate limiter, wired into the Worker. 27 attacks repelled. The wall sits IN FRONT of the money: a megabyte 413s and Gemini is never called.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-11-11T19:38:09.565Z",
+        "at": "2026-11-12T19:57:11.629Z",
         "status": "OK",
         "note": "a normal chunk still speaks (200) · 10,000 chars REFUSED by the wall (text_too_long)"
       }
@@ -1210,7 +1216,7 @@ window.FLEET_MANIFEST = {
       "note": "READ AND JUDGED SOUND BY HAND: the answer keys never leave the Worker, the session is HMAC-signed, the clock is server-authoritative, minting is idempotent per (user, topic, question). ONE SOFT SPOT: /readaloud/complete TRUSTS the client's coverage number — bounded by a decaying curve and a verified identity, so low severity. BUT A HAND-READING IS NOT A PROBE. This is UNPROVEN until an instrument exists.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-11-11T19:38:09.565Z",
+        "at": "2026-11-12T19:57:11.629Z",
         "status": "OK",
         "note": "/quiz/start returns no answer key · /quiz/submit refused a forged session (401)"
       }
@@ -1228,7 +1234,7 @@ window.FLEET_MANIFEST = {
       "note": "THIS SHOWED GREEN FOR MONTHS WITH NOTHING BEHIND IT. The tick was a memory of a manual check. It may well be true. NOBODY HAS LOOKED. It stays red until an instrument does.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-11-11T19:38:09.565Z",
+        "at": "2026-11-12T19:57:11.629Z",
         "status": "OK",
         "note": "the anon key can neither READ nor WRITE the sealed tables: subscribers: sealed (401) · emerald_balance: sealed (200, 0 rows) · argument_reports: sealed (200, 0 rows) · subscribers: WRITE-SEALED (401)"
       }
@@ -1259,7 +1265,7 @@ window.FLEET_MANIFEST = {
       "note": "The canonical passage (sha 27e9c5af, LOCKED) fired through recital/320 and gabriel/700. 6/6 HIT = the model string, the voice, the style string and BOTH chunkers are unchanged. A MISS is not a drift in the documents — IT IS THE ARCHIVE FORKING, LIVE. THE MISS PATTERN IS THE DIAGNOSIS: all six = the model or the register; the four 320s = the recital chunker; the two 700s = Page2; one measure = splitSentences or plainText.",
       "stamp": "CONFIRMED",
       "patrol": {
-        "at": "2026-11-11T19:38:09.565Z",
+        "at": "2026-11-12T19:57:11.629Z",
         "status": "OK",
         "note": "6/6 HIT · 0 renders · $0.00 · passage 27e9c5afcdc4 · the model string, the voice, the style string and BOTH chunkers are unchanged"
       }
