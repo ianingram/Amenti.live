@@ -377,7 +377,7 @@
     /* prefer a global if the page provides one; else derive from LIBRARY.json */
     if (window.AMENTI_ROOMS) { _roomSet = window.AMENTI_ROOMS; return Promise.resolve(_roomSet); }
     var base = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.RAW_BASE) ||
-               'https://ianingram.github.io/Amenti.live/';
+               'https://amenti.live/';
     return fetch(base + 'LIBRARY.json', { cache: 'force-cache' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
@@ -390,7 +390,7 @@
   function loadMentions(key) {
     if (_mentCache[key] !== undefined) return Promise.resolve(_mentCache[key]);
     var base = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.RAW_BASE) ||
-               'https://ianingram.github.io/Amenti.live/';
+               'https://amenti.live/';
     return fetch(base + 'mentions/' + key + '-mentions.json', { cache: 'force-cache' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) { _mentCache[key] = d; return d; })

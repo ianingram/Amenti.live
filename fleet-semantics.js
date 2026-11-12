@@ -44,7 +44,7 @@ window.FLEET_SEMANTICS = {
 
   meta: {
     repo:   'ianingram/Amenti.live',
-    live:   'https://ianingram.github.io/Amenti.live/',
+    live:   'https://amenti.live/',
     mirror: 'ianingram/Fleet-Documents',
     domain: 'amenti.ai',
     law:    'The truth lives in the ship. The documents are a reflection. ' +

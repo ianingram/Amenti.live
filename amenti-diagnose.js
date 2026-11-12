@@ -4,7 +4,7 @@
    Replaces probe 1-7 and the console one-liners. Commit it once, add the one
    <script> line to Page1.html, and from then on it is a URL:
 
-       https://ianingram.github.io/Amenti.live/Page1.html?diagnose=1
+       https://amenti.live/Page1.html?diagnose=1
 
    It waits for the CSV ledger, runs every check, and downloads
    amenti-diagnose.txt. No pasting.

@@ -4,7 +4,7 @@
 window.FLEET_MANIFEST = {
   "meta": {
     "repo": "ianingram/Amenti.live",
-    "live": "https://ianingram.github.io/Amenti.live/",
+    "live": "https://amenti.live/",
     "mirror": "ianingram/Fleet-Documents",
     "domain": "amenti.ai",
     "law": "The truth lives in the ship. The documents are a reflection. You cannot correct a ship by painting the mirror.",

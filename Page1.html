@@ -1883,7 +1883,7 @@ body.gw-locked .master-nav{opacity:0;pointer-events:none;
        image is now allowed to be the image. -->
   <div class="gw-head">
     <p class="gw-eyebrow">AI: AMENTI INTERFACE <span class="gw-eyebrow-sep">/</span>
-      <a class="gw-eyebrow-link" href="https://ianingram.github.io/Amenti.live/Page1.html"
+      <a class="gw-eyebrow-link" href="Page1.html"
          rel="noopener noreferrer">AMENTI-AI</a> <span class="gw-eyebrow-sep">/</span></p>
   </div>
 
@@ -2923,7 +2923,7 @@ fetch(MINT + '/hall', { cache: 'no-store' })
     </a>
     <script>
     (function () {
-      var IDX = 'https://ianingram.github.io/Amenti.live/vallhalla/episodes/index.json';
+      var IDX = 'vallhalla/episodes/index.json';   /* page-relative: an absolute github.io URL now 301s to amenti.live, and the redirect carries no CORS header */
       fetch(IDX, { cache: 'no-store' })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (idx) {
