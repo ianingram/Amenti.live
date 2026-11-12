@@ -1,29 +1,29 @@
 {
-  "at": "2026-11-11T19:38:11.412Z",
+  "at": "2026-11-12T07:15:30.424Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 261,
+    "count": 264,
     "prefixes": {
-      "atlantica:": 123,
+      "atlantica:": 125,
       "dailyplanet:": 20,
-      "watch:": 112,
+      "watch:": 113,
       "week:": 6
     }
   },
-  "today": "2026-11-11",
+  "today": "2026-11-12",
   "thisWeek": "2026-11-08",
   "note": "THE FIRING LOG. What the fleet has actually published, read from the Worker's own KV. A schedule that nobody checks is a promise nobody keeps.",
   "tubes": {
     "ATLANTICA": {
       "id": "ATLANTICA",
       "cadence": "daily",
-      "status": "WARN",
-      "fired": 110,
+      "status": "OK",
+      "fired": 112,
       "last": {
-        "date": "2026-10-26",
-        "figure": "friedrich-engels"
+        "date": "2026-11-11",
+        "figure": "empress-elisabeth-of-austria"
       },
-      "lastAgeDays": 16,
+      "lastAgeDays": 1,
       "missedLast14": [
         "2026-11-10",
         "2026-11-09",
@@ -37,10 +37,19 @@
         "2026-11-01",
         "2026-10-31",
         "2026-10-30",
-        "2026-10-29",
-        "2026-10-28"
+        "2026-10-29"
       ],
       "recent": [
+        {
+          "figure": "empress-elisabeth-of-austria",
+          "date": "2026-11-11",
+          "key": "atlantica:empress-elisabeth-of-austria:2026-11-11"
+        },
+        {
+          "figure": "shaka",
+          "date": "2026-11-11",
+          "key": "atlantica:shaka:2026-11-11"
+        },
         {
           "figure": "friedrich-engels",
           "date": "2026-10-26",
@@ -100,19 +109,9 @@
           "figure": "cate-blanchett",
           "date": "2026-10-04",
           "key": "atlantica:cate-blanchett:2026-10-04"
-        },
-        {
-          "figure": "king-arthur",
-          "date": "2026-10-04",
-          "key": "atlantica:king-arthur:2026-10-04"
-        },
-        {
-          "figure": "prometheus",
-          "date": "2026-10-03",
-          "key": "atlantica:prometheus:2026-10-03"
         }
       ],
-      "note": "110 dispatch(es) in the hold · last 2026-10-26 (friedrich-engels) · MISSED 14 of the last 14 days"
+      "note": "112 dispatch(es) in the hold · last 2026-11-11 (empress-elisabeth-of-austria) · MISSED 13 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
@@ -155,7 +154,7 @@
       "status": "WARN",
       "fired": 20,
       "last": "2026-11-08",
-      "lastAgeDays": 3,
+      "lastAgeDays": 4,
       "recent": [
         "dailyplanet:anubis:2026-11-08",
         "dailyplanet:caesar:rubicon-letter-reading-caesar-s-real-words",
