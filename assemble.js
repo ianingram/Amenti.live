@@ -74,7 +74,7 @@ const PROXY = process.env.PROXY_URL || 'https://amenti-proxy.ingram-ian.workers.
 /* ⚠ VERIFY THIS BEFORE THE FIRST REAL SEND. Every link in the newsletter hangs
    off it. Set SITE_BASE in the workflow if the public site is not here. */
 const SITE  = (process.env.SITE_BASE || 'https://amenti.live').replace(/\/+$/, '');
-const FLEET = (process.env.FLEET_BASE || 'https://ianingram.github.io/Fleet-Documents').replace(/\/+$/, '');
+const FLEET = (process.env.FLEET_BASE || 'https://harbor.amenti.live').replace(/\/+$/, '');
 const OUT   = 'vallhalla';
 
 /* ── THE STAGGER ────────────────────────────────────────────────────────────
