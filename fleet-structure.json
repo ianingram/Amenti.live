@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-11-12T03:58:22.032Z",
+    "generated": "2026-11-12T04:02:53.041Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -30,8 +30,8 @@
     },
     {
       "file": "Page1.html",
-      "bytes": 550418,
-      "sha256": "2059af2c89a5d06c",
+      "bytes": 550452,
+      "sha256": "fd71b401a0d579fb",
       "type": "html",
       "declares": [
         "AMENTI_CHARS",
@@ -710,8 +710,8 @@
     },
     {
       "file": "amenti-diagnose.js",
-      "bytes": 52526,
-      "sha256": "429297889b3dc927",
+      "bytes": 52506,
+      "sha256": "39c9b1c2dbdad56c",
       "type": "js",
       "declares": [
         "AmentiDiagnose"
@@ -869,8 +869,8 @@
     },
     {
       "file": "amenti-hall-box.js",
-      "bytes": 46615,
-      "sha256": "3863d0e2453bb71d",
+      "bytes": 46575,
+      "sha256": "8b4241f30deaafb8",
       "type": "js",
       "declares": [
         "AmentiCodexOpen"
@@ -1597,8 +1597,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 54712,
-      "sha256": "a4dce4896e53e525",
+      "bytes": 54694,
+      "sha256": "5a4a2c9d988fec93",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1635,8 +1635,8 @@
     },
     {
       "file": "fleet-semantics.js",
-      "bytes": 32917,
-      "sha256": "47a01f2ffb2ed8f6",
+      "bytes": 32897,
+      "sha256": "8738830573613ece",
       "type": "js",
       "declares": [
         "FLEET_SEMANTICS"
@@ -1673,8 +1673,8 @@
     },
     {
       "file": "fleet-status.html",
-      "bytes": 7117,
-      "sha256": "343cc058a09aab20",
+      "bytes": 7097,
+      "sha256": "6fa2782278e0443e",
       "type": "html",
       "declares": [],
       "loads": [],
@@ -1723,8 +1723,8 @@
     },
     {
       "file": "hall.html",
-      "bytes": 29275,
-      "sha256": "a4375eac219e6ffd",
+      "bytes": 29255,
+      "sha256": "2e5464c334dbe93a",
       "type": "html",
       "declares": [
         "AmentiCost",
@@ -1827,8 +1827,8 @@
     },
     {
       "file": "index.html",
-      "bytes": 1584,
-      "sha256": "c29cac022662752d",
+      "bytes": 1444,
+      "sha256": "94ff5904e3867864",
       "type": "html",
       "declares": [],
       "loads": [],
