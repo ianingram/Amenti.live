@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>VALL·HAL·LA — unsubscribe</title>
+<!-- ============================================================================
+     THE DOOR OUT
+     ----------------------------------------------------------------------------
+     Every VALL-HALLA carries a link to this page. IT MUST WORK, and not for
+     style reasons:
+
+       · CAN-SPAM and GDPR both require a WORKING opt-out. A dead unsubscribe
+         link in a bulk mailing is not a technicality.
+       · People who cannot unsubscribe press "mark as spam". Resend suspends the
+         account and the domain gets blocklisted. ONE BAD SEND CAN COST YOU THE
+         DOMAIN.
+       · They signed up. THEY ARE ALLOWED TO LEAVE.
+
+     HOW IT IS SAFE
+     This page holds NO SECRET. It calls one function — public.unsubscribe(t) —
+     which is SECURITY DEFINER and can do exactly one thing: take a token and
+     flip THAT row's status. It cannot read the list. It cannot touch an email.
+     The anon key has NO write access to the subscribers table at all.
+
+     The publishable key below is the same one that already ships in
+     amenti-auth.js and in every page's source. It is public by design.
+     IF IT EVER CHANGES, IT MUST CHANGE IN BOTH PLACES.
+     ========================================================================= -->
+<style>
+  html,body{margin:0;height:100%;background:#06080f;color:#cdd8ff;
+    font-family:Georgia,'Times New Roman',serif;}
+  .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .card{width:100%;max-width:520px;border:1px solid #16324a;padding:40px 34px;text-align:center;}
+  .mark{font-size:22px;letter-spacing:.22em;color:#7CFFC4;font-weight:700;margin:0 0 6px;}
+  .sub{font:400 10px/1.7 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:#5a6472;margin:0 0 30px;}
+  .rule{height:1px;background:#7CFFC4;opacity:.3;margin:0 0 30px;}
+  h1{font-size:19px;font-weight:400;color:#dbeafe;margin:0 0 12px;}
+  p{font-size:15px;line-height:1.65;color:#9aa8bd;margin:0 0 8px;}
+  .foot{margin-top:32px;font:400 11px/1.7 ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#5a6472;}
+  a{color:#93c5fd;text-decoration:none;border-bottom:1px solid rgba(147,197,253,.3);}
+  .err{color:#FF8A80;}
+  .ok{color:#7CFFC4;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="mark">VALL&middot;HAL&middot;LA</div>
+    <div class="sub">THE WEEKLY DISPATCH</div>
+    <div class="rule"></div>
+    <h1 id="h">Leaving the hall&hellip;</h1>
+    <p id="p">One moment.</p>
+    <div class="foot"><a href="/">return to amenti</a></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* PUBLIC BY DESIGN. The same publishable key that ships in amenti-auth.js and
+     in every page's source. It grants INSERT on subscribers and EXECUTE on one
+     function. It cannot read the list and it cannot write to the table. */
+  var SUPABASE_URL = 'https://bhgnkfsatmcnhqksybpa.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_XtrpSVYl4f5Q6kjtaZGf5A_H2gG_QtK';
+
+  var h = document.getElementById('h');
+  var p = document.getElementById('p');
+
+  function say(title, body, cls) {
+    h.textContent = title;
+    p.innerHTML = body;
+    if (cls) p.className = cls;
+  }
+
+  var t = new URLSearchParams(location.search).get('t');
+
+  if (!t) {
+    say('This link is incomplete.',
+        'It is missing its token. Use the unsubscribe link at the foot of the email itself, ' +
+        'or write to us and we will remove you by hand.', 'err');
+    return;
+  }
+
+  fetch(SUPABASE_URL + '/rest/v1/rpc/unsubscribe', {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ t: t })
+  })
+  .then(function (r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  })
+  .then(function (removed) {
+    if (removed === true) {
+      say('You have left the hall.',
+          'You will receive no further dispatches. The door is not locked behind you &mdash; ' +
+          'you may return whenever you wish.', 'ok');
+    } else {
+      /* Either the token is unknown, or they had already unsubscribed. We do not
+         say which — an unsubscribe page must never confirm whether an address is
+         on a list. Either way, the promise to them is kept. */
+      say('You are not on the list.',
+          'Either you have already left, or this link has been used. ' +
+          'No further dispatches will reach you.', 'ok');
+    }
+  })
+  .catch(function (e) {
+    say('That did not work.',
+        'Something went wrong on our side &mdash; and that is our fault, not yours. ' +
+        'Reply to any dispatch and you will be removed by hand. ' +
+        '<span style="opacity:.5">(' + String(e.message) + ')</span>', 'err');
+  });
+})();
+</script>
+</body>
+</html>
