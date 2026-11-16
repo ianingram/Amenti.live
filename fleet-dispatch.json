@@ -1,10 +1,10 @@
 {
-  "at": "2026-11-16T06:34:26.402Z",
+  "at": "2026-11-16T22:07:38.371Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 271,
+    "count": 272,
     "prefixes": {
-      "atlantica:": 126,
+      "atlantica:": 127,
       "dailyplanet:": 20,
       "watch:": 119,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 113,
+      "fired": 114,
       "last": {
-        "date": "2026-11-15",
+        "date": "2026-11-16",
         "figure": "musashi"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-11-14",
         "2026-11-13",
@@ -39,6 +39,11 @@
         "2026-11-02"
       ],
       "recent": [
+        {
+          "figure": "musashi",
+          "date": "2026-11-16",
+          "key": "atlantica:musashi:2026-11-16"
+        },
         {
           "figure": "musashi",
           "date": "2026-11-15",
@@ -103,14 +108,9 @@
           "figure": "ayn-rand",
           "date": "2026-10-05",
           "key": "atlantica:ayn-rand:2026-10-05"
-        },
-        {
-          "figure": "brigitte-bardot",
-          "date": "2026-10-05",
-          "key": "atlantica:brigitte-bardot:2026-10-05"
         }
       ],
-      "note": "113 dispatch(es) in the hold · last 2026-11-15 (musashi) · MISSED 12 of the last 14 days"
+      "note": "114 dispatch(es) in the hold · last 2026-11-16 (musashi) · MISSED 12 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
