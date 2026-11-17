@@ -1,10 +1,10 @@
 {
-  "at": "2026-11-17T07:58:17.580Z",
+  "at": "2026-11-17T20:58:04.645Z",
   "by": "probes/probe-ordnance.mjs",
   "hold": {
-    "count": 273,
+    "count": 275,
     "prefixes": {
-      "atlantica:": 127,
+      "atlantica:": 129,
       "dailyplanet:": 20,
       "watch:": 120,
       "week:": 6
@@ -18,12 +18,12 @@
       "id": "ATLANTICA",
       "cadence": "daily",
       "status": "OK",
-      "fired": 114,
+      "fired": 116,
       "last": {
-        "date": "2026-11-16",
-        "figure": "musashi"
+        "date": "2026-11-17",
+        "figure": "rosa-parks"
       },
-      "lastAgeDays": 1,
+      "lastAgeDays": 0,
       "missedLast14": [
         "2026-11-14",
         "2026-11-13",
@@ -38,6 +38,16 @@
         "2026-11-03"
       ],
       "recent": [
+        {
+          "figure": "rosa-parks",
+          "date": "2026-11-17",
+          "key": "atlantica:rosa-parks:2026-11-17"
+        },
+        {
+          "figure": "saladin",
+          "date": "2026-11-17",
+          "key": "atlantica:saladin:2026-11-17"
+        },
         {
           "figure": "musashi",
           "date": "2026-11-16",
@@ -97,19 +107,9 @@
           "figure": "robert-louis-stevenson",
           "date": "2026-10-08",
           "key": "atlantica:robert-louis-stevenson:2026-10-08"
-        },
-        {
-          "figure": "leif-erikson",
-          "date": "2026-10-06",
-          "key": "atlantica:leif-erikson:2026-10-06"
-        },
-        {
-          "figure": "ayn-rand",
-          "date": "2026-10-05",
-          "key": "atlantica:ayn-rand:2026-10-05"
         }
       ],
-      "note": "114 dispatch(es) in the hold · last 2026-11-16 (musashi) · MISSED 11 of the last 14 days"
+      "note": "116 dispatch(es) in the hold · last 2026-11-17 (rosa-parks) · MISSED 11 of the last 14 days"
     },
     "THE WEEK": {
       "id": "THE WEEK",
