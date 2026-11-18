@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-18T07:57:57.869Z",
+  "generated": "2026-11-18T20:54:39.399Z",
   "source": "LIBRARY.json",
-  "libraryGenerated": "2026-11-18T07:57:57.832Z",
+  "libraryGenerated": "2026-11-18T20:54:39.355Z",
   "totals": {
-    "works": 712,
-    "CITED": 657,
+    "works": 714,
+    "CITED": 659,
     "DATED": 7,
     "THIN": 39,
     "EMPTY": 0,
@@ -19,6 +19,15 @@
       "EMPTY": 0,
       "LINKED": 0,
       "needs": "names a translator, not an edition"
+    },
+    "alexandre-dumas": {
+      "works": 2,
+      "CITED": 2,
+      "DATED": 0,
+      "THIN": 0,
+      "EMPTY": 0,
+      "LINKED": 0,
+      "needs": ""
     },
     "apollo": {
       "works": 8,
