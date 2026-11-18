@@ -1,6 +1,6 @@
 {
   "deck": "Amenti",
-  "generated": "2026-11-15T00:55:42.121Z",
+  "generated": "2026-11-18T07:59:08.371Z",
   "generator": "tools/plates.js",
   "variants": {
     "card": {
@@ -40,7 +40,7 @@
     "files": 177,
     "plates": 169,
     "keys": 53,
-    "rooms": 56,
+    "rooms": 57,
     "scenes": 1,
     "sceneFiles": 2,
     "figuresWithScenes": 1,
@@ -66,6 +66,7 @@
       ]
     },
     "roomsWithoutPlates": [
+      "alexandre-dumas",
       "einstein-albert",
       "henryk-sienkiewicz",
       "ingram",
@@ -95,6 +96,7 @@
       }
     ],
     "unaccepted": [
+      "alexandre-dumas",
       "henryk-sienkiewicz",
       "robert-louis-stevenson"
     ],
