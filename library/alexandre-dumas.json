@@ -1,0 +1,32 @@
+{
+  "key": "alexandre-dumas",
+  "name": "Alexandre Dumas",
+  "note": "Alexandre Dumas père (1802–1870). The Three Musketeers (1844), first of the d'Artagnan romances, is held here complete, chapter by chapter, as the source text for the Amenti Studios production: library/alexandre-dumas/the-three-musketeers/ch00.md (Author's Preface) to ch68.md (Epilogue). Translation: the anonymous English translation of Project Gutenberg #1257, public domain.",
+  "works": [
+    {
+      "id": "musketeers-preface",
+      "section": "The Three Musketeers (1844)",
+      "title": "Author's Preface",
+      "mode": "stored",
+      "source": "Project Gutenberg #1257 · public domain",
+      "note": "Dumas presents the memoirs of the Comte de la Fère.",
+      "file": "alexandre-dumas/the-three-musketeers/ch00.md"
+    },
+    {
+      "id": "musketeers-ch01",
+      "section": "The Three Musketeers (1844)",
+      "title": "Chapter I. The Three Presents of D'Artagnan the Elder",
+      "mode": "stored",
+      "source": "Project Gutenberg #1257 · public domain",
+      "note": "Meung, April 1625: the yellow horse, the letter, and the man of Meung.",
+      "file": "alexandre-dumas/the-three-musketeers/ch01.md"
+    },
+    {
+      "id": "musketeers-complete",
+      "section": "The Complete Record",
+      "title": "The Three Musketeers",
+      "mode": "link",
+      "url": "https://www.gutenberg.org/ebooks/1257"
+    }
+  ]
+}
