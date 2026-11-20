@@ -1,7 +1,7 @@
 # ============================================================================
 #  .github/workflows/ark.yml  ·  THE ARK
 # ----------------------------------------------------------------------------
-#  Bundles every repository in the system (SIX — see the list in the job) — FULL HISTORY, every branch, every
+#  Bundles every repository in the system (EIGHT — see the list in the job) — FULL HISTORY, every branch, every
 #  tag — verifies each bundle, and ships them to R2. Weekly, and on demand.
 #
 #  ── WHY NOT THE ZIP BUTTON ────────────────────────────────────────────────
@@ -92,7 +92,9 @@ jobs:
           # Durable Object, and it was not on any list until somebody happened
           # to look. That is the failure this comment warns about, and it had
           # already happened before the first run.
-          REPOS="Amenti.live Fleet-Documents Amenti-Technical-Briefs Amenti-Workers Admin Gameroom0.0"
+          # Amenti-Readings and Amenti-Studios added 19 Nov 2026: every Studios production
+          # (cue sheets, sound, score, art, splices) lives there and was on no list.
+          REPOS="Amenti.live Fleet-Documents Amenti-Technical-Briefs Amenti-Workers Admin Gameroom0.0 Amenti-Readings Amenti-Studios"
 
           ok=0; bad=0
           for R in $REPOS; do
