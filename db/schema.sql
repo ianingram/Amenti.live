@@ -4,7 +4,7 @@
 
 
 -- Dumped from database version 17.6
--- Dumped by pg_dump version 18.6 (Ubuntu 18.6-1.pgdg26.04+2)
+-- Dumped by pg_dump version 18.7 (Ubuntu 18.7-1.pgdg26.04+2)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
