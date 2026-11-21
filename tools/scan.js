@@ -158,7 +158,7 @@ function scanFile(file) {
     let m;
     while ((m = re.exec(code))) {
       if (/^https?:/.test(m[1])) continue;                   // CDN, not ours
-      rec.loads.push({ file: m[1], line: lineOf(code, m.index) });
+      rec.loads.push({ file: m[1].split(/[?#]/)[0], line: lineOf(code, m.index) });   // config.js?v=… is config.js
     }
   }
 
