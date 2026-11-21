@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Halls of Amenti · Directory</title>
+<meta name="description" content="Every door in Amenti.live: the Interface, the Library of Legends, the Harbor, Amenti Studios and the Bridge.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one granite column; the thesis under a gold-line pyramid, then each domain as a ledger of doors. */
+:root{
+  --granite:#07080c; --slab:#0e1016; --vein:#1d212b;
+  --gold:#c9a24a; --gold-soft:#8c7234; --parchment:#e8e4d9; --ash:#9a958a;
+  --display:"Cinzel","Trajan Pro",Georgia,serif;
+  --body:"EB Garamond",Garamond,Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+body{background:var(--granite);color:var(--parchment);font-family:var(--body);font-size:18px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px;
+  background-image:radial-gradient(ellipse 900px 420px at 50% -80px,rgba(201,162,74,.10),transparent 70%)}
+.wrap{max-width:980px;margin:0 auto}
+header{text-align:center;padding-block:56px 40px;border-bottom:1px solid var(--vein)}
+header svg{width:min(340px,80%);height:auto;display:block;margin:0 auto 28px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(30px,5vw,48px);letter-spacing:.08em;margin:10px 0 26px;text-wrap:balance}
+.thesis{font-size:clamp(21px,2.6vw,27px);font-style:italic;max-width:30ch;margin:0 auto;text-wrap:balance}
+.thesis em{font-style:normal;color:var(--gold)}
+.psr{max-width:62ch;margin:26px auto 0;color:var(--ash);font-size:18px}
+.psr b{color:var(--parchment);font-weight:500;letter-spacing:.02em}
+.psr .tag{font-family:var(--mono);font-size:13px;color:var(--gold);border:1px solid var(--gold-soft);padding:1px 7px;border-radius:2px;margin-right:6px;letter-spacing:.1em}
+section{padding-block:40px 6px;border-bottom:1px solid var(--vein)}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 18px;margin-bottom:18px}
+h2{font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:.12em;margin:0;color:var(--gold)}
+.host{font-family:var(--mono);font-size:13px;color:var(--ash)}
+.host a{color:var(--parchment)}
+.note{color:var(--ash);font-size:16px;margin:-8px 0 16px;max-width:65ch}
+ul.doors{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:0 28px}
+ul.doors li{min-width:0;border-top:1px solid var(--vein);padding-block:12px}
+ul.doors a{display:block;text-decoration:none;color:inherit;border-radius:2px}
+ul.doors a:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+.name{font-size:19px;font-weight:500}
+ul.doors a:hover .name{color:var(--gold)}
+.path{font-family:var(--mono);font-size:12px;color:var(--gold-soft);overflow-wrap:anywhere}
+.what{font-size:15px;color:var(--ash);margin-top:2px}
+.lock{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--granite);background:var(--gold-soft);padding:1px 6px;border-radius:2px;margin-left:6px;vertical-align:2px}
+.rooms{display:flex;flex-wrap:wrap;gap:8px 8px;margin:0 0 30px;padding:0;list-style:none}
+.rooms li{font-size:15px;border:1px solid var(--vein);padding:3px 10px;border-radius:2px;color:var(--parchment)}
+.formula{margin:22px auto 0;font-family:var(--mono);font-size:clamp(20px,3vw,26px);letter-spacing:.18em;color:var(--gold)}
+.formula-say{margin:6px auto 0;color:var(--ash);font-size:16px;max-width:52ch;text-wrap:balance}
+footer{text-align:center;padding-top:30px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--ash)}
+@media (prefers-reduced-motion:no-preference){ header svg .line{stroke-dasharray:900;stroke-dashoffset:0;animation:draw 2.4s ease-out both} @keyframes draw{from{stroke-dashoffset:900}} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <svg viewBox="0 0 340 120" role="img" aria-label="A low granite pyramid drawn in gold lines">
+    <polygon points="10,112 170,10 330,112" fill="#0e1016" stroke="none"/>
+    <g fill="none" stroke="#c9a24a" stroke-width="1.2" stroke-linejoin="round">
+      <polyline class="line" points="10,112 170,10 330,112 10,112"/>
+      <polyline class="line" points="170,10 170,112" opacity=".45"/>
+      <polyline class="line" points="58,81 282,81" opacity=".35"/>
+      <polyline class="line" points="104,52 236,52" opacity=".3"/>
+      <polyline class="line" points="170,10 90,112" opacity=".25"/>
+      <polyline class="line" points="170,10 250,112" opacity=".25"/>
+    </g>
+  </svg>
+  <div class="eyebrow">Amenti.live · the directory</div>
+  <h1>The Halls of Amenti</h1>
+  <p class="thesis">The Amenti interface is where <em>artificial intelligence</em> pairs with <em>actual intelligence</em>.</p>
+  <p class="formula" aria-label="A I times A I equals A I">AI × AI = AI</p>
+  <p class="formula-say">Actual Intelligence × Artificial Intelligence = Amenti Interface</p>
+  <p class="psr"><span class="tag">PSR</span>The entire ecosystem is built on the <b>Primary Source Repository</b>: the original texts, letters, histories and public-domain books behind every figure, reading room and production.</p>
+</header>
+
+<section>
+  <div class="shead"><h2>The Interface</h2><span class="host"><a href="https://amenti.live/">amenti.live</a> · amenti-ai.com forwards here</span></div>
+  <ul class="doors">
+    <li><a href="https://amenti.live/Page1.html"><div class="name">The Stardust Engine</div><div class="path">/Page1.html</div><div class="what">The front door: the roster, the reading rooms and the Codex.</div></a></li>
+    <li><a href="https://amenti.live/Page2.html"><div class="name">The Sovereign Instrument</div><div class="path">/Page2.html</div><div class="what">The quizzes and live conversation with the legends.</div></a></li>
+    <li><a href="https://amenti.live/Page3.html"><div class="name">Orbital HD</div><div class="path">/Page3.html</div><div class="what">The modular command view.</div></a></li>
+    <li><a href="https://amenti.live/hall.html"><div class="name">Ask Amenti · The Hall</div><div class="path">/hall.html</div><div class="what">Search the library and ask the building itself.</div></a></li>
+    <li><a href="https://amenti.live/AMENTI-HOW-TO-USE-IT.html"><div class="name">How to Use Amenti</div><div class="path">/AMENTI-HOW-TO-USE-IT.html</div><div class="what">The hall and the ground, explained.</div></a></li>
+    <li><a href="https://amenti.live/Codex.html"><div class="name">The Codex</div><div class="path">/Codex.html</div><div class="what">A card for every figure.</div></a></li>
+    <li><a href="https://amenti.live/read.html"><div class="name">The Book of the Dead</div><div class="path">/read.html</div><div class="what">The reader.</div></a></li>
+    <li><a href="https://amenti.live/graph.html"><div class="name">The Mention Graph</div><div class="path">/graph.html</div><div class="what">Who names whom across the sources.</div></a></li>
+    <li><a href="https://amenti.live/game01.html"><div class="name">The Gameroom</div><div class="path">/game01.html</div><div class="what">Historical 3D chess and checkers.</div></a></li>
+    <li><a href="https://amenti.live/court.html"><div class="name">The Cosmic Courtroom</div><div class="path">/court.html</div><div class="what">The Weighing.</div></a></li>
+    <li><a href="https://amenti.live/weighing.html"><div class="name">The Weighing of Caesar</div><div class="path">/weighing.html</div><div class="what">A case before the Cosmic Court.</div></a></li>
+    <li><a href="https://amenti.live/docket.html"><div class="name">The Docket</div><div class="path">/docket.html</div><div class="what">The Cosmic Court's list of cases.</div></a></li>
+    <li><a href="https://amenti.live/watch.html"><div class="name">The Watch</div><div class="path">/watch.html</div><div class="what">What is moving across Amenti.</div></a></li>
+    <li><a href="https://amenti.live/fleet-status.html"><div class="name">Fleet Status</div><div class="path">/fleet-status.html</div><div class="what">The state of the fleet at a glance.</div></a></li>
+    <li><a href="https://amenti.live/quizzard-bridge.html"><div class="name">The Quizzard Bridge</div><div class="path">/quizzard-bridge.html</div><div class="what">The quiz master's station.</div></a></li>
+    <li><a href="https://amenti.live/desk.html"><div class="name">The Liquidation Desk</div><div class="path">/desk.html</div><div class="what">Tokyo J-1.</div></a></li>
+    <li><a href="https://amenti.live/campaign-bench.html"><div class="name">The Campaign Bench</div><div class="path">/campaign-bench.html</div><div class="what">The campaign, on a bench.</div></a></li>
+  </ul>
+</section>
+
+<section>
+  <div class="shead"><h2>The Library of Legends</h2><span class="host">57 reading rooms · opened from <a href="https://amenti.live/Page1.html">the Stardust Engine</a></span></div>
+  <p class="note">The Primary Source Repository, room by room. Each room holds a figure's own works or the sources that tell their story.</p>
+  <ul class="rooms">
+    <li>Akhenaten</li><li>Alexandre Dumas</li><li>Apollo</li><li>Augustus Caesar</li><li>Bram Stoker</li><li>Brutus</li><li>Charles Darwin</li><li>Charles Dickens</li><li>Charles Martel</li><li>Christopher Columbus</li><li>Cleopatra</li><li>Confucius</li><li>Dante Alighieri</li><li>David Hume</li><li>Edward Gibbon</li><li>Albert Einstein</li><li>Flavius Josephus</li><li>Frederick Douglass</li><li>Galileo Galilei</li><li>Gautama Buddha</li><li>George Washington</li><li>Johannes Gutenberg</li><li>Hannibal Barca</li><li>Helen Keller</li><li>Henryk Sienkiewicz</li><li>Herodotus</li><li>Ian Ingram</li><li>Isaac Newton</li><li>John Milton</li><li>Gaius Julius Caesar</li><li>King Arthur</li><li>Leif Erikson</li><li>Abraham Lincoln</li><li>Livy</li><li>Lycurgus</li><li>Mohandas K. Gandhi</li><li>Marcus Aurelius</li><li>Moses</li><li>Miyamoto Musashi</li><li>Nimrod</li><li>Oliver Cromwell</li><li>Plato</li><li>Plutarch</li><li>Robert Louis Stevenson</li><li>Romulus</li><li>Seneca the Younger</li><li>Shaka kaSenzangakhona</li><li>William Shakespeare</li><li>Solon</li><li>Sun Tzu</li><li>Tacitus</li><li>Nikola Tesla</li><li>Theseus</li><li>Thomas Jefferson</li><li>Thoth</li><li>Thucydides</li><li>W. D. Gann</li>
+  </ul>
+</section>
+
+<section>
+  <div class="shead"><h2>The Harbor</h2><span class="host"><a href="https://harbor.amenti.live/">harbor.amenti.live</a> · the Fleet Documents</span></div>
+  <ul class="doors">
+    <li><a href="https://harbor.amenti.live/"><div class="name">The Harbor</div><div class="path">/</div><div class="what">The fleet's documents, all in one place.</div></a></li>
+    <li><a href="https://harbor.amenti.live/broadcast.html"><div class="name">The Broadcast</div><div class="path">/broadcast.html</div><div class="what">The news from Amenti.</div></a></li>
+    <li><a href="https://harbor.amenti.live/sonar.html"><div class="name">The Sonar</div><div class="path">/sonar.html</div><div class="what">From the Engine Room.</div></a></li>
+    <li><a href="https://harbor.amenti.live/ocean.html"><div class="name">The Fleet at Anchor</div><div class="path">/ocean.html</div><div class="what">A bird's-eye view of the fleet.</div></a></li>
+    <li><a href="https://harbor.amenti.live/atlas.html"><div class="name">The Amenti Atlas</div><div class="path">/atlas.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/command.html"><div class="name">Fleet Command</div><div class="path">/command.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/doors.html"><div class="name">The Doors</div><div class="path">/doors.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/engine-room.html"><div class="name">The Engine Room</div><div class="path">/engine-room.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/library.html"><div class="name">The Reading Desk</div><div class="path">/library.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/onboarding.html"><div class="name">The Onboarding of a Soul</div><div class="path">/onboarding.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/ordnance.html"><div class="name">The Ordnance Bay</div><div class="path">/ordnance.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/plate-deck.html"><div class="name">The Plate Deck</div><div class="path">/plate-deck.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/probe-corps.html"><div class="name">The Probe Corps</div><div class="path">/probe-corps.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/production.html"><div class="name">The Production</div><div class="path">/production.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/register.html"><div class="name">The Register</div><div class="path">/register.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/ships-manifest.html"><div class="name">The Ship's Manifest</div><div class="path">/ships-manifest.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/surfaces.html"><div class="name">The Surface Manifest</div><div class="path">/surfaces.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/terminal.html"><div class="name">The Terminal</div><div class="path">/terminal.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/voice.html"><div class="name">The Voice</div><div class="path">/voice.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/watch.html"><div class="name">The Watch</div><div class="path">/watch.html</div></a></li>
+    <li><a href="https://harbor.amenti.live/workers.html"><div class="name">The Workers</div><div class="path">/workers.html</div></a></li>
+  </ul>
+</section>
+
+<section>
+  <div class="shead"><h2>Amenti Studios</h2><span class="host">studios.amenti.live · coming</span></div>
+  <p class="note">The primary sources, staged: public-domain books read by a cast of legends, with sound, score and paintings.</p>
+  <ul class="doors">
+    <li><a href="https://ianingram.github.io/Amenti-Studios/"><div class="name">The Studios Lobby</div><div class="path">ianingram.github.io/Amenti-Studios/</div><div class="what">Every production in one place, until studios.amenti.live opens.</div></a></li>
+  </ul>
+</section>
+
+<section>
+  <div class="shead"><h2>The Bridge</h2><span class="host">bridge.amenti.live</span></div>
+  <ul class="doors">
+    <li><a href="https://bridge.amenti.live/"><div class="name">The Operator Hub <span class="lock">Locked</span></div><div class="path">bridge.amenti.live</div><div class="what">The operator's back door. Sign-in required.</div></a></li>
+  </ul>
+</section>
+
+<footer>© 2026 Ingram Manor LLC · All Rights Reserved</footer>
+</div>
+</body>
+</html>
