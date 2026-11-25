@@ -2707,6 +2707,11 @@ const PLANETS = [
 
 const planetGroup = new THREE.Group();
 scene.add(planetGroup);
+// RETIRED 25 Nov 2026: the five orbiting, labelled planets (Mars, Jupiter,
+// Saturn, Uranus, Neptune) read as clutter moving across the board ("they are
+// confusing"). Built but never shown; flip this to bring them back.
+const PLANETS_SHOWN = false;
+planetGroup.visible = PLANETS_SHOWN;
 
 // Build each planet body, decorations, and label
 const planetObjects = [];
@@ -2809,6 +2814,7 @@ planetGroup.rotation.y = 0;
 planetGroup.rotation.z = Math.PI / 6;   // 30° tilt around Z — orbit appears slightly oblique
 
 function updatePlanets(now) {
+    if (!planetGroup.visible) return;      // retired: no work for bodies nobody sees
     for (const p of planetObjects) {
         const angle = (now / p.def.period) * Math.PI * 2 + p.def.phase;
         if (p.isStarMode) {
@@ -25105,13 +25111,13 @@ function setView(id) {
     // render the upper foliage in full detail (or render anything above
     // the canopy line). Other views reset to defaults.
 
-    // Planets: the orbiting celestial bodies now appear on ALL boards
+    // Planets: retired (PLANETS_SHOWN). When shown, the orbiting bodies appear on ALL boards
     // (V1–V13), rising and setting along the ecliptic just as they do in V5.
     // They render as luminous V5-style STARS on the board views and as the
     // textured planet bodies in the dedicated space views.
     if (typeof planetGroup !== 'undefined') {
         const spaceyViews = [4, 6, 7, 8, 9];
-        planetGroup.visible = (id >= 1 && id <= 13);
+        planetGroup.visible = PLANETS_SHOWN && (id >= 1 && id <= 13);
         if (typeof setPlanetMode === 'function') {
             setPlanetMode(spaceyViews.includes(id) ? 'planetlike' : 'starlike');
         }
