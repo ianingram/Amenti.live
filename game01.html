@@ -170,7 +170,8 @@ const HEADER_ALIASES = {
     birthdate: 'birthDate', born: 'birthDate',
     deathdate: 'deathDate', died: 'deathDate', deathyear: 'deathDate',
     biography: 'biography', bio: 'biography',
-    links: 'links', link: 'links', url: 'links', wikipedia: 'links'
+    links: 'links', link: 'links', url: 'links', wikipedia: 'links',
+    gender: 'gender'   // decides king vs queen for a chosen opponent
 };
 
 function detectHeader(row) {
@@ -193,7 +194,7 @@ function rowsToFigures(rows) {
 
     const figures = [];
     for (const r of dataRows) {
-        const figure = { rank: '', fullName: '', title: '', birthDate: '', deathDate: '', biography: '', links: [] };
+        const figure = { rank: '', fullName: '', title: '', birthDate: '', deathDate: '', biography: '', links: [], gender: '' };
         r.forEach((cell, idx) => {
             const fieldName = hasHeader ? headerMap[idx] : positional[idx];
             if (!fieldName) return;
@@ -7906,6 +7907,14 @@ function buildCheckersRoster(side) {
 function initCheckersRosters() {
     WHITE_CHECKERS_ROSTER = buildCheckersRoster('w');
     BLACK_CHECKERS_ROSTER = buildCheckersRoster('b');
+    // A queen-seated opponent would land on an ordinary man; keep the legend
+    // on roster slot 4, a centre back-row piece, as a king-seated one is.
+    if (_opponent) {
+        const oi = BLACK_CHECKERS_ROSTER.findIndex(f => f && f.fullName === _opponent.fullName);
+        if (oi >= 0 && oi !== 4) {
+            [BLACK_CHECKERS_ROSTER[oi], BLACK_CHECKERS_ROSTER[4]] = [BLACK_CHECKERS_ROSTER[4], BLACK_CHECKERS_ROSTER[oi]];
+        }
+    }
 }
 
 // Map from back-rank square (a1..h1, a8..h8) → figure object.
@@ -8185,17 +8194,19 @@ function rollRosters() {
         WHITE_ROSTER = roster.white;
         BLACK_ROSTER = roster.black;
     }
-    // AI OPPONENT: the chosen legend is Black's king (index 4, r n b q k b n r).
-    // If the roll already placed them on a side, take them off it first.
+    // AI OPPONENT: the chosen legend commands Black from the king's square, or
+    // the queen's if names.csv lists them as female (r n b q k b n r: 3 = q,
+    // 4 = k). If the roll already placed them on a side, take them off it first.
     if (_opponent) {
         const nm = _opponent.fullName;
         WHITE_ROSTER = WHITE_ROSTER.slice(); BLACK_ROSTER = BLACK_ROSTER.slice();
         const all = (window.AppNames && window.AppNames.getAllFigures) ? window.AppNames.getAllFigures() : [];
         const used = new Set(WHITE_ROSTER.concat(BLACK_ROSTER).map(f => f && f.fullName));
         const spare = () => { const f = all.find(x => x && !used.has(x.fullName) && x.fullName !== nm); if (f) used.add(f.fullName); return f; };
+        const seat = /^female$/i.test((_opponent.gender || '').trim()) ? 3 : 4;
         const bi = BLACK_ROSTER.findIndex(f => f && f.fullName === nm);
-        if (bi >= 0 && bi !== 4) BLACK_ROSTER[bi] = BLACK_ROSTER[4];
-        BLACK_ROSTER[4] = _opponent;
+        if (bi >= 0 && bi !== seat) BLACK_ROSTER[bi] = BLACK_ROSTER[seat];
+        BLACK_ROSTER[seat] = _opponent;
         const wi = WHITE_ROSTER.findIndex(f => f && f.fullName === nm);
         if (wi >= 0) WHITE_ROSTER[wi] = spare() || WHITE_ROSTER[wi];
     }
