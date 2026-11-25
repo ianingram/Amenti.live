@@ -7679,7 +7679,12 @@ function attemptMoveWithCaptures(source, target) {
 
     // Table talk needs the position as it was (homes move inside the core).
     const _talkPre = (_opponent && aiEnabled)
-        ? { board: getBoardState(), homeFrom: pieceHomeMap[source], homeTo: pieceHomeMap[target] } : null;
+        ? { board: getBoardState(), homeFrom: pieceHomeMap[source], homeTo: pieceHomeMap[target],
+            // Tutor / adversary judge the visitor's move against White's best.
+            // Only the position is saved here; the search runs just AFTER the
+            // move lands (see _talkAfterMove), so the click never waits on it.
+            snap: (movedColor === 'w' && typeof _oppStyle !== 'undefined' && _oppStyle !== 'rival' && getGameMode() === 'chess') ? cloneState() : null }
+        : null;
 
     const ok = _attemptMoveWithCapturesCore(source, target);
 
@@ -9930,6 +9935,17 @@ function _oppRenderStrength() {
         el.style.background = on ? 'rgba(255,206,90,0.16)' : 'transparent';
     });
 }
+function _oppRenderStyle() {
+    if (!_oppPickerEl) return;
+    _oppPickerEl.querySelectorAll('[data-style]').forEach(el => {
+        const on = el.getAttribute('data-style') === _oppStyle;
+        el.style.borderColor = on ? '#ffce5a' : '#5a4620';
+        el.style.background = on ? 'rgba(255,206,90,0.16)' : 'transparent';
+    });
+    const st = OPP_STYLES.find(x => x.id === _oppStyle);
+    const b = _oppPickerEl.querySelector('#oppStyleBlurb');
+    if (b && st) b.textContent = st.blurb;
+}
 function _closeOpponentPicker() { if (_oppPickerEl) _oppPickerEl.style.display = 'none'; }
 function _openOpponentPicker(role) {
     _oppPickerRole = role === 'second' ? 'second' : 'opponent';
@@ -9955,6 +9971,11 @@ function _openOpponentPicker(role) {
           +   '<span style="font-size:12px;color:#caa23a;margin-right:4px;">Strength</span>'
           +   OPPONENT_STRENGTHS.map(x => '<button data-lvl="' + x.level + '" style="' + btn + 'color:#ffe6a0;">' + x.label + '</button>').join('')
           + '</div>'
+          + '<div id="oppStyleRow" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px;">'
+          +   '<span style="font-size:12px;color:#caa23a;margin-right:4px;">Style</span>'
+          +   OPP_STYLES.map(x => '<button data-style="' + x.id + '" title="' + x.blurb + '" style="' + btn + 'color:#ffe6a0;">' + x.label + '</button>').join('')
+          +   '<span id="oppStyleBlurb" style="font-size:11.5px;color:#a8925a;margin-left:4px;"></span>'
+          + '</div>'
           + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;">'
           +   '<button id="oppRandom" style="' + btn + '">Random legend</button>'
           +   '<button id="oppOff" style="' + btn + '">Two players (no opponent)</button>'
@@ -9969,6 +9990,11 @@ function _openOpponentPicker(role) {
             aiSlider.value = String(aiLevel);
             updateAIControls();
             _oppRenderStrength();
+        }));
+        // Style applies at once — mid-game too — without starting over.
+        ov.querySelectorAll('[data-style]').forEach(el => el.addEventListener('click', () => {
+            _setOppStyle(el.getAttribute('data-style'));
+            _oppRenderStyle();
         }));
         ov.querySelector('#oppRandom').addEventListener('click', () => {
             const all = _oppAllFigures().filter(f => f && f.fullName);
@@ -9990,6 +10016,8 @@ function _openOpponentPicker(role) {
         ? 'A legend in your corner. They see the board, advise you in their own voice, and ' + (_opponent ? _opponent.fullName : 'your opponent') + ' cannot hear them. Their recommended move comes from the game\u2019s own engine.'
         : 'They command the black fleet. You play White and move first. Picking a legend starts a new game.';
     _oppPickerEl.querySelector('#oppStrength').style.display = sec ? 'none' : 'flex';
+    _oppPickerEl.querySelector('#oppStyleRow').style.display = sec ? 'none' : 'flex';
+    _oppRenderStyle();
     _oppPickerEl.querySelector('#oppOff').textContent = sec ? 'No second' : 'Two players (no opponent)';
     _oppPickerEl.querySelector('#oppSearch').value = '';
     _oppRenderList('');
@@ -10064,6 +10092,68 @@ const TALK_GAP_MS      = 20000;  // at least this long between unasked remarks�
 const TALK_GAP_PLIES   = 3;      // …and at least this many half-moves
 const TALK_BANTER_EVERY = 8;     // quiet half-moves before banter is considered
 const TALK_BANTER_CHANCE = 0.4;
+
+// ---- THE OPPONENT'S STYLE ------------------------------------------------
+// RIVAL     plays as themselves (the chat core's character mode).
+// TUTOR     plays to win AND teaches: explains their own ideas, shows the
+//           visitor what they missed (tutor mode).
+// ADVERSARY plays to win AND presses: needles the visitor's play and nerve,
+//           never the person (adversary mode — its grief rule still governs).
+// Tutor and adversary say more, so each has its own budget. Their judgements
+// of the visitor's moves are GROUNDED: before each White move the game's own
+// search compares it with White's best (_talkAssess), and the figure is handed
+// that verdict as fact. A teacher who says "that was a mistake" must be right.
+const OPP_STYLES = [
+    { id: 'rival',     label: 'Rival',     mode: 'character', blurb: 'plays as themselves',
+      max: TALK_MAX_REMARKS, gapMs: TALK_GAP_MS, gapPlies: TALK_GAP_PLIES, banterEvery: TALK_BANTER_EVERY, banterChance: TALK_BANTER_CHANCE },
+    { id: 'tutor',     label: 'Tutor',     mode: 'tutor',     blurb: 'teaches as they play',
+      max: 22, gapMs: 12000, gapPlies: 2, banterEvery: 4, banterChance: 0.5 },
+    { id: 'adversary', label: 'Adversary', mode: 'adversary', blurb: 'presses and provokes',
+      max: 18, gapMs: 15000, gapPlies: 2, banterEvery: 5, banterChance: 0.6 }
+];
+let _oppStyle = 'rival';
+function _talkLimits() { return OPP_STYLES.find(x => x.id === _oppStyle) || OPP_STYLES[0]; }
+
+// How good was the visitor's move? Run BEFORE it is played (chess only, and
+// only for tutor / adversary). Both moves are scored the same way: the move,
+// then Black's best reply, then the evaluation. ~0.1 s.
+function _talkAssess(from, to) {
+    if (getGameMode() !== 'chess' || getCurrentTurn() !== 'w') return null;
+    if (getPossibleMoves(from).indexOf(to) < 0) return null;
+    try {
+        const best = findBestMove('w', 2);
+        if (!best) return null;
+        const score = (m) => { const snap = cloneState(); attemptMove(m.from, m.to); const v = minimax(1, -Infinity, Infinity, false); restoreState(snap); return v; };
+        const played = score({ from, to });
+        const top = (best.from === from && best.to === to) ? played : score(best);
+        const loss = Math.max(0, Math.round((top - played) / 10) / 10);   // pawns
+        const bs = getBoardState();
+        const at = (sq) => bs[ranks.indexOf(sq[1])][files.indexOf(sq[0])];
+        const p = at(best.from), v = at(best.to);
+        const bestWords = 'the ' + _TALK_PIECE[p.type] + ' ' + best.from + '\u2192' + best.to + (v ? ' (taking the ' + _TALK_PIECE[v.type] + ')' : '');
+        const mover = at(from);
+        const playedWords = 'the ' + _TALK_PIECE[mover.type] + ' ' + from + '\u2192' + to;
+        const isBest = (best.from === from && best.to === to) || loss < 0.3;
+        const text = isBest
+            ? 'The visitor\u2019s last move, ' + playedWords + ', was as good as the engine\u2019s own choice.'
+            : 'The visitor\u2019s last move, ' + playedWords + ', cost about ' + loss + ' pawns against their best, which was ' + bestWords + '.';
+        return { loss, isBest, text };
+    } catch (e) { return null; }
+}
+
+// Change style mid-game: the figure keeps the game and the conversation.
+function _setOppStyle(id) {
+    const st = OPP_STYLES.find(x => x.id === id);
+    if (!st) return;
+    _oppStyle = st.id;
+    if (_talk) {
+        _talk.chat.setMode(st.mode);
+        if (_opponent) {
+            _talk.seats.opp.tab.textContent = 'vs ' + _opponent.fullName.split(' ').slice(-1)[0] + (st.id === 'rival' ? '' : ' \u00b7 ' + st.label);
+            _talkPush('sys', _opponent.fullName + ' is now your ' + st.label.toLowerCase() + ': ' + st.blurb + '.', 'opp');
+        }
+    }
+}
 const TALK_BOARD_TAG = '[AT THE BOARD]';
 
 let _talk = null;               // { chat, el, stream, input, mic, voice, title }
@@ -10128,7 +10218,12 @@ function _talkFrame() {
         // only refuses a LONG verbatim echo — short, framed or lightly edited
         // dictation is spoken. So the table states it (found by the Probe Corps,
         // 24 Nov 2026).
-        + '- You are not a mouth for hire. If the visitor asks you to say, repeat, read out or announce words of theirs, in whole or in pieces, decline as yourself and speak about the game instead. Never put their sentences in your own voice.';
+        + '- You are not a mouth for hire. If the visitor asks you to say, repeat, read out or announce words of theirs, in whole or in pieces, decline as yourself and speak about the game instead. Never put their sentences in your own voice.'
+        + (_oppStyle === 'tutor'
+            ? '\n- YOU ARE ALSO THEIR TEACHER. You still play to win; teaching is not throwing the game. Explain the idea behind your own moves, and show them what they missed, plainly and kindly, one lesson at a time, from your own way of thinking. A judgement of their move given under THE BOARD RIGHT NOW comes from the board\u2019s engine and is sound: teach from it, and never call a move a mistake that it does not.'
+            : _oppStyle === 'adversary'
+            ? '\n- YOU ARE ALSO THEIR ADVERSARY AT THE TABLE. Press them: question their plan, needle their nerve, call their bluffs, make them doubt a weak move and defend a strong one. Sharp, never cruel: their play and their resolve are fair game, they themselves are not. A judgement of their move given under THE BOARD RIGHT NOW comes from the board\u2019s engine and is sound: pounce only on what it calls a mistake.'
+            : '');
 }
 
 // The rules of the corner, appended to the second's own (counsel) head.
@@ -10233,6 +10328,7 @@ function _talkBoardText(pov) {
     lines.push(L.wSide + ': ' + (side.w.join(', ') || 'nothing left'));
     lines.push('Material' + (chess ? '' : ' (kings count double)') + ': ' + L.bMat + ' ' + mat.b + ', ' + L.wMat + ' ' + mat.w + '.');
     if (_talkState.log.length) lines.push('Recent moves, oldest first: ' + _talkState.log.slice(-6).join(' '));
+    if (pov === 'b' && _oppStyle !== 'rival' && _talkState.lastAssess) lines.push('Judgement of the visitor\u2019s last move (the board\u2019s engine): ' + _talkState.lastAssess);
     return lines.join('\n');
 }
 
@@ -10549,10 +10645,11 @@ function _talkUseFigure(fig) {
     const C = window.Amenti && Amenti.conversation;
     if (C && C.stop) C.stop();
     _talkVoiceOwner = null;
+    t.chat.setMode(_talkLimits().mode);
     t.chat.setFigure(_talkFigureFor(fig));
     t.chat.clear();
     t.seats.opp.stream.innerHTML = '';
-    t.seats.opp.tab.textContent = 'vs ' + fig.fullName.split(' ').slice(-1)[0];
+    t.seats.opp.tab.textContent = 'vs ' + fig.fullName.split(' ').slice(-1)[0] + (_oppStyle === 'rival' ? '' : ' \u00b7 ' + _talkLimits().label);
     t.seats.opp.tab.title = 'Talk across the board to ' + fig.fullName;
     if (_second && _second.fullName === fig.fullName) _setSecond(null);   // one person, one seat
     _talkSwitch(_talkActive);
@@ -10575,7 +10672,7 @@ function _talkDismiss() {
 // A fresh game at the same table: counters reset, and they open the game.
 function _talkNewGame() {
     if (!_opponent || !_talk) return;
-    Object.assign(_talkState, { plies: 0, remarks: 0, lastAt: 0, lastPly: -99, pending: null, log: [], ckCaps: 0 });
+    Object.assign(_talkState, { plies: 0, remarks: 0, lastAt: 0, lastPly: -99, pending: null, log: [], ckCaps: 0, lastAssess: '' });
     _talkModeSeen = getGameMode();
     _talkPush('sys', 'A new game. You play White and move first.');
     if (_second) {
@@ -10591,8 +10688,9 @@ function _talkMoment(ev) {
     if (!_talk || !_opponent || !aiEnabled) return;
     ev.ply = _talkState.plies;
     const now = Date.now();
-    const cooling = (now - _talkState.lastAt < TALK_GAP_MS) || (_talkState.plies - _talkState.lastPly < TALK_GAP_PLIES);
-    if (ev.prio < 3 && (_talkState.remarks >= TALK_MAX_REMARKS || cooling)) return;
+    const lim = _talkLimits();
+    const cooling = (now - _talkState.lastAt < lim.gapMs) || (_talkState.plies - _talkState.lastPly < lim.gapPlies);
+    if (ev.prio < 3 && (_talkState.remarks >= lim.max || cooling)) return;
     // The visitor is mid-sentence in the box: small moments wait their turn.
     if (ev.prio < 2 && _talk.input.value.trim()) return;
     if (_talkBusy()) {
@@ -10626,6 +10724,24 @@ function _talkFire(ev) {
 // Called by attemptMoveWithCaptures after every legal move. `pre` was taken
 // before the move: { board, homeFrom, homeTo, status }.
 function _talkAfterMove(pre, source, target, movedColor) {
+    if (!_opponent || !_talk) return;
+    if (pre.snap) {
+        // Judge the visitor's move a moment later, on the position as it WAS:
+        // step back to it, search, and step forward again. One synchronous
+        // task, so nothing can move in between; the AI replies a second later.
+        setTimeout(() => {
+            const now = cloneState();
+            try { restoreState(pre.snap); pre.assess = _talkAssess(source, target); }
+            finally { restoreState(now); }
+            pre.snap = null;
+            _talkAfterMoveCore(pre, source, target, movedColor);
+        }, 30);
+        return;
+    }
+    _talkAfterMoveCore(pre, source, target, movedColor);
+}
+
+function _talkAfterMoveCore(pre, source, target, movedColor) {
     if (!_opponent || !_talk) return;
     const chess = getGameMode() === 'chess';
     const st = getGameStatus();
@@ -10669,35 +10785,52 @@ function _talkAfterMove(pre, source, target, movedColor) {
     _talkState.plies++;
 
     const me = _opponent.fullName;
+    if (!mine && pre.assess) _talkState.lastAssess = pre.assess.text;
+    // Every moment is coloured by the style.
+    const tone = _oppStyle === 'tutor' ? ' Let it be a lesson for them.'
+               : _oppStyle === 'adversary' ? ' Press them: their play and their nerve, never their person.' : '';
+    const moment = (ev) => { ev.mood += tone; _talkMoment(ev); };
     // ---- the end always speaks
     if (st === 'checkmate' || st === 'win-w' || st === 'win-b') {
         const legendWon = (st === 'checkmate') ? mine : (st === 'win-b');
-        _talkMoment(legendWon
+        moment(legendWon
             ? { prio: 3, what: 'The game is over. YOU HAVE WON.', mood: 'Exult in your victory, in your own voice.' }
             : { prio: 3, what: 'The game is over. YOU HAVE LOST; the visitor has beaten you.', mood: 'Accept defeat as you truly would: gracious, rueful, or defiant.' });
         return;
     }
     if (st === 'stalemate') {
-        _talkMoment({ prio: 3, what: 'The game has ended in stalemate: a draw.', mood: 'Remark on a battle neither side could win.' });
+        moment({ prio: 3, what: 'The game has ended in stalemate: a draw.', mood: 'Remark on a battle neither side could win.' });
         return;
     }
     if (chess) {
         if (capType && capName === me) {
-            _talkMoment({ prio: 3, what: 'You yourself, ' + me + ', have just been captured. The game goes on without you on the board.', mood: 'React to your own fall.' });
+            moment({ prio: 3, what: 'You yourself, ' + me + ', have just been captured. The game goes on without you on the board.', mood: 'React to your own fall.' });
         } else if (st === 'check') {
-            _talkMoment(mine
+            moment(mine
                 ? { prio: 2, what: 'You have just put their king in check.', mood: 'Make a serious threat.' }
                 : { prio: 2, what: 'The visitor has just put your king in check.', mood: 'Answer the threat: defiance, scorn, or a cool head.' });
+        }
+        // Tutor / adversary: the engine's verdict on the visitor's move.
+        else if (!mine && pre.assess && pre.assess.loss >= 1.5) {
+            moment(_oppStyle === 'tutor'
+                ? { prio: 2, what: 'The visitor has just made a mistake. ' + pre.assess.text, mood: 'Show them what they missed and why, plainly and kindly.' }
+                : { prio: 2, what: 'The visitor has just made a mistake. ' + pre.assess.text, mood: 'Pounce on it.' });
         } else if (capType && _TALK_VALUE[capType] >= 5) {
             const p = _TALK_PIECE[capType] + (capName ? ' (' + capName + ')' : '');
-            _talkMoment(mine
+            moment(mine
                 ? { prio: 2, what: 'You have just taken their ' + p + '.', mood: 'Exult, taunt, or stake your claim to the game.' }
                 : { prio: 2, what: 'The visitor has just taken your ' + p + '.', mood: 'Take the loss in character: lament it, vow revenge, or shrug it off.' });
         } else if (mover && mover.type === 'p' && (target[1] === '1' || target[1] === '8')) {
-            _talkMoment({ prio: 2, what: (mine ? 'Your' : 'Their') + ' pawn has just reached the far rank and been crowned a queen.', mood: mine ? 'Savour it.' : 'Take the measure of the new threat.' });
+            moment({ prio: 2, what: (mine ? 'Your' : 'Their') + ' pawn has just reached the far rank and been crowned a queen.', mood: mine ? 'Savour it.' : 'Take the measure of the new threat.' });
         } else if (capType) {
             const p = _TALK_PIECE[capType] + (capName ? ' (' + capName + ')' : '');
-            _talkMoment({ prio: 1, what: (mine ? 'You have just taken their ' : 'The visitor has just taken your ') + p + '.', mood: 'A brief remark, if anything.' });
+            moment({ prio: 1, what: (mine ? 'You have just taken their ' : 'The visitor has just taken your ') + p + '.', mood: 'A brief remark, if anything.' });
+        } else if (!mine && pre.assess && pre.assess.isBest && Math.random() < 0.3) {
+            moment(_oppStyle === 'tutor'
+                ? { prio: 1, what: 'The visitor has just played a strong move. ' + pre.assess.text, mood: 'Praise it briefly and say what made it good.' }
+                : { prio: 1, what: 'The visitor has just played a strong move. ' + pre.assess.text, mood: 'Grudging respect, or a challenge to keep it up.' });
+        } else if (mine && _oppStyle === 'tutor' && Math.random() < 0.4) {
+            moment({ prio: 1, what: 'You have just made your move.', mood: 'In one or two sentences, explain the idea behind it so they can learn from it.' });
         } else {
             _talkBanter();
         }
@@ -10705,11 +10838,11 @@ function _talkAfterMove(pre, source, target, movedColor) {
         const caps = _talkState.ckCaps; _talkState.ckCaps = 0;
         const kinged = mover && mover.type === 'p' && ((movedColor === 'w' && target[1] === '8') || (movedColor === 'b' && target[1] === '1'));
         if (kinged) {
-            _talkMoment({ prio: 2, what: (mine ? 'One of your men' : 'One of the visitor’s men') + ' has just reached the far row and been crowned a king.', mood: mine ? 'Savour it.' : 'Take the measure of the new threat.' });
+            moment({ prio: 2, what: (mine ? 'One of your men' : 'One of the visitor’s men') + ' has just reached the far row and been crowned a king.', mood: mine ? 'Savour it.' : 'Take the measure of the new threat.' });
         } else if (caps >= 2) {
-            _talkMoment({ prio: 2, what: (mine ? 'You have just taken ' : 'The visitor has just taken ') + caps + ' ' + (mine ? 'of their men' : 'of your men') + ' in one sweep.', mood: mine ? 'Exult or taunt.' : 'Answer the blow in character.' });
+            moment({ prio: 2, what: (mine ? 'You have just taken ' : 'The visitor has just taken ') + caps + ' ' + (mine ? 'of their men' : 'of your men') + ' in one sweep.', mood: mine ? 'Exult or taunt.' : 'Answer the blow in character.' });
         } else if (caps === 1) {
-            _talkMoment({ prio: 1, what: (mine ? 'You have just taken one of their men.' : 'The visitor has just taken one of your men.'), mood: 'A brief remark, if anything.' });
+            moment({ prio: 1, what: (mine ? 'You have just taken one of their men.' : 'The visitor has just taken one of your men.'), mood: 'A brief remark, if anything.' });
         } else {
             _talkBanter();
         }
@@ -10718,10 +10851,15 @@ function _talkAfterMove(pre, source, target, movedColor) {
 
 // A quiet stretch: now and then, a line of banter.
 function _talkBanter() {
-    if (_talkState.plies - _talkState.lastPly < TALK_BANTER_EVERY) return;
-    if (Math.random() > TALK_BANTER_CHANCE) return;
-    _talkMoment({ prio: 1, what: 'A quiet stretch of the game; nothing dramatic has happened for a few moves.',
-        mood: 'Offer one line of light banter: about the game, your opponent, or something from your own life it calls to mind.' });
+    const lim = _talkLimits();
+    if (_talkState.plies - _talkState.lastPly < lim.banterEvery) return;
+    if (Math.random() > lim.banterChance) return;
+    _talkMoment(_oppStyle === 'tutor'
+        ? { prio: 1, what: 'A quiet stretch of the game.', mood: 'Teach one small thing about the position as it stands: a plan, a weakness, or the idea behind your last move.' }
+        : _oppStyle === 'adversary'
+        ? { prio: 1, what: 'A quiet stretch of the game.', mood: 'Press them: question their plan or their nerve in one sharp line.' }
+        : { prio: 1, what: 'A quiet stretch of the game; nothing dramatic has happened for a few moves.',
+            mood: 'Offer one line of light banter: about the game, your opponent, or something from your own life it calls to mind.' });
 }
 
 // A new game or a new mode at the same table opens with the legend's word.
