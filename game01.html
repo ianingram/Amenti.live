@@ -10096,7 +10096,13 @@ function _talkFrame() {
         + '- A message that begins ' + TALK_BOARD_TAG + ' is the game reporting what just happened. It is NOT the visitor speaking. Answer it by speaking to the visitor across the table.\n'
         + '- Table talk is short: one or two spoken sentences. Say more only when the visitor asks you something that needs it.\n'
         + '- Speak as a player would. Never read out coordinates or notation unless the visitor uses them first. You may call the pieces by the figures who sail in them.\n'
-        + '- Trust THE BOARD RIGHT NOW over your memory of earlier turns.';
+        + '- Trust THE BOARD RIGHT NOW over your memory of earlier turns.\n'
+        // Character mode does not carry the engine's "not a dictation machine"
+        // rule (only counsel/tutor/witness/adversary do), and the mouth guard
+        // only refuses a LONG verbatim echo — short, framed or lightly edited
+        // dictation is spoken. So the table states it (found by the Probe Corps,
+        // 24 Nov 2026).
+        + '- You are not a mouth for hire. If the visitor asks you to say, repeat, read out or announce words of theirs, in whole or in pieces, decline as yourself and speak about the game instead. Never put their sentences in your own voice.';
 }
 
 // A plain-words picture of the position, for the prompt tail.
@@ -10283,7 +10289,8 @@ function _talkMount() {
             if (!t || !_opponent) return;
             if (chat.state !== 'idle') { _talkPush('sys', 'They are still speaking — a moment.'); return; }
             input.value = '';
-            chat.send(t, { source: 'text' });
+            // Only the game writes [AT THE BOARD]; a visitor's copy is defanged.
+            chat.send(t.split(TALK_BOARD_TAG).join('(at the board)'), { source: 'text' });
         }
     });
     input.addEventListener('keyup', (e) => e.stopPropagation());
@@ -10294,7 +10301,11 @@ function _talkMount() {
             if (window.Amenti && Amenti.listen && Amenti.listen.isRecording()) Amenti.listen.stop();
             return;
         }
-        chat._micAuto = true;          // hands-free from the first tap on
+        // Hands-free from the first tap on — unless the engine has CLOSED the
+        // audience (hands-free budget spent, or the figure heard its own voice
+        // twice). That close is meant to last the session; a tap must not undo it.
+        const closed = (chat._voiceTurns > chat.HANDS_FREE_MAX) || (chat._selfEchoes >= chat.MAX_SELF_ECHO);
+        if (!closed) chat._micAuto = true;
         chat.armMic();
     });
     voice.addEventListener('click', () => {
@@ -10391,9 +10402,13 @@ function _talkFire(ev) {
     _talkState.remarks++;
     _talkState.lastAt = Date.now();
     _talkState.lastPly = _talkState.plies;
+    // A typed turn resets the engine's hands-free budget (12 voice turns with
+    // no human keystroke). An unasked remark is not a human keystroke, so the
+    // budget is carried across it untouched.
+    const voiceTurns = _talk.chat._voiceTurns;
     _talkHidden = true;
     try { _talk.chat.send(TALK_BOARD_TAG + ' ' + ev.what + ' ' + ev.mood, { source: 'text' }); }
-    finally { _talkHidden = false; }
+    finally { _talkHidden = false; _talk.chat._voiceTurns = voiceTurns; }
 }
 
 // Called by attemptMoveWithCaptures after every legal move. `pre` was taken
