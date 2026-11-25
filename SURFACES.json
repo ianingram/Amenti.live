@@ -4,15 +4,15 @@
   "_law": "A SURFACE IS A USER INTERFACE POINT — somewhere a person acts on the system and it responds. Not a file, not a page, not a route. hall.html is a page; the Ask box is the surface. See SPEC-SURFACES.md.",
   "_reaches": "The four booleans are why this register exists. On 27 Aug 2026 each was an argument, six times in one day, because nothing could be looked up.",
   "_honesty": "null in `reaches` means NOT CHECKED. It is not false. False is a claim.",
-  "generated": "2026-11-24T22:44:15.297Z",
+  "generated": "2026-11-25T04:52:37.251Z",
   "generator": "probes/probe-surfaces.mjs",
   "counts": {
     "authored": 38,
-    "walkedControls": 161,
+    "walkedControls": 165,
     "confirmed": 25,
     "offWalk": 13,
     "adrift": 0,
-    "undeclared": 103,
+    "undeclared": 107,
     "unresolved": 1,
     "duplicate": 34
   },
@@ -458,6 +458,30 @@
       "claim": "— nothing claims it —",
       "reading": "2 elements carry this id",
       "note": "getElementById returns the first; every later one is unreachable."
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "oppClose",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/game01.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "oppSearch",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/game01.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "oppRandom",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/game01.html"
+    },
+    {
+      "stamp": "UNDECLARED",
+      "id": "oppOff",
+      "claim": "— nothing claims it —",
+      "reading": "Amenti.live/game01.html"
     },
     {
       "stamp": "UNDECLARED",
