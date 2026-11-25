@@ -1074,6 +1074,113 @@ function attemptCheckersMove(source, target) {
     return true;
 }
 
+// ----- AI SUPPORT (checkers) -----
+// Pure search on board copies: never touches the live game, so none of the
+// capture side effects (news flashes, skulls, tows) fire while thinking.
+function _cloneB(b) { return b.map(r => r.map(c => c ? { ...c } : null)); }
+
+// Every complete turn for `color` on board b: a simple move, or a whole
+// multi-jump chain (jumps are mandatory; kinging ends the chain, as in
+// attemptCheckersMove). Each turn is { path: [[r,c],...], board, jump }.
+// `onlyFrom` limits the turns to one piece (mid-chain continuation).
+function _turnsFor(b, color, onlyFrom) {
+    const out = [];
+    const starts = [];
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        if (!b[r][c] || b[r][c].color !== color) continue;
+        if (onlyFrom && (onlyFrom.row !== r || onlyFrom.col !== c)) continue;
+        starts.push([r, c]);
+    }
+    const anyJump = onlyFrom ? true : anyJumpsAvailable(b, color);
+    const extend = (bd, r, c, path) => {
+        const js = jumpsFrom(bd, r, c);
+        if (js.length === 0) {
+            if (path.length > 1) out.push({ path, board: bd, jump: true });
+            return;
+        }
+        for (const j of js) {
+            const nb = _cloneB(bd);
+            const pc = nb[r][c];
+            nb[j.row][j.col] = pc; nb[r][c] = null;
+            nb[j.capturedR][j.capturedC] = null;
+            const np = path.concat([[j.row, j.col]]);
+            if (pc.type === 'p' && ((pc.color === 'w' && j.row === 0) || (pc.color === 'b' && j.row === 7))) {
+                pc.type = 'k';
+                out.push({ path: np, board: nb, jump: true });
+            } else {
+                extend(nb, j.row, j.col, np);
+            }
+        }
+    };
+    for (const [r, c] of starts) {
+        if (anyJump) { extend(b, r, c, [[r, c]]); continue; }
+        for (const m of simpleMovesFrom(b, r, c)) {
+            const nb = _cloneB(b);
+            const pc = nb[r][c];
+            nb[m.row][m.col] = pc; nb[r][c] = null;
+            if (pc.type === 'p' && ((pc.color === 'w' && m.row === 0) || (pc.color === 'b' && m.row === 7))) pc.type = 'k';
+            out.push({ path: [[r, c], [m.row, m.col]], board: nb, jump: false });
+        }
+    }
+    return out;
+}
+
+// Material + shape, from WHITE's view. Kings are worth more than men; men
+// gain as they advance; an unmoved back row guards against enemy kings.
+function _evalC(b) {
+    let s = 0;
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        const p = b[r][c];
+        if (!p) continue;
+        let v = p.type === 'k' ? 175 : 100;
+        if (p.type === 'p') {
+            v += (p.color === 'w' ? (7 - r) : r) * 4;
+            if ((p.color === 'w' && r === 7) || (p.color === 'b' && r === 0)) v += 10;
+        }
+        if (c >= 2 && c <= 5 && r >= 2 && r <= 5) v += 4;
+        s += p.color === 'w' ? v : -v;
+    }
+    return s;
+}
+
+// Negamax with alpha-beta. Captures pending at the horizon are searched on
+// (up to `ext` extra plies) so a trade is not scored half-finished.
+function _negamaxC(b, color, depth, alpha, beta, ext) {
+    const turns = _turnsFor(b, color, null);
+    if (turns.length === 0) return -100000 - depth;   // no move = loss; sooner is worse
+    if (depth <= 0 && (!turns[0].jump || ext <= 0)) {
+        return (color === 'w' ? 1 : -1) * _evalC(b);
+    }
+    const nextExt = depth <= 0 ? ext - 1 : ext;
+    const opp = color === 'w' ? 'b' : 'w';
+    let best = -Infinity;
+    for (const t of turns) {
+        const v = -_negamaxC(t.board, opp, depth - 1, -beta, -alpha, nextExt);
+        if (v > best) best = v;
+        if (best > alpha) alpha = best;
+        if (alpha >= beta) break;
+    }
+    return best;
+}
+
+// Best whole turn for `color` at `depth`, as a list of squares
+// ['c3','e5','g7'] to be played one hop at a time. Null if none.
+function findBestCheckersTurn(color, depth) {
+    if (status !== 'active' || turn !== color) return null;
+    const turns = _turnsFor(board, color, mustContinueFrom);
+    if (turns.length === 0) return null;
+    const opp = color === 'w' ? 'b' : 'w';
+    const scored = turns.map(t => ({
+        t, v: -_negamaxC(t.board, opp, depth - 1, -Infinity, Infinity, 4) + Math.random() * 3
+    }));
+    scored.sort((a, b) => b.v - a.v);
+    // Lowest levels pick loosely among the better moves.
+    const pickFrom = depth <= 1 ? Math.min(3, scored.length) : 1;
+    const pick = scored[Math.floor(Math.random() * pickFrom)].t;
+    return pick.path.map(([r, c]) => coordsToSquare(r, c));
+}
+
+CheckersRules.findBestCheckersTurn = findBestCheckersTurn;
 CheckersRules.resetCheckers = resetCheckers;
 CheckersRules.getCheckersBoard = getCheckersBoard;
 CheckersRules.getCheckersTurn = getCheckersTurn;
@@ -7548,6 +7655,8 @@ function resolveBountyPayout(winner) {
     if (typeof refreshBountyDisplays === 'function') refreshBountyDisplays();
 }
 // network, and not an AI move), relay it to the referee.
+// True only while the AI itself is moving (see maybeTriggerAIMove).
+let _aiMoving = false;
 function attemptMoveWithCaptures(source, target) {
     // Capture the moving piece's color BEFORE the move (turn flips inside).
     let movedColor = null;
@@ -7557,6 +7666,9 @@ function attemptMoveWithCaptures(source, target) {
         const row = ranks.indexOf(source[1]);
         if (col >= 0 && row >= 0 && bs[row][col]) movedColor = bs[row][col].color;
     } catch (e) { movedColor = null; }
+
+    // Against a legend, Black's pieces are theirs: only the AI moves them.
+    if (typeof aiEnabled !== 'undefined' && aiEnabled && movedColor === 'b' && !_aiMoving) return false;
 
     const ok = _attemptMoveWithCapturesCore(source, target);
 
@@ -7807,6 +7919,12 @@ let PIECE_FIGURE_MAP = {};
 // reference it — `let` declarations have a temporal dead zone, so
 // these consumers must come AFTER this line in source order.
 let _ninthMan = { w: null, b: null };
+
+// The legend the player is facing (a names.csv figure object), or null for
+// two players. Set from the opponent picker; Black is always the opponent.
+// Non-null exactly while the AI opponent is on. Declared here, ahead of the
+// load-time rollRosters() / roster-panel build, which both read it.
+let _opponent = null;
 
 // ===================== BOUNTY / SOVEREIGNS (Layer 1) =====================
 // Curated pool of "bounty-worthy" historical figures. Each game, one figure
@@ -8066,6 +8184,20 @@ function rollRosters() {
         const roster = window.AppNames.rollChessRoster();
         WHITE_ROSTER = roster.white;
         BLACK_ROSTER = roster.black;
+    }
+    // AI OPPONENT: the chosen legend is Black's king (index 4, r n b q k b n r).
+    // If the roll already placed them on a side, take them off it first.
+    if (_opponent) {
+        const nm = _opponent.fullName;
+        WHITE_ROSTER = WHITE_ROSTER.slice(); BLACK_ROSTER = BLACK_ROSTER.slice();
+        const all = (window.AppNames && window.AppNames.getAllFigures) ? window.AppNames.getAllFigures() : [];
+        const used = new Set(WHITE_ROSTER.concat(BLACK_ROSTER).map(f => f && f.fullName));
+        const spare = () => { const f = all.find(x => x && !used.has(x.fullName) && x.fullName !== nm); if (f) used.add(f.fullName); return f; };
+        const bi = BLACK_ROSTER.findIndex(f => f && f.fullName === nm);
+        if (bi >= 0 && bi !== 4) BLACK_ROSTER[bi] = BLACK_ROSTER[4];
+        BLACK_ROSTER[4] = _opponent;
+        const wi = WHITE_ROSTER.findIndex(f => f && f.fullName === nm);
+        if (wi >= 0) WHITE_ROSTER[wi] = spare() || WHITE_ROSTER[wi];
     }
 
     // Rebuild the square→figure map
@@ -9212,7 +9344,8 @@ function buildRosterPanel(side, anchor, glyphs, figures) {
     }
 
     const header = document.createElement('div');
-    header.textContent = side === 'w' ? 'White' : 'Black';
+    header.textContent = side === 'w' ? (_opponent ? 'White · You' : 'White')
+        : (_opponent ? 'Black · ' + _opponent.fullName : 'Black');
     header.style.cssText = 'font-weight: bold; margin-bottom: 4px; font-size: 14px;'
         + (side === 'w' ? ' text-align: right; width: 100%;' : '');
     panel.appendChild(header);
@@ -9683,7 +9816,12 @@ aiSlider.className = 'hud-slider';
 aiSlider.style.width = '90px';
 
 function updateAIControls() {
-    aiBtn.textContent = aiEnabled ? 'AI: ON (Black)' : 'AI: OFF';
+    // Turning the AI off (button, or going online) dismisses the opponent.
+    if (!aiEnabled && _opponent) {
+        _opponent = null;
+        if (typeof rebuildRosterPanels === 'function') rebuildRosterPanels();
+    }
+    aiBtn.textContent = (aiEnabled && _opponent) ? ('vs ' + _opponent.fullName) : 'Play a Legend';
     aiBtn.classList.toggle('active', aiEnabled);
     aiSliderLabel.textContent = `Lvl ${aiLevel}`;
     aiSlider.style.display = aiEnabled ? '' : 'none';
@@ -9691,12 +9829,161 @@ function updateAIControls() {
     if (typeof updatePassPlayBanner === 'function') updatePassPlayBanner();
 }
 
+// ----- OPPONENT PICKER: play against a legend -----
+// The button opens a picker: featured legends, a search over every figure in
+// names.csv, a strength setting, and "Two players" to switch the AI off.
+// Picking a legend starts a new game with them commanding Black.
+const OPPONENT_FEATURED = [
+    'Joan of Arc', 'Charles Darwin', 'Napoleon Bonaparte', 'Sun Tzu',
+    'Cleopatra VII', 'Ada Lovelace', 'Leonardo da Vinci', 'Genghis Khan',
+    'Marie Curie', 'Alexander the Great', 'Catherine the Great', 'Isaac Newton'
+];
+const OPPONENT_STRENGTHS = [
+    { level: 2, label: 'Novice' }, { level: 4, label: 'Club' },
+    { level: 6, label: 'Expert' }, { level: 9, label: 'Master' }
+];
+let _oppPickerEl = null;
+
+function _oppEsc(t) {
+    return String(t == null ? '' : t).replace(/[&<>"']/g, ch =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+}
+// names.csv writes BC years as negatives ("-544").
+function _fmtYear(v) {
+    const t = String(v || '').trim();
+    return /^-\d+$/.test(t) ? t.slice(1) + ' BC' : t;
+}
+function _oppLife(f) {
+    const b = _fmtYear(f.birthDate), d = _fmtYear(f.deathDate);
+    return (b || d) ? (b + '–' + d) : '';
+}
+function _oppAllFigures() {
+    return (window.AppNames && window.AppNames.getAllFigures) ? window.AppNames.getAllFigures() : [];
+}
+function _oppCard(f) {
+    const sub = [f.title, _oppLife(f)].filter(Boolean).join(' · ');
+    const on = _opponent && _opponent.fullName === f.fullName;
+    return '<button data-opp="' + _oppEsc(f.fullName) + '" style="text-align:left;cursor:pointer;'
+        + 'border:1px solid ' + (on ? '#ffce5a' : '#5a4620') + ';background:' + (on ? 'rgba(255,206,90,0.10)' : 'rgba(255,230,160,0.03)') + ';'
+        + 'border-radius:8px;padding:8px 10px;color:#ffe6a0;font-family:Georgia,serif;">'
+        + '<div style="font-size:14px;">' + _oppEsc(f.fullName) + '</div>'
+        + (sub ? '<div style="font-size:11px;color:#caa23a;margin-top:2px;">' + _oppEsc(sub) + '</div>' : '')
+        + '</button>';
+}
+function _oppRenderList(query) {
+    const list = _oppPickerEl.querySelector('#oppList');
+    const all = _oppAllFigures();
+    const q = (query || '').trim().toLowerCase();
+    let figs;
+    if (q) {
+        figs = all.filter(f => f && f.fullName && f.fullName.toLowerCase().includes(q))
+            .sort((a, b) => a.fullName.toLowerCase().indexOf(q) - b.fullName.toLowerCase().indexOf(q))
+            .slice(0, 24);
+    } else {
+        figs = OPPONENT_FEATURED.map(n => all.find(f => f && f.fullName === n)).filter(Boolean);
+    }
+    list.innerHTML = figs.length ? figs.map(_oppCard).join('')
+        : '<div style="color:#caa23a;font-size:13px;padding:6px 2px;">No figure by that name in the Library.</div>';
+    list.querySelectorAll('[data-opp]').forEach(el => el.addEventListener('click', () => {
+        const f = all.find(x => x && x.fullName === el.getAttribute('data-opp'));
+        if (f) _startOpponentGame(f);
+    }));
+}
+function _oppRenderStrength() {
+    _oppPickerEl.querySelectorAll('[data-lvl]').forEach(el => {
+        const lv = +el.getAttribute('data-lvl');
+        const idx = OPPONENT_STRENGTHS.findIndex(x => x.level === lv);
+        const next = OPPONENT_STRENGTHS[idx + 1];
+        const on = aiLevel >= lv && (!next || aiLevel < next.level);
+        el.style.borderColor = on ? '#ffce5a' : '#5a4620';
+        el.style.background = on ? 'rgba(255,206,90,0.16)' : 'transparent';
+    });
+}
+function _closeOpponentPicker() { if (_oppPickerEl) _oppPickerEl.style.display = 'none'; }
+function _openOpponentPicker() {
+    if (typeof Net !== 'undefined' && Net.isOnline()) {
+        if (typeof showBountyToast === 'function') showBountyToast('You are playing online — leave the room to play a legend.');
+        return;
+    }
+    if (!_oppPickerEl) {
+        const ov = document.createElement('div');
+        ov.id = 'oppPicker';
+        ov.style.cssText = 'position:fixed; inset:0; z-index:99999; background:rgba(8,6,3,0.72); display:flex; align-items:center; justify-content:center; font-family:Georgia,serif;';
+        const btn = 'background:none;border:1px solid #6b541f;color:#caa23a;border-radius:6px;padding:4px 10px;cursor:pointer;font-family:Georgia,serif;font-size:12px;';
+        ov.innerHTML =
+            '<div style="width:min(600px,94vw); max-height:86vh; overflow:auto; background:linear-gradient(#241a0c,#140d06); border:1px solid #6b541f; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.6); padding:18px 20px;">'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
+          +   '<div style="font-size:18px;color:#ffe6a0;letter-spacing:1px;">Choose your opponent</div>'
+          +   '<button id="oppClose" style="' + btn + '">Close</button></div>'
+          + '<div style="font-size:12px;color:#caa23a;margin-bottom:12px;">They command the black fleet. You play White and move first. Picking a legend starts a new game.</div>'
+          + '<input id="oppSearch" type="search" placeholder="Search all ' + _oppAllFigures().length.toLocaleString() + ' figures…" autocomplete="off" '
+          +   'style="width:100%;box-sizing:border-box;padding:8px 10px;margin-bottom:10px;border-radius:6px;border:1px solid #6b541f;background:#0f0a05;color:#ffe6a0;font-family:Georgia,serif;font-size:14px;">'
+          + '<div id="oppList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;"></div>'
+          + '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px;">'
+          +   '<span style="font-size:12px;color:#caa23a;margin-right:4px;">Strength</span>'
+          +   OPPONENT_STRENGTHS.map(x => '<button data-lvl="' + x.level + '" style="' + btn + 'color:#ffe6a0;">' + x.label + '</button>').join('')
+          + '</div>'
+          + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;">'
+          +   '<button id="oppRandom" style="' + btn + '">Random legend</button>'
+          +   '<button id="oppOff" style="' + btn + '">Two players (no opponent)</button>'
+          + '</div></div>';
+        document.body.appendChild(ov);
+        _oppPickerEl = ov;
+        ov.addEventListener('click', (e) => { if (e.target === ov) _closeOpponentPicker(); });
+        ov.querySelector('#oppClose').addEventListener('click', _closeOpponentPicker);
+        ov.querySelector('#oppSearch').addEventListener('input', (e) => _oppRenderList(e.target.value));
+        ov.querySelectorAll('[data-lvl]').forEach(el => el.addEventListener('click', () => {
+            aiLevel = +el.getAttribute('data-lvl');
+            aiSlider.value = String(aiLevel);
+            updateAIControls();
+            _oppRenderStrength();
+        }));
+        ov.querySelector('#oppRandom').addEventListener('click', () => {
+            const all = _oppAllFigures().filter(f => f && f.fullName);
+            if (all.length) _startOpponentGame(all[Math.floor(Math.random() * all.length)]);
+        });
+        ov.querySelector('#oppOff').addEventListener('click', () => {
+            aiEnabled = false;
+            updateAIControls();
+            refreshHUD();
+            _closeOpponentPicker();
+        });
+    }
+    _oppPickerEl.querySelector('#oppSearch').value = '';
+    _oppRenderList('');
+    _oppRenderStrength();
+    _oppPickerEl.style.display = 'flex';
+}
+
+// New game against `fig`, who takes Black. Reset does the board, fleets and
+// (in chess) the rosters; checkers rosters are rebuilt here so the legend
+// lands on Black's back row there too.
+function _startOpponentGame(fig) {
+    _closeOpponentPicker();
+    if (aiThinking) return;
+    _opponent = fig;
+    aiEnabled = true;
+    resetBtn.click();
+    if (getGameMode() === 'checkers') {
+        rollRosters();
+        if (typeof initCheckersRosters === 'function') initCheckersRosters();
+        if (typeof _checkersCapturedSet !== 'undefined') _checkersCapturedSet = { w: new Set(), b: new Set() };
+        if (typeof _kingPrisoners !== 'undefined') _kingPrisoners = { w: {}, b: {} };
+    }
+    rebuildRosterPanels();
+    renderPieces();
+    updateAIControls();
+    refreshHUD();
+    if (typeof showGameNewsFlash === 'function') {
+        const sub = [fig.title, _oppLife(fig)].filter(Boolean).join(' · ');
+        showGameNewsFlash('<b style="color:#fff;">' + _oppEsc(fig.fullName) + '</b> takes command of the black fleet',
+            (sub ? _oppEsc(sub) + ' · ' : '') + 'You play White. Your move.', '#ffd24a');
+    }
+}
+
 aiBtn.addEventListener('click', () => {
     if (aiThinking) return;
-    aiEnabled = !aiEnabled;
-    updateAIControls();
-    // If turned on AND it's black's turn AND game is active, kick off a move.
-    maybeTriggerAIMove();
+    _openOpponentPicker();
 });
 
 aiSlider.addEventListener('input', () => {
@@ -24184,11 +24471,18 @@ function refreshHUD() {
 
     const _over = (status === 'checkmate' || status === 'stalemate'
         || status === 'win-w' || status === 'win-b');
-    turnLine.textContent = _over ? 'Game Over' : `${turn === 'w' ? 'White' : 'Black'} Move`;
+    // Against a legend, name them: "Your Move" / "Joan of Arc's Move".
+    const _opp = (aiEnabled && _opponent) ? _opponent.fullName : null;
+    turnLine.textContent = _over ? 'Game Over'
+        : _opp ? (turn === 'w' ? 'Your Move' : `${_opp}’s Move`)
+        : `${turn === 'w' ? 'White' : 'Black'} Move`;
+    // Who won, in words: the legend's name, or "you" when facing one.
+    const _winText = (winnerColor) => !_opp ? `${winnerColor === 'w' ? 'White' : 'Black'} wins`
+        : (winnerColor === 'b' ? `${_opp} wins` : `You beat ${_opp}`);
 
     let statusText = '';
     if (aiThinking) {
-        statusText = 'AI thinking...';
+        statusText = _opp ? `${_opp} is thinking…` : 'AI thinking...';
         statusLine.classList.remove('status-warn');
         statusLine.classList.add('status-info');
     } else {
@@ -24197,11 +24491,11 @@ function refreshHUD() {
         if (mode === 'chess') {
             if (status === 'check') statusText = 'Check!';
             else if (status === 'checkmate') {
-                statusText = `Checkmate — ${turn === 'w' ? 'Black' : 'White'} wins`;
+                statusText = `Checkmate — ${_winText(turn === 'w' ? 'b' : 'w')}`;
             } else if (status === 'stalemate') statusText = 'Stalemate — draw';
         } else {
-            if (status === 'win-w') statusText = 'White wins';
-            else if (status === 'win-b') statusText = 'Black wins';
+            if (status === 'win-w') statusText = _winText('w');
+            else if (status === 'win-b') statusText = _winText('b');
         }
     }
     statusLine.textContent = statusText;
@@ -24271,18 +24565,24 @@ updateModeToggle();
 function maybeTriggerAIMove() {
     if (!aiEnabled) return;
     if (aiThinking) return;
-    if (getGameMode() !== 'chess') return; // checkers AI not implemented yet
     const status = getGameStatus();
-    if (status === 'checkmate' || status === 'stalemate') return;
+    if (status !== 'active' && status !== 'check') return;   // any game over
     if (getCurrentTurn() !== 'b') return;
 
     aiThinking = true;
     refreshHUD();
 
-    // setTimeout + rAF so "thinking" text paints before the synchronous minimax
-    // search hogs the main thread. 1-second pause for pacing.
+    // setTimeout + rAF so "thinking" text paints before the synchronous search
+    // hogs the main thread. 1-second pause for pacing.
     setTimeout(() => {
         requestAnimationFrame(() => {
+            if (!aiEnabled) { aiThinking = false; refreshHUD(); return; }
+            if (getGameMode() === 'checkers') {
+                const path = CheckersRules.findBestCheckersTurn('b', checkersDepthForLevel(aiLevel));
+                if (!path) { aiThinking = false; refreshHUD(); return; }
+                _aiPlayCheckersHops(path, 0);
+                return;
+            }
             const depth = depthForSliderLevel(aiLevel);
             const move = findBestMove('b', depth);
             aiThinking = false;
@@ -24290,11 +24590,48 @@ function maybeTriggerAIMove() {
                 refreshHUD();
                 return;
             }
+            _aiMoving = true;
             const moved = attemptMoveWithCaptures(move.from, move.to);
+            _aiMoving = false;
             if (moved) renderPieces();
             refreshHUD();
         });
     }, 1000);
+}
+
+// Checkers search depth per strength level (1..10). Measured worst case at 7
+// is ~1.5 s; 8 and above gets too slow in plain JS.
+function checkersDepthForLevel(level) {
+    level = Math.max(1, Math.min(10, level));
+    if (level <= 2) return 1;
+    if (level <= 4) return 3;
+    if (level <= 6) return 5;
+    if (level <= 8) return 6;
+    return 7;
+}
+
+// Play a checkers turn hop by hop (a multi-jump is several moves through the
+// same funnel a click uses), pausing between hops so each capture is seen.
+// aiThinking stays true until the last hop so the player cannot cut in.
+function _aiPlayCheckersHops(path, i) {
+    _aiMoving = true;
+    const ok = attemptMoveWithCaptures(path[i], path[i + 1]);
+    _aiMoving = false;
+    if (ok) renderPieces();
+    // A king minted with prisoners waits for a roster click; the legend
+    // chooses one on their own.
+    if (ok && typeof _ransomPending !== 'undefined' && _ransomPending && _ransomPending.mintingSide === 'b') {
+        setTimeout(() => {
+            const pick = document.querySelector('[data-ransom-fig-idx]');
+            if (pick && _ransomPending && _ransomPending.mintingSide === 'b') pick.click();
+        }, 900);
+    }
+    if (ok && i + 2 < path.length) {
+        setTimeout(() => _aiPlayCheckersHops(path, i + 1), 650);
+        return;
+    }
+    aiThinking = false;
+    refreshHUD();
 }
 
 // --- 6. RESPONSIVENESS ---
