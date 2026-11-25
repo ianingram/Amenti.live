@@ -95,6 +95,12 @@
 </style>
 <a id="amenti-back" href="Page1.html">&#8592; AMENTI</a>
 
+<!-- THE SPEECH ENGINE + CONVERSATION CORE, for table talk with a legend.
+     Same files, same order as Page1: config, resolver, voice, listen, chat in
+     one bundle; the doctrine beside it. Nothing here changes the engine. -->
+<script src="amenti-core.bundle.js?v=ef577951"></script>
+<script src="amenti-doctrine.js?v=42088d9c"></script>
+
 <!-- =====================================================================
      NAMES MODULE (Phase 1)
      Loads ./names.csv next to this HTML on GitHub Pages. Falls back to a
@@ -7671,7 +7677,16 @@ function attemptMoveWithCaptures(source, target) {
     // Against a legend, Black's pieces are theirs: only the AI moves them.
     if (typeof aiEnabled !== 'undefined' && aiEnabled && movedColor === 'b' && !_aiMoving) return false;
 
+    // Table talk needs the position as it was (homes move inside the core).
+    const _talkPre = (_opponent && aiEnabled)
+        ? { board: getBoardState(), homeFrom: pieceHomeMap[source], homeTo: pieceHomeMap[target] } : null;
+
     const ok = _attemptMoveWithCapturesCore(source, target);
+
+    if (ok && _talkPre) {
+        try { _talkAfterMove(_talkPre, source, target, movedColor); }
+        catch (e) { console.warn('[table talk] after-move failed:', e && e.message); }
+    }
 
     if (ok && typeof Net !== 'undefined' && Net.isOnline() && !Net.applyingRemote) {
         // Only relay moves made by THIS client's color. (Online play keeps
@@ -9831,6 +9846,7 @@ function updateAIControls() {
     if (!aiEnabled && _opponent) {
         _opponent = null;
         if (typeof rebuildRosterPanels === 'function') rebuildRosterPanels();
+        if (typeof _talkDismiss === 'function') _talkDismiss();
     }
     aiBtn.textContent = (aiEnabled && _opponent) ? ('vs ' + _opponent.fullName) : 'Play a Legend';
     aiBtn.classList.toggle('active', aiEnabled);
@@ -9974,6 +9990,7 @@ function _startOpponentGame(fig) {
     if (aiThinking) return;
     _opponent = fig;
     aiEnabled = true;
+    _talkUseFigure(fig);       // seat them at the table before the new game opens
     resetBtn.click();
     if (getGameMode() === 'checkers') {
         rollRosters();
@@ -9996,6 +10013,500 @@ aiBtn.addEventListener('click', () => {
     if (aiThinking) return;
     _openOpponentPicker();
 });
+
+// ============================================================================
+//  TABLE TALK — the legend across the board can talk, and be talked to.
+//
+//  Mounts the shared conversation core (Amenti.chat, from amenti-core.bundle.js)
+//  — the same brain, persona, doctrine and voice as Page1's Terminal. Nothing in
+//  the speech engine is changed: replies are spoken by Amenti.conversation
+//  (conversational register, never cached), the mic is Amenti.listen.
+//
+//  THE BOARD rides in the prompt's TAIL (built fresh on every turn), never in
+//  the history and never in the head, so the head stays one string per figure.
+//
+//  THE THROTTLE. The visitor may speak at any time. The legend speaks UNASKED
+//  only at moments that earn it — checks, big captures, promotions, kings, the
+//  end — plus an occasional line of banter on a quiet stretch. Rules:
+//    · never over themselves: if they are thinking/speaking/listening, ONE
+//      important moment is held and said when they are free (stale ones drop)
+//    · a cooldown between unasked remarks (TALK_GAP_MS and TALK_GAP_PLIES)
+//    · a ceiling per game (TALK_MAX_REMARKS)
+//    · the end of the game, and the first word, always get through
+//  Every unasked remark is a Claude call plus a voice render: these constants
+//  ARE the budget.
+// ============================================================================
+const TALK_MAX_REMARKS = 14;     // unasked remarks per game
+const TALK_GAP_MS      = 20000;  // at least this long between unasked remarks…
+const TALK_GAP_PLIES   = 3;      // …and at least this many half-moves
+const TALK_BANTER_EVERY = 8;     // quiet half-moves before banter is considered
+const TALK_BANTER_CHANCE = 0.4;
+const TALK_BOARD_TAG = '[AT THE BOARD]';
+
+let _talk = null;               // { chat, el, stream, input, mic, voice, title }
+let _talkHidden = false;        // true while sending an [AT THE BOARD] turn
+let _talkVoiceOn = true;
+const _talkState = { plies: 0, remarks: 0, lastAt: 0, lastPly: -99, pending: null, log: [], ckCaps: 0 };
+
+// The Claude bridge. Page1 defines this inline; the game has to bring its own.
+// Same Worker, same model choice (shared through localStorage on this origin).
+function _talkEnsureBridge() {
+    if (window.claude && window.claude.complete) return;
+    const PROXY = (window.AMENTI_CONFIG && window.AMENTI_CONFIG.AI_PROXY_URL)
+        || 'https://amenti-proxy.ingram-ian.workers.dev';
+    const MODELS = ['claude-haiku-4-5-20251001', 'claude-sonnet-4-6', 'claude-opus-4-6', 'claude-opus-4-7'];
+    let model = 'claude-sonnet-4-6';
+    try { const s = localStorage.getItem('amenti.model'); if (s && MODELS.indexOf(s) >= 0) model = s; } catch (e) {}
+    window.claude = {
+        complete: async function (opts) {
+            opts = opts || {};
+            const res = await fetch(PROXY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ system: opts.system || '', messages: opts.messages || [], model: opts.model || model })
+            });
+            if (!res.ok) {
+                const t = await res.text().catch(() => '');
+                throw new Error('proxy ' + res.status + (t ? ' · ' + t.slice(0, 140) : ''));
+            }
+            const data = await res.json();
+            return (data && data.reply ? String(data.reply) : '').trim();
+        }
+    };
+}
+
+const _TALK_PIECE = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen', k: 'king' };
+const _TALK_VALUE = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+
+// Which seat the legend holds in chess ('king' | 'queen'), from rollRosters().
+function _talkSeat() {
+    return (_opponent && /^female$/i.test((_opponent.gender || '').trim())) ? 'queen' : 'king';
+}
+
+// The rules of the table, appended to the figure's own head. Changes only
+// when the game type or the legend changes.
+function _talkFrame() {
+    const chess = getGameMode() === 'chess';
+    return '\n\nTHE GAME AT HAND.\n'
+        + '- You are seated across a board from the visitor, playing ' + (chess ? 'chess' : 'checkers (draughts)')
+        + ' in Treasure Chess, a game on Amenti.live in which two fleets of historical figures meet as the pieces.\n'
+        + '- You command BLACK' + (chess ? ', and you are on the board yourself, as Black’s ' + _talkSeat() : '')
+        + '. The visitor commands White and moves first. You are playing to win.\n'
+        + '- You talk across the board as you play, the way you truly would: light banter, a serious threat, staking a claim, conceding a loss with grace (or without it), exulting in a victory. Stay entirely yourself.\n'
+        + '- A message that begins ' + TALK_BOARD_TAG + ' is the game reporting what just happened. It is NOT the visitor speaking. Answer it by speaking to the visitor across the table.\n'
+        + '- Table talk is short: one or two spoken sentences. Say more only when the visitor asks you something that needs it.\n'
+        + '- Speak as a player would. Never read out coordinates or notation unless the visitor uses them first. You may call the pieces by the figures who sail in them.\n'
+        + '- Trust THE BOARD RIGHT NOW over your memory of earlier turns.';
+}
+
+// A plain-words picture of the position, for the prompt tail.
+function _talkBoardText() {
+    const bs = getBoardState();
+    const turn = getCurrentTurn();
+    const st = getGameStatus();
+    const chess = getGameMode() === 'chess';
+    const lines = [];
+    lines.push((chess ? 'Chess' : 'Checkers') + '. ' + (turn === 'w' ? 'The visitor (White)' : 'You (Black)') + ' to move.'
+        + (st === 'check' ? ' ' + (turn === 'w' ? 'Their' : 'Your') + ' king is in check.' : '')
+        + (st === 'checkmate' ? ' Checkmate.' : st === 'stalemate' ? ' Stalemate.' : '')
+        + (st === 'win-w' ? ' The visitor has won.' : st === 'win-b' ? ' You have won.' : ''));
+    const side = { w: [], b: [] };
+    let mat = { w: 0, b: 0 };
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        const p = bs[r][c];
+        if (!p) continue;
+        const sq = files[c] + ranks[r];
+        if (chess) {
+            mat[p.color] += _TALK_VALUE[p.type];
+            if (p.type === 'p') { side[p.color].push('pawn ' + sq); continue; }
+            const home = pieceHomeMap[sq];
+            const fig = home ? PIECE_FIGURE_MAP[home] : null;
+            side[p.color].push(_TALK_PIECE[p.type] + ' ' + sq + (fig && fig.fullName ? ' (' + fig.fullName + ')' : ''));
+        } else {
+            mat[p.color] += p.type === 'k' ? 2 : 1;
+            const nm = (p.figIdx !== undefined && typeof _figNameForCheckers === 'function') ? _figNameForCheckers(p.color, p.figIdx) : null;
+            side[p.color].push((p.type === 'k' ? 'king ' : 'man ') + sq + (nm ? ' (' + nm + ')' : ''));
+        }
+    }
+    lines.push('Yours (Black): ' + (side.b.join(', ') || 'nothing left'));
+    lines.push('Theirs (White): ' + (side.w.join(', ') || 'nothing left'));
+    lines.push('Material' + (chess ? '' : ' (kings count double)') + ': you ' + mat.b + ', the visitor ' + mat.w + '.');
+    if (_talkState.log.length) lines.push('Recent moves, oldest first: ' + _talkState.log.slice(-6).join(' '));
+    return lines.join('\n');
+}
+
+function _talkFigureFor(f) {
+    const life = (typeof _oppLife === 'function') ? _oppLife(f) : '';
+    return {
+        name: f.fullName,
+        key: String(f.fullName).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+        bio: f.biography || '',
+        title: f.title || '',
+        era: life,
+        year: '',
+        abilities: []
+    };
+}
+
+function _talkPush(cls, text) {
+    if (!_talk) return null;
+    const row = document.createElement('div');
+    row.className = 'tt-msg tt-' + cls;
+    const who = cls === 'you' ? 'You' : cls === 'sys' ? '' : (_opponent ? _opponent.fullName.split(' ').slice(-1)[0] : '');
+    if (who) {
+        const w = document.createElement('span');
+        w.className = 'tt-who';
+        w.textContent = who;
+        row.appendChild(w);
+    }
+    const body = document.createElement('span');
+    body.className = 'tt-body';
+    body.textContent = text;
+    row.appendChild(body);
+    _talk.stream.appendChild(row);
+    while (_talk.stream.children.length > 40) _talk.stream.removeChild(_talk.stream.firstChild);
+    _talk.stream.scrollTop = _talk.stream.scrollHeight;
+    return body;
+}
+
+function _talkMicFace(st) {
+    if (!_talk) return;
+    const m = _talk.mic;
+    if (st === 'listening') { m.textContent = '⏺'; m.title = 'Listening — tap to send'; m.classList.add('on'); }
+    else if (st === 'thinking') { m.textContent = '⋯'; m.title = 'Thinking…'; m.classList.remove('on'); }
+    else { m.textContent = '🎙'; m.title = st === 'speaking' ? 'They are speaking' : 'Tap once, then speak'; m.classList.remove('on'); }
+}
+
+// Keep the panel in the free strip between Black's roster and the bottom bar.
+// Measured, not guessed: both edges move with the game type and the money row.
+function _talkPlace() {
+    if (!_talk || _talk.el.style.display === 'none') return;
+    const top = (blackRosterPanel ? blackRosterPanel.getBoundingClientRect().bottom : 340) + 14;
+    const bar = hudBottomLeft.getBoundingClientRect();
+    const bottomEdge = (bar && bar.height ? bar.top : window.innerHeight - 40) - 10;
+    const h = Math.max(120, Math.min(320, bottomEdge - top));
+    _talk.el.style.top = Math.round(Math.min(top, bottomEdge - 120)) + 'px';
+    _talk.el.style.height = Math.round(h) + 'px';
+}
+
+function _talkMount() {
+    if (_talk) return _talk;
+    if (!(window.Amenti && Amenti.chat && Amenti.chat.create)) {
+        console.warn('[table talk] amenti-core.bundle.js did not load — the legend cannot talk.');
+        return null;
+    }
+    _talkEnsureBridge();
+    const css = document.createElement('style');
+    css.textContent =
+        '#tableTalk{position:fixed;left:12px;width:300px;z-index:20;display:flex;flex-direction:column;'
+      + 'background:rgba(18,13,6,0.86);border:1px solid #6b541f;border-radius:10px;font-family:Georgia,serif;color:#ffe6a0;'
+      + 'box-shadow:0 6px 24px rgba(0,0,0,0.45);overflow:hidden}'
+      + '#tableTalk .tt-head{display:flex;align-items:center;gap:6px;padding:7px 10px;border-bottom:1px solid #3d2f12;font-size:13px}'
+      + '#tableTalk .tt-title{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.5px}'
+      + '#tableTalk button{background:none;border:1px solid #6b541f;color:#caa23a;border-radius:6px;cursor:pointer;font-size:13px;padding:2px 7px;font-family:Georgia,serif}'
+      + '#tableTalk button.on{background:#caa23a;color:#140d06}'
+      + '#tableTalk .tt-stream{flex:1;overflow-y:auto;padding:8px 10px;font-size:13px;line-height:1.45}'
+      + '#tableTalk .tt-msg{margin:0 0 7px}'
+      + '#tableTalk .tt-who{display:block;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:#caa23a;margin-bottom:1px}'
+      + '#tableTalk .tt-you .tt-who{color:#9fb7c9}#tableTalk .tt-you .tt-body{color:#dfe9f1}'
+      + '#tableTalk .tt-sys .tt-body{color:#a8925a;font-style:italic;font-size:12px}'
+      + '#tableTalk .tt-row{display:flex;gap:6px;padding:7px 8px;border-top:1px solid #3d2f12}'
+      + '#tableTalk input{flex:1;min-width:0;background:#0f0a05;border:1px solid #6b541f;border-radius:6px;color:#ffe6a0;padding:6px 8px;font-family:Georgia,serif;font-size:13px}'
+      + '#tableTalk.min .tt-stream,#tableTalk.min .tt-row{display:none}#tableTalk.min{height:auto!important}';
+    document.head.appendChild(css);
+
+    const el = document.createElement('div');
+    el.id = 'tableTalk';
+    el.style.display = 'none';
+    el.innerHTML =
+        '<div class="tt-head"><span class="tt-title"></span>'
+      + '<button class="tt-voice" title="Voice on — their replies are spoken">🔊</button>'
+      + '<button class="tt-min" title="Fold the table talk away">–</button></div>'
+      + '<div class="tt-stream"></div>'
+      + '<div class="tt-row"><input type="text" maxlength="400" autocomplete="off" placeholder="Say something across the board…">'
+      + '<button class="tt-mic" title="Tap once, then speak">🎙</button></div>';
+    document.body.appendChild(el);
+    const stream = el.querySelector('.tt-stream');
+    const input = el.querySelector('input');
+    const mic = el.querySelector('.tt-mic');
+    const voice = el.querySelector('.tt-voice');
+    const title = el.querySelector('.tt-title');
+
+    const chat = Amenti.chat.create({
+        figure: null,
+        mode: 'character',
+        // The figure's own head + the rules of the table; the live board goes
+        // in the tail, rebuilt at every turn.
+        getSystem: function (c, mode, context, knownName, converse, summonedBy, recalled) {
+            const b = Amenti.chat._defaultBuildSystem(c, mode, '', knownName, converse, summonedBy, recalled);
+            const head = (b && typeof b === 'object') ? b.head : String(b || '');
+            const tail = (b && typeof b === 'object') ? (b.tail || '') : '';
+            return { head: head + _talkFrame(), tail: tail + '\n\nTHE BOARD RIGHT NOW:\n' + _talkBoardText() };
+        },
+        render: {
+            user: function (t) { if (!_talkHidden) _talkPush('you', t); },
+            sys: function (t) { _talkPush('sys', t); },
+            bot: function () {
+                const body = _talkPush('them', '');
+                return {
+                    el: body,
+                    setText: function (t) { if (body) body.textContent = t; if (_talk) _talk.stream.scrollTop = _talk.stream.scrollHeight; },
+                    setHTML: function (h) { if (body) body.innerHTML = h; }
+                };
+            }
+        },
+        speak: function (text, onDone, meta) {
+            const C = window.Amenti && Amenti.conversation;
+            if (!C || !_talkVoiceOn || !_opponent) { if (onDone) onDone(); return; }
+            C.on = true;
+            C.speak(text, _opponent.fullName, onDone, meta);
+        },
+        stopSpeaking: function () {
+            const C = window.Amenti && Amenti.conversation;
+            if (C && C.stop) C.stop();
+        },
+        onState: function (st) {
+            _talkMicFace(st);
+            if (st === 'idle') setTimeout(_talkFlushPending, 500);
+        },
+        onNotice: function (t) { _talkPush('sys', t); },
+        // Hands-free is switched on by the visitor's first tap on the mic
+        // (see the mic button), never before: the first word is always theirs.
+        mic: { auto: false, barge: false, arrest: false, room: false }
+    });
+
+    // Typing must not reach the game's keyboard shortcuts (H, $, Escape…).
+    input.addEventListener('keydown', (e) => {
+        e.stopPropagation();
+        if (e.key === 'Enter') {
+            const t = input.value.trim();
+            if (!t || !_opponent) return;
+            if (chat.state !== 'idle') { _talkPush('sys', 'They are still speaking — a moment.'); return; }
+            input.value = '';
+            chat.send(t, { source: 'text' });
+        }
+    });
+    input.addEventListener('keyup', (e) => e.stopPropagation());
+    mic.addEventListener('click', () => {
+        if (!_opponent) return;
+        _talkPrimeAudio();
+        if (chat.state === 'listening') {
+            if (window.Amenti && Amenti.listen && Amenti.listen.isRecording()) Amenti.listen.stop();
+            return;
+        }
+        chat._micAuto = true;          // hands-free from the first tap on
+        chat.armMic();
+    });
+    voice.addEventListener('click', () => {
+        _talkVoiceOn = !_talkVoiceOn;
+        voice.textContent = _talkVoiceOn ? '🔊' : '🔇';
+        voice.title = _talkVoiceOn ? 'Voice on — their replies are spoken' : 'Voice off — replies are text only';
+        if (!_talkVoiceOn) { const C = window.Amenti && Amenti.conversation; if (C && C.stop) C.stop(); }
+        else _talkPrimeAudio();
+    });
+    el.querySelector('.tt-min').addEventListener('click', () => {
+        el.classList.toggle('min');
+        if (!el.classList.contains('min')) _talkPlace();
+    });
+
+    _talk = { chat, el, stream, input, mic, voice, title };
+    window.addEventListener('resize', _talkPlace);
+    setInterval(_talkPlace, 700);
+    return _talk;
+}
+
+// Safari keeps audio locked until a click: resume the engine's context while
+// we are inside one (the legend pick, the mic, the voice button).
+function _talkPrimeAudio() {
+    try {
+        if (window.Amenti && Amenti.throttle && Amenti.throttle.audioContext) {
+            const ctx = Amenti.throttle.audioContext();
+            if (ctx && ctx.state === 'suspended') ctx.resume();
+        }
+    } catch (e) {}
+}
+
+// Seat a new legend at the table (called from _startOpponentGame, inside the click).
+function _talkUseFigure(fig) {
+    const t = _talkMount();
+    if (!t) return;
+    _talkPrimeAudio();
+    const C = window.Amenti && Amenti.conversation;
+    if (C && C.stop) C.stop();
+    t.chat.setFigure(_talkFigureFor(fig));
+    t.chat.clear();
+    t.stream.innerHTML = '';
+    t.title.textContent = 'At the board · ' + fig.fullName;
+    t.input.placeholder = 'Say something to ' + fig.fullName.split(' ').slice(-1)[0] + '…';
+    t.el.style.display = 'flex';
+    _talkPlace();
+}
+
+// The opponent has gone (two players, online): fold the table away.
+function _talkDismiss() {
+    if (!_talk) return;
+    const C = window.Amenti && Amenti.conversation;
+    if (C && C.stop) C.stop();
+    if (window.Amenti && Amenti.listen && Amenti.listen.isRecording()) { try { Amenti.listen.cancel(); } catch (e) {} }
+    _talk.chat._micAuto = false;
+    _talk.el.style.display = 'none';
+    _talkState.pending = null;
+}
+
+// A fresh game at the same table: counters reset, and they open the game.
+function _talkNewGame() {
+    if (!_opponent || !_talk) return;
+    Object.assign(_talkState, { plies: 0, remarks: 0, lastAt: 0, lastPly: -99, pending: null, log: [], ckCaps: 0 });
+    _talkModeSeen = getGameMode();
+    _talkPush('sys', 'A new game. You play White and move first.');
+    _talkMoment({ prio: 3, what: 'A new game is beginning. You have just sat down across the board.',
+        mood: 'Greet your opponent and stake your claim on this game, briefly.' });
+}
+
+// ---- THE THROTTLE --------------------------------------------------------
+function _talkMoment(ev) {
+    if (!_talk || !_opponent || !aiEnabled) return;
+    ev.ply = _talkState.plies;
+    const now = Date.now();
+    const cooling = (now - _talkState.lastAt < TALK_GAP_MS) || (_talkState.plies - _talkState.lastPly < TALK_GAP_PLIES);
+    if (ev.prio < 3 && (_talkState.remarks >= TALK_MAX_REMARKS || cooling)) return;
+    // The visitor is mid-sentence in the box: small moments wait their turn.
+    if (ev.prio < 2 && _talk.input.value.trim()) return;
+    if (_talk.chat.state !== 'idle') {
+        if (ev.prio >= 2 && (!_talkState.pending || ev.prio >= _talkState.pending.prio)) _talkState.pending = ev;
+        return;
+    }
+    _talkFire(ev);
+}
+
+function _talkFlushPending() {
+    const ev = _talkState.pending;
+    if (!ev || !_talk || _talk.chat.state !== 'idle') return;
+    _talkState.pending = null;
+    if (ev.prio < 3 && _talkState.plies - ev.ply > 2) return;   // the moment has passed
+    _talkFire(ev);
+}
+
+function _talkFire(ev) {
+    _talkState.remarks++;
+    _talkState.lastAt = Date.now();
+    _talkState.lastPly = _talkState.plies;
+    _talkHidden = true;
+    try { _talk.chat.send(TALK_BOARD_TAG + ' ' + ev.what + ' ' + ev.mood, { source: 'text' }); }
+    finally { _talkHidden = false; }
+}
+
+// Called by attemptMoveWithCaptures after every legal move. `pre` was taken
+// before the move: { board, homeFrom, homeTo, status }.
+function _talkAfterMove(pre, source, target, movedColor) {
+    if (!_opponent || !_talk) return;
+    const chess = getGameMode() === 'chess';
+    const st = getGameStatus();
+    const mine = movedColor === 'b';                 // "mine" = the legend's
+    const before = pre.board;
+    const fc = files.indexOf(source[0]), fr = ranks.indexOf(source[1]);
+    const tc = files.indexOf(target[0]), tr = ranks.indexOf(target[1]);
+    const mover = before[fr] && before[fr][fc];
+    let capType = null, capName = null;
+    // What disappeared from the other side (covers en passant and jumps).
+    const count = (bs, color) => { const n = {}; for (const row of bs) for (const p of row) if (p && p.color === color) n[p.type] = (n[p.type] || 0) + 1; return n; };
+    const other = mine ? 'w' : 'b';
+    const nb = count(before, other), na = count(getBoardState(), other);
+    for (const t in nb) if ((na[t] || 0) < nb[t]) { capType = t; break; }
+
+    let moverName = null;
+    if (chess) {
+        const mf = pre.homeFrom ? PIECE_FIGURE_MAP[pre.homeFrom] : null;
+        moverName = mf && mf.fullName;
+        const victim = before[tr] && before[tr][tc];
+        const vf = (victim && pre.homeTo) ? PIECE_FIGURE_MAP[pre.homeTo] : null;
+        capName = vf && vf.fullName;
+    } else if (mover && mover.figIdx !== undefined && typeof _figNameForCheckers === 'function') {
+        moverName = _figNameForCheckers(mover.color, mover.figIdx);
+    }
+
+    // One line for the move log the board text carries.
+    const who = mine ? 'You' : 'The visitor';
+    const what = chess ? (_TALK_PIECE[mover ? mover.type : 'p'] || 'piece') : (mover && mover.type === 'k' ? 'king' : 'man');
+    _talkState.log.push(who + ' moved ' + (mine ? 'your ' : 'their ') + what + (moverName ? ' (' + moverName + ')' : '')
+        + ' ' + source + '→' + target + (capType ? ', taking ' + (mine ? 'their ' : 'your ') + (chess ? _TALK_PIECE[capType] : (capType === 'k' ? 'king' : 'man')) + (capName ? ' (' + capName + ')' : '') : '') + '.');
+    if (_talkState.log.length > 12) _talkState.log.shift();
+
+    // Checkers jump chains are several moves by one player: speak once, when
+    // the turn has actually passed.
+    if (!chess) {
+        if (capType) _talkState.ckCaps++;
+        if (getCurrentTurn() === movedColor && st === 'active') return;
+    }
+    _talkState.plies++;
+
+    const me = _opponent.fullName;
+    // ---- the end always speaks
+    if (st === 'checkmate' || st === 'win-w' || st === 'win-b') {
+        const legendWon = (st === 'checkmate') ? mine : (st === 'win-b');
+        _talkMoment(legendWon
+            ? { prio: 3, what: 'The game is over. YOU HAVE WON.', mood: 'Exult in your victory, in your own voice.' }
+            : { prio: 3, what: 'The game is over. YOU HAVE LOST; the visitor has beaten you.', mood: 'Accept defeat as you truly would: gracious, rueful, or defiant.' });
+        return;
+    }
+    if (st === 'stalemate') {
+        _talkMoment({ prio: 3, what: 'The game has ended in stalemate: a draw.', mood: 'Remark on a battle neither side could win.' });
+        return;
+    }
+    if (chess) {
+        if (capType && capName === me) {
+            _talkMoment({ prio: 3, what: 'You yourself, ' + me + ', have just been captured. The game goes on without you on the board.', mood: 'React to your own fall.' });
+        } else if (st === 'check') {
+            _talkMoment(mine
+                ? { prio: 2, what: 'You have just put their king in check.', mood: 'Make a serious threat.' }
+                : { prio: 2, what: 'The visitor has just put your king in check.', mood: 'Answer the threat: defiance, scorn, or a cool head.' });
+        } else if (capType && _TALK_VALUE[capType] >= 5) {
+            const p = _TALK_PIECE[capType] + (capName ? ' (' + capName + ')' : '');
+            _talkMoment(mine
+                ? { prio: 2, what: 'You have just taken their ' + p + '.', mood: 'Exult, taunt, or stake your claim to the game.' }
+                : { prio: 2, what: 'The visitor has just taken your ' + p + '.', mood: 'Take the loss in character: lament it, vow revenge, or shrug it off.' });
+        } else if (mover && mover.type === 'p' && (target[1] === '1' || target[1] === '8')) {
+            _talkMoment({ prio: 2, what: (mine ? 'Your' : 'Their') + ' pawn has just reached the far rank and been crowned a queen.', mood: mine ? 'Savour it.' : 'Take the measure of the new threat.' });
+        } else if (capType) {
+            const p = _TALK_PIECE[capType] + (capName ? ' (' + capName + ')' : '');
+            _talkMoment({ prio: 1, what: (mine ? 'You have just taken their ' : 'The visitor has just taken your ') + p + '.', mood: 'A brief remark, if anything.' });
+        } else {
+            _talkBanter();
+        }
+    } else {
+        const caps = _talkState.ckCaps; _talkState.ckCaps = 0;
+        const kinged = mover && mover.type === 'p' && ((movedColor === 'w' && target[1] === '8') || (movedColor === 'b' && target[1] === '1'));
+        if (kinged) {
+            _talkMoment({ prio: 2, what: (mine ? 'One of your men' : 'One of the visitor’s men') + ' has just reached the far row and been crowned a king.', mood: mine ? 'Savour it.' : 'Take the measure of the new threat.' });
+        } else if (caps >= 2) {
+            _talkMoment({ prio: 2, what: (mine ? 'You have just taken ' : 'The visitor has just taken ') + caps + ' ' + (mine ? 'of their men' : 'of your men') + ' in one sweep.', mood: mine ? 'Exult or taunt.' : 'Answer the blow in character.' });
+        } else if (caps === 1) {
+            _talkMoment({ prio: 1, what: (mine ? 'You have just taken one of their men.' : 'The visitor has just taken one of your men.'), mood: 'A brief remark, if anything.' });
+        } else {
+            _talkBanter();
+        }
+    }
+}
+
+// A quiet stretch: now and then, a line of banter.
+function _talkBanter() {
+    if (_talkState.plies - _talkState.lastPly < TALK_BANTER_EVERY) return;
+    if (Math.random() > TALK_BANTER_CHANCE) return;
+    _talkMoment({ prio: 1, what: 'A quiet stretch of the game; nothing dramatic has happened for a few moves.',
+        mood: 'Offer one line of light banter: about the game, your opponent, or something from your own life it calls to mind.' });
+}
+
+// A new game or a new mode at the same table opens with the legend's word.
+resetBtn.addEventListener('click', () => { if (_opponent && aiEnabled) _talkNewGame(); });
+// Only a real change of game counts (clicking the mode you are in does nothing).
+let _talkModeSeen = null;
+const _talkOnModeClick = () => {
+    const m = getGameMode();
+    if (_opponent && aiEnabled && m !== _talkModeSeen) setTimeout(_talkNewGame, 50);
+    _talkModeSeen = m;
+};
+modeChessBtn.addEventListener('click', _talkOnModeClick);
+modeCheckersBtn.addEventListener('click', _talkOnModeClick);
 
 aiSlider.addEventListener('input', () => {
     aiLevel = parseInt(aiSlider.value, 10);
