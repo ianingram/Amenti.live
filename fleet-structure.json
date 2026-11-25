@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-11-25T04:52:17.420Z",
+    "generated": "2026-11-25T05:12:53.792Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1608,8 +1608,8 @@
     },
     {
       "file": "fleet-manifest.js",
-      "bytes": 55070,
-      "sha256": "94847941d4ed1e1f",
+      "bytes": 55789,
+      "sha256": "1b89b4ed6ab34064",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1618,25 +1618,25 @@
       "calls": [
         {
           "global": "Amenti.chat",
-          "line": 1323,
+          "line": 1331,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 1324,
+          "line": 1332,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.voice",
-          "line": 1325,
+          "line": 1333,
           "when": "toplevel",
           "own": false
         },
         {
           "global": "Amenti.doctrine",
-          "line": 1326,
+          "line": 1334,
           "when": "toplevel",
           "own": false
         }
@@ -1695,8 +1695,8 @@
     },
     {
       "file": "game01.html",
-      "bytes": 1600381,
-      "sha256": "99411bf921b8b77a",
+      "bytes": 1600797,
+      "sha256": "e68df8bedb432f09",
       "type": "html",
       "declares": [
         "AppNames",
@@ -1730,25 +1730,25 @@
       "calls": [
         {
           "global": "AMENTI_CONFIG",
-          "line": 10171,
+          "line": 10177,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.chat",
-          "line": 10428,
+          "line": 10434,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 10546,
+          "line": 10552,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.throttle",
-          "line": 10633,
+          "line": 10639,
           "when": "function",
           "own": false
         }
