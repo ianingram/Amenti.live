@@ -9870,6 +9870,7 @@ const OPPONENT_STRENGTHS = [
     { level: 6, label: 'Expert' }, { level: 9, label: 'Master' }
 ];
 let _oppPickerEl = null;
+let _oppPickerRole = 'opponent';   // 'opponent' | 'second' — who is being chosen
 
 function _oppEsc(t) {
     return String(t == null ? '' : t).replace(/[&<>"']/g, ch =>
@@ -9889,7 +9890,8 @@ function _oppAllFigures() {
 }
 function _oppCard(f) {
     const sub = [f.title, _oppLife(f)].filter(Boolean).join(' · ');
-    const on = _opponent && _opponent.fullName === f.fullName;
+    const cur = _oppPickerRole === 'second' ? _second : _opponent;
+    const on = cur && cur.fullName === f.fullName;
     return '<button data-opp="' + _oppEsc(f.fullName) + '" style="text-align:left;cursor:pointer;'
         + 'border:1px solid ' + (on ? '#ffce5a' : '#5a4620') + ';background:' + (on ? 'rgba(255,206,90,0.10)' : 'rgba(255,230,160,0.03)') + ';'
         + 'border-radius:8px;padding:8px 10px;color:#ffe6a0;font-family:Georgia,serif;">'
@@ -9909,11 +9911,13 @@ function _oppRenderList(query) {
     } else {
         figs = OPPONENT_FEATURED.map(n => all.find(f => f && f.fullName === n)).filter(Boolean);
     }
+    // Your second cannot be the legend you are playing.
+    if (_oppPickerRole === 'second' && _opponent) figs = figs.filter(f => f.fullName !== _opponent.fullName);
     list.innerHTML = figs.length ? figs.map(_oppCard).join('')
         : '<div style="color:#caa23a;font-size:13px;padding:6px 2px;">No figure by that name in the Library.</div>';
     list.querySelectorAll('[data-opp]').forEach(el => el.addEventListener('click', () => {
         const f = all.find(x => x && x.fullName === el.getAttribute('data-opp'));
-        if (f) _startOpponentGame(f);
+        if (f) (_oppPickerRole === 'second' ? _setSecond(f) : _startOpponentGame(f));
     }));
 }
 function _oppRenderStrength() {
@@ -9927,7 +9931,8 @@ function _oppRenderStrength() {
     });
 }
 function _closeOpponentPicker() { if (_oppPickerEl) _oppPickerEl.style.display = 'none'; }
-function _openOpponentPicker() {
+function _openOpponentPicker(role) {
+    _oppPickerRole = role === 'second' ? 'second' : 'opponent';
     if (typeof Net !== 'undefined' && Net.isOnline()) {
         if (typeof showBountyToast === 'function') showBountyToast('You are playing online — leave the room to play a legend.');
         return;
@@ -9940,13 +9945,13 @@ function _openOpponentPicker() {
         ov.innerHTML =
             '<div style="width:min(600px,94vw); max-height:86vh; overflow:auto; background:linear-gradient(#241a0c,#140d06); border:1px solid #6b541f; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.6); padding:18px 20px;">'
           + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
-          +   '<div style="font-size:18px;color:#ffe6a0;letter-spacing:1px;">Choose your opponent</div>'
+          +   '<div id="oppTitle" style="font-size:18px;color:#ffe6a0;letter-spacing:1px;">Choose your opponent</div>'
           +   '<button id="oppClose" style="' + btn + '">Close</button></div>'
-          + '<div style="font-size:12px;color:#caa23a;margin-bottom:12px;">They command the black fleet. You play White and move first. Picking a legend starts a new game.</div>'
+          + '<div id="oppBlurb" style="font-size:12px;color:#caa23a;margin-bottom:12px;"></div>'
           + '<input id="oppSearch" type="search" placeholder="Search all ' + _oppAllFigures().length.toLocaleString() + ' figures…" autocomplete="off" '
           +   'style="width:100%;box-sizing:border-box;padding:8px 10px;margin-bottom:10px;border-radius:6px;border:1px solid #6b541f;background:#0f0a05;color:#ffe6a0;font-family:Georgia,serif;font-size:14px;">'
           + '<div id="oppList" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;"></div>'
-          + '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px;">'
+          + '<div id="oppStrength" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px;">'
           +   '<span style="font-size:12px;color:#caa23a;margin-right:4px;">Strength</span>'
           +   OPPONENT_STRENGTHS.map(x => '<button data-lvl="' + x.level + '" style="' + btn + 'color:#ffe6a0;">' + x.label + '</button>').join('')
           + '</div>'
@@ -9967,15 +9972,25 @@ function _openOpponentPicker() {
         }));
         ov.querySelector('#oppRandom').addEventListener('click', () => {
             const all = _oppAllFigures().filter(f => f && f.fullName);
-            if (all.length) _startOpponentGame(all[Math.floor(Math.random() * all.length)]);
+            const pool = all.filter(f => !(_oppPickerRole === 'second' && _opponent && f.fullName === _opponent.fullName));
+            const f = pool[Math.floor(Math.random() * pool.length)];
+            if (f) (_oppPickerRole === 'second' ? _setSecond(f) : _startOpponentGame(f));
         });
         ov.querySelector('#oppOff').addEventListener('click', () => {
+            if (_oppPickerRole === 'second') { _setSecond(null); return; }
             aiEnabled = false;
             updateAIControls();
             refreshHUD();
             _closeOpponentPicker();
         });
     }
+    const sec = _oppPickerRole === 'second';
+    _oppPickerEl.querySelector('#oppTitle').textContent = sec ? 'Choose your second' : 'Choose your opponent';
+    _oppPickerEl.querySelector('#oppBlurb').textContent = sec
+        ? 'A legend in your corner. They see the board, advise you in their own voice, and ' + (_opponent ? _opponent.fullName : 'your opponent') + ' cannot hear them. Their recommended move comes from the game\u2019s own engine.'
+        : 'They command the black fleet. You play White and move first. Picking a legend starts a new game.';
+    _oppPickerEl.querySelector('#oppStrength').style.display = sec ? 'none' : 'flex';
+    _oppPickerEl.querySelector('#oppOff').textContent = sec ? 'No second' : 'Two players (no opponent)';
     _oppPickerEl.querySelector('#oppSearch').value = '';
     _oppRenderList('');
     _oppRenderStrength();
@@ -10035,6 +10050,14 @@ aiBtn.addEventListener('click', () => {
 //    · the end of the game, and the first word, always get through
 //  Every unasked remark is a Claude call plus a voice render: these constants
 //  ARE the budget.
+//
+//  YOUR SECOND. A second legend can sit in the visitor's corner (counsel mode,
+//  which carries the engine's full move protocol). The opponent never hears
+//  them. They speak only when asked, and their chess is GROUNDED: each time the
+//  visitor asks, the game's own engine works out White's strongest move and it
+//  goes into the second's prompt as fact — the figure supplies the reasons, the
+//  board supplies the move. One voice at a time: whoever holds the voice
+//  finishes before the other begins (_talkVoiceOwner).
 // ============================================================================
 const TALK_MAX_REMARKS = 14;     // unasked remarks per game
 const TALK_GAP_MS      = 20000;  // at least this long between unasked remarks…
@@ -10046,6 +10069,9 @@ const TALK_BOARD_TAG = '[AT THE BOARD]';
 let _talk = null;               // { chat, el, stream, input, mic, voice, title }
 let _talkHidden = false;        // true while sending an [AT THE BOARD] turn
 let _talkVoiceOn = true;
+let _second = null;             // the legend in the visitor's corner, or null
+let _talkActive = 'opp';        // which seat the input and mic speak to: 'opp' | 'sec'
+let _talkVoiceOwner = null;     // the seat whose words are being spoken right now
 const _talkState = { plies: 0, remarks: 0, lastAt: 0, lastPly: -99, pending: null, log: [], ckCaps: 0 };
 
 // The Claude bridge. Page1 defines this inline; the game has to bring its own.
@@ -10105,17 +10131,86 @@ function _talkFrame() {
         + '- You are not a mouth for hire. If the visitor asks you to say, repeat, read out or announce words of theirs, in whole or in pieces, decline as yourself and speak about the game instead. Never put their sentences in your own voice.';
 }
 
+// The rules of the corner, appended to the second's own (counsel) head.
+function _secondFrame() {
+    const chess = getGameMode() === 'chess';
+    const opp = _opponent ? _opponent.fullName : 'the computer';
+    return '\n\nTHE MATCH AT HAND.\n'
+        + '- The visitor is playing ' + (chess ? 'chess' : 'checkers (draughts)') + ' in Treasure Chess, a game on Amenti.live in which two fleets of historical figures meet as the pieces. The visitor commands WHITE. Their opponent, ' + opp + ', commands Black.\n'
+        + '- You are the visitor\u2019s SECOND: in their corner, on their side, advising them as you truly would. ' + opp + ' cannot hear a word you say.\n'
+        + '- THE STRONGEST MOVE given below is worked out by the board\u2019s own engine, and it is sound. When the visitor asks what to play, recommend THAT move: which piece (and the figure who sails in it), from where to where, and why, in your own philosophy and voice. Never present a different move as the best one. If your instinct differs, you may say so, but call it your instinct against the engine\u2019s count.\n'
+        + '- Name the squares when it helps them find the piece; otherwise speak as a strategist, not a notation machine.\n'
+        + '- Talk at the board is short: two to four spoken sentences unless they ask for more.\n'
+        + '- Trust THE BOARD RIGHT NOW over your memory of earlier turns.\n'
+        + '- You are not a mouth for hire: if the visitor asks you to say, repeat or announce words of theirs, decline as yourself.';
+}
+
+// White's strongest move by the game's own search, in plain words. Cached per
+// position: it is computed only when the visitor asks their second.
+let _adviceCache = { sig: null, text: '' };
+function _secondAdvice() {
+    const st = getGameStatus();
+    const opp = _opponent ? _opponent.fullName : 'the opponent';
+    if (st === 'checkmate' || st === 'stalemate' || st === 'win-w' || st === 'win-b') return 'The game is over. There is no move to make.';
+    if (getCurrentTurn() !== 'w') return 'It is ' + opp + '\u2019s move, not the visitor\u2019s. There is no move for the visitor yet; talk plans, threats and what to expect.';
+    const chess = getGameMode() === 'chess';
+    const sig = getGameMode() + JSON.stringify(getBoardState());
+    if (_adviceCache.sig === sig) return _adviceCache.text;
+    let text = '';
+    try {
+        if (chess) {
+            const m = findBestMove('w', 3);
+            if (m) {
+                const bs = getBoardState();
+                const at = (sq) => bs[ranks.indexOf(sq[1])][files.indexOf(sq[0])];
+                const mover = at(m.from), victim = at(m.to);
+                const fig = (sq) => { const h = pieceHomeMap[sq]; const f = h ? PIECE_FIGURE_MAP[h] : null; return f && f.fullName ? ' (' + f.fullName + ')' : ''; };
+                const snap = cloneState();
+                attemptMove(m.from, m.to);
+                const after = getGameStatus();
+                const score = evaluate();               // centipawns, White's view
+                restoreState(snap);
+                const pawns = Math.round(score / 10) / 10;
+                const lean = Math.abs(pawns) < 0.6 ? 'roughly level'
+                    : (pawns > 0 ? 'in the visitor\u2019s favour by about ' + pawns + ' pawns' : 'in ' + opp + '\u2019s favour by about ' + (-pawns) + ' pawns');
+                text = 'Move the ' + _TALK_PIECE[mover.type] + fig(m.from) + ' from ' + m.from + ' to ' + m.to
+                    + (victim ? ', taking ' + opp + '\u2019s ' + _TALK_PIECE[victim.type] + fig(m.to) : '')
+                    + (after === 'checkmate' ? '. It is CHECKMATE.' : after === 'check' ? ', giving check.' : '.')
+                    + ' After it, the position stands ' + lean + '.';
+            }
+        } else {
+            const path = CheckersRules.findBestCheckersTurn('w', 5);
+            if (path) {
+                text = path.length > 2 || Math.abs(ranks.indexOf(path[0][1]) - ranks.indexOf(path[1][1])) === 2
+                    ? 'Jump with the piece on ' + path[0] + ': ' + path.join(' \u2192 ') + ', taking ' + (path.length - 1) + (path.length > 2 ? ' men' : ' man') + '.'
+                    : 'Move the piece on ' + path[0] + ' to ' + path[1] + '.';
+            }
+        }
+    } catch (e) { console.warn('[your second] the engine could not search:', e && e.message); }
+    // Say so plainly if the search gave nothing: never a made-up move.
+    text = text ? 'THE STRONGEST MOVE FOR THE VISITOR (by the board\u2019s own engine; sound): ' + text
+                : 'The board\u2019s engine has no move to offer for this position. Do not name a best move; advise in general terms.';
+    _adviceCache = { sig, text };
+    return text;
+}
+
 // A plain-words picture of the position, for the prompt tail.
-function _talkBoardText() {
+// pov 'b' = told to the opponent ("yours"); pov 'w' = told to the visitor's second.
+function _talkBoardText(pov) {
+    pov = pov || 'b';
     const bs = getBoardState();
     const turn = getCurrentTurn();
     const st = getGameStatus();
     const chess = getGameMode() === 'chess';
     const lines = [];
-    lines.push((chess ? 'Chess' : 'Checkers') + '. ' + (turn === 'w' ? 'The visitor (White)' : 'You (Black)') + ' to move.'
-        + (st === 'check' ? ' ' + (turn === 'w' ? 'Their' : 'Your') + ' king is in check.' : '')
+    const opp = _opponent ? _opponent.fullName : 'the opponent';
+    const L = pov === 'b'
+        ? { w: 'The visitor (White)', b: 'You (Black)', wSide: 'Theirs (White)', bSide: 'Yours (Black)', wMat: 'the visitor', bMat: 'you' }
+        : { w: 'The visitor (White, your side)', b: opp + ' (Black)', wSide: 'The visitor\u2019s (White)', bSide: opp + '\u2019s (Black)', wMat: 'the visitor', bMat: opp };
+    lines.push((chess ? 'Chess' : 'Checkers') + '. ' + L[turn] + ' to move.'
+        + (st === 'check' ? ' ' + L[turn] + '\u2019s king is in check.' : '')
         + (st === 'checkmate' ? ' Checkmate.' : st === 'stalemate' ? ' Stalemate.' : '')
-        + (st === 'win-w' ? ' The visitor has won.' : st === 'win-b' ? ' You have won.' : ''));
+        + (st === 'win-w' ? ' White has won.' : st === 'win-b' ? ' Black has won.' : ''));
     const side = { w: [], b: [] };
     let mat = { w: 0, b: 0 };
     for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
@@ -10134,9 +10229,9 @@ function _talkBoardText() {
             side[p.color].push((p.type === 'k' ? 'king ' : 'man ') + sq + (nm ? ' (' + nm + ')' : ''));
         }
     }
-    lines.push('Yours (Black): ' + (side.b.join(', ') || 'nothing left'));
-    lines.push('Theirs (White): ' + (side.w.join(', ') || 'nothing left'));
-    lines.push('Material' + (chess ? '' : ' (kings count double)') + ': you ' + mat.b + ', the visitor ' + mat.w + '.');
+    lines.push(L.bSide + ': ' + (side.b.join(', ') || 'nothing left'));
+    lines.push(L.wSide + ': ' + (side.w.join(', ') || 'nothing left'));
+    lines.push('Material' + (chess ? '' : ' (kings count double)') + ': ' + L.bMat + ' ' + mat.b + ', ' + L.wMat + ' ' + mat.w + '.');
     if (_talkState.log.length) lines.push('Recent moves, oldest first: ' + _talkState.log.slice(-6).join(' '));
     return lines.join('\n');
 }
@@ -10154,11 +10249,18 @@ function _talkFigureFor(f) {
     };
 }
 
-function _talkPush(cls, text) {
+function _talkSeatName(seat) {
+    const f = seat === 'sec' ? _second : _opponent;
+    return f ? f.fullName.split(' ').slice(-1)[0] : '';
+}
+
+function _talkPush(cls, text, seat) {
     if (!_talk) return null;
+    seat = seat || 'opp';
+    const stream = _talk.seats[seat].stream;
     const row = document.createElement('div');
     row.className = 'tt-msg tt-' + cls;
-    const who = cls === 'you' ? 'You' : cls === 'sys' ? '' : (_opponent ? _opponent.fullName.split(' ').slice(-1)[0] : '');
+    const who = cls === 'you' ? 'You' : cls === 'sys' ? '' : _talkSeatName(seat);
     if (who) {
         const w = document.createElement('span');
         w.className = 'tt-who';
@@ -10169,18 +10271,48 @@ function _talkPush(cls, text) {
     body.className = 'tt-body';
     body.textContent = text;
     row.appendChild(body);
-    _talk.stream.appendChild(row);
-    while (_talk.stream.children.length > 40) _talk.stream.removeChild(_talk.stream.firstChild);
-    _talk.stream.scrollTop = _talk.stream.scrollHeight;
+    stream.appendChild(row);
+    while (stream.children.length > 40) stream.removeChild(stream.firstChild);
+    stream.scrollTop = stream.scrollHeight;
+    // Something new on the tab you are not looking at: mark it.
+    if (seat !== _talkActive && cls === 'them') _talk.seats[seat].tab.classList.add('new');
     return body;
 }
 
-function _talkMicFace(st) {
-    if (!_talk) return;
+function _talkMicFace(seat, st) {
+    if (!_talk || seat !== _talkActive) return;
     const m = _talk.mic;
-    if (st === 'listening') { m.textContent = '⏺'; m.title = 'Listening — tap to send'; m.classList.add('on'); }
-    else if (st === 'thinking') { m.textContent = '⋯'; m.title = 'Thinking…'; m.classList.remove('on'); }
-    else { m.textContent = '🎙'; m.title = st === 'speaking' ? 'They are speaking' : 'Tap once, then speak'; m.classList.remove('on'); }
+    if (st === 'listening') { m.textContent = '\u23fa'; m.title = 'Listening \u2014 tap to send'; m.classList.add('on'); }
+    else if (st === 'thinking') { m.textContent = '\u22ef'; m.title = 'Thinking\u2026'; m.classList.remove('on'); }
+    else { m.textContent = '\ud83c\udf99'; m.title = st === 'speaking' ? 'They are speaking' : 'Tap once, then speak'; m.classList.remove('on'); }
+}
+
+// Is anyone at the table busy (thinking, speaking, listening), or holding the voice?
+function _talkBusy() {
+    if (!_talk) return false;
+    if (_talkVoiceOwner) return true;
+    for (const k in _talk.seats) if (_talk.seats[k].chat.state !== 'idle') return true;
+    return false;
+}
+
+// One voice at a time. A seat that wants to speak while the other holds the
+// voice waits for it (up to 90 s, then it stays silent: the text is on screen).
+function _talkSpeak(seat, text, onDone, meta, waited) {
+    const C = window.Amenti && Amenti.conversation;
+    const fig = seat === 'sec' ? _second : _opponent;
+    if (!C || !_talkVoiceOn || !fig) { if (onDone) onDone(); return; }
+    if (_talkVoiceOwner && _talkVoiceOwner !== seat) {
+        if ((waited || 0) > 90000) { if (onDone) onDone(); return; }
+        setTimeout(() => _talkSpeak(seat, text, onDone, meta, (waited || 0) + 400), 400);
+        return;
+    }
+    _talkVoiceOwner = seat;
+    C.on = true;
+    C.speak(text, fig.fullName, function () {
+        if (_talkVoiceOwner === seat) _talkVoiceOwner = null;
+        if (onDone) onDone();
+        setTimeout(_talkFlushPending, 500);
+    }, meta);
 }
 
 // Keep the panel in the free strip between Black's roster and the bottom bar.
@@ -10195,6 +10327,53 @@ function _talkPlace() {
     _talk.el.style.height = Math.round(h) + 'px';
 }
 
+function _talkMakeChat(seat) {
+    const isSec = seat === 'sec';
+    return Amenti.chat.create({
+        figure: null,
+        // The opponent plays as themselves; the second is in counsel mode,
+        // which carries the engine's whole move protocol and its no-dictation rule.
+        mode: isSec ? 'counsel' : 'character',
+        // The figure's own head + the rules of the table; the live board (and,
+        // for the second, the engine's move) go in the tail, rebuilt every turn.
+        getSystem: function (c, mode, context, knownName, converse, summonedBy, recalled) {
+            const b = Amenti.chat._defaultBuildSystem(c, mode, '', knownName, converse, summonedBy, recalled);
+            const head = (b && typeof b === 'object') ? b.head : String(b || '');
+            const tail = (b && typeof b === 'object') ? (b.tail || '') : '';
+            return isSec
+                ? { head: head + _secondFrame(), tail: tail + '\n\nTHE BOARD RIGHT NOW:\n' + _talkBoardText('w') + '\n\n' + _secondAdvice() }
+                : { head: head + _talkFrame(), tail: tail + '\n\nTHE BOARD RIGHT NOW:\n' + _talkBoardText('b') };
+        },
+        render: {
+            user: function (t) { if (!(seat === 'opp' && _talkHidden)) _talkPush('you', t, seat); },
+            sys: function (t) { _talkPush('sys', t, seat); },
+            bot: function () {
+                const body = _talkPush('them', '', seat);
+                return {
+                    el: body,
+                    setText: function (t) { if (body) body.textContent = t; if (_talk) _talk.seats[seat].stream.scrollTop = _talk.seats[seat].stream.scrollHeight; },
+                    setHTML: function (h) { if (body) body.innerHTML = h; }
+                };
+            }
+        },
+        speak: function (text, onDone, meta) { _talkSpeak(seat, text, onDone, meta); },
+        stopSpeaking: function () {
+            if (_talkVoiceOwner !== seat) return;
+            const C = window.Amenti && Amenti.conversation;
+            if (C && C.stop) C.stop();
+            _talkVoiceOwner = null;
+        },
+        onState: function (st) {
+            _talkMicFace(seat, st);
+            if (st === 'idle') setTimeout(_talkFlushPending, 500);
+        },
+        onNotice: function (t) { _talkPush('sys', t, seat); },
+        // Hands-free is switched on by the visitor's tap on the mic, for the
+        // seat they are talking to, never before: the first word is theirs.
+        mic: { auto: false, barge: false, arrest: false, room: false }
+    });
+}
+
 function _talkMount() {
     if (_talk) return _talk;
     if (!(window.Amenti && Amenti.chat && Amenti.chat.create)) {
@@ -10207,13 +10386,17 @@ function _talkMount() {
         '#tableTalk{position:fixed;left:12px;width:300px;z-index:20;display:flex;flex-direction:column;'
       + 'background:rgba(18,13,6,0.86);border:1px solid #6b541f;border-radius:10px;font-family:Georgia,serif;color:#ffe6a0;'
       + 'box-shadow:0 6px 24px rgba(0,0,0,0.45);overflow:hidden}'
-      + '#tableTalk .tt-head{display:flex;align-items:center;gap:6px;padding:7px 10px;border-bottom:1px solid #3d2f12;font-size:13px}'
-      + '#tableTalk .tt-title{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.5px}'
-      + '#tableTalk button{background:none;border:1px solid #6b541f;color:#caa23a;border-radius:6px;cursor:pointer;font-size:13px;padding:2px 7px;font-family:Georgia,serif}'
+      + '#tableTalk .tt-head{display:flex;align-items:center;gap:5px;padding:6px 8px;border-bottom:1px solid #3d2f12;font-size:13px}'
+      + '#tableTalk .tt-tabs{flex:1;display:flex;gap:4px;min-width:0}'
+      + '#tableTalk .tt-tab{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;position:relative}'
+      + '#tableTalk .tt-tab.act{background:#3a2c10;color:#ffe6a0;border-color:#caa23a}'
+      + '#tableTalk .tt-tab.new::after{content:"";position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:#ffce5a}'
+      + '#tableTalk button{background:none;border:1px solid #6b541f;color:#caa23a;border-radius:6px;cursor:pointer;font-size:12.5px;padding:2px 7px;font-family:Georgia,serif}'
       + '#tableTalk button.on{background:#caa23a;color:#140d06}'
       + '#tableTalk .tt-stream{flex:1;overflow-y:auto;padding:8px 10px;font-size:13px;line-height:1.45}'
       + '#tableTalk .tt-msg{margin:0 0 7px}'
       + '#tableTalk .tt-who{display:block;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:#caa23a;margin-bottom:1px}'
+      + '#tableTalk .tt-sec .tt-who{color:#9fd1b0}'
       + '#tableTalk .tt-you .tt-who{color:#9fb7c9}#tableTalk .tt-you .tt-body{color:#dfe9f1}'
       + '#tableTalk .tt-sys .tt-body{color:#a8925a;font-style:italic;font-size:12px}'
       + '#tableTalk .tt-row{display:flex;gap:6px;padding:7px 8px;border-top:1px solid #3d2f12}'
@@ -10225,77 +10408,43 @@ function _talkMount() {
     el.id = 'tableTalk';
     el.style.display = 'none';
     el.innerHTML =
-        '<div class="tt-head"><span class="tt-title"></span>'
-      + '<button class="tt-voice" title="Voice on — their replies are spoken">🔊</button>'
+        '<div class="tt-head"><div class="tt-tabs">'
+      +   '<button class="tt-tab act" data-seat="opp" title="Talk across the board"></button>'
+      +   '<button class="tt-tab" data-seat="sec" title="A legend in your corner, advising you">+ Your second</button></div>'
+      + '<button class="tt-voice" title="Voice on — replies are spoken">🔊</button>'
       + '<button class="tt-min" title="Fold the table talk away">–</button></div>'
-      + '<div class="tt-stream"></div>'
+      + '<div class="tt-stream" data-seat="opp"></div>'
+      + '<div class="tt-stream tt-secstream" data-seat="sec" style="display:none"></div>'
       + '<div class="tt-row"><input type="text" maxlength="400" autocomplete="off" placeholder="Say something across the board…">'
       + '<button class="tt-mic" title="Tap once, then speak">🎙</button></div>';
     document.body.appendChild(el);
-    const stream = el.querySelector('.tt-stream');
     const input = el.querySelector('input');
     const mic = el.querySelector('.tt-mic');
     const voice = el.querySelector('.tt-voice');
-    const title = el.querySelector('.tt-title');
-
-    const chat = Amenti.chat.create({
-        figure: null,
-        mode: 'character',
-        // The figure's own head + the rules of the table; the live board goes
-        // in the tail, rebuilt at every turn.
-        getSystem: function (c, mode, context, knownName, converse, summonedBy, recalled) {
-            const b = Amenti.chat._defaultBuildSystem(c, mode, '', knownName, converse, summonedBy, recalled);
-            const head = (b && typeof b === 'object') ? b.head : String(b || '');
-            const tail = (b && typeof b === 'object') ? (b.tail || '') : '';
-            return { head: head + _talkFrame(), tail: tail + '\n\nTHE BOARD RIGHT NOW:\n' + _talkBoardText() };
-        },
-        render: {
-            user: function (t) { if (!_talkHidden) _talkPush('you', t); },
-            sys: function (t) { _talkPush('sys', t); },
-            bot: function () {
-                const body = _talkPush('them', '');
-                return {
-                    el: body,
-                    setText: function (t) { if (body) body.textContent = t; if (_talk) _talk.stream.scrollTop = _talk.stream.scrollHeight; },
-                    setHTML: function (h) { if (body) body.innerHTML = h; }
-                };
-            }
-        },
-        speak: function (text, onDone, meta) {
-            const C = window.Amenti && Amenti.conversation;
-            if (!C || !_talkVoiceOn || !_opponent) { if (onDone) onDone(); return; }
-            C.on = true;
-            C.speak(text, _opponent.fullName, onDone, meta);
-        },
-        stopSpeaking: function () {
-            const C = window.Amenti && Amenti.conversation;
-            if (C && C.stop) C.stop();
-        },
-        onState: function (st) {
-            _talkMicFace(st);
-            if (st === 'idle') setTimeout(_talkFlushPending, 500);
-        },
-        onNotice: function (t) { _talkPush('sys', t); },
-        // Hands-free is switched on by the visitor's first tap on the mic
-        // (see the mic button), never before: the first word is always theirs.
-        mic: { auto: false, barge: false, arrest: false, room: false }
-    });
+    const seats = {
+        opp: { chat: _talkMakeChat('opp'), stream: el.querySelector('.tt-stream[data-seat="opp"]'), tab: el.querySelector('.tt-tab[data-seat="opp"]') },
+        sec: { chat: _talkMakeChat('sec'), stream: el.querySelector('.tt-stream[data-seat="sec"]'), tab: el.querySelector('.tt-tab[data-seat="sec"]') }
+    };
+    seats.sec.stream.classList.add('tt-sec');
 
     // Typing must not reach the game's keyboard shortcuts (H, $, Escape…).
     input.addEventListener('keydown', (e) => {
         e.stopPropagation();
-        if (e.key === 'Enter') {
-            const t = input.value.trim();
-            if (!t || !_opponent) return;
-            if (chat.state !== 'idle') { _talkPush('sys', 'They are still speaking — a moment.'); return; }
-            input.value = '';
-            // Only the game writes [AT THE BOARD]; a visitor's copy is defanged.
-            chat.send(t.split(TALK_BOARD_TAG).join('(at the board)'), { source: 'text' });
-        }
+        if (e.key !== 'Enter') return;
+        const t = input.value.trim();
+        const seat = _talkActive;
+        const chat = seats[seat].chat;
+        if (!t || !(seat === 'sec' ? _second : _opponent)) return;
+        if (chat.state !== 'idle') { _talkPush('sys', 'They are still speaking — a moment.', seat); return; }
+        input.value = '';
+        // Only the game writes [AT THE BOARD]; a visitor's copy is defanged.
+        chat.send(t.split(TALK_BOARD_TAG).join('(at the board)'), { source: 'text' });
     });
     input.addEventListener('keyup', (e) => e.stopPropagation());
     mic.addEventListener('click', () => {
-        if (!_opponent) return;
+        const seat = _talkActive;
+        const chat = seats[seat].chat;
+        if (!(seat === 'sec' ? _second : _opponent)) return;
         _talkPrimeAudio();
         if (chat.state === 'listening') {
             if (window.Amenti && Amenti.listen && Amenti.listen.isRecording()) Amenti.listen.stop();
@@ -10311,19 +10460,74 @@ function _talkMount() {
     voice.addEventListener('click', () => {
         _talkVoiceOn = !_talkVoiceOn;
         voice.textContent = _talkVoiceOn ? '🔊' : '🔇';
-        voice.title = _talkVoiceOn ? 'Voice on — their replies are spoken' : 'Voice off — replies are text only';
-        if (!_talkVoiceOn) { const C = window.Amenti && Amenti.conversation; if (C && C.stop) C.stop(); }
+        voice.title = _talkVoiceOn ? 'Voice on — replies are spoken' : 'Voice off — replies are text only';
+        if (!_talkVoiceOn) { const C = window.Amenti && Amenti.conversation; if (C && C.stop) C.stop(); _talkVoiceOwner = null; }
         else _talkPrimeAudio();
     });
     el.querySelector('.tt-min').addEventListener('click', () => {
         el.classList.toggle('min');
         if (!el.classList.contains('min')) _talkPlace();
     });
+    seats.opp.tab.addEventListener('click', () => _talkSwitch('opp'));
+    seats.sec.tab.addEventListener('click', () => {
+        // No second yet, or a second click on their tab: choose (or change) them.
+        if (!_second || _talkActive === 'sec') { _openOpponentPicker('second'); return; }
+        _talkSwitch('sec');
+    });
 
-    _talk = { chat, el, stream, input, mic, voice, title };
+    _talk = { chat: seats.opp.chat, el, input, mic, voice, seats };
     window.addEventListener('resize', _talkPlace);
     setInterval(_talkPlace, 700);
     return _talk;
+}
+
+// Point the input and the mic at a seat. Hands-free belongs to the seat being
+// talked to, so switching hands it over only on the next tap.
+function _talkSwitch(seat) {
+    if (!_talk) return;
+    _talkActive = seat;
+    for (const k in _talk.seats) {
+        const S = _talk.seats[k];
+        S.stream.style.display = k === seat ? '' : 'none';
+        S.tab.classList.toggle('act', k === seat);
+        if (k === seat) S.tab.classList.remove('new');
+        if (k !== seat) {
+            S.chat._micAuto = false;
+            if (S.chat.state === 'listening' && window.Amenti && Amenti.listen) { try { Amenti.listen.cancel(); } catch (e) {} }
+        }
+    }
+    const f = seat === 'sec' ? _second : _opponent;
+    _talk.input.placeholder = seat === 'sec'
+        ? 'Ask ' + (f ? f.fullName.split(' ').slice(-1)[0] : 'your second') + ' for advice…'
+        : 'Say something to ' + (f ? f.fullName.split(' ').slice(-1)[0] : 'them') + '…';
+    _talkMicFace(seat, _talk.seats[seat].chat.state);
+    const S = _talk.seats[seat]; S.stream.scrollTop = S.stream.scrollHeight;
+}
+
+// Seat (or clear) the visitor's second. Called from the picker, inside a click.
+function _setSecond(fig) {
+    _closeOpponentPicker();
+    const t = _talkMount();
+    if (!t) return;
+    const S = t.seats.sec;
+    if (_talkVoiceOwner === 'sec') { const C = window.Amenti && Amenti.conversation; if (C && C.stop) C.stop(); _talkVoiceOwner = null; }
+    if (!fig || (_opponent && fig.fullName === _opponent.fullName)) {
+        _second = null;
+        S.chat.clear();
+        S.tab.textContent = '+ Your second';
+        S.tab.title = 'A legend in your corner, advising you';
+        _talkSwitch('opp');
+        return;
+    }
+    _talkPrimeAudio();
+    _second = fig;
+    S.chat.setFigure(_talkFigureFor(fig));
+    S.chat.clear();
+    S.stream.innerHTML = '';
+    S.tab.textContent = 'Corner · ' + fig.fullName.split(' ').slice(-1)[0];
+    S.tab.title = fig.fullName + ' is in your corner. Click again to change your second.';
+    _talkSwitch('sec');
+    _talkPush('sys', fig.fullName + ' is in your corner. ' + (_opponent ? _opponent.fullName.split(' ').slice(-1)[0] : 'Your opponent') + ' cannot hear you here. Ask for advice at any time.', 'sec');
 }
 
 // Safari keeps audio locked until a click: resume the engine's context while
@@ -10344,11 +10548,14 @@ function _talkUseFigure(fig) {
     _talkPrimeAudio();
     const C = window.Amenti && Amenti.conversation;
     if (C && C.stop) C.stop();
+    _talkVoiceOwner = null;
     t.chat.setFigure(_talkFigureFor(fig));
     t.chat.clear();
-    t.stream.innerHTML = '';
-    t.title.textContent = 'At the board · ' + fig.fullName;
-    t.input.placeholder = 'Say something to ' + fig.fullName.split(' ').slice(-1)[0] + '…';
+    t.seats.opp.stream.innerHTML = '';
+    t.seats.opp.tab.textContent = 'vs ' + fig.fullName.split(' ').slice(-1)[0];
+    t.seats.opp.tab.title = 'Talk across the board to ' + fig.fullName;
+    if (_second && _second.fullName === fig.fullName) _setSecond(null);   // one person, one seat
+    _talkSwitch(_talkActive);
     t.el.style.display = 'flex';
     _talkPlace();
 }
@@ -10359,7 +10566,8 @@ function _talkDismiss() {
     const C = window.Amenti && Amenti.conversation;
     if (C && C.stop) C.stop();
     if (window.Amenti && Amenti.listen && Amenti.listen.isRecording()) { try { Amenti.listen.cancel(); } catch (e) {} }
-    _talk.chat._micAuto = false;
+    _talkVoiceOwner = null;
+    for (const k in _talk.seats) _talk.seats[k].chat._micAuto = false;
     _talk.el.style.display = 'none';
     _talkState.pending = null;
 }
@@ -10370,6 +10578,10 @@ function _talkNewGame() {
     Object.assign(_talkState, { plies: 0, remarks: 0, lastAt: 0, lastPly: -99, pending: null, log: [], ckCaps: 0 });
     _talkModeSeen = getGameMode();
     _talkPush('sys', 'A new game. You play White and move first.');
+    if (_second) {
+        _talk.seats.sec.chat.clear();
+        _talkPush('sys', 'A new game. ' + _second.fullName + ' is still in your corner.', 'sec');
+    }
     _talkMoment({ prio: 3, what: 'A new game is beginning. You have just sat down across the board.',
         mood: 'Greet your opponent and stake your claim on this game, briefly.' });
 }
@@ -10383,7 +10595,7 @@ function _talkMoment(ev) {
     if (ev.prio < 3 && (_talkState.remarks >= TALK_MAX_REMARKS || cooling)) return;
     // The visitor is mid-sentence in the box: small moments wait their turn.
     if (ev.prio < 2 && _talk.input.value.trim()) return;
-    if (_talk.chat.state !== 'idle') {
+    if (_talkBusy()) {
         if (ev.prio >= 2 && (!_talkState.pending || ev.prio >= _talkState.pending.prio)) _talkState.pending = ev;
         return;
     }
@@ -10392,7 +10604,7 @@ function _talkMoment(ev) {
 
 function _talkFlushPending() {
     const ev = _talkState.pending;
-    if (!ev || !_talk || _talk.chat.state !== 'idle') return;
+    if (!ev || !_talk || _talkBusy()) return;
     _talkState.pending = null;
     if (ev.prio < 3 && _talkState.plies - ev.ply > 2) return;   // the moment has passed
     _talkFire(ev);
@@ -10441,10 +10653,11 @@ function _talkAfterMove(pre, source, target, movedColor) {
     }
 
     // One line for the move log the board text carries.
-    const who = mine ? 'You' : 'The visitor';
+    // Written in colours, not "you": the same log is read by the opponent and
+    // by the visitor's second, and the board text says who is which colour.
     const what = chess ? (_TALK_PIECE[mover ? mover.type : 'p'] || 'piece') : (mover && mover.type === 'k' ? 'king' : 'man');
-    _talkState.log.push(who + ' moved ' + (mine ? 'your ' : 'their ') + what + (moverName ? ' (' + moverName + ')' : '')
-        + ' ' + source + '→' + target + (capType ? ', taking ' + (mine ? 'their ' : 'your ') + (chess ? _TALK_PIECE[capType] : (capType === 'k' ? 'king' : 'man')) + (capName ? ' (' + capName + ')' : '') : '') + '.');
+    _talkState.log.push((mine ? 'Black' : 'White') + ' moved the ' + what + (moverName ? ' (' + moverName + ')' : '')
+        + ' ' + source + '\u2192' + target + (capType ? ', taking ' + (mine ? 'White' : 'Black') + '\u2019s ' + (chess ? _TALK_PIECE[capType] : (capType === 'k' ? 'king' : 'man')) + (capName ? ' (' + capName + ')' : '') : '') + '.');
     if (_talkState.log.length > 12) _talkState.log.shift();
 
     // Checkers jump chains are several moves by one player: speak once, when
