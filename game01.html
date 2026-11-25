@@ -6997,7 +6997,9 @@ function updateSupernovaBursts(now) {
         const tf = (now - b.startTime) / b.flashDuration;     // flash progress
         const tr = (now - b.startTime) / b.ringDuration;      // ring progress
         // FLASH: scale up sharply, hold briefly, then fade
-        if (tf < 1) {
+        // Flash (1.8 s) ends before the ring (2.5 s); each sprite is nulled
+        // when its lifetime ends, so guard both before touching them.
+        if (b.flash && tf < 1) {
             // Scale curve: rapid expand from 8 → maxFlashScale by 30%, then hold, then shrink slightly while fading
             let scale;
             if (tf < 0.3) {
@@ -7018,19 +7020,19 @@ function updateSupernovaBursts(now) {
                 op = 1.5 * (1 - (tf - 0.5) / 0.5);  // fade out over second half
             }
             b.flash.material.opacity = Math.max(0, op);
-        } else {
+        } else if (b.flash) {
             // Remove flash sprite when its lifetime ends
             if (b.flash.parent) b.flash.parent.remove(b.flash);
             b.flash.material.dispose();
             b.flash = null;
         }
         // RING: expand from small to large, fade simultaneously
-        if (tr < 1) {
+        if (b.ring && tr < 1) {
             const scale = 4 + (b.maxRingScale - 4) * tr;
             b.ring.scale.set(scale, scale, 1);
             // Opacity fades from 1.0 to 0 over the duration
             b.ring.material.opacity = 1.0 - tr;
-        } else {
+        } else if (b.ring) {
             if (b.ring.parent) b.ring.parent.remove(b.ring);
             b.ring.material.dispose();
             b.ring = null;
@@ -7471,10 +7473,14 @@ function _attemptMoveWithCapturesCore(source, target) {
     // side that just moved (status flipped 'turn' to the mated side). Award
     // the checkmate deed if the winning move was made by the bounty figure,
     // then resolve survival bonuses and finalize payouts.
+    // The rules engine's `status`/`turn` live inside its closure; read them
+    // through the facade (a bare `status` here is window.status, always '').
+    const _endStatus = getGameStatus();
+    const _endTurn = getCurrentTurn();
     if (typeof moneyMode !== 'undefined' && moneyMode
-        && typeof status !== 'undefined' && status === 'checkmate'
+        && _endStatus === 'checkmate'
         && !_bountyResolved) {
-        const winner = (turn === 'w') ? 'b' : 'w';   // turn already flipped to loser
+        const winner = (_endTurn === 'w') ? 'b' : 'w';   // turn already flipped to loser
         // Did the bounty figure deliver mate? The last move (moves[0]) is the
         // mating move; its piece's home (now at .to) identifies it.
         if (moves.length > 0) {
@@ -7489,10 +7495,10 @@ function _attemptMoveWithCapturesCore(source, target) {
 
     // ---- CHECKMATE / GAME-OVER NEWS FLASH (chess; money-mode independent) ----
     if ((typeof gameMode === 'undefined' || gameMode === 'chess')
-        && typeof status !== 'undefined' && status === 'checkmate'
+        && _endStatus === 'checkmate'
         && typeof showGameNewsFlash === 'function' && !_checkmateFlashShown) {
         _checkmateFlashShown = true;
-        const winnerC = (turn === 'w') ? 'b' : 'w';   // turn already flipped to loser
+        const winnerC = (_endTurn === 'w') ? 'b' : 'w';   // turn already flipped to loser
         const winnerName = (winnerC === 'w') ? 'White' : 'Black';
         // Mating piece (moves[0]) — name it if it's a named figure.
         let mateNm = winnerName;
@@ -7950,7 +7956,7 @@ function _ensureBountyToastContainer() {
     if (_bountyToastContainer) return _bountyToastContainer;
     const c = document.createElement('div');
     c.id = 'bountyToasts';
-    c.style.cssText = 'position: fixed; top: 96px; left: 50%; transform: translateX(-50%); '
+    c.style.cssText = 'position: fixed; top: 232px; left: 50%; transform: translateX(-50%); '
         + 'z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 6px; '
         + 'pointer-events: none; max-width: 92vw;';
     document.body.appendChild(c);
@@ -7980,7 +7986,11 @@ function showBountyToast(text) {
 // Big game-start "WANTED" news flash naming both bounty targets.
 // General news flash for game events (captures, rescues). Headline + detail.
 function showGameNewsFlash(headline, detail, accent) {
+    // One flash at a time: a new flash replaces any still on screen
+    // (back-to-back captures used to stack unreadable cards).
+    document.querySelectorAll('.amenti-news-flash').forEach(el => el.remove());
     const overlay = document.createElement('div');
+    overlay.className = 'amenti-news-flash';
     overlay.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; z-index: 70; '
         + 'display: flex; justify-content: center; pointer-events: none;';
     const card = document.createElement('div');
@@ -8007,7 +8017,11 @@ function showGameNewsFlash(headline, detail, accent) {
 function showBountyNewsFlash() {
     if (typeof moneyMode === 'undefined' || !moneyMode) return;
     if (!bountyState.w.figure || !bountyState.b.figure) return;
+    // One flash at a time: a new flash replaces any still on screen
+    // (back-to-back captures used to stack unreadable cards).
+    document.querySelectorAll('.amenti-news-flash').forEach(el => el.remove());
     const overlay = document.createElement('div');
+    overlay.className = 'amenti-news-flash';
     overlay.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; z-index: 70; '
         + 'display: flex; justify-content: center; pointer-events: none;';
     const card = document.createElement('div');
@@ -9507,7 +9521,9 @@ turnLine.classList.add('start-flash');
 setTimeout(() => {
     turnLine.classList.remove('start-flash');
 }, 30000);
-statusLine.style.cssText = 'font-size: 12px; min-height: 16px; margin-bottom: 8px;';
+// Centered under the turn line: top-left is covered by the ← AMENTI button,
+// which hid Check / Checkmate / win messages.
+statusLine.style.cssText = 'position: fixed; top: 32px; left: 50%; transform: translateX(-50%); z-index: 1000; pointer-events: none; white-space: nowrap; text-align: center; font-weight: bold; font-size: 13px; min-height: 16px;';
 statusLine.className = 'hud-status';
 
 // ---- (removed) PASS & PLAY turn banner ----
@@ -12917,6 +12933,14 @@ function buildV11Props() {
             puddle.scale.set(hullW * 0.6 / puddleR, 1, hullL * 0.6 / puddleR);
             puddle.position.set(x, -0.05, z);
             puddle.userData.attachToWorld = true;
+            // The fleet sails in from here; keep the patch under its ship
+            // (both sit in the same world group) instead of leaving a dark
+            // oval behind at the starting position.
+            puddle.frustumCulled = false;
+            puddle.onBeforeRender = () => {
+                puddle.position.x = ship.position.x;
+                puddle.position.z = ship.position.z;
+            };
             out_waters.push(puddle);
         }
     }
@@ -24158,7 +24182,9 @@ function refreshHUD() {
     const turn = getCurrentTurn();
     const status = getGameStatus();
 
-    turnLine.textContent = `${turn === 'w' ? 'White' : 'Black'} Move`;
+    const _over = (status === 'checkmate' || status === 'stalemate'
+        || status === 'win-w' || status === 'win-b');
+    turnLine.textContent = _over ? 'Game Over' : `${turn === 'w' ? 'White' : 'Black'} Move`;
 
     let statusText = '';
     if (aiThinking) {
@@ -31636,6 +31662,9 @@ function animate() {
 animate();
 
 
+// Developer tuning panels below are hidden from players; add ?tune to the URL to show them.
+const _DEV_TUNE = /[?&]tune\b/.test(location.search);
+
 // ---- V14 live positioner: corner obelisks + small temples ----
 (function(){
     function collect(tag){
@@ -31720,7 +31749,7 @@ animate();
         if (typeof _v14RelayoutCentralSigns === 'function') _v14RelayoutCentralSigns();
     }
     for (const el of [egw, egh, egy, ego]) el.addEventListener('input', engUpd);
-    setInterval(()=>{ box.style.display = (typeof currentViewId!=='undefined' && currentViewId===14) ? 'block' : 'none'; }, 300);
+    setInterval(()=>{ box.style.display = (_DEV_TUNE && typeof currentViewId!=='undefined' && currentViewId===14) ? 'block' : 'none'; }, 300);
 })();
 
 // ---- Canal water tuning panel (river views 11/12/13) ----
@@ -31752,7 +31781,7 @@ animate();
         }
     }
     for (const el of [cwh,cwo,cwn,cws]) el.addEventListener('input', upd);
-    setInterval(()=>{ box.style.display = (typeof currentViewId!=='undefined' && (currentViewId===11||currentViewId===12||currentViewId===13)) ? 'block' : 'none'; }, 300);
+    setInterval(()=>{ box.style.display = (_DEV_TUNE && typeof currentViewId!=='undefined' && (currentViewId===11||currentViewId===12||currentViewId===13)) ? 'block' : 'none'; }, 300);
 })();
 
 </script>
