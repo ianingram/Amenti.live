@@ -7270,6 +7270,11 @@ function _attemptMoveWithCapturesCore(source, target) {
 
     const { moves, captures } = diffBoards(before, after);
 
+    // ---- V15 TREASURE FLEET: the ships sail the move just made ----
+    if (typeof currentViewId !== 'undefined' && currentViewId === 15 && gameMode === 'chess') {
+        try { v15OnMove(source, target, before, after); } catch (e) { console.error('[V15] move', e); }
+    }
+
     // ---- V13 SHIP-FOLLOWS-PIECE ----
     // V13 ships ARE the back-rank pieces. When a back-rank piece moves,
     // its corresponding ship slides to the new square. When captured,
@@ -23933,8 +23938,108 @@ const VIEWS = [
     { id: 11, label: '11', name: 'Light v2',    bg: 0xeeeeee, placeholder: false, buildProps: buildV11Props },
     { id: 12, label: '12', name: 'Wireframe',   bg: 0xeeeeee, placeholder: false, buildProps: buildV12Props },
     { id: 13, label: '13', name: 'Naval',       bg: 0x1c2230, placeholder: false, buildProps: buildV13Props },
-    { id: 14, label: '14', name: 'Halls',       bg: 0x1c2230, placeholder: false, buildProps: buildV14Props }
+    { id: 14, label: '14', name: 'Halls',       bg: 0x1c2230, placeholder: false, buildProps: buildV14Props },
+    { id: 15, label: '15', name: 'Treasure fleet', bg: 0x0d1b24, placeholder: false, buildProps: () => [] }
 ];
+
+// ===================== V15 · TREASURE FLEET =====================
+// The fleet is drawn by its own page, v15/fleet.html, in a frame BENEATH
+// this canvas. In V15 this canvas stays on top but fully transparent, so
+// drag, zoom and clicks still reach game01's own board, rules and AI. The
+// fleet page only draws what game01 decides: each frame it gets game01's
+// camera (in board-local units ×40, one square = 40 of its units), the
+// selection, and every move as it is made. Nothing here runs outside V15.
+const _v15 = { frame: null, sig: '', live: false, woke: false };
+function _v15Api() {
+    try { const w = _v15.frame && _v15.frame.contentWindow; return (w && w.__yardEmbed && w.__yardEmbed.ready) ? w.__yardEmbed : null; }
+    catch (e) { return null; }
+}
+function _v15Grid(snap) {            // {square: piece} snapshot -> 8x8 rows (row 0 = rank 8), as the rules keep it
+    const g = [];
+    for (let r = 0; r < 8; r++) { g.push([]); for (let c = 0; c < 8; c++) { const p = snap[files[c] + ranks[r]]; g[r].push(p ? { type: p.type, color: p.color } : null); } }
+    return g;
+}
+function _v15Names() {               // each ship's captain: the figure who holds that piece's home square
+    const n = [];
+    for (let r = 0; r < 8; r++) { n.push([]); for (let c = 0; c < 8; c++) {
+        const home = pieceHomeMap[files[c] + ranks[r]], fig = home && PIECE_FIGURE_MAP[home];
+        n[r].push(fig && fig.fullName ? fig.fullName : null); } }
+    return n;
+}
+function v15Enter() {
+    if (!_v15.frame) {
+        const f = document.createElement('iframe');
+        f.src = 'v15/fleet.html?embed=1&v=1';
+        f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
+        Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
+        document.body.insertBefore(f, document.body.firstChild);
+        _v15.frame = f;
+        renderer.domElement.addEventListener('pointerdown', () => { const E = currentViewId === 15 && _v15Api(); if (E) E.wake(); });
+    }
+    _v15.frame.style.display = 'block';
+    // console handle for checking V15 in Safari: __v15.move('e2','e4'), __v15.fleet
+    window.__v15 = { move: (a, b) => { const ok = attemptMoveWithCaptures(a, b); if (ok) { clearSelection(); renderPieces(); refreshHUD(); } return ok; }, get fleet() { const E = _v15Api(); return E ? E.busy : null; } };
+    const c = renderer.domElement;
+    _v15.prev = { position: c.style.position, zIndex: c.style.zIndex, opacity: c.style.opacity };
+    if (!c.style.position || c.style.position === 'static') c.style.position = 'relative';
+    if (!c.style.zIndex) c.style.zIndex = '1';
+    _v15.sig = '';                   // the fleet is set to the board as it stands on the next frame
+    _v15.home = true;                // and the camera opens on it (after setView and its wrappers finish)
+}
+function _v15Home() {                // open on the fleet from White's side, the whole board in view
+    _v15.home = false;
+    if (introActive) endIntro();     // land any opening cinematic first,
+    _v12Intro = null;                // and stop V12's fly-in if it was still running
+    controls.target.set(0, 0, 0);
+    camera.position.set(0, 13, 12);
+    camera.lookAt(controls.target);
+    controls.update();
+}
+function v15Leave() {
+    const c = renderer.domElement;
+    if (_v15.prev) { c.style.position = _v15.prev.position; c.style.zIndex = _v15.prev.zIndex; c.style.opacity = _v15.prev.opacity; }
+    _v15.live = false;
+    if (_v15.frame) _v15.frame.style.display = 'none';
+    const E = _v15Api(); if (E) E.sleep();
+}
+// Called from _attemptMoveWithCapturesCore: the fleet sails the move game01 has just made.
+function v15OnMove(source, target, before, after) {
+    const E = _v15Api(); if (!E || _v15.sig === '') return;
+    E.move(source, target, _v15Grid(before), _v15Grid(after));
+    _v15.sig = JSON.stringify(getBoardState());
+}
+// A click in V15, as a square: select, or move the chosen piece there (as the altar boards do).
+function v15Click(sq) {
+    if (!sq) { clearSelection(); return; }
+    const col = files.indexOf(sq[0]), row = ranks.indexOf(sq[1]);
+    const sqPiece = (col >= 0 && row >= 0) ? getBoardState()[row][col] : null;
+    const turn = getCurrentTurn();
+    if (selectedPiece && attemptMoveWithCaptures(selectedPiece.userData.id, sq)) {
+        clearSelection(); renderPieces(); refreshHUD(); maybeTriggerAIMove();
+        return;
+    }
+    if (sqPiece && sqPiece.color === turn) {
+        const p = pieceGroup.children.find(m => m.userData.id === sq);
+        if (p) selectPiece(p);
+    } else clearSelection();
+}
+// Called from animate() in V15. Returns true when the fleet drew this frame.
+function v15Frame() {
+    if (_v15.home) _v15Home();
+    const E = gameMode === 'chess' && _v15Api();
+    if (!E) { if (_v15.live) { renderer.domElement.style.opacity = ''; _v15.live = false; } return false; }
+    if (!_v15.live) { renderer.domElement.style.opacity = '0'; _v15.live = true; }
+    const sig = JSON.stringify(getBoardState());
+    if (sig !== _v15.sig) { _v15.sig = sig; E.sync(getBoardState(), _v15Names()); }   // a new game, an undo, a load
+    world.updateMatrixWorld(true); camera.updateMatrixWorld();
+    const p = world.worldToLocal(camera.position.clone()).multiplyScalar(40);
+    const q = world.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(camera.quaternion);
+    E.camera(p.toArray(), q.toArray(), camera.fov);
+    E.marks(selectedPiece && selectedPiece.userData ? selectedPiece.userData.id || null : null,
+            highlightedTiles.map(t => t.userData && t.userData.id).filter(Boolean));
+    E.tick();
+    return true;
+}
 
 // Cache per-view prop arrays. Built lazily on first activation.
 const viewPropsCache = {};
@@ -23979,7 +24084,10 @@ function setView(id) {
     // restored. Captured BEFORE `currentViewId` is reassigned below.
     const _wasV13 = (currentViewId === 13);
     const _goingV13 = (id === 13);
+    const _wasV15 = (currentViewId === 15);
     currentViewId = id;
+    if (_wasV15 && id !== 15) v15Leave();
+    if (!_wasV15 && id === 15) v15Enter();
     // Compute the bg target. Most views use their VIEWS table bg directly,
     // but V11's bg depends on its day/night state — night swaps to a deep
     // navy. Same idea V2 does but V2's bg lives in VIEWS as 0xc8c8d2 and
@@ -25218,6 +25326,19 @@ function setView(id) {
         if (_cathedralState && _cathedralState.fog) {
             scene.fog = _cathedralState.fog;
         }
+    } else if (id === 15) {
+        // V15 (Treasure fleet): the fleet page draws at 40 of its units to
+        // one square. Keep the camera above the water and close enough that
+        // the sea and sky (a 6000-unit dome there, 150 squares here) hold it.
+        controls.minPolarAngle = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 - 0.03;
+        controls.minAzimuthAngle = -Infinity;
+        controls.maxAzimuthAngle =  Infinity;
+        controls.minDistance = 1.5;
+        controls.maxDistance = 40;
+        controls.screenSpacePanning = false;
+        controls.zoomToCursor = false;
+        scene.fog = null;
     } else {
         // Catch-all for views without their own polar logic (V1-V4, V6-V10).
         // Respect the active elevation preset:
@@ -29293,6 +29414,22 @@ window.addEventListener('click', (event) => {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
 
+    // ============ V15 TREASURE FLEET CLICK ============
+    // The ships are what the player sees, so the fleet page says which
+    // square was meant: the water square under the pointer when it means
+    // something (your ship, or where the chosen ship may go), else the
+    // ship that was hit. game01's hidden pieces would otherwise catch
+    // clicks with their own shapes.
+    if (typeof currentViewId !== 'undefined' && currentViewId === 15 && gameMode === 'chess' && _v15.live) {
+        const E = _v15Api();
+        if (E) {
+            v15Click(E.pick(mouse.x, mouse.y, getCurrentTurn(),
+                selectedPiece && selectedPiece.userData ? selectedPiece.userData.id || null : null,
+                highlightedTiles.map(t => t.userData && t.userData.id).filter(Boolean)));
+            return;
+        }
+    }
+
     // ============ V12 CAPSTONE CLICK ============
     // Clicking either pyramid's capstone (or its forgiving hit bubble)
     // opens the "summon 9th man" modal for that side.
@@ -32876,7 +33013,9 @@ function animate() {
             }
         }
         if (!introStillRunning && !scriptedCamActive && !_joyRide) controls.update();
-        renderer.render(scene, camera);
+        // V15: the fleet page draws instead; this scene still updates so clicks find its pieces.
+        if (currentViewId === 15 && v15Frame()) scene.updateMatrixWorld();
+        else renderer.render(scene, camera);
     } catch (err) {
         if (!window._animErrLogged) {
             window._animErrLogged = true;
