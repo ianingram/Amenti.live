@@ -271,7 +271,7 @@ const DIRS = [[1, 0.25], [0.7, 0.75], [-0.35, 1], [0.95, -0.4]].map(([x, z]) => 
 const waveU = { time: { value: 0 }, amp: { value: [0, 0, 0, 0] }, len: { value: [1, 1, 1, 1] }, dir: { value: DIRS.map(d => new THREE.Vector2(d[0], d[1])) },
   deep: { value: new THREE.Color() }, hi: { value: new THREE.Color() }, skyH: { value: new THREE.Color() }, sunDir: { value: new THREE.Vector3() }, sunCol: { value: new THREE.Color() },
   fogColor: { value: new THREE.Color() }, fogNear: { value: 300 }, fogFar: { value: 2600 },
-  pano: { value: null }, panoSoft: { value: null }, panoFog: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoGain: { value: 0.7 }, rip: { value: 1 }, panoTop: { value: 1.396 },
+  lite: { value: 0 }, pano: { value: null }, panoSoft: { value: null }, panoFog: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoGain: { value: 0.7 }, rip: { value: 1 }, panoTop: { value: 1.396 },
   beamOn: { value: 0 }, beamDir: { value: new THREE.Vector3(1, 0, 0) }, beamFlash: { value: 0 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } };
 const seaMat = new THREE.ShaderMaterial({
   uniforms: waveU,
@@ -294,7 +294,7 @@ const seaMat = new THREE.ShaderMaterial({
   fragmentShader: `
     uniform vec3 deep, hi, skyH, sunDir, sunCol, fogColor; uniform float fogNear, fogFar; uniform float amp[4];
     uniform sampler2D pano, panoSoft, panoFog; uniform float panoOn, panoRot, panoGain, rip, panoTop;
-    uniform float beamOn, beamFlash; uniform vec3 beamDir, beamCol;
+    uniform float beamOn, beamFlash; uniform vec3 beamDir, beamCol; uniform float lite;
     varying vec3 vWorld; varying vec3 vNormal; varying float vCrest;
     uniform float time;
     // Small ripples, in the shader only: they break the sun into glitter.
@@ -316,7 +316,7 @@ const seaMat = new THREE.ShaderMaterial({
     void main(){
       vec3 V = normalize(cameraPosition - vWorld);
       float far = smoothstep(60.0, 420.0, length(cameraPosition - vWorld));
-      vec3 N = normalize(vNormal - ripple(vWorld.xz, time) * (1.0 - far) * rip);
+      vec3 N = lite > 0.5 ? normalize(vNormal) : normalize(vNormal - ripple(vWorld.xz, time) * (1.0 - far) * rip);   // lite: no chop, for slower Macs
       float fres = pow(1.0 - max(dot(N, V), 0.0), 4.0);
       float up = clamp(N.y, 0.0, 1.0);
       vec3 col = mix(deep, hi, clamp(0.5 + vCrest / (amp[0] * 2.2 + 0.001), 0.0, 1.0) * 0.6);
@@ -337,7 +337,7 @@ const seaMat = new THREE.ShaderMaterial({
       // Whitecaps only on the very tops of the biggest waves, broken into streaks.
       float total = amp[0] + amp[1] + amp[2] + amp[3];
       float crest = smoothstep(total * 0.72, total * 0.98, vCrest);
-      float streak = smoothstep(0.5, 0.8, vnoise(vWorld.xz * vec2(0.08, 0.22) + time * 0.15)) * smoothstep(0.3, 0.7, vnoise(vWorld.xz * 0.6));
+      float streak = lite > 0.5 ? 0.35 : smoothstep(0.5, 0.8, vnoise(vWorld.xz * vec2(0.08, 0.22) + time * 0.15)) * smoothstep(0.3, 0.7, vnoise(vWorld.xz * 0.6));
       col = mix(col, vec3(0.90, 0.94, 0.95), crest * streak * 0.55 * smoothstep(0.4, 1.2, total));
       float d = length(cameraPosition - vWorld);
       col = mix(col, fogAt, smoothstep(fogNear, fogFar, d));
@@ -4037,6 +4037,30 @@ function embMove(from, to, before, after) {      // moves play one after another
     .catch(e => console.error('[V15] move', from, to, e)).then(() => { if (g === EMB.gen) { EMB.pending--; game.busy = false; } });
 }
 const _eq = new THREE.Quaternion();
+// Keeping it smooth on any Mac: the frame time is watched (game01's own work included, since game01 calls tick), and
+// when frames run slow the fleet steps down: fewer pixels first, then a plainer sea; when there is time to spare it
+// steps back up, more cautiously each time a level has proved too slow. One step per change, never faster than ~2 s.
+const GOV = { level: 0, steps: [{ px: 1 }, { px: 0.85 }, { px: 0.7, lite: 1 }, { px: 0.58, lite: 1 }, { px: 0.48, lite: 1 }],
+  last: 0, ema: 16.7, slow: 0, quick: 0, held: 0, fails: [0, 0, 0, 0, 0], fixed: null };
+function govApply() {
+  const S = GOV.steps[GOV.level];
+  renderer.setPixelRatio(S.px); resize();
+  waveU.lite.value = S.lite ? 1 : 0;
+}
+function govStep(now) {
+  if (GOV.last) {
+    const dt = Math.min(250, now - GOV.last); GOV.ema += (dt - GOV.ema) * 0.08;
+    if (GOV.fixed != null || now < GOV.held) { GOV.last = now; return; }
+    GOV.slow = GOV.ema > 38 ? GOV.slow + dt : 0;              // under ~26 frames a second
+    GOV.quick = GOV.ema < 21 ? GOV.quick + dt : 0;            // over ~48 frames a second
+    if (GOV.slow > 1500 && GOV.level < GOV.steps.length - 1) {
+      GOV.fails[GOV.level]++; GOV.level++; govApply(); GOV.slow = GOV.quick = 0; GOV.held = now + 2000; GOV.ema = 30;
+    } else if (GOV.quick > 6000 * (1 + 2 * GOV.fails[GOV.level - 1 >= 0 ? GOV.level - 1 : 0]) && GOV.level > 0) {
+      GOV.level--; govApply(); GOV.slow = GOV.quick = 0; GOV.held = now + 2000; GOV.ema = 22;
+    }
+  }
+  GOV.last = now;
+}
 function embPick(nx, ny, turn, sel, targets) {   // which square a click at (nx, ny) means, the way the Shipyard reads its own clicks
   const ray = new THREE.Raycaster(); ray.setFromCamera(new THREE.Vector2(nx, ny), camera);
   const A = game.shipAt || shipFromBoard(); targets = targets || [];
@@ -4057,11 +4081,14 @@ window.__yardEmbed = {
   sync: embSync, move: embMove, pick: embPick,
   camera(p, q, fov) { camera.position.fromArray(p); camera.quaternion.copy(_eq.fromArray(q)); if (fov && camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); } },
   marks(sel, targets) { const sig = (sel || '') + '|' + (targets || []).join(','); if (sig === EMB.selSig) return; EMB.selSig = sig; game.sel = sel || null; game.moves = targets || []; drawMarks(); },
-  tick() { frame(); },
+  tick() { govStep(performance.now()); frame(); },
+  get stats() { return { fps: Math.round(1000 / GOV.ema), level: GOV.level, pixels: GOV.steps[GOV.level].px, liteSea: !!GOV.steps[GOV.level].lite }; },
+  quality(n) { GOV.fixed = (n == null || n === 'auto') ? null : Math.max(0, Math.min(GOV.steps.length - 1, n)); if (GOV.fixed != null) { GOV.level = GOV.fixed; govApply(); } },
   wake() { audioWake(); if (AUD.ctx && AUD.ctx.state === 'suspended') AUD.ctx.resume(); },
-  sleep() { if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend(); },
+  sleep() { GOV.last = 0; if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend(); },
   sound(on) { setSound(on); },
   get busy() { return EMB.pending; },
+  get renderer() { return renderer; },
   get info() { const i = renderer.info.render; return { calls: i.calls, tris: i.triangles, dpr: renderer.getPixelRatio() }; }
 };
 if (EMBED) { setLight('live'); }

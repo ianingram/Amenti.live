@@ -23969,7 +23969,7 @@ function _v15Names() {               // each ship's captain: the figure who hold
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=3';
+        f.src = 'v15/fleet.html?embed=1&v=4';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -23979,7 +23979,7 @@ function v15Enter() {
     }
     _v15.frame.style.display = 'block';
     // console handle for checking V15 in Safari: __v15.move('e2','e4'), __v15.fleet
-    window.__v15 = { move: (a, b) => { const ok = attemptMoveWithCaptures(a, b); if (ok) { clearSelection(); renderPieces(); refreshHUD(); } return ok; }, get fleet() { const E = _v15Api(); return E ? E.busy : null; }, introAt: t => { if (_v15.intro) _v15.intro.t = t; } };
+    window.__v15 = { move: (a, b) => { const ok = attemptMoveWithCaptures(a, b); if (ok) { clearSelection(); renderPieces(); refreshHUD(); } return ok; }, get fleet() { const E = _v15Api(); return E ? E.busy : null; }, introAt: t => { if (_v15.intro) _v15.intro.t = t; }, get stats() { const E = _v15Api(); return E ? E.stats : null; }, quality: n => { const E = _v15Api(); if (E) E.quality(n); } };
     const c = renderer.domElement;
     _v15.prev = { position: c.style.position, zIndex: c.style.zIndex, opacity: c.style.opacity };
     if (!c.style.position || c.style.position === 'static') c.style.position = 'relative';
@@ -33005,11 +33005,14 @@ function animate() {
         const dt = now - lastFrameTime;
         lastFrameTime = now;
 
+        // V15: the fleet page draws the scene, so game01's own sky, planets and scenery rest while it does.
+        const _v15Quiet = currentViewId === 15 && _v15.live;
         updateRotation(now, dt);
-        updateLight(now);
+        if (!_v15Quiet) updateLight(now);
         updateAnimations(now);
         updateBackgroundTransition(now);
         updateMarquee(now);
+        if (!_v15Quiet) {
         updateCelestial(now);
         updatePlanets(now);
         updateV1Planets(now);
@@ -33021,6 +33024,7 @@ function animate() {
         updateGoldVeins(dt);
         updatePlanetSpin(dt);
         updateConcert(now, dt);
+        }
         updateVisualizer(now, dt);
         updateElevation(now);
         updateTempleCameraFly(now);
@@ -33080,9 +33084,8 @@ function animate() {
             }
         }
         if (!introStillRunning && !scriptedCamActive && !_joyRide) controls.update();
-        // V15: the fleet page draws instead; this scene still updates so clicks find its pieces.
-        if (currentViewId === 15 && v15Frame()) scene.updateMatrixWorld();
-        else renderer.render(scene, camera);
+        // V15: the fleet page draws instead (v15Frame keeps the board's matrices current so clicks find its pieces).
+        if (!(currentViewId === 15 && v15Frame())) renderer.render(scene, camera);
     } catch (err) {
         if (!window._animErrLogged) {
             window._animErrLogged = true;
