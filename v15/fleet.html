@@ -159,7 +159,7 @@ function Orbit(camera, el, target) {
 
 const canvas = document.getElementById('scene');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, EMBED ? 1 : 1.75));   // V15: one pixel per point keeps the sea smooth on older Macs
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
@@ -367,7 +367,7 @@ function waveHeight(x, z, t) {
 }
 
 // ---------------- THE BOARD GRID (wireframe squares, 40 units) ----------------
-const TILE = 40;
+const TILE = EMBED ? 60 : 40;          // in game01 (V15) the squares are wider, so the ships of the line sit inside them
 const gridPts = [];
 for (let i = -4; i <= 4; i++) { gridPts.push(i * TILE, 0, -4 * TILE, i * TILE, 0, 4 * TILE, -4 * TILE, 0, i * TILE, 4 * TILE, 0, i * TILE); }
 const gridGeo = new THREE.BufferGeometry(); gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridPts, 3));
@@ -1341,7 +1341,7 @@ function sinkShip(f) {               // she lists, settles by the stern and goes
 }
 function shipFromBoard() {           // which ship is on which square, read from where they sit
   const A = Array.from({ length: 8 }, () => Array(8).fill(null));
-  for (const f of fleet) { const c = Math.round(f.holder.position.x / TILE + 3.5), r = Math.round(f.holder.position.z / TILE + 3.5); if (r >= 0 && r < 8 && c >= 0 && c < 8) A[r][c] = f; }
+  for (const f of fleet) { if (f.wedge) { A[f.wedge.r][f.wedge.c] = f; continue; } const c = Math.round(f.holder.position.x / TILE + 3.5), r = Math.round(f.holder.position.z / TILE + 3.5); if (r >= 0 && r < 8 && c >= 0 && c < 8) A[r][c] = f; }
   return A;
 }
 function newGame(as) {
@@ -1381,6 +1381,7 @@ async function playMove(from, to) {
 async function sailMove(from, to, before, after) {
   const a = rc(from), b = rc(to), piece = before[a.r][a.c];
   game.busy = true; game.sel = null; game.moves = []; game.last = [from, to]; drawMarks();
+  if (fleet.some(f => f.wedge && f.side === piece.color)) await sailIn(piece.color);
   const A = game.shipAt, f = A[a.r][a.c];
   const hop = piece.type === 'n';
   // what this move takes: the ship on the square, or (en passant) the pawn beside it
@@ -3941,17 +3942,80 @@ function frame() {
 if (!EMBED) requestAnimationFrame(frame);
 
 // ================= V15: the bridge game01 drives =================
+// The war formation (as V13): before a side's first move its fleet lies in a wedge behind its own back rank,
+// ships of the line in a V with the king at the tip, the cutters screening ahead. Its first move sails them all in.
+function wedgePos(side, r, c) {
+  const pawn = r === 1 || r === 6, t = c / 7, arc = 1 - 4 * (t - 0.5) * (t - 0.5), sd = side === 'w' ? 1 : -1;
+  const x = (c - 3.5) * TILE * (pawn ? 1.12 : 1.28), z = sd * (pawn ? 5.2 - 0.9 * arc : 6.9 - 1.3 * arc) * TILE;
+  return new THREE.Vector3(x, 0, z);
+}
+function isStart(board) {
+  const B = ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'];
+  for (let c = 0; c < 8; c++) {
+    const k = [[0, 'b', B[c]], [1, 'b', 'p'], [6, 'w', 'p'], [7, 'w', B[c]]];
+    for (const [r, col, t] of k) { const p = board[r][c]; if (!p || p.color !== col || p.type !== t) return false; }
+    for (let r = 2; r < 6; r++) if (board[r][c]) return false;
+  }
+  return true;
+}
+async function sailIn(side) {        // the squadron makes sail and takes its stations, the cutters first
+  const ships = fleet.filter(f => f.wedge && f.side === side);
+  await Promise.all(ships.map(f => {
+    const w = f.wedge, P1 = sqPos(w.r, w.c), d = P1.clone().sub(f.holder.position), pawn = f.cls === 'pawn';
+    return new Promise(res => setTimeout(res, (pawn ? 0 : 900) + Math.abs(w.c - 3.5) * 160)).then(() =>
+      voyage(f, [{ yaw: yawFor(d.x, d.z), dur: 0.9 }, { to: P1, dur: Math.max(2.4, d.length() / TILE * 1.05) }, { yaw: homeYaw(f.side), dur: 1.0 }]))
+      .then(() => { delete f.wedge; });
+  }));
+  game.shipAt = shipFromBoard();
+}
+// Whitby stands off the west flank of the board, her harbour mouth open toward the squares.
+if (EMBED) { slip.position.set(-SLIP.R - 2 * TILE, 0, 0); slip.rotation.y = 0; slip.visible = true; }
+// V15 draws the harbour in a few dozen calls instead of ~1,300: every still, visible mesh of the town, quay
+// and court is baked into one mesh per material. What moves or changes stays apart: the buoys, the ship on
+// the slip, the court's pieces and marks, and the rooftop trophies (hidden until a capture reveals them).
+function mergeStatic(root, apart) {
+  const skip = new Set(); apart.forEach(o => o && o.traverse(q => skip.add(q)));
+  const shown = o => { for (let q = o; q && q !== root; q = q.parent) if (!q.visible) return false; return true; };
+  root.updateMatrixWorld(true);
+  const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), buckets = new Map(), gone = [];
+  root.traverse(o => {
+    if (!o.isMesh || o.isInstancedMesh || skip.has(o) || Array.isArray(o.material) || !shown(o)) return;
+    const g = (o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone());
+    if (!g.attributes.normal) g.computeVertexNormals();
+    g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld));
+    const key = o.material.uuid + (g.attributes.color ? ':c' : '') + ':' + o.renderOrder;
+    if (!buckets.has(key)) buckets.set(key, { mat: o.material, gs: [], order: o.renderOrder, cast: o.castShadow, recv: o.receiveShadow });
+    buckets.get(key).gs.push(g); gone.push(o);
+  });
+  gone.forEach(o => o.parent.remove(o));
+  for (const { mat, gs, order } of buckets.values()) {
+    const n = gs.reduce((a, g) => a + g.attributes.position.count, 0), hasC = !!gs[0].attributes.color;
+    const P = new Float32Array(n * 3), N = new Float32Array(n * 3), U = new Float32Array(n * 2), C = hasC ? new Float32Array(n * 3) : null;
+    let k = 0;
+    for (const g of gs) { const c = g.attributes.position.count; P.set(g.attributes.position.array, k * 3); N.set(g.attributes.normal.array, k * 3);
+      if (g.attributes.uv) U.set(g.attributes.uv.array, k * 2); if (C && g.attributes.color) C.set(g.attributes.color.array, k * 3); k += c; g.dispose(); }
+    const mg = new THREE.BufferGeometry(); mg.setAttribute('position', new THREE.BufferAttribute(P, 3)); mg.setAttribute('normal', new THREE.BufferAttribute(N, 3)); mg.setAttribute('uv', new THREE.BufferAttribute(U, 2));
+    if (C) mg.setAttribute('color', new THREE.BufferAttribute(C, 3));
+    mg.computeBoundingSphere();
+    const m = new THREE.Mesh(mg, mat); m.renderOrder = order; m.matrixAutoUpdate = false; root.add(m);
+  }
+}
+if (EMBED) mergeStatic(slip, [yard.holder, courtPieces, courtMarks, ...buoys]);
 const EMB = { pending: 0, gen: 0, q: Promise.resolve(), selSig: '' };
 function embSync(board, names) {          // set the fleet to game01's board, keeping any ship that already fits her square
   EMB.gen++; EMB.q = Promise.resolve(); EMB.pending = 0;
   sailing.clear(); game.busy = false;
-  const have = shipFromBoard(), keep = new Set();
+  const have = shipFromBoard(), keep = new Set(), fresh = isStart(board);
+  const seat = (f, r, c) => {            // on her square, or in the wedge before her side has moved
+    if (fresh) { f.wedge = { r, c }; f.holder.position.copy(wedgePos(f.side, r, c)); } else { delete f.wedge; f.holder.position.copy(sqPos(r, c)); }
+    f.holder.rotation.y = homeYaw(f.side);
+  };
   for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
     const pc = board[r][c], f = have[r][c], name = (names && names[r] && names[r][c]) || null;
     if (!pc) continue;
     if (f && !f.sink && f.side === pc.color && f.cls === CLS[pc.type] && f.name === name) {
-      keep.add(f); f.holder.position.copy(sqPos(r, c)); f.holder.rotation.y = homeYaw(f.side); setGuns(f.ship, false, true); continue; }
-    place(pc.color, c - 3.5, r - 3.5, CLS[pc.type], name); keep.add(fleet[fleet.length - 1]);
+      keep.add(f); seat(f, r, c); setGuns(f.ship, false, true); continue; }
+    place(pc.color, c - 3.5, r - 3.5, CLS[pc.type], name); const n = fleet[fleet.length - 1]; keep.add(n); seat(n, r, c);
   }
   for (const f of fleet.slice()) if (!keep.has(f)) { scene.remove(f.holder); f.holder.traverse(o => { if (o.geometry) o.geometry.dispose(); }); fleet.splice(fleet.indexOf(f), 1); }
   game.on = true; game.over = false; game.shipAt = shipFromBoard(); game.last = null; drawMarks();
@@ -3969,12 +4033,16 @@ function embPick(nx, ny, turn, sel, targets) {   // which square a click at (nx,
   { const p = new THREE.Vector3(); if (ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), p)) { const c = Math.floor(p.x / TILE + 4), r = Math.floor(p.z / TILE + 4); if (c >= 0 && c < 8 && r >= 0 && r < 8) waterSq = sq(r, c); } }
   const ships = fleet.filter(f => f.holder.visible && !f.sink).map(f => f.holder);
   const hit = ray.intersectObjects(ships, true)[0];
-  if (hit) { let o = hit.object; while (o && !ships.includes(o)) o = o.parent; if (o) shipSq = sq(Math.round(o.position.z / TILE + 3.5), Math.round(o.position.x / TILE + 3.5)); }
+  if (hit) { let o = hit.object; while (o && !ships.includes(o)) o = o.parent;
+    const F = o && fleet.find(f => f.holder === o);
+    if (F && F.wedge) shipSq = sq(F.wedge.r, F.wedge.c);
+    else if (o) { const r = Math.round(o.position.z / TILE + 3.5), c = Math.round(o.position.x / TILE + 3.5); if (r >= 0 && r < 8 && c >= 0 && c < 8) shipSq = sq(r, c); } }
   const means = s => { if (!s) return false; const q = rc(s), f = A[q.r][q.c]; return (f && f.side === turn) || (sel && targets.includes(s)); };
   return means(waterSq) ? waterSq : (shipSq || waterSq);
 }
 window.__yardEmbed = {
   ready: true,
+  tile: TILE, slipAt: [-SLIP.R - 2 * TILE, 0, 0],
   sync: embSync, move: embMove, pick: embPick,
   camera(p, q, fov) { camera.position.fromArray(p); camera.quaternion.copy(_eq.fromArray(q)); if (fov && camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); } },
   marks(sel, targets) { const sig = (sel || '') + '|' + (targets || []).join(','); if (sig === EMB.selSig) return; EMB.selSig = sig; game.sel = sel || null; game.moves = targets || []; drawMarks(); },
@@ -3982,7 +4050,8 @@ window.__yardEmbed = {
   wake() { audioWake(); if (AUD.ctx && AUD.ctx.state === 'suspended') AUD.ctx.resume(); },
   sleep() { if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend(); },
   sound(on) { setSound(on); },
-  get busy() { return EMB.pending; }
+  get busy() { return EMB.pending; },
+  get info() { const i = renderer.info.render; return { calls: i.calls, tris: i.triangles, dpr: renderer.getPixelRatio() }; }
 };
 if (EMBED) { setLight('live'); }
 window.__yard = { muster, rollRandom, commission, get roster() { return !!ROSTER; }, setMode, launch, get yardState() { return yard.state; }, setClass, holdBeam(th) { beamHold = th; }, face(az) { controls.st.theta = Math.atan2(-Math.cos(az), -Math.sin(az)); controls.st.dT = 0; }, lampAz() { return beam ? (beam.u - skyMat.uniforms.panoRot.value) * 2 * Math.PI : null; }, setLook, setSea, setLight, setSky, get panoOn() { return skyMat.uniforms.panoOn.value; }, get rot() { return skyMat.uniforms.panoRot.value; }, get look() { return lookName; }, get broken() { return postBroken; }, hdr, controls, camera, harbour, scope, viewCourt, viewSea, courtPick, get courtAt() { return courtAt; }, get mode() { return mode; }, castOff, buildHarbour, slip, fleet, buildFleet, game, newGame, playMove, Chess, get sailing() { return sailing.size; }, setGuns, takeWith, AUD, setSound, skyAt(ms) { skyClock = 'run'; skyBodies.visible = starTilt.visible = true; document.getElementById('skyNote').hidden = false; skyFreeze = ms; stepSky(true); }, get place() { return skyPlace; } };

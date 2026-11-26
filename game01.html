@@ -23969,12 +23969,13 @@ function _v15Names() {               // each ship's captain: the figure who hold
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=1';
+        f.src = 'v15/fleet.html?embed=1&v=2';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
         _v15.frame = f;
-        renderer.domElement.addEventListener('pointerdown', () => { const E = currentViewId === 15 && _v15Api(); if (E) E.wake(); });
+        renderer.domElement.addEventListener('pointerdown', () => { if (currentViewId !== 15) return; _v15EndIntro(); const E = _v15Api(); if (E) E.wake(); });
+        renderer.domElement.addEventListener('wheel', () => { if (currentViewId === 15) _v15EndIntro(); }, { passive: true });
     }
     _v15.frame.style.display = 'block';
     // console handle for checking V15 in Safari: __v15.move('e2','e4'), __v15.fleet
@@ -23984,20 +23985,43 @@ function v15Enter() {
     if (!c.style.position || c.style.position === 'static') c.style.position = 'relative';
     if (!c.style.zIndex) c.style.zIndex = '1';
     _v15.sig = '';                   // the fleet is set to the board as it stands on the next frame
-    _v15.home = true;                // and the camera opens on it (after setView and its wrappers finish)
+    _v15.home = true;                // and the camera opens at Whitby (after setView and its wrappers finish)
 }
-function _v15Home() {                // open on the fleet from White's side, the whole board in view
+// The opening: Whitby's harbour on the west flank, then out over the water to the two fleets
+// lying in their wedges, and round to White's side of the board. Any click or scroll ends it.
+const _V15_INTRO = {
+    dur: 13,
+    eye: [[-5.2, 2.4, 7.6], [-4.4, 2.0, 4.6], [-3.6, 3.4, 1.0], [-2.0, 7.5, 9.0], [0, 10, 11.5]],
+    tgt: [[-12.6, 0.8, 0], [-12.6, 0.6, 0], [-11.0, 0.4, 0], [-3.0, 0, 1.0], [0, 0, 0]]
+};
+function _v15Home() {                // land any other opening first, then start the V15 intro
     _v15.home = false;
-    if (introActive) endIntro();     // land any opening cinematic first,
-    _v12Intro = null;                // and stop V12's fly-in if it was still running
-    controls.target.set(0, 0, 0);
-    camera.position.set(0, 13, 12);
+    if (introActive) endIntro();
+    _v12Intro = null;                // stop V12's fly-in if it was still running
+    const S = _V15_INTRO, V = a => new THREE.Vector3(a[0], a[1], a[2]);
+    _v15.intro = { t: 0, last: performance.now(),
+        eye: new THREE.CatmullRomCurve3(S.eye.map(V)), tgt: new THREE.CatmullRomCurve3(S.tgt.map(V)) };
+    controls.enabled = false;
+    _v15IntroStep();
+}
+function _v15IntroStep() {
+    const I = _v15.intro; if (!I) return;
+    const now = performance.now(); I.t += Math.min(0.1, (now - I.last) / 1000); I.last = now;
+    const k = Math.min(1, I.t / _V15_INTRO.dur), e = k * k * (3 - 2 * k);
+    camera.position.copy(I.eye.getPointAt(e));
+    controls.target.copy(I.tgt.getPointAt(e));
     camera.lookAt(controls.target);
-    controls.update();
+    if (k >= 1) _v15EndIntro();
+}
+function _v15EndIntro() {
+    if (!_v15.intro) return;
+    _v15.intro = null; controls.enabled = true; controls.update();
 }
 function v15Leave() {
     const c = renderer.domElement;
     if (_v15.prev) { c.style.position = _v15.prev.position; c.style.zIndex = _v15.prev.zIndex; c.style.opacity = _v15.prev.opacity; }
+    if (_v15.intro) { _v15.intro = null; controls.enabled = true; }
+    _v15.home = false;
     _v15.live = false;
     if (_v15.frame) _v15.frame.style.display = 'none';
     const E = _v15Api(); if (E) E.sleep();
@@ -24025,14 +24049,15 @@ function v15Click(sq) {
 }
 // Called from animate() in V15. Returns true when the fleet drew this frame.
 function v15Frame() {
-    if (_v15.home) _v15Home();
     const E = gameMode === 'chess' && _v15Api();
     if (!E) { if (_v15.live) { renderer.domElement.style.opacity = ''; _v15.live = false; } return false; }
+    if (_v15.home) _v15Home();       // the fleet is loaded: start the opening
+    else if (_v15.intro) _v15IntroStep();
     if (!_v15.live) { renderer.domElement.style.opacity = '0'; _v15.live = true; }
     const sig = JSON.stringify(getBoardState());
     if (sig !== _v15.sig) { _v15.sig = sig; E.sync(getBoardState(), _v15Names()); }   // a new game, an undo, a load
     world.updateMatrixWorld(true); camera.updateMatrixWorld();
-    const p = world.worldToLocal(camera.position.clone()).multiplyScalar(40);
+    const p = world.worldToLocal(camera.position.clone()).multiplyScalar(E.tile || 40);   // fleet units per square
     const q = world.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(camera.quaternion);
     E.camera(p.toArray(), q.toArray(), camera.fov);
     E.marks(selectedPiece && selectedPiece.userData ? selectedPiece.userData.id || null : null,
@@ -25327,15 +25352,15 @@ function setView(id) {
             scene.fog = _cathedralState.fog;
         }
     } else if (id === 15) {
-        // V15 (Treasure fleet): the fleet page draws at 40 of its units to
+        // V15 (Treasure fleet): the fleet page draws at 60 of its units to
         // one square. Keep the camera above the water and close enough that
-        // the sea and sky (a 6000-unit dome there, 150 squares here) hold it.
+        // the sea and sky (a 6000-unit dome there, 100 squares here) hold it.
         controls.minPolarAngle = 0.05;
         controls.maxPolarAngle = Math.PI / 2 - 0.03;
         controls.minAzimuthAngle = -Infinity;
         controls.maxAzimuthAngle =  Infinity;
         controls.minDistance = 1.5;
-        controls.maxDistance = 40;
+        controls.maxDistance = 34;
         controls.screenSpacePanning = false;
         controls.zoomToCursor = false;
         scene.fog = null;
