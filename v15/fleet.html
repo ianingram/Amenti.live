@@ -3139,6 +3139,17 @@ function buildCustomHouse() {
   }
   const eb = 2.7 + colH + 1.05;
   box(H, 9.5, 0.9, pw + 1.5, trim, px + 1.6, eb + 0.45, 0); box(H, 9.2, 1.1, pw + 1.2, wall, px + 1.6, eb + 1.45, 0); box(H, 10.4, 0.7, pw + 2.6, trim, px + 1.6, eb + 2.35, 0);   // architrave, frieze, cornice
+  // the frieze is cut with the house's name, Roman capitals incised in the stone
+  { const cw = 2400, ch = 110, c = document.createElement('canvas'); c.width = cw; c.height = ch; const x = c.getContext('2d');
+    const txt = 'INGRAM  MANOR  LLC'.split('').join('  '); let fs = 74;
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.font = '600 ' + fs + 'px "Trajan Pro", "Cinzel", Georgia, "Times New Roman", serif';
+    while (x.measureText(txt).width > cw * 0.78 && fs > 30) { fs -= 2; x.font = '600 ' + fs + 'px "Trajan Pro", "Cinzel", Georgia, "Times New Roman", serif'; }
+    x.fillStyle = 'rgba(255,250,236,0.55)'; x.fillText(txt, cw / 2 + 2, ch / 2 + 4);      // the lit lower lip of each cut
+    x.fillStyle = 'rgba(58,46,30,0.92)'; x.fillText(txt, cw / 2, ch / 2 + 1);             // the shadowed cut
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(pw + 1.2, 1.1), new THREE.MeshStandardMaterial({ map: t, transparent: true, roughness: 0.9, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }));
+    m.rotation.y = Math.PI / 2; m.position.set(px + 1.6 + 4.6 + 0.03, eb + 1.45, 0); H.add(m); }
   { const sh = new THREE.Shape(); sh.moveTo(-pw / 2 - 1.3, 0); sh.lineTo(pw / 2 + 1.3, 0); sh.lineTo(0, 6.2); sh.closePath();
     const pd = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: 10, bevelEnabled: false }), trim); pd.rotation.y = Math.PI / 2; pd.position.set(px - 3.4, eb + 2.7, 0); H.add(pd);
     const in_ = new THREE.Shape(); in_.moveTo(-pw / 2 + 0.6, 0); in_.lineTo(pw / 2 - 0.6, 0); in_.lineTo(0, 4.9); in_.closePath();
