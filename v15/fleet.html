@@ -4037,6 +4037,49 @@ function embMove(from, to, before, after) {      // moves play one after another
     .catch(e => console.error('[V15] move', from, to, e)).then(() => { if (g === EMB.gen) { EMB.pending--; game.busy = false; } });
 }
 const _eq = new THREE.Quaternion();
+// A speed test for the Mac at hand: each part of the scene is taken away in turn for a few seconds, and the frame
+// rate and the fleet page's own time per frame are shown. Whatever makes the big difference is what costs.
+let BENCH = null;
+function embBench() {
+  if (BENCH) return BENCH.p;
+  const parts = [
+    ['As it is', () => {}],
+    ['Fewest pixels', () => { GOV.fixed = 4; GOV.level = 4; govApply(); }],
+    ['  … and no ships', () => fleet.forEach(f => { f.holder.visible = false; if (f.foam) f.foam.visible = false; })],
+    ['  … and no Whitby', () => { slip.visible = false; }],
+    ['  … and no sea', () => { sea.visible = false; }],
+  ];
+  const keep = { level: GOV.level, fixed: GOV.fixed };
+  const rows = []; let i = -1, t0 = 0, n = 0, tk = 0, last = 0;
+  BENCH = { rows };
+  BENCH.p = new Promise(done => {
+    BENCH.frame = (dtTick) => {
+      const now = performance.now();
+      if (i < 0 || now - t0 > 4000) {
+        if (i >= 0) rows.push([parts[i][0], Math.round(1000 * n / (now - t0 - 1000 > 0 ? (now - t0 - 1000) : 1)), (tk / Math.max(1, n)).toFixed(1)]);
+        i++;
+        if (i >= parts.length) {          // put everything back
+          fleet.forEach(f => { f.holder.visible = true; if (f.foam) f.foam.visible = true; }); slip.visible = true; sea.visible = true;
+          GOV.fixed = keep.fixed; GOV.level = keep.level; govApply();
+          BENCH = null; benchShow(rows, true); console.log('[V15 speed test]'); console.table(rows); done(rows); return;
+        }
+        parts[i][1](); t0 = now; n = 0; tk = 0; benchShow(rows, false, parts[i][0]); return;
+      }
+      if (now - t0 > 1000) { n++; tk += dtTick; }   // the first second of each part settles
+    };
+  });
+  return BENCH.p;
+}
+function benchShow(rows, done, now) {
+  let el = document.getElementById('bench');
+  if (!el) { el = document.createElement('div'); el.id = 'bench'; el.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:50;background:rgba(10,14,20,.88);color:#f3e6c4;font:15px/1.6 Georgia,serif;padding:18px 26px;border:1px solid #b8955a;border-radius:6px;min-width:330px'; document.body.appendChild(el); }
+  el.innerHTML = '<div style="letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:#d8b56a;margin-bottom:8px">V15 speed test</div>'
+    + '<table style="border-collapse:collapse;width:100%">' + '<tr style="opacity:.7;font-size:12px"><td></td><td style="text-align:right">frames/s</td><td style="text-align:right;padding-left:14px">fleet ms</td></tr>'
+    + rows.map(r => `<tr><td style="white-space:pre">${r[0]}</td><td style="text-align:right">${r[1]}</td><td style="text-align:right;padding-left:14px">${r[2]}</td></tr>`).join('')
+    + (done ? '' : `<tr><td colspan=3 style="opacity:.7;font-style:italic">testing: ${now.trim()} …</td></tr>`) + '</table>'
+    + (done ? '<div style="font-size:12px;opacity:.7;margin-top:8px">Take a screenshot · this closes in a minute</div>' : '');
+  clearTimeout(el._t); if (done) el._t = setTimeout(() => el.remove(), 60000);
+}
 // Keeping it smooth on any Mac: the frame time is watched (game01's own work included, since game01 calls tick), and
 // when frames run slow the fleet steps down: fewer pixels first, then a plainer sea; when there is time to spare it
 // steps back up, more cautiously each time a level has proved too slow. One step per change, never faster than ~2 s.
@@ -4081,7 +4124,7 @@ window.__yardEmbed = {
   sync: embSync, move: embMove, pick: embPick,
   camera(p, q, fov) { camera.position.fromArray(p); camera.quaternion.copy(_eq.fromArray(q)); if (fov && camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); } },
   marks(sel, targets) { const sig = (sel || '') + '|' + (targets || []).join(','); if (sig === EMB.selSig) return; EMB.selSig = sig; game.sel = sel || null; game.moves = targets || []; drawMarks(); },
-  tick() { govStep(performance.now()); frame(); },
+  tick() { const a = performance.now(); govStep(a); frame(); if (BENCH) BENCH.frame(performance.now() - a); },
   get stats() { return { fps: Math.round(1000 / GOV.ema), level: GOV.level, pixels: GOV.steps[GOV.level].px, liteSea: !!GOV.steps[GOV.level].lite }; },
   quality(n) { GOV.fixed = (n == null || n === 'auto') ? null : Math.max(0, Math.min(GOV.steps.length - 1, n)); if (GOV.fixed != null) { GOV.level = GOV.fixed; govApply(); } },
   wake() { audioWake(); if (AUD.ctx && AUD.ctx.state === 'suspended') AUD.ctx.resume(); },
@@ -4089,6 +4132,7 @@ window.__yardEmbed = {
   sound(on) { setSound(on); },
   get busy() { return EMB.pending; },
   get renderer() { return renderer; },
+  bench() { return embBench(); },
   get info() { const i = renderer.info.render; return { calls: i.calls, tris: i.triangles, dpr: renderer.getPixelRatio() }; }
 };
 if (EMBED) { setLight('live'); }
