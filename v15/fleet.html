@@ -2474,7 +2474,7 @@ STORM.rain = (() => {
   m.renderOrder = 8; m.visible = false; m.frustumCulled = false; scene.add(m); return m;
 })();
 function stormFrame(t, dt) {
-  const want = EMBED && PANO.shown === 'friedrich-w' && skyMat.uniforms.panoOn.value > 0.5 && EMB.view === 'sea' ? 1 : 0;
+  const want = EMBED && PANO.shown === 'friedrich-w' && skyMat.uniforms.panoOn.value > 0.5 && EMB.view === 'sea' && !slip.visible ? 1 : 0;   // no rain over Whitby: the harbour is heavy enough
   STORM.k += (want - STORM.k) * Math.min(1, dt * 0.25);
   const k = STORM.k, R = STORM.rain;
   R.visible = k > 0.02;

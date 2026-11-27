@@ -24019,7 +24019,7 @@ function _v15SetView(v) {            // the same orbit, laid over the sea or ove
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=28';
+        f.src = 'v15/fleet.html?embed=1&v=29';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24034,6 +24034,7 @@ function v15Enter() {
     _v15.prev = { position: c.style.position, zIndex: c.style.zIndex, opacity: c.style.opacity };
     if (!c.style.position || c.style.position === 'static') c.style.position = 'relative';
     if (!c.style.zIndex) c.style.zIndex = '1';
+    if (!_v15.live) { c.style.opacity = '0'; _v15Cover(true); }   // nothing of the old board while the fleet loads: a dark sea and a title instead
     _v15.sig = ''; _v15.view = 'sea';   // the fleet is set to the board as it stands on the next frame
     { const E = _v15Api(); if (E) E.view('sea'); }
     _v15.home = true;                // and the camera opens at Whitby (after setView and its wrappers finish)
@@ -24061,6 +24062,7 @@ const _V15_INTRO = {
         { t: 39,   eye: [0, 8.0, 11.5],    tgt: [0, 0, 1.4] }
     ]
 };
+_V15_INTRO.keys.forEach(k => k.t *= 0.8);   // the whole opening a fifth quicker (about 31 s)
 _V15_INTRO.dur = _V15_INTRO.keys[_V15_INTRO.keys.length - 1].t;
 function _v15IntroPoints(E) {        // every key in squares, for this fleet page's square size and Whitby's place
     const T = E.tile || 60, W = (E.slipAt || [-3000, 0, 0])[0];
@@ -24100,7 +24102,7 @@ function _v15Home() {                // land any other opening first, then start
 }
 function _v15IntroStep() {
     const I = _v15.intro; if (!I) return;
-    const now = performance.now(); I.t += Math.min(0.1, (now - I.last) / 1000); I.last = now;
+    const now = performance.now(); I.t += Math.min(1.0, (now - I.last) / 1000); I.last = now;   // by the clock: a slow machine sees fewer frames, not a longer film
     const K = _V15_INTRO.keys, n = K.length - 1, t = Math.min(I.t, _V15_INTRO.dur);
     let i = 0; while (i < n - 1 && t >= K[i + 1].t) i++;
     const u = (t - K[i].t) / (K[i + 1].t - K[i].t), e = u * u * (3 - 2 * u) * 0.6 + u * 0.4;   // keeps moving, easing into and out of each landmark
@@ -24120,8 +24122,25 @@ function _v15EndIntro() {             // finished or skipped: land on White's si
     camera.position.set(E[0], E[1], E[2]); controls.target.set(T[0], T[1], T[2]); camera.lookAt(controls.target);
     controls.enabled = true; controls.update();
 }
+// The cover while the fleet page loads (a few seconds on a slow line): dark water and a quiet title.
+function _v15Cover(on) {
+    let el = document.getElementById('v15Cover');
+    if (on && !el) {
+        el = document.createElement('div'); el.id = 'v15Cover';
+        el.style.cssText = 'position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;'
+            + 'background:radial-gradient(ellipse at 50% 60%,#16303c 0%,#0d1b24 55%,#070f15 100%);font-family:Georgia,serif;color:#e9dcb8;transition:opacity 1.2s ease;';
+        el.innerHTML = '<div style="font-size:clamp(26px,4vw,52px);letter-spacing:.3em;text-transform:uppercase;opacity:.85">Whitby</div>'
+            + '<div style="width:120px;height:1px;margin:12px auto;background:linear-gradient(90deg,transparent,#d8b56a,transparent)"></div>'
+            + '<div style="font-size:clamp(13px,1.4vw,18px);font-style:italic;letter-spacing:.06em;opacity:.7">the fleets are putting out…</div>';
+        document.body.appendChild(el);
+    }
+    if (!el || (!on && el.style.opacity === '0')) return;
+    if (on) { el.style.display = 'flex'; el.style.opacity = '1'; }
+    else { el.style.opacity = '0'; setTimeout(() => { if (el.style.opacity === '0') el.style.display = 'none'; }, 1300); }
+}
 function v15Leave() {
     const c = renderer.domElement;
+    _v15Cover(false);
     if (_v15.prev) { c.style.position = _v15.prev.position; c.style.zIndex = _v15.prev.zIndex; c.style.opacity = _v15.prev.opacity; }
     if (_v15.intro) { _v15.intro = null; controls.enabled = true; _v15Caption(null); }
     _v15Bar(false);
@@ -24164,10 +24183,13 @@ function v15Click(sq) {
 // Called from animate() in V15. Returns true when the fleet drew this frame.
 function v15Frame() {
     const E = gameMode === 'chess' && _v15Api();
-    if (!E) { if (_v15.live) { renderer.domElement.style.opacity = ''; _v15.live = false; } return false; }
+    if (!E) {
+        if (_v15.live || gameMode !== 'chess') { renderer.domElement.style.opacity = ''; _v15.live = false; _v15Cover(false); }
+        return false;                // (chess with the fleet still loading: stay dark under the cover)
+    }
     if (_v15.home) _v15Home();       // the fleet is loaded: start the opening
     else if (_v15.intro) _v15IntroStep();
-    if (!_v15.live) { renderer.domElement.style.opacity = '0'; _v15.live = true; }
+    if (!_v15.live) { renderer.domElement.style.opacity = '0'; _v15.live = true; _v15Cover(false); }
     const sig = JSON.stringify(getBoardState());
     if (sig !== _v15.sig) { _v15.sig = sig; E.sync(getBoardState(), _v15Names(), _v15Taken(), _v15Homes()); }   // a new game, an undo, a load
     _v15Bar(!_v15.intro);
