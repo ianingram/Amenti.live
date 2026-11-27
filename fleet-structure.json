@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-11-27T23:37:44.635Z",
+    "generated": "2026-11-27T23:49:54.345Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1609,7 +1609,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 55780,
-      "sha256": "aeef4eb01c51bbbe",
+      "sha256": "8c3970a133f1f4c4",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1696,7 +1696,7 @@
     {
       "file": "game01.html",
       "bytes": 1622202,
-      "sha256": "6d0eb9e6096facad",
+      "sha256": "baca42b095716a92",
       "type": "html",
       "declares": [
         "AppNames",
