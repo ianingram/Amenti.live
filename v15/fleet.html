@@ -3786,24 +3786,44 @@ const COURT = {};          // the chess court's measures, profiles and metals, f
     const x = -380 - Math.random() * 470, z = (Math.random() - 0.5) * 560;
     if (x > -420 && Math.abs(z) < 80) continue; T.push([x, z, 12 + Math.random() * 12, 7 + Math.random() * 6, Math.random() < 0.15 ? 1 : 0]);
   }
+  for (let i = T.length - 1; i >= 0; i--) if (Math.abs(T[i][1]) > 236 || T[i][0] < -1120) T.splice(i, 1);   // none in the sea or on the rocks
   plantTrees(T).forEach(m => harbourProps.add(m));
   // the rising ground: green slopes climbing gently inland, so the harbour sits in a bowl of land
-  const W = 760, D = 640, g = new THREE.PlaneGeometry(W, D, 76, 64); g.rotateX(-Math.PI / 2);
+  // Behind the house the ground climbs to a crest, then breaks into a rocky outcrop that falls to the sea,
+  // turning the corners so the land ends in rock and surf instead of an edge in the air.
+  const W = 940, D = 680, g = new THREE.PlaneGeometry(W, D, 118, 85); g.rotateX(-Math.PI / 2);
   const a = g.attributes.position, col = [];
+  for (let k = 0; k < a.count; k++) { const x = a.getX(k) - 540 - W / 2, z = a.getZ(k); a.setXYZ(k, x, groundY(x, z), z); }
+  g.computeVertexNormals();
+  const N = g.attributes.normal, grassA = new THREE.Color(0x6f8a48), grassB = new THREE.Color(0x56703a), rockA = new THREE.Color(0x766b5c), rockB = new THREE.Color(0x4d453c), wet = new THREE.Color(0x3a352f);
   for (let k = 0; k < a.count; k++) {
-    const x = a.getX(k) - 540 - W / 2, z = a.getZ(k), y = groundY(x, z); a.setXYZ(k, x, y, z);
-    const t = Math.min(1, (y - 10) / 30); C.setHex(0x6f8a48).lerp(new THREE.Color(0x56703a), t).multiplyScalar(0.9 + Math.random() * 0.12); col.push(C.r, C.g, C.b);
+    const y = a.getY(k), ny = N.getY(k), j = 0.9 + Math.random() * 0.14;
+    C.copy(grassA).lerp(grassB, Math.min(1, Math.max(0, (y - 10) / 30)));
+    const rock = Math.min(1, Math.max(0, (0.93 - ny) / 0.2));                       // steep ground shows bare rock
+    C.lerp(Math.random() < 0.5 ? rockA : rockB, rock);
+    if (y < 4) C.lerp(wet, Math.min(1, (4 - y) / 8));                               // dark, wet stone at the waterline
+    C.multiplyScalar(j); col.push(C.r, C.g, C.b);
   }
-  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3)); g.computeVertexNormals();
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
   harbourProps.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1, emissive: 0x1c2612, emissiveIntensity: 0.35, fog: false })));   // no sea fog on the land: it would turn the hills to sea-blue
   // a sea wall along each side of the land, so it meets the water in stone rather than ending in the air
   const sw = new THREE.MeshStandardMaterial({ color: 0xd8c9b0, roughness: 0.95, emissive: 0x4e4030, emissiveIntensity: 0.3 });
-  for (const sd of [-1, 1]) add(new THREE.Mesh(new THREE.BoxGeometry(1240, 13, 8), sw), -700, 4.5, sd * 252);
+  for (const sd of [-1, 1]) add(new THREE.Mesh(new THREE.BoxGeometry(1010, 13, 8), sw), -585, 4.5, sd * 252);   // the walls run back until the rocks take over
 })();
 // the height of the land: level by the harbour, rising in soft folds further back (kept low, so the painted town still shows over it)
+function sstep(a, b, v) { const t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
 function groundY(x, z) {
-  const back = Math.max(0, -540 - x) / 380, rise = back * back * (3 - 2 * Math.min(1, back)) * 24;
-  return 10.9 + (back > 0 ? rise + Math.sin(z * 0.012 + x * 0.004) * 4 * Math.min(1, back * 3) + Math.sin(z * 0.031 - x * 0.011) * 2 * Math.min(1, back * 3) : 0);
+  const back = Math.min(1, Math.max(0, -540 - x) / 380), rise = back * back * (3 - 2 * back) * 16;
+  let y = 10.9 + (back > 0 ? rise + Math.sin(z * 0.012 + x * 0.004) * 3 * Math.min(1, back * 3) + Math.sin(z * 0.031 - x * 0.011) * 1.5 * Math.min(1, back * 3) : 0);
+  // the outcrop: r runs 0 (grass) → 1 (the sea) across the back, and round the corners onto the sides
+  const ab = Math.abs(z);
+  const rBack = (-x - 1150) / 230, rSide = (ab - 205) / 75 * sstep(-940, -1080, x);
+  const r = Math.max(rBack, rSide);
+  if (ab > 256 && x > -1080) return -14;                    // beside the harbour the sea walls stand in the water
+  if (r <= 0) return y;
+  const crag = Math.sin(z * 0.045 + x * 0.027) * 4 + Math.sin(z * 0.11 - x * 0.083) * 2.2 + Math.sin(z * 0.29 + x * 0.21) * 1.1 + (hashN(x * 0.37, 0, z * 0.37) - 0.5) * 3;
+  const crest = y + 9 * sstep(0, 0.35, r) + crag * Math.min(1, r * 2.5);
+  return crest + (-14 - crest) * sstep(0.42, 0.95, r);
 }
 // ---------------- THE BATTERIES: naval guns at the four corners of the harbour ----------------
 // Round stone bastions where the piers meet the shore and where they turn toward the mouth, each mounting
