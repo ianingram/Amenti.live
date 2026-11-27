@@ -24019,7 +24019,7 @@ function _v15SetView(v) {            // the same orbit, laid over the sea or ove
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=33';
+        f.src = 'v15/fleet.html?embed=1&v=34';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24181,6 +24181,20 @@ function v15Click(sq) {
     } else clearSelection();
 }
 // Called from animate() in V15. Returns true when the fleet drew this frame.
+// The title for check, checkmate and stalemate, once the move has been sailed.
+function _v15EndCaption(E) {
+    const st = getGameStatus(); if (st === _v15.endSt || E.busy || _v15.intro) return;
+    const prev = _v15.endSt; _v15.endSt = st; clearTimeout(_v15.endT);
+    const turn = getCurrentTurn(), side = c => c === 'w' ? 'White' : 'Black';
+    const opp = (aiEnabled && _opponent) ? _opponent.fullName : null;
+    const winText = c => !opp ? side(c) + ' wins' : (c === 'b' ? opp + ' wins' : 'You beat ' + opp);
+    let cap = null, hold = 0;
+    if (st === 'check') { cap = ['Check', side(turn) + '\u2019s king is under the guns']; hold = 2600; }
+    else if (st === 'checkmate') { cap = ['Checkmate', winText(turn === 'w' ? 'b' : 'w')]; hold = 9000; }
+    else if (st === 'stalemate') { cap = ['Stalemate', 'neither fleet can move \u2014 a draw']; hold = 7000; }
+    if (cap) { _v15Caption(cap); _v15.endT = setTimeout(() => _v15Caption(null), hold); }
+    else if (prev === 'check' || prev === 'checkmate' || prev === 'stalemate') _v15Caption(null);
+}
 function v15Frame() {
     const E = gameMode === 'chess' && _v15Api();
     if (!E) {
@@ -24194,6 +24208,7 @@ function v15Frame() {
     if (sig !== _v15.sig) { _v15.sig = sig; E.sync(getBoardState(), _v15Names(), _v15Taken(), _v15Homes()); }   // a new game, an undo, a load
     _v15Bar(!_v15.intro);
     if (E.turn) E.turn(getCurrentTurn());      // the side to move: its sails' logos gleam
+    if (E.state) { E.state(getGameStatus(), getCurrentTurn()); _v15EndCaption(E); }   // check and the end of the game, played out at sea
     world.updateMatrixWorld(true); camera.updateMatrixWorld();
     const p = world.worldToLocal(camera.position.clone());   // in squares: the fleet page lays them over the sea, or over the pool at the court
     const q = world.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(camera.quaternion);

@@ -631,7 +631,7 @@ function broadside(f, target) {
 // Safari will not start sound until the page is touched, so it wakes on the first click.
 const AUD = { ctx: null, master: null, buf: {}, bed: null, bedKey: null, on: true, next: 0 };
 const SND_FILES = { sea: 'sea', gale: 'gale', port: 'port', cA: 'cannon-a', cB: 'cannon-b', cFar: 'cannon-far',
-  th: '/sounds/oneshot/thunder_far', thF: '/sounds/oneshot/thunder_far', g1: 'gull-far-1', g2: 'gull-far-2', g3: 'gull-far-3', g4: 'gull-pair-1', r1: 'rigging-1', r2: 'rigging-2', r3: 'rigging-3' };
+  th: '/sounds/oneshot/thunder_far', thF: '/sounds/oneshot/thunder_far', drum: '/sounds/oneshot/drum_beat', cheer: '/sounds/oneshot/crew_cheer', toll: '/sounds/oneshot/bell_toll', bell: '/sounds/oneshot/bell_watch', g1: 'gull-far-1', g2: 'gull-far-2', g3: 'gull-far-3', g4: 'gull-pair-1', r1: 'rigging-1', r2: 'rigging-2', r3: 'rigging-3' };
 const BED_GAIN = { sea: 0.9, gale: 0.42, port: 1.15 };
 function audioWake() {
   if (!AUD.on) return;
@@ -2641,6 +2641,70 @@ function stormFrame(t, dt) {
   STORM.flash = f; STORM.bolt.intensity = 2.6 * f;
   if (skyMat.uniforms.panoOn.value > 0.5) skyMat.uniforms.panoGain.value = waveU.panoGain.value = PANO.gain * (1 + 1.1 * f);
 }
+// ---- check, checkmate, stalemate, played out at sea ----
+// Check: the king's ship beats to quarters (a drum, her guns run out) and a red light burns round her masthead king.
+// Checkmate: that king tips over on its truck and falls into the sea; the winners fire a rolling salute down the
+// line and cheer; a bell tolls for the loser. Stalemate: a ship's bell, and both kings hold.
+const END = { want: 'active:', now: 'active:', halo: null, haloF: null, fall: null, fallF: null };
+const HALO_TEX = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+  const g = x.createRadialGradient(64, 64, 4, 64, 64, 62); g.addColorStop(0, 'rgba(255,90,60,1)'); g.addColorStop(0.35, 'rgba(255,40,20,0.55)'); g.addColorStop(1, 'rgba(255,0,0,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 128, 128); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; })();
+const kingOf = sd => fleet.find(f => f.side === sd && f.cls === 'king' && !f.sink);
+function endCheck() {
+  if (END.halo) { END.halo.parent && END.halo.parent.remove(END.halo); END.halo = null; }
+  if (END.haloF) { setGuns(END.haloF.ship, false); END.haloF = null; }
+}
+function startCheck(sd) {
+  endCheck(); const f = kingOf(sd); if (!f || !f.piece) return;
+  const h = new THREE.Sprite(new THREE.SpriteMaterial({ map: HALO_TEX, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+  h.position.set(0, 0.55, 0); h.scale.setScalar(1.7); h.renderOrder = 6; f.piece.add(h);
+  END.halo = h; END.haloF = f; setGuns(f.ship, true);
+  if (AUD.ctx) audioShot('drum', 0.55, 1, 0, 0);
+}
+function startMate(loser) {
+  endCheck(); const f = kingOf(loser); if (!f) return;
+  const win = loser === 'w' ? 'b' : 'w';
+  FOLLOW.f = f; setTimeout(() => { if (FOLLOW.f === f) FOLLOW.f = null; }, 5200);
+  if (AUD.ctx) audioShot('toll', 0.5, 1, 0, 0.4);
+  if (f.piece) {                        // the king tips over on the truck, hangs, and goes down into the sea
+    const p = f.piece; scene.attach(p); f.piece = null;
+    const dir = Math.random() < 0.5 ? 1 : -1;
+    END.fall = { p, t: 0, dir, vy: 0, base: p.position.y, splashed: false, rx: (Math.random() - 0.5) * 2 }; END.fallF = f;
+  }
+  const line = fleet.filter(g => g.side === win && !g.sink).sort((a, b) => a.holder.position.x - b.holder.position.x);
+  line.forEach((g, i) => setTimeout(() => {   // a rolling salute, ship after ship down the line
+    setGuns(g.ship, true); setTimeout(() => broadside(g), 700);
+    setTimeout(() => setGuns(g.ship, false), 4200);
+  }, 2200 + i * 380));
+  setTimeout(() => { if (AUD.ctx) audioShot('cheer', 0.6, 1, 0, 0); }, 2600 + line.length * 380);
+}
+function startDraw() {
+  endCheck(); if (AUD.ctx) { audioShot('bell', 0.5, 1, 0, 0); audioShot('bell', 0.4, 1, 0.3, 2.5); }
+}
+function clearEnd() {                    // a new game or an undo: put any fallen king back on his truck
+  endCheck();
+  if (END.fall) { const p = END.fall.p; p.parent && p.parent.remove(p); const f = END.fallF; END.fall = END.fallF = null;
+    if (f && f.holder.parent && !f.piece) { f.piece = masthead('king', f.side, f.ship.userData.top); if (f.piece) f.ship.add(f.piece); } }
+}
+function endFrame(t) {
+  if (END.halo) { const k = 0.75 + 0.25 * Math.sin(t * 5); END.halo.material.opacity = k; END.halo.scale.setScalar(1.5 + 0.35 * k); }
+  const F = END.fall, dt = Math.min(0.1, Math.max(0, t - (END.lt || t))); END.lt = t;
+  if (F) {
+    const s60 = dt * 60; F.t += dt;
+    if (F.t < 1.1) { const u = Math.min(1, F.t / 1.1); F.p.rotation.z = F.dir * (Math.PI / 2) * u * u; }   // toppling, slowly at first
+    else if (!F.splashed) {
+      F.vy -= 0.22 * s60; F.p.position.y += F.vy * s60; F.p.rotation.x += 0.04 * F.rx * s60; F.p.rotation.z += F.dir * 0.03 * s60;
+      if (F.p.position.y < 0) { F.splashed = true; spawnSplash(F.p.position.clone().setY(0), 1.6); spawnSplash(F.p.position.clone().setY(0).add(new THREE.Vector3(6, 0, 4)), 1.0); if (AUD.ctx) audioShot('cFar', 0.4, 0.5, 0, 0); }
+    } else { F.p.position.y -= 0.35 * s60; if (F.p.position.y < -60) F.p.visible = false; }
+  }
+  if (END.want === END.now || sailing.size || EMB.pending > 0) return;   // play it once the move has been sailed
+  const [st, turn] = END.want.split(':'), was = END.now.split(':')[0];
+  END.now = END.want;
+  if (st === 'check') startCheck(turn);
+  else if (st === 'checkmate') startMate(turn);
+  else if (st === 'stalemate') startDraw();
+  else { if (was === 'checkmate' || was === 'stalemate') clearEnd(); else endCheck(); }
+}
 // The full fleets in their opening squares: back rank r n b q k b n r, pawns in front. White near +Z, facing -Z.
 const BACK = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
 function buildFleet() {
@@ -4406,7 +4470,7 @@ function frame() {
   const t = still ? 0 : clock.getElapsedTime(); if (gunTweens.size) stepGuns(); if (FX.length || gunLight.intensity) stepFX(); audioLife(); if (skyClock) stepSky();
   { const nowS = performance.now(), dtS = Math.min(0.1, (nowS - (frame.lastS || nowS)) / 1000); frame.lastS = nowS; if (sailing.size) stepSailing(dtS * (EMB.pending > 1 ? Math.min(3, 1 + 0.6 * (EMB.pending - 1)) : 1)); if (courtAnims.size) stepCourt(dtS); for (const f of fleet) if (f.sink) f.sink.t += dtS; }
   sky.position.copy(camera.position);    // the sky goes with the eye: from Whitby, 4000 out, its far side was past the camera's reach
-  giltFrame(t); glintFrame(t); piecesFrame();
+  giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t);
   { const n = performance.now(), d = Math.min(0.1, (n - (frame.l2 || n)) / 1000); frame.l2 = n; stormFrame(t, d); followFrame(d); }
   waveU.time.value = t; skyMat.uniforms.time.value = t; cloudMat.uniforms.time.value = t; cloudMat.uniforms.lite.value = waveU.lite.value;
   if (beam && skyMat.uniforms.panoOn.value > 0.5) {
@@ -4752,6 +4816,7 @@ window.__yardEmbed = {
   sound(on) { setSound(on); },
   get busy() { return EMB.pending; },
   turn(t) { GILT.want = t === 'w' || t === 'b' ? t : null; },
+  state(st, turn) { END.want = (st || 'active') + ':' + (turn || ''); },
   get renderer() { return renderer; },
   get sky() { return { want: PANO.want, shown: PANO.shown, panoOn: skyMat.uniforms.panoOn.value, whitby: slip.visible, clock: skyClock, clouds: cloudDome.visible, stars: starTilt.visible, maxTex: renderer.capabilities.maxTextureSize }; },
   bench() { return embBench(); },
