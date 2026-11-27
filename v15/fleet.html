@@ -194,12 +194,12 @@ const skyMat = new THREE.ShaderMaterial({
   side: THREE.BackSide, depthWrite: false,
   uniforms: { zenith: { value: new THREE.Color() }, horizon: { value: new THREE.Color() }, sunDir: { value: new THREE.Vector3() }, sunCol: { value: new THREE.Color() },
     cloudLit: { value: new THREE.Color() }, cloudShade: { value: new THREE.Color() }, clouds: { value: 0 }, streak: { value: 1 }, banks: { value: 0 }, bankH: { value: 0.2 }, halo: { value: 0 }, time: { value: 0 },
-    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() },
+    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, surfOn: { value: 0 },
     beamOn: { value: 0 }, beamU: { value: 0 }, beamV: { value: 0 }, beamS: { value: 0 }, beamC: { value: 1 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } },
   vertexShader: 'varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
   fragmentShader: `
     uniform vec3 zenith, horizon, sunDir, sunCol, cloudLit, cloudShade; uniform float clouds, streak, banks, bankH, halo, time;
-    uniform sampler2D pano; uniform float panoOn, panoRot, panoTop, panoGain; uniform vec3 panoZen;
+    uniform sampler2D pano; uniform float panoOn, panoRot, panoTop, panoGain, surfOn; uniform vec3 panoZen;
     uniform float beamOn, beamU, beamV, beamS, beamC; uniform vec3 beamCol;
     varying vec3 vDir;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -213,6 +213,31 @@ const skyMat = new THREE.ShaderMaterial({
         float u = fract(atan(d.z, d.x) / 6.2831853 + panoRot);
         float v = clamp(asin(clamp(d.y, -1.0, 1.0)) / panoTop, 0.004, 0.996);
         vec3 pc = texture2D(pano, vec2(u, v)).rgb;
+        if (surfOn > 0.5 && v < 0.24) {
+          // The night painting has two breakers out in open water, at the horizon. Surf belongs on the shore: paint each
+          // over with calm sea and sky from a little further along the same horizon.
+          float k = smoothstep(0.24, 0.17, v);
+          float m1 = smoothstep(0.112, 0.122, u) * smoothstep(0.162, 0.152, u);
+          float m2 = smoothstep(0.292, 0.302, u) * smoothstep(0.340, 0.330, u);
+          if (m1 + m2 > 0.0) pc = mix(pc, texture2D(pano, vec2(u + 0.06, v)).rgb, max(m1, m2) * k);
+          // The shore: breakers bursting against the cliff foot, the harbour rocks and the piers, each in its own time.
+          float hz = 0.055;
+          vec4 spot[4]; spot[0] = vec4(0.7225, 0.0030, 7.0, 0.0); spot[1] = vec4(0.7825, 0.0022, 9.0, 0.37);
+          spot[2] = vec4(0.920, 0.0032, 6.0, 0.61); spot[3] = vec4(0.748, 0.0020, 8.0, 0.18);
+          for (int i = 0; i < 4; i++) {
+            float du = (u - spot[i].x) / spot[i].y;
+            if (abs(du) > 5.0) continue;
+            float ph = fract(time / spot[i].z + spot[i].w);
+            float rise = smoothstep(0.0, 0.30, ph), fade = smoothstep(0.0, 0.06, ph) * smoothstep(1.0, 0.40, ph);
+            float H = 0.02 + 0.10 * rise, y = (v - hz) / H;
+            float spread = 0.7 + 1.1 * rise * y;                       // a plume: narrow at the rock, fanning out as it climbs
+            float shape = exp(-du * du / (2.0 * spread * spread)) * smoothstep(1.0, 0.2, y) * smoothstep(-0.15, 0.05, y);
+            vec2 q = vec2(du * 3.0 + spot[i].w * 31.0, (v - hz) * 160.0 - ph * 22.0);
+            float n = fbm(q) * 0.7 + vn(q * 3.1) * 0.3;               // fine droplets over the body of the burst
+            float spray = shape * smoothstep(0.50, 0.80, n + 0.35 * (1.0 - y)) * fade;
+            pc = mix(pc, vec3(0.78, 0.81, 0.84), clamp(spray, 0.0, 1.0) * 0.8);
+          }
+        }
         pc = mix(pc, panoZen, smoothstep(0.86, 1.0, asin(clamp(d.y, 0.0, 1.0)) / panoTop));
         pc *= panoGain;
         if (beamOn > 0.5) {
@@ -2982,6 +3007,7 @@ function embPano(name) {
     }
     waveU.pano.value = t; waveU.panoSoft.value = t.userData.soft; waveU.panoFog.value = t.userData.fog || t.userData.soft; waveU.panoOn.value = 1; waveU.panoRot.value = rot;
     waveU.fogNear.value = 1600; waveU.fogFar.value = 4400;        // the squares are wide here: keep both fleets clear of the painted haze
+    su.surfOn.value = name === 'friedrich-w' ? 1 : 0;              // the night painting: calm the open sea, work the shore
     PANO.shown = name; panoQuiet();
   }, () => { PANO.want = null; });                                  // not there yet: keep the drawn sky, try again later
 }
