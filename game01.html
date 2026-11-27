@@ -23969,7 +23969,7 @@ function _v15Names() {               // each ship's captain: the figure who hold
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=5';
+        f.src = 'v15/fleet.html?embed=1&v=4';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -23979,7 +23979,7 @@ function v15Enter() {
     }
     _v15.frame.style.display = 'block';
     // console handle for checking V15 in Safari: __v15.move('e2','e4'), __v15.fleet
-    window.__v15 = { move: (a, b) => { const ok = attemptMoveWithCaptures(a, b); if (ok) { clearSelection(); renderPieces(); refreshHUD(); } return ok; }, get fleet() { const E = _v15Api(); return E ? E.busy : null; }, introAt: t => { if (_v15.intro) _v15.intro.t = t; }, get stats() { const E = _v15Api(); return E ? E.stats : null; }, bench: () => { const E = _v15Api(); return E ? E.bench() : 'open V15 first'; }, quality: n => { const E = _v15Api(); if (E) E.quality(n); } };
+    window.__v15 = { move: (a, b) => { const ok = attemptMoveWithCaptures(a, b); if (ok) { clearSelection(); renderPieces(); refreshHUD(); } return ok; }, get fleet() { const E = _v15Api(); return E ? E.busy : null; }, introAt: t => { if (_v15.intro) _v15.intro.t = t; }, get stats() { const E = _v15Api(); return E ? E.stats : null; }, quality: n => { const E = _v15Api(); if (E) E.quality(n); } };
     const c = renderer.domElement;
     _v15.prev = { position: c.style.position, zIndex: c.style.zIndex, opacity: c.style.opacity };
     if (!c.style.position || c.style.position === 'static') c.style.position = 'relative';
@@ -24073,6 +24073,16 @@ function v15OnMove(source, target, before, after) {
     const E = _v15Api(); if (!E || _v15.sig === '') return;
     E.move(source, target, _v15Grid(before), _v15Grid(after));
     _v15.sig = JSON.stringify(getBoardState());
+}
+// game01.html?bench=1 opens V15 by itself, skips the intro and runs the speed test: one link, nothing to type.
+if (/[?&]bench=1/.test(location.search)) {
+    const _t0 = performance.now();
+    const _go = setInterval(() => {
+        if (performance.now() - _t0 < 5000) return;            // let the page finish starting
+        if (currentViewId !== 15) { if (introActive) endIntro(); setView(15); return; }
+        const E = _v15Api(); if (!E || !_v15.live) return;
+        clearInterval(_go); _v15EndIntro(); setTimeout(() => E.bench(), 3000);
+    }, 1000);
 }
 // A click in V15, as a square: select, or move the chosen piece there (as the altar boards do).
 function v15Click(sq) {
