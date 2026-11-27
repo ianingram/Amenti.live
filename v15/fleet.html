@@ -557,12 +557,13 @@ function audioWake() {
   if (AUD.ctx) { if (AUD.ctx.state === 'suspended') AUD.ctx.resume(); return; }
   const C = window.AudioContext || window.webkitAudioContext; if (!C) return;
   AUD.ctx = new C(); AUD.master = AUD.ctx.createGain(); AUD.master.gain.value = 0.8; AUD.master.connect(AUD.ctx.destination);
+  scoreNext(4000);
   for (const [k, f] of Object.entries(SND_FILES)) {
     fetch(MEDIA + f + '.mp3').then(r => r.arrayBuffer()).then(a => new Promise((ok, no) => AUD.ctx.decodeAudioData(a, ok, no)))
       .then(b => { AUD.buf[k] = b; if (k === wantBed()) audioBed(); }).catch(() => {});
   }
 }
-function wantBed() { return (typeof mode !== 'undefined' && (mode === 'slip' || mode === 'court')) ? 'port' : seaName === 'storm' ? 'gale' : 'sea'; }
+function wantBed() { return ((typeof mode !== 'undefined' && (mode === 'slip' || mode === 'court')) || (EMBED && typeof EMB !== 'undefined' && EMB.view === 'court')) ? 'port' : seaName === 'storm' ? 'gale' : 'sea'; }
 function audioBed() {             // crossfade to the bed the scene wants
   if (!AUD.ctx) return; const k = wantBed(); if (k === AUD.bedKey || !AUD.buf[k]) return;
   const t = AUD.ctx.currentTime, old = AUD.bed;
@@ -570,6 +571,25 @@ function audioBed() {             // crossfade to the bed the scene wants
   const src = AUD.ctx.createBufferSource(), g = AUD.ctx.createGain(); src.buffer = AUD.buf[k]; src.loop = true;
   g.gain.value = 0; g.gain.setTargetAtTime(BED_GAIN[k], t, 0.9); src.connect(g); g.connect(AUD.master);
   src.start(t, Math.random() * AUD.buf[k].duration * 0.8); AUD.bed = { src, g }; AUD.bedKey = k;
+}
+// V15's score: light, lilting sea pieces from the Amenti Studios library, kept far down under the waves (about
+// 14 dB below the sea), one after another with a stretch of plain sea between them. Each loads only when its turn comes.
+const SCORE = { list: ['mood_voyage_yoho', 'mood_calm_sea', 'overture_period', 'mood_voyage'], i: Math.floor(Math.random() * 4), gain: 0.22, src: null, g: null, timer: 0 };
+function scoreNext(delay) {
+  if (!EMBED || !AUD.ctx) return;
+  clearTimeout(SCORE.timer);
+  SCORE.timer = setTimeout(() => {
+    const name = SCORE.list[SCORE.i % SCORE.list.length]; SCORE.i++;
+    fetch('https://amenti-media.ingram-ian.workers.dev/m/sounds/score/' + name + '.mp3').then(r => r.arrayBuffer())
+      .then(a => new Promise((ok, no) => AUD.ctx.decodeAudioData(a, ok, no))).then(b => {
+        const t = AUD.ctx.currentTime, src = AUD.ctx.createBufferSource(), g = AUD.ctx.createGain();
+        src.buffer = b; g.gain.value = 0; g.gain.setTargetAtTime(SCORE.gain, t, 1.2);
+        g.gain.setTargetAtTime(0, t + Math.max(1, b.duration - 4), 1.0);       // fade out over the last few seconds
+        src.connect(g); g.connect(AUD.master); src.start(t);
+        SCORE.src = src; SCORE.g = g;
+        src.onended = () => { if (SCORE.src === src) scoreNext(8000 + Math.random() * 10000); };
+      }).catch(() => scoreNext(20000));
+  }, delay || 0);
 }
 function audioShot(key, gain, rate, pan, delay) {
   if (!AUD.ctx || !AUD.on || !AUD.buf[key]) return;
@@ -1488,7 +1508,7 @@ function scopeSubjects() {                    // what the glass should hold: shi
   return S;
 }
 function stepScope(dt) {
-  if (!scope.on || mode !== 'court' || !game.on) return false;
+  if (!scope.on || !(mode === 'court' || (EMBED && EMB.view === 'court')) || !game.on) return false;
   slip.updateMatrixWorld(true);
   const suite = slip.localToWorld(new THREE.Vector3(-244, 24.5, 0));
   const S = scopeSubjects(), goal = new THREE.Vector3(); let span = 70;
@@ -1512,7 +1532,7 @@ function drawScope() {
   renderer.setRenderTarget(scope.rt); renderer.render(scene, scope.cam); renderer.setRenderTarget(null);
   // the eyepiece, low in the right-hand corner
   scopeOrtho.left = 0; scopeOrtho.right = W; scopeOrtho.top = H; scopeOrtho.bottom = 0; scopeOrtho.updateProjectionMatrix();
-  const r = d / 2, cx = W - r - 22, cy = r + 22;
+  const r = d / 2, cx = W - r - 22, cy = r + (EMBED ? 78 : 22);   // in V15, clear of game01's bar along the bottom
   for (const m of [scopeLens, scopeShade, scopeRim, scopeRim2]) { m.position.set(cx, cy, 0); m.scale.setScalar(r); }
   const ac = renderer.autoClear; renderer.autoClear = false; renderer.render(scopeScene, scopeOrtho); renderer.autoClear = ac;
 }
@@ -1544,12 +1564,12 @@ function courtPiece(type, color) {
   const band = new THREE.Mesh(new THREE.TorusGeometry(1.04 * sc, 0.07 * sc, 6, 28), trim); band.rotation.x = Math.PI / 2; band.position.y = 0.78 * sc; g.add(band);
   g.userData.court = true; g.userData.type = type; g.userData.color = color; return g;
 }
-function courtRebuild() {                    // set the pool board from the game as it stands
+function courtRebuild(board) {               // set the pool board from the game as it stands (V15: game01's board)
   if (!COURT.lathe) return;
   if (!courtPieces.parent) harbourProps.add(courtPieces, courtMarks);
   courtPieces.clear(); courtAnims.clear(); hideTrophies();
   courtAt = Array.from({ length: 8 }, () => Array(8).fill(null));
-  const B = Chess.R.getChessBoard();
+  const B = board || Chess.R.getChessBoard();
   for (const T of game.taken || []) addPrize(T.type, T.color, T.name, false, T.file);
   for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) { const p = B[r][c]; if (!p) continue;
     const g = courtPiece(p.type, p.color); g.position.copy(courtXZ(r, c)); courtPieces.add(g); courtAt[r][c] = g; }
@@ -4090,8 +4110,8 @@ function mergeStatic(root, apart) {
   for (const { mat, gs, order } of buckets.values()) { const m = new THREE.Mesh(joinGeos(gs), mat); m.renderOrder = order; m.matrixAutoUpdate = false; root.add(m); }
 }
 if (EMBED) mergeStatic(slip, [yard.holder, courtPieces, courtMarks, ...buoys]);
-const EMB = { pending: 0, gen: 0, q: Promise.resolve(), selSig: '' };
-function embSync(board, names) {          // set the fleet to game01's board, keeping any ship that already fits her square
+const EMB = { pending: 0, gen: 0, q: Promise.resolve(), selSig: '', view: 'sea', board: null };
+function embSync(board, names, taken, homes) {   // set the fleet to game01's board, keeping any ship that already fits her square
   EMB.gen++; EMB.q = Promise.resolve(); EMB.pending = 0;
   sailing.clear(); game.busy = false;
   const have = shipFromBoard(), keep = new Set(), fresh = isStart(board);
@@ -4107,7 +4127,10 @@ function embSync(board, names) {          // set the fleet to game01's board, ke
     place(pc.color, c - 3.5, r - 3.5, CLS[pc.type], name); const n = fleet[fleet.length - 1]; keep.add(n); seat(n, r, c);
   }
   for (const f of fleet.slice()) if (!keep.has(f)) { scene.remove(f.holder); f.holder.traverse(o => { if (o.geometry) o.geometry.dispose(); }); fleet.splice(fleet.indexOf(f), 1); }
-  game.on = true; game.over = false; game.shipAt = shipFromBoard(); game.last = null; drawMarks();
+  if (homes) for (const f of fleet) { const at = f.wedge || (() => { const r = Math.round(f.holder.position.z / TILE + 3.5), c = Math.round(f.holder.position.x / TILE + 3.5); return { r, c }; })();
+    const h = homes[at.r] && homes[at.r][at.c]; if (h != null) f.file = h; }        // her home file: where her statue waits on the roof
+  game.on = true; game.over = false; game.shipAt = shipFromBoard(); game.last = null; game.taken = (taken || []).slice();
+  EMB.board = board; courtRebuild(board); drawMarks();
 }
 function embMove(from, to, before, after) {      // moves play one after another; a backlog sails faster
   const g = EMB.gen; EMB.pending++;
@@ -4115,6 +4138,20 @@ function embMove(from, to, before, after) {      // moves play one after another
     .catch(e => console.error('[V15] move', from, to, e)).then(() => { if (g === EMB.gen) { EMB.pending--; game.busy = false; } });
 }
 const _eq = new THREE.Quaternion();
+// game01's camera arrives in its own board's squares. At sea one square is a TILE of open water round the origin;
+// from the court the same orbit is laid over the pool board at Whitby, one square to one marble square, so the
+// player's drag and zoom work the same in both places and game01's own clicks still land on the right square.
+const VIEW = { origin: new THREE.Vector3(), scale: TILE };
+function embView(v) {
+  EMB.view = v === 'court' ? 'court' : 'sea';
+  if (EMB.view === 'court') {
+    slip.updateMatrixWorld(true);
+    VIEW.origin.copy(slip.localToWorld(new THREE.Vector3(COURT.cx, COURT.floor + 0.2, COURT.cz))); VIEW.scale = COURT.sqW;
+    if (!courtAt && EMB.board) courtRebuild(EMB.board);
+  } else { VIEW.origin.set(0, 0, 0); VIEW.scale = TILE; }
+  scope.aim.set(0, 0, 0);
+  audioBed();
+}
 // A speed test for the Mac at hand: each part of the scene is taken away in turn for a few seconds, and the frame
 // rate and the fleet page's own time per frame are shown. Whatever makes the big difference is what costs.
 let BENCH = null;
@@ -4193,6 +4230,7 @@ function govStep(now) {
 }
 function embPick(nx, ny, turn, sel, targets) {   // which square a click at (nx, ny) means, the way the Shipyard reads its own clicks
   const ray = new THREE.Raycaster(); ray.setFromCamera(new THREE.Vector2(nx, ny), camera);
+  if (EMB.view === 'court') return courtPick(ray);
   const A = game.shipAt || shipFromBoard(); targets = targets || [];
   let waterSq = null, shipSq = null;
   { const p = new THREE.Vector3(); if (ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), p)) { const c = Math.floor(p.x / TILE + 4), r = Math.floor(p.z / TILE + 4); if (c >= 0 && c < 8 && r >= 0 && r < 8) waterSq = sq(r, c); } }
@@ -4208,8 +4246,9 @@ function embPick(nx, ny, turn, sel, targets) {   // which square a click at (nx,
 window.__yardEmbed = {
   ready: true,
   tile: TILE, slipAt: [WHITBY_X, 0, 0],
-  sync: embSync, move: embMove, pick: embPick,
-  camera(p, q, fov) { camera.position.fromArray(p); camera.quaternion.copy(_eq.fromArray(q)); if (fov && camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); } },
+  sync: embSync, move: embMove, pick: embPick, view: embView, scope(on) { scope.on = !!on; }, get currentView() { return EMB.view; },
+  get court() { return { at: VIEW.origin.toArray(), sq: COURT.sqW }; },
+  camera(p, q, fov) { camera.position.fromArray(p).multiplyScalar(VIEW.scale).add(VIEW.origin); camera.quaternion.copy(_eq.fromArray(q)); if (fov && camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); } },
   marks(sel, targets) { const sig = (sel || '') + '|' + (targets || []).join(','); if (sig === EMB.selSig) return; EMB.selSig = sig; game.sel = sel || null; game.moves = targets || []; drawMarks(); },
   tick() { const a = performance.now(); govStep(a); if (!BENCH) whitbyInView(); frame(); if (BENCH) BENCH.frame(performance.now() - a); },
   get stats() { return { fps: Math.round(1000 / GOV.ema), level: GOV.level, pixels: GOV.steps[GOV.level].px, liteSea: !!GOV.steps[GOV.level].lite }; },

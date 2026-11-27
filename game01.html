@@ -23966,10 +23966,62 @@ function _v15Names() {               // each ship's captain: the figure who hold
         n[r].push(fig && fig.fullName ? fig.fullName : null); } }
     return n;
 }
+// The back-row pieces taken so far (game01's rule: a captured piece goes to her captor's yard, in her own colour;
+// at Whitby the yard is the captor's colonnade roof). A piece is taken when no square still holds her home square.
+function _v15Taken() {
+    const homes = Object.values(pieceHomeMap || {}); if (homes.length < 2) return [];
+    const present = new Set(homes), out = [];
+    for (const home of Object.keys(PIECE_FIGURE_MAP || {})) {
+        if (present.has(home)) continue;
+        const f = files.indexOf(home[0]), rk = home[1], fig = PIECE_FIGURE_MAP[home];
+        out.push({ type: (rk === '2' || rk === '7') ? 'p' : 'rnbqkbnr'[f], color: (rk === '1' || rk === '2') ? 'w' : 'b', name: fig && fig.fullName ? fig.fullName : null, file: f });
+    }
+    return out;
+}
+function _v15Homes() {               // each piece's home file, so her statue takes its own place on the roof
+    const h = [];
+    for (let r = 0; r < 8; r++) { h.push([]); for (let c = 0; c < 8; c++) { const home = pieceHomeMap[files[c] + ranks[r]]; h[r].push(home ? files.indexOf(home[0]) : null); } }
+    return h;
+}
+// The V15 bar: watch the battle at sea, or command it from the Custom House court with the telescope on the fleet.
+function _v15Bar(show) {
+    let bar = document.getElementById('v15Bar');
+    if (!bar) {
+        bar = document.createElement('div'); bar.id = 'v15Bar';
+        bar.style.cssText = 'position:fixed;left:50%;top:62px;transform:translateX(-50%);z-index:25;display:flex;gap:2px;padding:3px;border:1px solid rgba(216,181,106,.55);border-radius:18px;background:rgba(8,12,18,.55);font-family:Georgia,serif;';
+        const mk = (id, label, fn) => { const b = document.createElement('button'); b.id = id; b.textContent = label;
+            b.style.cssText = 'all:unset;cursor:pointer;padding:5px 13px;border-radius:15px;font-size:13px;letter-spacing:.04em;color:#f3e6c4;';
+            b.onclick = e => { e.stopPropagation(); fn(); }; bar.appendChild(b); return b; };
+        mk('v15Sea', 'At sea', () => _v15SetView('sea'));
+        mk('v15Court', 'From the court', () => _v15SetView('court'));
+        mk('v15Scope', 'Telescope', () => { _v15.scope = !_v15.scope; const E = _v15Api(); if (E) E.scope(_v15.scope); _v15BarMarks(); });
+        document.body.appendChild(bar);
+    }
+    const want = show && currentViewId === 15 ? 'flex' : 'none';
+    if (bar.style.display !== want) { bar.style.display = want; _v15BarMarks(); }
+}
+function _v15BarMarks() {
+    const on = (id, v) => { const b = document.getElementById(id); if (b) { b.style.background = v ? 'rgba(216,181,106,.9)' : 'transparent'; b.style.color = v ? '#1a1208' : '#f3e6c4'; } };
+    on('v15Sea', _v15.view !== 'court'); on('v15Court', _v15.view === 'court');
+    const sc = document.getElementById('v15Scope'); if (sc) { sc.style.display = _v15.view === 'court' ? '' : 'none'; on('v15Scope', _v15.scope !== false); }
+}
+function _v15SetView(v) {            // the same orbit, laid over the sea or over the pool board; each place has its own reach
+    const E = _v15Api(); if (!E) return;
+    _v15EndIntro();
+    _v15.view = v === 'court' ? 'court' : 'sea'; E.view(_v15.view);
+    if (_v15.view === 'court') {
+        controls.minDistance = 1.2; controls.maxDistance = 16; controls.maxPolarAngle = 1.38;
+        controls.target.set(0, 0, 0); camera.position.set(0, 8.1, 9.4);           // at the pool's edge on White's side, looking down the board
+    } else {
+        controls.minDistance = 1.5; controls.maxDistance = 34; controls.maxPolarAngle = Math.PI / 2 - 0.03;
+        controls.target.set(0, 0, 1.4); camera.position.set(0, 8, 11.5);
+    }
+    camera.lookAt(controls.target); controls.update(); _v15BarMarks();
+}
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=14';
+        f.src = 'v15/fleet.html?embed=1&v=16';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -23984,7 +24036,8 @@ function v15Enter() {
     _v15.prev = { position: c.style.position, zIndex: c.style.zIndex, opacity: c.style.opacity };
     if (!c.style.position || c.style.position === 'static') c.style.position = 'relative';
     if (!c.style.zIndex) c.style.zIndex = '1';
-    _v15.sig = '';                   // the fleet is set to the board as it stands on the next frame
+    _v15.sig = ''; _v15.view = 'sea'; if (_v15.scope == null) _v15.scope = true;   // the fleet is set to the board as it stands on the next frame
+    { const E = _v15Api(); if (E) E.view('sea'); }
     _v15.home = true;                // and the camera opens at Whitby (after setView and its wrappers finish)
 }
 // The opening, announced: Whitby from the sea, along the shore and the harbour, past the pier light
@@ -24073,6 +24126,7 @@ function v15Leave() {
     const c = renderer.domElement;
     if (_v15.prev) { c.style.position = _v15.prev.position; c.style.zIndex = _v15.prev.zIndex; c.style.opacity = _v15.prev.opacity; }
     if (_v15.intro) { _v15.intro = null; controls.enabled = true; _v15Caption(null); }
+    _v15Bar(false);
     _v15.home = false;
     _v15.live = false;
     if (_v15.frame) _v15.frame.style.display = 'none';
@@ -24117,9 +24171,10 @@ function v15Frame() {
     else if (_v15.intro) _v15IntroStep();
     if (!_v15.live) { renderer.domElement.style.opacity = '0'; _v15.live = true; }
     const sig = JSON.stringify(getBoardState());
-    if (sig !== _v15.sig) { _v15.sig = sig; E.sync(getBoardState(), _v15Names()); }   // a new game, an undo, a load
+    if (sig !== _v15.sig) { _v15.sig = sig; E.sync(getBoardState(), _v15Names(), _v15Taken(), _v15Homes()); }   // a new game, an undo, a load
+    _v15Bar(!_v15.intro);
     world.updateMatrixWorld(true); camera.updateMatrixWorld();
-    const p = world.worldToLocal(camera.position.clone()).multiplyScalar(E.tile || 40);   // fleet units per square
+    const p = world.worldToLocal(camera.position.clone());   // in squares: the fleet page lays them over the sea, or over the pool at the court
     const q = world.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(camera.quaternion);
     E.camera(p.toArray(), q.toArray(), camera.fov);
     E.marks(selectedPiece && selectedPiece.userData ? selectedPiece.userData.id || null : null,
