@@ -1849,6 +1849,61 @@ function nameTex(name, dark) {
   let et = null; if (dark) { et = new THREE.CanvasTexture(e); et.colorSpace = THREE.SRGBColorSpace; }
   return { map: t, emissiveMap: et };
 }
+// The piece carved on each quarter: a gilt cartouche on the hull aft of the last gunport, its emblem in raised relief
+// (lit by the real light through a bump map), with a gilt overlay that gleams at night and on the side to move.
+const BADGE = {};
+function badgeTex(glyph, white) {
+  const k = glyph + (white ? 'w' : 'b'); if (BADGE[k]) return BADGE[k];
+  const Wd = 256, Ht = 300, mk = () => { const c = document.createElement('canvas'); c.width = Wd; c.height = Ht; return c; };
+  const col = mk(), hgt = mk(), gl = mk(), x = col.getContext('2d'), h = hgt.getContext('2d'), g = gl.getContext('2d');
+  const oval = (c, inset) => { c.beginPath(); c.ellipse(Wd / 2, Ht / 2, Wd / 2 - inset, Ht / 2 - inset, 0, 0, Math.PI * 2); };
+  const field = white ? '#2b1d12' : '#3b0f0c', gold = '#d6a944', goldHi = '#ffe7a0', goldLo = '#7a5418';
+  // colour: gilt rim with a rope of light and shade, sunk field, gilt emblem with shadow and highlight
+  let gr = x.createLinearGradient(0, 0, Wd, Ht); gr.addColorStop(0, goldHi); gr.addColorStop(0.45, gold); gr.addColorStop(1, goldLo);
+  oval(x, 2); x.fillStyle = gr; x.fill();
+  oval(x, 24); x.fillStyle = field; x.fill();
+  oval(x, 30); x.lineWidth = 3; x.strokeStyle = 'rgba(214,169,68,0.8)'; x.stroke();
+  for (let i = 0; i < 40; i++) { const a = i / 40 * Math.PI * 2; x.beginPath(); x.arc(Wd / 2 + Math.cos(a) * (Wd / 2 - 13), Ht / 2 + Math.sin(a) * (Ht / 2 - 13), 4, 0, 7); x.fillStyle = i % 2 ? goldLo : goldHi; x.fill(); }
+  x.font = '400 210px serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillStyle = 'rgba(0,0,0,0.7)'; x.fillText(glyph, Wd / 2 + 7, Ht / 2 + 16);
+  x.fillStyle = goldHi; x.fillText(glyph, Wd / 2 - 3, Ht / 2 + 6);
+  x.fillStyle = gold; x.fillText(glyph, Wd / 2, Ht / 2 + 9);
+  // height: rim raised, field sunk, emblem raised and softened at its edges
+  h.fillStyle = '#000'; h.fillRect(0, 0, Wd, Ht);
+  oval(h, 2); h.fillStyle = '#c8c8c8'; h.fill(); oval(h, 24); h.fillStyle = '#303030'; h.fill();
+  h.filter = 'blur(3px)'; h.font = x.font; h.textAlign = 'center'; h.textBaseline = 'middle'; h.fillStyle = '#ffffff'; h.fillText(glyph, Wd / 2, Ht / 2 + 9); h.filter = 'none';
+  // gilt: the parts that catch the light
+  g.font = x.font; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = 'rgba(255,214,120,0.85)'; g.fillText(glyph, Wd / 2, Ht / 2 + 9);
+  oval(g, 3); g.lineWidth = 14; g.strokeStyle = 'rgba(255,214,120,0.55)'; g.stroke();
+  const T = c => { const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; };
+  const map = T(col), bump = T(hgt), gilt = T(gl); map.colorSpace = gilt.colorSpace = THREE.SRGBColorSpace;
+  const mat = new THREE.MeshStandardMaterial({ map, bumpMap: bump, bumpScale: 3, transparent: true, alphaTest: 0.4, roughness: 0.42, metalness: 0.55,
+    polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3, side: THREE.DoubleSide });
+  const sd = white ? 'w' : 'b';
+  const gm = new THREE.MeshBasicMaterial({ map: gilt, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: GILT.op[sd], toneMapped: false,
+    polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4, side: THREE.DoubleSide });
+  GILT.mats[sd].add(gm);
+  return BADGE[k] = { mat, gm };
+}
+function carveBadge(ship, glyph, white, L, surfaceZ, railY, tGuns, name) {
+  const T = badgeTex(glyph, white), t0 = tGuns + 0.035, t1 = 0.975, tc = (t0 + t1) / 2;
+  let top = railY(tc) - 0.22;
+  if (name) { const W = nameWindow(L, name); if (tc > W.t0 - 0.05) top = railY(tc) - W.off - W.h - 0.12; }   // under the quarter-board
+  const H = Math.min(1.7, top - 0.08, (t1 - t0) * L * 1.15); if (H < 0.35) return;   // a low hull carries it down to the wale
+  const Wd = H * 0.85, yc = top - H / 2, N = 10;
+  for (const sd of [-1, 1]) {
+    const pos = [], uv = [], idx = [];
+    for (let i = 0; i <= N; i++) for (let r = 0; r <= N; r++) {
+      const t = tc + (i / N - 0.5) * Wd / L, y = yc + (r / N - 0.5) * H;
+      pos.push(-L / 2 + t * L, y, sd * (surfaceZ(t, y) + 0.02)); uv.push(sd > 0 ? i / N : 1 - i / N, r / N);
+    }
+    for (let i = 0; i < N; i++) for (let r = 0; r < N; r++) { const a = i * (N + 1) + r, b = a + N + 1; idx.push(a, b, a + 1, b, b + 1, a + 1); }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx); g.computeVertexNormals();
+    const m = new THREE.Mesh(g, T.mat); m.renderOrder = 1; ship.add(m);
+    const o = new THREE.Mesh(g, T.gm); o.renderOrder = 2; ship.add(o);
+  }
+}
 function carveName(ship, name, L, surfaceZ, railY, dark) {
   if (!name) return;
   const W = nameWindow(L, name), T = nameTex(name, dark), N = 40, R = 3;
@@ -2084,6 +2139,7 @@ function buildGalleon(side) {
   const rg = new THREE.BufferGeometry(); rg.setAttribute('position', new THREE.Float32BufferAttribute(rigPts, 3));
   ship.add(new THREE.LineSegments(rg, new THREE.LineBasicMaterial({ color: P.rig })));
   carveName(ship, sternName, L, surfaceZ, railY, !white);
+  carveBadge(ship, '\u265C', white, L, surfaceZ, railY, 0.735, sternName);
   ship.userData.sails = sails;
   return ship;
 }
@@ -2349,6 +2405,7 @@ function buildClass(cls, side) {
   const rg = new THREE.BufferGeometry(); rg.setAttribute('position', new THREE.Float32BufferAttribute(rigPts, 3));
   ship.add(new THREE.LineSegments(rg, new THREE.LineBasicMaterial({ color: P.rig })));
   carveName(ship, sternName, L, surfaceZ, railY, !white);
+  if (cls !== 'pawn') carveBadge(ship, S.glyph, white, L, surfaceZ, railY, Math.max(...S.guns.map(g => g[1])), sternName);
   ship.userData.sails = sails; ship.userData.L = L; ship.userData.HB = HB;
   return ship;
 }
