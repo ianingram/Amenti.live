@@ -258,6 +258,9 @@ const skyMat = new THREE.ShaderMaterial({
       gl_FragColor = vec4(c, 1.0);
     }`
 });
+// In V15 nothing paints over the sky afterwards (no brush pass), and the page's canvas shows what is behind it
+// wherever alpha is 0: so the painted sky must be written opaque there, or Safari shows the frame's dark backing.
+if (EMBED) skyMat.fragmentShader = skyMat.fragmentShader.replace('gl_FragColor = vec4(pc, 0.0); return;', 'gl_FragColor = vec4(pc, 1.0); return;');
 const sky = new THREE.Mesh(new THREE.SphereGeometry(6000, 32, 16), skyMat); scene.add(sky);
 scene.fog = new THREE.Fog(0xbcd2de, 300, 2600);
 
@@ -4369,6 +4372,7 @@ window.__yardEmbed = {
   sound(on) { setSound(on); },
   get busy() { return EMB.pending; },
   get renderer() { return renderer; },
+  get sky() { return { want: PANO.want, shown: PANO.shown, panoOn: skyMat.uniforms.panoOn.value, whitby: slip.visible, clock: skyClock, clouds: cloudDome.visible, stars: starTilt.visible, maxTex: renderer.capabilities.maxTextureSize }; },
   bench() { return embBench(); },
   get info() { const i = renderer.info.render; return { calls: i.calls, tris: i.triangles, dpr: renderer.getPixelRatio() }; }
 };
