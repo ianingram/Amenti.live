@@ -194,13 +194,13 @@ const skyMat = new THREE.ShaderMaterial({
   side: THREE.BackSide, depthWrite: false,
   uniforms: { zenith: { value: new THREE.Color() }, horizon: { value: new THREE.Color() }, sunDir: { value: new THREE.Vector3() }, sunCol: { value: new THREE.Color() },
     cloudLit: { value: new THREE.Color() }, cloudShade: { value: new THREE.Color() }, clouds: { value: 0 }, streak: { value: 1 }, banks: { value: 0 }, bankH: { value: 0.2 }, halo: { value: 0 }, time: { value: 0 },
-    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, maskOn: { value: 0 }, mask: { value: new THREE.Vector3() }, surfOn: { value: 0 }, surfPatch: { value: 0 }, surfHz: { value: 0.055 }, surfCol: { value: new THREE.Vector3(0.78, 0.81, 0.84) },
+    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, panoHz: { value: 0 }, maskOn: { value: 0 }, mask: { value: new THREE.Vector3() }, surfOn: { value: 0 }, surfPatch: { value: 0 }, surfHz: { value: 0.055 }, surfCol: { value: new THREE.Vector3(0.78, 0.81, 0.84) },
     surfSpot: { value: [new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4()] },
     beamOn: { value: 0 }, beamU: { value: 0 }, beamV: { value: 0 }, beamS: { value: 0 }, beamC: { value: 1 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } },
   vertexShader: 'varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
   fragmentShader: `
     uniform vec3 zenith, horizon, sunDir, sunCol, cloudLit, cloudShade; uniform float clouds, streak, banks, bankH, halo, time;
-    uniform sampler2D pano; uniform float maskOn; uniform vec3 mask; uniform float panoOn, panoRot, panoTop, panoGain, surfOn, surfPatch, surfHz; uniform vec3 panoZen, surfCol; uniform vec4 surfSpot[4];
+    uniform sampler2D pano; uniform float panoHz, maskOn; uniform vec3 mask; uniform float panoOn, panoRot, panoTop, panoGain, surfOn, surfPatch, surfHz; uniform vec3 panoZen, surfCol; uniform vec4 surfSpot[4];
     uniform float beamOn, beamU, beamV, beamS, beamC; uniform vec3 beamCol;
     varying vec3 vDir;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -212,7 +212,10 @@ const skyMat = new THREE.ShaderMaterial({
       if (panoOn > 0.5) {
         // A painted 360-degree band: left-right is the compass, bottom row the horizon, top row panoTop up.
         float u = fract(atan(d.z, d.x) / 6.2831853 + panoRot);
-        float v = clamp(asin(clamp(d.y, -1.0, 1.0)) / panoTop, 0.004, 0.996);
+        // panoHz: where the painting's own horizon sits up its height. Lifting the painting by that much puts its
+        // horizon on the real one, so the painted sea goes under our sea and the far water meets the painted sky.
+        float v = clamp(asin(clamp(d.y, -1.0, 1.0)) / panoTop + panoHz, 0.004, 0.996);
+        if (panoHz > 0.0) v = max(v, panoHz + 0.012);   // below the line (the sliver past the sea's far edge) the haze just above it, as the far water shows
         vec3 pc = texture2D(pano, vec2(u, v)).rgb;
         if (maskOn > 0.5) {
           // At Whitby itself the real town stands in front of us: the painted town is taken out of the painting,
@@ -246,14 +249,14 @@ const skyMat = new THREE.ShaderMaterial({
             pc = mix(pc, surfCol, clamp(spray, 0.0, 1.0) * 0.8);
           }
         }
-        pc = mix(pc, panoZen, smoothstep(0.86, 1.0, asin(clamp(d.y, 0.0, 1.0)) / panoTop));
+        pc = mix(pc, panoZen, smoothstep(0.86, 1.0, asin(clamp(d.y, 0.0, 1.0)) / panoTop + panoHz));
         pc *= panoGain;
         if (beamOn > 0.5) {
           // The lighthouse: a lamp on the pier and a beam turning round it. Seen from far out, the beam is a shaft of light
           // reaching sideways from the lamp: long when it points across our view, short when it points towards us
           // (then the lamp flares) or away from us.
           float az = atan(d.z, d.x), el = asin(clamp(d.y, -1.0, 1.0));
-          float azL = (beamU - panoRot) * 6.2831853, elL = beamV * panoTop;
+          float azL = (beamU - panoRot) * 6.2831853, elL = (beamV - panoHz) * panoTop;
           float da = mod(az - azL + 3.1415927, 6.2831853) - 3.1415927, de = el - elL;
           float side = beamS >= 0.0 ? 1.0 : -1.0, t = da * side;
           float len = 0.02 + 0.30 * abs(beamS), w = 0.003 + t * 0.10;
@@ -307,7 +310,7 @@ const DIRS = [[1, 0.25], [0.7, 0.75], [-0.35, 1], [0.95, -0.4]].map(([x, z]) => 
 const waveU = { time: { value: 0 }, amp: { value: [0, 0, 0, 0] }, len: { value: [1, 1, 1, 1] }, dir: { value: DIRS.map(d => new THREE.Vector2(d[0], d[1])) },
   deep: { value: new THREE.Color() }, hi: { value: new THREE.Color() }, skyH: { value: new THREE.Color() }, sunDir: { value: new THREE.Vector3() }, sunCol: { value: new THREE.Color() },
   fogColor: { value: new THREE.Color() }, fogNear: { value: 300 }, fogFar: { value: 2600 },
-  lite: { value: 0 }, maskOn: { value: 0 }, mask: { value: new THREE.Vector3() }, pano: { value: null }, panoSoft: { value: null }, panoFog: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoGain: { value: 0.7 }, rip: { value: 1 }, panoTop: { value: 1.396 },
+  lite: { value: 0 }, panoHz: { value: 0 }, maskOn: { value: 0 }, mask: { value: new THREE.Vector3() }, pano: { value: null }, panoSoft: { value: null }, panoFog: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoGain: { value: 0.7 }, rip: { value: 1 }, panoTop: { value: 1.396 },
   beamOn: { value: 0 }, beamDir: { value: new THREE.Vector3(1, 0, 0) }, beamFlash: { value: 0 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } };
 const seaMat = new THREE.ShaderMaterial({
   uniforms: waveU,
@@ -329,7 +332,7 @@ const seaMat = new THREE.ShaderMaterial({
     }`,
   fragmentShader: `
     uniform vec3 deep, hi, skyH, sunDir, sunCol, fogColor; uniform float fogNear, fogFar; uniform float amp[4];
-    uniform float maskOn; uniform vec3 mask;
+    uniform float panoHz, maskOn; uniform vec3 mask;
     uniform sampler2D pano, panoSoft, panoFog; uniform float panoOn, panoRot, panoGain, rip, panoTop;
     uniform float beamOn, beamFlash; uniform vec3 beamDir, beamCol; uniform float lite;
     varying vec3 vWorld; varying vec3 vNormal; varying float vCrest;
@@ -360,7 +363,7 @@ const seaMat = new THREE.ShaderMaterial({
       vec3 skyAt = skyH, fogAt = fogColor;
       if (panoOn > 0.5) {
         vec3 vd = normalize(vWorld - cameraPosition); float u = fract(atan(vd.z, vd.x) / 6.2831853 + panoRot);
-        vec3 R = reflect(-V, N); float rv = clamp(asin(clamp(R.y, 0.0, 1.0)) / panoTop, 0.01, 0.9);
+        vec3 R = reflect(-V, N); float rv = clamp(asin(clamp(R.y, 0.0, 1.0)) / panoTop + panoHz, panoHz + 0.012, 0.9);   // never the painted sea itself: its glints streaked down the water
         float ur = fract(atan(R.z, R.x) / 6.2831853 + panoRot);
         float ma = 0.0, mb = 0.0, ur2 = ur, u2 = u;
         if (maskOn > 0.5) {      // at Whitby the painted town is out of the water's reflection too, blended in as on the sky
@@ -370,7 +373,7 @@ const seaMat = new THREE.ShaderMaterial({
         }
         vec3 soft = mix(texture2D(panoSoft, vec2(ur, 0.5)).rgb, texture2D(panoSoft, vec2(ur2, 0.5)).rgb, ma) * panoGain;
         vec3 sharp = mix(texture2D(pano, vec2(ur, rv)).rgb, texture2D(pano, vec2(ur2, rv)).rgb, ma) * panoGain;
-        skyAt = mix(soft, sharp, smoothstep(0.04, 0.14, rv));
+        skyAt = mix(soft, sharp, smoothstep(panoHz + 0.04, panoHz + 0.14, rv));
         fogAt = mix(texture2D(panoFog, vec2(u, 0.5)).rgb, texture2D(panoFog, vec2(u2, 0.5)).rgb, mb) * panoGain;
       }
       col = mix(col, skyAt, 0.12 + fres * 0.7);
@@ -3122,6 +3125,20 @@ const skyTex = {}; let skyChoice = 'A', panoBase = 0, activeSun = null, beam = n
 const srgbLin = c => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 // The sky's colour all round the horizon, taken from a band just above it (above the coast, not the coast itself)
 // and blurred about 40 degrees either way: a 256 x 1 texture the sea uses for its mist and its low reflections.
+// The painting's colour just above its own horizon, softened sideways: the far water fades into exactly this,
+// so sea and painted sky meet without a seam (V15, where the painting's horizon is lifted onto the real one).
+function hzBand(img, hz) {
+  const N = 512, H = 256, c = document.createElement('canvas'); c.width = N; c.height = H; const x = c.getContext('2d');
+  x.drawImage(img, 0, 0, N, H); const px = x.getImageData(0, 0, N, H).data;
+  const y0 = Math.round((1 - hz - 0.04) * H), y1 = Math.round((1 - hz - 0.008) * H), n = Math.max(1, y1 - y0);
+  const row = new Float32Array(N * 3);
+  for (let i = 0; i < N; i++) for (let y = y0; y < y1; y++) for (let k = 0; k < 3; k++) row[i * 3 + k] += px[(y * N + i) * 4 + k] / n;
+  const out = new Uint8Array(N * 4), R = 8;
+  for (let i = 0; i < N; i++) { let a = 0, b = 0, g = 0; for (let d = -R; d <= R; d++) { const j = ((i + d) % N + N) % N; a += row[j * 3]; b += row[j * 3 + 1]; g += row[j * 3 + 2]; }
+    out[i * 4] = a / (2 * R + 1); out[i * 4 + 1] = b / (2 * R + 1); out[i * 4 + 2] = g / (2 * R + 1); out[i * 4 + 3] = 255; }
+  const t = new THREE.DataTexture(out, N, 1, THREE.RGBAFormat); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = THREE.RepeatWrapping;
+  t.magFilter = t.minFilter = THREE.LinearFilter; t.needsUpdate = true; return t;
+}
 function softBand(img) {
   const N = 256, c = document.createElement('canvas'); c.width = N; c.height = 64; const x = c.getContext('2d');
   x.drawImage(img, 0, 0, N, 64); const px = x.getImageData(0, 0, N, 64).data;
@@ -3148,7 +3165,7 @@ function loadSky(name, done, fail) {
 const TOWN = { 'friedrich-w': [0.712, 1.05, -0.36], 'parrish-w': [0.672, 0.897, -0.30] };
 const SURF = {
   'friedrich-w': { patch: true, hz: 0.055, col: [0.78, 0.81, 0.84], spots: [[0.7225, 0.0030, 7, 0], [0.7825, 0.0022, 9, 0.37], [0.920, 0.0032, 6, 0.61], [0.748, 0.0020, 8, 0.18]] },
-  'parrish-w':   { patch: false, hz: 0.043, col: [0.96, 0.96, 0.94], spots: [[0.722, 0.0026, 8, 0.1], [0.742, 0.0022, 10, 0.55], [0.8725, 0.0028, 7, 0.3], [0.883, 0.0020, 9, 0.8]] }
+  'parrish-w':   { patch: false, hz: 0.05, col: [0.96, 0.96, 0.94], spots: [[0.722, 0.0026, 8, 0.1], [0.742, 0.0022, 10, 0.55], [0.8725, 0.0028, 7, 0.3], [0.883, 0.0020, 9, 0.8]] }
 };
 const PANO = { gain: 0.7, want: null, shown: null, files: { 'parrish-w': 'whitby-day', 'friedrich-w': 'whitby-night' } };
 function embPano(name) {
@@ -3171,6 +3188,8 @@ function embPano(name) {
     waveU.pano.value = t; waveU.panoSoft.value = t.userData.soft; waveU.panoFog.value = t.userData.fog || t.userData.soft; waveU.panoOn.value = 1; waveU.panoRot.value = rot;
     waveU.fogNear.value = 1600; waveU.fogFar.value = 4400;        // the squares are wide here: keep both fleets clear of the painted haze
     { const SF = SURF[name]; su.surfOn.value = SF ? 1 : 0;           // surf on the shore of each painting; by night also calm the open sea
+      su.panoHz.value = waveU.panoHz.value = SF ? SF.hz : 0;
+      if (SF) { if (!t.userData.hzFog) t.userData.hzFog = hzBand(t.image, SF.hz); waveU.panoFog.value = t.userData.hzFog; }
       if (SF) { su.surfPatch.value = SF.patch ? 1 : 0; su.surfHz.value = SF.hz; su.surfCol.value.set(...SF.col); SF.spots.forEach((v, i) => su.surfSpot.value[i].set(...v)); } }
     PANO.gain = su.panoGain.value;
     PANO.shown = name; panoQuiet();
@@ -4247,7 +4266,7 @@ function frame() {
     // The lighthouse turns once every beam.period seconds (clockwise seen from above).
     const th = beamHold != null ? beamHold : t * 2 * Math.PI / beam.period + 1.2, bs = Math.sin(th), bc = Math.cos(th), su = skyMat.uniforms;
     su.beamS.value = bs; su.beamC.value = bc;
-    const az = (beam.u - su.panoRot.value) * 2 * Math.PI, el = beam.v * su.panoTop.value;
+    const az = (beam.u - su.panoRot.value) * 2 * Math.PI, el = (beam.v - su.panoHz.value) * su.panoTop.value;
     waveU.beamDir.value.set(Math.cos(az) * Math.cos(el), Math.sin(el), Math.sin(az) * Math.cos(el));
     waveU.beamFlash.value = 0.25 + 3.0 * Math.pow(Math.max(bc, 0), 16);
     const D = 1500, Lx = Math.cos(az), Lz = Math.sin(az);               // out to the lighthouse, then the beam's heading from there
