@@ -24019,7 +24019,7 @@ function _v15SetView(v) {            // the same orbit, laid over the sea or ove
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=19';
+        f.src = 'v15/fleet.html?embed=1&v=20';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24081,7 +24081,7 @@ function _v15Caption(cap) {          // the title in the lower third, fading bet
             + '<div class="l" style="font-size:clamp(14px,1.6vw,20px);font-style:italic;letter-spacing:.06em;opacity:.9"></div>';
         document.body.appendChild(el);
     }
-    if (!cap) { el.style.opacity = '0'; return; }
+    if (!cap) { clearTimeout(el._t); el.style.opacity = '0'; return; }   // (and cancel a title still waiting to fade in)
     el.style.opacity = '0';
     clearTimeout(el._t);
     el._t = setTimeout(() => { el.querySelector('.t').textContent = cap[0]; el.querySelector('.l').textContent = cap[1] || ''; el.style.opacity = '1'; }, el.textContent ? 700 : 0);
@@ -31337,10 +31337,11 @@ setView = function(id) {
 refreshDayNightRowVisibility();
 if (typeof refreshAnchorToggleVisibility === 'function') refreshAnchorToggleVisibility();
 
-// Default view is V12 — the sea battle. Kicks off the V12 cinematic
-// intro (fleets sail in from 4x distance while firing cannons, then
-// settle into their final formation).
-setView(12);
+// Default view is V15 — the Treasure fleet at Whitby. It opens with its own
+// announced tour of the harbour and sails out to the fleets. (Until 27 Nov
+// 2026 the default was V12, the sea battle with its cinematic sail-in;
+// to go back, change 15 to 12 here.)
+setView(15);
 
 // --- 11. ANIMATION LOOP ---
 function updateLight(now) {

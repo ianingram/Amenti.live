@@ -2983,9 +2983,13 @@ function embPano(name) {
   }, () => { PANO.want = null; });                                  // not there yet: keep the drawn sky, try again later
 }
 function panoQuiet() {                // while a painting is up, the drawn sky things stand down
-  const on = !!PANO.shown;
+  // At Whitby itself (the opening, the court) the painted town would hang over the real one, so there the drawn sky
+  // comes back; the painting is the view from out at sea.
+  const on = !!PANO.shown && !slip.visible;
+  skyMat.uniforms.panoOn.value = waveU.panoOn.value = on ? 1 : 0;
+  skyMat.uniforms.beamOn.value = waveU.beamOn.value = on && beam ? 1 : 0;
   cloudDome.visible = starTilt.visible = skyBodies.visible = !on && !!skyClock;
-  try { headland.visible = !on; } catch (e) {}                    // (the headland is built further down)
+  try { headland.visible = !on && !slip.visible; } catch (e) {}   // the far cliffs: only out at sea with no painting up (built further down)
 }
 function setSky(which) {
   if (look.post) skyChoice = which;            // Real always shows its drawn sky; the painted looks remember the choice
@@ -4119,8 +4123,8 @@ const WHITBY_X = -4000;               // 40 squares out, inside the sky
 if (EMBED) { slip.position.set(WHITBY_X, 0, 0); slip.rotation.y = 0; slip.visible = true; }
 function whitbyInView() {               // drawn only when the camera is near enough to see it through the haze
   const d = camera.position.distanceTo(slip.position);
-  if (slip.visible && d > 2300) { slip.visible = false; govFresh(); }   // out at sea: judge the speed afresh, from full detail
-  else if (!slip.visible && d < 2100) slip.visible = true;
+  if (slip.visible && d > 2300) { slip.visible = false; govFresh(); panoQuiet(); }   // out at sea: judge the speed afresh, from full detail
+  else if (!slip.visible && d < 2100) { slip.visible = true; panoQuiet(); }
 }
 // V15 draws the harbour in a few dozen calls instead of ~1,300: every still, visible mesh of the town, quay
 // and court is baked into one mesh per material. What moves or changes stays apart: the buoys, the ship on
