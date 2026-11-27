@@ -194,13 +194,13 @@ const skyMat = new THREE.ShaderMaterial({
   side: THREE.BackSide, depthWrite: false,
   uniforms: { zenith: { value: new THREE.Color() }, horizon: { value: new THREE.Color() }, sunDir: { value: new THREE.Vector3() }, sunCol: { value: new THREE.Color() },
     cloudLit: { value: new THREE.Color() }, cloudShade: { value: new THREE.Color() }, clouds: { value: 0 }, streak: { value: 1 }, banks: { value: 0 }, bankH: { value: 0.2 }, halo: { value: 0 }, time: { value: 0 },
-    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, surfOn: { value: 0 }, surfPatch: { value: 0 }, surfHz: { value: 0.055 }, surfCol: { value: new THREE.Vector3(0.78, 0.81, 0.84) },
+    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, maskOn: { value: 0 }, mask: { value: new THREE.Vector3() }, surfOn: { value: 0 }, surfPatch: { value: 0 }, surfHz: { value: 0.055 }, surfCol: { value: new THREE.Vector3(0.78, 0.81, 0.84) },
     surfSpot: { value: [new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4()] },
     beamOn: { value: 0 }, beamU: { value: 0 }, beamV: { value: 0 }, beamS: { value: 0 }, beamC: { value: 1 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } },
   vertexShader: 'varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
   fragmentShader: `
     uniform vec3 zenith, horizon, sunDir, sunCol, cloudLit, cloudShade; uniform float clouds, streak, banks, bankH, halo, time;
-    uniform sampler2D pano; uniform float panoOn, panoRot, panoTop, panoGain, surfOn, surfPatch, surfHz; uniform vec3 panoZen, surfCol; uniform vec4 surfSpot[4];
+    uniform sampler2D pano; uniform float maskOn; uniform vec3 mask; uniform float panoOn, panoRot, panoTop, panoGain, surfOn, surfPatch, surfHz; uniform vec3 panoZen, surfCol; uniform vec4 surfSpot[4];
     uniform float beamOn, beamU, beamV, beamS, beamC; uniform vec3 beamCol;
     varying vec3 vDir;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -214,7 +214,14 @@ const skyMat = new THREE.ShaderMaterial({
         float u = fract(atan(d.z, d.x) / 6.2831853 + panoRot);
         float v = clamp(asin(clamp(d.y, -1.0, 1.0)) / panoTop, 0.004, 0.996);
         vec3 pc = texture2D(pano, vec2(u, v)).rgb;
-        if (surfOn > 0.5 && v < 0.24) {
+        if (maskOn > 0.5) {
+          // At Whitby itself the real town stands in front of us: the painted town is taken out of the painting,
+          // and open sky and sea from further round the same horizon put in its place.
+          float uu = (mask.y > 1.0 && u < 0.3) ? u + 1.0 : u;      // a town that runs past the painting's join carries on round it
+          float m = smoothstep(mask.x - 0.06, mask.x, uu) * smoothstep(mask.y + 0.06, mask.y, uu);
+          if (m > 0.0) pc = mix(pc, texture2D(pano, vec2(fract(uu + mask.z), v)).rgb, m);
+        }
+        if (surfOn > 0.5 && maskOn < 0.5 && v < 0.24) {
           // The night painting has two breakers out in open water, at the horizon. Surf belongs on the shore: paint each
           // over with calm sea and sky from a little further along the same horizon.
           float k = smoothstep(0.24, 0.17, v);
@@ -300,7 +307,7 @@ const DIRS = [[1, 0.25], [0.7, 0.75], [-0.35, 1], [0.95, -0.4]].map(([x, z]) => 
 const waveU = { time: { value: 0 }, amp: { value: [0, 0, 0, 0] }, len: { value: [1, 1, 1, 1] }, dir: { value: DIRS.map(d => new THREE.Vector2(d[0], d[1])) },
   deep: { value: new THREE.Color() }, hi: { value: new THREE.Color() }, skyH: { value: new THREE.Color() }, sunDir: { value: new THREE.Vector3() }, sunCol: { value: new THREE.Color() },
   fogColor: { value: new THREE.Color() }, fogNear: { value: 300 }, fogFar: { value: 2600 },
-  lite: { value: 0 }, pano: { value: null }, panoSoft: { value: null }, panoFog: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoGain: { value: 0.7 }, rip: { value: 1 }, panoTop: { value: 1.396 },
+  lite: { value: 0 }, maskOn: { value: 0 }, mask: { value: new THREE.Vector3() }, pano: { value: null }, panoSoft: { value: null }, panoFog: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoGain: { value: 0.7 }, rip: { value: 1 }, panoTop: { value: 1.396 },
   beamOn: { value: 0 }, beamDir: { value: new THREE.Vector3(1, 0, 0) }, beamFlash: { value: 0 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } };
 const seaMat = new THREE.ShaderMaterial({
   uniforms: waveU,
@@ -322,6 +329,7 @@ const seaMat = new THREE.ShaderMaterial({
     }`,
   fragmentShader: `
     uniform vec3 deep, hi, skyH, sunDir, sunCol, fogColor; uniform float fogNear, fogFar; uniform float amp[4];
+    uniform float maskOn; uniform vec3 mask;
     uniform sampler2D pano, panoSoft, panoFog; uniform float panoOn, panoRot, panoGain, rip, panoTop;
     uniform float beamOn, beamFlash; uniform vec3 beamDir, beamCol; uniform float lite;
     varying vec3 vWorld; varying vec3 vNormal; varying float vCrest;
@@ -354,9 +362,16 @@ const seaMat = new THREE.ShaderMaterial({
         vec3 vd = normalize(vWorld - cameraPosition); float u = fract(atan(vd.z, vd.x) / 6.2831853 + panoRot);
         vec3 R = reflect(-V, N); float rv = clamp(asin(clamp(R.y, 0.0, 1.0)) / panoTop, 0.01, 0.9);
         float ur = fract(atan(R.z, R.x) / 6.2831853 + panoRot);
-        vec3 soft = texture2D(panoSoft, vec2(ur, 0.5)).rgb * panoGain;
-        skyAt = mix(soft, texture2D(pano, vec2(ur, rv)).rgb * panoGain, smoothstep(0.04, 0.14, rv));
-        fogAt = texture2D(panoFog, vec2(u, 0.5)).rgb * panoGain;
+        float ma = 0.0, mb = 0.0, ur2 = ur, u2 = u;
+        if (maskOn > 0.5) {      // at Whitby the painted town is out of the water's reflection too, blended in as on the sky
+          float a = (mask.y > 1.0 && ur < 0.3) ? ur + 1.0 : ur, b = (mask.y > 1.0 && u < 0.3) ? u + 1.0 : u;
+          ma = smoothstep(mask.x - 0.06, mask.x, a) * smoothstep(mask.y + 0.06, mask.y, a); ur2 = fract(a + mask.z);
+          mb = smoothstep(mask.x - 0.06, mask.x, b) * smoothstep(mask.y + 0.06, mask.y, b); u2 = fract(b + mask.z);
+        }
+        vec3 soft = mix(texture2D(panoSoft, vec2(ur, 0.5)).rgb, texture2D(panoSoft, vec2(ur2, 0.5)).rgb, ma) * panoGain;
+        vec3 sharp = mix(texture2D(pano, vec2(ur, rv)).rgb, texture2D(pano, vec2(ur2, rv)).rgb, ma) * panoGain;
+        skyAt = mix(soft, sharp, smoothstep(0.04, 0.14, rv));
+        fogAt = mix(texture2D(panoFog, vec2(u, 0.5)).rgb, texture2D(panoFog, vec2(u2, 0.5)).rgb, mb) * panoGain;
       }
       col = mix(col, skyAt, 0.12 + fres * 0.7);
       vec3 H = normalize(normalize(sunDir) + V);
@@ -2448,8 +2463,8 @@ const STORM = { k: 0, flash: 0, next: 0, seq: [], bolt: new THREE.HemisphereLigh
 scene.add(STORM.bolt);
 STORM.rain = (() => {
   const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
-  x.strokeStyle = 'rgba(200,210,225,0.55)'; x.lineWidth = 1;
-  for (let i = 0; i < 260; i++) { const px = Math.random() * 256, py = Math.random() * 256, l = 10 + Math.random() * 22; x.globalAlpha = 0.25 + Math.random() * 0.75; x.beginPath(); x.moveTo(px, py); x.lineTo(px - l * 0.18, py + l); x.stroke(); }
+  x.strokeStyle = 'rgba(200,210,225,0.4)'; x.lineWidth = 1;
+  for (let i = 0; i < 110; i++) { const px = Math.random() * 256, py = Math.random() * 256, l = 10 + Math.random() * 22; x.globalAlpha = 0.25 + Math.random() * 0.75; x.beginPath(); x.moveTo(px, py); x.lineTo(px - l * 0.18, py + l); x.stroke(); }
   const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(10, 3);
   const m = new THREE.Mesh(new THREE.CylinderGeometry(140, 140, 260, 24, 1, true),
     new THREE.MeshBasicMaterial({ map: t, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, toneMapped: false, fog: false }));
@@ -2460,7 +2475,7 @@ function stormFrame(t, dt) {
   STORM.k += (want - STORM.k) * Math.min(1, dt * 0.25);
   const k = STORM.k, R = STORM.rain;
   R.visible = k > 0.02;
-  if (R.visible) { R.position.copy(camera.position); R.material.opacity = 0.22 * k; R.material.map.offset.y = (t * 1.9) % 1; R.material.map.offset.x = (t * 0.05) % 1; }
+  if (R.visible) { R.position.copy(camera.position); R.material.opacity = 0.14 * k; R.material.map.offset.y = (t * 1.9) % 1; R.material.map.offset.x = (t * 0.05) % 1; }
   // the swell gets up with the storm: halfway from a swell toward a storm sea
   if (EMBED && seaName === 'swell') { const A = SEAS.swell.A, B = SEAS.storm.A, L1 = SEAS.swell.L, L2 = SEAS.storm.L;
     for (let i = 0; i < 4; i++) { waveU.amp.value[i] = A[i] + (B[i] - A[i]) * 0.45 * k; waveU.len.value[i] = L1[i] + (L2[i] - L1[i]) * 0.45 * k; } }
@@ -3129,6 +3144,8 @@ function loadSky(name, done, fail) {
 // turned so the painted town lies to the west where Whitby is. The live clock still lights the ships and the sea and
 // chooses the painting; the drawn stars, moon, clouds and the far headland stand down while a painting is up.
 // Where the sea breaks on each painting's shore: [compass position, width, seconds between bursts, offset in the cycle].
+// Where each painting's town lies (compass from, to) and how far round to borrow open sky and sea to cover it.
+const TOWN = { 'friedrich-w': [0.712, 1.05, -0.36], 'parrish-w': [0.672, 0.897, -0.30] };
 const SURF = {
   'friedrich-w': { patch: true, hz: 0.055, col: [0.78, 0.81, 0.84], spots: [[0.7225, 0.0030, 7, 0], [0.7825, 0.0022, 9, 0.37], [0.920, 0.0032, 6, 0.61], [0.748, 0.0020, 8, 0.18]] },
   'parrish-w':   { patch: false, hz: 0.043, col: [0.96, 0.96, 0.94], spots: [[0.722, 0.0026, 8, 0.1], [0.742, 0.0022, 10, 0.55], [0.8725, 0.0028, 7, 0.3], [0.883, 0.0020, 9, 0.8]] }
@@ -3160,11 +3177,11 @@ function embPano(name) {
   }, () => { PANO.want = null; });                                  // not there yet: keep the drawn sky, try again later
 }
 function panoQuiet() {                // while a painting is up, the drawn sky things stand down
-  // At Whitby itself (the opening, the court) the painted town would hang over the real one, so there the drawn sky
-  // comes back; the painting is the view from out at sea.
-  const on = !!PANO.shown && !slip.visible;
+  // At Whitby the painting stays up, but with its painted town taken out (the real one is there), and no painted beam.
+  const on = !!PANO.shown, home = slip.visible, T = TOWN[PANO.shown];
   skyMat.uniforms.panoOn.value = waveU.panoOn.value = on ? 1 : 0;
-  skyMat.uniforms.beamOn.value = waveU.beamOn.value = on && beam ? 1 : 0;
+  skyMat.uniforms.maskOn.value = waveU.maskOn.value = on && home && T ? 1 : 0; if (T) { skyMat.uniforms.mask.value.set(...T); waveU.mask.value.set(...T); }
+  skyMat.uniforms.beamOn.value = waveU.beamOn.value = on && beam && !home ? 1 : 0;
   cloudDome.visible = starTilt.visible = skyBodies.visible = !on && !!skyClock;
   try { headland.visible = !on && !slip.visible; } catch (e) {}   // the far cliffs: only out at sea with no painting up (built further down)
 }
@@ -4202,6 +4219,7 @@ const _hv = new THREE.Vector3();
 function frame() {
   const t = still ? 0 : clock.getElapsedTime(); if (gunTweens.size) stepGuns(); if (FX.length || gunLight.intensity) stepFX(); audioLife(); if (skyClock) stepSky();
   { const nowS = performance.now(), dtS = Math.min(0.1, (nowS - (frame.lastS || nowS)) / 1000); frame.lastS = nowS; if (sailing.size) stepSailing(dtS * (EMB.pending > 1 ? Math.min(3, 1 + 0.6 * (EMB.pending - 1)) : 1)); if (courtAnims.size) stepCourt(dtS); for (const f of fleet) if (f.sink) f.sink.t += dtS; }
+  sky.position.copy(camera.position);    // the sky goes with the eye: from Whitby, 4000 out, its far side was past the camera's reach
   giltFrame(t); glintFrame(t);
   { const n = performance.now(), d = Math.min(0.1, (n - (frame.l2 || n)) / 1000); frame.l2 = n; stormFrame(t, d); followFrame(d); }
   waveU.time.value = t; skyMat.uniforms.time.value = t; cloudMat.uniforms.time.value = t; cloudMat.uniforms.lite.value = waveU.lite.value;
@@ -4554,7 +4572,7 @@ window.__yardEmbed = {
   get info() { const i = renderer.info.render; return { calls: i.calls, tris: i.triangles, dpr: renderer.getPixelRatio() }; }
 };
 if (EMBED) { setLight('live'); }
-window.__yard = { fxTest: { spawnSplash, burnPuff, shotFall, sinkShip, STORM, FOLLOW }, muster, rollRandom, commission, get roster() { return !!ROSTER; }, setMode, launch, get yardState() { return yard.state; }, setClass, holdBeam(th) { beamHold = th; }, face(az) { controls.st.theta = Math.atan2(-Math.cos(az), -Math.sin(az)); controls.st.dT = 0; }, lampAz() { return beam ? (beam.u - skyMat.uniforms.panoRot.value) * 2 * Math.PI : null; }, setLook, setSea, setLight, setSky, get panoOn() { return skyMat.uniforms.panoOn.value; }, get rot() { return skyMat.uniforms.panoRot.value; }, get look() { return lookName; }, get broken() { return postBroken; }, hdr, controls, camera, harbour, scope, viewCourt, viewSea, courtPick, get courtAt() { return courtAt; }, get mode() { return mode; }, castOff, buildHarbour, slip, fleet, buildFleet, game, newGame, playMove, Chess, get sailing() { return sailing.size; }, setGuns, takeWith, AUD, setSound, skyAt(ms) { skyClock = 'run'; skyBodies.visible = starTilt.visible = true; document.getElementById('skyNote').hidden = false; skyFreeze = ms; stepSky(true); }, get place() { return skyPlace; } };
+window.__yard = { fxTest: { spawnSplash, burnPuff, shotFall, sinkShip, STORM, FOLLOW, scene, skyMat }, muster, rollRandom, commission, get roster() { return !!ROSTER; }, setMode, launch, get yardState() { return yard.state; }, setClass, holdBeam(th) { beamHold = th; }, face(az) { controls.st.theta = Math.atan2(-Math.cos(az), -Math.sin(az)); controls.st.dT = 0; }, lampAz() { return beam ? (beam.u - skyMat.uniforms.panoRot.value) * 2 * Math.PI : null; }, setLook, setSea, setLight, setSky, get panoOn() { return skyMat.uniforms.panoOn.value; }, get rot() { return skyMat.uniforms.panoRot.value; }, get look() { return lookName; }, get broken() { return postBroken; }, hdr, controls, camera, harbour, scope, viewCourt, viewSea, courtPick, get courtAt() { return courtAt; }, get mode() { return mode; }, castOff, buildHarbour, slip, fleet, buildFleet, game, newGame, playMove, Chess, get sailing() { return sailing.size; }, setGuns, takeWith, AUD, setSound, skyAt(ms) { skyClock = 'run'; skyBodies.visible = starTilt.visible = true; document.getElementById('skyNote').hidden = false; skyFreeze = ms; stepSky(true); }, get place() { return skyPlace; } };
 })();
 </script>
 </body>
