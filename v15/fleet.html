@@ -194,12 +194,13 @@ const skyMat = new THREE.ShaderMaterial({
   side: THREE.BackSide, depthWrite: false,
   uniforms: { zenith: { value: new THREE.Color() }, horizon: { value: new THREE.Color() }, sunDir: { value: new THREE.Vector3() }, sunCol: { value: new THREE.Color() },
     cloudLit: { value: new THREE.Color() }, cloudShade: { value: new THREE.Color() }, clouds: { value: 0 }, streak: { value: 1 }, banks: { value: 0 }, bankH: { value: 0.2 }, halo: { value: 0 }, time: { value: 0 },
-    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, surfOn: { value: 0 },
+    pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, surfOn: { value: 0 }, surfPatch: { value: 0 }, surfHz: { value: 0.055 }, surfCol: { value: new THREE.Vector3(0.78, 0.81, 0.84) },
+    surfSpot: { value: [new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4()] },
     beamOn: { value: 0 }, beamU: { value: 0 }, beamV: { value: 0 }, beamS: { value: 0 }, beamC: { value: 1 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } },
   vertexShader: 'varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
   fragmentShader: `
     uniform vec3 zenith, horizon, sunDir, sunCol, cloudLit, cloudShade; uniform float clouds, streak, banks, bankH, halo, time;
-    uniform sampler2D pano; uniform float panoOn, panoRot, panoTop, panoGain, surfOn; uniform vec3 panoZen;
+    uniform sampler2D pano; uniform float panoOn, panoRot, panoTop, panoGain, surfOn, surfPatch, surfHz; uniform vec3 panoZen, surfCol; uniform vec4 surfSpot[4];
     uniform float beamOn, beamU, beamV, beamS, beamC; uniform vec3 beamCol;
     varying vec3 vDir;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -219,12 +220,12 @@ const skyMat = new THREE.ShaderMaterial({
           float k = smoothstep(0.24, 0.17, v);
           float m1 = smoothstep(0.112, 0.122, u) * smoothstep(0.162, 0.152, u);
           float m2 = smoothstep(0.292, 0.302, u) * smoothstep(0.340, 0.330, u);
-          if (m1 + m2 > 0.0) pc = mix(pc, texture2D(pano, vec2(u + 0.06, v)).rgb, max(m1, m2) * k);
+          if (surfPatch > 0.5 && m1 + m2 > 0.0) pc = mix(pc, texture2D(pano, vec2(u + 0.06, v)).rgb, max(m1, m2) * k);
           // The shore: breakers bursting against the cliff foot, the harbour rocks and the piers, each in its own time.
-          float hz = 0.055;
-          vec4 spot[4]; spot[0] = vec4(0.7225, 0.0030, 7.0, 0.0); spot[1] = vec4(0.7825, 0.0022, 9.0, 0.37);
-          spot[2] = vec4(0.920, 0.0032, 6.0, 0.61); spot[3] = vec4(0.748, 0.0020, 8.0, 0.18);
+          float hz = surfHz;
+          vec4 spot[4]; spot[0] = surfSpot[0]; spot[1] = surfSpot[1]; spot[2] = surfSpot[2]; spot[3] = surfSpot[3];
           for (int i = 0; i < 4; i++) {
+            if (spot[i].y <= 0.0) continue;
             float du = (u - spot[i].x) / spot[i].y;
             if (abs(du) > 5.0) continue;
             float ph = fract(time / spot[i].z + spot[i].w);
@@ -235,7 +236,7 @@ const skyMat = new THREE.ShaderMaterial({
             vec2 q = vec2(du * 3.0 + spot[i].w * 31.0, (v - hz) * 160.0 - ph * 22.0);
             float n = fbm(q) * 0.7 + vn(q * 3.1) * 0.3;               // fine droplets over the body of the burst
             float spray = shape * smoothstep(0.50, 0.80, n + 0.35 * (1.0 - y)) * fade;
-            pc = mix(pc, vec3(0.78, 0.81, 0.84), clamp(spray, 0.0, 1.0) * 0.8);
+            pc = mix(pc, surfCol, clamp(spray, 0.0, 1.0) * 0.8);
           }
         }
         pc = mix(pc, panoZen, smoothstep(0.86, 1.0, asin(clamp(d.y, 0.0, 1.0)) / panoTop));
@@ -434,22 +435,30 @@ function canvasTex(base, seam, emblem) {
     y.translate(128, 136); y.scale(1 / emblem.aspect, 1); y.font = '500 250px serif'; y.textAlign = 'center'; y.textBaseline = 'middle';
     y.lineJoin = 'round'; y.strokeStyle = '#ffd77a'; y.lineWidth = 9; y.strokeText(emblem.glyph, 0, 0);
     if (emblem.gold) { y.fillStyle = 'rgba(255,214,120,0.6)'; y.fillText(emblem.glyph, 0, 0); }
-    const gt = new THREE.CanvasTexture(g); gt.colorSpace = THREE.SRGBColorSpace; t.userData.gilt = gt;
+    const gt = new THREE.CanvasTexture(g); gt.colorSpace = THREE.SRGBColorSpace; gt.userData.side = emblem.gold ? 'b' : 'w'; t.userData.gilt = gt;
   }
   return t;
 }
 // The gilt on the sails' logos: drawn over the cloth, brightening as night falls (stepSky sets GILT.k).
-const GILT = { k: 0, mats: new Set() };
+// The side to move gleams a little, day or night, slowly breathing; the side waiting dims (giltFrame, each frame).
+const GILT = { k: 0, mats: { w: new Set(), b: new Set() }, turn: null, want: null, op: { w: 0, b: 0 } };
 function giltOver(mesh) {
   const tx = mesh.material.map && mesh.material.map.userData.gilt; if (!tx) return;
   const m = new THREE.MeshBasicMaterial({ map: tx, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
     opacity: GILT.k, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2, toneMapped: false });
-  GILT.mats.add(m); const o = new THREE.Mesh(mesh.geometry, m); o.visible = GILT.k > 0.01; o.userData.gilt = true; mesh.add(o);
+  const sd = tx.userData.side || 'w'; m.opacity = GILT.op[sd]; GILT.mats[sd].add(m);
+  const o = new THREE.Mesh(mesh.geometry, m); o.userData.gilt = true; mesh.add(o);
 }
-function giltSet(k) {
-  if (Math.abs(k - GILT.k) < 0.01) return; GILT.k = k;
-  for (const m of GILT.mats) m.opacity = k;
-  scene.traverse(o => { if (o.userData.gilt) o.visible = k > 0.01; });
+function giltSet(k) { GILT.k = k; }
+function giltFrame(t) {
+  if (!EMBED && game.on) GILT.want = Chess.R.getChessTurn();
+  if (!sailing.size && !(EMB.pending > 0)) GILT.turn = GILT.want;            // the cue changes once the move has been sailed
+  for (const sd of ['w', 'b']) {
+    const mover = GILT.turn === sd, breathe = 0.85 + 0.15 * Math.sin(t * 2.1);
+    const goal = GILT.turn ? (mover ? Math.max(0.32, GILT.k) * breathe : GILT.k * 0.4) : GILT.k;
+    const op = GILT.op[sd] += (goal - GILT.op[sd]) * 0.06;
+    for (const m of GILT.mats[sd]) m.opacity = op;
+  }
 }
 var sternName = null;     // set only while a named ship is built for the slip
 function sternTex(trim, lit, rows, name) {
@@ -561,6 +570,11 @@ function stepFX() {
   for (let i = FX.length - 1; i >= 0; i--) {
     const f = FX[i], s = (now - f.t0) / 1000, u = s / f.life;
     if (u >= 1) { scene.remove(f.sp); f.sp.material.dispose(); FX.splice(i, 1); continue; }
+    if (f.splash) {        // a column of water thrown up, hanging a moment, falling back
+      const h = Math.sin(Math.PI * Math.min(1, u * 1.15));
+      f.sp.scale.set(f.k * (5 + 7 * u), f.k * 16 * h + 0.1, 1); f.sp.position.y = f.base + f.k * 8 * h - 1; f.sp.material.opacity = 0.9 * (1 - u * u);
+      continue;
+    }
     if (f.hot) {          // a tongue of fire thrown out of the port, gone in a blink
       f.sp.scale.setScalar(f.k * (2.5 + 6 * Math.sqrt(u))); f.sp.position.addScaledVector(f.dir, 0.9); f.sp.material.opacity = 1 - u * u; glow = Math.max(glow, 1 - u);
     } else {               // smoke billows out fast, slows, swells, rises and drifts downwind
@@ -599,7 +613,7 @@ function broadside(f, target) {
 // Safari will not start sound until the page is touched, so it wakes on the first click.
 const AUD = { ctx: null, master: null, buf: {}, bed: null, bedKey: null, on: true, next: 0 };
 const SND_FILES = { sea: 'sea', gale: 'gale', port: 'port', cA: 'cannon-a', cB: 'cannon-b', cFar: 'cannon-far',
-  g1: 'gull-far-1', g2: 'gull-far-2', g3: 'gull-far-3', g4: 'gull-pair-1', r1: 'rigging-1', r2: 'rigging-2', r3: 'rigging-3' };
+  th: '/sounds/oneshot/thunder_far', thF: '/sounds/oneshot/thunder_far', g1: 'gull-far-1', g2: 'gull-far-2', g3: 'gull-far-3', g4: 'gull-pair-1', r1: 'rigging-1', r2: 'rigging-2', r3: 'rigging-3' };
 const BED_GAIN = { sea: 0.9, gale: 0.42, port: 1.15 };
 function audioWake() {
   if (!AUD.on) return;
@@ -608,7 +622,7 @@ function audioWake() {
   AUD.ctx = new C(); AUD.master = AUD.ctx.createGain(); AUD.master.gain.value = 0.8; AUD.master.connect(AUD.ctx.destination);
   scoreNext(4000);
   for (const [k, f] of Object.entries(SND_FILES)) {
-    fetch(MEDIA + f + '.mp3').then(r => r.arrayBuffer()).then(a => new Promise((ok, no) => AUD.ctx.decodeAudioData(a, ok, no)))
+    fetch((f[0] === '/' ? 'https://amenti-media.ingram-ian.workers.dev/m' + f : MEDIA + f) + '.mp3').then(r => r.arrayBuffer()).then(a => new Promise((ok, no) => AUD.ctx.decodeAudioData(a, ok, no)))
       .then(b => { AUD.buf[k] = b; if (k === wantBed()) audioBed(); }).catch(() => {});
   }
 }
@@ -623,12 +637,13 @@ function audioBed() {             // crossfade to the bed the scene wants
 }
 // V15's score: light, lilting sea pieces from the Amenti Studios library, kept far down under the waves (about
 // 14 dB below the sea), one after another with a stretch of plain sea between them. Each loads only when its turn comes.
-const SCORE = { list: ['mood_voyage_yoho', 'mood_calm_sea', 'overture_period', 'mood_voyage'], i: Math.floor(Math.random() * 4), gain: 0.22, src: null, g: null, timer: 0 };
+// By day the brighter pieces; after dark the quiet ones (the night is read from the real sun at Whitby, as the sky is).
+const SCORE = { day: ['mood_voyage_yoho', 'overture_period', 'mood_voyage'], night: ['mood_calm_sea', 'flute_drift', 'mood_home'], i: Math.floor(Math.random() * 3), gain: 0.22, src: null, g: null, timer: 0 };
 function scoreNext(delay) {
   if (!EMBED || !AUD.ctx) return;
   clearTimeout(SCORE.timer);
   SCORE.timer = setTimeout(() => {
-    const name = SCORE.list[SCORE.i % SCORE.list.length]; SCORE.i++;
+    const L = GILT.k > 0.4 ? SCORE.night : SCORE.day, name = L[SCORE.i % L.length]; SCORE.i++;
     fetch('https://amenti-media.ingram-ian.workers.dev/m/sounds/score/' + name + '.mp3').then(r => r.arrayBuffer())
       .then(a => new Promise((ok, no) => AUD.ctx.decodeAudioData(a, ok, no))).then(b => {
         const t = AUD.ctx.currentTime, src = AUD.ctx.createBufferSource(), g = AUD.ctx.createGain();
@@ -1404,8 +1419,47 @@ function stepSailing(dt) {
     if (k >= 1) f.step = null;
   }
 }
+// The shot arriving: columns of water thrown up round her, then hits on her side, each a flash and a dull crack.
+function shotFall(f, V) {
+  for (let i = 0; i < 7; i++) setTimeout(() => {
+    const a = Math.random() * 6.28, r = 14 + Math.random() * 30, P = new THREE.Vector3(V.x + Math.cos(a) * r, 0, V.z + Math.sin(a) * r);
+    spawnSplash(P, 0.9 + Math.random() * 0.7);
+  }, 1350 + i * 110 + Math.random() * 80);
+  for (let i = 0; i < 3; i++) setTimeout(() => {
+    const P = f.holder.position.clone().add(new THREE.Vector3((Math.random() - 0.5) * f.L * SCALE * 0.6, 4 + Math.random() * 6, (Math.random() - 0.5) * 8));
+    spawnFX(true, P, new THREE.Vector3(0, 1, 0), 1.3); burnPuff(P, 1.4, 0x6a625a);
+    gunLight.position.copy(P); if (AUD.ctx) audioShot('cFar', 0.55, 0.55 + Math.random() * 0.1, 0, Math.min(3, camera.position.distanceTo(P) / 75));
+  }, 1500 + i * 260 + Math.random() * 120);
+}
+function spawnSplash(P, k) {
+  const m = new THREE.SpriteMaterial({ map: SMOKE_TEX[(Math.random() * 3) | 0], transparent: true, depthWrite: false, opacity: 0.9, color: 0xdfe8ee });
+  const sp = new THREE.Sprite(m); sp.position.copy(P); sp.renderOrder = 5; sp.scale.setScalar(0.1); scene.add(sp);
+  FX.push({ sp, splash: true, base: P.y, k, t0: performance.now(), life: 1.6 + Math.random() * 0.4 });
+}
+function burnPuff(P, k, col) {          // dark smoke from a burning ship: rises straight, swells, and goes
+  spawnFX(false, P, new THREE.Vector3(0, 0.25, 0), k); const f = FX[FX.length - 1]; f.sp.material.color.setHex(col || (GILT.k > 0.3 ? 0x8a7766 : 0x3c3631));   // by night the smoke is lit from below by the fire f.life = 4 + Math.random() * 2;
+}
+// While a ship sails, the view eases round toward her and drifts back after (V15 at sea only).
+const FOLLOW = { f: null, w: 0, q: new THREE.Quaternion(), m: new THREE.Matrix4() };
+function followFrame(dt) {
+  const on = EMBED && EMB.view === 'sea' && FOLLOW.f && FOLLOW.f.holder.parent;
+  FOLLOW.w += ((on ? 1 : 0) - FOLLOW.w) * Math.min(1, dt * (on ? 1.2 : 0.8));
+  if (FOLLOW.w < 0.002 || !FOLLOW.f) return;
+  const P = FOLLOW.f.holder.position, d = camera.position.distanceTo(P);
+  camera.position.lerp(P, 0.12 * FOLLOW.w * Math.min(1, d / 400));   // step in a little
+  FOLLOW.m.lookAt(camera.position, _fl.set(P.x, P.y + 8, P.z), camera.up); FOLLOW.q.setFromRotationMatrix(FOLLOW.m);
+  camera.quaternion.slerp(FOLLOW.q, 0.4 * FOLLOW.w);
+}
+const _fl = new THREE.Vector3();
 function sinkShip(f) {               // she lists, settles by the stern and goes down
   f.sink = { t: 0 }; setGuns(f.ship, false);
+  { let n = 0; const burn = setInterval(() => {      // fire aboard: flames flicker and smoke pours up while she settles
+      if (++n > 22 || !f.holder.parent) return clearInterval(burn);
+      const P = f.ship.getWorldPosition(new THREE.Vector3()).add(new THREE.Vector3((Math.random() - 0.5) * f.L * SCALE * 0.5, 6 + Math.random() * 4, (Math.random() - 0.5) * 6));
+      if (n < 16 && P.y > -4) { spawnFX(true, P, new THREE.Vector3(0, 0.2, 0), 0.6 + Math.random() * 0.4); FX[FX.length - 1].life = 0.7; gunLight.position.copy(P); }
+      burnPuff(P, 0.9 + Math.random() * 0.5);
+    }, 260); }
+  setTimeout(() => { const P = f.holder.position.clone(); for (let i = 0; i < 4; i++) setTimeout(() => spawnSplash(P.clone().add(new THREE.Vector3((Math.random() - 0.5) * 20, 0, (Math.random() - 0.5) * 20)), 0.6), i * 180); }, 5200);   // the last of her goes under
   setTimeout(() => { scene.remove(f.holder); f.holder.traverse(o => { if (o.geometry) o.geometry.dispose(); }); const i = fleet.indexOf(f); if (i >= 0) fleet.splice(i, 1); }, 7000);
 }
 function shipFromBoard() {           // which ship is on which square, read from where they sit
@@ -1452,6 +1506,7 @@ async function sailMove(from, to, before, after) {
   game.busy = true; game.sel = null; game.moves = []; game.last = [from, to]; drawMarks();
   if (fleet.some(f => f.wedge && f.side === piece.color)) await sailIn(piece.color);
   const A = game.shipAt, f = A[a.r][a.c];
+  FOLLOW.f = f;
   const hop = piece.type === 'n';
   // what this move takes: the ship on the square, or (en passant) the pawn beside it
   let vr = -1, vc = -1;
@@ -1470,7 +1525,7 @@ async function sailMove(from, to, before, after) {
     const Pst = P1.clone().sub(d.clone().normalize().multiplyScalar(stop * TILE));
     const toV = V.clone().sub(Pst), side = yawFor(-toV.z, toV.x);    // bow at right angles to the line of fire
     await voyage(f, [{ yaw: head, dur: 0.9 }, { to: Pst, dur: sail(dist - stop) }, { yaw: side, dur: 1.1 }]);
-    takeWith(f, 4200, V);
+    takeWith(f, 4200, V); shotFall(victim, V);
     await voyage(f, [{ dur: 2.0 }]); sinkShip(victim); courtSink(vr, vc);
     { const T = { type: before[vr][vc].type, color: before[vr][vc].color, name: victim.name || null, file: victim.file }; game.taken.push(T);
       if (!EMBED && T.name && figByName(T.name)) try {                // game01's Hall of the Captured: same key, same record
@@ -1499,6 +1554,7 @@ async function sailMove(from, to, before, after) {
     courtPromote(b.r, b.c, after[b.r][b.c].type, after[b.r][b.c].color);
   }
   sailMove.extra = extra;
+  setTimeout(() => { if (FOLLOW.f === f) FOLLOW.f = null; }, 700);   // hold on her a moment, then let the view drift back
   return true;
 }
 // clicks on the water: choose a ship, then where she goes (a drag still turns the view)
@@ -2355,7 +2411,70 @@ function place(side, sqX, sqZ, cls, name) {
   const foam = new THREE.Mesh(new THREE.PlaneGeometry(sL * SCALE * 1.22, sHB * 2 * SCALE * 1.55),
     new THREE.MeshBasicMaterial({ map: FOAM, transparent: true, depthWrite: false, opacity: 0.7 }));
   foam.rotation.x = -Math.PI / 2; foam.renderOrder = 2; holder.add(foam);
-  setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
+  const glint = new THREE.Mesh(GLINT.geo, GLINT.mat); glint.position.set(sL * SCALE * 0.5, 0.4, 0); glint.renderOrder = 3; glint.visible = false; holder.add(glint);
+  setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
+}
+// ---- the stern lanterns' light on the water at night: a broken warm streak from each stern toward the eye ----
+const GLINT = (() => {
+  const c = document.createElement('canvas'); c.width = 64; c.height = 256; const x = c.getContext('2d');
+  for (let y = 0; y < 256; y += 3) {                     // ripples: short bright bars, thinning and fading away from the stern
+    const k = 1 - y / 256, n = 1 + ((Math.random() * 3) | 0);
+    for (let i = 0; i < n; i++) {
+      const w = (10 + Math.random() * 26) * (0.5 + 0.5 * k), cx = 32 + (Math.random() - 0.5) * 30 * (0.4 + 0.6 * (1 - k));
+      x.fillStyle = 'rgba(255,196,110,' + (Math.pow(k, 1.2) * (0.5 + Math.random() * 0.5)).toFixed(3) + ')';
+      x.fillRect(cx - w / 2, y, w, 1 + Math.random() * 1.5);
+    }
+  }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  const geo = new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2).translate(0, 0, 0.5);   // lies on the water, reaching along +Z
+  const mat = new THREE.MeshBasicMaterial({ map: t, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0, toneMapped: false });
+  return { geo, mat };
+})();
+function glintFrame(t) {
+  const k = GILT.k; GLINT.mat.opacity = Math.min(1, 1.2 * k);
+  for (const f of fleet) {
+    const g = f.glint; if (!g) continue;
+    g.visible = k > 0.02 && !f.sink && f.holder.visible;
+    if (!g.visible) continue;
+    g.position.y = f.foam.position.y + 0.25;                       // ride the swell with her foam
+    const dx = camera.position.x - f.holder.position.x, dz = camera.position.z - f.holder.position.z;
+    g.rotation.y = Math.atan2(dx, dz) - f.holder.rotation.y;      // the streak always runs toward whoever is looking
+    const flick = 1 + 0.12 * Math.sin(t * 3.7 + f.holder.position.x * 0.07) + 0.07 * Math.sin(t * 9.1 + f.holder.position.z);
+    g.scale.set(f.HB * SCALE * 1.6 * flick, 1, Math.min(320, 40 + Math.hypot(dx, dz) * 0.35) * Math.min(1, f.L / 10));   // seen low, a streak toward you is foreshortened: long
+  }
+}
+// ---- the night storm: rain sweeping past, now and then lightning and thunder, and the swell rising ----
+const STORM = { k: 0, flash: 0, next: 0, seq: [], bolt: new THREE.HemisphereLight(0xd8e2ff, 0x334055, 0) };
+scene.add(STORM.bolt);
+STORM.rain = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  x.strokeStyle = 'rgba(200,210,225,0.55)'; x.lineWidth = 1;
+  for (let i = 0; i < 260; i++) { const px = Math.random() * 256, py = Math.random() * 256, l = 10 + Math.random() * 22; x.globalAlpha = 0.25 + Math.random() * 0.75; x.beginPath(); x.moveTo(px, py); x.lineTo(px - l * 0.18, py + l); x.stroke(); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(10, 3);
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(140, 140, 260, 24, 1, true),
+    new THREE.MeshBasicMaterial({ map: t, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, toneMapped: false, fog: false }));
+  m.renderOrder = 8; m.visible = false; m.frustumCulled = false; scene.add(m); return m;
+})();
+function stormFrame(t, dt) {
+  const want = EMBED && PANO.shown === 'friedrich-w' && skyMat.uniforms.panoOn.value > 0.5 && EMB.view === 'sea' ? 1 : 0;
+  STORM.k += (want - STORM.k) * Math.min(1, dt * 0.25);
+  const k = STORM.k, R = STORM.rain;
+  R.visible = k > 0.02;
+  if (R.visible) { R.position.copy(camera.position); R.material.opacity = 0.22 * k; R.material.map.offset.y = (t * 1.9) % 1; R.material.map.offset.x = (t * 0.05) % 1; }
+  // the swell gets up with the storm: halfway from a swell toward a storm sea
+  if (EMBED && seaName === 'swell') { const A = SEAS.swell.A, B = SEAS.storm.A, L1 = SEAS.swell.L, L2 = SEAS.storm.L;
+    for (let i = 0; i < 4; i++) { waveU.amp.value[i] = A[i] + (B[i] - A[i]) * 0.45 * k; waveU.len.value[i] = L1[i] + (L2[i] - L1[i]) * 0.45 * k; } }
+  // lightning: a double or triple flicker far off, then thunder a few seconds later
+  const now = performance.now();
+  if (k > 0.6 && now > STORM.next) {
+    STORM.next = now + 14000 + Math.random() * 26000;
+    const n = 2 + (Math.random() < 0.4 ? 1 : 0), far = 1.2 + Math.random() * 3;
+    for (let i = 0; i < n; i++) STORM.seq.push({ at: now + i * (90 + Math.random() * 120), p: (i === 0 ? 0.7 : 1) * (0.6 + Math.random() * 0.4) });
+    if (AUD.ctx) audioShot(far > 2.6 ? 'thF' : 'th', far > 2.6 ? 0.5 : 0.7, 0.95 + Math.random() * 0.1, Math.random() * 1.2 - 0.6, far);
+  }
+  let f = 0; STORM.seq = STORM.seq.filter(e => { const a = (now - e.at) / 1000; if (a < 0) return true; if (a > 0.5) return false; f = Math.max(f, e.p * Math.exp(-a * 9)); return true; });
+  STORM.flash = f; STORM.bolt.intensity = 2.6 * f;
+  if (skyMat.uniforms.panoOn.value > 0.5) skyMat.uniforms.panoGain.value = waveU.panoGain.value = PANO.gain * (1 + 1.1 * f);
 }
 // The full fleets in their opening squares: back rank r n b q k b n r, pawns in front. White near +Z, facing -Z.
 const BACK = ['rook', 'knight', 'bishop', 'queen', 'king', 'bishop', 'knight', 'rook'];
@@ -3009,7 +3128,12 @@ function loadSky(name, done, fail) {
 // V15's sky: the two painted Whitby panoramas (the town, the abbey on its cliff, the pier light), by day and by night,
 // turned so the painted town lies to the west where Whitby is. The live clock still lights the ships and the sea and
 // chooses the painting; the drawn stars, moon, clouds and the far headland stand down while a painting is up.
-const PANO = { want: null, shown: null, files: { 'parrish-w': 'whitby-day', 'friedrich-w': 'whitby-night' } };
+// Where the sea breaks on each painting's shore: [compass position, width, seconds between bursts, offset in the cycle].
+const SURF = {
+  'friedrich-w': { patch: true, hz: 0.055, col: [0.78, 0.81, 0.84], spots: [[0.7225, 0.0030, 7, 0], [0.7825, 0.0022, 9, 0.37], [0.920, 0.0032, 6, 0.61], [0.748, 0.0020, 8, 0.18]] },
+  'parrish-w':   { patch: false, hz: 0.043, col: [0.96, 0.96, 0.94], spots: [[0.722, 0.0026, 8, 0.1], [0.742, 0.0022, 10, 0.55], [0.8725, 0.0028, 7, 0.3], [0.883, 0.0020, 9, 0.8]] }
+};
+const PANO = { gain: 0.7, want: null, shown: null, files: { 'parrish-w': 'whitby-day', 'friedrich-w': 'whitby-night' } };
 function embPano(name) {
   if (PANO.want === name) return; PANO.want = name;
   const S = SKIES[name]; S.url = 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v15-' + PANO.files[name] + '.jpg';
@@ -3029,7 +3153,9 @@ function embPano(name) {
     }
     waveU.pano.value = t; waveU.panoSoft.value = t.userData.soft; waveU.panoFog.value = t.userData.fog || t.userData.soft; waveU.panoOn.value = 1; waveU.panoRot.value = rot;
     waveU.fogNear.value = 1600; waveU.fogFar.value = 4400;        // the squares are wide here: keep both fleets clear of the painted haze
-    su.surfOn.value = name === 'friedrich-w' ? 1 : 0;              // the night painting: calm the open sea, work the shore
+    { const SF = SURF[name]; su.surfOn.value = SF ? 1 : 0;           // surf on the shore of each painting; by night also calm the open sea
+      if (SF) { su.surfPatch.value = SF.patch ? 1 : 0; su.surfHz.value = SF.hz; su.surfCol.value.set(...SF.col); SF.spots.forEach((v, i) => su.surfSpot.value[i].set(...v)); } }
+    PANO.gain = su.panoGain.value;
     PANO.shown = name; panoQuiet();
   }, () => { PANO.want = null; });                                  // not there yet: keep the drawn sky, try again later
 }
@@ -4076,6 +4202,8 @@ const _hv = new THREE.Vector3();
 function frame() {
   const t = still ? 0 : clock.getElapsedTime(); if (gunTweens.size) stepGuns(); if (FX.length || gunLight.intensity) stepFX(); audioLife(); if (skyClock) stepSky();
   { const nowS = performance.now(), dtS = Math.min(0.1, (nowS - (frame.lastS || nowS)) / 1000); frame.lastS = nowS; if (sailing.size) stepSailing(dtS * (EMB.pending > 1 ? Math.min(3, 1 + 0.6 * (EMB.pending - 1)) : 1)); if (courtAnims.size) stepCourt(dtS); for (const f of fleet) if (f.sink) f.sink.t += dtS; }
+  giltFrame(t); glintFrame(t);
+  { const n = performance.now(), d = Math.min(0.1, (n - (frame.l2 || n)) / 1000); frame.l2 = n; stormFrame(t, d); followFrame(d); }
   waveU.time.value = t; skyMat.uniforms.time.value = t; cloudMat.uniforms.time.value = t; cloudMat.uniforms.lite.value = waveU.lite.value;
   if (beam && skyMat.uniforms.panoOn.value > 0.5) {
     // The lighthouse turns once every beam.period seconds (clockwise seen from above).
@@ -4419,13 +4547,14 @@ window.__yardEmbed = {
   sleep() { GOV.last = 0; if (AUD.ctx && AUD.ctx.state === 'running') AUD.ctx.suspend(); },
   sound(on) { setSound(on); },
   get busy() { return EMB.pending; },
+  turn(t) { GILT.want = t === 'w' || t === 'b' ? t : null; },
   get renderer() { return renderer; },
   get sky() { return { want: PANO.want, shown: PANO.shown, panoOn: skyMat.uniforms.panoOn.value, whitby: slip.visible, clock: skyClock, clouds: cloudDome.visible, stars: starTilt.visible, maxTex: renderer.capabilities.maxTextureSize }; },
   bench() { return embBench(); },
   get info() { const i = renderer.info.render; return { calls: i.calls, tris: i.triangles, dpr: renderer.getPixelRatio() }; }
 };
 if (EMBED) { setLight('live'); }
-window.__yard = { muster, rollRandom, commission, get roster() { return !!ROSTER; }, setMode, launch, get yardState() { return yard.state; }, setClass, holdBeam(th) { beamHold = th; }, face(az) { controls.st.theta = Math.atan2(-Math.cos(az), -Math.sin(az)); controls.st.dT = 0; }, lampAz() { return beam ? (beam.u - skyMat.uniforms.panoRot.value) * 2 * Math.PI : null; }, setLook, setSea, setLight, setSky, get panoOn() { return skyMat.uniforms.panoOn.value; }, get rot() { return skyMat.uniforms.panoRot.value; }, get look() { return lookName; }, get broken() { return postBroken; }, hdr, controls, camera, harbour, scope, viewCourt, viewSea, courtPick, get courtAt() { return courtAt; }, get mode() { return mode; }, castOff, buildHarbour, slip, fleet, buildFleet, game, newGame, playMove, Chess, get sailing() { return sailing.size; }, setGuns, takeWith, AUD, setSound, skyAt(ms) { skyClock = 'run'; skyBodies.visible = starTilt.visible = true; document.getElementById('skyNote').hidden = false; skyFreeze = ms; stepSky(true); }, get place() { return skyPlace; } };
+window.__yard = { fxTest: { spawnSplash, burnPuff, shotFall, sinkShip, STORM, FOLLOW }, muster, rollRandom, commission, get roster() { return !!ROSTER; }, setMode, launch, get yardState() { return yard.state; }, setClass, holdBeam(th) { beamHold = th; }, face(az) { controls.st.theta = Math.atan2(-Math.cos(az), -Math.sin(az)); controls.st.dT = 0; }, lampAz() { return beam ? (beam.u - skyMat.uniforms.panoRot.value) * 2 * Math.PI : null; }, setLook, setSea, setLight, setSky, get panoOn() { return skyMat.uniforms.panoOn.value; }, get rot() { return skyMat.uniforms.panoRot.value; }, get look() { return lookName; }, get broken() { return postBroken; }, hdr, controls, camera, harbour, scope, viewCourt, viewSea, courtPick, get courtAt() { return courtAt; }, get mode() { return mode; }, castOff, buildHarbour, slip, fleet, buildFleet, game, newGame, playMove, Chess, get sailing() { return sailing.size; }, setGuns, takeWith, AUD, setSound, skyAt(ms) { skyClock = 'run'; skyBodies.visible = starTilt.visible = true; document.getElementById('skyNote').hidden = false; skyFreeze = ms; stepSky(true); }, get place() { return skyPlace; } };
 })();
 </script>
 </body>

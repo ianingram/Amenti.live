@@ -24019,7 +24019,7 @@ function _v15SetView(v) {            // the same orbit, laid over the sea or ove
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=23';
+        f.src = 'v15/fleet.html?embed=1&v=25';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24171,6 +24171,7 @@ function v15Frame() {
     const sig = JSON.stringify(getBoardState());
     if (sig !== _v15.sig) { _v15.sig = sig; E.sync(getBoardState(), _v15Names(), _v15Taken(), _v15Homes()); }   // a new game, an undo, a load
     _v15Bar(!_v15.intro);
+    if (E.turn) E.turn(getCurrentTurn());      // the side to move: its sails' logos gleam
     world.updateMatrixWorld(true); camera.updateMatrixWorld();
     const p = world.worldToLocal(camera.position.clone());   // in squares: the fleet page lays them over the sea, or over the pool at the court
     const q = world.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(camera.quaternion);
