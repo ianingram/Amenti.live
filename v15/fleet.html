@@ -396,8 +396,9 @@ const seaMat = new THREE.ShaderMaterial({
 // (Waves fade out past ~1.5 km, so the wide rings far out are flat water under the mist.)
 function seaRings() {
   const radii = [0]; let r = 0;
-  while (r < 30000) { r += r < 450 ? 5 : r * 0.035; radii.push(r); }
-  const S = 512, pos = [], idx = [];
+  const step = EMBED ? 7 : 5;          // V15: a lighter sea (about a third of the triangles) for older machines
+  while (r < 30000) { r += r < 450 ? step : r * (EMBED ? 0.045 : 0.035); radii.push(r); }
+  const S = EMBED ? 320 : 512, pos = [], idx = [];
   radii.forEach(rr => { for (let j = 0; j < S; j++) { const a = j / S * Math.PI * 2; pos.push(Math.cos(a) * rr, 0, Math.sin(a) * rr); } });
   for (let i = 0; i < radii.length - 1; i++) for (let j = 0; j < S; j++) {
     const a = i * S + j, b = i * S + (j + 1) % S, c = a + S, d = b + S; idx.push(a, b, c, b, d, c);   // wound to face up
@@ -475,7 +476,7 @@ function giltFrame(t) {
     const mover = GILT.turn === sd, breathe = 0.85 + 0.15 * Math.sin(t * 2.1);
     const goal = GILT.turn ? (mover ? Math.max(0.32, GILT.k) * breathe : GILT.k * 0.4) : GILT.k;
     const op = GILT.op[sd] += (goal - GILT.op[sd]) * 0.06;
-    for (const m of GILT.mats[sd]) m.opacity = op;
+    for (const m of GILT.mats[sd]) { m.opacity = op; m.visible = op > 0.01; }   // dark gilt is not drawn at all
   }
 }
 var sternName = null;     // set only while a named ship is built for the slip
@@ -1909,13 +1910,13 @@ function carveBadge(ship, glyph, white, L, surfaceZ, railY, tGuns, name) {
 const PIECE_H = { king: 3.0, queen: 2.85, bishop: 2.6, knight: 2.55, rook: 2.3, pawn: 2.0 };
 const PIECE_MAT = {
   w: new THREE.MeshStandardMaterial({ color: 0xf2e8d0, roughness: 0.32, metalness: 0.05, emissive: 0xfff1cf, emissiveIntensity: 0.05 }),
-  b: new THREE.MeshStandardMaterial({ color: 0x2a1a12, roughness: 0.3, metalness: 0.08, emissive: 0xff9a40, emissiveIntensity: 0.0 })
+  b: new THREE.MeshStandardMaterial({ color: 0x2a1a12, roughness: 0.3, metalness: 0.08, emissive: 0x7a4a26, emissiveIntensity: 0.0 })
 };
 const PIECE_GEO = {};
 function pieceGeo(cls) {
   if (PIECE_GEO[cls]) return PIECE_GEO[cls];
   const V = (r, y) => new THREE.Vector2(r, y), parts = [];
-  const lathe = pts => parts.push(new THREE.LatheGeometry(pts, 28));
+  const lathe = pts => parts.push(new THREE.LatheGeometry(pts, 16));
   const base = [V(0, 0), V(0.34, 0), V(0.34, 0.05), V(0.3, 0.08), V(0.3, 0.11), V(0.24, 0.14)];
   const ball = (y, r, n = 10) => { const a = []; for (let i = 0; i <= n; i++) { const t = -Math.PI / 2 + i / n * Math.PI; a.push(V(Math.max(0.0001, Math.cos(t) * r), y + Math.sin(t) * r)); } return a; };
   if (cls === 'pawn') lathe([...base, V(0.15, 0.36), V(0.22, 0.42), V(0.22, 0.46), V(0.12, 0.5), ...ball(0.68, 0.19).slice(1)]);
@@ -1936,7 +1937,7 @@ function pieceGeo(cls) {
     const sh = new THREE.Shape();          // the horse's head in profile, facing -X (the bow)
     [[0.2, 0.2], [0.22, 0.45], [0.16, 0.72], [0.06, 0.9], [-0.02, 0.95], [-0.08, 0.88], [-0.22, 0.76], [-0.3, 0.64], [-0.27, 0.58], [-0.12, 0.6], [-0.04, 0.55], [-0.12, 0.42], [-0.16, 0.2]]
       .forEach(([x, y], i) => i ? sh.lineTo(x, y) : sh.moveTo(x, y));
-    const ex = new THREE.ExtrudeGeometry(sh, { depth: 0.24, bevelEnabled: true, bevelSize: 0.03, bevelThickness: 0.03, bevelSegments: 2 });
+    const ex = new THREE.ExtrudeGeometry(sh, { depth: 0.24, bevelEnabled: true, bevelSize: 0.03, bevelThickness: 0.03, bevelSegments: 1 });
     ex.translate(0, 0, -0.12); parts.push(ex);
     const ear = new THREE.ConeGeometry(0.04, 0.1, 6); ear.translate(-0.01, 0.98, 0); parts.push(ear);
   }
@@ -1945,16 +1946,14 @@ function pieceGeo(cls) {
 }
 // The embroidery: gold and silver bands worked round each piece (base, collar, crown), gilt crowns and crosses,
 // a gold bridle and silver mane on the knight.
-const TRIM_MAT = {
-  gold: new THREE.MeshStandardMaterial({ color: 0xe8b84a, roughness: 0.3, metalness: 0.65, emissive: 0x7a5410, emissiveIntensity: 0.35 }),
-  silver: new THREE.MeshStandardMaterial({ color: 0xdfe4ec, roughness: 0.25, metalness: 0.6, emissive: 0x4a5058, emissiveIntensity: 0.35 })
-};
+// gold and silver in one mesh, told apart by vertex colour: one draw per piece for all its trim
+const TRIM_MAT = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.28, metalness: 0.62, emissive: 0x6a5a40, emissiveIntensity: 0.35 });
 const TRIM_GEO = {};
 function trimGeo(cls) {
   if (TRIM_GEO[cls]) return TRIM_GEO[cls];
   const G = [], S = [];
-  const ring = (to, y, r, tube = 0.022) => { const g = new THREE.TorusGeometry(r, tube, 6, 32); g.rotateX(Math.PI / 2); g.translate(0, y, 0); to.push(g); };
-  const bead = (to, x, y, z, r) => { const g = new THREE.SphereGeometry(r, 10, 8); g.translate(x, y, z); to.push(g); };
+  const ring = (to, y, r, tube = 0.022) => { const g = new THREE.TorusGeometry(r, tube, 4, 18); g.rotateX(Math.PI / 2); g.translate(0, y, 0); to.push(g); };
+  const bead = (to, x, y, z, r) => { const g = new THREE.SphereGeometry(r, 6, 4); g.translate(x, y, z); to.push(g); };
   const stud = (to, y, r, n, br) => { for (let k = 0; k < n; k++) { const a = (k + 0.5) / n * Math.PI * 2; bead(to, Math.cos(a) * r, y, Math.sin(a) * r, br); } };
   ring(G, 0.05, 0.345, 0.026); ring(S, 0.11, 0.305); stud(G, 0.08, 0.33, 12, 0.02);           // every piece: a gilt foot, a silver band, a row of gold studs
   if (cls === 'pawn') { ring(G, 0.44, 0.222); ring(S, 0.48, 0.2, 0.016); }
@@ -1970,19 +1969,21 @@ function trimGeo(cls) {
     bead(G, -0.07, 0.78, 0.15, 0.025); bead(G, -0.07, 0.78, -0.15, 0.025);                                                         // gilt eyes
     for (let k = 0; k < 6; k++) { const m = new THREE.BoxGeometry(0.05, 0.07, 0.06); const t = k / 5; m.translate(0.2 - 0.17 * t + 0.02, 0.42 + 0.48 * t, 0); m.rotateZ(0); S.push(m); }   // the silver mane down the neck
   }
-  return TRIM_GEO[cls] = { gold: joinGeos(G), silver: joinGeos(S) };
+  const tint = (gs, hex) => { const c = new THREE.Color(hex); gs.forEach(g => { const n = g.attributes.position.count, a = new Float32Array(n * 3); for (let i = 0; i < n; i++) a.set([c.r, c.g, c.b], i * 3); g.setAttribute('color', new THREE.BufferAttribute(a, 3)); }); };
+  tint(G, 0xe8b84a); tint(S, 0xdfe4ec);
+  return TRIM_GEO[cls] = joinGeos([...G, ...S]);
 }
 function masthead(cls, side, top) {
   if (!top || !EMBED && !PIECES_ALWAYS) return null;
   const m = new THREE.Mesh(pieceGeo(cls), PIECE_MAT[side]);
-  { const T = trimGeo(cls); m.add(new THREE.Mesh(T.gold, TRIM_MAT.gold)); m.add(new THREE.Mesh(T.silver, TRIM_MAT.silver)); }
+  m.add(new THREE.Mesh(trimGeo(cls), TRIM_MAT));
   m.position.set(top[0], top[1] + 0.02, 0); m.userData.h = PIECE_H[cls] || 2.4; m.scale.setScalar(m.userData.h);
   return m;
 }
 const PIECES_ALWAYS = true;
 function piecesFrame() {          // big enough to read: they swell when the eye is far off, and glow a little by night and on the side to move
-  const nk = GILT.k; TRIM_MAT.gold.emissiveIntensity = 0.3 + 0.6 * nk; TRIM_MAT.silver.emissiveIntensity = 0.25 + 0.45 * nk;   // the thread catches the lamps at night
-  for (const sd of ['w', 'b']) PIECE_MAT[sd].emissiveIntensity = sd === 'w' ? 0.06 + GILT.op.w * 0.35 : GILT.op.b * 0.45;   // ebony by day; a warm glow from within by night
+  const nk = GILT.k; TRIM_MAT.emissiveIntensity = 0.3 + 0.55 * nk;   // the thread catches the lamps at night
+  for (const sd of ['w', 'b']) PIECE_MAT[sd].emissiveIntensity = sd === 'w' ? 0.06 + GILT.op.w * 0.35 : GILT.op.b * 0.3;   // ebony by day; a warm glow from within by night
   for (const f of fleet) {
     const p = f.piece; if (!p) continue;
     const d = camera.position.distanceTo(f.holder.position), k = Math.min(2.6, Math.max(1, d / 520));
@@ -4823,7 +4824,7 @@ window.__yardEmbed = {
   get info() { const i = renderer.info.render; return { calls: i.calls, tris: i.triangles, dpr: renderer.getPixelRatio() }; }
 };
 if (EMBED) { setLight('live'); }
-window.__yard = { fxTest: { spawnSplash, burnPuff, shotFall, sinkShip, STORM, FOLLOW, scene, skyMat }, muster, rollRandom, commission, get roster() { return !!ROSTER; }, setMode, launch, get yardState() { return yard.state; }, setClass, holdBeam(th) { beamHold = th; }, face(az) { controls.st.theta = Math.atan2(-Math.cos(az), -Math.sin(az)); controls.st.dT = 0; }, lampAz() { return beam ? (beam.u - skyMat.uniforms.panoRot.value) * 2 * Math.PI : null; }, setLook, setSea, setLight, setSky, get panoOn() { return skyMat.uniforms.panoOn.value; }, get rot() { return skyMat.uniforms.panoRot.value; }, get look() { return lookName; }, get broken() { return postBroken; }, hdr, controls, camera, harbour, scope, viewCourt, viewSea, courtPick, get courtAt() { return courtAt; }, get mode() { return mode; }, castOff, buildHarbour, slip, fleet, buildFleet, game, newGame, playMove, Chess, get sailing() { return sailing.size; }, setGuns, takeWith, AUD, setSound, skyAt(ms) { skyClock = 'run'; skyBodies.visible = starTilt.visible = true; document.getElementById('skyNote').hidden = false; skyFreeze = ms; stepSky(true); }, get place() { return skyPlace; } };
+window.__yard = { muster, rollRandom, commission, get roster() { return !!ROSTER; }, setMode, launch, get yardState() { return yard.state; }, setClass, holdBeam(th) { beamHold = th; }, face(az) { controls.st.theta = Math.atan2(-Math.cos(az), -Math.sin(az)); controls.st.dT = 0; }, lampAz() { return beam ? (beam.u - skyMat.uniforms.panoRot.value) * 2 * Math.PI : null; }, setLook, setSea, setLight, setSky, get panoOn() { return skyMat.uniforms.panoOn.value; }, get rot() { return skyMat.uniforms.panoRot.value; }, get look() { return lookName; }, get broken() { return postBroken; }, hdr, controls, camera, harbour, scope, viewCourt, viewSea, courtPick, get courtAt() { return courtAt; }, get mode() { return mode; }, castOff, buildHarbour, slip, fleet, buildFleet, game, newGame, playMove, Chess, get sailing() { return sailing.size; }, setGuns, takeWith, AUD, setSound, skyAt(ms) { skyClock = 'run'; skyBodies.visible = starTilt.visible = true; document.getElementById('skyNote').hidden = false; skyFreeze = ms; stepSky(true); }, get place() { return skyPlace; } };
 })();
 </script>
 </body>
