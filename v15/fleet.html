@@ -2237,29 +2237,41 @@ const FOAM = foamTex();
 // ---------------- TWO SHIPS ON THEIR SQUARES ----------------
 const SCALE = 3.5;                         // 10 ship units → 35 world units, inside a 40-unit square
 const fleet = [];
+// Joins geometries that share a material into one, keeping their indices: a box is 24 corners, not 36, and the
+// graphics chip transforms each shared corner once. (Older Macs pay for every corner, so this matters there.)
+function joinGeos(gs) {
+  const hasC = !!gs[0].attributes.color;
+  let nv = 0, ni = 0;
+  for (const g of gs) { nv += g.attributes.position.count; ni += g.index ? g.index.count : g.attributes.position.count; }
+  const P = new Float32Array(nv * 3), N = new Float32Array(nv * 3), U = new Float32Array(nv * 2), C = hasC ? new Float32Array(nv * 3) : null;
+  const I = nv > 65535 ? new Uint32Array(ni) : new Uint16Array(ni);
+  let v = 0, k = 0;
+  for (const g of gs) {
+    const c = g.attributes.position.count;
+    P.set(g.attributes.position.array, v * 3); N.set(g.attributes.normal.array, v * 3);
+    if (g.attributes.uv) U.set(g.attributes.uv.array, v * 2); if (C && g.attributes.color) C.set(g.attributes.color.array, v * 3);
+    if (g.index) { const ix = g.index.array; for (let j = 0; j < ix.length; j++) I[k++] = ix[j] + v; }
+    else for (let j = 0; j < c; j++) I[k++] = j + v;
+    v += c; g.dispose();
+  }
+  const mg = new THREE.BufferGeometry(); mg.setAttribute('position', new THREE.BufferAttribute(P, 3)); mg.setAttribute('normal', new THREE.BufferAttribute(N, 3)); mg.setAttribute('uv', new THREE.BufferAttribute(U, 2));
+  if (C) mg.setAttribute('color', new THREE.BufferAttribute(C, 3));
+  mg.setIndex(new THREE.BufferAttribute(I, 1)); mg.computeBoundingSphere(); return mg;
+}
 function mergeShip(root) {
   (root.userData.sails || []).forEach(m => { m.material.userData.sail = true; });
   root.updateMatrixWorld(true);
   const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), buckets = new Map(), gone = [];
   root.traverse(o => {
     if (!o.isMesh || Array.isArray(o.material)) return;
-    const g = (o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone());
+    const g = o.geometry.clone();
     if (!g.attributes.normal) g.computeVertexNormals();
     g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld));
     const key = o.material.uuid + (g.attributes.color ? ':c' : '');
     if (!buckets.has(key)) buckets.set(key, { mat: o.material, gs: [], order: o.renderOrder }); buckets.get(key).gs.push(g); gone.push(o);
   });
   gone.forEach(o => o.parent.remove(o));
-  for (const { mat, gs, order } of buckets.values()) {
-    const n = gs.reduce((a, g) => a + g.attributes.position.count, 0), hasC = !!gs[0].attributes.color;
-    const P = new Float32Array(n * 3), N = new Float32Array(n * 3), U = new Float32Array(n * 2), C = hasC ? new Float32Array(n * 3) : null;
-    let k = 0;
-    for (const g of gs) { const c = g.attributes.position.count; P.set(g.attributes.position.array, k * 3); N.set(g.attributes.normal.array, k * 3);
-      if (g.attributes.uv) U.set(g.attributes.uv.array, k * 2); if (C && g.attributes.color) C.set(g.attributes.color.array, k * 3); k += c; g.dispose(); }
-    const mg = new THREE.BufferGeometry(); mg.setAttribute('position', new THREE.BufferAttribute(P, 3)); mg.setAttribute('normal', new THREE.BufferAttribute(N, 3)); mg.setAttribute('uv', new THREE.BufferAttribute(U, 2));
-    if (C) mg.setAttribute('color', new THREE.BufferAttribute(C, 3));
-    const m = new THREE.Mesh(mg, mat); m.renderOrder = order; root.add(m);
-  }
+  for (const { mat, gs, order } of buckets.values()) { const m = new THREE.Mesh(joinGeos(gs), mat); m.renderOrder = order; root.add(m); }
   return root;
 }
 let shipClass = 'rook';
@@ -3210,7 +3222,7 @@ function crownGeo(seed, tall) {
   const P = [], C = [];
   const n = 7 + Math.floor(rnd() * 3);
   for (let i = 0; i < n; i++) {
-    const g = new THREE.IcosahedronGeometry(1, 2), a = g.attributes.position;
+    const g = new THREE.IcosahedronGeometry(1, EMBED ? 1 : 2), a = g.attributes.position;   // V15: lighter puffs for older Macs
     const sc = 0.45 + rnd() * 0.35, ox = (rnd() - 0.5) * 1.1, oz = (rnd() - 0.5) * 1.1, oy = (i === 0 ? 0.35 : rnd() * 0.75) * (tall ? 1.6 : 1);
     for (let k = 0; k < a.count; k++) {
       const x = a.getX(k), y = a.getY(k), z = a.getZ(k), nz = hashN(Math.round(x * 20 + i * 7), Math.round(y * 20), Math.round(z * 20));
@@ -3979,8 +3991,15 @@ async function sailIn(side) {        // the squadron makes sail and takes its st
   }));
   game.shipAt = shipFromBoard();
 }
-// Whitby stands off the west flank of the board, her harbour mouth open toward the squares.
-if (EMBED) { slip.position.set(-SLIP.R - 2 * TILE, 0, 0); slip.rotation.y = 0; slip.visible = true; }
+// Whitby lies far off to the west, 50 squares from the board, her harbour mouth open toward the sea. The battle is
+// fought well out at sea: from the board the town is lost in the haze, so it is not drawn at all while the camera is
+// out there (it is the heaviest thing in the scene); the opening flies out from it to the fleets.
+const WHITBY_X = -3000;
+if (EMBED) { slip.position.set(WHITBY_X, 0, 0); slip.rotation.y = 0; slip.visible = true; }
+function whitbyInView() {               // drawn only when the camera is near enough to see it through the haze
+  const d = camera.position.distanceTo(slip.position);
+  if (slip.visible && d > 2300) slip.visible = false; else if (!slip.visible && d < 2100) slip.visible = true;
+}
 // V15 draws the harbour in a few dozen calls instead of ~1,300: every still, visible mesh of the town, quay
 // and court is baked into one mesh per material. What moves or changes stays apart: the buoys, the ship on
 // the slip, the court's pieces and marks, and the rooftop trophies (hidden until a capture reveals them).
@@ -3991,7 +4010,7 @@ function mergeStatic(root, apart) {
   const inv = new THREE.Matrix4().copy(root.matrixWorld).invert(), buckets = new Map(), gone = [];
   root.traverse(o => {
     if (!o.isMesh || o.isInstancedMesh || skip.has(o) || Array.isArray(o.material) || !shown(o)) return;
-    const g = (o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone());
+    const g = o.geometry.clone();
     if (!g.attributes.normal) g.computeVertexNormals();
     g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld));
     const key = o.material.uuid + (g.attributes.color ? ':c' : '') + ':' + o.renderOrder;
@@ -3999,17 +4018,7 @@ function mergeStatic(root, apart) {
     buckets.get(key).gs.push(g); gone.push(o);
   });
   gone.forEach(o => o.parent.remove(o));
-  for (const { mat, gs, order } of buckets.values()) {
-    const n = gs.reduce((a, g) => a + g.attributes.position.count, 0), hasC = !!gs[0].attributes.color;
-    const P = new Float32Array(n * 3), N = new Float32Array(n * 3), U = new Float32Array(n * 2), C = hasC ? new Float32Array(n * 3) : null;
-    let k = 0;
-    for (const g of gs) { const c = g.attributes.position.count; P.set(g.attributes.position.array, k * 3); N.set(g.attributes.normal.array, k * 3);
-      if (g.attributes.uv) U.set(g.attributes.uv.array, k * 2); if (C && g.attributes.color) C.set(g.attributes.color.array, k * 3); k += c; g.dispose(); }
-    const mg = new THREE.BufferGeometry(); mg.setAttribute('position', new THREE.BufferAttribute(P, 3)); mg.setAttribute('normal', new THREE.BufferAttribute(N, 3)); mg.setAttribute('uv', new THREE.BufferAttribute(U, 2));
-    if (C) mg.setAttribute('color', new THREE.BufferAttribute(C, 3));
-    mg.computeBoundingSphere();
-    const m = new THREE.Mesh(mg, mat); m.renderOrder = order; m.matrixAutoUpdate = false; root.add(m);
-  }
+  for (const { mat, gs, order } of buckets.values()) { const m = new THREE.Mesh(joinGeos(gs), mat); m.renderOrder = order; m.matrixAutoUpdate = false; root.add(m); }
 }
 if (EMBED) mergeStatic(slip, [yard.holder, courtPieces, courtMarks, ...buoys]);
 const EMB = { pending: 0, gen: 0, q: Promise.resolve(), selSig: '' };
@@ -4045,6 +4054,7 @@ function embBench() {
   const parts = [
     ['As it is', () => {}],
     ['Fewest pixels', () => { GOV.fixed = 4; GOV.level = 4; govApply(); }],
+    ['  … and no trees', () => slip.traverse(o => { if (o.isInstancedMesh && o.material.vertexColors) { o.visible = false; o.userData.benchHid = true; } })],
     ['  … and no ships', () => fleet.forEach(f => { f.holder.visible = false; if (f.foam) f.foam.visible = false; })],
     ['  … and no Whitby', () => { slip.visible = false; }],
     ['  … and no sea', () => { sea.visible = false; }],
@@ -4060,6 +4070,7 @@ function embBench() {
         i++;
         if (i >= parts.length) {          // put everything back
           fleet.forEach(f => { f.holder.visible = true; if (f.foam) f.foam.visible = true; }); slip.visible = true; sea.visible = true;
+          slip.traverse(o => { if (o.userData.benchHid) { o.visible = true; delete o.userData.benchHid; } });
           GOV.fixed = keep.fixed; GOV.level = keep.level; govApply();
           BENCH = null; benchShow(rows, true); console.log('[V15 speed test]'); console.table(rows); done(rows); return;
         }
@@ -4120,11 +4131,11 @@ function embPick(nx, ny, turn, sel, targets) {   // which square a click at (nx,
 }
 window.__yardEmbed = {
   ready: true,
-  tile: TILE, slipAt: [-SLIP.R - 2 * TILE, 0, 0],
+  tile: TILE, slipAt: [WHITBY_X, 0, 0],
   sync: embSync, move: embMove, pick: embPick,
   camera(p, q, fov) { camera.position.fromArray(p); camera.quaternion.copy(_eq.fromArray(q)); if (fov && camera.fov !== fov) { camera.fov = fov; camera.updateProjectionMatrix(); } },
   marks(sel, targets) { const sig = (sel || '') + '|' + (targets || []).join(','); if (sig === EMB.selSig) return; EMB.selSig = sig; game.sel = sel || null; game.moves = targets || []; drawMarks(); },
-  tick() { const a = performance.now(); govStep(a); frame(); if (BENCH) BENCH.frame(performance.now() - a); },
+  tick() { const a = performance.now(); govStep(a); if (!BENCH) whitbyInView(); frame(); if (BENCH) BENCH.frame(performance.now() - a); },
   get stats() { return { fps: Math.round(1000 / GOV.ema), level: GOV.level, pixels: GOV.steps[GOV.level].px, liteSea: !!GOV.steps[GOV.level].lite }; },
   quality(n) { GOV.fixed = (n == null || n === 'auto') ? null : Math.max(0, Math.min(GOV.steps.length - 1, n)); if (GOV.fixed != null) { GOV.level = GOV.fixed; govApply(); } },
   wake() { audioWake(); if (AUD.ctx && AUD.ctx.state === 'suspended') AUD.ctx.resume(); },
