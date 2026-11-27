@@ -2714,6 +2714,7 @@ function stepSky(force) {
   const full = 1 - Math.abs(mp.phase - 0.5) * 2;     // 0 new, 1 full
   if (Math.abs(mp.phase - lastMoonPhase) > 0.004) { lastMoonPhase = mp.phase; paintMoon(mp.phase); moonTex.needsUpdate = true; }
   const moonUp = Math.max(0, Math.min(1, Math.sin(mp.alt * Math.PI / 180) * 6));
+  if (EMBED) embPano(sa.alt > -4 ? 'parrish-w' : 'friedrich-w');   // V15: the painted Whitby, by day or by night, from the real sun there
   { // the weather: cover drifts between broken and heavy cloud over about an hour of real time
     const cu = cloudMat.uniforms, hr = date.getTime() / 3600000;
     cu.cover.value = 0.50 + 0.07 * Math.sin(hr * 2 * Math.PI / 1.1) + 0.04 * Math.sin(hr * 2 * Math.PI / 0.37);
@@ -2759,7 +2760,7 @@ function stepSky(force) {
 }
 window.__skyDirOf = n => n === 'moon' ? moonSprite.position.clone().normalize() : n === 'sun' ? skyMat.uniforms.sunDir.value.clone().normalize() : BODIES.find(B => B.name === n).sprite.position.clone().normalize();
 function setSkyClock(kind) {
-  skyClock = kind; skyBodies.visible = starTilt.visible = cloudDome.visible = !!kind;
+  skyClock = kind; skyBodies.visible = starTilt.visible = cloudDome.visible = !!kind; if (EMBED) panoQuiet();
   document.getElementById('skyNote').hidden = !kind;
   if (kind === 'run') { runFrom = Date.now(); runAt = performance.now(); }
   if (kind) { setLight('day', true); realLight = kind; press(['lDay', 'lDusk', 'lLive', 'lRun'], kind === 'live' ? 'lLive' : 'lRun'); stepSky(true); }
@@ -2948,12 +2949,43 @@ function softBand(img) {
   const t = new THREE.DataTexture(out, N, 1, THREE.RGBAFormat); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = THREE.RepeatWrapping;
   t.magFilter = t.minFilter = THREE.LinearFilter; t.needsUpdate = true; return t;
 }
-function loadSky(name, done) {
+function loadSky(name, done, fail) {
   if (skyTex[name]) return done(skyTex[name]);
   new THREE.TextureLoader().load(SKIES[name].url, t => {
     t.colorSpace = THREE.SRGBColorSpace; t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping;
     t.generateMipmaps = false; t.minFilter = THREE.LinearFilter; t.userData.soft = softBand(t.image); skyTex[name] = t; done(t);
-  }, undefined, () => { const el = document.getElementById('err'); el.style.display = 'block'; el.textContent = 'The painted sky ' + SKIES[name].url + ' did not load, so the drawn sky stays.'; });
+  }, undefined, () => { if (fail) return fail(); const el = document.getElementById('err'); el.style.display = 'block'; el.textContent = 'The painted sky ' + SKIES[name].url + ' did not load, so the drawn sky stays.'; });
+}
+// V15's sky: the two painted Whitby panoramas (the town, the abbey on its cliff, the pier light), by day and by night,
+// turned so the painted town lies to the west where Whitby is. The live clock still lights the ships and the sea and
+// chooses the painting; the drawn stars, moon, clouds and the far headland stand down while a painting is up.
+const PANO = { want: null, shown: null, files: { 'parrish-w': 'whitby-day', 'friedrich-w': 'whitby-night' } };
+function embPano(name) {
+  if (PANO.want === name) return; PANO.want = name;
+  const S = SKIES[name]; S.url = 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v15-' + PANO.files[name] + '.jpg';
+  loadSky(name, t => {
+    if (PANO.want !== name) return;
+    const su = skyMat.uniforms;
+    su.panoTop.value = waveU.panoTop.value = S.top || 1.396;
+    beam = S.beam || null; su.beamOn.value = waveU.beamOn.value = beam ? 1 : 0;
+    if (beam) { su.beamU.value = beam.u; su.beamV.value = beam.v; }
+    const rot = (S.town != null ? S.town : 0.5) - 0.5;
+    panoBase = rot; skyShown = name; su.pano.value = t; su.panoOn.value = 1; su.panoRot.value = rot; su.panoZen.value.setRGB(...S.zenith, THREE.SRGBColorSpace);
+    const g = S.gain || 0.7; su.panoGain.value = waveU.panoGain.value = g;
+    if (S.fog && !t.userData.fog) {
+      const d = new Uint8Array(256 * 4); for (let i = 0; i < 256; i++) { d[i*4] = S.fog[i*3]; d[i*4+1] = S.fog[i*3+1]; d[i*4+2] = S.fog[i*3+2]; d[i*4+3] = 255; }
+      const f = new THREE.DataTexture(d, 256, 1, THREE.RGBAFormat); f.colorSpace = THREE.SRGBColorSpace; f.wrapS = THREE.RepeatWrapping;
+      f.magFilter = f.minFilter = THREE.LinearFilter; f.needsUpdate = true; t.userData.fog = f;
+    }
+    waveU.pano.value = t; waveU.panoSoft.value = t.userData.soft; waveU.panoFog.value = t.userData.fog || t.userData.soft; waveU.panoOn.value = 1; waveU.panoRot.value = rot;
+    waveU.fogNear.value = 1600; waveU.fogFar.value = 4400;        // the squares are wide here: keep both fleets clear of the painted haze
+    PANO.shown = name; panoQuiet();
+  }, () => { PANO.want = null; });                                  // not there yet: keep the drawn sky, try again later
+}
+function panoQuiet() {                // while a painting is up, the drawn sky things stand down
+  const on = !!PANO.shown;
+  cloudDome.visible = starTilt.visible = skyBodies.visible = !on && !!skyClock;
+  try { headland.visible = !on; } catch (e) {}                    // (the headland is built further down)
 }
 function setSky(which) {
   if (look.post) skyChoice = which;            // Real always shows its drawn sky; the painted looks remember the choice
@@ -4004,7 +4036,7 @@ function frame() {
     beamLight.intensity = 4.5;
   } else if (beamLight.intensity) beamLight.intensity = 0;
   const dt = Math.min(0.25, Math.max(0, t - (frame.last || t))); frame.last = t; yardStep(dt, t);
-  if (skyMat.uniforms.panoOn.value > 0.5 && look.light && mode !== 'slip') {
+  if (!EMBED && skyMat.uniforms.panoOn.value > 0.5 && look.light && mode !== 'slip') {
     // The painted clouds drift: the sky swings slowly 10 degrees each way and back over eight minutes,
     // and the sun's light swings with it, so the ships stay lit from where the painted sun is.
     const drift = Math.sin(t * 2 * Math.PI / 480) * (10 / 360);    // starts moving at once, turns back after two minutes
