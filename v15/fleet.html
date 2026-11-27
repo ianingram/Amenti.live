@@ -2485,8 +2485,10 @@ function planetPosition(name, date, lat, lon) {
 }
 
 
-const skyPlace = { lat: 40.7, lon: -74.0, name: 'New York' };
+const skyPlace = EMBED ? { lat: 54.486, lon: -0.615, name: 'Whitby' }    // V15: the sky over Whitby, at the real hour there
+  : { lat: 40.7, lon: -74.0, name: 'New York' };
 (function locate() {
+  if (EMBED) return;                       // V15 is always Whitby's sky, wherever the player is
   let zone = ''; try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
   if (ZONES[zone]) { skyPlace.lat = ZONES[zone][0]; skyPlace.lon = ZONES[zone][1]; skyPlace.name = zone.split('/').pop().replace(/_/g, ' '); }
   else if (zone) { skyPlace.lon = -new Date().getTimezoneOffset() / 4; skyPlace.name = zone.split('/').pop().replace(/_/g, ' '); }
