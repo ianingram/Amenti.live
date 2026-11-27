@@ -563,7 +563,7 @@ function audioWake() {
       .then(b => { AUD.buf[k] = b; if (k === wantBed()) audioBed(); }).catch(() => {});
   }
 }
-function wantBed() { return ((typeof mode !== 'undefined' && (mode === 'slip' || mode === 'court')) || (EMBED && typeof EMB !== 'undefined' && EMB.view === 'court')) ? 'port' : seaName === 'storm' ? 'gale' : 'sea'; }
+function wantBed() { return (!EMBED && typeof mode !== 'undefined' && (mode === 'slip' || mode === 'court')) ? 'port' : seaName === 'storm' ? 'gale' : 'sea'; }   // V15 keeps the sea everywhere: the port bed has modern traffic in it
 function audioBed() {             // crossfade to the bed the scene wants
   if (!AUD.ctx) return; const k = wantBed(); if (k === AUD.bedKey || !AUD.buf[k]) return;
   const t = AUD.ctx.currentTime, old = AUD.bed;
@@ -1494,7 +1494,7 @@ canvas.addEventListener('pointerup', e => {
 // suite, on the Custom House's principal floor, trained on the board: it follows whichever ship is under
 // way (and the ship she is engaging), and holds on the last ship to move when all is still. What it sees
 // is drawn in a round eyepiece in the corner of the view.
-const scope = { on: true, cam: new THREE.PerspectiveCamera(3, 1, 5, 9000), aim: new THREE.Vector3(), w: 120, rt: null, size: 0 };
+const scope = { on: !EMBED, cam: new THREE.PerspectiveCamera(3, 1, 5, 9000), aim: new THREE.Vector3(), w: 120, rt: null, size: 0 };
 const scopeScene = new THREE.Scene(), scopeOrtho = new THREE.OrthographicCamera(0, 1, 1, 0, -10, 10);
 const scopeLens = new THREE.Mesh(new THREE.CircleGeometry(1, 64), new THREE.MeshBasicMaterial({ toneMapped: true }));
 const scopeRim = new THREE.Mesh(new THREE.RingGeometry(1, 1.07, 64), new THREE.MeshBasicMaterial({ color: 0xc89a42, toneMapped: false }));
@@ -4047,6 +4047,7 @@ function frame() {
     if (postBroken && lookName !== 'real') setLook('real');
     renderer.render(scene, camera);
   }
+  stepHeadland(Math.min(0.1, dt || 0.016));
   if (stepScope(Math.min(0.1, dt || 0.016))) drawScope();
   if (!EMBED) requestAnimationFrame(frame);
 }
@@ -4110,6 +4111,80 @@ function mergeStatic(root, apart) {
   for (const { mat, gs, order } of buckets.values()) { const m = new THREE.Mesh(joinGeos(gs), mat); m.renderOrder = order; m.matrixAutoUpdate = false; root.add(m); }
 }
 if (EMBED) mergeStatic(slip, [yard.holder, courtPieces, courtMarks, ...buoys]);
+
+// ================= THE HEADLAND: Whitby's cliffs and light, seen from the battle =================
+// The harbour itself is too heavy to draw from the board, so the coast is drawn a second time, light: a long dark
+// wall of cliff to the north of the harbour mouth and a lower shoulder to the south, a few hundred faces in all,
+// always on the western horizon. On the end of the high cliff stands the light: by night its lantern burns and its
+// beam turns, a shaft through the haze that flares when it swings toward you. The rock takes the haze of the
+// horizon by day and stands black against the sky by night.
+const headland = new THREE.Group();
+const rockMat = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.95, flatShading: true, fog: false });
+function cliffRidge(z0, z1, xFace, hMax, depth, seed) {      // a run of cliff: a broken sea face, a sloping back
+  const P = [], N = 24 + Math.round(Math.abs(z1 - z0) / 70);
+  const rows = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N, z = z0 + (z1 - z0) * t, end = Math.min(1, Math.min(t, 1 - t) * 7);
+    const h = hMax * (0.25 + 0.75 * Math.pow(end, 0.6)) * (0.86 + 0.14 * hashN(i, seed, 1));
+    const jut = (hashN(i, seed, 2) - 0.5) * 60;
+    rows.push([[xFace + jut + 30, -2, z], [xFace + jut, h * 0.55, z], [xFace + jut - 14, h, z], [xFace - depth * 0.5, h * 0.92, z], [xFace - depth, h * 0.6, z]]);
+  }
+  const q = (a, b, c, d) => P.push(...a, ...b, ...c, ...a, ...c, ...d);
+  for (let i = 0; i < N; i++) for (let k = 0; k < 4; k++) q(rows[i][k], rows[i + 1][k], rows[i + 1][k + 1], rows[i][k + 1]);
+  const C = [];                          // sandstone and shale on the face, rough grass along the top
+  for (let v = 0; v < P.length; v += 3) { const y = P[v + 1], top = y > hMax * 0.62 && P[v] < xFace - 8;
+    const n = 0.85 + 0.3 * hashN(P[v] * 0.05, y * 0.05, P[v + 2] * 0.05);
+    if (top) C.push(0.1 * n, 0.14 * n, 0.08 * n); else C.push(0.17 * n, 0.145 * n, 0.12 * n); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(C, 3)); g.computeVertexNormals();
+  const m = new THREE.Mesh(g, rockMat); m.frustumCulled = false; return m;
+}
+const LIGHT_AT = new THREE.Vector3(WHITBY_X + 270, 0, -1060);    // on the high cliff, just north of the harbour mouth
+if (EMBED) {
+  headland.add(cliffRidge(-640, -3400, WHITBY_X + 330, 520, 640, 3));        // the high cliff to the north
+  headland.add(cliffRidge(560, 2600, WHITBY_X + 260, 260, 480, 7));          // the lower shoulder to the south
+  // surf at the foot of the cliffs
+  const surfM = new THREE.MeshBasicMaterial({ color: 0xdfe8ea, transparent: true, opacity: 0.35, depthWrite: false, fog: false });
+  for (const [za, zb, x] of [[-640, -3400, WHITBY_X + 330], [560, 2600, WHITBY_X + 260]]) {
+    const sf = new THREE.Mesh(new THREE.PlaneGeometry(70, Math.abs(zb - za)), surfM); sf.rotation.x = -Math.PI / 2; sf.position.set(x + 55, 1.5, (za + zb) / 2); headland.add(sf);
+  }
+  scene.add(headland);
+}
+// the light: tower, lantern, beam
+const lightTop = LIGHT_AT.clone().setY(520 * 0.86 + 46);          // the cliff top there, plus the tower
+const lanternGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: bodyTex(0xffd9a0), transparent: true, depthWrite: false, fog: false, blending: THREE.AdditiveBlending, opacity: 0 }));
+const beamMat = new THREE.ShaderMaterial({
+  transparent: true, depthWrite: false, fog: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  uniforms: { strength: { value: 0 }, col: { value: new THREE.Color(1.0, 0.9, 0.7) } },
+  vertexShader: 'varying float vL; varying vec3 vN, vV; void main(){ vL = uv.y; vec4 w = modelMatrix * vec4(position,1.0); vN = normalize(mat3(modelMatrix) * normal); vV = normalize(cameraPosition - w.xyz); gl_Position = projectionMatrix * viewMatrix * w; }',
+  fragmentShader: 'uniform float strength; uniform vec3 col; varying float vL; varying vec3 vN, vV; void main(){ float edge = pow(abs(dot(normalize(vN), normalize(vV))), 1.6); float a = strength * pow(vL, 1.8) * edge * 0.55; gl_FragColor = vec4(col * a, a); }'
+});
+const lightBeam = new THREE.Group();
+if (EMBED) {
+  const tower = new THREE.Mesh(new THREE.CylinderGeometry(9, 12, 46, 10), new THREE.MeshStandardMaterial({ color: 0xe9e2d4, roughness: 0.8, fog: false }));
+  tower.position.copy(lightTop).setY(lightTop.y - 23); headland.add(tower);
+  const cap = new THREE.Mesh(new THREE.ConeGeometry(10, 9, 10), new THREE.MeshStandardMaterial({ color: 0x1c1d20, roughness: 0.6, fog: false }));
+  cap.position.copy(lightTop).setY(lightTop.y + 9); headland.add(cap);
+  lanternGlow.position.copy(lightTop); lanternGlow.scale.setScalar(70); headland.add(lanternGlow);
+  // two shafts, back to back, as a real light's lenses throw them
+  for (const s of [1, -1]) {
+    const g = new THREE.CylinderGeometry(4, 120, 2600, 16, 1, true); g.translate(0, -1300, 0); g.rotateZ(s * Math.PI / 2);   // narrow at the lantern, spreading seaward
+    lightBeam.add(new THREE.Mesh(g, beamMat));
+  }
+  lightBeam.position.copy(lightTop); headland.add(lightBeam);
+}
+let beamTurn = 0;
+function stepHeadland(dt) {                  // called each frame: the beam turns, and the lantern flares when it faces you
+  if (!EMBED) return;
+  const night = 1 - cloudMat.uniforms.day.value;
+  beamTurn += dt * 2 * Math.PI / 12;         // once round in twelve seconds
+  lightBeam.rotation.y = beamTurn;
+  beamMat.uniforms.strength.value = night * 0.9;
+  const toCam = camera.position.clone().sub(lightTop).setY(0).normalize(), along = new THREE.Vector3(Math.cos(beamTurn), 0, -Math.sin(beamTurn));
+  const face = Math.pow(Math.abs(toCam.dot(along)), 40);
+  lanternGlow.material.opacity = night * (0.55 + 0.45 * face); lanternGlow.scale.setScalar(70 + 260 * face * night);
+  // the rock: hazed like the horizon by day, a dark mass against the sky by night
+  rockMat.emissive.copy(cloudMat.uniforms.hazeCol.value).multiplyScalar(0.16 * cloudMat.uniforms.day.value + 0.03);
+}
 const EMB = { pending: 0, gen: 0, q: Promise.resolve(), selSig: '', view: 'sea', board: null };
 function embSync(board, names, taken, homes) {   // set the fleet to game01's board, keeping any ship that already fits her square
   EMB.gen++; EMB.q = Promise.resolve(); EMB.pending = 0;

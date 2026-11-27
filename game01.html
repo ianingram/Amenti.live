@@ -23994,7 +23994,6 @@ function _v15Bar(show) {
             b.onclick = e => { e.stopPropagation(); fn(); }; bar.appendChild(b); return b; };
         mk('v15Sea', 'At sea', () => _v15SetView('sea'));
         mk('v15Court', 'From the court', () => _v15SetView('court'));
-        mk('v15Scope', 'Telescope', () => { _v15.scope = !_v15.scope; const E = _v15Api(); if (E) E.scope(_v15.scope); _v15BarMarks(); });
         document.body.appendChild(bar);
     }
     const want = show && currentViewId === 15 ? 'flex' : 'none';
@@ -24003,7 +24002,6 @@ function _v15Bar(show) {
 function _v15BarMarks() {
     const on = (id, v) => { const b = document.getElementById(id); if (b) { b.style.background = v ? 'rgba(216,181,106,.9)' : 'transparent'; b.style.color = v ? '#1a1208' : '#f3e6c4'; } };
     on('v15Sea', _v15.view !== 'court'); on('v15Court', _v15.view === 'court');
-    const sc = document.getElementById('v15Scope'); if (sc) { sc.style.display = _v15.view === 'court' ? '' : 'none'; on('v15Scope', _v15.scope !== false); }
 }
 function _v15SetView(v) {            // the same orbit, laid over the sea or over the pool board; each place has its own reach
     const E = _v15Api(); if (!E) return;
@@ -24021,7 +24019,7 @@ function _v15SetView(v) {            // the same orbit, laid over the sea or ove
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=16';
+        f.src = 'v15/fleet.html?embed=1&v=18';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24036,7 +24034,7 @@ function v15Enter() {
     _v15.prev = { position: c.style.position, zIndex: c.style.zIndex, opacity: c.style.opacity };
     if (!c.style.position || c.style.position === 'static') c.style.position = 'relative';
     if (!c.style.zIndex) c.style.zIndex = '1';
-    _v15.sig = ''; _v15.view = 'sea'; if (_v15.scope == null) _v15.scope = true;   // the fleet is set to the board as it stands on the next frame
+    _v15.sig = ''; _v15.view = 'sea';   // the fleet is set to the board as it stands on the next frame
     { const E = _v15Api(); if (E) E.view('sea'); }
     _v15.home = true;                // and the camera opens at Whitby (after setView and its wrappers finish)
 }
