@@ -4066,7 +4066,8 @@ const WHITBY_X = -4000;               // 40 squares out, inside the sky
 if (EMBED) { slip.position.set(WHITBY_X, 0, 0); slip.rotation.y = 0; slip.visible = true; }
 function whitbyInView() {               // drawn only when the camera is near enough to see it through the haze
   const d = camera.position.distanceTo(slip.position);
-  if (slip.visible && d > 2300) slip.visible = false; else if (!slip.visible && d < 2100) slip.visible = true;
+  if (slip.visible && d > 2300) { slip.visible = false; govFresh(); }   // out at sea: judge the speed afresh, from full detail
+  else if (!slip.visible && d < 2100) slip.visible = true;
 }
 // V15 draws the harbour in a few dozen calls instead of ~1,300: every still, visible mesh of the town, quay
 // and court is baked into one mesh per material. What moves or changes stays apart: the buoys, the ship on
@@ -4171,7 +4172,12 @@ function govApply() {
   renderer.setPixelRatio(S.px); resize();
   waveU.lite.value = S.lite ? 1 : 0;
 }
+function govFresh() {                  // forget what the harbour cost: start again at full detail and look for 1.5 s first
+  GOV.fails = GOV.fails.map(() => 0); GOV.slow = GOV.quick = 0; GOV.ema = 16.7; GOV.held = performance.now() + 1500;
+  if (GOV.fixed == null && GOV.level !== 0) { GOV.level = 0; govApply(); }
+}
 function govStep(now) {
+  if (EMBED && slip.visible) { GOV.last = now; return; }   // Whitby (the opening) is the heaviest view; it does not set the level for play
   if (GOV.last) {
     const dt = Math.min(250, now - GOV.last); GOV.ema += (dt - GOV.ema) * 0.08;
     if (GOV.fixed != null || now < GOV.held) { GOV.last = now; return; }
@@ -4179,7 +4185,7 @@ function govStep(now) {
     GOV.quick = GOV.ema < 21 ? GOV.quick + dt : 0;            // over ~48 frames a second
     if (GOV.slow > 1500 && GOV.level < GOV.steps.length - 1) {
       GOV.fails[GOV.level]++; GOV.level++; govApply(); GOV.slow = GOV.quick = 0; GOV.held = now + 2000; GOV.ema = 30;
-    } else if (GOV.quick > 6000 * (1 + 2 * GOV.fails[GOV.level - 1 >= 0 ? GOV.level - 1 : 0]) && GOV.level > 0) {
+    } else if (GOV.quick > 4000 * (1 + GOV.fails[GOV.level - 1 >= 0 ? GOV.level - 1 : 0]) && GOV.level > 0) {
       GOV.level--; govApply(); GOV.slow = GOV.quick = 0; GOV.held = now + 2000; GOV.ema = 22;
     }
   }
