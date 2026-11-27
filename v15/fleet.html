@@ -367,7 +367,7 @@ function waveHeight(x, z, t) {
 }
 
 // ---------------- THE BOARD GRID (wireframe squares, 40 units) ----------------
-const TILE = EMBED ? 60 : 40;          // in game01 (V15) the squares are wider, so the ships of the line sit inside them
+const TILE = EMBED ? 120 : 40;         // V15: even a first-rate takes little more than a third of her square          // in game01 (V15) the squares are wider, so the ships of the line sit inside them
 const gridPts = [];
 for (let i = -4; i <= 4; i++) { gridPts.push(i * TILE, 0, -4 * TILE, i * TILE, 0, 4 * TILE, -4 * TILE, 0, i * TILE, 4 * TILE, 0, i * TILE); }
 const gridGeo = new THREE.BufferGeometry(); gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridPts, 3));
@@ -3994,7 +3994,7 @@ async function sailIn(side) {        // the squadron makes sail and takes its st
 // Whitby lies far off to the west, 50 squares from the board, her harbour mouth open toward the sea. The battle is
 // fought well out at sea: from the board the town is lost in the haze, so it is not drawn at all while the camera is
 // out there (it is the heaviest thing in the scene); the opening flies out from it to the fleets.
-const WHITBY_X = -3000;
+const WHITBY_X = -4000;               // 40 squares out, inside the sky
 if (EMBED) { slip.position.set(WHITBY_X, 0, 0); slip.rotation.y = 0; slip.visible = true; }
 function whitbyInView() {               // drawn only when the camera is near enough to see it through the haze
   const d = camera.position.distanceTo(slip.position);
@@ -4051,12 +4051,14 @@ const _eq = new THREE.Quaternion();
 let BENCH = null;
 function embBench() {
   if (BENCH) return BENCH.p;
+  // Each row changes one thing from the row above it.
+  const plain = new THREE.MeshBasicMaterial({ color: 0x8a7a66 }), saved = new Map();
+  const shipsMeshes = () => { const L = []; fleet.forEach(f => f.holder.traverse(o => { if (o.isMesh) L.push(o); })); return L; };
   const parts = [
     ['As it is', () => {}],
-    ['Fewest pixels', () => { GOV.fixed = 4; GOV.level = 4; govApply(); }],
-    ['  … and no trees', () => slip.traverse(o => { if (o.isInstancedMesh && o.material.vertexColors) { o.visible = false; o.userData.benchHid = true; } })],
+    ['Ships in one plain colour', () => shipsMeshes().forEach(o => { saved.set(o, o.material); o.material = plain; })],
+    ['  … and half the ships', () => { shipsMeshes().forEach(o => { if (saved.has(o)) o.material = saved.get(o); }); fleet.forEach((f, k) => { if (k % 2) { f.holder.visible = false; if (f.foam) f.foam.visible = false; } }); }],
     ['  … and no ships', () => fleet.forEach(f => { f.holder.visible = false; if (f.foam) f.foam.visible = false; })],
-    ['  … and no Whitby', () => { slip.visible = false; }],
     ['  … and no sea', () => { sea.visible = false; }],
   ];
   const keep = { level: GOV.level, fixed: GOV.fixed };
@@ -4066,10 +4068,10 @@ function embBench() {
     BENCH.frame = (dtTick) => {
       const now = performance.now();
       if (i < 0 || now - t0 > 4000) {
-        if (i >= 0) rows.push([parts[i][0], Math.round(1000 * n / (now - t0 - 1000 > 0 ? (now - t0 - 1000) : 1)), (tk / Math.max(1, n)).toFixed(1)]);
+        if (i >= 0) rows.push([parts[i][0], Math.round(1000 * n / (now - t0 - 1000 > 0 ? (now - t0 - 1000) : 1)), (tk / Math.max(1, n)).toFixed(1), renderer.info.render.calls, Math.round(renderer.info.render.triangles / 1000) + 'k']);
         i++;
         if (i >= parts.length) {          // put everything back
-          fleet.forEach(f => { f.holder.visible = true; if (f.foam) f.foam.visible = true; }); slip.visible = true; sea.visible = true;
+          saved.forEach((m, o) => { o.material = m; }); fleet.forEach(f => { f.holder.visible = true; if (f.foam) f.foam.visible = true; }); sea.visible = true;
           slip.traverse(o => { if (o.userData.benchHid) { o.visible = true; delete o.userData.benchHid; } });
           GOV.fixed = keep.fixed; GOV.level = keep.level; govApply();
           BENCH = null; benchShow(rows, true); console.log('[V15 speed test]'); console.table(rows); done(rows); return;
@@ -4085,9 +4087,9 @@ function benchShow(rows, done, now) {
   let el = document.getElementById('bench');
   if (!el) { el = document.createElement('div'); el.id = 'bench'; el.style.cssText = 'position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:50;background:rgba(10,14,20,.88);color:#f3e6c4;font:15px/1.6 Georgia,serif;padding:18px 26px;border:1px solid #b8955a;border-radius:6px;min-width:330px'; document.body.appendChild(el); }
   el.innerHTML = '<div style="letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:#d8b56a;margin-bottom:8px">V15 speed test</div>'
-    + '<table style="border-collapse:collapse;width:100%">' + '<tr style="opacity:.7;font-size:12px"><td></td><td style="text-align:right">frames/s</td><td style="text-align:right;padding-left:14px">fleet ms</td></tr>'
-    + rows.map(r => `<tr><td style="white-space:pre">${r[0]}</td><td style="text-align:right">${r[1]}</td><td style="text-align:right;padding-left:14px">${r[2]}</td></tr>`).join('')
-    + (done ? '' : `<tr><td colspan=3 style="opacity:.7;font-style:italic">testing: ${now.trim()} …</td></tr>`) + '</table>'
+    + '<table style="border-collapse:collapse;width:100%">' + '<tr style="opacity:.7;font-size:12px"><td></td><td style="text-align:right">frames/s</td><td style="text-align:right;padding-left:14px">fleet ms</td><td style="text-align:right;padding-left:14px">draws</td><td style="text-align:right;padding-left:14px">triangles</td></tr>'
+    + rows.map(r => `<tr><td style="white-space:pre">${r[0]}</td><td style="text-align:right">${r[1]}</td><td style="text-align:right;padding-left:14px">${r[2]}</td><td style="text-align:right;padding-left:14px">${r[3]}</td><td style="text-align:right;padding-left:14px">${r[4]}</td></tr>`).join('')
+    + (done ? '' : `<tr><td colspan=5 style="opacity:.7;font-style:italic">testing: ${now.trim()} …</td></tr>`) + '</table>'
     + (done ? '<div style="font-size:12px;opacity:.7;margin-top:8px">Take a screenshot · this closes in a minute</div>' : '');
   clearTimeout(el._t); if (done) el._t = setTimeout(() => el.remove(), 60000);
 }

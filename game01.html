@@ -23969,7 +23969,7 @@ function _v15Names() {               // each ship's captain: the figure who hold
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=7';
+        f.src = 'v15/fleet.html?embed=1&v=11';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -23993,25 +23993,31 @@ function v15Enter() {
 // Any click or scroll ends it.
 const _V15_INTRO = {
     keys: [   // t (seconds), eye, target, caption [title, line] shown while the camera holds on it
-        // Whitby stands 50 squares west of the board (x = -50); the board is at the origin
-        { t: 0, eye: [-40.53, 3.4, 8.4], tgt: [-51.33, 0.8, 0.0], cap: ['Whitby', 'North Yorkshire'] },
-        { t: 3.5, eye: [-41.53, 3.1, 7.6], tgt: [-51.33, 0.8, 0.2] },
-        { t: 7, eye: [-46.93, 1.5, 6.2], tgt: [-51.53, 0.5, 1.2], cap: ['Whitby Harbour', 'the quay and the slip'] },
-        { t: 9.5, eye: [-47.53, 1.4, 5.4], tgt: [-51.53, 0.5, 0.8] },
-        { t: 13, eye: [-43.93, 0.9, 3.9], tgt: [-45.7, 0.55, 1.53], cap: ['The Pier Light', 'the harbour mouth'] },
-        { t: 15.5, eye: [-44.33, 0.95, 3.3], tgt: [-45.7, 0.55, 1.53] },
-        { t: 19, eye: [-49.73, 1.3, 1.6], tgt: [-54.33, 0.5, 0.0], cap: ['The Custom House', 'where the captains muster'] },
-        { t: 21.5, eye: [-50.13, 1.25, 1.0], tgt: [-54.33, 0.5, 0.0] },
-        { t: 25,   eye: [-42.0, 3.2, 4.5], tgt: [-30.0, 0.5, 0.0], cap: ['Out to Sea', 'past the pier heads'] },
+        // at: 'whitby' keys are in the fleet page's own units, measured from Whitby (4,000 units west, about 33 squares);
+        // the rest are in squares from the board's centre. _v15Home converts them with the page's square size.
+        { t: 0, at: 'whitby', eye: [568, 204, 504], tgt: [-80, 48, 0], cap: ['Whitby', 'North Yorkshire'] },
+        { t: 3.5, at: 'whitby', eye: [508, 186, 456], tgt: [-80, 48, 12] },
+        { t: 7, at: 'whitby', eye: [184, 90, 372], tgt: [-92, 30, 72], cap: ['Whitby Harbour', 'the quay and the slip'] },
+        { t: 9.5, at: 'whitby', eye: [148, 84, 324], tgt: [-92, 30, 48] },
+        { t: 13, at: 'whitby', eye: [364, 54, 234], tgt: [258, 33, 92], cap: ['The Pier Light', 'the harbour mouth'] },
+        { t: 15.5, at: 'whitby', eye: [340, 57, 198], tgt: [258, 33, 92] },
+        { t: 19, at: 'whitby', eye: [16, 78, 96], tgt: [-260, 30, 0], cap: ['The Custom House', 'where the captains muster'] },
+        { t: 21.5, at: 'whitby', eye: [-8, 75, 60], tgt: [-260, 30, 0] },
+        { t: 25, at: 'whitby', eye: [480, 192, 270], tgt: [1200, 30, 0], cap: ['Out to Sea', 'past the pier heads'] },
         { t: 30,   eye: [-24.0, 6.0, 8.0], tgt: [-6.0, 0.0, 0.5] },
-        { t: 34,   eye: [-3.0, 7.5, 10.5], tgt: [-0.5, 0.0, 1.8], cap: ['The Treasure Fleets', 'in war formation, well out at sea'] },
-        { t: 36.5, eye: [-1.5, 8.0, 10.5], tgt: [0, 0, 0.2] },
-        { t: 39,   eye: [0, 10, 11.5],     tgt: [0, 0, 0] }
+        { t: 34,   eye: [-3.0, 6.0, 10.5], tgt: [-0.5, 0.0, 2.6], cap: ['The Treasure Fleets', 'in war formation, well out at sea'] },
+        { t: 36.5, eye: [-1.5, 7.0, 11.0], tgt: [0, 0, 1.8] },
+        { t: 39,   eye: [0, 8.0, 11.5],    tgt: [0, 0, 1.4] }
     ]
 };
 _V15_INTRO.dur = _V15_INTRO.keys[_V15_INTRO.keys.length - 1].t;
-_V15_INTRO.eye = _V15_INTRO.keys.map(k => k.eye);
-_V15_INTRO.tgt = _V15_INTRO.keys.map(k => k.tgt);
+function _v15IntroPoints(E) {        // every key in squares, for this fleet page's square size and Whitby's place
+    const T = E.tile || 60, W = (E.slipAt || [-3000, 0, 0])[0];
+    const conv = (k, v) => k.at === 'whitby' ? [(W + v[0]) / T, v[1] / T, v[2] / T] : v;
+    _V15_INTRO.eye = _V15_INTRO.keys.map(k => conv(k, k.eye));
+    _V15_INTRO.tgt = _V15_INTRO.keys.map(k => conv(k, k.tgt));
+}
+_v15IntroPoints({});
 function _v15Caption(cap) {          // the title in the lower third, fading between shots
     let el = document.getElementById('v15Caption');
     if (!el) {
@@ -24034,6 +24040,7 @@ function _v15Home() {                // land any other opening first, then start
     if (introActive) endIntro();
     _v12Intro = null;                // stop V12's fly-in if it was still running
     const V = a => new THREE.Vector3(a[0], a[1], a[2]);
+    _v15IntroPoints(_v15Api() || {});
     _v15.intro = { t: 0, last: performance.now(), shot: -1,
         eye: new THREE.CatmullRomCurve3(_V15_INTRO.eye.map(V), false, 'centripetal'),
         tgt: new THREE.CatmullRomCurve3(_V15_INTRO.tgt.map(V), false, 'centripetal') };
