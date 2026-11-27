@@ -428,7 +428,28 @@ function canvasTex(base, seam, emblem) {
     x.fillStyle = emblem.col; x.font = '500 250px serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
     x.fillText(emblem.glyph, 0, 0); x.restore();
   }
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  if (emblem) {   // the gilt: the logo's gold edge (and a gold logo's face), which catches the moon and the lanterns at night
+    const g = document.createElement('canvas'); g.width = g.height = 256; const y = g.getContext('2d');
+    y.translate(128, 136); y.scale(1 / emblem.aspect, 1); y.font = '500 250px serif'; y.textAlign = 'center'; y.textBaseline = 'middle';
+    y.lineJoin = 'round'; y.strokeStyle = '#ffd77a'; y.lineWidth = 9; y.strokeText(emblem.glyph, 0, 0);
+    if (emblem.gold) { y.fillStyle = 'rgba(255,214,120,0.6)'; y.fillText(emblem.glyph, 0, 0); }
+    const gt = new THREE.CanvasTexture(g); gt.colorSpace = THREE.SRGBColorSpace; t.userData.gilt = gt;
+  }
+  return t;
+}
+// The gilt on the sails' logos: drawn over the cloth, brightening as night falls (stepSky sets GILT.k).
+const GILT = { k: 0, mats: new Set() };
+function giltOver(mesh) {
+  const tx = mesh.material.map && mesh.material.map.userData.gilt; if (!tx) return;
+  const m = new THREE.MeshBasicMaterial({ map: tx, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
+    opacity: GILT.k, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2, toneMapped: false });
+  GILT.mats.add(m); const o = new THREE.Mesh(mesh.geometry, m); o.visible = GILT.k > 0.01; o.userData.gilt = true; mesh.add(o);
+}
+function giltSet(k) {
+  if (Math.abs(k - GILT.k) < 0.01) return; GILT.k = k;
+  for (const m of GILT.mats) m.opacity = k;
+  scene.traverse(o => { if (o.userData.gilt) o.visible = k > 0.01; });
 }
 var sternName = null;     // set only while a named ship is built for the slip
 function sternTex(trim, lit, rows, name) {
@@ -1883,7 +1904,7 @@ function buildGalleon(side) {
   // Canvas glows a little when lit from behind, so headsails never go black.
   const sailMat = new THREE.MeshStandardMaterial({ map: canvasTex(P.sail, P.seam), roughness: 0.92, side: THREE.DoubleSide,
     emissive: new THREE.Color(P.sail), emissiveIntensity: white ? 0.22 : 0.16, emissiveMap: null });
-  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: '\u265C', col: P.glyph, aspect });   // the glow follows the paint, so the castle stays dark on white cloth
+  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: '\u265C', col: P.glyph, aspect, gold: !white });   // the glow follows the paint, so the castle stays dark on white cloth
     return new THREE.MeshStandardMaterial({ map: tx, emissiveMap: tx, roughness: 0.92, side: THREE.DoubleSide, emissive: 0xffffff, emissiveIntensity: white ? 0.22 : 0.16 }); };
   const spars = new THREE.MeshStandardMaterial({ color: 0x5a3e26, roughness: 0.7 });
   const sails = [];   // for the wind animation
@@ -1897,7 +1918,7 @@ function buildGalleon(side) {
       a.setXYZ(k, x - belly * fill, y, z);
     }
     g.computeVertexNormals();
-    const m = new THREE.Mesh(g, mat || sailMat); m.userData.base = Float32Array.from(a.array); m.userData.belly = belly; ship.add(m); sails.push(m); return m;
+    const m = new THREE.Mesh(g, mat || sailMat); m.userData.base = Float32Array.from(a.array); m.userData.belly = belly; ship.add(m); sails.push(m); if (mat) giltOver(m); return m;
   }
   const rigPts = [];
   const rig = (a, b) => rigPts.push(a.x, a.y, a.z, b.x, b.y, b.z);
@@ -2115,7 +2136,7 @@ function buildClass(cls, side) {
 
   // ---- canvas ----
   const sailMat = new THREE.MeshStandardMaterial({ map: canvasTex(P.sail, P.seam), roughness: 0.92, side: THREE.DoubleSide, emissive: new THREE.Color(P.sail), emissiveIntensity: white ? 0.22 : 0.16 });
-  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: S.glyph, col: P.glyph, aspect });
+  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: S.glyph, col: P.glyph, aspect, gold: !white });
     return new THREE.MeshStandardMaterial({ map: tx, emissiveMap: tx, roughness: 0.92, side: THREE.DoubleSide, emissive: 0xffffff, emissiveIntensity: white ? 0.22 : 0.16 }); };
   const sails = [];
   function squareSail(x, yTop, yBot, wTop, wBot, belly, mat) {
@@ -2125,7 +2146,7 @@ function buildClass(cls, side) {
       const fill = Math.sin(Math.PI * u) * Math.sin(Math.PI * (0.08 + 0.84 * (1 - v * 0.85)));
       a.setXYZ(k, x - belly * fill, yBot + (yTop - yBot) * v, (u - 0.5) * w);
     }
-    g.computeVertexNormals(); const m = new THREE.Mesh(g, mat || sailMat); ship.add(m); sails.push(m); return m;
+    g.computeVertexNormals(); const m = new THREE.Mesh(g, mat || sailMat); ship.add(m); sails.push(m); if (mat) giltOver(m); return m;
   }
   // a four-cornered fore-and-aft sail (gaff sail, or a lateen as a quad whose top edge runs along its yard)
   function quadSail(bl, br, tl, tr, belly, mat) {
@@ -2135,7 +2156,7 @@ function buildClass(cls, side) {
       const p = new THREE.Vector3().lerpVectors(new THREE.Vector3().lerpVectors(bl, br, u), new THREE.Vector3().lerpVectors(tl, tr, u), v);
       p.z += belly * Math.sin(Math.PI * u) * Math.sin(Math.PI * v); a.setXYZ(k, p.x, p.y, p.z);
     }
-    g.computeVertexNormals(); const m = new THREE.Mesh(g, mat || sailMat); ship.add(m); sails.push(m); return m;
+    g.computeVertexNormals(); const m = new THREE.Mesh(g, mat || sailMat); ship.add(m); sails.push(m); if (mat) giltOver(m); return m;
   }
   function spar(a, b, r) { const m = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.8, r, a.distanceTo(b), 6), spars); m.position.copy(a).lerp(b, 0.5); m.lookAt(b); m.rotateX(Math.PI / 2); ship.add(m); return m; }
   const rigPts = [], rig = (a, b) => rigPts.push(a.x, a.y, a.z, b.x, b.y, b.z);
@@ -2742,7 +2763,8 @@ function stepSky(force) {
   const full = 1 - Math.abs(mp.phase - 0.5) * 2;     // 0 new, 1 full
   if (Math.abs(mp.phase - lastMoonPhase) > 0.004) { lastMoonPhase = mp.phase; paintMoon(mp.phase); moonTex.needsUpdate = true; }
   const moonUp = Math.max(0, Math.min(1, Math.sin(mp.alt * Math.PI / 180) * 6));
-  if (EMBED) embPano(sa.alt > -4 ? 'parrish-w' : 'friedrich-w');   // V15: the painted Whitby, by day or by night, from the real sun there
+  if (EMBED) embPano(sa.alt > -4 ? 'parrish-w' : 'friedrich-w');
+  giltSet(0.8 * below);                    // the sails' logos gleam once the sun is down   // V15: the painted Whitby, by day or by night, from the real sun there
   { // the weather: cover drifts between broken and heavy cloud over about an hour of real time
     const cu = cloudMat.uniforms, hr = date.getTime() / 3600000;
     cu.cover.value = 0.50 + 0.07 * Math.sin(hr * 2 * Math.PI / 1.1) + 0.04 * Math.sin(hr * 2 * Math.PI / 0.37);
