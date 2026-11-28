@@ -2613,6 +2613,38 @@ function mergeShip(root) {
   return root;
 }
 let shipClass = 'rook';
+// V15: her name at sea. The carved name on her quarter is too small to read across the board, so each officer also
+// carries a gilt nameplate that hangs just under her hull on the screen, the same size wherever the camera is.
+// Only the ships nearest the eye show theirs, so as the player pivots round the board the near side is named
+// (namesFrame). Pawns carry none.
+function namePlate(name) {
+  const txt = name.toUpperCase().slice(0, 30), c = document.createElement('canvas'), x = c.getContext('2d');
+  x.font = '600 44px Georgia, serif'; const tw = Math.ceil(x.measureText(txt).width + 0.12 * 44 * txt.length);
+  c.width = tw + 64; c.height = 72;
+  x.fillStyle = 'rgba(20,13,8,0.82)'; x.fillRect(0, 0, c.width, c.height);
+  x.strokeStyle = '#d9ad4a'; x.lineWidth = 3; x.strokeRect(5, 5, c.width - 10, c.height - 10);
+  x.fillStyle = '#f0d58e'; x.font = '600 44px Georgia, serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  if ('letterSpacing' in x) x.letterSpacing = '5px';
+  x.fillText(txt, c.width / 2, c.height / 2 + 2);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  const m = new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: false, toneMapped: false, opacity: 0 });
+  const sp = new THREE.Sprite(m); const h = 0.019; sp.scale.set(h * c.width / c.height, h, 1); sp.center.set(0.5, 1.25);
+  sp.renderOrder = 20; sp.visible = false; sp.userData.plate = true; return sp;
+}
+const _np = new THREE.Vector3();
+function namesFrame() {
+  const sea = EMBED && EMB.view !== 'court' && !MUSTER.on;
+  for (const f of fleet) {
+    const p = f.plate; if (!p) continue;
+    let a = 0;
+    if (sea && !f.sink && f.holder.visible) {
+      f.holder.getWorldPosition(_np); const d = camera.position.distanceTo(_np);
+      a = (1 - THREE.MathUtils.smoothstep(d, 820, 1250)) * (1 - THREE.MathUtils.smoothstep(camera.position.y, 520, 900));   // near ships only, and not from high overhead
+    }
+    p.material.opacity += (a - p.material.opacity) * 0.15;
+    p.visible = p.material.opacity > 0.02;
+  }
+}
 function place(side, sqX, sqZ, cls, name) {
   cls = cls || shipClass; sternName = name || null;
   const g = mergeShip(cls === 'rook' ? buildGalleon(side) : buildClass(cls, side)); sternName = null; g.scale.setScalar(SCALE);
@@ -2627,7 +2659,8 @@ function place(side, sqX, sqZ, cls, name) {
     new THREE.MeshBasicMaterial({ map: FOAM, transparent: true, depthWrite: false, opacity: 0.7 }));
   foam.rotation.x = -Math.PI / 2; foam.renderOrder = 2; holder.add(foam);
   const glint = new THREE.Mesh(GLINT.geo, GLINT.mat); glint.position.set(sL * SCALE * 0.5, 0.4, 0); glint.renderOrder = 3; glint.visible = false; holder.add(glint);
-  setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, piece, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
+  const plate = EMBED && name && cls !== 'pawn' ? namePlate(name) : null; if (plate) { holder.add(plate); if (Math.round(sqX + 3.5) % 2) plate.center.y = 2.45; }   // alternate files hang lower, so neighbours' names don't run together
+  setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, piece, plate, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
 }
 // ---- the stern lanterns' light on the water at night: a broken warm streak from each stern toward the eye ----
 const GLINT = (() => {
@@ -4626,7 +4659,7 @@ function frame() {
   const t = still ? 0 : clock.getElapsedTime(); if (gunTweens.size) stepGuns(); if (FX.length || gunLight.intensity) stepFX(); audioLife(); if (skyClock) stepSky();
   { const nowS = performance.now(), dtS = Math.min(0.1, (nowS - (frame.lastS || nowS)) / 1000); frame.lastS = nowS; if (sailing.size) stepSailing(dtS * (EMB.pending > 1 ? Math.min(3, 1 + 0.6 * (EMB.pending - 1)) : 1)); if (courtAnims.size) stepCourt(dtS); for (const f of fleet) if (f.sink) f.sink.t += dtS; }
   sky.position.copy(camera.position);    // the sky goes with the eye: from Whitby, 4000 out, its far side was past the camera's reach
-  giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t); courtFrame(t); musterFrame();
+  giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t); courtFrame(t); musterFrame(); namesFrame();
   { const n = performance.now(), d = Math.min(0.1, (n - (frame.l2 || n)) / 1000); frame.l2 = n; stormFrame(t, d); followFrame(d); }
   waveU.time.value = t; skyMat.uniforms.time.value = t; cloudMat.uniforms.time.value = t; cloudMat.uniforms.lite.value = waveU.lite.value;
   if (beam && skyMat.uniforms.panoOn.value > 0.5) {
@@ -4840,7 +4873,7 @@ function embSync(board, names, taken, homes) {   // set the fleet to game01's bo
       keep.add(f); seat(f, r, c); setGuns(f.ship, false, true); continue; }
     place(pc.color, c - 3.5, r - 3.5, CLS[pc.type], name); const n = fleet[fleet.length - 1]; keep.add(n); seat(n, r, c);
   }
-  for (const f of fleet.slice()) if (!keep.has(f)) { scene.remove(f.holder); f.holder.traverse(o => { if (o.geometry) o.geometry.dispose(); }); fleet.splice(fleet.indexOf(f), 1); }
+  for (const f of fleet.slice()) if (!keep.has(f)) { scene.remove(f.holder); if (f.plate) { f.plate.material.map.dispose(); f.plate.material.dispose(); } f.holder.traverse(o => { if (o.geometry) o.geometry.dispose(); }); fleet.splice(fleet.indexOf(f), 1); }
   if (homes) for (const f of fleet) { const at = f.wedge || (() => { const r = Math.round(f.holder.position.z / TILE + 3.5), c = Math.round(f.holder.position.x / TILE + 3.5); return { r, c }; })();
     const h = homes[at.r] && homes[at.r][at.c]; if (h != null) f.file = h; }        // her home file: where her statue waits on the roof
   game.on = true; game.over = false; game.shipAt = shipFromBoard(); game.last = null; game.taken = (taken || []).slice();
