@@ -2024,14 +2024,35 @@ function trimGeo(cls) {
 }
 function masthead(cls, side, top) {
   if (!top || !EMBED && !PIECES_ALWAYS) return null;
+  if (!MAST_PIECES) {               // (Ian, 27 Nov 2026: the pieces on the trucks didn't work; the V12 royal glyphs read better)
+    if (cls !== 'king' && cls !== 'queen') return null;
+    const g = glory(cls); g.position.set(top[0], top[1] + 0.02, 0); g.userData.h = cls === 'king' ? 10 : 8.6; g.scale.setScalar(g.userData.h);   // V12's size for a square: the king's orb about a twenty-fifth of a square across the ring
+    g.children.forEach(o => o.position.y = 0.3); return g;
+  }
   const m = new THREE.Mesh(pieceGeo(cls), PIECE_MAT[side]);
   m.add(new THREE.Mesh(trimGeo(cls), TRIM_MAT));
   m.position.set(top[0], top[1] + 0.02, 0); m.userData.h = PIECE_H[cls] || 2.4; m.scale.setScalar(m.userData.h);
   return m;
 }
+// The royal glory, as V12 has it: a polished gold orb with a tilted Saturn ring, always over the king and the queen.
+// Carried on the masthead piece, so it swells with it when the eye is far off.
+const GLORY = {
+  orb: new THREE.MeshStandardMaterial({ color: 0xffd700, metalness: 1, roughness: 0.15, envMap: METAL_ENV, envMapIntensity: 2.5, emissive: 0x6a4a0c, emissiveIntensity: 0.25 }),
+  ring: new THREE.MeshBasicMaterial({ color: 0xfff4cc, side: THREE.DoubleSide, transparent: true, opacity: 0.9, toneMapped: false }),
+  geo: { king: [new THREE.SphereGeometry(0.13, 24, 16), new THREE.RingGeometry(0.19, 0.29, 48)], queen: [new THREE.SphereGeometry(0.11, 24, 16), new THREE.RingGeometry(0.16, 0.25, 48)] }
+};
+function glory(cls) {
+  const g = new THREE.Group(), [og, rg] = GLORY.geo[cls];
+  g.add(new THREE.Mesh(og, GLORY.orb));
+  const r = new THREE.Mesh(rg, GLORY.ring); r.rotation.x = Math.PI / 2 - 0.18; g.add(r);   // tilted about 10 degrees off flat, so it reads as a ring
+  g.position.y = cls === 'king' ? 1.42 : 1.26; g.userData.glory = true;
+  return g;
+}
 const PIECES_ALWAYS = true;
+const MAST_PIECES = false;         // the carved chess pieces on the main trucks: retired; only the king and queen carry a glory
 function piecesFrame() {          // big enough to read: they swell when the eye is far off, and glow a little by night and on the side to move
   const nk = GILT.k; TRIM_MAT.emissiveIntensity = 0.3 + 0.55 * nk;   // the thread catches the lamps at night
+  GLORY.orb.emissiveIntensity = 0.25 + 0.9 * nk;                       // the royal orb keeps its gold after dark
   for (const sd of ['w', 'b']) PIECE_MAT[sd].emissiveIntensity = sd === 'w' ? 0.06 + GILT.op.w * 0.35 : GILT.op.b * 0.3;   // ebony by day; a warm glow from within by night
   for (const f of fleet) {
     const p = f.piece; if (!p) continue;
@@ -2741,7 +2762,7 @@ function endCheck() {
 function startCheck(sd) {
   endCheck(); const f = kingOf(sd); if (!f || !f.piece) return;
   const h = new THREE.Sprite(new THREE.SpriteMaterial({ map: HALO_TEX, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
-  h.position.set(0, 0.55, 0); h.scale.setScalar(1.7); h.renderOrder = 6; f.piece.add(h);
+  h.position.set(0, f.piece.userData.glory ? 0.3 : 0.55, 0); h.scale.setScalar(1.7); h.renderOrder = 6; f.piece.add(h);   // (on the orb, now the pieces are off the trucks)
   END.halo = h; END.haloF = f; setGuns(f.ship, true);
   const ck = courtKing(sd); if (ck) { const h2 = h.clone(); h2.material = h.material; h2.position.set(0, 3.9, 0); h2.scale.setScalar(4.2); ck.add(h2); END.halo2 = h2; }
   if (AUD.ctx) audioShot('drum', 0.55, 1, 0, 0);
@@ -4481,7 +4502,7 @@ function buildHarbour(side) {
 const MUSTER = { on: false, done: false, ships: [], cap: null, capN: 0, t: 0, last: 0, cam: null };
 const CLASS_TITLE = { rook: 'Rook', knight: 'Knight', bishop: 'Bishop', queen: 'Queen', king: 'King', pawn: 'Pawn' };
 function musterEnd() {
-  for (const m of MUSTER.ships) { m.holder.parent && m.holder.parent.remove(m.holder); m.holder.traverse(o => { if (o.geometry && o.geometry !== PIECE_GEO[m.cls] && !Object.values(TRIM_GEO).includes(o.geometry)) o.geometry.dispose(); }); }
+  for (const m of MUSTER.ships) { m.holder.parent && m.holder.parent.remove(m.holder); m.holder.traverse(o => { if (o.geometry && o.geometry !== PIECE_GEO[m.cls] && !Object.values(TRIM_GEO).includes(o.geometry) && !(o.parent && o.parent.userData.glory)) o.geometry.dispose(); }); }
   MUSTER.ships = []; MUSTER.on = false; MUSTER.done = true; MUSTER.cap = null; MUSTER.cam = null; lanternLight.intensity = 0;
   for (const f of fleet) if (f.side === 'w') { f.holder.visible = true; if (f.foam) f.foam.visible = true; }
 }
