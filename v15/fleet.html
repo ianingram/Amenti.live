@@ -214,9 +214,14 @@ const skyMat = new THREE.ShaderMaterial({
         float u = fract(atan(d.z, d.x) / 6.2831853 + panoRot);
         // panoHz: where the painting's own horizon sits up its height. Lifting the painting by that much puts its
         // horizon on the real one, so the painted sea goes under our sea and the far water meets the painted sky.
-        float v = clamp(asin(clamp(d.y, -1.0, 1.0)) / panoTop + panoHz, 0.004, 0.996);
-        if (panoHz > 0.0) v = max(v, panoHz + 0.012);   // below the line (the sliver past the sea's far edge) the haze just above it, as the far water shows
+        float vr = asin(clamp(d.y, -1.0, 1.0)) / panoTop + panoHz, v = clamp(vr, 0.004, 0.996);
+        float under = panoHz > 0.0 ? smoothstep(panoHz + 0.014, panoHz + 0.002, vr) : 0.0;   // below the line: the sliver past the sea's far edge
+        if (panoHz > 0.0) v = max(v, panoHz + 0.012);   // ... shows the haze just above it, as the far water does
         vec3 pc = texture2D(pano, vec2(u, v)).rgb;
+        if (under > 0.0) {   // that one row, carried straight down, made bars of every bright thing on it (the painted surf under the cliffs): blur it along the horizon into a haze
+          vec3 hs = vec3(0.0); for (int k = -6; k <= 6; k++) hs += texture2D(pano, vec2(u + float(k) * 0.0035, v)).rgb;
+          pc = mix(pc, hs / 13.0, under);
+        }
         if (maskOn > 0.5) {
           // At Whitby itself the real town stands in front of us: the painted town is taken out of the painting,
           // and open sky and sea from further round the same horizon put in its place.
@@ -240,13 +245,13 @@ const skyMat = new THREE.ShaderMaterial({
             if (abs(du) > 5.0) continue;
             float ph = fract(time / spot[i].z + spot[i].w);
             float rise = smoothstep(0.0, 0.30, ph), fade = smoothstep(0.0, 0.06, ph) * smoothstep(1.0, 0.40, ph);
-            float H = 0.02 + 0.10 * rise, y = (v - hz) / H;
-            float spread = 0.7 + 1.1 * rise * y;                       // a plume: narrow at the rock, fanning out as it climbs
+            float H = 0.012 + 0.045 * rise, y = (vr - hz) / H;   // (the true height, not the row held below the line: else the plume runs straight down)
+            float spread = 0.9 + 1.6 * rise * y;                       // a plume: narrow at the rock, fanning out as it climbs
             float shape = exp(-du * du / (2.0 * spread * spread)) * smoothstep(1.0, 0.2, y) * smoothstep(-0.15, 0.05, y);
-            vec2 q = vec2(du * 3.0 + spot[i].w * 31.0, (v - hz) * 160.0 - ph * 22.0);
+            vec2 q = vec2(du * 3.0 + spot[i].w * 31.0, (vr - hz) * 160.0 - ph * 22.0);
             float n = fbm(q) * 0.7 + vn(q * 3.1) * 0.3;               // fine droplets over the body of the burst
             float spray = shape * smoothstep(0.50, 0.80, n + 0.35 * (1.0 - y)) * fade;
-            pc = mix(pc, surfCol, clamp(spray, 0.0, 1.0) * 0.8);
+            pc = mix(pc, surfCol, clamp(spray, 0.0, 1.0) * 0.5);   // (27 Nov: lower, broader and softer: spray off the rocks, not a fountain)
           }
         }
         pc = mix(pc, panoZen, smoothstep(0.86, 1.0, asin(clamp(d.y, 0.0, 1.0)) / panoTop + panoHz));
@@ -436,13 +441,14 @@ function planksTex() {
   }
   const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
 }
+const SAIL_EDGE = '#d9ad4a';      // Black's gilt bolt-rope
 // the cutters' mark: a small slim column with a ball over it, like a lower-case i (the pawn, simply)
 function markI(x) {
   x.beginPath(); x.arc(0, -30, 13, 0, Math.PI * 2);
   const w = 9, t0 = -8, t1 = 46; x.moveTo(-w, t0 + w); x.arcTo(-w, t0, 0, t0, w); x.arcTo(w, t0, w, t0 + w, w);
   x.lineTo(w, t1); x.lineTo(-w, t1); x.closePath();
 }
-function canvasTex(base, seam, emblem) {
+function canvasTex(base, seam, emblem, edge) {   // edge: a broad bolt-rope in this colour round the cloth (Black's gilt edge, so her sails show against a dark sea)
   const c = document.createElement('canvas'); c.width = 256; c.height = 256; const x = c.getContext('2d');
   x.fillStyle = base; x.fillRect(0, 0, 256, 256);
   for (let i = 0; i < 9000; i++) { x.fillStyle = 'rgba(0,0,0,' + Math.random() * 0.05 + ')'; x.fillRect(Math.random() * 256, Math.random() * 256, 1, 1); }
@@ -450,6 +456,7 @@ function canvasTex(base, seam, emblem) {
   for (let i = 1; i < 8; i++) x.fillRect(i * 32, 0, 1.2, 256);           // vertical cloths
   for (const y of [0.18, 0.30, 0.42]) { x.fillRect(0, y * 256, 256, 2); for (let k = 6; k < 256; k += 12) x.fillRect(k, y * 256 + 2, 1, 5); }   // reef bands + points
   x.fillRect(0, 0, 256, 3); x.fillRect(0, 253, 256, 3); x.fillRect(0, 0, 3, 256); x.fillRect(253, 0, 3, 256);   // bolt-rope
+  if (edge) { x.strokeStyle = edge; x.lineWidth = 14; x.strokeRect(7, 7, 242, 242); x.strokeStyle = 'rgba(255,236,180,0.55)'; x.lineWidth = 3; x.strokeRect(9, 9, 238, 238); }
   if (emblem) {   // the piece's own logo (the game's glyph), painted on the cloth; squeezed by the sail's width:height
     x.save(); x.translate(128, 136); x.scale(1 / emblem.aspect, 1);
     x.fillStyle = emblem.col; x.font = '500 250px serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
@@ -2055,7 +2062,9 @@ function piecesFrame() {          // big enough to read: they swell when the eye
   const nk = GILT.k; TRIM_MAT.emissiveIntensity = 0.3 + 0.55 * nk;   // the thread catches the lamps at night
   GLORY.orb.emissiveIntensity = 0.25 + 0.9 * nk;                       // the royal orb keeps its gold after dark
   for (const sd of ['w', 'b']) PIECE_MAT[sd].emissiveIntensity = sd === 'w' ? 0.06 + GILT.op.w * 0.35 : GILT.op.b * 0.3;   // ebony by day; a warm glow from within by night
+  const bs = 0.16 + 0.55 * Math.min(1, nk / 0.8);       // Black's sails: a faint glow by day, about three times it at night, so the fleet doesn't vanish into the dark sea
   for (const f of fleet) {
+    const ns = f.ship.userData.nightSails; if (ns && ns.length && ns[0].emissiveIntensity !== bs) for (const m of ns) m.emissiveIntensity = bs;
     const p = f.piece; if (!p) continue;
     const d = camera.position.distanceTo(f.holder.position), k = Math.min(2.6, Math.max(1, d / (520 * TS)));
     p.scale.setScalar(p.userData.h * k);
@@ -2103,7 +2112,7 @@ function buildGalleon(side) {
   const white = side === 'w';
   const P = white
     ? { wood: 0x9b6b3d, band: 0xcfa648, wale: 0x1d1712, below: 0x5a3b28, trim: '#e2b84f', lit: '#ffd889', sail: '#efe5cf', seam: 'rgba(120,96,60,0.35)', flag: '#efe5cf', glyph: '#1d1712', rig: 0x2a2118 }
-    : { wood: 0x523b2d, band: 0xb0362b, wale: 0x1a1410, below: 0x4a3122, trim: '#c9a24a', lit: '#ffc16b', sail: '#7a4a33', seam: 'rgba(30,15,8,0.35)', flag: '#1c1814', glyph: '#c9a24a', rig: 0x16110d };
+    : { wood: 0x523b2d, band: 0xb0362b, wale: 0x1a1410, below: 0x4a3122, trim: '#c9a24a', lit: '#ffc16b', sail: '#8c5639', seam: 'rgba(30,15,8,0.35)', flag: '#1c1814', glyph: '#c9a24a', rig: 0x16110d };
   const ship = new THREE.Group();
 
   // ---- hull: lofted from 48 stations × 25 points round each section ----
@@ -2188,10 +2197,12 @@ function buildGalleon(side) {
 
   // ---- masts, tops, yards, sails ----
   // Canvas glows a little when lit from behind, so headsails never go black.
-  const sailMat = new THREE.MeshStandardMaterial({ map: canvasTex(P.sail, P.seam), roughness: 0.92, side: THREE.DoubleSide,
-    emissive: new THREE.Color(P.sail), emissiveIntensity: white ? 0.22 : 0.16, emissiveMap: null });
-  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: '\u265C', col: P.glyph, aspect, gold: !white });   // the glow follows the paint, so the castle stays dark on white cloth
-    return new THREE.MeshStandardMaterial({ map: tx, emissiveMap: tx, roughness: 0.92, side: THREE.DoubleSide, emissive: 0xffffff, emissiveIntensity: white ? 0.22 : 0.16 }); };
+  const nightSail = m => { if (!white) (ship.userData.nightSails = ship.userData.nightSails || []).push(m); return m; };   // Black's tanned canvas glows up after dark (piecesFrame)
+  const plainTx = canvasTex(P.sail, P.seam, null, white ? null : SAIL_EDGE);
+  const sailMat = nightSail(new THREE.MeshStandardMaterial({ map: plainTx, roughness: 0.92, side: THREE.DoubleSide,
+    emissive: white ? new THREE.Color(P.sail) : 0xffffff, emissiveIntensity: white ? 0.22 : 0.16, emissiveMap: white ? null : plainTx }));
+  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: '\u265C', col: P.glyph, aspect, gold: !white }, white ? null : SAIL_EDGE);   // the glow follows the paint, so the castle stays dark on white cloth
+    return nightSail(new THREE.MeshStandardMaterial({ map: tx, emissiveMap: tx, roughness: 0.92, side: THREE.DoubleSide, emissive: 0xffffff, emissiveIntensity: white ? 0.22 : 0.16 })); };
   const spars = new THREE.MeshStandardMaterial({ color: 0x5a3e26, roughness: 0.7 });
   const sails = [];   // for the wind animation
   function squareSail(x, yTop, yBot, wTop, wBot, belly, mat) {
@@ -2329,7 +2340,7 @@ function buildClass(cls, side) {
   const S = CLASS_SPECS[cls], white = side === 'w', L = S.L, HB = S.HB;
   const P = white
     ? { wood: 0x9b6b3d, band: 0xcfa648, wale: 0x1d1712, below: 0x5a3b28, trim: '#e2b84f', lit: '#ffd889', sail: '#efe5cf', seam: 'rgba(120,96,60,0.35)', glyph: '#1d1712', rig: 0x2a2118 }
-    : { wood: 0x523b2d, band: 0xb0362b, wale: 0x1a1410, below: 0x4a3122, trim: '#c9a24a', lit: '#ffc16b', sail: '#7a4a33', seam: 'rgba(30,15,8,0.35)', glyph: '#c9a24a', rig: 0x16110d };
+    : { wood: 0x523b2d, band: 0xb0362b, wale: 0x1a1410, below: 0x4a3122, trim: '#c9a24a', lit: '#ffc16b', sail: '#8c5639', seam: 'rgba(30,15,8,0.35)', glyph: '#c9a24a', rig: 0x16110d };
   if (S.chequer) { P.band = white ? 0xd9b25a : 0xa8322a; P.wood = 0x16120f; }          // Nelson chequer: ochre strakes at the ports, black between
   const bowFull = S.bowFull || 0.35, st = S.sternTaper == null ? 0.3 : S.sternTaper;
   const halfBeam = t => t < bowFull ? HB * Math.pow(Math.sin(t / bowFull * Math.PI / 2), 0.62)
@@ -2424,9 +2435,11 @@ function buildClass(cls, side) {
   const spritTip = new THREE.Vector3(bowX - Math.cos(spritAng) * spritLen + 0.6, bowTop + Math.sin(spritAng) * spritLen - 0.25, 0);
 
   // ---- canvas ----
-  const sailMat = new THREE.MeshStandardMaterial({ map: canvasTex(P.sail, P.seam), roughness: 0.92, side: THREE.DoubleSide, emissive: new THREE.Color(P.sail), emissiveIntensity: white ? 0.22 : 0.16 });
-  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: S.glyph, col: P.glyph, aspect, gold: !white, mark: cls === 'pawn' ? 'i' : null });
-    return new THREE.MeshStandardMaterial({ map: tx, emissiveMap: tx, roughness: 0.92, side: THREE.DoubleSide, emissive: 0xffffff, emissiveIntensity: white ? 0.22 : 0.16 }); };
+  const nightSail = m => { if (!white) (ship.userData.nightSails = ship.userData.nightSails || []).push(m); return m; };   // Black's tanned canvas glows up after dark (piecesFrame)
+  const plainTx = canvasTex(P.sail, P.seam, null, white ? null : SAIL_EDGE);
+  const sailMat = nightSail(new THREE.MeshStandardMaterial({ map: plainTx, roughness: 0.92, side: THREE.DoubleSide, emissive: white ? new THREE.Color(P.sail) : 0xffffff, emissiveIntensity: white ? 0.22 : 0.16, emissiveMap: white ? null : plainTx }));
+  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: S.glyph, col: P.glyph, aspect, gold: !white, mark: cls === 'pawn' ? 'i' : null }, white ? null : SAIL_EDGE);
+    return nightSail(new THREE.MeshStandardMaterial({ map: tx, emissiveMap: tx, roughness: 0.92, side: THREE.DoubleSide, emissive: 0xffffff, emissiveIntensity: white ? 0.22 : 0.16 })); };
   const sails = [];
   function squareSail(x, yTop, yBot, wTop, wBot, belly, mat) {
     const g = new THREE.PlaneGeometry(1, 1, 12, 10), a = g.attributes.position;
@@ -2661,8 +2674,52 @@ function namePlate(name, cls) {     // her piece's glyph, then her name: so a ro
   sp.renderOrder = 20; sp.visible = false; sp.userData.plate = true; return sp;
 }
 const _np = new THREE.Vector3();
+// Her name on her square: when a ship stands on a square, its edge nearest the eye carries her piece and her name in
+// gilt letters lying on the water, tipped up a little towards the reader. They turn to whichever side the player looks
+// from, fade while she sails, and come up again on the square where she anchors. Pawns are left unnamed.
+function squareName(name, cls) {
+  const txt = name.toUpperCase().slice(0, 30), c = document.createElement('canvas'), x = c.getContext('2d');
+  const gl = PLATE_GLYPH[cls] ? PLATE_GLYPH[cls] + '\uFE0E' : '', GF = '92px "Apple Symbols", "Segoe UI Symbol", "DejaVu Sans", serif', TF = '600 64px Georgia, serif';
+  x.font = GF; const gw = gl ? Math.ceil(x.measureText(gl).width) + 26 : 0;
+  x.font = TF; const tw = Math.ceil(x.measureText(txt).width + 0.14 * 64 * txt.length);
+  c.width = Math.min(2048, tw + gw + 40); c.height = 104;
+  x.lineJoin = 'round'; x.textBaseline = 'middle';
+  const put = (font, t, px, ls) => { x.font = font; if ('letterSpacing' in x) x.letterSpacing = ls;
+    x.strokeStyle = 'rgba(12,8,4,0.85)'; x.lineWidth = 10; x.strokeText(t, px, 54); x.fillStyle = '#f0d58e'; x.fillText(t, px, 54); };
+  x.textAlign = 'left';
+  if (gl) put(GF, gl, 20, '0px');
+  put(TF, txt, 20 + gw, '9px');
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  let h = TILE * 0.12, w = h * c.width / c.height; if (w > TILE * 0.9) { h *= TILE * 0.9 / w; w = TILE * 0.9; }
+  const g = new THREE.PlaneGeometry(w, h); g.translate(0, h / 2, 0);              // pivot on her baseline, along the square's edge
+  const m = new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false, toneMapped: false, opacity: 0, polygonOffset: true, polygonOffsetFactor: -2 });
+  const mesh = new THREE.Mesh(g, m); mesh.renderOrder = 3; mesh.visible = false; mesh.userData.label = true; return mesh;
+}
+const _lq = new THREE.Quaternion(), _lq2 = new THREE.Quaternion(), _lc = new THREE.Vector3(), _lp = new THREE.Vector3(), _le = new THREE.Euler();
 function namesFrame() {
   const sea = EMBED && EMB.view !== 'court' && !MUSTER.on;
+  for (const f of fleet) {
+    const L = f.label; if (!L) continue;
+    let a = 0;
+    if (sea && !f.sink && !f.wedge && f.holder.visible && !sailing.has(f)) {
+      const hp = f.holder.position, r = Math.round(hp.z / TILE + 3.5), c = Math.round(hp.x / TILE + 3.5);
+      if (r >= 0 && r < 8 && c >= 0 && c < 8) {
+        _lc.copy(sqPos(r, c));
+        if (Math.hypot(hp.x - _lc.x, hp.z - _lc.z) < TILE * 0.12) {           // she is lying on her square, not on passage
+          const vx = camera.position.x - _lc.x, vz = camera.position.z - _lc.z;
+          const yaw = Math.abs(vz) >= Math.abs(vx) ? (vz > 0 ? 0 : Math.PI) : (vx > 0 ? Math.PI / 2 : -Math.PI / 2);   // the edge nearest the eye
+          _lp.set(Math.sin(yaw), 0, Math.cos(yaw)).multiplyScalar(TILE * 0.43).add(_lc); _lp.y = 1.2;
+          _le.set(-Math.PI / 2 + 0.38, yaw, 0, 'YXZ'); _lq.setFromEuler(_le);  // flat on the water, tipped up towards the reader
+          f.holder.updateMatrixWorld(); f.holder.getWorldQuaternion(_lq2).invert();
+          L.quaternion.copy(_lq2.multiply(_lq)); L.position.copy(f.holder.worldToLocal(_lp));
+          const d = camera.position.distanceTo(_lc);
+          a = 1 - THREE.MathUtils.smoothstep(d, 1700 * TS, 2600 * TS);
+        }
+      }
+    }
+    L.material.opacity += (a - L.material.opacity) * 0.12;
+    L.visible = L.material.opacity > 0.02;
+  }
   for (const f of fleet) {
     const p = f.plate; if (!p) continue;
     let a = 0;
@@ -2688,8 +2745,9 @@ function place(side, sqX, sqZ, cls, name) {
     new THREE.MeshBasicMaterial({ map: FOAM, transparent: true, depthWrite: false, opacity: 0.7 }));
   foam.rotation.x = -Math.PI / 2; foam.renderOrder = 2; holder.add(foam);
   const glint = new THREE.Mesh(GLINT.geo, GLINT.mat); glint.position.set(sL * SCALE * 0.5, 0.4, 0); glint.renderOrder = 3; glint.visible = false; holder.add(glint);
-  const plate = EMBED && name && cls !== 'pawn' ? namePlate(name, cls) : null; if (plate) { holder.add(plate); if (Math.round(sqX + 3.5) % 2) plate.center.y = 2.45; }   // alternate files hang lower, so neighbours' names don't run together
-  setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, piece, plate, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
+  const plate = null;   // (the floating nameplates, retired 27 Nov: the square she stands on carries her name instead)
+  const label = EMBED && name && cls !== 'pawn' ? squareName(name, cls) : null; if (label) holder.add(label);   // alternate files hang lower, so neighbours' names don't run together
+  setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, piece, plate, label, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
 }
 // ---- the stern lanterns' light on the water at night: a broken warm streak from each stern toward the eye ----
 const GLINT = (() => {
@@ -4902,7 +4960,7 @@ function embSync(board, names, taken, homes) {   // set the fleet to game01's bo
       keep.add(f); seat(f, r, c); setGuns(f.ship, false, true); continue; }
     place(pc.color, c - 3.5, r - 3.5, CLS[pc.type], name); const n = fleet[fleet.length - 1]; keep.add(n); seat(n, r, c);
   }
-  for (const f of fleet.slice()) if (!keep.has(f)) { scene.remove(f.holder); if (f.plate) { f.plate.material.map.dispose(); f.plate.material.dispose(); } f.holder.traverse(o => { if (o.geometry) o.geometry.dispose(); }); fleet.splice(fleet.indexOf(f), 1); }
+  for (const f of fleet.slice()) if (!keep.has(f)) { scene.remove(f.holder); if (f.plate) { f.plate.material.map.dispose(); f.plate.material.dispose(); } if (f.label) { f.label.material.map.dispose(); f.label.material.dispose(); } f.holder.traverse(o => { if (o.geometry) o.geometry.dispose(); }); fleet.splice(fleet.indexOf(f), 1); }
   if (homes) for (const f of fleet) { const at = f.wedge || (() => { const r = Math.round(f.holder.position.z / TILE + 3.5), c = Math.round(f.holder.position.x / TILE + 3.5); return { r, c }; })();
     const h = homes[at.r] && homes[at.r][at.c]; if (h != null) f.file = h; }        // her home file: where her statue waits on the roof
   game.on = true; game.over = false; game.shipAt = shipFromBoard(); game.last = null; game.taken = (taken || []).slice();
