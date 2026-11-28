@@ -65,6 +65,13 @@
         }
         /* PHONES (body.phone is set from the screen size, see _phoneFit): the rosters and the bottom
            rows are drawn smaller so the board shows between them, and the rows stack instead of overlapping. */
+        /* THE FILM: while the V15 opening plays, the game's panels fade out and thin black bars close in top and bottom */
+        body > div:not(#v15Caption):not(#v15Cover):not(.v15lb), #amenti-back { transition: opacity .8s ease; }
+        body.v15film > *:not(iframe):not(canvas):not(script):not(#v15Caption):not(#v15Cover):not(.v15lb) { opacity: 0 !important; pointer-events: none !important; }
+        .v15lb { position: fixed; left: 0; right: 0; height: 0; background: #000; z-index: 25; pointer-events: none; transition: height .9s ease; }
+        .v15lb.top { top: 0; } .v15lb.bot { bottom: 0; }
+        body.v15film .v15lb { height: 8vh; }
+        body.v15film.portrait .v15lb { height: 5vh; }
         body.phone .roster-panel { transform: scale(.58); top: 58px !important; }
         body.phone .roster-rosterLeft { transform-origin: top left; }
         body.phone .roster-rosterRight { transform-origin: top right; }
@@ -24037,7 +24044,7 @@ function _v15SetView(v) {            // the same orbit, laid over the sea or ove
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=37';
+        f.src = 'v15/fleet.html?embed=1&v=41';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24069,11 +24076,12 @@ const _V15_INTRO = {
         { t: 3.5, at: 'whitby', eye: [508, 186, 456], tgt: [-80, 48, 12] },
         { t: 7, at: 'whitby', eye: [184, 90, 372], tgt: [-92, 30, 72], cap: ['Whitby Harbour', 'the quay and the slip'] },
         { t: 9.5, at: 'whitby', eye: [148, 84, 324], tgt: [-92, 30, 48] },
-        { t: 13, at: 'whitby', eye: [364, 54, 234], tgt: [258, 33, 92], cap: ['The Pier Light', 'the harbour mouth'] },
-        { t: 15.5, at: 'whitby', eye: [340, 57, 198], tgt: [258, 33, 92] },
+        { t: 13, at: 'whitby', eye: [672, 54, 254], tgt: [566, 33, 112], cap: ['The Pier Light', 'the harbour mouth'] },
+        { t: 15.5, at: 'whitby', eye: [648, 57, 218], tgt: [566, 33, 112] },
         { t: 19, at: 'whitby', eye: [16, 78, 96], tgt: [-260, 30, 0], cap: ['The Custom House', 'where the captains muster'] },
         { t: 21.5, at: 'whitby', eye: [-8, 75, 60], tgt: [-260, 30, 0] },
-        { t: 25, at: 'whitby', eye: [480, 192, 270], tgt: [1200, 30, 0], cap: ['Out to Sea', 'past the pier heads'] },
+        { t: 23.5, at: 'whitby', eye: [700, 120, 390], tgt: [290, 8, 0], hold: 'muster' },   // the muster: the player's fleet casts off past this point; the opening waits here until the flagship is out
+        { t: 27, at: 'whitby', eye: [790, 192, 270], tgt: [1500, 30, 0], cap: ['Out to Sea', 'past the pier heads'] },
         { t: 30,   eye: [-24.0, 6.0, 8.0], tgt: [-6.0, 0.0, 0.5] },
         { t: 34,   eye: [-3.0, 6.0, 10.5], tgt: [-0.5, 0.0, 2.6], cap: ['The Treasure Fleets', 'in war formation, well out at sea'] },
         { t: 36.5, eye: [-1.5, 7.0, 11.0], tgt: [0, 0, 1.8] },
@@ -24089,22 +24097,28 @@ function _v15IntroPoints(E) {        // every key in squares, for this fleet pag
     _V15_INTRO.tgt = _V15_INTRO.keys.map(k => conv(k, k.tgt));
 }
 _v15IntroPoints({});
-function _v15Caption(cap) {          // the title in the lower third, fading between shots
+function _v15Film(on) {           // the film's frame: panels away, black bars in (CSS: body.v15film)
+    if (on && !document.querySelector('.v15lb')) for (const k of ['top', 'bot']) { const d = document.createElement('div'); d.className = 'v15lb ' + k; document.body.appendChild(d); }
+    document.body.classList.toggle('v15film', !!on);
+}
+function _v15Caption(cap, quick) {          // the title in the lower third, fading between shots
     let el = document.getElementById('v15Caption');
     if (!el) {
         el = document.createElement('div'); el.id = 'v15Caption';
         el.style.cssText = 'position:fixed;left:0;right:0;bottom:18%;z-index:30;text-align:center;pointer-events:none;'
             + 'font-family:Georgia,serif;color:#f3e6c4;text-shadow:0 2px 12px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.9);'
             + 'opacity:0;transition:opacity 1.1s ease;';
-        el.innerHTML = '<div class="t" style="font-size:clamp(30px,5vw,64px);letter-spacing:.18em;text-transform:uppercase"></div>'
+        el.innerHTML = '<div class="k" style="font-size:clamp(14px,1.7vw,22px);letter-spacing:.5em;text-transform:uppercase;opacity:.8;margin-bottom:2px"></div>'
+            + '<div class="t" style="font-size:clamp(30px,5vw,64px);letter-spacing:.18em;text-transform:uppercase"></div>'
             + '<div style="width:120px;height:1px;margin:10px auto;background:linear-gradient(90deg,transparent,#d8b56a,transparent)"></div>'
             + '<div class="l" style="font-size:clamp(14px,1.6vw,20px);font-style:italic;letter-spacing:.06em;opacity:.9"></div>';
         document.body.appendChild(el);
     }
+    el.style.transition = 'opacity ' + (quick ? '.35s' : '1.1s') + ' ease';
     if (!cap) { clearTimeout(el._t); el.style.opacity = '0'; return; }   // (and cancel a title still waiting to fade in)
     el.style.opacity = '0';
     clearTimeout(el._t);
-    el._t = setTimeout(() => { el.querySelector('.t').textContent = cap[0]; el.querySelector('.l').textContent = cap[1] || ''; el.style.opacity = '1'; }, el.textContent ? 700 : 0);
+    el._t = setTimeout(() => { el.querySelector('.k').textContent = cap[2] || ''; el.querySelector('.t').textContent = cap[0]; el.querySelector('.l').textContent = cap[1] || ''; el.style.opacity = '1'; }, el.textContent ? (quick ? 380 : 700) : 0);   // cap[2]: a small line above the title (a ship's THE)
 }
 function _v15Home() {                // land any other opening first, then start the V15 intro
     _v15.home = false;
@@ -24116,26 +24130,46 @@ function _v15Home() {                // land any other opening first, then start
         eye: new THREE.CatmullRomCurve3(_V15_INTRO.eye.map(V), false, 'centripetal'),
         tgt: new THREE.CatmullRomCurve3(_V15_INTRO.tgt.map(V), false, 'centripetal') };
     controls.enabled = false;
+    _v15Film(true);
     _v15IntroStep();
 }
 function _v15IntroStep() {
     const I = _v15.intro; if (!I) return;
     const now = performance.now(); I.t += Math.min(1.0, (now - I.last) / 1000); I.last = now;   // by the clock: a slow machine sees fewer frames, not a longer film
-    const K = _V15_INTRO.keys, n = K.length - 1, t = Math.min(I.t, _V15_INTRO.dur);
+    const K = _V15_INTRO.keys, H = K.find(k => k.hold === 'muster'), E = _v15Api();
+    if (H && E && E.muster && I.muster !== 'done' && I.t >= H.t) {   // the muster: hold the camera at the pier heads while the fleet stands out
+        if (!I.muster) { I.muster = 'on'; I.capN = -1;
+            let seen = 0; try { seen = +localStorage.getItem('amentiV15Musters') || 0; localStorage.setItem('amentiV15Musters', seen + 1); } catch (e) {}
+            E.muster(_v15Names(), 'w', seen ? 'short' : 'full'); }   // the whole muster the first time; after that, the queen and the flagship
+        const st = E.musterState;
+        if (st && st.on && !st.done) { I.t = H.t; if (st.capN !== I.capN) { I.capN = st.capN; _v15Caption(st.cap, !!st.cam); } }   // (quick between ships at the gate)
+        else { I.muster = 'done'; _v15Caption(null); }
+    }
+    const holding = I.muster === 'on';
+    const gate = holding && E && E.musterState && E.musterState.cam;   // the gate shot: the fleet page's camera on the pier head, following each ship through
+    const n = K.length - 1, t = Math.min(I.t, _V15_INTRO.dur);
     let i = 0; while (i < n - 1 && t >= K[i + 1].t) i++;
     const u = (t - K[i].t) / (K[i + 1].t - K[i].t), e = u * u * (3 - 2 * u) * 0.6 + u * 0.4;   // keeps moving, easing into and out of each landmark
     const p = (i + e) / n;
-    camera.position.copy(I.eye.getPoint(p));
-    controls.target.copy(I.tgt.getPoint(p));
+    _v15.lens = gate ? 0.5 : 1;      // the gate shot is on a long lens: the ship fills the frame and her carved name can be read
+    if (gate) {
+        const Tl = E.tile || 60, W = (E.slipAt || [-3000, 0, 0])[0], c = gate;
+        camera.position.set((W + c.eye[0]) / Tl, c.eye[1] / Tl, c.eye[2] / Tl);
+        controls.target.set((W + c.tgt[0]) / Tl, c.tgt[1] / Tl, c.tgt[2] / Tl);
+    } else {
+        camera.position.copy(I.eye.getPoint(p));
+        controls.target.copy(I.tgt.getPoint(p));
+    }
     camera.lookAt(controls.target);
     let shot = -1;                   // a caption shows from a second before its landmark until the camera moves on
     for (let k = 0; k < n; k++) if (K[k].cap && t >= K[k].t - 1 && t < K[k + 1].t + 0.3) shot = k;
-    if (shot !== I.shot) { I.shot = shot; _v15Caption(shot >= 0 ? K[shot].cap : null); }
+    if (!holding && shot !== I.shot) { I.shot = shot; _v15Caption(shot >= 0 ? K[shot].cap : null); }
     if (I.t >= _V15_INTRO.dur) _v15EndIntro();
 }
 function _v15EndIntro() {             // finished or skipped: land on White's side of the board
     if (!_v15.intro) return;
-    _v15.intro = null; _v15Caption(null);
+    { const E = _v15Api(); if (E && E.musterEnd) E.musterEnd(); }   // a skip sends the whole fleet straight to sea
+    _v15.intro = null; _v15Caption(null); _v15.lens = 1; _v15Film(false);
     const E = _V15_INTRO.eye[_V15_INTRO.eye.length - 1], T = _V15_INTRO.tgt[_V15_INTRO.tgt.length - 1];
     camera.position.set(E[0], E[1], E[2]); controls.target.set(T[0], T[1], T[2]); camera.lookAt(controls.target);
     controls.enabled = true; controls.update();
@@ -24161,6 +24195,7 @@ function v15Leave() {
     _v15Cover(false);
     if (_v15.prev) { c.style.position = _v15.prev.position; c.style.zIndex = _v15.prev.zIndex; c.style.opacity = _v15.prev.opacity; }
     if (_v15.intro) { _v15.intro = null; controls.enabled = true; _v15Caption(null); }
+    _v15Film(false);
     _v15Bar(false);
     _v15.home = false;
     _v15.live = false;
@@ -24242,7 +24277,7 @@ function v15Frame() {
     world.updateMatrixWorld(true); camera.updateMatrixWorld();
     const p = world.worldToLocal(camera.position.clone());   // in squares: the fleet page lays them over the sea, or over the pool at the court
     const q = world.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(camera.quaternion);
-    E.camera(p.toArray(), q.toArray(), _v15Fov(camera.fov));
+    E.camera(p.toArray(), q.toArray(), _v15Fov(_v15.lens && _v15.lens !== 1 ? 2 * Math.atan(Math.tan(camera.fov * Math.PI / 360) * _v15.lens) * 180 / Math.PI : camera.fov));   // (a long lens for the gate shot)
     E.marks(selectedPiece && selectedPiece.userData ? selectedPiece.userData.id || null : null,
             highlightedTiles.map(t => t.userData && t.userData.id).filter(Boolean));
     E.tick();

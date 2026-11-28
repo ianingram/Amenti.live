@@ -435,6 +435,12 @@ function planksTex() {
   }
   const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
 }
+// the cutters' mark: a small slim column with a ball over it, like a lower-case i (the pawn, simply)
+function markI(x) {
+  x.beginPath(); x.arc(0, -30, 13, 0, Math.PI * 2);
+  const w = 9, t0 = -8, t1 = 46; x.moveTo(-w, t0 + w); x.arcTo(-w, t0, 0, t0, w); x.arcTo(w, t0, w, t0 + w, w);
+  x.lineTo(w, t1); x.lineTo(-w, t1); x.closePath();
+}
 function canvasTex(base, seam, emblem) {
   const c = document.createElement('canvas'); c.width = 256; c.height = 256; const x = c.getContext('2d');
   x.fillStyle = base; x.fillRect(0, 0, 256, 256);
@@ -446,14 +452,15 @@ function canvasTex(base, seam, emblem) {
   if (emblem) {   // the piece's own logo (the game's glyph), painted on the cloth; squeezed by the sail's width:height
     x.save(); x.translate(128, 136); x.scale(1 / emblem.aspect, 1);
     x.fillStyle = emblem.col; x.font = '500 250px serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText(emblem.glyph, 0, 0); x.restore();
+    if (emblem.mark === 'i') { markI(x); x.fill(); } else x.fillText(emblem.glyph, 0, 0); x.restore();
   }
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
   if (emblem) {   // the gilt: the logo's gold edge (and a gold logo's face), which catches the moon and the lanterns at night
     const g = document.createElement('canvas'); g.width = g.height = 256; const y = g.getContext('2d');
     y.translate(128, 136); y.scale(1 / emblem.aspect, 1); y.font = '500 250px serif'; y.textAlign = 'center'; y.textBaseline = 'middle';
-    y.lineJoin = 'round'; y.strokeStyle = '#ffd77a'; y.lineWidth = 9; y.strokeText(emblem.glyph, 0, 0);
-    if (emblem.gold) { y.fillStyle = 'rgba(255,214,120,0.6)'; y.fillText(emblem.glyph, 0, 0); }
+    y.lineJoin = 'round'; y.strokeStyle = '#ffd77a'; y.lineWidth = 9;
+    if (emblem.mark === 'i') { markI(y); y.lineWidth = 6; y.stroke(); if (emblem.gold) { y.fillStyle = 'rgba(255,214,120,0.6)'; y.fill(); } }
+    else { y.strokeText(emblem.glyph, 0, 0); if (emblem.gold) { y.fillStyle = 'rgba(255,214,120,0.6)'; y.fillText(emblem.glyph, 0, 0); } }
     const gt = new THREE.CanvasTexture(g); gt.colorSpace = THREE.SRGBColorSpace; gt.userData.side = emblem.gold ? 'b' : 'w'; t.userData.gilt = gt;
   }
   return t;
@@ -577,6 +584,7 @@ function puffTex(hot) {
 const FLASH_TEX = puffTex(true), SMOKE_TEX = [puffTex(false), puffTex(false), puffTex(false)];
 const FX = [], _v = new THREE.Vector3(), _w = new THREE.Vector3();
 const gunLight = new THREE.PointLight(0xffb060, 0, 160, 1.6); scene.add(gunLight);
+const lanternLight = new THREE.PointLight(0xffc27a, 0, 70, 1.3); scene.add(lanternLight);   // the stern lantern of the ship passing the pier light, at night (the muster)
 function spawnFX(hot, pos, dir, k) {
   const m = new THREE.SpriteMaterial({ map: hot ? FLASH_TEX : SMOKE_TEX[(Math.random() * 3) | 0], transparent: true, depthWrite: false,
     blending: hot ? THREE.AdditiveBlending : THREE.NormalBlending, opacity: hot ? 1 : 0.9, rotation: Math.random() * 6.28 });
@@ -2394,7 +2402,7 @@ function buildClass(cls, side) {
 
   // ---- canvas ----
   const sailMat = new THREE.MeshStandardMaterial({ map: canvasTex(P.sail, P.seam), roughness: 0.92, side: THREE.DoubleSide, emissive: new THREE.Color(P.sail), emissiveIntensity: white ? 0.22 : 0.16 });
-  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: S.glyph, col: P.glyph, aspect, gold: !white });
+  const emblemSail = aspect => { const tx = canvasTex(P.sail, P.seam, { glyph: S.glyph, col: P.glyph, aspect, gold: !white, mark: cls === 'pawn' ? 'i' : null });
     return new THREE.MeshStandardMaterial({ map: tx, emissiveMap: tx, roughness: 0.92, side: THREE.DoubleSide, emissive: 0xffffff, emissiveIntensity: white ? 0.22 : 0.16 }); };
   const sails = [];
   function squareSail(x, yTop, yBot, wTop, wBot, belly, mat) {
@@ -3561,6 +3569,7 @@ function stoneTex() {
 // flagstaffs and a domed Custom House at its head. A line of
 // red mooring buoys lies off it. The mouth between the pier heads is left open: that is the way to sea.
 const harbourProps = new THREE.Group(); slip.add(harbourProps);
+const PIER_X = 566, PIER_Z = 112;            // the pier heads (were x 258, z 92): the basin doubled in length, the mouth widened
 const buoys = [];
 (function buildHarbourOut() {
   const st = stoneTex(); st.repeat.set(10, 1);
@@ -3569,20 +3578,22 @@ const buoys = [];
   const timber = new THREE.MeshStandardMaterial({ color: 0x5a3e26, map: PLANKS, roughness: 0.9 });
   const tar = new THREE.MeshStandardMaterial({ color: 0x1e1814, roughness: 0.85 });
   const add = (m, x, y, z, ry) => { m.position.set(x, y, z); if (ry) m.rotation.y = ry; harbourProps.add(m); return m; };
-  // the piers: out from the shore on each side, then turning in towards the mouth
+  // the piers: out from the shore on each side, then turning in towards the mouth. The basin runs twice as far
+  // out to sea as it first did (PIER_X), so a whole fleet has room to work out of it, and the mouth is wider.
+  const armL = PIER_X + 90, armX = (PIER_X - 90) / 2, turnL = 251 - PIER_Z, turnZ = (251 + PIER_Z) / 2;
   for (const sd of [-1, 1]) {
-    add(new THREE.Mesh(new THREE.BoxGeometry(340, 14, 16), pier), 80, -1, sd * 243);                       // the long arm
-    add(new THREE.Mesh(new THREE.BoxGeometry(16, 14, 158), pier), 258, -1, sd * 172);                       // the turn
-    add(new THREE.Mesh(new THREE.BoxGeometry(22, 15, 22), pier), 258, -0.5, sd * 92);                       // the head
-    add(new THREE.Mesh(new THREE.BoxGeometry(340, 2.2, 3), pier), 80, 7, sd * (243 + 6.5));               // parapet on the sea side
+    add(new THREE.Mesh(new THREE.BoxGeometry(armL, 14, 16), pier), armX, -1, sd * 243);                     // the long arm
+    add(new THREE.Mesh(new THREE.BoxGeometry(16, 14, turnL), pier), PIER_X, -1, sd * turnZ);                // the turn
+    add(new THREE.Mesh(new THREE.BoxGeometry(22, 15, 22), pier), PIER_X, -0.5, sd * PIER_Z);                 // the head
+    add(new THREE.Mesh(new THREE.BoxGeometry(armL, 2.2, 3), pier), armX, 7, sd * (243 + 6.5));             // parapet on the sea side
     // the light on the head: a white tower, a lantern, a cap
-    add(new THREE.Mesh(new THREE.BoxGeometry(12, 6, 12), pier), 258, 9, sd * 92);                           // the plinth
-    const tw = add(new THREE.Mesh(new THREE.CylinderGeometry(3.2, 4.2, 22, 16), new THREE.MeshStandardMaterial({ color: 0xf4efe6, roughness: 0.7, emissive: 0x403a30, emissiveIntensity: 0.3 })), 258, 23, sd * 92);
-    for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2; add(new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2, 4), iron), 258 + Math.cos(a) * 4.4, 35, sd * 92 + Math.sin(a) * 4.4); }   // gallery rail
-    add(new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 3.6, 12), new THREE.MeshBasicMaterial({ color: sd < 0 ? 0xffe2a0 : 0xff9a7a })), 258, 36, sd * 92);
-    add(new THREE.Mesh(new THREE.ConeGeometry(3.2, 3.4, 12), iron), 258, 39.5, sd * 92);
-    add(new THREE.Mesh(new THREE.SphereGeometry(0.6, 8, 6), new THREE.MeshStandardMaterial({ color: 0xd9ad4a, metalness: 0.85, roughness: 0.3 })), 258, 41.6, sd * 92);
-    add(new THREE.Mesh(new THREE.CylinderGeometry(4.6, 4.6, 0.6, 16), iron), 258, 34, sd * 92);
+    add(new THREE.Mesh(new THREE.BoxGeometry(12, 6, 12), pier), PIER_X, 9, sd * PIER_Z);                           // the plinth
+    const tw = add(new THREE.Mesh(new THREE.CylinderGeometry(3.2, 4.2, 22, 16), new THREE.MeshStandardMaterial({ color: 0xf4efe6, roughness: 0.7, emissive: 0x403a30, emissiveIntensity: 0.3 })), PIER_X, 23, sd * PIER_Z);
+    for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2; add(new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2, 4), iron), PIER_X + Math.cos(a) * 4.4, 35, sd * PIER_Z + Math.sin(a) * 4.4); }   // gallery rail
+    add(new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 3.6, 12), new THREE.MeshBasicMaterial({ color: sd < 0 ? 0xffe2a0 : 0xff9a7a })), PIER_X, 36, sd * PIER_Z);
+    add(new THREE.Mesh(new THREE.ConeGeometry(3.2, 3.4, 12), iron), PIER_X, 39.5, sd * PIER_Z);
+    add(new THREE.Mesh(new THREE.SphereGeometry(0.6, 8, 6), new THREE.MeshStandardMaterial({ color: 0xd9ad4a, metalness: 0.85, roughness: 0.3 })), PIER_X, 41.6, sd * PIER_Z);
+    add(new THREE.Mesh(new THREE.CylinderGeometry(4.6, 4.6, 0.6, 16), iron), PIER_X, 34, sd * PIER_Z);
   }
   // the quay's working furniture
   const qx = -50;
@@ -3605,8 +3616,8 @@ const buoys = [];
   for (const sd of [-1, 1]) {
     for (let z = 18; z < 230; z += 14) runs.push([[quayX(z) - 2.5, 10, sd * z], [quayX(Math.min(230, z + 14)) - 2.5, 10, sd * Math.min(230, z + 14)]]);   // the curved quay face
     runs.push([[-174, 10, sd * 18.2], [-54, 10, sd * 18.2]]);                 // along the slip
-    runs.push([[-60, 6, sd * 236], [248, 6, sd * 236]]);                      // the pier arms, harbour side
-    runs.push([[251, 6, sd * 236], [251, 6, sd * 106]]);                      // the turn
+    runs.push([[-60, 6, sd * 236], [PIER_X - 10, 6, sd * 236]]);                      // the pier arms, harbour side
+    runs.push([[PIER_X - 7, 6, sd * 236], [PIER_X - 7, 6, sd * (PIER_Z + 14)]]);                      // the turn
   }
   const balG = new THREE.CylinderGeometry(0.34, 0.5, 2.4, 8), pts = [];
   for (const [a, b] of runs) {
@@ -3654,7 +3665,7 @@ const buoys = [];
   const buoyG = new THREE.CylinderGeometry(1.6, 1.2, 2.6, 12), buoyM = new THREE.MeshStandardMaterial({ color: 0xb8322a, roughness: 0.6 });
   for (let k = 0; k < 8; k++) { const b = add(new THREE.Mesh(buoyG, buoyM), 150 + 3.3 * 6.6 / 2 + 9, 0.4, (k - 3.5) * 22); buoys.push(b); }
   // and a few spare buoys out in the anchorage
-  for (const [x, z] of [[205, -150], [205, 150], [120, -170], [120, 170], [60, -150], [60, 150]]) buoys.push(add(new THREE.Mesh(buoyG, buoyM), x, 0.4, z));
+  for (const [x, z] of [[205, -150], [205, 150], [120, -170], [120, 170], [60, -150], [60, 150], [330, -175], [330, 175], [440, -160], [440, 160]]) buoys.push(add(new THREE.Mesh(buoyG, buoyM), x, 0.4, z));
 })();
 
 // ---------------- THE CUSTOM HOUSE ----------------
@@ -4125,8 +4136,8 @@ function groundY(x, z) {
     for (const x of [-2.7, 1.5]) for (const z of [-1.25, 1.25]) { const w = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.62, 0.4, 14), oak); w.rotation.x = Math.PI / 2; w.position.set(x, 0.62, z); g.add(w); }
     return g;
   }
-  const corners = [[-72, 10, -246, 10], [-72, 10, 246, 10], [258, 6, -248, 6], [258, 6, 248, 6]];
-  const centre = new THREE.Vector3(110, 0, 0);
+  const corners = [[-72, 10, -246, 10], [-72, 10, 246, 10], [PIER_X, 6, -248, 6], [PIER_X, 6, 248, 6]];
+  const centre = new THREE.Vector3(PIER_X / 2 - 20, 0, 0);
   const shotG = new THREE.SphereGeometry(0.62, 10, 8), shots = [];
   for (const [x, top, z] of corners) {
     const R = 17, h = top + 9;
@@ -4430,6 +4441,104 @@ function buildHarbour(side) {
   }
   renderMuster();
 }
+// ---- V15: the muster. Before the game, the player's fleet lies at Whitby, each ship with her captain's name
+// on her quarters; they cast off and stand out through the pier heads to open sea, pawns in pairs, then the
+// officers one by one, the flagship last with a salute from the pier. Moved by the clock, not by frames,
+// so a slow machine sees fewer frames but the same length. game01 drives it (E.muster / E.musterEnd).
+const MUSTER = { on: false, done: false, ships: [], cap: null, capN: 0, t: 0, last: 0, cam: null };
+const CLASS_TITLE = { rook: 'Rook', knight: 'Knight', bishop: 'Bishop', queen: 'Queen', king: 'King', pawn: 'Pawn' };
+function musterEnd() {
+  for (const m of MUSTER.ships) { m.holder.parent && m.holder.parent.remove(m.holder); m.holder.traverse(o => { if (o.geometry && o.geometry !== PIECE_GEO[m.cls] && !Object.values(TRIM_GEO).includes(o.geometry)) o.geometry.dispose(); }); }
+  MUSTER.ships = []; MUSTER.on = false; MUSTER.done = true; MUSTER.cap = null; MUSTER.cam = null; lanternLight.intensity = 0;
+  for (const f of fleet) if (f.side === 'w') { f.holder.visible = true; if (f.foam) f.foam.visible = true; }
+}
+function embMuster(names, side, mode) {
+  musterEnd(); side = side || 'w'; MUSTER.short = mode === 'short';   // short: after the first game, a quicker muster with only the queen and the flagship at the gate
+  const SP = MUSTER.short ? { pawn: 1.1, off: 1.5, queen: 0.3 } : { pawn: 2.2, off: 3.4, queen: 0.6 };
+  const back = side === 'w' ? 7 : 0, prow = side === 'w' ? 6 : 1, nm = (r, c) => (names && names[r] && names[r][c]) || null;
+  const mk = (kind, file, cls, name) => {
+    const g = harbourShip(cls, side, name); const pc = masthead(cls, side, g.userData.top); if (pc) g.add(pc);
+    const holder = new THREE.Group(); holder.add(g);
+    const b = berthFor(kind, file); if (kind !== 'pawn') b.x = quayX(b.z) + (g.userData.L || 10) * SCALE / 2 + 3;
+    holder.position.copy(b); holder.rotation.y = Math.PI; slip.add(holder);
+    const z = b.z, lane = (file - 3.5) * 14;
+    const path = new THREE.CatmullRomCurve3([b.clone(), new THREE.Vector3(b.x + 50, 0, z * 0.92), new THREE.Vector3(300, 0, z * 0.5 + lane * 0.2),
+      new THREE.Vector3(PIER_X - 40, 0, z * 0.18 + lane * 0.35), new THREE.Vector3(PIER_X + 90, 0, lane * 0.6), new THREE.Vector3(PIER_X + 450, 0, lane), new THREE.Vector3(PIER_X + 1300, 0, lane * 1.4)], false, 'centripetal');
+    return { kind, file, cls, name, holder, ship: g, piece: pc, path, len: path.getLength(), s: 0, v: 0, start: Infinity };
+  };
+  const order = [];
+  [[3, 4], [2, 5], [1, 6], [0, 7]].forEach(pr => pr.forEach(c => order.push(mk('pawn', c, 'pawn', nm(prow, c)))));
+  [1, 6, 2, 5, 0, 7, 3, 4].forEach(c => order.push(mk('seat', c, SEAT_CLASS[c], nm(back, c))));
+  let t = 1.5;
+  order.forEach((m, i) => {
+    if (m.kind === 'pawn') { m.start = t; if (i % 2) t += SP.pawn; }
+    else { m.start = t; t += m.cls === 'king' ? 0 : SP.off; if (m.cls === 'queen') t += SP.queen; }
+  });
+  MUSTER.ships = order; MUSTER.on = true; MUSTER.done = false; MUSTER.t = 0; MUSTER.last = performance.now();
+  MUSTER.pawnCap = false; MUSTER.gate = false; MUSTER.cur = null; MUSTER.cam = null; MUSTER.gt = null; MUSTER.kingOut = 0;
+  MUSTER.cap = ['The Muster', 'the fleet casts off from the quay', '']; MUSTER.capN++;
+  for (const f of fleet) if (f.side === side) { f.holder.visible = false; if (f.foam) f.foam.visible = false; }   // she is at Whitby, not yet at sea
+}
+function musterFrame() {
+  if (!MUSTER.on) return;
+  for (const f of fleet) if (f.side === 'w' && f.holder.visible) { f.holder.visible = false; if (f.foam) f.foam.visible = false; }   // (a re-sync must not bring her out early)
+  const now = performance.now(), dt = Math.min(1, (now - MUSTER.last) / 1000); MUSTER.last = now; MUSTER.t += dt;
+  let out = 0, king = null;
+  for (const m of MUSTER.ships) {
+    if (MUSTER.t < m.start) continue;
+    if (!m.cast) { m.cast = true;
+      if (m.cls === 'king') setTimeout(() => {           // the flagship's salute from the pier heads
+        if (!MUSTER.on) return; for (let i = 0; i < 5; i++) setTimeout(() => { const P = slip.localToWorld(new THREE.Vector3(PIER_X + 4, 14, i % 2 ? PIER_Z + 4 : -PIER_Z - 4));
+          spawnFX(true, P, new THREE.Vector3(1, 0.2, 0), 1.4); spawnFX(false, P, new THREE.Vector3(1, 0.3, 0), 1.6); if (AUD.ctx) audioShot('cFar', 0.45, 0.9, i % 2 ? 0.4 : -0.4, 0.3); }, i * 650);
+        setTimeout(() => { if (AUD.ctx && MUSTER.on) audioShot('cheer', 0.5, 1, 0, 0); }, 3800);
+      }, 5200);
+    }
+    m.v = MUSTER.short ? Math.min(m.kind === 'pawn' ? 64 : 58, m.v + dt * 14) : Math.min(m.kind === 'pawn' ? 46 : 40, m.v + dt * 9); m.s = Math.min(m.len, m.s + m.v * dt);
+    const u = m.s / m.len, P = m.path.getPointAt(u), T = m.path.getTangentAt(u);
+    m.holder.position.set(P.x, Math.sin(MUSTER.t * 1.3 + m.file) * 0.35, P.z);
+    const want = yawFor(T.x, T.z); let d = want - m.holder.rotation.y; d = Math.atan2(Math.sin(d), Math.cos(d));
+    m.holder.rotation.y += d * Math.min(1, dt * 2.2); m.ship.rotation.x = Math.sin(MUSTER.t * 0.9 + m.file) * 0.025;
+    if (m.piece) { const dd = camera.position.distanceTo(m.holder.getWorldPosition(_mv)); m.piece.scale.setScalar(m.piece.userData.h * Math.min(2.6, Math.max(1, dd / 520))); }
+    if (u >= 1) m.holder.visible = false;
+    if (P.x > PIER_X + 200) out++;
+    if (m.cls === 'king') king = m;
+  }
+  // the gate: a camera low on the north pier head, by the light. Once the first ship nears the mouth the film cuts here
+  // and follows each ship through, close enough to read the name carved on her quarters; her title comes up as she passes.
+  const GX = PIER_X - 8, GZ = PIER_Z - 10;
+  let cur = null;
+  for (const m of MUSTER.ships) {
+    if (!m.cast || m.passed || (MUSTER.short && m.cls !== 'queen' && m.cls !== 'king')) continue;
+    if (m.holder.position.x > GX + 24) { m.passed = true; if (m.cls === 'king') MUSTER.kingOut = MUSTER.t; continue; }
+    if (!cur || m.holder.position.x > cur.holder.position.x) cur = m;
+  }
+  if (!MUSTER.gate && cur && cur.holder.position.x > GX - 240) MUSTER.gate = true;
+  if (MUSTER.gate) {
+    if (cur && cur !== MUSTER.cur) {
+      MUSTER.cur = cur; MUSTER.gt = null;            // a cut to the next ship, not a pan across empty water
+      if (cur.kind === 'pawn' && !MUSTER.pawnCap) { MUSTER.pawnCap = true; MUSTER.cap = ['The Cutters', 'eight pawns, two by two', '']; MUSTER.capN++; }
+      if (cur.kind !== 'pawn') { MUSTER.cap = [cur.name || CLASS_TITLE[cur.cls], CLASS_TITLE[cur.cls] + ' · ' + SHIP_KIND[cur.cls], /^the\s/i.test(cur.name || '') ? '' : 'the']; MUSTER.capN++;   // a small THE over her name
+        cur.bell = true; }   // her bell rings as she passes the light
+    }
+    const f = MUSTER.cur || cur;
+    if (f) {
+      const want = new THREE.Vector3(f.holder.position.x + 8, 0, f.holder.position.z);
+      if (!MUSTER.gt) MUSTER.gt = want; else MUSTER.gt.lerp(want, 1 - Math.exp(-dt * 3.2));
+    }
+    for (const m of MUSTER.ships) if (m.bell && m.holder.position.x > GX - 70) { m.bell = false; if (AUD.ctx) audioShot('bell', 0.3, 1.1, 0.2, 0); }
+    // her stern lantern: at night a warm light on her quarter, on the camera's side, so the carved name can be read
+    const night = Math.min(1, GILT.k / 0.8);
+    if (f && night > 0.05) {
+      const half = (f.ship.userData.L || 10) * SCALE / 2; f.holder.updateMatrixWorld(); f.holder.localToWorld(lanternLight.position.set(half * 0.55, 4.5, 0));
+      _mv.copy(camera.position).sub(lanternLight.position); _mv.y = 0; lanternLight.position.addScaledVector(_mv.normalize(), 12);
+      lanternLight.intensity = 190 * night;
+    } else lanternLight.intensity = 0;
+    MUSTER.cam = MUSTER.gt ? { eye: [GX, 8, GZ], tgt: [MUSTER.gt.x, MUSTER.gt.y, MUSTER.gt.z] } : null;
+  }
+  if (!MUSTER.done && MUSTER.kingOut && MUSTER.t > MUSTER.kingOut + 1.6) MUSTER.done = true;   // the flagship is through the pier heads: the opening may go on
+  if (MUSTER.ships.every(m => m.s >= m.len)) musterEnd();
+}
+const _mv = new THREE.Vector3();
 function rename(e) {                       // the new captain's name on her quarters and stern; sails loosed
   const name = seatName(e);
   if (e.king) { shipLabel = name; slipShip(); e.holder = yard.holder; e.ship = yard.ship; furl(e.ship, !name); return; }
@@ -4456,11 +4565,11 @@ async function castOff(e) {
     yard.state = 'away'; e.holder.rotation.set(0, e.holder.rotation.y, 0);
   } else await new Promise(r => setTimeout(r, 1400));
   if (mode !== 'slip') return;
-  const st = stationFor(e), out = new THREE.Vector3(215, 0, e.holder.position.z * 0.45), mouth = new THREE.Vector3(300, 0, e.holder.position.z * 0.2);
+  const st = stationFor(e), out = new THREE.Vector3(300, 0, e.holder.position.z * 0.45), mouth = new THREE.Vector3(PIER_X + 40, 0, e.holder.position.z * 0.2);
   const legs = [];
   const go = (to, ...after) => { const from = legs.length ? legs[legs.length - 1].to : e.holder.position.clone(); const d = to.clone().sub(from);
     legs.push({ yaw: yawFor(d.x, d.z), dur: 1.4 }, { to, dur: Math.max(2, d.length() / 34) }); };
-  if (e.holder.position.x < 200) go(out);
+  if (e.holder.position.x < 280) go(out);
   go(mouth);                                // out between the pier heads
   go(st.p);
   legs.push({ yaw: st.yaw, dur: 1.4 });
@@ -4517,7 +4626,7 @@ function frame() {
   const t = still ? 0 : clock.getElapsedTime(); if (gunTweens.size) stepGuns(); if (FX.length || gunLight.intensity) stepFX(); audioLife(); if (skyClock) stepSky();
   { const nowS = performance.now(), dtS = Math.min(0.1, (nowS - (frame.lastS || nowS)) / 1000); frame.lastS = nowS; if (sailing.size) stepSailing(dtS * (EMB.pending > 1 ? Math.min(3, 1 + 0.6 * (EMB.pending - 1)) : 1)); if (courtAnims.size) stepCourt(dtS); for (const f of fleet) if (f.sink) f.sink.t += dtS; }
   sky.position.copy(camera.position);    // the sky goes with the eye: from Whitby, 4000 out, its far side was past the camera's reach
-  giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t); courtFrame(t);
+  giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t); courtFrame(t); musterFrame();
   { const n = performance.now(), d = Math.min(0.1, (n - (frame.l2 || n)) / 1000); frame.l2 = n; stormFrame(t, d); followFrame(d); }
   waveU.time.value = t; skyMat.uniforms.time.value = t; cloudMat.uniforms.time.value = t; cloudMat.uniforms.lite.value = waveU.lite.value;
   if (beam && skyMat.uniforms.panoOn.value > 0.5) {
@@ -4864,6 +4973,9 @@ window.__yardEmbed = {
   get busy() { return EMB.pending; },
   turn(t) { GILT.want = t === 'w' || t === 'b' ? t : null; },
   state(st, turn) { END.want = (st || 'active') + ':' + (turn || ''); },
+  muster(names, side, mode) { embMuster(names, side, mode); },
+  musterEnd() { musterEnd(); },
+  get musterState() { return { on: MUSTER.on, done: MUSTER.done, cap: MUSTER.cap, capN: MUSTER.capN, cam: MUSTER.cam }; },
   get renderer() { return renderer; },
   get sky() { return { want: PANO.want, shown: PANO.shown, panoOn: skyMat.uniforms.panoOn.value, whitby: slip.visible, clock: skyClock, clouds: cloudDome.visible, stars: starTilt.visible, maxTex: renderer.capabilities.maxTextureSize }; },
   bench() { return embBench(); },
