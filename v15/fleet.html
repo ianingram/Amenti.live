@@ -1935,8 +1935,8 @@ function badgeTex(glyph, white) {
   GILT.mats[sd].add(gm);
   return BADGE[k] = { mat, gm };
 }
-function carveBadge(ship, glyph, white, L, surfaceZ, railY, tGuns, name) {
-  const T = badgeTex(glyph, white), t0 = tGuns + 0.035, t1 = 0.975, tc = (t0 + t1) / 2;
+function carveBadge(ship, glyph, white, L, surfaceZ, railY, tGuns, name, span) {   // span: [t0, t1] along her length, for a carving elsewhere than the quarter
+  const T = badgeTex(glyph, white), t0 = span ? span[0] : tGuns + 0.035, t1 = span ? span[1] : 0.975, tc = (t0 + t1) / 2;
   let top = railY(tc) - 0.22;
   if (name) { const W = nameWindow(L, name); if (tc > W.t0 - 0.05) top = railY(tc) - W.off - W.h - 0.12; }   // under the quarter-board
   const H = Math.min(1.7, top - 0.08, (t1 - t0) * L * 1.15); if (H < 0.35) return;   // a low hull carries it down to the wale
@@ -2044,7 +2044,7 @@ const GLORY = {
 function glory(cls) {
   const g = new THREE.Group(), [og, rg] = GLORY.geo[cls];
   g.add(new THREE.Mesh(og, GLORY.orb));
-  const r = new THREE.Mesh(rg, GLORY.ring); r.rotation.x = Math.PI / 2 - 0.18; g.add(r);   // tilted about 10 degrees off flat, so it reads as a ring
+  if (cls === 'king') { const r = new THREE.Mesh(rg, GLORY.ring); r.rotation.x = Math.PI / 2 - 0.18; g.add(r); }   // the ring is the king's alone (Ian, 27 Nov); tilted about 10 degrees off flat
   g.position.y = cls === 'king' ? 1.42 : 1.26; g.userData.glory = true;
   return g;
 }
@@ -2296,6 +2296,7 @@ function buildGalleon(side) {
   ship.add(new THREE.LineSegments(rg, new THREE.LineBasicMaterial({ color: P.rig })));
   carveName(ship, sternName, L, surfaceZ, railY, !white);
   carveBadge(ship, '\u265C', white, L, surfaceZ, railY, 0.735, sternName);
+  carveBadge(ship, '\u265C', white, L, surfaceZ, railY, 0, null, [0.05, 0.21]);   // and on both bows, forward of the gunports, as a warship carried her emblem
   { const MM = MASTS.find(m => m.main), r = -0.045, h = MM.H * 1.01; ship.userData.top = [-L / 2 + MM.t * L - Math.sin(r) * h, railY(MM.t) - 0.24 + Math.cos(r) * h]; }
   ship.userData.sails = sails;
   return ship;
@@ -2563,6 +2564,7 @@ function buildClass(cls, side) {
   ship.add(new THREE.LineSegments(rg, new THREE.LineBasicMaterial({ color: P.rig })));
   carveName(ship, sternName, L, surfaceZ, railY, !white);
   if (cls !== 'pawn') carveBadge(ship, S.glyph, white, L, surfaceZ, railY, Math.max(...S.guns.map(g => g[1])), sternName);
+  if (cls === 'knight' || cls === 'bishop') carveBadge(ship, S.glyph, white, L, surfaceZ, railY, 0, null, [0.05, Math.min(0.26, Math.min(...S.guns.map(g => g[0])) - 0.03)]);   // the piece carved on both bows
   { const MM = S.masts.find(m => m.main) || S.masts[0], r = MM.rig === 'lateen' ? (MM.rake || 0) : -0.045, h = MM.H * (MM.rig === 'square' ? 1.02 : MM.rig === 'lateen' ? 0.9 : 1.0);
     ship.userData.top = [-L / 2 + MM.t * L - Math.sin(r) * h, railY(MM.t) - 0.24 + Math.cos(r) * h]; }
   ship.userData.sails = sails; ship.userData.L = L; ship.userData.HB = HB;
@@ -2638,15 +2640,20 @@ let shipClass = 'rook';
 // carries a gilt nameplate that hangs just under her hull on the screen, the same size wherever the camera is.
 // Only the ships nearest the eye show theirs, so as the player pivots round the board the near side is named
 // (namesFrame). Pawns carry none.
-function namePlate(name) {
+const PLATE_GLYPH = { king: '\u265A', queen: '\u265B', rook: '\u265C', bishop: '\u265D', knight: '\u265E' };
+function namePlate(name, cls) {     // her piece's glyph, then her name: so a rook can be told from a bishop across the water
   const txt = name.toUpperCase().slice(0, 30), c = document.createElement('canvas'), x = c.getContext('2d');
+  const gl = PLATE_GLYPH[cls] ? PLATE_GLYPH[cls] + '\uFE0E' : '', GF = '84px "Apple Symbols", "Segoe UI Symbol", "DejaVu Sans", serif';
+  x.font = GF; const gw = gl ? Math.ceil(x.measureText(gl).width) + 18 : 0;
   x.font = '600 44px Georgia, serif'; const tw = Math.ceil(x.measureText(txt).width + 0.12 * 44 * txt.length);
-  c.width = tw + 64; c.height = 72;
+  c.width = tw + gw + 64; c.height = 72;
   x.fillStyle = 'rgba(20,13,8,0.82)'; x.fillRect(0, 0, c.width, c.height);
   x.strokeStyle = '#d9ad4a'; x.lineWidth = 3; x.strokeRect(5, 5, c.width - 10, c.height - 10);
   x.fillStyle = '#f0d58e'; x.font = '600 44px Georgia, serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
   if ('letterSpacing' in x) x.letterSpacing = '5px';
-  x.fillText(txt, c.width / 2, c.height / 2 + 2);
+  x.fillText(txt, c.width / 2 + gw / 2, c.height / 2 + 2);
+  if (gl) { if ('letterSpacing' in x) x.letterSpacing = '0px'; x.font = GF; x.fillStyle = '#ffe3a0'; x.fillText(gl, 32 + gw / 2 - 9, c.height / 2 + 4);
+    x.fillStyle = 'rgba(217,173,74,0.55)'; x.fillRect(32 + gw - 6, 16, 2, c.height - 32); }   // a thin gilt rule between piece and name
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
   const m = new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: false, toneMapped: false, opacity: 0 });
   const sp = new THREE.Sprite(m); const h = 0.019; sp.scale.set(h * c.width / c.height, h, 1); sp.center.set(0.5, 1.25);
@@ -2680,7 +2687,7 @@ function place(side, sqX, sqZ, cls, name) {
     new THREE.MeshBasicMaterial({ map: FOAM, transparent: true, depthWrite: false, opacity: 0.7 }));
   foam.rotation.x = -Math.PI / 2; foam.renderOrder = 2; holder.add(foam);
   const glint = new THREE.Mesh(GLINT.geo, GLINT.mat); glint.position.set(sL * SCALE * 0.5, 0.4, 0); glint.renderOrder = 3; glint.visible = false; holder.add(glint);
-  const plate = EMBED && name && cls !== 'pawn' ? namePlate(name) : null; if (plate) { holder.add(plate); if (Math.round(sqX + 3.5) % 2) plate.center.y = 2.45; }   // alternate files hang lower, so neighbours' names don't run together
+  const plate = EMBED && name && cls !== 'pawn' ? namePlate(name, cls) : null; if (plate) { holder.add(plate); if (Math.round(sqX + 3.5) % 2) plate.center.y = 2.45; }   // alternate files hang lower, so neighbours' names don't run together
   setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, piece, plate, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
 }
 // ---- the stern lanterns' light on the water at night: a broken warm streak from each stern toward the eye ----
