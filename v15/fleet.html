@@ -128,6 +128,7 @@ if (!THREE) throw new Error('three.js did not load');
 // V15: inside game01 (?embed=1) this page only draws. game01 keeps the rules, the AI, the clicks and the camera;
 // it tells the fleet what happened through __yard.embed, and calls tick() from its own frame loop.
 const EMBED = /[?&]embed=1/.test(location.search);
+const VG = EMBED && /[?&]style=vangogh/.test(location.search);   // V16, Starry night: Van Gogh's sky over Cobh, always night, no Whitby
 const MEDIA = EMBED ? 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v15-' : 'sound/';
 if (EMBED) document.documentElement.classList.add('embed');
 // Orbit: drag to turn, wheel or pinch to zoom, damped. (Stands in for three's OrbitControls add-on.)
@@ -3262,6 +3263,7 @@ const mixA = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k), col3 = (c, a) => 
 let skyClock = null, runFrom = 0, runAt = 0, lastSkyStep = 0, skyNow = new Date(), lastMoonPhase = -1;
 const RUN_RATE = 360;                     // a day in four minutes
 let skyFreeze = null;
+if (VG) skyFreeze = Date.UTC(2026, 11, 21, 0, 30);   // V16 is always the middle of the night
 function skyDate() { if (skyFreeze != null) return new Date(skyFreeze); return skyClock === 'run' ? new Date(runFrom + (performance.now() - runAt) * RUN_RATE) : new Date(); }
 const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 function stepSky(force) {
@@ -3286,7 +3288,7 @@ function stepSky(force) {
   const full = 1 - Math.abs(mp.phase - 0.5) * 2;     // 0 new, 1 full
   if (Math.abs(mp.phase - lastMoonPhase) > 0.004) { lastMoonPhase = mp.phase; paintMoon(mp.phase); moonTex.needsUpdate = true; }
   const moonUp = Math.max(0, Math.min(1, Math.sin(mp.alt * Math.PI / 180) * 6));
-  if (EMBED) embPano(sa.alt > -4 ? 'parrish-w' : 'friedrich-w');
+  if (EMBED) embPano(VG ? 'vangogh-c' : sa.alt > -4 ? 'parrish-w' : 'friedrich-w');
   giltSet(0.8 * below);                    // the sails' logos gleam once the sun is down   // V15: the painted Whitby, by day or by night, from the real sun there
   { // the weather: cover drifts between broken and heavy cloud over about an hour of real time
     const cu = cloudMat.uniforms, hr = date.getTime() / 3600000;
@@ -3549,14 +3551,17 @@ function loadSky(name, done, fail) {
 // Where the sea breaks on each painting's shore: [compass position, width, seconds between bursts, offset in the cycle].
 // Where each painting's town lies (compass from, to) and how far round to borrow open sky and sea to cover it.
 const TOWN = { 'friedrich-w': [0.712, 1.05, -0.36], 'parrish-w': [0.672, 0.897, -0.30] };
+SKIES['vangogh-c'] = { media: 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v16-cobh-night.jpg', w: 3948, top: 0.78, sunU: 0.5,
+  town: 0.19, gain: 1.0, horizon: [0.186, 0.253, 0.29], zenith: [0.176, 0.297, 0.425] };   // three Gemini paintings joined round the compass (28 Nov); Cobh to the west
 const SURF = {
+  'vangogh-c':   { patch: false, hz: 0.30, col: [0.9, 0.9, 0.85], spots: [] },   // its waterline 30% up (levelled when joined); no animated surf
   'friedrich-w': { patch: true, hz: 0.055, col: [0.78, 0.81, 0.84], spots: [[0.7225, 0.0030, 7, 0], [0.7825, 0.0022, 9, 0.37], [0.920, 0.0032, 6, 0.61], [0.748, 0.0020, 8, 0.18]] },
   'parrish-w':   { patch: false, hz: 0.05, col: [0.96, 0.96, 0.94], spots: [[0.722, 0.0026, 8, 0.1], [0.742, 0.0022, 10, 0.55], [0.8725, 0.0028, 7, 0.3], [0.883, 0.0020, 9, 0.8]] }
 };
 const PANO = { gain: 0.7, want: null, shown: null, files: { 'parrish-w': 'whitby-day', 'friedrich-w': 'whitby-night' } };
 function embPano(name) {
   if (PANO.want === name) return; PANO.want = name;
-  const S = SKIES[name]; S.url = 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v15-' + PANO.files[name] + '.jpg';
+  const S = SKIES[name]; S.url = S.media || 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v15-' + PANO.files[name] + '.jpg';
   loadSky(name, t => {
     if (PANO.want !== name) return;
     const su = skyMat.uniforms;
@@ -4843,8 +4848,9 @@ async function sailIn(side) {        // the squadron makes sail and takes its st
 // fought well out at sea: from the board the town is lost in the haze, so it is not drawn at all while the camera is
 // out there (it is the heaviest thing in the scene); the opening flies out from it to the fleets.
 const WHITBY_X = -4000;               // 40 squares out, inside the sky
-if (EMBED) { slip.position.set(WHITBY_X, 0, 0); slip.rotation.y = 0; slip.visible = true; }
+if (EMBED) { slip.position.set(WHITBY_X, 0, 0); slip.rotation.y = 0; slip.visible = !VG; }   // (V16: Cobh is only painted, for now)
 function whitbyInView() {               // drawn only when the camera is near enough to see it through the haze
+  if (VG) { if (slip.visible) { slip.visible = false; panoQuiet(); } return; }   // V16: no Whitby
   const d = camera.position.distanceTo(slip.position);
   if (slip.visible && d > 2300) { slip.visible = false; govFresh(); panoQuiet(); }   // out at sea: judge the speed afresh, from full detail
   else if (!slip.visible && d < 2100) { slip.visible = true; panoQuiet(); }
