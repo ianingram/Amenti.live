@@ -23965,10 +23965,13 @@ const VIEWS = [
     { id: 13, label: '13', name: 'Naval',       bg: 0x1c2230, placeholder: false, buildProps: buildV13Props },
     { id: 14, label: '14', name: 'Halls',       bg: 0x1c2230, placeholder: false, buildProps: buildV14Props },
     { id: 15, label: '15', name: 'Treasure fleet', bg: 0x0d1b24, placeholder: false, buildProps: () => [] },
-    { id: 16, label: '16', name: 'Starry night', bg: 0x0b1d4a, placeholder: false, buildProps: () => [] }
+    { id: 16, label: '16', name: 'Starry night', bg: 0x0b1d4a, placeholder: false, buildProps: () => [] },
+    { id: 17, label: '17', name: 'Aegean', bg: 0x8a7a5a, placeholder: false, buildProps: () => [] }
 ];
 // V16 (Starry night) is V15's fleet page in Van Gogh's manner, off Cobh: the same page, opened with &style=vangogh.
-const _isFleetView = id => id === 15 || id === 16;
+const _isFleetView = id => id === 15 || id === 16 || id === 17;
+// V17 (Aegean): the same page in Turner's manner, off Piraeus with Athens and the Acropolis (&style=turner).
+const _V15_STYLE = { 16: 'vangogh', 17: 'turner' }, _V15_ARRIVE = { 16: ['Cobh', 'Cork Harbour', ''], 17: ['Piraeus', 'Athens \u00b7 the Saronic Gulf', ''] }, _V15_PLACE = { 16: 'Cobh', 17: 'Athens' };
 
 // ===================== V15 · TREASURE FLEET =====================
 // The fleet is drawn by its own page, v15/fleet.html, in a frame BENEATH
@@ -24050,7 +24053,7 @@ function v15Enter() {
     }
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1' + (currentViewId === 16 ? '&style=vangogh' : '') + '&v=51'; _v15.style = currentViewId;
+        f.src = 'v15/fleet.html?embed=1' + (_V15_STYLE[currentViewId] ? '&style=' + _V15_STYLE[currentViewId] : '') + '&v=52'; _v15.style = currentViewId;
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24069,7 +24072,7 @@ function v15Enter() {
     if (!_v15.live) { c.style.opacity = '0'; _v15Cover(true); }   // nothing of the old board while the fleet loads: a dark sea and a title instead
     _v15.sig = ''; _v15.view = 'sea';   // the fleet is set to the board as it stands on the next frame
     { const E = _v15Api(); if (E) E.view('sea'); }
-    if (currentViewId === 16) _v15.land = true;   // V16 has no harbour yet (Cobh comes next): straight onto the board
+    if (_V15_STYLE[currentViewId]) _v15.drift = true;  // V16: no harbour, no muster (Ian, 28 Nov): a short drift in over the water to the board
     else _v15.home = true;           // and the camera opens at Whitby (after setView and its wrappers finish)
 }
 // The opening, announced: Whitby from the sea, along the shore and the harbour, past the pier light
@@ -24174,7 +24177,13 @@ function _v15IntroStep() {
     if (!holding && shot !== I.shot) { I.shot = shot; _v15Caption(shot >= 0 ? K[shot].cap : null); }
     if (I.t >= _V15_INTRO.dur) _v15EndIntro();
 }
-function _v15EndIntro() {             // finished or skipped: land on White's side of the board
+function _v15EndDrift() {           // the V16 drift: done, or skipped by a click
+    if (!_v15.drift) return; _v15.drift = null;
+    _v15Caption(null); _v15Film(false);
+    camera.position.set(0, 8, 11.5); controls.target.set(0, 0, 1.4); camera.lookAt(controls.target); controls.enabled = true; controls.update();
+}
+function _v15EndIntro() {
+    _v15EndDrift();             // finished or skipped: land on White's side of the board
     if (!_v15.intro) return;
     { const E = _v15Api(); if (E && E.musterEnd) E.musterEnd(); }   // a skip sends the whole fleet straight to sea
     _v15.intro = null; _v15Caption(null); _v15.lens = 1; _v15Film(false);
@@ -24195,7 +24204,7 @@ function _v15Cover(on) {
         document.body.appendChild(el);
     }
     if (!el || (!on && el.style.opacity === '0')) return;
-    if (on) { el.style.display = 'flex'; el.style.opacity = '1'; el.firstChild.textContent = currentViewId === 16 ? 'Cobh' : 'Whitby'; }
+    if (on) { el.style.display = 'flex'; el.style.opacity = '1'; el.firstChild.textContent = _V15_PLACE[currentViewId] || 'Whitby'; }
     else { el.style.opacity = '0'; setTimeout(() => { if (el.style.opacity === '0') el.style.display = 'none'; }, 1300); }
 }
 function v15Leave() {
@@ -24205,7 +24214,7 @@ function v15Leave() {
     if (_v15.intro) { _v15.intro = null; controls.enabled = true; _v15Caption(null); }
     _v15Film(false);
     _v15Bar(false);
-    _v15.home = false; _v15.land = false;
+    _v15.home = false; _v15.land = false; if (_v15.drift) { _v15.drift = null; _v15Caption(null); controls.enabled = true; }
     _v15.live = false;
     if (_v15.frame) _v15.frame.style.display = 'none';
     const E = _v15Api(); if (E) E.sleep();
@@ -24275,6 +24284,12 @@ function v15Frame() {
         return false;                // (chess with the fleet still loading: stay dark under the cover)
     }
     if (_v15.land) { _v15.land = false; _v15SetView('sea'); }
+    if (_v15.drift === true) { _v15SetView('sea'); _v15.drift = { t0: performance.now() }; controls.enabled = false; _v15Film(true); _v15Caption(_V15_ARRIVE[currentViewId] || _V15_ARRIVE[16]); }
+    if (_v15.drift && _v15.drift.t0) {   // low over the water from far out, rising to White's side of the board
+        const k = Math.min(1, (performance.now() - _v15.drift.t0) / 7000), e = k * k * (3 - 2 * k);
+        camera.position.set(-7 + 7 * e, 1.6 + 6.4 * e, 30 - 18.5 * e); controls.target.set(0, 0.5 + 0.9 * e, 0.4 + 1.0 * e); camera.lookAt(controls.target);
+        if (k >= 1) _v15EndDrift();
+    }
     if (_v15.home) _v15Home();       // the fleet is loaded: start the opening
     else if (_v15.intro) _v15IntroStep();
     if (!_v15.live) { renderer.domElement.style.opacity = '0'; _v15.live = true; _v15Cover(false); }
