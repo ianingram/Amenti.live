@@ -63,6 +63,21 @@
                 max-width: 96vw;
             }
         }
+        /* PHONES (body.phone is set from the screen size, see _phoneFit): the rosters and the bottom
+           rows are drawn smaller so the board shows between them, and the rows stack instead of overlapping. */
+        body.phone .roster-panel { transform: scale(.58); top: 58px !important; }
+        body.phone .roster-rosterLeft { transform-origin: top left; }
+        body.phone .roster-rosterRight { transform-origin: top right; }
+        body.phone #hudBottomLeft { transform: scale(.74); transform-origin: bottom left; }
+        body.phone #hudBottomRight { transform: scale(.74); transform-origin: bottom right; }
+        body.phone #viewSel { transform: translateX(-50%) scale(.74); transform-origin: bottom center; bottom: 44px !important; }
+        body.phone.portrait #hudBottomRight { bottom: 42px !important; }
+        body.phone.portrait #viewSel { bottom: 76px !important; }
+        body.phone #hoverCard { max-width: 92vw !important; padding: 8px 12px !important; }
+        body.phone #hoverCard .card-bio { display: -webkit-box !important; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        body.phone #v15Bar { transform: translateX(-50%) scale(.85) !important; }
+        body.phone.portrait #v15Bar { top: auto !important; bottom: 112px !important; }
+        @media (max-width: 900px) { #viewSel { bottom: 44px !important; } }   /* iPad portrait: V15 above the bottom row */
         @media (max-width: 820px) and (max-height: 700px) {
             /* Very short viewports (landscape phones): bottom row may still be
                tall once it wraps — let it scroll instead of clipping. */
@@ -7767,7 +7782,7 @@ document.body.appendChild(hudTopRight);
 
 const hudBottomLeft = document.createElement('div');
 hudBottomLeft.className = 'hud-corner';
-hudBottomLeft.style.cssText = panelPos('bottomLeft');
+hudBottomLeft.style.cssText = panelPos('bottomLeft'); hudBottomLeft.id = 'hudBottomLeft';
 document.body.appendChild(hudBottomLeft);
 
 // --- Collapsible bottom-left menus ---
@@ -8896,6 +8911,7 @@ function _openScenarioPicker() {
 // Card shows: name (bold), title — birth-death, biography sentence, optional link.
 // Clickable links open in a new tab when the user clicks the card.
 const hoverCard = document.createElement('div');
+hoverCard.id = 'hoverCard';
 hoverCard.style.cssText = `
     position: fixed;
     display: none;
@@ -8935,6 +8951,7 @@ cardName.style.cssText = 'font-weight: bold; font-size: 15px; margin-bottom: 4px
 const cardSubtitle = document.createElement('div');
 cardSubtitle.style.cssText = 'font-size: 12px; opacity: 0.85; margin-bottom: 6px; position: relative; z-index: 1;';
 const cardBio = document.createElement('div');
+cardBio.className = 'card-bio';
 cardBio.style.cssText = 'font-size: 12px; opacity: 0.75; line-height: 1.4; margin-bottom: 6px; position: relative; z-index: 1;';
 const cardLink = document.createElement('a');
 cardLink.target = '_blank';
@@ -9007,6 +9024,7 @@ function showHoverCard(figure, anchorEl, anchorRect, pinTop) {
 
     // Position the card next to the anchor element
     hoverCard.style.display = 'block';
+    if (document.body.classList.contains('phone')) pinTop = true;   // on a phone the card sits at the top, clear of the board
     // Board-piece hovers pin the card to the TOP-CENTER of the screen so it
     // doesn't sit heavily in the middle of the board.
     if (pinTop) {
@@ -9014,7 +9032,7 @@ function showHoverCard(figure, anchorEl, anchorRect, pinTop) {
         let left2 = (window.innerWidth - cardW2) / 2;
         left2 = Math.max(8, Math.min(left2, window.innerWidth - cardW2 - 8));
         hoverCard.style.left = left2 + 'px';
-        hoverCard.style.top = '14px';
+        hoverCard.style.top = document.body.classList.contains('phone') ? '56px' : '14px';   // below the AMENTI button on a phone
         if (anchorEl && anchorEl.dataset && anchorEl.dataset.figureName) {
             anchorEl.style.textShadow = '0 0 8px #fff, 0 0 4px #fff';
             currentlyGlowingNameEl = anchorEl;
@@ -9346,7 +9364,7 @@ let _topDownRosterActive = false;
 
 function buildRosterPanel(side, anchor, glyphs, figures) {
     const panel = document.createElement('div');
-    panel.className = 'hud-corner';
+    panel.className = 'hud-corner roster-panel roster-' + anchor;
     panel.style.cssText = panelPos(anchor) + 'display: flex; flex-direction: column; gap: 6px; font-size: 13px;';
     // Clear previous row refs for this side (we're about to repopulate).
     rosterRowsByColor[side] = [];
@@ -24019,7 +24037,7 @@ function _v15SetView(v) {            // the same orbit, laid over the sea or ove
 function v15Enter() {
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1&v=36';
+        f.src = 'v15/fleet.html?embed=1&v=37';
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24195,6 +24213,18 @@ function _v15EndCaption(E) {
     if (cap) { _v15Caption(cap); _v15.endT = setTimeout(() => _v15Caption(null), hold); }
     else if (prev === 'check' || prev === 'checkmate' || prev === 'stalemate') _v15Caption(null);
 }
+// Phones and tablets: a phone gets the compact HUD; a tall screen gets a wider lens so the whole board shows.
+function _phoneFit() {
+    const phone = Math.min(innerWidth, innerHeight) < 600;
+    document.body.classList.toggle('phone', phone);
+    document.body.classList.toggle('portrait', innerHeight > innerWidth);
+}
+_phoneFit(); addEventListener('resize', _phoneFit); addEventListener('orientationchange', () => setTimeout(_phoneFit, 300));
+function _v15Fov(fov) {
+    const asp = innerWidth / innerHeight; if (asp >= 1.25) return fov;
+    const h = 2 * Math.atan(Math.tan(fov * Math.PI / 360) * 1.45);          // keep about the width a landscape screen sees
+    return Math.min(90, 2 * Math.atan(Math.tan(h / 2) / asp) * 180 / Math.PI);
+}
 function v15Frame() {
     const E = gameMode === 'chess' && _v15Api();
     if (!E) {
@@ -24212,7 +24242,7 @@ function v15Frame() {
     world.updateMatrixWorld(true); camera.updateMatrixWorld();
     const p = world.worldToLocal(camera.position.clone());   // in squares: the fleet page lays them over the sea, or over the pool at the court
     const q = world.getWorldQuaternion(new THREE.Quaternion()).invert().multiply(camera.quaternion);
-    E.camera(p.toArray(), q.toArray(), camera.fov);
+    E.camera(p.toArray(), q.toArray(), _v15Fov(camera.fov));
     E.marks(selectedPiece && selectedPiece.userData ? selectedPiece.userData.id || null : null,
             highlightedTiles.map(t => t.userData && t.userData.id).filter(Boolean));
     E.tick();
@@ -25578,6 +25608,7 @@ function setView(id) {
 // View selector at bottom-center: a single 'V' button. Click to open the tab list
 // (1-10). Click outside to close.
 const viewContainer = document.createElement('div');
+viewContainer.id = 'viewSel';
 viewContainer.style.cssText = `
     position: fixed;
     bottom: 12px;
