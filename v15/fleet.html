@@ -2811,8 +2811,9 @@ function namesFrame() {
 }
 function place(side, sqX, sqZ, cls, name) {
   cls = cls || shipClass; sternName = name || null;
-  const g = mergeShip(cls === 'rook' ? buildGalleon(side) : buildClass(cls, side)); sternName = null; g.scale.setScalar(SCALE);
-  const piece = masthead(cls, side, g.userData.top);   // the chess piece on the main truck, readable across the board
+  const drone = SK && cls === 'pawn';   // V18: the pawns are drones
+  const g = drone ? buildDrone(side, name) : mergeShip(cls === 'rook' ? buildGalleon(side) : buildClass(cls, side)); sternName = null; if (!drone) g.scale.setScalar(SCALE);
+  const piece = drone ? null : masthead(cls, side, g.userData.top);   // the king's and queen's glory over the main truck
   if (piece) g.add(piece);
   const sL = g.userData.L || L, sHB = g.userData.HB || HB;
   const holder = new THREE.Group(); holder.add(g);
@@ -2825,7 +2826,8 @@ function place(side, sqX, sqZ, cls, name) {
   const glint = new THREE.Mesh(GLINT.geo, GLINT.mat); glint.position.set(sL * SCALE * 0.5, 0.4, 0); glint.renderOrder = 3; glint.visible = false; holder.add(glint);
   const plate = null;   // (the floating nameplates, retired 27 Nov: the square she stands on carries her name instead)
   const label = EMBED && name && cls !== 'pawn' ? squareName(name, cls) : null; if (label) holder.add(label);   // alternate files hang lower, so neighbours' names don't run together
-  setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, piece, plate, label, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
+  let vortex = null; if (SK && !drone) { vortex = vortexUnder(sL * SCALE * 0.9); vortex.position.y = -1; holder.add(vortex); }
+  if (!drone) setGuns(g, false); scene.add(holder); fleet.push({ side, holder, ship: g, foam, glint, piece, plate, label, vortex, drone, L: sL, HB: sHB, name: name || null, cls, file: Math.round(sqX + 3.5) });
 }
 // ---- the stern lanterns' light on the water at night: a broken warm streak from each stern toward the eye ----
 const GLINT = (() => {
@@ -4659,6 +4661,159 @@ function buildHarbour(side) {
   }
   renderMuster();
 }
+
+// ==================== V18 · INGRAM MANOR: the fleet in the sky ====================
+// Moon Racer's vortex technology, carried over: each craft rides on two counter-rotating spirals of light, and the
+// Ingram Manor dirigible lies 1,000 units under the board with a flight deck of sixteen bays along its back, one for
+// each ship of the player's fleet. The pawns are drones: five orbs on a gold cross, the five on a die.
+const SPIRAL = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  x.translate(128, 128); x.lineCap = 'round';
+  for (let arm = 0; arm < 3; arm++) {
+    x.beginPath();
+    for (let k = 0; k <= 120; k++) { const f = k / 120, a = arm * 2.094 + f * 7.5, r = 8 + f * 112;
+      k ? x.lineTo(Math.cos(a) * r, Math.sin(a) * r) : x.moveTo(Math.cos(a) * r, Math.sin(a) * r); }
+    x.strokeStyle = 'rgba(235,245,255,0.9)'; x.lineWidth = 7; x.stroke();
+  }
+  return new THREE.CanvasTexture(c);
+})();
+function vortexUnder(size, col) {             // two counter-rotating spirals, lying flat under a craft (or turned upright, on an engine)
+  const g = new THREE.Group();
+  [[1, 1.0, 0.42], [-1, 1.5, 0.26]].forEach(([dir, k, op]) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(size * k, size * k), new THREE.MeshBasicMaterial({ map: SPIRAL, color: col || 0xbfe6ff, transparent: true,
+      opacity: op, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide, toneMapped: false }));
+    m.rotation.x = -Math.PI / 2; m.userData.spin = dir * (k > 1 ? 1.1 : 1.7); g.add(m);
+  });
+  g.userData.vortex = true; return g;
+}
+const DRONE_COL = { w: new THREE.Color(0.75, 0.95, 1.5), b: new THREE.Color(1.6, 0.85, 0.3), named: new THREE.Color(0.45, 1.7, 0.6) };
+function buildDrone(side, name) {             // the pawn: four corner orbs and a heart, on a slim gold cross
+  const g = new THREE.Group(), gold = new THREE.MeshStandardMaterial({ color: 0xd9ad4a, metalness: 0.9, roughness: 0.3, emissive: 0x3a2a08, emissiveIntensity: 0.6 });
+  for (const a of [Math.PI / 4, -Math.PI / 4]) { const bar = new THREE.Mesh(new THREE.BoxGeometry(34, 1.2, 1.6), gold); bar.rotation.y = a; g.add(bar); }
+  const orb = (r, col) => new THREE.Mesh(new THREE.SphereGeometry(r, 16, 12), new THREE.MeshBasicMaterial({ color: col, toneMapped: false }));
+  for (const [x, z] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) {
+    const o = orb(3.6, DRONE_COL[side]); o.position.set(x * 12, 0, z * 12); g.add(o);
+    const v = vortexUnder(13, side === 'w' ? 0xbfe6ff : 0xffc27a); v.position.set(x * 12, -1.5, z * 12); g.add(v);
+  }
+  g.add(orb(4.6, name ? DRONE_COL.named : DRONE_COL[side]));            // the heart: green when the pawn has a name
+  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: HALO_TEX, color: name ? 0x77ff99 : side === 'w' ? 0xbfe6ff : 0xffc27a, transparent: true,
+    blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, opacity: 0.55 })); halo.scale.setScalar(26); g.add(halo);
+  g.userData.drone = true; g.userData.L = 34 / SCALE; g.userData.HB = 17 / SCALE;
+  return g;
+}
+// ---- the dirigible: a rigid airship 1,900 units long, silver fabric over its frames, Ingram Manor in gilt down each flank
+const DIRIGIBLE_Y = -1000, BAYS = [];   // well below the board, so from the game she is the ship beneath, not the floor under the grid
+function buildDirigible() {
+  const D = new THREE.Group(), LEN = 1900, R0 = 200;
+  const pts = []; for (let i = 0; i <= 48; i++) { const t = i / 48; pts.push(new THREE.Vector2(Math.max(0.5, R0 * Math.pow(Math.sin(Math.PI * Math.pow(t, 0.8)), 0.7)), (t - 0.5) * LEN)); }
+  const c = document.createElement('canvas'); c.width = 2048; c.height = 1024; const x = c.getContext('2d');
+  const gr = x.createLinearGradient(0, 0, 2048, 0); gr.addColorStop(0, '#8d9198'); gr.addColorStop(0.5, '#d6d9de'); gr.addColorStop(1, '#8d9198');
+  x.fillStyle = gr; x.fillRect(0, 0, 2048, 1024);
+  x.strokeStyle = 'rgba(70,74,82,0.55)'; x.lineWidth = 3; for (let k = 1; k < 40; k++) { x.beginPath(); x.moveTo(0, k * 1024 / 40); x.lineTo(2048, k * 1024 / 40); x.stroke(); }   // the frames
+  x.strokeStyle = 'rgba(70,74,82,0.25)'; x.lineWidth = 2; for (let k = 0; k < 32; k++) { x.beginPath(); x.moveTo(k * 64, 0); x.lineTo(k * 64, 1024); x.stroke(); }  // the girders
+  for (const [u, rot] of [[0.25, Math.PI / 2], [0.75, -Math.PI / 2]]) {   // the name, gilt, along each flank
+    x.save(); x.translate(u * 2048, 512); x.rotate(rot);
+    x.fillStyle = 'rgba(30,22,12,0.85)'; x.fillRect(-430, -62, 860, 124);
+    x.strokeStyle = '#d9ad4a'; x.lineWidth = 6; x.strokeRect(-420, -52, 840, 104);
+    x.fillStyle = '#e8c46a'; x.font = '600 70px Georgia, serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    if ('letterSpacing' in x) x.letterSpacing = '14px'; x.fillText('INGRAM MANOR', 0, 4); x.restore();
+  }
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  const hull = new THREE.Mesh(new THREE.LatheGeometry(pts, 64, Math.PI / 2), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.55, metalness: 0.25, emissive: 0x1a1c22, emissiveIntensity: 0.6 }));
+  hull.geometry.rotateZ(-Math.PI / 2); D.add(hull);
+  const dark = new THREE.MeshStandardMaterial({ color: 0x1d1e22, roughness: 0.6, metalness: 0.4 });
+  const gilt = new THREE.MeshStandardMaterial({ color: 0xd9ad4a, metalness: 0.9, roughness: 0.28, emissive: 0x3a2a08, emissiveIntensity: 0.5 });
+  const lamp = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.8, 1.4, 0.8), toneMapped: false });
+  const add = (geo, mat, px, py, pz) => { const m = new THREE.Mesh(geo, mat); m.position.set(px, py, pz); D.add(m); return m; };
+  // the flight deck along the back, with its skirts down to the hull
+  const DL = 1180, DW = 250, DY = R0 + 4;
+  add(new THREE.BoxGeometry(DL, 8, DW), dark, 0, DY, 0);
+  for (const sz of [-1, 1]) { add(new THREE.BoxGeometry(DL, 60, 6), dark, 0, DY - 30, sz * DW / 2); add(new THREE.BoxGeometry(DL, 3, 4), gilt, 0, DY + 5, sz * (DW / 2 - 2)); }
+  // sixteen bays, eight a side of the spine: a sunk floor, a gilt frame, a cradle and four lamps each
+  const bayFloor = new THREE.MeshStandardMaterial({ color: 0x0e0f12, roughness: 0.9 }), bayGeo = new THREE.BoxGeometry(124, 2, 100);
+  for (let i = 0; i < 8; i++) for (const sz of [-1, 1]) {
+    const bx = -490 + i * 140, bz = sz * 64, by = DY + 4.5;
+    add(bayGeo, bayFloor, bx, by, bz);
+    for (const [w, d, ox, oz] of [[128, 3, 0, 52], [128, 3, 0, -52], [3, 104, 64, 0], [3, 104, -64, 0]]) add(new THREE.BoxGeometry(w, 3, d), gilt, bx + ox, by + 1.5, bz + oz);
+    for (const oz of [-14, 14]) add(new THREE.BoxGeometry(100, 3, 3), gilt, bx, by + 2, bz + oz);
+    for (const [ox, oz] of [[60, 48], [60, -48], [-60, 48], [-60, -48]]) add(new THREE.SphereGeometry(2.4, 8, 6), lamp, bx + ox, by + 4, bz + oz);
+    BAYS.push(new THREE.Vector3(bx, DIRIGIBLE_Y + by + 10, bz));
+  }
+  for (let i = 0; i < 24; i++) add(new THREE.SphereGeometry(2, 8, 6), lamp, -560 + i * 48.7, DY + 6, 0);     // lamps down the spine
+  // the tail: four fins; the gondola under the bows with its windows lit; four engine pods on outriggers, each turning its vortex
+  for (const [vert, sy, sz] of [[1, 1, 0], [1, -1, 0], [0, 0, 1], [0, 0, -1]]) {
+    const f = add(new THREE.BoxGeometry(280, 170, 6), dark, 760, sy * 160, sz * 160); if (!vert) f.rotation.x = Math.PI / 2;
+  }
+  add(new THREE.BoxGeometry(260, 46, 70), dark, -470, -R0 - 10, 0);
+  for (let i = 0; i < 9; i++) for (const sz of [-1, 1]) add(new THREE.PlaneGeometry(14, 10), lamp, -580 + i * 27, -R0 - 8, sz * 35.5).rotation.y = sz > 0 ? 0 : Math.PI;
+  for (const [px, pz] of [[-260, 1], [-260, -1], [320, 1], [320, -1]]) {
+    add(new THREE.BoxGeometry(6, 6, 70), dark, px, -40, pz * 205);
+    const pod = add(new THREE.CylinderGeometry(22, 26, 80, 20), dark, px, -40, pz * 245); pod.rotation.z = Math.PI / 2;
+    const v = vortexUnder(70, 0x9fe8ff); v.rotation.z = Math.PI / 2; v.position.set(px + 46, -40, pz * 245); D.add(v);
+  }
+  for (const [px, pz, col] of [[0, 1, 0x33ff66], [0, -1, 0xff3333], [940, 0, 0xffffff]])            // running lights
+    add(new THREE.SphereGeometry(5, 10, 8), new THREE.MeshBasicMaterial({ color: col, toneMapped: false }), px, 0, pz * R0);
+  D.position.set(0, DIRIGIBLE_Y, 0);
+  return D;
+}
+const DIRIGIBLE = SK ? buildDirigible() : null; if (DIRIGIBLE) scene.add(DIRIGIBLE);
+// ---- every frame: the fleet hovers, the vortices turn, the drones spin slowly
+function skyFrame(t, dt) {
+  if (!SK) return;
+  const spin = o => { if (o.userData.vortex) o.children.forEach(m => m.rotation.z += m.userData.spin * dt); };
+  if (DIRIGIBLE) DIRIGIBLE.children.forEach(spin);
+  for (const f of fleet) {
+    if (f.vortex) spin(f.vortex);
+    if (!f.sink) f.holder.position.y = (f.drone ? 12 : 5) + Math.sin(t * 0.9 + f.file * 1.7) * 1.6;
+    if (f.drone) { f.ship.rotation.y += dt * 0.35; f.ship.children.forEach(spin); }
+  }
+  for (const m of MUSTER.ships) { if (m.vortex) spin(m.vortex); if (m.drone) { m.ship.rotation.y += dt * 0.35; m.ship.children.forEach(spin); } }
+}
+// ---- the launch: each ship rises out of its own bay and climbs to its place in the wedge on the board above
+function skyMuster(names, side) {
+  const nm = (r, c) => (names && names[r] && names[r][c]) || null, back = side === 'w' ? 7 : 0, prow = side === 'w' ? 6 : 1;
+  const mk = (kind, file, cls, name, bay) => {
+    const drone = cls === 'pawn', g = drone ? buildDrone(side, name) : harbourShip(cls, side, name);
+    if (!drone) { const pc = masthead(cls, side, g.userData.top); if (pc) g.add(pc); }
+    const holder = new THREE.Group(); holder.add(g);
+    const v = vortexUnder(drone ? 40 : (g.userData.L || 10) * SCALE * 0.9); v.position.y = drone ? 2 : -1; holder.add(v);
+    const B = BAYS[bay].clone(), W = wedgePos(side, kind === 'pawn' ? prow : back, file); W.y = drone ? 12 : 5;
+    holder.position.copy(B); holder.rotation.y = homeYaw(side); scene.add(holder);
+    const path = new THREE.CatmullRomCurve3([B, B.clone().add(new THREE.Vector3(0, 110, 0)), new THREE.Vector3(B.x * 0.6 + W.x * 0.4, DIRIGIBLE_Y * 0.45, B.z * 0.4 + W.z * 0.6),
+      new THREE.Vector3(W.x, W.y + 40, W.z * 0.96), W], false, 'centripetal');
+    return { kind, file, cls, name, holder, ship: g, vortex: v, drone, path, start: Infinity, len: 1, s: 0 };
+  };
+  const order = []; let bay = 0;
+  [[3, 4], [2, 5], [1, 6], [0, 7]].forEach(pr => pr.forEach(c => order.push(mk('pawn', c, 'pawn', nm(prow, c), bay++))));
+  [1, 6, 2, 5, 0, 7, 3, 4].forEach(c => order.push(mk('seat', c, SEAT_CLASS[c], nm(back, c), bay++)));
+  let t = 1.2;
+  order.forEach((m, i) => { m.start = t; t += m.kind === 'pawn' ? (i % 2 ? 0.9 : 0) : m.cls === 'king' ? 0 : 1.5; if (m.cls === 'queen') t += 0.5; });
+  MUSTER.ships = order; MUSTER.on = true; MUSTER.done = false; MUSTER.sky = true; MUSTER.t = 0; MUSTER.last = performance.now(); MUSTER.span = t + 8.5;
+  MUSTER.cap = ['Ingram Manor', 'the fleet launches from its bays', '']; MUSTER.capN++; MUSTER.pawnCap = false; MUSTER.cam = null;
+  for (const f of fleet) if (f.side === side) f.holder.visible = false;
+}
+function skyMusterFrame(dt) {
+  for (const f of fleet) if (f.side === 'w' && f.holder.visible) f.holder.visible = false;   // (a re-sync must not bring her out early)
+  MUSTER.t += dt; const T = MUSTER.t, P = Math.min(1, T / MUSTER.span), e = P * P * (3 - 2 * P);
+  let all = true, king = null;
+  for (const m of MUSTER.ships) {
+    if (T < m.start) { all = false; continue; }
+    if (!m.cast) { m.cast = true;
+      if (m.kind === 'pawn' && !MUSTER.pawnCap) { MUSTER.pawnCap = true; MUSTER.cap = ['The Drones', 'eight pawns rise, two by two', '']; MUSTER.capN++; }
+      if (m.kind !== 'pawn') { MUSTER.cap = [m.name || CLASS_TITLE[m.cls], CLASS_TITLE[m.cls] + ' · ' + SHIP_KIND[m.cls], /^the\s/i.test(m.name || '') ? '' : 'the']; MUSTER.capN++;
+        if (AUD.ctx) audioShot('bell', 0.22, 1.2, 0, 0); }
+    }
+    const u = Math.min(1, (T - m.start) / 7.5), k = u * u * (3 - 2 * u);
+    m.holder.position.copy(m.path.getPointAt(k));
+    m.ship.rotation.z = m.drone ? 0 : -0.18 * Math.sin(Math.PI * k);            // bows up as she climbs, level as she arrives
+    m.s = m.len = 1; if (u < 1) { all = false; m.s = 0; }
+    if (m.cls === 'king') king = { m, u };
+  }
+  // the camera: beside the dirigible's flight deck, climbing with the fleet to White's side of the board
+  MUSTER.cam = { world: true, eye: [-1500 + 700 * e, DIRIGIBLE_Y + 230 + (310 - DIRIGIBLE_Y - 230) * e, 980 + 420 * e], tgt: [-120 * (1 - e), (DIRIGIBLE_Y + 180) * (1 - e), 260 * e] };
+  if (!MUSTER.done && king && king.u >= 1) MUSTER.done = true;
+  if (all) musterEnd();
+}
 // ---- V15: the muster. Before the game, the player's fleet lies at Whitby, each ship with her captain's name
 // on her quarters; they cast off and stand out through the pier heads to open sea, pawns in pairs, then the
 // officers one by one, the flagship last with a salute from the pier. Moved by the clock, not by frames,
@@ -4667,11 +4822,11 @@ const MUSTER = { on: false, done: false, ships: [], cap: null, capN: 0, t: 0, la
 const CLASS_TITLE = { rook: 'Rook', knight: 'Knight', bishop: 'Bishop', queen: 'Queen', king: 'King', pawn: 'Pawn' };
 function musterEnd() {
   for (const m of MUSTER.ships) { m.holder.parent && m.holder.parent.remove(m.holder); m.holder.traverse(o => { if (o.geometry && o.geometry !== PIECE_GEO[m.cls] && !Object.values(TRIM_GEO).includes(o.geometry) && !(o.parent && o.parent.userData.glory)) o.geometry.dispose(); }); }
-  MUSTER.ships = []; MUSTER.on = false; MUSTER.done = true; MUSTER.cap = null; MUSTER.cam = null; lanternLight.intensity = 0;
-  for (const f of fleet) if (f.side === 'w') { f.holder.visible = true; if (f.foam) f.foam.visible = true; }
+  MUSTER.ships = []; MUSTER.on = false; MUSTER.done = true; MUSTER.cap = null; MUSTER.cam = null; MUSTER.sky = false; lanternLight.intensity = 0;
+  for (const f of fleet) if (f.side === 'w') { f.holder.visible = true; if (f.foam) f.foam.visible = !SK; }
 }
 function embMuster(names, side, mode) {
-  musterEnd(); side = side || 'w'; MUSTER.short = mode === 'short';   // short: after the first game, a quicker muster with only the queen and the flagship at the gate
+  musterEnd(); MUSTER.sky = false; if (SK) return skyMuster(names, side || 'w'); side = side || 'w'; MUSTER.short = mode === 'short';   // short: after the first game, a quicker muster with only the queen and the flagship at the gate
   const SP = MUSTER.short ? { pawn: 1.1, off: 1.5, queen: 0.3 } : { pawn: 2.2, off: 3.4, queen: 0.6 };
   const back = side === 'w' ? 7 : 0, prow = side === 'w' ? 6 : 1, nm = (r, c) => (names && names[r] && names[r][c]) || null;
   const mk = (kind, file, cls, name) => {
@@ -4700,7 +4855,9 @@ function embMuster(names, side, mode) {
 function musterFrame() {
   if (!MUSTER.on) return;
   for (const f of fleet) if (f.side === 'w' && f.holder.visible) { f.holder.visible = false; if (f.foam) f.foam.visible = false; }   // (a re-sync must not bring her out early)
-  const now = performance.now(), dt = Math.min(1, (now - MUSTER.last) / 1000); MUSTER.last = now; MUSTER.t += dt;
+  const now = performance.now(), dt = Math.min(1, (now - MUSTER.last) / 1000); MUSTER.last = now;
+  if (MUSTER.sky) return skyMusterFrame(dt);
+  MUSTER.t += dt;
   let out = 0, king = null;
   for (const m of MUSTER.ships) {
     if (MUSTER.t < m.start) continue;
@@ -4845,6 +5002,7 @@ function frame() {
   { const nowS = performance.now(), dtS = Math.min(0.1, (nowS - (frame.lastS || nowS)) / 1000); frame.lastS = nowS; if (sailing.size) stepSailing(dtS * (EMB.pending > 1 ? Math.min(3, 1 + 0.6 * (EMB.pending - 1)) : 1)); if (courtAnims.size) stepCourt(dtS); for (const f of fleet) if (f.sink) f.sink.t += dtS; }
   sky.position.copy(camera.position);    // the sky goes with the eye: from Whitby, 4000 out, its far side was past the camera's reach
   giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t); courtFrame(t); musterFrame(); namesFrame();
+  { const n = performance.now(), d = Math.min(0.1, (n - (frame.l3 || n)) / 1000); frame.l3 = n; skyFrame(t, d); }
   { const n = performance.now(), d = Math.min(0.1, (n - (frame.l2 || n)) / 1000); frame.l2 = n; stormFrame(t, d); followFrame(d); }
   waveU.time.value = t; skyMat.uniforms.time.value = t; cloudMat.uniforms.time.value = t; cloudMat.uniforms.lite.value = waveU.lite.value;
   if (beam && skyMat.uniforms.panoOn.value > 0.5) {

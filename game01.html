@@ -24054,7 +24054,7 @@ function v15Enter() {
     }
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1' + (_V15_STYLE[currentViewId] ? '&style=' + _V15_STYLE[currentViewId] : '') + '&v=54'; _v15.style = currentViewId;
+        f.src = 'v15/fleet.html?embed=1' + (_V15_STYLE[currentViewId] ? '&style=' + _V15_STYLE[currentViewId] : '') + '&v=55'; _v15.style = currentViewId;
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);
@@ -24073,7 +24073,8 @@ function v15Enter() {
     if (!_v15.live) { c.style.opacity = '0'; _v15Cover(true); }   // nothing of the old board while the fleet loads: a dark sea and a title instead
     _v15.sig = ''; _v15.view = 'sea';   // the fleet is set to the board as it stands on the next frame
     { const E = _v15Api(); if (E) E.view('sea'); }
-    if (_V15_STYLE[currentViewId]) _v15.drift = true;  // V16: no harbour, no muster (Ian, 28 Nov): a short drift in over the water to the board
+    if (currentViewId === 18) _v15.skyMuster = true;   // V18: the fleet launches from the Ingram Manor dirigible's bays and climbs to the board
+    else if (_V15_STYLE[currentViewId]) _v15.drift = true;  // V16: no harbour, no muster (Ian, 28 Nov): a short drift in over the water to the board
     else _v15.home = true;           // and the camera opens at Whitby (after setView and its wrappers finish)
 }
 // The opening, announced: Whitby from the sea, along the shore and the harbour, past the pier light
@@ -24178,13 +24179,19 @@ function _v15IntroStep() {
     if (!holding && shot !== I.shot) { I.shot = shot; _v15Caption(shot >= 0 ? K[shot].cap : null); }
     if (I.t >= _V15_INTRO.dur) _v15EndIntro();
 }
+function _v15EndSky() {             // the V18 launch: done, or skipped by a click (the whole fleet straight to its wedge)
+    if (!_v15.skyMuster) return; const E = _v15Api(); _v15.skyMuster = null;
+    if (E && E.musterEnd) E.musterEnd();
+    _v15Caption(null); _v15Film(false);
+    camera.position.set(0, 8, 11.5); controls.target.set(0, 0, 1.4); camera.lookAt(controls.target); controls.enabled = true; controls.update();
+}
 function _v15EndDrift() {           // the V16 drift: done, or skipped by a click
     if (!_v15.drift) return; _v15.drift = null;
     _v15Caption(null); _v15Film(false);
     camera.position.set(0, 8, 11.5); controls.target.set(0, 0, 1.4); camera.lookAt(controls.target); controls.enabled = true; controls.update();
 }
 function _v15EndIntro() {
-    _v15EndDrift();             // finished or skipped: land on White's side of the board
+    _v15EndDrift(); _v15EndSky();             // finished or skipped: land on White's side of the board
     if (!_v15.intro) return;
     { const E = _v15Api(); if (E && E.musterEnd) E.musterEnd(); }   // a skip sends the whole fleet straight to sea
     _v15.intro = null; _v15Caption(null); _v15.lens = 1; _v15Film(false);
@@ -24215,7 +24222,7 @@ function v15Leave() {
     if (_v15.intro) { _v15.intro = null; controls.enabled = true; _v15Caption(null); }
     _v15Film(false);
     _v15Bar(false);
-    _v15.home = false; _v15.land = false; if (_v15.drift) { _v15.drift = null; _v15Caption(null); controls.enabled = true; }
+    _v15.home = false; _v15.land = false; if (_v15.drift) { _v15.drift = null; _v15Caption(null); controls.enabled = true; } if (_v15.skyMuster) { _v15.skyMuster = null; _v15Caption(null); controls.enabled = true; }
     _v15.live = false;
     if (_v15.frame) _v15.frame.style.display = 'none';
     const E = _v15Api(); if (E) E.sleep();
@@ -24285,6 +24292,14 @@ function v15Frame() {
         return false;                // (chess with the fleet still loading: stay dark under the cover)
     }
     if (_v15.land) { _v15.land = false; _v15SetView('sea'); }
+    if (_v15.skyMuster === true) { _v15.skyMuster = { capN: -1 }; controls.enabled = false; _v15Film(true); E.muster(_v15Names(), 'w'); }
+    if (_v15.skyMuster && _v15.skyMuster.capN !== undefined) {   // the launch: the fleet page's own camera, from the flight deck up to the board
+        const st = E.musterState;
+        if (st && st.on && !st.done) {
+            if (st.cam) { const Tl = E.tile || 60, c = st.cam; camera.position.set(c.eye[0] / Tl, c.eye[1] / Tl, c.eye[2] / Tl); controls.target.set(c.tgt[0] / Tl, c.tgt[1] / Tl, c.tgt[2] / Tl); camera.lookAt(controls.target); }
+            if (st.capN !== _v15.skyMuster.capN) { _v15.skyMuster.capN = st.capN; _v15Caption(st.cap); }
+        } else _v15EndSky();
+    }
     if (_v15.drift === true) { _v15SetView('sea'); _v15.drift = { t0: performance.now() }; controls.enabled = false; _v15Film(true); _v15Caption(_V15_ARRIVE[currentViewId] || _V15_ARRIVE[16]); }
     if (_v15.drift && _v15.drift.t0) {   // low over the water from far out, rising to White's side of the board
         const k = Math.min(1, (performance.now() - _v15.drift.t0) / 7000), e = k * k * (3 - 2 * k);
