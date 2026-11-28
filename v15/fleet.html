@@ -415,7 +415,8 @@ function waveHeight(x, z, t) {
 }
 
 // ---------------- THE BOARD GRID (wireframe squares, 40 units) ----------------
-const TILE = EMBED ? 120 : 40;         // V15: even a first-rate takes little more than a third of her square          // in game01 (V15) the squares are wider, so the ships of the line sit inside them
+const TILE = EMBED ? 150 : 40;         // (27 Nov 2026: the squares 25% larger, 120 → 150)
+const TS = EMBED ? TILE / 120 : 1;     // distances below were tuned at 120 and grow with the squares         // V15: even a first-rate takes little more than a third of her square          // in game01 (V15) the squares are wider, so the ships of the line sit inside them
 const gridPts = [];
 for (let i = -4; i <= 4; i++) { gridPts.push(i * TILE, 0, -4 * TILE, i * TILE, 0, 4 * TILE, -4 * TILE, 0, i * TILE, 4 * TILE, 0, i * TILE); }
 const gridGeo = new THREE.BufferGeometry(); gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridPts, 3));
@@ -2056,7 +2057,7 @@ function piecesFrame() {          // big enough to read: they swell when the eye
   for (const sd of ['w', 'b']) PIECE_MAT[sd].emissiveIntensity = sd === 'w' ? 0.06 + GILT.op.w * 0.35 : GILT.op.b * 0.3;   // ebony by day; a warm glow from within by night
   for (const f of fleet) {
     const p = f.piece; if (!p) continue;
-    const d = camera.position.distanceTo(f.holder.position), k = Math.min(2.6, Math.max(1, d / 520));
+    const d = camera.position.distanceTo(f.holder.position), k = Math.min(2.6, Math.max(1, d / (520 * TS)));
     p.scale.setScalar(p.userData.h * k);
   }
 }
@@ -2667,7 +2668,7 @@ function namesFrame() {
     let a = 0;
     if (sea && !f.sink && f.holder.visible) {
       f.holder.getWorldPosition(_np); const d = camera.position.distanceTo(_np);
-      a = (1 - THREE.MathUtils.smoothstep(d, 820, 1250)) * (1 - THREE.MathUtils.smoothstep(camera.position.y, 520, 900));   // near ships only, and not from high overhead
+      a = (1 - THREE.MathUtils.smoothstep(d, 820 * TS, 1250 * TS)) * (1 - THREE.MathUtils.smoothstep(camera.position.y, 520 * TS, 900 * TS));   // near ships only, and not from high overhead
     }
     p.material.opacity += (a - p.material.opacity) * 0.15;
     p.visible = p.material.opacity > 0.02;
