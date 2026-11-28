@@ -23966,12 +23966,13 @@ const VIEWS = [
     { id: 14, label: '14', name: 'Halls',       bg: 0x1c2230, placeholder: false, buildProps: buildV14Props },
     { id: 15, label: '15', name: 'Treasure fleet', bg: 0x0d1b24, placeholder: false, buildProps: () => [] },
     { id: 16, label: '16', name: 'Starry night', bg: 0x0b1d4a, placeholder: false, buildProps: () => [] },
-    { id: 17, label: '17', name: 'Aegean', bg: 0x8a7a5a, placeholder: false, buildProps: () => [] }
+    { id: 17, label: '17', name: 'Aegean', bg: 0x8a7a5a, placeholder: false, buildProps: () => [] },
+    { id: 18, label: '18', name: 'Ingram Manor', bg: 0x0a1630, placeholder: false, buildProps: () => [] }
 ];
 // V16 (Starry night) is V15's fleet page in Van Gogh's manner, off Cobh: the same page, opened with &style=vangogh.
-const _isFleetView = id => id === 15 || id === 16 || id === 17;
+const _isFleetView = id => id >= 15 && id <= 18;
 // V17 (Aegean): the same page in Turner's manner, off Piraeus with Athens and the Acropolis (&style=turner).
-const _V15_STYLE = { 16: 'vangogh', 17: 'turner' }, _V15_ARRIVE = { 16: ['Cobh', 'Cork Harbour', ''], 17: ['Piraeus', 'Athens \u00b7 the Saronic Gulf', ''] }, _V15_PLACE = { 16: 'Cobh', 17: 'Athens' };
+const _V15_STYLE = { 16: 'vangogh', 17: 'turner', 18: 'sky' }, _V15_ARRIVE = { 16: ['Cobh', 'Cork Harbour', ''], 17: ['Piraeus', 'Athens \u00b7 the Saronic Gulf', ''], 18: ['Ingram Manor', '50,000 feet over Cape Canaveral', ''] }, _V15_PLACE = { 16: 'Cobh', 17: 'Athens', 18: 'Ingram Manor' };
 
 // ===================== V15 · TREASURE FLEET =====================
 // The fleet is drawn by its own page, v15/fleet.html, in a frame BENEATH
@@ -24053,7 +24054,7 @@ function v15Enter() {
     }
     if (!_v15.frame) {
         const f = document.createElement('iframe');
-        f.src = 'v15/fleet.html?embed=1' + (_V15_STYLE[currentViewId] ? '&style=' + _V15_STYLE[currentViewId] : '') + '&v=52'; _v15.style = currentViewId;
+        f.src = 'v15/fleet.html?embed=1' + (_V15_STYLE[currentViewId] ? '&style=' + _V15_STYLE[currentViewId] : '') + '&v=54'; _v15.style = currentViewId;
         f.title = 'Treasure fleet'; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
         Object.assign(f.style, { position: 'fixed', left: '0', top: '0', width: '100vw', height: '100vh', border: '0', zIndex: '0', pointerEvents: 'none', display: 'block', background: '#0d1b24' });
         document.body.insertBefore(f, document.body.firstChild);

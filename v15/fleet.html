@@ -130,7 +130,8 @@ if (!THREE) throw new Error('three.js did not load');
 const EMBED = /[?&]embed=1/.test(location.search);
 const VG = EMBED && /[?&]style=vangogh/.test(location.search);   // V16, Starry night: Van Gogh's sky over Cobh, always night, no Whitby
 const TU = EMBED && /[?&]style=turner/.test(location.search);    // V17, Aegean: Turner's golden afternoon over Athens and the Saronic Gulf
-const PAINTED = VG || TU;                                        // the painted coasts: no Whitby, no harbour
+const SK = EMBED && /[?&]style=sky/.test(location.search);       // V18, Ingram Manor: the board at 50,000 ft over Cape Canaveral, the live sky
+const PAINTED = VG || TU || SK;                                  // no Whitby, no harbour
 const MEDIA = EMBED ? 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v15-' : 'sound/';
 if (EMBED) document.documentElement.classList.add('embed');
 // Orbit: drag to turn, wheel or pinch to zoom, damped. (Stands in for three's OrbitControls add-on.)
@@ -199,27 +200,59 @@ const skyMat = new THREE.ShaderMaterial({
     cloudLit: { value: new THREE.Color() }, cloudShade: { value: new THREE.Color() }, clouds: { value: 0 }, streak: { value: 1 }, banks: { value: 0 }, bankH: { value: 0.2 }, halo: { value: 0 }, time: { value: 0 },
     pano: { value: null }, panoOn: { value: 0 }, panoRot: { value: 0 }, panoTop: { value: 1.396 }, panoGain: { value: 0.7 }, panoZen: { value: new THREE.Color() }, panoHz: { value: 0 }, maskOn: { value: 0 }, mask: { value: new THREE.Vector3() }, surfOn: { value: 0 }, surfPatch: { value: 0 }, surfHz: { value: 0.055 }, surfCol: { value: new THREE.Vector3(0.78, 0.81, 0.84) },
     surfSpot: { value: [new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4(), new THREE.Vector4()] },
-    beamOn: { value: 0 }, beamU: { value: 0 }, beamV: { value: 0 }, beamS: { value: 0 }, beamC: { value: 1 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) } },
+    beamOn: { value: 0 }, beamU: { value: 0 }, beamV: { value: 0 }, beamS: { value: 0 }, beamC: { value: 1 }, beamCol: { value: new THREE.Color(1, 0.95, 0.82) },
+    groundOn: { value: 0 }, landTex: { value: null }, groundLight: { value: 1 }, cloudT: { value: 0 }, groundTint: { value: new THREE.Color(1, 1, 1) } },
   vertexShader: 'varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
   fragmentShader: `
     uniform vec3 zenith, horizon, sunDir, sunCol, cloudLit, cloudShade; uniform float clouds, streak, banks, bankH, halo, time;
     uniform sampler2D pano; uniform float panoHz, maskOn; uniform vec3 mask; uniform float panoOn, panoRot, panoTop, panoGain, surfOn, surfPatch, surfHz; uniform vec3 panoZen, surfCol; uniform vec4 surfSpot[4];
     uniform float beamOn, beamU, beamV, beamS, beamC; uniform vec3 beamCol;
+    uniform float groundOn, groundLight, cloudT; uniform sampler2D landTex; uniform vec3 groundTint;
     varying vec3 vDir;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
       return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y); }
     float fbm(vec2 p){ float s = 0.0, a = 0.5; for (int i = 0; i < 5; i++){ s += a * vn(p); p = p * 2.03 + vec2(1.7, 9.2); a *= 0.5; } return s; }
+    vec3 groundAt(vec3 d) {   // V18: the ground and cloud deck below, drawn (under the painting, and where it does not reach)
+      float dg = d.y + 0.068;
+      float dy = max(-dg, 0.0015);
+      vec2 hit = d.xz / dy * 15.2, ch = d.xz / dy * 13.0;      // km east (x) and south (z)
+      vec4 L = texture2D(landTex, vec2(hit.x / 900.0 + 0.5, 0.5 - hit.y / 900.0));
+      float land = L.r, n = fbm(hit * 0.35);
+      vec3 seaC = mix(vec3(0.015, 0.07, 0.13), vec3(0.03, 0.13, 0.2), n);
+      seaC = mix(seaC, vec3(0.05, 0.25, 0.27), L.b * (1.0 - land));               // the shallows along the coast
+      vec3 gr = mix(vec3(0.13, 0.19, 0.08), vec3(0.3, 0.29, 0.17), fbm(hit * 0.6 + 7.0) * 0.7 + fbm(hit * 0.05) * 0.3);
+      vec3 g = mix(seaC, gr, land);
+      vec3 sd = normalize(sunDir); float gl = 0.0;
+      if (sd.y > 0.0) { vec3 rr = reflect(d, vec3(0.0, 1.0, 0.0)); gl = pow(max(dot(rr, sd), 0.0), 300.0) * 2.5 + pow(max(dot(rr, sd), 0.0), 18.0) * 0.12; }
+      g = g * (0.05 + 0.95 * groundLight) + sunCol * gl * (1.0 - land) * groundLight;
+      g += vec3(1.0, 0.72, 0.38) * L.g * smoothstep(0.45, 0.8, vn(hit * 3.0) * 0.6 + vn(hit * 9.0) * 0.4 + L.g * 0.3) * (1.0 - groundLight) * 1.6;   // the towns by night: street lights, not a glow
+      vec2 sun2 = sd.xz / max(sd.y, 0.12) * 2.2;                            // the cloud over each patch of ground, toward the sun
+      vec2 sq = (hit - sun2) * 0.6 + vec2(cloudT, 0.0); float sh = smoothstep(0.56, 0.72, fbm(sq) * 0.75 + fbm(sq * 0.12) * 0.35);
+      g *= 1.0 - 0.5 * sh * groundLight;
+      vec2 cq = ch * 0.6 + vec2(cloudT, 0.0); float cd = fbm(cq) * 0.75 + fbm(cq * 0.12) * 0.35, cov = smoothstep(0.56, 0.72, cd);   // cumulus a kilometre or two across, in fields with clear sky between
+      float top = clamp(0.45 + (cd - fbm(cq + sd.xz * 0.35) * 0.75 - fbm((cq + sd.xz * 0.35) * 0.12) * 0.35) * 6.0, 0.0, 1.0);
+      vec3 cc = mix(vec3(0.5, 0.54, 0.62), vec3(1.0), top) * mix(vec3(1.0), sunCol * 1.4 + 0.25, 0.5);
+      cc *= 0.04 + 0.96 * groundLight;
+      g = mix(g, cc, cov * 0.92);
+      g = mix(g, horizon, 1.0 - exp(-length(hit) / 140.0));                     // haze, thickening to the horizon
+      return g;
+    }
+    float townLights(vec3 d) {   // the towns' street lights, from the land map
+      float dy = max(-(d.y + 0.068), 0.0015); vec2 hit = d.xz / dy * 15.2;
+      vec4 L = texture2D(landTex, vec2(hit.x / 900.0 + 0.5, 0.5 - hit.y / 900.0));
+      return L.g * smoothstep(0.45, 0.8, vn(hit * 3.0) * 0.6 + vn(hit * 9.0) * 0.4 + L.g * 0.3);
+    }
     void main(){
       vec3 d = normalize(vDir);
-      if (panoOn > 0.5) {
+      if (panoOn > 0.5 && (groundOn < 0.5 || d.y < -0.068)) {
         // A painted 360-degree band: left-right is the compass, bottom row the horizon, top row panoTop up.
         float u = fract(atan(d.z, d.x) / 6.2831853 + panoRot);
         // panoHz: where the painting's own horizon sits up its height. Lifting the painting by that much puts its
         // horizon on the real one, so the painted sea goes under our sea and the far water meets the painted sky.
-        float vr = asin(clamp(d.y, -1.0, 1.0)) / panoTop + panoHz, v = clamp(vr, 0.004, 0.996);
-        float under = panoHz > 0.0 ? smoothstep(panoHz + 0.014, panoHz + 0.002, vr) : 0.0;   // below the line: the sliver past the sea's far edge
-        if (panoHz > 0.0) v = max(v, panoHz + 0.012);   // ... shows the haze just above it, as the far water does
+        float vr = (asin(clamp(d.y, -1.0, 1.0)) + (groundOn > 0.5 ? 0.068 : 0.0)) / panoTop + panoHz, v = clamp(vr, 0.004, 0.996);   // (V18: the horizon dipped 3.9 degrees)
+        float under = panoHz > 0.0 && groundOn < 0.5 ? smoothstep(panoHz + 0.014, panoHz + 0.002, vr) : 0.0;   // below the line: the sliver past the sea's far edge
+        if (panoHz > 0.0 && groundOn < 0.5) v = max(v, panoHz + 0.012);   // ... shows the haze just above it, as the far water does
         vec3 pc = texture2D(pano, vec2(u, v)).rgb;
         if (under > 0.0) {   // that one row, carried straight down, made bars of every bright thing on it (the painted surf under the cliffs): blur it along the horizon into a haze
           vec3 hs = vec3(0.0); for (int k = -6; k <= 6; k++) hs += texture2D(pano, vec2(u + float(k) * 0.0035, v)).rgb;
@@ -259,6 +292,12 @@ const skyMat = new THREE.ShaderMaterial({
         }
         pc = mix(pc, panoZen, smoothstep(0.86, 1.0, asin(clamp(d.y, 0.0, 1.0)) / panoTop + panoHz));
         pc *= panoGain;
+        if (groundOn > 0.5) {   // V18: the painted view below; the drawn ground where the painting runs out, under the board; dimmed by night, the towns lit
+          pc = mix(pc, groundAt(d), smoothstep(0.14, 0.03, vr));
+          pc = pc * (0.04 + 0.96 * groundTint) + vec3(1.0, 0.72, 0.38) * townLights(d) * (1.0 - groundLight) * 1.6;   // the painting is midday: the evening light warms and dims it
+          pc = mix(horizon, pc, smoothstep(0.0, 0.01, -(d.y + 0.068)));
+          gl_FragColor = vec4(pc, 0.0); return;
+        }
         if (beamOn > 0.5) {
           // The lighthouse: a lamp on the pier and a beam turning round it. Seen from far out, the beam is a shaft of light
           // reaching sideways from the lamp: long when it points across our view, short when it points towards us
@@ -298,7 +337,16 @@ const skyMat = new THREE.ShaderMaterial({
         vec3 bc = mix(cloudShade, cloudLit, 0.35 + 0.65 * top) + sunCol * pow(s, 4.0) * 0.6;
         c = mix(c, bc, bank);
       }
-      if (vDir.y < 0.0) c = horizon;
+      if (groundOn > 0.5) {
+        // V18: 50,000 ft up. The horizon dips 3.9 degrees; below it, where this line of sight meets the cumulus deck
+        // (13 km down) and the ground (15.2 km down): the Florida coast from the land map, the sea with the sun's glint,
+        // cloud shadows, city lights by night, all fading into the haze toward the far horizon.
+        float dg = d.y + 0.068;
+        if (dg < 0.0) {
+          vec3 g = groundAt(d);
+          c = mix(horizon, g, smoothstep(0.0, 0.012, -dg));
+        } else c = mix(horizon, c, smoothstep(0.0, 0.05, d.y + 0.068));                        // the bright limb just over the dipped horizon
+      } else if (vDir.y < 0.0) c = horizon;
       gl_FragColor = vec4(c, 1.0);
     }`
 });
@@ -306,6 +354,33 @@ const skyMat = new THREE.ShaderMaterial({
 // wherever alpha is 0: so the painted sky must be written opaque there, or Safari shows the frame's dark backing.
 if (EMBED) skyMat.fragmentShader = skyMat.fragmentShader.replace('gl_FragColor = vec4(pc, 0.0); return;', 'gl_FragColor = vec4(pc, 1.0); return;');
 const sky = new THREE.Mesh(new THREE.SphereGeometry(6000, 32, 16), skyMat); scene.add(sky);
+// V18's ground: a 900 km square centred on the board (28.50 N, 80.45 W, off Cape Canaveral), drawn once. Red is land
+// (Florida closed off along the map's north and west edges), green the lights of the towns and the pads, blue the shallows.
+const FL_COAST = [[-88.0,30.7],[-87.8,30.3],[-88.0,30.2],[-87.6,30.3],[-87.4,30.4],[-87.5,30.3],[-87.3,30.3],[-87.2,30.5],[-87.0,30.6],[-87.0,30.4],[-87.2,30.3],[-86.3,30.5],[-86.1,30.4],[-86.5,30.4],[-85.8,30.2],[-85.6,30.3],[-85.7,30.1],[-85.4,29.9],[-85.3,29.8],[-85.4,29.8],[-85.4,29.8],[-85.3,29.7],[-84.4,29.9],[-84.3,30.1],[-84.0,30.1],[-83.7,29.9],[-82.7,28.9],[-82.8,27.8],[-82.7,27.7],[-82.6,27.8],[-82.7,28.0],[-82.4,27.9],[-82.7,27.5],[-82.3,26.9],[-82.0,27.0],[-82.0,26.6],[-81.8,26.7],[-82.0,26.5],[-81.7,26.0],[-81.4,25.8],[-81.1,25.4],[-80.9,25.3],[-81.1,25.3],[-81.1,25.1],[-80.5,25.2],[-80.1,25.8],[-80.1,26.8],[-80.7,28.4],[-80.8,28.8],[-80.7,28.6],[-80.7,28.3],[-80.6,28.5],[-80.6,28.2],[-80.5,27.9],[-80.6,28.3],[-80.5,28.5],[-81.2,29.8],[-81.5,30.8],[-81.5,31.1],[-81.3,31.3],[-81.4,31.4],[-81.2,31.5],[-81.3,31.5],[-81.1,31.8],[-81.1,31.9],[-80.7,32.2],[-80.8,32.4],[-80.6,32.3],[-80.5,32.4],[-80.6,32.5],[-80.4,32.5],[-79.9,32.7],[-79.9,32.8],[-79.8,32.8],[-79.3,33.1],[-79.2,33.4],[-79.2,33.2]];   // Natural Earth 1:50m, via Moon Racer's globe (tenths of a degree)
+const FL_TOWNS = [[28.54, -81.38, 9], [27.95, -82.46, 8], [25.76, -80.19, 10], [26.12, -80.14, 7], [26.71, -80.05, 6], [30.33, -81.66, 8], [27.77, -82.64, 6],
+  [29.21, -81.02, 5], [28.08, -80.61, 4], [28.39, -80.74, 3], [28.61, -80.81, 3], [28.03, -80.59, 4], [27.64, -80.40, 3], [28.29, -81.41, 4], [28.80, -81.27, 4],
+  [29.65, -82.32, 4], [28.04, -81.95, 4], [27.27, -80.35, 4], [28.608, -80.604, 2], [28.562, -80.577, 2], [28.49, -80.57, 2]];
+function landMap() {
+  const N = 1024, c = document.createElement('canvas'); c.width = c.height = N; const x = c.getContext('2d');
+  const LAT0 = 28.5, LON0 = -80.45, KX = 111.32 * Math.cos(LAT0 * Math.PI / 180), KY = 110.57;
+  const px = (lon, lat) => [((lon - LON0) * KX / 900 + 0.5) * N, (0.5 - (lat - LAT0) * KY / 900) * N];
+  const land = document.createElement('canvas'); land.width = land.height = N; const l = land.getContext('2d');
+  l.fillStyle = '#000'; l.fillRect(0, 0, N, N); l.fillStyle = '#fff'; l.beginPath();
+  FL_COAST.forEach(([lo, la], i) => { const [a, b] = px(lo, la); i ? l.lineTo(a, b) : l.moveTo(a, b); });
+  const e = FL_COAST[FL_COAST.length - 1], s0 = FL_COAST[0];
+  for (const [lo, la] of [[e[0], 40], [-95, 40], [-95, s0[1]], s0]) { const [a, b] = px(lo, la); l.lineTo(a, b); }
+  l.closePath(); l.fill('evenodd');
+  const shoal = document.createElement('canvas'); shoal.width = shoal.height = N; const h = shoal.getContext('2d');
+  h.filter = 'blur(6px)'; h.drawImage(land, 0, 0);
+  const lights = document.createElement('canvas'); lights.width = lights.height = N; const g = lights.getContext('2d');
+  for (const [la, lo, r] of FL_TOWNS) { const [a, b] = px(lo, la), rr = r * 1.6; const gr = g.createRadialGradient(a, b, 0, a, b, rr);
+    gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(a - rr, b - rr, rr * 2, rr * 2); }
+  const A = l.getImageData(0, 0, N, N).data, B = h.getImageData(0, 0, N, N).data, G = g.getImageData(0, 0, N, N).data, out = x.createImageData(N, N);
+  for (let i = 0; i < N * N * 4; i += 4) { out.data[i] = A[i]; out.data[i + 1] = G[i + 3]; out.data[i + 2] = B[i]; out.data[i + 3] = 255; }
+  x.putImageData(out, 0, 0);
+  const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearMipmapLinearFilter; t.anisotropy = 8; return t;
+}
+if (SK) { skyMat.uniforms.landTex.value = landMap(); skyMat.uniforms.groundOn.value = 1; }
 scene.fog = new THREE.Fog(0xbcd2de, 300, 2600);
 
 // ---------------- THE SEA (Gerstner swells) ----------------
@@ -414,7 +489,7 @@ function seaRings() {
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx);
   g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 31000); return g;
 }
-const sea = new THREE.Mesh(seaRings(), seaMat); sea.frustumCulled = false; scene.add(sea);
+const sea = new THREE.Mesh(seaRings(), seaMat); sea.frustumCulled = false; scene.add(sea); if (SK) sea.visible = false;   // V18 flies: no sea
 // The same swell, sampled on the CPU, so the ships ride it.
 function waveHeight(x, z, t) {
   let y = 0; const A = waveU.amp.value, Ln = waveU.len.value;
@@ -2746,7 +2821,7 @@ function place(side, sqX, sqZ, cls, name) {
   holder.rotation.y = side === 'w' ? -Math.PI / 2 : Math.PI / 2;
   const foam = new THREE.Mesh(new THREE.PlaneGeometry(sL * SCALE * 1.22, sHB * 2 * SCALE * 1.55),
     new THREE.MeshBasicMaterial({ map: FOAM, transparent: true, depthWrite: false, opacity: 0.7 }));
-  foam.rotation.x = -Math.PI / 2; foam.renderOrder = 2; holder.add(foam);
+  foam.rotation.x = -Math.PI / 2; foam.renderOrder = 2; if (SK) foam.visible = false; holder.add(foam);
   const glint = new THREE.Mesh(GLINT.geo, GLINT.mat); glint.position.set(sL * SCALE * 0.5, 0.4, 0); glint.renderOrder = 3; glint.visible = false; holder.add(glint);
   const plate = null;   // (the floating nameplates, retired 27 Nov: the square she stands on carries her name instead)
   const label = EMBED && name && cls !== 'pawn' ? squareName(name, cls) : null; if (label) holder.add(label);   // alternate files hang lower, so neighbours' names don't run together
@@ -2769,6 +2844,7 @@ const GLINT = (() => {
   return { geo, mat };
 })();
 function glintFrame(t) {
+  if (SK) { for (const f of fleet) if (f.glint) f.glint.visible = false; return; }
   const k = GILT.k; GLINT.mat.opacity = Math.min(1, 1.2 * k);
   for (const f of fleet) {
     const g = f.glint; if (!g) continue;
@@ -3080,7 +3156,7 @@ function planetPosition(name, date, lat, lon) {
 }
 
 
-const skyPlace = EMBED ? { lat: 54.486, lon: -0.615, name: 'Whitby' }    // V15: the sky over Whitby, at the real hour there
+const skyPlace = SK ? { lat: 28.5, lon: -80.45, name: 'Cape Canaveral' } : EMBED ? { lat: 54.486, lon: -0.615, name: 'Whitby' }    // V15: the sky over Whitby, at the real hour there
   : { lat: 40.7, lon: -74.0, name: 'New York' };
 (function locate() {
   if (EMBED) return;                       // V15 is always Whitby's sky, wherever the player is
@@ -3291,7 +3367,14 @@ function stepSky(force) {
   const full = 1 - Math.abs(mp.phase - 0.5) * 2;     // 0 new, 1 full
   if (Math.abs(mp.phase - lastMoonPhase) > 0.004) { lastMoonPhase = mp.phase; paintMoon(mp.phase); moonTex.needsUpdate = true; }
   const moonUp = Math.max(0, Math.min(1, Math.sin(mp.alt * Math.PI / 180) * 6));
-  if (EMBED) embPano(VG ? 'vangogh-c' : TU ? 'turner-a' : sa.alt > -4 ? 'parrish-w' : 'friedrich-w');
+  if (EMBED && SK) embPano('cape-sky');
+  if (EMBED && !SK) embPano(VG ? 'vangogh-c' : TU ? 'turner-a' : sa.alt > -4 ? 'parrish-w' : 'friedrich-w');
+  if (SK) {   // 50,000 ft: two-thirds of the air is below, so the sky overhead is far darker; no cloud above, and little haze on the board
+    su.zenith.value.multiplyScalar(0.3).lerp(new THREE.Color(0.004, 0.012, 0.05), 0.45); su.clouds.value = 0;   // the colour of sunset stays down on the horizon su.banks.value = 0; cloudDome.visible = false;
+    su.groundLight.value = Math.max(0, Math.min(1, (Math.sin(sa.alt * Math.PI / 180) + 0.02) / 0.12));   // the ground darkens first: up here the sun sets later
+    { const gL = su.groundLight.value, w = hz; su.groundTint.value.setRGB(gL * (1 - 0.12 * w), gL * (1 - 0.42 * w), gL * (1 - 0.62 * w)); }   // reddening as the sun gets low
+    su.cloudT.value = date.getTime() / 3.6e6 * 0.4 % 1000; scene.fog.near = 9000; scene.fog.far = 60000;
+  }
   giltSet(0.8 * below);                    // the sails' logos gleam once the sun is down   // V15: the painted Whitby, by day or by night, from the real sun there
   { // the weather: cover drifts between broken and heavy cloud over about an hour of real time
     const cu = cloudMat.uniforms, hr = date.getTime() / 3600000;
@@ -3338,7 +3421,7 @@ function stepSky(force) {
 }
 window.__skyDirOf = n => n === 'moon' ? moonSprite.position.clone().normalize() : n === 'sun' ? skyMat.uniforms.sunDir.value.clone().normalize() : BODIES.find(B => B.name === n).sprite.position.clone().normalize();
 function setSkyClock(kind) {
-  skyClock = kind; skyBodies.visible = starTilt.visible = cloudDome.visible = !!kind; if (EMBED) panoQuiet();
+  skyClock = kind; skyBodies.visible = starTilt.visible = cloudDome.visible = !!kind; if (EMBED) panoQuiet(); if (SK) cloudDome.visible = false;
   document.getElementById('skyNote').hidden = !kind;
   if (kind === 'run') { runFrom = Date.now(); runAt = performance.now(); }
   if (kind) { setLight('day', true); realLight = kind; press(['lDay', 'lDusk', 'lLive', 'lRun'], kind === 'live' ? 'lLive' : 'lRun'); stepSky(true); }
@@ -3556,9 +3639,12 @@ function loadSky(name, done, fail) {
 const TOWN = { 'friedrich-w': [0.712, 1.05, -0.36], 'parrish-w': [0.672, 0.897, -0.30] };
 SKIES['vangogh-c'] = { media: 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v16-cobh-night.jpg', w: 3948, top: 0.58, sunU: 0.5,
   town: 0.19, gain: 1.0, horizon: [0.186, 0.253, 0.29], zenith: [0.176, 0.297, 0.425] };   // three Gemini paintings joined round the compass (28 Nov); Cobh to the west
+SKIES['cape-sky'] = { media: 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v18-cape-day.jpg', w: 3888, top: 1.2, sunU: 0.5,
+  town: 0.1975, gain: 1.0, horizon: [0.62, 0.72, 0.82], zenith: [0.1, 0.2, 0.45] };   // Robert McCall, from 50,000 ft: the Cape west, the coast north, the Atlantic east (28 Nov)
 SKIES['turner-a'] = { media: 'https://amenti-media.ingram-ian.workers.dev/m/amenti-live/v17-athens-day.jpg', w: 3948, top: 0.58, sunU: 0.528, sunAlign: true,
   gain: 1.05, horizon: [0.647, 0.562, 0.452], zenith: [0.712, 0.645, 0.515] };   // Athens, the Turner sun over the gulf, Salamis (28 Nov); turned so the painted sun is the real one
 const SURF = {
+  'cape-sky':    { patch: false, hz: 0.75, col: [1, 1, 1], spots: [] },   // its horizon a quarter down (levelled when joined)
   'turner-a':    { patch: false, hz: 0.30, col: [1, 0.95, 0.85], spots: [] },
   'vangogh-c':   { patch: false, hz: 0.30, col: [0.9, 0.9, 0.85], spots: [] },   // its waterline 30% up (levelled when joined); no animated surf
   'friedrich-w': { patch: true, hz: 0.055, col: [0.78, 0.81, 0.84], spots: [[0.7225, 0.0030, 7, 0], [0.7825, 0.0022, 9, 0.37], [0.920, 0.0032, 6, 0.61], [0.748, 0.0020, 8, 0.18]] },
@@ -3599,8 +3685,8 @@ function panoQuiet() {                // while a painting is up, the drawn sky t
   skyMat.uniforms.panoOn.value = waveU.panoOn.value = on ? 1 : 0;
   skyMat.uniforms.maskOn.value = waveU.maskOn.value = on && home && T ? 1 : 0; if (T) { skyMat.uniforms.mask.value.set(...T); waveU.mask.value.set(...T); }
   skyMat.uniforms.beamOn.value = waveU.beamOn.value = on && beam && !home ? 1 : 0;
-  cloudDome.visible = starTilt.visible = skyBodies.visible = !on && !!skyClock;
-  try { headland.visible = !on && !slip.visible; } catch (e) {}   // the far cliffs: only out at sea with no painting up (built further down)
+  cloudDome.visible = starTilt.visible = skyBodies.visible = !on && !!skyClock; if (SK) { cloudDome.visible = false; starTilt.visible = skyBodies.visible = !!skyClock; }   // (V18: the painting is only below; the live sky stays above)   // (50,000 ft: no cloud overhead)
+  try { headland.visible = !on && !slip.visible && !SK; } catch (e) {}   // the far cliffs: only out at sea with no painting up (built further down)
 }
 function setSky(which) {
   if (look.post) skyChoice = which;            // Real always shows its drawn sky; the painted looks remember the choice
