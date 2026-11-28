@@ -1672,7 +1672,8 @@ const courtAnims = new Set();
 function courtXZ(r, c) { return new THREE.Vector3(COURT.cx + (c - 3.5) * COURT.sqW, COURT.floor + 0.2, COURT.cz + (r - 3.5) * COURT.sqW); }
 function courtPiece(type, color) {
   const kind = CLS[type], sc = 0.6, g = new THREE.Group();
-  const mat = color === 'w' ? COURT.silverM : COURT.goldM, trim = color === 'w' ? COURT.goldM : COURT.silverM;
+  if (!COURT.pm) { COURT.pm = { w: COURT.silverM.clone(), b: COURT.goldM.clone() }; COURT.pt = { w: COURT.goldM.clone(), b: COURT.silverM.clone() }; }
+  const mat = COURT.pm[color], trim = COURT.pt[color];
   if (kind === 'knight') {
     g.add(new THREE.Mesh(COURT.lathe(COURT.BASE.concat([[0.7, 1.1], [0, 1.1]]), sc), mat));
     const sh = new THREE.Shape();
@@ -1688,9 +1689,49 @@ function courtPiece(type, color) {
   const band = new THREE.Mesh(new THREE.TorusGeometry(1.04 * sc, 0.07 * sc, 6, 28), trim); band.rotation.x = Math.PI / 2; band.position.y = 0.78 * sc; g.add(band);
   g.userData.court = true; g.userData.type = type; g.userData.color = color; return g;
 }
+// ---- the court by night: four lanterns on posts at the corners of the pool board and a warm light over it,
+// the stone and the metals dimmed with the day, and the side to move gleaming ----
+const CL = { light: null, glows: [], mats: [], k: 0 };
+function courtLamps() {
+  if (CL.light) return;
+  const W = COURT.sqW, post = new THREE.MeshStandardMaterial({ color: 0x1d1a16, roughness: 0.6, metalness: 0.4 });
+  const lampM = new THREE.MeshStandardMaterial({ color: 0xffd9a0, emissive: 0xffb45a, emissiveIntensity: 0 });
+  const glowT = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d'); const g = x.createRadialGradient(32, 32, 2, 32, 32, 31);
+    g.addColorStop(0, 'rgba(255,210,140,1)'); g.addColorStop(0.4, 'rgba(255,170,80,0.35)'); g.addColorStop(1, 'rgba(255,150,60,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; })();
+  for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    const x = COURT.cx + sx * 4.75 * W, z = COURT.cz + sz * 4.75 * W, y0 = COURT.floor;
+    const p = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.2, 5.2, 8), post); p.position.set(x, y0 + 2.6, z); harbourProps.add(p);
+    const cap = new THREE.Mesh(new THREE.ConeGeometry(0.42, 0.45, 4), post); cap.position.set(x, y0 + 6.05, z); cap.rotation.y = Math.PI / 4; harbourProps.add(cap);
+    const lamp = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.7, 0.55), lampM); lamp.position.set(x, y0 + 5.5, z); harbourProps.add(lamp);
+    const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowT, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, opacity: 0 }));
+    gl.position.set(x, y0 + 5.5, z); gl.scale.setScalar(5); harbourProps.add(gl); CL.glows.push(gl);
+  }
+  CL.lampM = lampM;
+  CL.light = new THREE.PointLight(0xffc27a, 0, 70, 1.4); CL.light.position.set(COURT.cx, COURT.floor + 16, COURT.cz); harbourProps.add(CL.light); CL.light.visible = false;
+}
+function courtFrame(t) {
+  const night = Math.min(1, GILT.k / 0.8), atCourt = EMBED && EMB.view === 'court';
+  CL.k += ((atCourt ? night : 0) - CL.k) * 0.05;
+  if (hemi.userData.base != null) hemi.intensity = hemi.userData.base * (1 - 0.5 * CL.k);   // the court's pale stone goes dusky at night
+  if (CL.light) {
+    const on = CL.k > 0.02; if (CL.light.visible !== on) CL.light.visible = on;
+    CL.light.intensity = 260 * CL.k; CL.lampM.emissiveIntensity = 1.6 * night;
+    const fl = 0.92 + 0.08 * Math.sin(t * 7.3) * Math.sin(t * 3.1);
+    for (const g of CL.glows) { g.material.opacity = 0.9 * night * fl; }
+  }
+  if (COURT.goldM) { const e = 1 - 0.65 * night; COURT.goldM.envMapIntensity = 1.3 * e; COURT.silverM.envMapIntensity = 1.4 * e; }
+  if (COURT.pm) for (const sd of ['w', 'b']) {
+    const m = COURT.pm[sd], base = sd === 'w' ? 1.4 : 1.3, mover = GILT.turn === sd;
+    m.envMapIntensity = base * (1 - 0.65 * night) * (mover ? 1.15 : 0.85);
+    m.emissiveIntensity = mover ? 0.3 + 0.35 * (0.5 + 0.5 * Math.sin(t * 2.1)) : 0.12;   // the side to move breathes, day or night
+    COURT.pt[sd].envMapIntensity = (sd === 'w' ? 1.3 : 1.4) * (1 - 0.65 * night);
+  }
+}
+function courtKing(sd) { if (!courtAt) return null; for (const row of courtAt) for (const g of row) if (g && g.userData.type === 'k' && g.userData.color === sd) return g; return null; }
 function courtRebuild(board) {               // set the pool board from the game as it stands (V15: game01's board)
   if (!COURT.lathe) return;
-  if (!courtPieces.parent) harbourProps.add(courtPieces, courtMarks);
+  if (!courtPieces.parent) { harbourProps.add(courtPieces, courtMarks); courtLamps(); }
   courtPieces.clear(); courtAnims.clear(); hideTrophies();
   courtAt = Array.from({ length: 8 }, () => Array(8).fill(null));
   const B = board || Chess.R.getChessBoard();
@@ -2653,6 +2694,7 @@ const HALO_TEX = (() => { const c = document.createElement('canvas'); c.width = 
 const kingOf = sd => fleet.find(f => f.side === sd && f.cls === 'king' && !f.sink);
 function endCheck() {
   if (END.halo) { END.halo.parent && END.halo.parent.remove(END.halo); END.halo = null; }
+  if (END.halo2) { END.halo2.parent && END.halo2.parent.remove(END.halo2); END.halo2 = null; }
   if (END.haloF) { setGuns(END.haloF.ship, false); END.haloF = null; }
 }
 function startCheck(sd) {
@@ -2660,6 +2702,7 @@ function startCheck(sd) {
   const h = new THREE.Sprite(new THREE.SpriteMaterial({ map: HALO_TEX, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
   h.position.set(0, 0.55, 0); h.scale.setScalar(1.7); h.renderOrder = 6; f.piece.add(h);
   END.halo = h; END.haloF = f; setGuns(f.ship, true);
+  const ck = courtKing(sd); if (ck) { const h2 = h.clone(); h2.material = h.material; h2.position.set(0, 3.9, 0); h2.scale.setScalar(4.2); ck.add(h2); END.halo2 = h2; }
   if (AUD.ctx) audioShot('drum', 0.55, 1, 0, 0);
 }
 function startMate(loser) {
@@ -2672,6 +2715,7 @@ function startMate(loser) {
     const dir = Math.random() < 0.5 ? 1 : -1;
     END.fall = { p, t: 0, dir, vy: 0, base: p.position.y, splashed: false, rx: (Math.random() - 0.5) * 2 }; END.fallF = f;
   }
+  { const ck = courtKing(loser); if (ck) END.courtFall = { g: ck, t: 0, dir: Math.random() < 0.5 ? 1 : -1, y0: ck.position.y }; }   // at the court the king is laid down on his square
   const line = fleet.filter(g => g.side === win && !g.sink).sort((a, b) => a.holder.position.x - b.holder.position.x);
   line.forEach((g, i) => setTimeout(() => {   // a rolling salute, ship after ship down the line
     setGuns(g.ship, true); setTimeout(() => broadside(g), 700);
@@ -2683,12 +2727,14 @@ function startDraw() {
   endCheck(); if (AUD.ctx) { audioShot('bell', 0.5, 1, 0, 0); audioShot('bell', 0.4, 1, 0.3, 2.5); }
 }
 function clearEnd() {                    // a new game or an undo: put any fallen king back on his truck
-  endCheck();
+  endCheck(); if (END.courtFall) { const C = END.courtFall; C.g.rotation.z = 0; C.g.position.y = C.y0; END.courtFall = null; }
   if (END.fall) { const p = END.fall.p; p.parent && p.parent.remove(p); const f = END.fallF; END.fall = END.fallF = null;
     if (f && f.holder.parent && !f.piece) { f.piece = masthead('king', f.side, f.ship.userData.top); if (f.piece) f.ship.add(f.piece); } }
 }
 function endFrame(t) {
-  if (END.halo) { const k = 0.75 + 0.25 * Math.sin(t * 5); END.halo.material.opacity = k; END.halo.scale.setScalar(1.5 + 0.35 * k); }
+  if (END.halo) { const k = 0.75 + 0.25 * Math.sin(t * 5); END.halo.material.opacity = k; END.halo.scale.setScalar(1.5 + 0.35 * k); if (END.halo2) END.halo2.scale.setScalar(3.8 + 0.9 * k); }
+  if (END.courtFall) { const C = END.courtFall; C.t += Math.min(0.1, Math.max(0, t - (END.lt || t))); const u = Math.min(1, C.t / 1.3);
+    C.g.rotation.z = C.dir * (Math.PI / 2) * u * u; C.g.position.y = C.y0 + 0.9 * Math.sin(Math.PI / 2 * u) * 0.6; if (u >= 1 && !C.done) { C.done = true; if (AUD.ctx) audioShot('cFar', 0.25, 1.6, 0, 0); } }
   const F = END.fall, dt = Math.min(0.1, Math.max(0, t - (END.lt || t))); END.lt = t;
   if (F) {
     const s60 = dt * 60; F.t += dt;
@@ -3142,7 +3188,7 @@ function stepSky(force) {
   const moonLight = moonUp * (0.15 + 0.85 * full) * below;
   if (sa.alt > -1.5) { sun.position.copy(sunD).multiplyScalar(500); sun.color.setRGB(1, 0.66 + lift * 0.3, 0.42 + lift * 0.5); sun.intensity = Math.max(0, Math.min(1, (alt + 0.03) * 10)) * (0.5 + lift * 1.9); }
   else { sun.position.copy(mp.alt > 0 ? moonD : new THREE.Vector3(0.3, 1, 0.2)).multiplyScalar(500); sun.color.setRGB(0.62, 0.72, 0.95); sun.intensity = 0.08 + moonLight * 0.75; }
-  hemi.intensity = 0.32 + lift * 0.7 + (1 - lift) * 0.05; col3(hemi.color, mixA(hor, [207, 227, 242], lift)); hemi.groundColor.setRGB(0.06 + lift * 0.08, 0.09 + lift * 0.11, 0.13 + lift * 0.12);
+  hemi.intensity = hemi.userData.base = 0.32 + lift * 0.7 + (1 - lift) * 0.05; col3(hemi.color, mixA(hor, [207, 227, 242], lift)); hemi.groundColor.setRGB(0.06 + lift * 0.08, 0.09 + lift * 0.11, 0.13 + lift * 0.12);
   // the sea: its day blue darkened by the hour and tinted toward the horizon at dusk
   const dl = LIGHTS.day, dk = LIGHTS.dusk, nightW = [0.006, 0.014, 0.03], nightH = [0.02, 0.04, 0.07];
   const w = mixA(mixA(dl.water, dk.water, hz), nightW, below), wh = mixA(mixA(dl.waterHi, dk.waterHi, hz), nightH, below);
@@ -4471,7 +4517,7 @@ function frame() {
   const t = still ? 0 : clock.getElapsedTime(); if (gunTweens.size) stepGuns(); if (FX.length || gunLight.intensity) stepFX(); audioLife(); if (skyClock) stepSky();
   { const nowS = performance.now(), dtS = Math.min(0.1, (nowS - (frame.lastS || nowS)) / 1000); frame.lastS = nowS; if (sailing.size) stepSailing(dtS * (EMB.pending > 1 ? Math.min(3, 1 + 0.6 * (EMB.pending - 1)) : 1)); if (courtAnims.size) stepCourt(dtS); for (const f of fleet) if (f.sink) f.sink.t += dtS; }
   sky.position.copy(camera.position);    // the sky goes with the eye: from Whitby, 4000 out, its far side was past the camera's reach
-  giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t);
+  giltFrame(t); glintFrame(t); piecesFrame(); endFrame(t); courtFrame(t);
   { const n = performance.now(), d = Math.min(0.1, (n - (frame.l2 || n)) / 1000); frame.l2 = n; stormFrame(t, d); followFrame(d); }
   waveU.time.value = t; skyMat.uniforms.time.value = t; cloudMat.uniforms.time.value = t; cloudMat.uniforms.lite.value = waveU.lite.value;
   if (beam && skyMat.uniforms.panoOn.value > 0.5) {
