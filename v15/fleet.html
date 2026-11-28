@@ -2907,6 +2907,7 @@ function endCheck() {
   if (END.haloF) { setGuns(END.haloF.ship, false); END.haloF = null; }
 }
 function startCheck(sd) {
+  if (SK) launch('fh', 'check');             // V18: check sends up a Falcon Heavy
   endCheck(); const f = kingOf(sd); if (!f || !f.piece) return;
   const h = new THREE.Sprite(new THREE.SpriteMaterial({ map: HALO_TEX, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
   h.position.set(0, f.piece.userData.glory ? 0.3 : 0.55, 0); h.scale.setScalar(1.7); h.renderOrder = 6; f.piece.add(h);   // (on the orb, now the pieces are off the trucks)
@@ -2915,6 +2916,7 @@ function startCheck(sd) {
   if (AUD.ctx) audioShot('drum', 0.55, 1, 0, 0);
 }
 function startMate(loser) {
+  if (SK) launch('amenti', 'mate');          // V18: checkmate, the Amenti
   endCheck(); const f = kingOf(loser); if (!f) return;
   const win = loser === 'w' ? 'b' : 'w';
   FOLLOW.f = f; setTimeout(() => { if (FOLLOW.f === f) FOLLOW.f = null; }, 5200);
@@ -4768,6 +4770,7 @@ function skyFrame(t, dt) {
     if (f.drone) { f.ship.rotation.y += dt * 0.35; f.ship.children.forEach(spin); }
   }
   for (const m of MUSTER.ships) { if (m.vortex) spin(m.vortex); if (m.drone) { m.ship.rotation.y += dt * 0.35; m.ship.children.forEach(spin); } }
+  rocketFrame(dt);
 }
 // ---- the launch: each ship rises out of its own bay and climbs to its place in the wedge on the board above
 function skyMuster(names, side) {
@@ -4813,6 +4816,140 @@ function skyMusterFrame(dt) {
   MUSTER.cam = { world: true, eye: [-1500 + 700 * e, DIRIGIBLE_Y + 230 + (310 - DIRIGIBLE_Y - 230) * e, 980 + 420 * e], tgt: [-120 * (1 - e), (DIRIGIBLE_Y + 180) * (1 - e), 260 * e] };
   if (!MUSTER.done && king && king.u >= 1) MUSTER.done = true;
   if (all) musterEnd();
+}
+
+// ==================== V18 · THE CAPE: rockets launching during the game ====================
+// The board floats at 15.2 km, about 13 km off Cape Canaveral (28.50 N, 80.45 W). Rockets lift off from the real pads
+// and fly real-shaped profiles (altitude and downrange against time, from the published Falcon and Starship ascents),
+// a little faster than life. Everything is placed in true kilometres and drawn by direction: anything past 7 km from the
+// eye is pulled in along its line of sight and shrunk to match, so the far plume keeps its true size and place in the view.
+// Each launch answers the game: a capture a Falcon 9, check a Falcon Heavy, a queen taken Starship, checkmate the Amenti.
+const RK = { list: [], last: -1e9, t0: performance.now(), next: 25, tick: null, SPEED: +((location.search.match(/[?&]rkspeed=([\d.]+)/) || [])[1] || 1.5) };   // (rkspeed= for testing)
+const KM = 1000, BOARD_ALT = 15.24;
+const PADS = { '39A': [-15.1, -12.0], 'SLC-40': [-12.45, -6.84], 'LZ-1': [-9.24, 1.57], 'LZ-2': [-9.27, 1.25], 'LC-AMENTI': [-12.7, 0.4] };   // km east, km south of the board
+const PROFILES = {   // [t s, altitude km, downrange km]
+  f9: [[0, 0, 0], [20, 0.8, 0], [40, 4, 0.3], [60, 10, 1.5], [75, 15, 4], [90, 22, 8], [110, 33, 16], [130, 48, 30], [150, 62, 55], [180, 82, 100], [220, 105, 170], [280, 135, 290], [350, 160, 470], [450, 185, 760], [540, 200, 1100]],
+  ship: [[0, 0, 0], [30, 1.2, 0], [60, 7, 0.5], [90, 17, 3], [120, 32, 10], [160, 62, 35], [200, 90, 80], [260, 125, 170], [340, 150, 330], [460, 170, 650], [560, 185, 1000]],
+  amenti: [[0, 0, 0], [15, 1.5, 0], [35, 9, 0], [55, 22, 0], [75, 45, 0], [95, 80, 1], [110, 102, 3], [130, 130, 15], [160, 170, 60], [200, 220, 160], [260, 300, 400], [340, 420, 900]],
+  back: [[0, 0], [30, 23], [60, 38], [100, 43], [150, 33], [200, 8], [250, -22], [280, -44], [305, -58], [320, -62]]   // a returning booster: altitude added to its separation height, km
+};
+const at = (tab, t) => { if (t <= tab[0][0]) return tab[0].slice(1); for (let i = 1; i < tab.length; i++) if (t <= tab[i][0]) { const a = tab[i - 1], b = tab[i], k = (t - a[0]) / (b[0] - a[0]); return a.slice(1).map((v, j) => v + (b[j + 1] - v) * k); } return tab[tab.length - 1].slice(1); };
+const glowTexR = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+  const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.25, 'rgba(255,240,210,0.8)'); g.addColorStop(1, 'rgba(255,200,120,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c); })();
+const smokeTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+  for (let i = 0; i < 6; i++) { const ox = 32 + (Math.random() - 0.5) * 14, oy = 32 + (Math.random() - 0.5) * 14, g = x.createRadialGradient(ox, oy, 0, ox, oy, 24);
+    g.addColorStop(0, 'rgba(255,255,255,0.5)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); }
+  return new THREE.CanvasTexture(c); })();
+const _rv = new THREE.Vector3(), _rc = new THREE.Vector3();
+function farPlace(o, P, size) {          // true position P (units) and size: pulled in along the line of sight past 7 km
+  _rv.copy(P).sub(camera.position); const d = _rv.length(), k = d > 7000 ? 7000 / d : 1;
+  o.position.copy(camera.position).addScaledVector(_rv, k); o.scale.setScalar(size * k);
+}
+function trueAt(pad, az, h, r) {          // pad, heading (rad from north), altitude km, downrange km -> world units
+  const p = PADS[pad]; return new THREE.Vector3((p[0] + Math.sin(az) * r) * KM, (h - BOARD_ALT) * KM, (p[1] - Math.cos(az) * r) * KM);
+}
+function sunlitAt(hKm) {                  // is the sun still up at this height? (it sets later the higher you are)
+  const sd = skyMat.uniforms.sunDir.value, alt = Math.asin(Math.max(-1, Math.min(1, sd.y))), dip = Math.sqrt(2 * Math.max(0.01, hKm) / 6371);
+  return THREE.MathUtils.smoothstep(alt, -dip - 0.03, -dip + 0.03);
+}
+function rocketBody(kind) {
+  const g = new THREE.Group();
+  const col = kind === 'amenti' ? 0x14110d : kind === 'ship' ? 0xb8bcc2 : 0xf2f2ee, L = kind === 'ship' ? 120 : kind === 'amenti' ? 60 : 70, R = kind === 'ship' ? 4.5 : 1.9;
+  const m = new THREE.MeshStandardMaterial({ color: col, roughness: 0.4, metalness: kind === 'ship' ? 0.7 : 0.1 });
+  const b = new THREE.Mesh(new THREE.CylinderGeometry(R, R, L, 12), m); b.position.y = L / 2; g.add(b);
+  const n = new THREE.Mesh(new THREE.ConeGeometry(R, R * 3, 12), m); n.position.y = L + R * 1.5; g.add(n);
+  if (kind === 'amenti') for (let i = 1; i < 5; i++) { const r = new THREE.Mesh(new THREE.TorusGeometry(R * 1.05, 0.35, 6, 16), new THREE.MeshBasicMaterial({ color: new THREE.Color(2, 1.5, 0.5), toneMapped: false }));
+    r.rotation.x = Math.PI / 2; r.position.y = i * L / 5; g.add(r); }
+  if (kind === 'fh') for (const s of [-1, 1]) { const sb = b.clone(); sb.position.x = s * R * 2.1; g.add(sb); }
+  g.userData.L = L; return g;
+}
+function flameSprite(col, add) { return new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexR, color: col || 0xffd8a0, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); }
+const ROCKET_TYPES = {
+  f9: { name: 'FALCON 9', prof: 'f9', sep: 150, boosters: [['LZ-1', 0]], missions: [['STARLINK', 140], ['ISS · CREW DRAGON', 44], ['GPS III', 92]], pads: ['SLC-40', '39A'] },
+  fh: { name: 'FALCON HEAVY', prof: 'f9', sep: 150, boosters: [['LZ-1', -0.3], ['LZ-2', 0.3]], missions: [['USSF', 92], ['EUROPA CLIPPER', 96]], pads: ['39A'] },
+  ship: { name: 'STARSHIP', prof: 'ship', sep: 160, boosters: [['39A', 0]], missions: [['ORBITAL FLIGHT', 95]], pads: ['39A'] },
+  amenti: { name: 'AMENTI', prof: 'amenti', sep: 0, boosters: [], missions: [['THE MOON', 90]], pads: ['LC-AMENTI'] }
+};
+function launch(kind, why) {
+  if (!SK || !DIRIGIBLE) return;
+  const T = ROCKET_TYPES[kind]; const live = RK.list.filter(r => !r.gone).length;
+  if (kind !== 'amenti' && (live >= 2 || (performance.now() - RK.last) < 40000)) return;   // a busy range: let the last one clear
+  const [mission, azDeg] = T.missions[(Math.random() * T.missions.length) | 0], pad = T.pads[(Math.random() * T.pads.length) | 0];
+  const body = rocketBody(kind), flame = flameSprite(kind === 'amenti' ? 0xffe2a0 : 0xffd8a0);
+  scene.add(body, flame);
+  const r = { kind, T, pad, az: azDeg * Math.PI / 180, mission, why, t: -4, body, flame, puffs: [], lastPuff: 0, boosters: [], gone: false, notes: {} };
+  if (kind === 'amenti') { r.vortex = new THREE.Sprite(new THREE.SpriteMaterial({ map: SPIRAL, color: 0x9fe8ff, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); scene.add(r.vortex); }
+  RK.list.push(r); RK.last = performance.now();
+  if (AUD.ctx) audioShot('cFar', 0.32, 0.3, -0.4, 38);           // the roar arrives long after the light: 20 km of air
+}
+function rocketFrame(dt) {
+  if (!SK) return;
+  const sec = (performance.now() - RK.t0) / 1000;
+  if (!MUSTER.on && sec > RK.next) { RK.next = sec + 300; launch('f9', 'idle'); }     // the first a little after the game opens, then one in every quiet five minutes
+  const sd = skyMat.uniforms.sunDir.value, litCol = new THREE.Color().setRGB(0.95, 0.93, 0.9).lerp(skyMat.uniforms.sunCol.value.clone().multiplyScalar(0.9), 0.25), dark = new THREE.Color(0.07, 0.08, 0.12);
+  let tickText = null;
+  for (const r of RK.list) {
+    if (r.gone) continue;
+    r.t += dt * RK.SPEED; const t = Math.max(0, r.t), prof = PROFILES[r.T.prof];
+    const [h, d] = at(prof, t), P = trueAt(r.pad, r.az, h, d), [h2, d2] = at(prof, t + 1), P2 = trueAt(r.pad, r.az, h2, d2);
+    const burning = r.t >= 0 && t < (r.kind === 'amenti' ? 340 : 520);
+    // the vehicle, pointed along its path
+    farPlace(r.body, P, 1); r.body.up.set(0, 1, 0); _rc.copy(P2).sub(P).normalize();
+    r.body.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), _rc.lengthSq() ? _rc : new THREE.Vector3(0, 1, 0));
+    // the flame: a point of fire on the pad, swelling as the air thins and the exhaust spreads
+    const fs = r.t < 0 ? 0 : (r.kind === 'amenti' ? 380 : 110) * (1 + h / 8);
+    farPlace(r.flame, P, fs); r.flame.visible = burning; r.flame.material.opacity = r.kind === 'amenti' && h > 100 ? 1 : 0.95;
+    if (r.vortex) { farPlace(r.vortex, P, 1600 * (1 + h / 30)); r.vortex.material.rotation += dt * 3; r.vortex.material.opacity = h < 100 ? 0.6 : 0.15; r.vortex.visible = burning; }
+    // the trail: smoke puffs left where she was, lit by the sun at their own height (the twilight 'jellyfish'); the Amenti leaves only a faint thread
+    const s0 = r.kind === 'amenti' ? 260 + h * 12 : 150 + h * 55;              // the column widens as the air thins
+    if (burning && (!r.lastP || P.distanceTo(r.lastP) > (r.kind === 'amenti' ? 0.18 : 0.4) * s0) && h < (r.kind === 'amenti' ? 100 : 110)) {   // a puff each time she has climbed half a puff: one joined column
+      r.lastP = P.clone();
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: r.kind === 'amenti' ? glowTexR : smokeTex, transparent: true, depthWrite: false,
+        blending: r.kind === 'amenti' ? THREE.AdditiveBlending : THREE.NormalBlending, color: r.kind === 'amenti' ? 0xffc860 : 0xffffff, toneMapped: r.kind !== 'amenti' }));
+      sp.userData = { P: P.clone(), born: t, h, s0 };
+      scene.add(sp); r.puffs.push(sp);
+    }
+    for (const sp of r.puffs) {
+      const age = t - sp.userData.born, u = sp.userData;
+      farPlace(sp, u.P, u.s0 * (1 + age / 25));
+      const lit = sunlitAt(u.h); sp.material.color.copy(r.kind === 'amenti' ? new THREE.Color(1.0, 0.75, 0.35) : dark.clone().lerp(litCol, lit));   // the Amenti's thread is its own gold light
+      sp.material.opacity = Math.max(0, (r.kind === 'amenti' ? 0.7 : 0.85) * (1 - age / 260));
+    }
+    // the boosters: separate, turn back, and come home to the Cape (two side by side for the Heavy)
+    if (r.T.sep && t >= r.T.sep && !r.boosters.length) {
+      const [hs, ds] = at(prof, r.T.sep), S = trueAt(r.pad, r.az, hs, ds);
+      r.boosters = r.T.boosters.map(([lz, off]) => { const b = rocketBody('f9'); b.scale.setScalar(1); const f = flameSprite(0xffc890); scene.add(b, f);
+        const Lp = PADS[lz]; return { b, f, S, L: new THREE.Vector3((Lp[0] + off) * KM, -BOARD_ALT * KM, Lp[1] * KM), hs, landed: false }; });
+      r.notes.sep = true;
+    }
+    for (const B of r.boosters) {
+      const bt = t - r.T.sep, [dh] = at(PROFILES.back, bt), k = Math.min(1, bt / 320), e = k * k * (3 - 2 * k);
+      const BP = B.S.clone().lerp(B.L, e); BP.y = (Math.max(0, B.hs + dh) - BOARD_ALT) * KM;
+      farPlace(B.b, BP, 1);
+      const burn = (bt > 5 && bt < 45) || (bt > 225 && bt < 248) || (bt > 300 && bt < 320);   // boostback, entry and landing burns
+      farPlace(B.f, BP, 120 * (1 + Math.max(0, B.hs + dh) / 10)); B.f.visible = burn;
+      if (bt >= 320 && !B.landed) { B.landed = true; r.notes.landed = true; B.f.visible = false; if (AUD.ctx) audioShot('cFar', 0.25, 0.5, -0.3, 40); }
+    }
+    // the ticker
+    if (!tickText) {
+      const mm = String(Math.floor(Math.max(0, t) / 60)).padStart(2, '0'), ss = String(Math.floor(Math.max(0, t) % 60)).padStart(2, '0');
+      const ev = r.t < 0 ? 'IGNITION' : r.kind === 'amenti' ? (h > 100 ? 'STARDUST ENGINE · BOUND FOR THE MOON' : 'VORTEX ASCENT')
+        : t > 62 && t < 80 ? 'MAX-Q' : r.notes.landed ? (r.T.boosters.length > 1 ? 'BOOSTERS LANDED' : 'BOOSTER LANDED') : r.notes.sep ? 'STAGE SEPARATION' : 'ASCENT';
+      tickText = r.T.name + ' · ' + r.pad + ' · ' + r.mission + ' · T' + (r.t < 0 ? '−' : '+') + mm + ':' + ss + ' · ' + Math.round(h) + ' KM · ' + ev;
+    }
+    if (t > 600) {   // out of sight: clear her away
+      r.gone = true; [r.body, r.flame, r.vortex, ...r.puffs, ...r.boosters.flatMap(B => [B.b, B.f])].forEach(o => { if (o) { scene.remove(o); if (o.material) o.material.dispose(); } });
+    }
+  }
+  RK.list = RK.list.filter(r => !r.gone);
+  if (!RK.tick) { RK.tick = document.createElement('div'); RK.tick.style.cssText = 'position:fixed;left:50%;bottom:64px;transform:translateX(-50%);z-index:5;font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.22em;color:#d4af50;text-shadow:0 1px 6px rgba(0,0,0,.8);opacity:0;transition:opacity 1s;pointer-events:none;white-space:nowrap'; document.body.appendChild(RK.tick); }
+  if (tickText) { RK.tick.textContent = tickText; RK.tick.style.opacity = MUSTER.on ? '0' : '0.9'; } else RK.tick.style.opacity = '0';
+}
+function skyMoveEvent(before, after) {   // a capture launches a Falcon 9; a queen taken, Starship
+  if (!before || !after) return;
+  const count = (g, t) => g.flat().filter(p => p && (!t || p.type === t)).length;
+  if (count(after) < count(before)) launch(count(after, 'q') < count(before, 'q') ? 'ship' : 'f9', 'capture');
 }
 // ---- V15: the muster. Before the game, the player's fleet lies at Whitby, each ship with her captain's name
 // on her quarters; they cast off and stand out through the pier heads to open sea, pawns in pairs, then the
@@ -5224,6 +5361,7 @@ function embSync(board, names, taken, homes) {   // set the fleet to game01's bo
   EMB.board = board; courtRebuild(board); drawMarks();
 }
 function embMove(from, to, before, after) {      // moves play one after another; a backlog sails faster
+  if (SK) try { skyMoveEvent(before, after); } catch (e) {}
   const g = EMB.gen; EMB.pending++;
   EMB.q = EMB.q.then(() => g === EMB.gen ? sailMove(from, to, before, after) : null)
     .catch(e => console.error('[V15] move', from, to, e)).then(() => { if (g === EMB.gen) { EMB.pending--; game.busy = false; } });
@@ -5352,6 +5490,8 @@ window.__yardEmbed = {
   state(st, turn) { END.want = (st || 'active') + ':' + (turn || ''); },
   muster(names, side, mode) { embMuster(names, side, mode); },
   musterEnd() { musterEnd(); },
+  launch(kind) { launch(kind || 'f9', 'test'); },   // (console: __yardEmbed.launch('fh'))
+  get rockets() { return RK.list.map(r => ({ kind: r.kind, t: Math.round(r.t), pad: r.pad, flame: r.flame.position.toArray().map(Math.round), size: Math.round(r.flame.scale.x), vis: r.flame.visible, puffs: r.puffs.length, cam: camera.position.toArray().map(Math.round) })); },
   get musterState() { return { on: MUSTER.on, done: MUSTER.done, cap: MUSTER.cap, capN: MUSTER.capN, cam: MUSTER.cam }; },
   get renderer() { return renderer; },
   get sky() { return { want: PANO.want, shown: PANO.shown, panoOn: skyMat.uniforms.panoOn.value, whitby: slip.visible, clock: skyClock, clouds: cloudDome.visible, stars: starTilt.visible, maxTex: renderer.capabilities.maxTextureSize }; },
