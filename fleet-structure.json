@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-11-28T01:44:16.847Z",
+    "generated": "2026-11-28T02:16:06.377Z",
     "scanner": "tools/scan.js",
     "root": "/home/runner/work/Amenti.live/Amenti.live",
     "note": "OBSERVED. Nothing here was typed by a human. If it disagrees with a document, THE DOCUMENT IS WRONG."
@@ -1609,7 +1609,7 @@
     {
       "file": "fleet-manifest.js",
       "bytes": 55780,
-      "sha256": "a97a8a6d2b8c0a1a",
+      "sha256": "534550d0da72cf1e",
       "type": "js",
       "declares": [
         "FLEET_MANIFEST"
@@ -1695,8 +1695,8 @@
     },
     {
       "file": "game01.html",
-      "bytes": 1624761,
-      "sha256": "88dd036f81e3f1ef",
+      "bytes": 1628156,
+      "sha256": "9df75f6026baa8d5",
       "type": "html",
       "declares": [
         "AppNames",
@@ -1721,35 +1721,35 @@
       "loads": [
         {
           "file": "amenti-core.bundle.js",
-          "line": 116
+          "line": 123
         },
         {
           "file": "amenti-doctrine.js",
-          "line": 117
+          "line": 124
         }
       ],
       "calls": [
         {
           "global": "AMENTI_CONFIG",
-          "line": 10200,
+          "line": 10207,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.chat",
-          "line": 10457,
+          "line": 10464,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.listen",
-          "line": 10575,
+          "line": 10582,
           "when": "function",
           "own": false
         },
         {
           "global": "Amenti.throttle",
-          "line": 10662,
+          "line": 10669,
           "when": "function",
           "own": false
         }
